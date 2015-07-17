@@ -7,7 +7,9 @@ import (
 )
 
 const TENANT_PATH string = "/tenants"
+const ACCOUNT_PATH string = "/accounts"
 
+const QUERY_EXTERNAL_KEY = "externalKey";
 
 
 func CreateSession(killbillIp, killbillPort, userName, password, apiKey, apiSecret, createdBy  string, debugLog bool) (s *Session) {
@@ -26,24 +28,61 @@ func CreateSession(killbillIp, killbillPort, userName, password, apiKey, apiSecr
 	}
 }
 
+//
+//                            TENANT
+//
+
 
 func CreateTenant(s *Session) (*gen.TenantAttributes, error) {
 
-	var tenantInfo JsonDeserializer
-	tenantInfo = &gen.TenantAttributes{ApiKey:s.ApiKey, ApiSecret:s.ApiSecret}
-	resp, err := s.Post(TENANT_PATH, tenantInfo)
+	var deserializer JsonDeserializer
+	deserializer = &gen.TenantAttributes{ApiKey:s.ApiKey, ApiSecret:s.ApiSecret}
+	resp, err := s.Post(TENANT_PATH, deserializer)
 	if err != nil {
 		s.log("Failed to post request for path", TENANT_PATH)
 		s.log(err)
 		return &gen.TenantAttributes{}, err
 	}
 
-	tenantInfo = &gen.TenantAttributes{}
+	deserializer = &gen.TenantAttributes{}
 	if value, ok := resp.HttpResponse().Header["Location"]; ok {
-		resp, err = s.Get(value[0], tenantInfo)
+		resp, err = s.Get(value[0], deserializer, nil)
 		return resp.Result.(*gen.TenantAttributes), err
 	} else {
 		return &gen.TenantAttributes{}, err
 	}
+}
+
+//
+//                            ACCOUNT
+//
+
+func CreateAccount(s *Session, attr *gen.AccountAttributes) (*gen.AccountAttributes, error) {
+
+	var deserializer JsonDeserializer
+	deserializer = attr
+	resp, err := s.Post(ACCOUNT_PATH, deserializer)
+	if err != nil {
+		s.log("Failed to post request for path", ACCOUNT_PATH)
+		s.log(err)
+		return &gen.AccountAttributes{}, err
+	}
+
+	deserializer = &gen.AccountAttributes{}
+	if value, ok := resp.HttpResponse().Header["Location"]; ok {
+		resp, err = s.Get(value[0], deserializer, nil)
+		return resp.Result.(*gen.AccountAttributes), err
+	} else {
+		return &gen.AccountAttributes{}, err
+	}
+}
+
+func GetAccountByKey(s *Session, key string) (*gen.AccountAttributes, error) {
+	var deserializer JsonDeserializer
+	deserializer = &gen.AccountAttributes{}
+	params := make(QueryParams)
+	params[QUERY_EXTERNAL_KEY] = key
+	resp, err := s.Get(ACCOUNT_PATH, deserializer, &params)
+	return resp.Result.(*gen.AccountAttributes), err
 }
 

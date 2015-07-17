@@ -50,10 +50,11 @@ func (s *Session) Post(resourcePathOrUrl string, body interface{}) (*Response, e
 	return s.Send(&request, nil)
 }
 
-func (s *Session) Get(resourcePathOrUrl string, result JsonDeserializer) (*Response, error) {
-	request := Request{
+func (s *Session) Get(resourcePathOrUrl string, result JsonDeserializer, queryParams *QueryParams) (*Response, error) {
+	request := Request {
 		Method: "GET",
 		Url:   s.createUrl(resourcePathOrUrl),
+		QueryParams: queryParams,
 	}
 	return s.Send(&request, result)
 }
