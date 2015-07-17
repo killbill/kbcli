@@ -7,12 +7,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"time"
-	"github.com/killbill/kbcli/models/gen"
 	"io/ioutil"
 )
 
 const KILLBILL_PREFIX string = "/1.0/kb"
-
 
 
 type Session struct {
@@ -52,12 +50,12 @@ func (s *Session) Post(resourcePathOrUrl string, body interface{}) (*Response, e
 	return s.Send(&request, nil)
 }
 
-func (s *Session) Get(resourcePathOrUrl string, result interface{}) (*Response, error) {
+func (s *Session) Get(resourcePathOrUrl string, result JsonDeserializer) (*Response, error) {
 	request := Request{
 		Method: "GET",
 		Url:   s.createUrl(resourcePathOrUrl),
 	}
-	return s.Send(&request, gen.TenantAttributes{})
+	return s.Send(&request, result)
 }
 
 
@@ -92,7 +90,7 @@ func (s *Session) setJsessionId(headers http.Header) {
 
 
 // Send constructs and sends an HTTP request.
-func (s *Session) Send(inputRequest *Request, responseResult interface{}) (response *Response, err error) {
+func (s *Session) Send(inputRequest *Request, responseResult JsonDeserializer) (response *Response, err error) {
 
 	// Allocate a Response object and initialize its Result field with the responseResult we expect to see
 	response = &Response {
@@ -248,7 +246,7 @@ func (s *Session) Send(inputRequest *Request, responseResult interface{}) (respo
 	// TODO Only work for json
 	// Deserialize json if Result was provided
 	if string(response.body) != "" && response.Result != nil {
-		err = json.Unmarshal(response.body, &response.Result)
+		err = response.Result.FromJson(response.body)
 	}
 
 
@@ -258,8 +256,6 @@ func (s *Session) Send(inputRequest *Request, responseResult interface{}) (respo
 	s.log("--------------------------------------------------------------------------------")
 	s.log("Status: ", response.status)
 	s.log("Result: ", response.Result)
-	s.log("Header:")
-	s.log("Body:")
 
 	return
 }

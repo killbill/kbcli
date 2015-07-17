@@ -5,9 +5,12 @@ import (
 	"strings"
 )
 
+type JsonDeserializer interface {
+	FromJson(raw []byte) error
+}
 
 type Response struct {
-	Result       interface{}
+	Result       JsonDeserializer
 
 	// Time when HTTP request was sent
 	timestamp    time.Time

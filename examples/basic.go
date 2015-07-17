@@ -15,14 +15,14 @@ func main() {
 	const ipAddr string= "127.0.0.1"
 	const ipPort string= "8080"
 
-	const apiKey string = "bob45"
+	const apiKey string = "bob54"
 	const apiSecret string = "foo"
 
 	s := kbcli.CreateSession(ipAddr, ipPort, username, password, apiKey, apiSecret, createdBy, false)
 
-	resp, err := kbcli.CreateTenant(s)
+	createdTenant, err := kbcli.CreateTenant(s)
 
 	fmt.Println("response err:", err)
-	fmt.Println("response Status:", resp.Status)
-	fmt.Println("response Result:", resp.Result)
+	fmt.Println("response createdTenant:", createdTenant)
+
 }
