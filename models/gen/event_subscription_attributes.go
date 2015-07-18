@@ -27,33 +27,23 @@ package gen
 import "encoding/json"
 
 
-type AccountAttributes struct {
-  AccountId string `json:"accountId"`
-  Name string `json:"name"`
-  FirstNameLength int32 `json:"firstNameLength"`
-  ExternalKey string `json:"externalKey"`
-  Email string `json:"email"`
-  BillCycleDayLocal int32 `json:"billCycleDayLocal"`
-  Currency string `json:"currency"`
-  PaymentMethodId string `json:"paymentMethodId"`
-  TimeZone string `json:"timeZone"`
-  Address1 string `json:"address1"`
-  Address2 string `json:"address2"`
-  PostalCode string `json:"postalCode"`
-  Company string `json:"company"`
-  City string `json:"city"`
-  State string `json:"state"`
-  Country string `json:"country"`
-  Locale string `json:"locale"`
-  Phone string `json:"phone"`
-  IsMigrated bool `json:"isMigrated"`
-  IsNotifiedForInvoices bool `json:"isNotifiedForInvoices"`
-  AccountBalance float64 `json:"accountBalance"`
-  AccountCBA float64 `json:"accountCBA"`
+type EventSubscriptionAttributes struct {
+  EventId string `json:"eventId"`
+  BillingPeriod string `json:"billingPeriod"`
+  RequestedDt string `json:"requestedDt"`
+  EffectiveDt string `json:"effectiveDt"`
+  Product string `json:"product"`
+  PriceList string `json:"priceList"`
+  EventType string `json:"eventType"`
+  IsBlockedBilling bool `json:"isBlockedBilling"`
+  IsBlockedEntitlement bool `json:"isBlockedEntitlement"`
+  ServiceName string `json:"serviceName"`
+  ServiceStateName string `json:"serviceStateName"`
+  Phase string `json:"phase"`
   AuditLogs []AuditLogAttributes `json:"auditLogs"`
 }
 
 
-func (data * AccountAttributes) FromJson(raw []byte) error {
+func (data * EventSubscriptionAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }

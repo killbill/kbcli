@@ -27,14 +27,17 @@ package gen
 import "encoding/json"
 
 
-type TenantAttributes struct {
-  TenantId string `json:"tenantId"`
-  ExternalKey string `json:"externalKey"`
-  ApiKey string `json:"apiKey"`
-  ApiSecret string `json:"apiSecret"`
+type OverdueStateAttributes struct {
+  Name string `json:"name"`
+  ExternalMessage string `json:"externalMessage"`
+  DaysBetweenPaymentRetries []int32 `json:"daysBetweenPaymentRetries"`
+  DisableEntitlementAndChangesBlocked bool `json:"disableEntitlementAndChangesBlocked"`
+  BlockChanges bool `json:"blockChanges"`
+  ClearState bool `json:"clearState"`
+  ReevaluationIntervalDays int32 `json:"reevaluationIntervalDays"`
 }
 
 
-func (data * TenantAttributes) FromJson(raw []byte) error {
+func (data * OverdueStateAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }

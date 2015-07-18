@@ -27,14 +27,16 @@ package gen
 import "encoding/json"
 
 
-type TenantAttributes struct {
-  TenantId string `json:"tenantId"`
-  ExternalKey string `json:"externalKey"`
-  ApiKey string `json:"apiKey"`
-  ApiSecret string `json:"apiSecret"`
+type BillingExceptionAttributes struct {
+  ClassName string `json:"className"`
+  Code int32 `json:"code"`
+  Message string `json:"message"`
+  CauseClassName string `json:"causeClassName"`
+  CauseMessage string `json:"causeMessage"`
+  StackTrace []StackTraceElementAttributes `json:"stackTrace"`
 }
 
 
-func (data * TenantAttributes) FromJson(raw []byte) error {
+func (data * BillingExceptionAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }

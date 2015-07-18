@@ -27,14 +27,15 @@ package gen
 import "encoding/json"
 
 
-type TenantAttributes struct {
-  TenantId string `json:"tenantId"`
-  ExternalKey string `json:"externalKey"`
-  ApiKey string `json:"apiKey"`
-  ApiSecret string `json:"apiSecret"`
+type StackTraceElementAttributes struct {
+  ClassName string `json:"className"`
+  FileName string `json:"fileName"`
+  LineNumber int32 `json:"lineNumber"`
+  MethodName string `json:"methodName"`
+  NativeMethod bool `json:"nativeMethod"`
 }
 
 
-func (data * TenantAttributes) FromJson(raw []byte) error {
+func (data * StackTraceElementAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }

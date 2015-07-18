@@ -27,14 +27,12 @@ package gen
 import "encoding/json"
 
 
-type TenantAttributes struct {
-  TenantId string `json:"tenantId"`
-  ExternalKey string `json:"externalKey"`
-  ApiKey string `json:"apiKey"`
-  ApiSecret string `json:"apiSecret"`
+type UsageRecordAttributes struct {
+  RecordDate string `json:"recordDate"`
+  Amount int64 `json:"amount"`
 }
 
 
-func (data * TenantAttributes) FromJson(raw []byte) error {
+func (data * UsageRecordAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }

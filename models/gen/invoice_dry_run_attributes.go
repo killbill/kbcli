@@ -27,14 +27,21 @@ package gen
 import "encoding/json"
 
 
-type TenantAttributes struct {
-  TenantId string `json:"tenantId"`
-  ExternalKey string `json:"externalKey"`
-  ApiKey string `json:"apiKey"`
-  ApiSecret string `json:"apiSecret"`
+type InvoiceDryRunAttributes struct {
+  DryRunAction string `json:"dryRunAction"`
+  PhaseType string `json:"phaseType"`
+  ProductName string `json:"productName"`
+  ProductCategory string `json:"productCategory"`
+  BillingPeriod string `json:"billingPeriod"`
+  PriceListName string `json:"priceListName"`
+  SubscriptionId string `json:"subscriptionId"`
+  BundleId string `json:"bundleId"`
+  EffectiveDate string `json:"effectiveDate"`
+  BillingPolicy string `json:"billingPolicy"`
+  PriceOverrides []PhasePriceOverrideAttributes `json:"priceOverrides"`
 }
 
 
-func (data * TenantAttributes) FromJson(raw []byte) error {
+func (data * InvoiceDryRunAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }

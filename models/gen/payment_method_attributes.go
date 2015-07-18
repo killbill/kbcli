@@ -27,33 +27,17 @@ package gen
 import "encoding/json"
 
 
-type AccountAttributes struct {
-  AccountId string `json:"accountId"`
-  Name string `json:"name"`
-  FirstNameLength int32 `json:"firstNameLength"`
-  ExternalKey string `json:"externalKey"`
-  Email string `json:"email"`
-  BillCycleDayLocal int32 `json:"billCycleDayLocal"`
-  Currency string `json:"currency"`
+type PaymentMethodAttributes struct {
   PaymentMethodId string `json:"paymentMethodId"`
-  TimeZone string `json:"timeZone"`
-  Address1 string `json:"address1"`
-  Address2 string `json:"address2"`
-  PostalCode string `json:"postalCode"`
-  Company string `json:"company"`
-  City string `json:"city"`
-  State string `json:"state"`
-  Country string `json:"country"`
-  Locale string `json:"locale"`
-  Phone string `json:"phone"`
-  IsMigrated bool `json:"isMigrated"`
-  IsNotifiedForInvoices bool `json:"isNotifiedForInvoices"`
-  AccountBalance float64 `json:"accountBalance"`
-  AccountCBA float64 `json:"accountCBA"`
+  ExternalKey string `json:"externalKey"`
+  AccountId string `json:"accountId"`
+  IsDefault bool `json:"isDefault"`
+  PluginName string `json:"pluginName"`
+  PluginInfo PaymentMethodPluginDetailAttributes `json:"pluginInfo"`
   AuditLogs []AuditLogAttributes `json:"auditLogs"`
 }
 
 
-func (data * AccountAttributes) FromJson(raw []byte) error {
+func (data * PaymentMethodAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }

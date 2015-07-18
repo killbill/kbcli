@@ -27,14 +27,11 @@ package gen
 import "encoding/json"
 
 
-type TenantAttributes struct {
-  TenantId string `json:"tenantId"`
-  ExternalKey string `json:"externalKey"`
-  ApiKey string `json:"apiKey"`
-  ApiSecret string `json:"apiSecret"`
+type HostedPaymentPageFieldsAttributes struct {
+  FormFields []PluginPropertyAttributes `json:"formFields"`
 }
 
 
-func (data * TenantAttributes) FromJson(raw []byte) error {
+func (data * HostedPaymentPageFieldsAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }

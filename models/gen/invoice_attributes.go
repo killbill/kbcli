@@ -27,33 +27,24 @@ package gen
 import "encoding/json"
 
 
-type AccountAttributes struct {
-  AccountId string `json:"accountId"`
-  Name string `json:"name"`
-  FirstNameLength int32 `json:"firstNameLength"`
-  ExternalKey string `json:"externalKey"`
-  Email string `json:"email"`
-  BillCycleDayLocal int32 `json:"billCycleDayLocal"`
+type InvoiceAttributes struct {
+  Amount float64 `json:"amount"`
   Currency string `json:"currency"`
-  PaymentMethodId string `json:"paymentMethodId"`
-  TimeZone string `json:"timeZone"`
-  Address1 string `json:"address1"`
-  Address2 string `json:"address2"`
-  PostalCode string `json:"postalCode"`
-  Company string `json:"company"`
-  City string `json:"city"`
-  State string `json:"state"`
-  Country string `json:"country"`
-  Locale string `json:"locale"`
-  Phone string `json:"phone"`
-  IsMigrated bool `json:"isMigrated"`
-  IsNotifiedForInvoices bool `json:"isNotifiedForInvoices"`
-  AccountBalance float64 `json:"accountBalance"`
-  AccountCBA float64 `json:"accountCBA"`
+  CreditAdj float64 `json:"creditAdj"`
+  RefundAdj float64 `json:"refundAdj"`
+  InvoiceId string `json:"invoiceId"`
+  InvoiceDate string `json:"invoiceDate"`
+  TargetDate string `json:"targetDate"`
+  InvoiceNumber string `json:"invoiceNumber"`
+  Balance float64 `json:"balance"`
+  AccountId string `json:"accountId"`
+  ExternalBundleKeys string `json:"externalBundleKeys"`
+  Credits []CreditAttributes `json:"credits"`
+  Items []InvoiceItemAttributes `json:"items"`
   AuditLogs []AuditLogAttributes `json:"auditLogs"`
 }
 
 
-func (data * AccountAttributes) FromJson(raw []byte) error {
+func (data * InvoiceAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }
