@@ -16,6 +16,8 @@ const PAYMENT_PATH string = "/payments"
 
 const PAYMENT_METHOD_PATH string = "/paymentMethods"
 
+const COMBO_PATH = "/combo"
+
 const QUERY_EXTERNAL_KEY = "externalKey"
 const QUERY_AUDIT = "audit"
 const QUERY_PAYMENT_METHOD_IS_DEFAULT = "isDefault"
@@ -143,7 +145,14 @@ func CreatePaymentCapture(s *Session, accountId string, attr *gen.PaymentTransac
 	return createPaymentTransaction(s, url, attr, params)
 }
 
-func createPaymentTransaction(s *Session, url string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
+func CreateComboAuthorization(s *Session, attr interface{}, params *QueryParams) (*gen.PaymentAttributes, error) {
+	resourceParts := []string{PAYMENT_PATH, COMBO_PATH}
+	url := strings.Join(resourceParts, "")
+	return createPaymentTransaction(s, url, attr, params)
+}
+
+
+func createPaymentTransaction(s *Session, url string, attr interface{}, params *QueryParams) (*gen.PaymentAttributes, error) {
 
 	resp, err := s.Post(url, attr, nil)
 	if err != nil {
@@ -160,4 +169,6 @@ func createPaymentTransaction(s *Session, url string, attr *gen.PaymentTransacti
 		return &gen.PaymentAttributes{}, err
 	}
 }
+
+
 

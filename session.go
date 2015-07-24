@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 	"time"
 	"io/ioutil"
+	"fmt"
+	"errors"
 )
 
 const KILLBILL_PREFIX string = "/1.0/kb"
@@ -254,6 +256,8 @@ func (s *Session) Send(inputRequest *Request, responseResult JsonDeserializer) (
 			s.log(err)
 			return
 		}
+	} else {
+		err = errors.New(fmt.Sprintf("%s%d",  "Call failed with http status ", resp.StatusCode))
 	}
 	// TODO Only work for json
 	// Deserialize json if Result was provided

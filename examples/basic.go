@@ -23,29 +23,10 @@ func displaySuccessMsgOrAbort(msg string, errorMsg string, err error, args ...in
 	}
 }
 
-func main() {
-
-	const username string = "admin"
-	const password string = "password"
-
-	const createdBy string = "admin"
-
-	const ipAddr string= "127.0.0.1"
-	const ipPort string= "8080"
-
-
-	const apiSecret string = "foo"
-	// The one that changes for each test iterations
-	apiKey  := generateRandomTestKey()
+func doAuthCapture(s *kbcli.Session, apiKey string) {
 
 	// Query params reused across the test
 	var params kbcli.QueryParams;
-
-	s := kbcli.CreateSession(ipAddr, ipPort, username, password, apiKey, apiSecret, createdBy, false)
-
-	createdTenant, err := kbcli.CreateTenant(s)
-
-	displaySuccessMsgOrAbort("Created tenant", "Failed to create tenant", err, createdTenant.ApiKey)
 
 	accountData := gen.AccountAttributes{Name: apiKey, ExternalKey: apiKey, Email: apiKey, Currency: "USD" }
 	createdAccount, err := kbcli.CreateAccount(s, &accountData, nil)
@@ -74,5 +55,43 @@ func main() {
 	captureData := gen.PaymentTransactionAttributes{PaymentId: createdPyament.PaymentId, TransactionType: "CAPTURE", Amount: 12.5, Currency: createdAccount.Currency}
 	createdPyament, err = kbcli.CreatePaymentCapture(s, createdAccount.AccountId, &captureData, nil)
 	displaySuccessMsgOrAbort("Created payment transaction (CAPTURE)", "Failed to create payment transaction (AUTH)", err, createdPyament.PaymentId)
+}
 
+func doComboAuthCapture(s *kbcli.Session, apiKey string) {
+
+	accountData := gen.AccountAttributes{Name: apiKey, ExternalKey: apiKey, Email: apiKey, Currency: "USD" }
+	paymentMethodData := gen.PaymentMethodAttributes{PluginName: "__EXTERNAL_PAYMENT__", PluginInfo: gen.PaymentMethodPluginDetailAttributes{}}
+	authorizationData := gen.PaymentTransactionAttributes{TransactionType: "AUTHORIZE", Amount: 12.5, Currency: accountData.Currency}
+
+	var pluginProperties []gen.PluginPropertyAttributes;
+	comboPaymentData := gen.ComboPaymentTransactionAttributes{Account:accountData, PaymentMethod:paymentMethodData, Transaction:authorizationData, PaymentMethodPluginProperties:pluginProperties, TransactionPluginProperties:pluginProperties}
+	createdPayment, err := kbcli.CreateComboAuthorization(s, &comboPaymentData, nil)
+	displaySuccessMsgOrAbort("Created COMBO payment transaction (AUTH)", "Failed to create payment transaction (AUTH)", err, createdPayment.PaymentId)
+
+	captureData := gen.PaymentTransactionAttributes{PaymentId: createdPayment.PaymentId, TransactionType: "CAPTURE", Amount: 12.5, Currency: createdPayment.Currency}
+	createdPayment, err = kbcli.CreatePaymentCapture(s, createdPayment.AccountId, &captureData, nil)
+	displaySuccessMsgOrAbort("Created payment transaction (CAPTURE)", "Failed to create payment transaction (AUTH)", err, createdPayment.PaymentId)
+}
+
+func main() {
+
+	const username string = "admin"
+	const password string = "password"
+
+	const createdBy string = "admin"
+
+	const ipAddr string= "127.0.0.1"
+	const ipPort string= "8080"
+
+
+	const apiSecret string = "foo"
+	// The one that changes for each test iterations
+	apiKey  := generateRandomTestKey()
+
+
+	s := kbcli.CreateSession(ipAddr, ipPort, username, password, apiKey, apiSecret, createdBy, false)
+	createdTenant, err := kbcli.CreateTenant(s)
+	displaySuccessMsgOrAbort("Created tenant", "Failed to create tenant", err, createdTenant.ApiKey)
+
+	doComboAuthCapture(s, apiKey)
 }
