@@ -28,11 +28,11 @@ import "encoding/json"
 
 
 type ProductAttributes struct {
-  Type string `json:"type"`
-  Name string `json:"name"`
-  Plans []PlanAttributes `json:"plans"`
-  Included []string `json:"included"`
-  Available []string `json:"available"`
+  Type string `json:"type,omitempty"`
+  Name string `json:"name,omitempty"`
+  Plans []PlanAttributes `json:"plans,omitempty"`
+  Included []string `json:"included,omitempty"`
+  Available []string `json:"available,omitempty"`
 }
 
 

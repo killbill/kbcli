@@ -28,7 +28,7 @@ import "encoding/json"
 
 
 type HostedPaymentPageFieldsAttributes struct {
-  FormFields []PluginPropertyAttributes `json:"formFields"`
+  FormFields []PluginPropertyAttributes `json:"formFields,omitempty"`
 }
 
 

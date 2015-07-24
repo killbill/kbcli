@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type UnitUsageRecordAttributes struct {
-  UnitType string `json:"unitType"`
-  UsageRecords []UsageRecordAttributes `json:"usageRecords"`
+  UnitType string `json:"unitType,omitempty"`
+  UsageRecords []UsageRecordAttributes `json:"usageRecords,omitempty"`
 }
 
 

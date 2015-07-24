@@ -28,10 +28,10 @@ import "encoding/json"
 
 
 type RolledUpUsageAttributes struct {
-  SubscriptionId string `json:"subscriptionId"`
-  StartDate string `json:"startDate"`
-  EndDate string `json:"endDate"`
-  RolledUpUnits []RolledUpUnitAttributes `json:"rolledUpUnits"`
+  SubscriptionId string `json:"subscriptionId,omitempty"`
+  StartDate string `json:"startDate,omitempty"`
+  EndDate string `json:"endDate,omitempty"`
+  RolledUpUnits []RolledUpUnitAttributes `json:"rolledUpUnits,omitempty"`
 }
 
 

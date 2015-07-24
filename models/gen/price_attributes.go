@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type PriceAttributes struct {
-  Currency string `json:"currency"`
-  Value float64 `json:"value"`
+  Currency string `json:"currency,omitempty"`
+  Value float64 `json:"value,omitempty"`
 }
 
 

@@ -28,10 +28,10 @@ import "encoding/json"
 
 
 type SubjectAttributes struct {
-  Principal string `json:"principal"`
-  IsAuthenticated bool `json:"isAuthenticated"`
-  IsRemembered bool `json:"isRemembered"`
-  Session SessionAttributes `json:"session"`
+  Principal string `json:"principal,omitempty"`
+  IsAuthenticated bool `json:"isAuthenticated,omitempty"`
+  IsRemembered bool `json:"isRemembered,omitempty"`
+  Session SessionAttributes `json:"session,omitempty"`
 }
 
 

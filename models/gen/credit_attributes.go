@@ -28,12 +28,12 @@ import "encoding/json"
 
 
 type CreditAttributes struct {
-  CreditAmount float64 `json:"creditAmount"`
-  InvoiceId string `json:"invoiceId"`
-  InvoiceNumber string `json:"invoiceNumber"`
-  EffectiveDate string `json:"effectiveDate"`
-  AccountId string `json:"accountId"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  CreditAmount float64 `json:"creditAmount,omitempty"`
+  InvoiceId string `json:"invoiceId,omitempty"`
+  InvoiceNumber string `json:"invoiceNumber,omitempty"`
+  EffectiveDate string `json:"effectiveDate,omitempty"`
+  AccountId string `json:"accountId,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

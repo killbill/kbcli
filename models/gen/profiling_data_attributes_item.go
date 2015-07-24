@@ -28,10 +28,10 @@ import "encoding/json"
 
 
 type ProfilingDataAttributesItem struct {
-  Name string `json:"name"`
-  StartUsec int64 `json:"startUsec"`
-  DurationUsec int64 `json:"durationUsec"`
-  Calls []ProfilingDataAttributes `json:"calls"`
+  Name string `json:"name,omitempty"`
+  StartUsec int64 `json:"startUsec,omitempty"`
+  DurationUsec int64 `json:"durationUsec,omitempty"`
+  Calls []ProfilingDataAttributes `json:"calls,omitempty"`
 }
 
 

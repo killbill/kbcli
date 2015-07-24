@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type PlanAttributes struct {
-  Name string `json:"name"`
-  Phases []PhaseAttributes `json:"phases"`
+  Name string `json:"name,omitempty"`
+  Phases []PhaseAttributes `json:"phases,omitempty"`
 }
 
 

@@ -28,20 +28,20 @@ import "encoding/json"
 
 
 type InvoicePaymentAttributes struct {
-  TargetInvoiceId string `json:"targetInvoiceId"`
-  AccountId string `json:"accountId"`
-  PaymentId string `json:"paymentId"`
-  PaymentNumber string `json:"paymentNumber"`
-  PaymentExternalKey string `json:"paymentExternalKey"`
-  AuthAmount float64 `json:"authAmount"`
-  CapturedAmount float64 `json:"capturedAmount"`
-  PurchasedAmount float64 `json:"purchasedAmount"`
-  RefundedAmount float64 `json:"refundedAmount"`
-  CreditedAmount float64 `json:"creditedAmount"`
-  Currency string `json:"currency"`
-  PaymentMethodId string `json:"paymentMethodId"`
-  Transactions []PaymentTransactionAttributes `json:"transactions"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  TargetInvoiceId string `json:"targetInvoiceId,omitempty"`
+  AccountId string `json:"accountId,omitempty"`
+  PaymentId string `json:"paymentId,omitempty"`
+  PaymentNumber string `json:"paymentNumber,omitempty"`
+  PaymentExternalKey string `json:"paymentExternalKey,omitempty"`
+  AuthAmount float64 `json:"authAmount,omitempty"`
+  CapturedAmount float64 `json:"capturedAmount,omitempty"`
+  PurchasedAmount float64 `json:"purchasedAmount,omitempty"`
+  RefundedAmount float64 `json:"refundedAmount,omitempty"`
+  CreditedAmount float64 `json:"creditedAmount,omitempty"`
+  Currency string `json:"currency,omitempty"`
+  PaymentMethodId string `json:"paymentMethodId,omitempty"`
+  Transactions []PaymentTransactionAttributes `json:"transactions,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

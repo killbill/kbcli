@@ -28,13 +28,13 @@ import "encoding/json"
 
 
 type OverdueStateAttributes struct {
-  Name string `json:"name"`
-  ExternalMessage string `json:"externalMessage"`
-  DaysBetweenPaymentRetries []int32 `json:"daysBetweenPaymentRetries"`
-  DisableEntitlementAndChangesBlocked bool `json:"disableEntitlementAndChangesBlocked"`
-  BlockChanges bool `json:"blockChanges"`
-  ClearState bool `json:"clearState"`
-  ReevaluationIntervalDays int32 `json:"reevaluationIntervalDays"`
+  Name string `json:"name,omitempty"`
+  ExternalMessage string `json:"externalMessage,omitempty"`
+  DaysBetweenPaymentRetries []int32 `json:"daysBetweenPaymentRetries,omitempty"`
+  DisableEntitlementAndChangesBlocked bool `json:"disableEntitlementAndChangesBlocked,omitempty"`
+  BlockChanges bool `json:"blockChanges,omitempty"`
+  ClearState bool `json:"clearState,omitempty"`
+  ReevaluationIntervalDays int32 `json:"reevaluationIntervalDays,omitempty"`
 }
 
 

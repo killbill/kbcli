@@ -28,12 +28,12 @@ import "encoding/json"
 
 
 type HostedPaymentPageBillingAddressAttributes struct {
-  City string `json:"city"`
-  Address1 string `json:"address1"`
-  Address2 string `json:"address2"`
-  State string `json:"state"`
-  Zip string `json:"zip"`
-  Country string `json:"country"`
+  City string `json:"city,omitempty"`
+  Address1 string `json:"address1,omitempty"`
+  Address2 string `json:"address2,omitempty"`
+  State string `json:"state,omitempty"`
+  Zip string `json:"zip,omitempty"`
+  Country string `json:"country,omitempty"`
 }
 
 

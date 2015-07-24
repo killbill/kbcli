@@ -28,9 +28,9 @@ import "encoding/json"
 
 
 type AdminPaymentAttributes struct {
-  LastSuccessPaymentState string `json:"lastSuccessPaymentState"`
-  CurrentPaymentStateName string `json:"currentPaymentStateName"`
-  TransactionStatus string `json:"transactionStatus"`
+  LastSuccessPaymentState string `json:"lastSuccessPaymentState,omitempty"`
+  CurrentPaymentStateName string `json:"currentPaymentStateName,omitempty"`
+  TransactionStatus string `json:"transactionStatus,omitempty"`
 }
 
 

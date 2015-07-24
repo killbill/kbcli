@@ -28,12 +28,12 @@ import "encoding/json"
 
 
 type BundleAttributes struct {
-  AccountId string `json:"accountId"`
-  BundleId string `json:"bundleId"`
-  ExternalKey string `json:"externalKey"`
-  Subscriptions []SubscriptionAttributes `json:"subscriptions"`
-  Timeline BundleTimelineAttributes `json:"timeline"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  AccountId string `json:"accountId,omitempty"`
+  BundleId string `json:"bundleId,omitempty"`
+  ExternalKey string `json:"externalKey,omitempty"`
+  Subscriptions []SubscriptionAttributes `json:"subscriptions,omitempty"`
+  Timeline BundleTimelineAttributes `json:"timeline,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

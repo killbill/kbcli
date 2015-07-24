@@ -28,12 +28,12 @@ import "encoding/json"
 
 
 type AuditLogAttributes struct {
-  ChangeType string `json:"changeType"`
-  ChangeDate string `json:"changeDate"`
-  ChangedBy string `json:"changedBy"`
-  ReasonCode string `json:"reasonCode"`
-  Comments string `json:"comments"`
-  UserToken string `json:"userToken"`
+  ChangeType string `json:"changeType,omitempty"`
+  ChangeDate string `json:"changeDate,omitempty"`
+  ChangedBy string `json:"changedBy,omitempty"`
+  ReasonCode string `json:"reasonCode,omitempty"`
+  Comments string `json:"comments,omitempty"`
+  UserToken string `json:"userToken,omitempty"`
 }
 
 

@@ -28,11 +28,11 @@ import "encoding/json"
 
 
 type TagAttributes struct {
-  TagId string `json:"tagId"`
-  ObjectType string `json:"objectType"`
-  TagDefinitionId string `json:"tagDefinitionId"`
-  TagDefinitionName string `json:"tagDefinitionName"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  TagId string `json:"tagId,omitempty"`
+  ObjectType string `json:"objectType,omitempty"`
+  TagDefinitionId string `json:"tagDefinitionId,omitempty"`
+  TagDefinitionName string `json:"tagDefinitionName,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

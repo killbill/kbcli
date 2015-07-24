@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type RoleDefinitionAttributes struct {
-  Role string `json:"role"`
-  Permissions []string `json:"permissions"`
+  Role string `json:"role,omitempty"`
+  Permissions []string `json:"permissions,omitempty"`
 }
 
 

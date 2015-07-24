@@ -28,20 +28,20 @@ import "encoding/json"
 
 
 type InvoiceAttributes struct {
-  Amount float64 `json:"amount"`
-  Currency string `json:"currency"`
-  CreditAdj float64 `json:"creditAdj"`
-  RefundAdj float64 `json:"refundAdj"`
-  InvoiceId string `json:"invoiceId"`
-  InvoiceDate string `json:"invoiceDate"`
-  TargetDate string `json:"targetDate"`
-  InvoiceNumber string `json:"invoiceNumber"`
-  Balance float64 `json:"balance"`
-  AccountId string `json:"accountId"`
-  ExternalBundleKeys string `json:"externalBundleKeys"`
-  Credits []CreditAttributes `json:"credits"`
-  Items []InvoiceItemAttributes `json:"items"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  Amount float64 `json:"amount,omitempty"`
+  Currency string `json:"currency,omitempty"`
+  CreditAdj float64 `json:"creditAdj,omitempty"`
+  RefundAdj float64 `json:"refundAdj,omitempty"`
+  InvoiceId string `json:"invoiceId,omitempty"`
+  InvoiceDate string `json:"invoiceDate,omitempty"`
+  TargetDate string `json:"targetDate,omitempty"`
+  InvoiceNumber string `json:"invoiceNumber,omitempty"`
+  Balance float64 `json:"balance,omitempty"`
+  AccountId string `json:"accountId,omitempty"`
+  ExternalBundleKeys string `json:"externalBundleKeys,omitempty"`
+  Credits []CreditAttributes `json:"credits,omitempty"`
+  Items []InvoiceItemAttributes `json:"items,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

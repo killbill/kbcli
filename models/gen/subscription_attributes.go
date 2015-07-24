@@ -28,25 +28,25 @@ import "encoding/json"
 
 
 type SubscriptionAttributes struct {
-  AccountId string `json:"accountId"`
-  BundleId string `json:"bundleId"`
-  SubscriptionId string `json:"subscriptionId"`
-  ExternalKey string `json:"externalKey"`
-  StartDate string `json:"startDate"`
-  ProductName string `json:"productName"`
-  ProductCategory string `json:"productCategory"`
-  BillingPeriod string `json:"billingPeriod"`
-  PhaseType string `json:"phaseType"`
-  PriceList string `json:"priceList"`
-  State string `json:"state"`
-  SourceType string `json:"sourceType"`
-  CancelledDate string `json:"cancelledDate"`
-  ChargedThroughDate string `json:"chargedThroughDate"`
-  BillingStartDate string `json:"billingStartDate"`
-  BillingEndDate string `json:"billingEndDate"`
-  Events []EventSubscriptionAttributes `json:"events"`
-  PriceOverrides []PhasePriceOverrideAttributes `json:"priceOverrides"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  AccountId string `json:"accountId,omitempty"`
+  BundleId string `json:"bundleId,omitempty"`
+  SubscriptionId string `json:"subscriptionId,omitempty"`
+  ExternalKey string `json:"externalKey,omitempty"`
+  StartDate string `json:"startDate,omitempty"`
+  ProductName string `json:"productName,omitempty"`
+  ProductCategory string `json:"productCategory,omitempty"`
+  BillingPeriod string `json:"billingPeriod,omitempty"`
+  PhaseType string `json:"phaseType,omitempty"`
+  PriceList string `json:"priceList,omitempty"`
+  State string `json:"state,omitempty"`
+  SourceType string `json:"sourceType,omitempty"`
+  CancelledDate string `json:"cancelledDate,omitempty"`
+  ChargedThroughDate string `json:"chargedThroughDate,omitempty"`
+  BillingStartDate string `json:"billingStartDate,omitempty"`
+  BillingEndDate string `json:"billingEndDate,omitempty"`
+  Events []EventSubscriptionAttributes `json:"events,omitempty"`
+  PriceOverrides []PhasePriceOverrideAttributes `json:"priceOverrides,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

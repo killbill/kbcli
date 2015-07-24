@@ -28,9 +28,9 @@ import "encoding/json"
 
 
 type UserRolesAttributes struct {
-  Username string `json:"username"`
-  Password string `json:"password"`
-  Roles []string `json:"roles"`
+  Username string `json:"username,omitempty"`
+  Password string `json:"password,omitempty"`
+  Roles []string `json:"roles,omitempty"`
 }
 
 

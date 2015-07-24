@@ -28,12 +28,12 @@ import "encoding/json"
 
 
 type BillingExceptionAttributes struct {
-  ClassName string `json:"className"`
-  Code int32 `json:"code"`
-  Message string `json:"message"`
-  CauseClassName string `json:"causeClassName"`
-  CauseMessage string `json:"causeMessage"`
-  StackTrace []StackTraceElementAttributes `json:"stackTrace"`
+  ClassName string `json:"className,omitempty"`
+  Code int32 `json:"code,omitempty"`
+  Message string `json:"message,omitempty"`
+  CauseClassName string `json:"causeClassName,omitempty"`
+  CauseMessage string `json:"causeMessage,omitempty"`
+  StackTrace []StackTraceElementAttributes `json:"stackTrace,omitempty"`
 }
 
 

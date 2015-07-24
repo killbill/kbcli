@@ -28,10 +28,10 @@ import "encoding/json"
 
 
 type TenantAttributes struct {
-  TenantId string `json:"tenantId"`
-  ExternalKey string `json:"externalKey"`
-  ApiKey string `json:"apiKey"`
-  ApiSecret string `json:"apiSecret"`
+  TenantId string `json:"tenantId,omitempty"`
+  ExternalKey string `json:"externalKey,omitempty"`
+  ApiKey string `json:"apiKey,omitempty"`
+  ApiSecret string `json:"apiSecret,omitempty"`
 }
 
 

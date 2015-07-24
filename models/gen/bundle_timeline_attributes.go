@@ -28,11 +28,11 @@ import "encoding/json"
 
 
 type BundleTimelineAttributes struct {
-  AccountId string `json:"accountId"`
-  BundleId string `json:"bundleId"`
-  ExternalKey string `json:"externalKey"`
-  Events []EventSubscriptionAttributes `json:"events"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  AccountId string `json:"accountId,omitempty"`
+  BundleId string `json:"bundleId,omitempty"`
+  ExternalKey string `json:"externalKey,omitempty"`
+  Events []EventSubscriptionAttributes `json:"events,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

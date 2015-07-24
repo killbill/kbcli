@@ -28,13 +28,13 @@ import "encoding/json"
 
 
 type PaymentMethodAttributes struct {
-  PaymentMethodId string `json:"paymentMethodId"`
-  ExternalKey string `json:"externalKey"`
-  AccountId string `json:"accountId"`
-  IsDefault bool `json:"isDefault"`
-  PluginName string `json:"pluginName"`
-  PluginInfo PaymentMethodPluginDetailAttributes `json:"pluginInfo"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  PaymentMethodId string `json:"paymentMethodId,omitempty"`
+  ExternalKey string `json:"externalKey,omitempty"`
+  AccountId string `json:"accountId,omitempty"`
+  IsDefault bool `json:"isDefault,omitempty"`
+  PluginName string `json:"pluginName,omitempty"`
+  PluginInfo PaymentMethodPluginDetailAttributes `json:"pluginInfo,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type TenantKeyAttributes struct {
-  Key string `json:"key"`
-  Values []string `json:"values"`
+  Key string `json:"key,omitempty"`
+  Values []string `json:"values,omitempty"`
 }
 
 

@@ -28,11 +28,11 @@ import "encoding/json"
 
 
 type HostedPaymentPageFormDescriptorAttributes struct {
-  KbAccountId string `json:"kbAccountId"`
-  FormMethod string `json:"formMethod"`
-  FormUrl string `json:"formUrl"`
-  FormFields map[string]interface{} `json:"formFields"`
-  Properties map[string]interface{} `json:"properties"`
+  KbAccountId string `json:"kbAccountId,omitempty"`
+  FormMethod string `json:"formMethod,omitempty"`
+  FormUrl string `json:"formUrl,omitempty"`
+  FormFields map[string]interface{} `json:"formFields,omitempty"`
+  Properties map[string]interface{} `json:"properties,omitempty"`
 }
 
 

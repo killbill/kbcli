@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type InvoiceEmailAttributes struct {
-  AccountId string `json:"accountId"`
-  IsNotifiedForInvoices bool `json:"isNotifiedForInvoices"`
+  AccountId string `json:"accountId,omitempty"`
+  IsNotifiedForInvoices bool `json:"isNotifiedForInvoices,omitempty"`
 }
 
 

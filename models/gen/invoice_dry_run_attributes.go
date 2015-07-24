@@ -28,17 +28,17 @@ import "encoding/json"
 
 
 type InvoiceDryRunAttributes struct {
-  DryRunAction string `json:"dryRunAction"`
-  PhaseType string `json:"phaseType"`
-  ProductName string `json:"productName"`
-  ProductCategory string `json:"productCategory"`
-  BillingPeriod string `json:"billingPeriod"`
-  PriceListName string `json:"priceListName"`
-  SubscriptionId string `json:"subscriptionId"`
-  BundleId string `json:"bundleId"`
-  EffectiveDate string `json:"effectiveDate"`
-  BillingPolicy string `json:"billingPolicy"`
-  PriceOverrides []PhasePriceOverrideAttributes `json:"priceOverrides"`
+  DryRunAction string `json:"dryRunAction,omitempty"`
+  PhaseType string `json:"phaseType,omitempty"`
+  ProductName string `json:"productName,omitempty"`
+  ProductCategory string `json:"productCategory,omitempty"`
+  BillingPeriod string `json:"billingPeriod,omitempty"`
+  PriceListName string `json:"priceListName,omitempty"`
+  SubscriptionId string `json:"subscriptionId,omitempty"`
+  BundleId string `json:"bundleId,omitempty"`
+  EffectiveDate string `json:"effectiveDate,omitempty"`
+  BillingPolicy string `json:"billingPolicy,omitempty"`
+  PriceOverrides []PhasePriceOverrideAttributes `json:"priceOverrides,omitempty"`
 }
 
 

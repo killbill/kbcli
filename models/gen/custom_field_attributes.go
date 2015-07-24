@@ -28,12 +28,12 @@ import "encoding/json"
 
 
 type CustomFieldAttributes struct {
-  CustomFieldId string `json:"customFieldId"`
-  ObjectId string `json:"objectId"`
-  ObjectType string `json:"objectType"`
-  Name string `json:"name"`
-  Value string `json:"value"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  CustomFieldId string `json:"customFieldId,omitempty"`
+  ObjectId string `json:"objectId,omitempty"`
+  ObjectType string `json:"objectType,omitempty"`
+  Name string `json:"name,omitempty"`
+  Value string `json:"value,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

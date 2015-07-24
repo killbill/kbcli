@@ -28,11 +28,11 @@ import "encoding/json"
 
 
 type GatewayNotificationAttributes struct {
-  KbPaymentId string `json:"kbPaymentId"`
-  Status int32 `json:"status"`
-  Entity string `json:"entity"`
-  Headers map[string]interface{} `json:"headers"`
-  Properties map[string]interface{} `json:"properties"`
+  KbPaymentId string `json:"kbPaymentId,omitempty"`
+  Status int32 `json:"status,omitempty"`
+  Entity string `json:"entity,omitempty"`
+  Headers map[string]interface{} `json:"headers,omitempty"`
+  Properties map[string]interface{} `json:"properties,omitempty"`
 }
 
 

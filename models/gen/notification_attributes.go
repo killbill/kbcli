@@ -28,10 +28,10 @@ import "encoding/json"
 
 
 type NotificationAttributes struct {
-  EventType string `json:"eventType"`
-  AccountId string `json:"accountId"`
-  ObjectType string `json:"objectType"`
-  ObjectId string `json:"objectId"`
+  EventType string `json:"eventType,omitempty"`
+  AccountId string `json:"accountId,omitempty"`
+  ObjectType string `json:"objectType,omitempty"`
+  ObjectId string `json:"objectId,omitempty"`
 }
 
 

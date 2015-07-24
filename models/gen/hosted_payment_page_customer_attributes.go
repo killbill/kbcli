@@ -28,10 +28,10 @@ import "encoding/json"
 
 
 type HostedPaymentPageCustomerAttributes struct {
-  FirstName string `json:"firstName"`
-  LastName string `json:"lastName"`
-  Email string `json:"email"`
-  Phone string `json:"phone"`
+  FirstName string `json:"firstName,omitempty"`
+  LastName string `json:"lastName,omitempty"`
+  Email string `json:"email,omitempty"`
+  Phone string `json:"phone,omitempty"`
 }
 
 

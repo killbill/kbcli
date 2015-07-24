@@ -28,19 +28,19 @@ import "encoding/json"
 
 
 type EventSubscriptionAttributes struct {
-  EventId string `json:"eventId"`
-  BillingPeriod string `json:"billingPeriod"`
-  RequestedDt string `json:"requestedDt"`
-  EffectiveDt string `json:"effectiveDt"`
-  Product string `json:"product"`
-  PriceList string `json:"priceList"`
-  EventType string `json:"eventType"`
-  IsBlockedBilling bool `json:"isBlockedBilling"`
-  IsBlockedEntitlement bool `json:"isBlockedEntitlement"`
-  ServiceName string `json:"serviceName"`
-  ServiceStateName string `json:"serviceStateName"`
-  Phase string `json:"phase"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  EventId string `json:"eventId,omitempty"`
+  BillingPeriod string `json:"billingPeriod,omitempty"`
+  RequestedDt string `json:"requestedDt,omitempty"`
+  EffectiveDt string `json:"effectiveDt,omitempty"`
+  Product string `json:"product,omitempty"`
+  PriceList string `json:"priceList,omitempty"`
+  EventType string `json:"eventType,omitempty"`
+  IsBlockedBilling bool `json:"isBlockedBilling,omitempty"`
+  IsBlockedEntitlement bool `json:"isBlockedEntitlement,omitempty"`
+  ServiceName string `json:"serviceName,omitempty"`
+  ServiceStateName string `json:"serviceStateName,omitempty"`
+  Phase string `json:"phase,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

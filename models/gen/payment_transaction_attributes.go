@@ -28,21 +28,21 @@ import "encoding/json"
 
 
 type PaymentTransactionAttributes struct {
-  TransactionId string `json:"transactionId"`
-  TransactionExternalKey string `json:"transactionExternalKey"`
-  PaymentId string `json:"paymentId"`
-  PaymentExternalKey string `json:"paymentExternalKey"`
-  TransactionType string `json:"transactionType"`
-  Amount float64 `json:"amount"`
-  Currency string `json:"currency"`
-  EffectiveDate string `json:"effectiveDate"`
-  Status string `json:"status"`
-  GatewayErrorCode string `json:"gatewayErrorCode"`
-  GatewayErrorMsg string `json:"gatewayErrorMsg"`
-  FirstPaymentReferenceId string `json:"firstPaymentReferenceId"`
-  SecondPaymentReferenceId string `json:"secondPaymentReferenceId"`
-  Properties []PluginPropertyAttributes `json:"properties"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  TransactionId string `json:"transactionId,omitempty"`
+  TransactionExternalKey string `json:"transactionExternalKey,omitempty"`
+  PaymentId string `json:"paymentId,omitempty"`
+  PaymentExternalKey string `json:"paymentExternalKey,omitempty"`
+  TransactionType string `json:"transactionType,omitempty"`
+  Amount float64 `json:"amount,omitempty"`
+  Currency string `json:"currency,omitempty"`
+  EffectiveDate string `json:"effectiveDate,omitempty"`
+  Status string `json:"status,omitempty"`
+  GatewayErrorCode string `json:"gatewayErrorCode,omitempty"`
+  GatewayErrorMsg string `json:"gatewayErrorMsg,omitempty"`
+  FirstPaymentReferenceId string `json:"firstPaymentReferenceId,omitempty"`
+  SecondPaymentReferenceId string `json:"secondPaymentReferenceId,omitempty"`
+  Properties []PluginPropertyAttributes `json:"properties,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

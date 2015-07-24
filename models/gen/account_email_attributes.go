@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type AccountEmailAttributes struct {
-  AccountId string `json:"accountId"`
-  Email string `json:"email"`
+  AccountId string `json:"accountId,omitempty"`
+  Email string `json:"email,omitempty"`
 }
 
 

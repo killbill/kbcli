@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type RolledUpUnitAttributes struct {
-  UnitType string `json:"unitType"`
-  Amount int64 `json:"amount"`
+  UnitType string `json:"unitType,omitempty"`
+  Amount int64 `json:"amount,omitempty"`
 }
 
 

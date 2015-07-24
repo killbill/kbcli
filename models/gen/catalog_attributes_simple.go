@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type CatalogAttributesSimple struct {
-  Name string `json:"name"`
-  Products []ProductAttributes `json:"products"`
+  Name string `json:"name,omitempty"`
+  Products []ProductAttributes `json:"products,omitempty"`
 }
 
 

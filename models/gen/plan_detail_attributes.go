@@ -28,11 +28,11 @@ import "encoding/json"
 
 
 type PlanDetailAttributes struct {
-  Product string `json:"product"`
-  Plan string `json:"plan"`
-  Final_phase_billing_period string `json:"final_phase_billing_period"`
-  PriceList string `json:"priceList"`
-  Final_phase_recurring_price []PriceAttributes `json:"final_phase_recurring_price"`
+  Product string `json:"product,omitempty"`
+  Plan string `json:"plan,omitempty"`
+  Final_phase_billing_period string `json:"final_phase_billing_period,omitempty"`
+  PriceList string `json:"priceList,omitempty"`
+  Final_phase_recurring_price []PriceAttributes `json:"final_phase_recurring_price,omitempty"`
 }
 
 

@@ -28,10 +28,10 @@ import "encoding/json"
 
 
 type PhasePriceOverrideAttributes struct {
-  PhaseName string `json:"phaseName"`
-  PhaseType string `json:"phaseType"`
-  FixedPrice float64 `json:"fixedPrice"`
-  RecurringPrice float64 `json:"recurringPrice"`
+  PhaseName string `json:"phaseName,omitempty"`
+  PhaseType string `json:"phaseType,omitempty"`
+  FixedPrice float64 `json:"fixedPrice,omitempty"`
+  RecurringPrice float64 `json:"recurringPrice,omitempty"`
 }
 
 

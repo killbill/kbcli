@@ -28,11 +28,11 @@ import "encoding/json"
 
 
 type StackTraceElementAttributes struct {
-  ClassName string `json:"className"`
-  FileName string `json:"fileName"`
-  LineNumber int32 `json:"lineNumber"`
-  MethodName string `json:"methodName"`
-  NativeMethod bool `json:"nativeMethod"`
+  ClassName string `json:"className,omitempty"`
+  FileName string `json:"fileName,omitempty"`
+  LineNumber int32 `json:"lineNumber,omitempty"`
+  MethodName string `json:"methodName,omitempty"`
+  NativeMethod bool `json:"nativeMethod,omitempty"`
 }
 
 

@@ -28,22 +28,22 @@ import "encoding/json"
 
 
 type InvoiceItemAttributes struct {
-  InvoiceItemId string `json:"invoiceItemId"`
-  InvoiceId string `json:"invoiceId"`
-  LinkedInvoiceItemId string `json:"linkedInvoiceItemId"`
-  AccountId string `json:"accountId"`
-  BundleId string `json:"bundleId"`
-  SubscriptionId string `json:"subscriptionId"`
-  PlanName string `json:"planName"`
-  PhaseName string `json:"phaseName"`
-  UsageName string `json:"usageName"`
-  ItemType string `json:"itemType"`
-  Description string `json:"description"`
-  StartDate string `json:"startDate"`
-  EndDate string `json:"endDate"`
-  Amount float64 `json:"amount"`
-  Currency string `json:"currency"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  InvoiceItemId string `json:"invoiceItemId,omitempty"`
+  InvoiceId string `json:"invoiceId,omitempty"`
+  LinkedInvoiceItemId string `json:"linkedInvoiceItemId,omitempty"`
+  AccountId string `json:"accountId,omitempty"`
+  BundleId string `json:"bundleId,omitempty"`
+  SubscriptionId string `json:"subscriptionId,omitempty"`
+  PlanName string `json:"planName,omitempty"`
+  PhaseName string `json:"phaseName,omitempty"`
+  UsageName string `json:"usageName,omitempty"`
+  ItemType string `json:"itemType,omitempty"`
+  Description string `json:"description,omitempty"`
+  StartDate string `json:"startDate,omitempty"`
+  EndDate string `json:"endDate,omitempty"`
+  Amount float64 `json:"amount,omitempty"`
+  Currency string `json:"currency,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

@@ -28,9 +28,9 @@ import "encoding/json"
 
 
 type PluginPropertyAttributes struct {
-  Key string `json:"key"`
-  Value string `json:"value"`
-  IsUpdatable bool `json:"isUpdatable"`
+  Key string `json:"key,omitempty"`
+  Value string `json:"value,omitempty"`
+  IsUpdatable bool `json:"isUpdatable,omitempty"`
 }
 
 

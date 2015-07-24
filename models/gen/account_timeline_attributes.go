@@ -28,10 +28,10 @@ import "encoding/json"
 
 
 type AccountTimelineAttributes struct {
-  Account AccountAttributes `json:"account"`
-  Bundles []BundleAttributes `json:"bundles"`
-  Invoices []InvoiceAttributes `json:"invoices"`
-  Payments []InvoicePaymentAttributes `json:"payments"`
+  Account AccountAttributes `json:"account,omitempty"`
+  Bundles []BundleAttributes `json:"bundles,omitempty"`
+  Invoices []InvoiceAttributes `json:"invoices,omitempty"`
+  Payments []InvoicePaymentAttributes `json:"payments,omitempty"`
 }
 
 

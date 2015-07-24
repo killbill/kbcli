@@ -28,12 +28,12 @@ import "encoding/json"
 
 
 type TagDefinitionAttributes struct {
-  Id string `json:"id"`
-  IsControlTag bool `json:"isControlTag"`
-  Name string `json:"name"`
-  Description string `json:"description"`
-  ApplicableObjectTypes []string `json:"applicableObjectTypes"`
-  AuditLogs []AuditLogAttributes `json:"auditLogs"`
+  Id string `json:"id,omitempty"`
+  IsControlTag bool `json:"isControlTag,omitempty"`
+  Name string `json:"name,omitempty"`
+  Description string `json:"description,omitempty"`
+  ApplicableObjectTypes []string `json:"applicableObjectTypes,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 

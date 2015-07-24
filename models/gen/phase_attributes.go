@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type PhaseAttributes struct {
-  Type string `json:"type"`
-  Prices []PriceAttributes `json:"prices"`
+  Type string `json:"type,omitempty"`
+  Prices []PriceAttributes `json:"prices,omitempty"`
 }
 
 

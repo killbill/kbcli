@@ -28,9 +28,9 @@ import "encoding/json"
 
 
 type PaymentMethodPluginDetailAttributes struct {
-  ExternalPaymentId string `json:"externalPaymentId"`
-  IsDefaultPaymentMethod bool `json:"isDefaultPaymentMethod"`
-  Properties []PluginPropertyAttributes `json:"properties"`
+  ExternalPaymentMethodId string `json:"externalPaymentMethodId,omitempty"`
+  IsDefaultPaymentMethod bool `json:"isDefaultPaymentMethod,omitempty"`
+  Properties []PluginPropertyAttributes `json:"properties,omitempty"`
 }
 
 

@@ -27,12 +27,16 @@ package gen
 import "encoding/json"
 
 
-type UsageRecordAttributes struct {
-  RecordDate string `json:"recordDate,omitempty"`
-  Amount int64 `json:"amount,omitempty"`
+type ComboPaymentTransactionAttributes struct {
+  Account AccountAttributes `json:"account,omitempty"`
+  PaymentMethod PaymentMethodAttributes `json:"paymentMethod,omitempty"`
+  Transaction PaymentTransactionAttributes `json:"transaction,omitempty"`
+  PaymentMethodPluginProperties []PluginPropertyAttributes `json:"paymentMethodPluginProperties,omitempty"`
+  TransactionPluginProperties []PluginPropertyAttributes `json:"transactionPluginProperties,omitempty"`
+  AuditLogs []AuditLogAttributes `json:"auditLogs,omitempty"`
 }
 
 
-func (data * UsageRecordAttributes) FromJson(raw []byte) error {
+func (data * ComboPaymentTransactionAttributes) FromJson(raw []byte) error {
   return json.Unmarshal(raw, data)
 }

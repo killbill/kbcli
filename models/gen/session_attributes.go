@@ -28,11 +28,11 @@ import "encoding/json"
 
 
 type SessionAttributes struct {
-  Id string `json:"id"`
-  StartDate string `json:"startDate"`
-  LastAccessDate string `json:"lastAccessDate"`
-  Timeout int64 `json:"timeout"`
-  Host string `json:"host"`
+  Id string `json:"id,omitempty"`
+  StartDate string `json:"startDate,omitempty"`
+  LastAccessDate string `json:"lastAccessDate,omitempty"`
+  Timeout int64 `json:"timeout,omitempty"`
+  Host string `json:"host,omitempty"`
 }
 
 

@@ -28,8 +28,8 @@ import "encoding/json"
 
 
 type SubscriptionUsageRecordAttributes struct {
-  SubscriptionId string `json:"subscriptionId"`
-  UnitUsageRecords []UnitUsageRecordAttributes `json:"unitUsageRecords"`
+  SubscriptionId string `json:"subscriptionId,omitempty"`
+  UnitUsageRecords []UnitUsageRecordAttributes `json:"unitUsageRecords,omitempty"`
 }
 
 

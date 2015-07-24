@@ -28,7 +28,7 @@ import "encoding/json"
 
 
 type ProfilingDataAttributes struct {
-  RawData []ProfilingDataAttributes `json:"rawData"`
+  RawData []ProfilingDataAttributes `json:"rawData,omitempty"`
 }
 
 
