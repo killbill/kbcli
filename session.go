@@ -41,13 +41,25 @@ func (s *Session) createUrl(resourcePathOrUrl string) string {
 }
 
 
-func (s *Session) Post(resourcePathOrUrl string, body interface{}) (*Response, error) {
+func (s *Session) Post(resourcePathOrUrl string, body interface{}, queryParams *QueryParams) (*Response, error) {
 	request := Request {
 		Method:  "POST",
 		Url:  s.createUrl(resourcePathOrUrl),
 		Body: body,
+		QueryParams: queryParams,
 	}
 	return s.Send(&request, nil)
+}
+
+
+func (s *Session) Put(resourcePathOrUrl string, body interface{}, result JsonDeserializer, queryParams *QueryParams) (*Response, error) {
+	request := Request{
+		Method:  "PUT",
+		Url:     s.createUrl(resourcePathOrUrl),
+		Body: body,
+		QueryParams: queryParams,
+	}
+	return s.Send(&request, result)
 }
 
 func (s *Session) Get(resourcePathOrUrl string, result JsonDeserializer, queryParams *QueryParams) (*Response, error) {
@@ -58,7 +70,6 @@ func (s *Session) Get(resourcePathOrUrl string, result JsonDeserializer, queryPa
 	}
 	return s.Send(&request, result)
 }
-
 
 func (s *Session) log(args ...interface{}) {
 	if s.Log {
