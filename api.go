@@ -25,7 +25,7 @@ func CreateSession(killbillIp, killbillPort, userName, password, apiKey, apiSecr
 	headers := make(http.Header)
 	headers.Set("X-Killbill-CreatedBy", createdBy)
 
-	return &Session {
+	return &Session{
 		KillbillIp: killbillIp,
 		KillbillPort: killbillPort,
 		Userinfo: url.UserPassword(userName, password),
@@ -43,16 +43,15 @@ func CreateSession(killbillIp, killbillPort, userName, password, apiKey, apiSecr
 
 func CreateTenant(s *Session) (*gen.TenantAttributes, error) {
 
-	var deserializer JsonDeserializer
-	deserializer = &gen.TenantAttributes{ApiKey:s.ApiKey, ApiSecret:s.ApiSecret}
-	resp, err := s.Post(TENANT_PATH, deserializer, nil)
+	attr := &gen.TenantAttributes{ApiKey:s.ApiKey, ApiSecret:s.ApiSecret}
+	resp, err := s.Post(TENANT_PATH, attr, nil)
 	if err != nil {
 		s.log("Failed to post request for path", TENANT_PATH)
 		s.log(err)
 		return &gen.TenantAttributes{}, err
 	}
 
-	deserializer = &gen.TenantAttributes{}
+	var deserializer JsonDeserializer = &gen.TenantAttributes{}
 	if value, ok := resp.HttpResponse().Header["Location"]; ok {
 		resp, err = s.Get(value[0], deserializer, nil)
 		return resp.Result.(*gen.TenantAttributes), err
@@ -66,16 +65,14 @@ func CreateTenant(s *Session) (*gen.TenantAttributes, error) {
 //
 
 func CreateAccount(s *Session, attr *gen.AccountAttributes, params *QueryParams) (*gen.AccountAttributes, error) {
-	var deserializer JsonDeserializer
-	deserializer = attr
-	resp, err := s.Post(ACCOUNT_PATH, deserializer, params)
+	resp, err := s.Post(ACCOUNT_PATH, attr, params)
 	if err != nil {
 		s.log("Failed to post request for path", ACCOUNT_PATH)
 		s.log(err)
 		return &gen.AccountAttributes{}, err
 	}
 
-	deserializer = &gen.AccountAttributes{}
+	var deserializer JsonDeserializer = &gen.AccountAttributes{}
 	if value, ok := resp.HttpResponse().Header["Location"]; ok {
 		resp, err = s.Get(value[0], deserializer, nil)
 		return resp.Result.(*gen.AccountAttributes), err
@@ -85,9 +82,7 @@ func CreateAccount(s *Session, attr *gen.AccountAttributes, params *QueryParams)
 }
 
 func GetAccount(s *Session, accountId string, params *QueryParams) (*gen.AccountAttributes, error) {
-	var deserializer JsonDeserializer
-	deserializer = &gen.AccountAttributes{}
-
+	var deserializer JsonDeserializer = &gen.AccountAttributes{}
 	var url string
 	if accountId != EMPTY_STRING {
 		resourceParts := []string{ACCOUNT_PATH, accountId}
@@ -104,19 +99,17 @@ func GetAccount(s *Session, accountId string, params *QueryParams) (*gen.Account
 //                            PAYMENT
 //
 func CreatePaymentMethod(s *Session, attr *gen.PaymentMethodAttributes, params *QueryParams) (*gen.PaymentMethodAttributes, error) {
-	var deserializer JsonDeserializer
-	deserializer = attr
 
 	resourceParts := []string{ACCOUNT_PATH, SLASH, attr.AccountId, PAYMENT_METHOD_PATH}
 	url := strings.Join(resourceParts, "")
-	resp, err := s.Post(url, deserializer, params)
+	resp, err := s.Post(url, attr, params)
 	if err != nil {
 		s.log("Failed to post request for path:", url)
 		s.log(err)
 		return &gen.PaymentMethodAttributes{}, err
 	}
 
-	deserializer = &gen.PaymentMethodAttributes{}
+	var deserializer JsonDeserializer = &gen.PaymentMethodAttributes{}
 	if value, ok := resp.HttpResponse().Header["Location"]; ok {
 		resp, err = s.Get(value[0], deserializer, nil)
 		return resp.Result.(*gen.PaymentMethodAttributes), err
@@ -126,11 +119,32 @@ func CreatePaymentMethod(s *Session, attr *gen.PaymentMethodAttributes, params *
 }
 
 
-// Authorize, Purchase, Credit
-func CreatePaymentTransaction(s *Session, accountId string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
-
+func CreatePaymentAuthorization(s *Session, accountId string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
 	resourceParts := []string{ACCOUNT_PATH, SLASH, accountId, PAYMENT_PATH}
 	url := strings.Join(resourceParts, "")
+	return createPaymentTransaction(s, url, attr, params)
+}
+
+func CreatePaymentPurchase(s *Session, accountId string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
+	resourceParts := []string{ACCOUNT_PATH, SLASH, accountId, PAYMENT_PATH}
+	url := strings.Join(resourceParts, "")
+	return createPaymentTransaction(s, url, attr, params)
+}
+
+func CreatePaymentCredit(s *Session, accountId string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
+	resourceParts := []string{ACCOUNT_PATH, SLASH, accountId, PAYMENT_PATH}
+	url := strings.Join(resourceParts, "")
+	return createPaymentTransaction(s, url, attr, params)
+}
+
+func CreatePaymentCapture(s *Session, accountId string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
+	resourceParts := []string{PAYMENT_PATH, SLASH, attr.PaymentId}
+	url := strings.Join(resourceParts, "")
+	return createPaymentTransaction(s, url, attr, params)
+}
+
+func createPaymentTransaction(s *Session, url string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
+
 	resp, err := s.Post(url, attr, nil)
 	if err != nil {
 		s.log("Failed to post request for path:", url)
@@ -138,8 +152,7 @@ func CreatePaymentTransaction(s *Session, accountId string, attr *gen.PaymentTra
 		return &gen.PaymentAttributes{}, err
 	}
 
-	var deserializer JsonDeserializer
-	deserializer = &gen.PaymentAttributes{}
+	var deserializer JsonDeserializer = &gen.PaymentAttributes{}
 	if value, ok := resp.HttpResponse().Header["Location"]; ok {
 		resp, err = s.Get(value[0], deserializer, nil)
 		return resp.Result.(*gen.PaymentAttributes), err
