@@ -6,7 +6,17 @@ import (
 	"github.com/killbill/kbcli"
 	"github.com/killbill/kbcli/models/gen"
 	"os"
+	//"runtime"
+	"time"
+	"strconv"
+	"strings"
 )
+
+type Empty interface{}
+
+func makeTimestamp() int64 {
+	return time.Now().UnixNano() / int64(time.Millisecond)
+}
 
 func generateRandomTestKey() string {
 	return uuid.NewV1().String()
@@ -23,6 +33,13 @@ func displaySuccessMsgOrAbort(msg string, errorMsg string, err error, args ...in
 	}
 }
 
+// Just to check how many ping calls we could make
+func doPing(s *kbcli.Session) {
+	kbcli.Ping(s)
+}
+
+
+// Do account/pm, auth, capture NOT using combo
 func doAuthCapture(s *kbcli.Session, apiKey string) {
 
 	// Query params reused across the test
@@ -57,21 +74,27 @@ func doAuthCapture(s *kbcli.Session, apiKey string) {
 	displaySuccessMsgOrAbort("Created payment transaction (CAPTURE)", "Failed to create payment transaction (AUTH)", err, createdPyament.PaymentId)
 }
 
-func doComboAuthCapture(s *kbcli.Session, apiKey string) {
 
-	accountData := gen.AccountAttributes{Name: apiKey, ExternalKey: apiKey, Email: apiKey, Currency: "USD" }
+// Do account/pm, auth, capture  using combo
+
+func doComboAuthCapture(s *kbcli.Session, key string, isCapture bool) {
+
+	accountData := gen.AccountAttributes{Name: key, Email: key, Currency: "USD" }
 	paymentMethodData := gen.PaymentMethodAttributes{PluginName: "__EXTERNAL_PAYMENT__", PluginInfo: gen.PaymentMethodPluginDetailAttributes{}}
 	authorizationData := gen.PaymentTransactionAttributes{TransactionType: "AUTHORIZE", Amount: 12.5, Currency: accountData.Currency}
 
 	var pluginProperties []gen.PluginPropertyAttributes;
 	comboPaymentData := gen.ComboPaymentTransactionAttributes{Account:accountData, PaymentMethod:paymentMethodData, Transaction:authorizationData, PaymentMethodPluginProperties:pluginProperties, TransactionPluginProperties:pluginProperties}
-	createdPayment, err := kbcli.CreateComboAuthorization(s, &comboPaymentData, nil)
-	displaySuccessMsgOrAbort("Created COMBO payment transaction (AUTH)", "Failed to create payment transaction (AUTH)", err, createdPayment.PaymentId)
+	createdPayment, _ := kbcli.CreateComboAuthorization(s, &comboPaymentData, nil)
+	//displaySuccessMsgOrAbort("Created COMBO payment transaction (AUTH)", "Failed to create payment transaction (AUTH)", err, createdPayment.PaymentId)
 
-	captureData := gen.PaymentTransactionAttributes{PaymentId: createdPayment.PaymentId, TransactionType: "CAPTURE", Amount: 12.5, Currency: createdPayment.Currency}
-	createdPayment, err = kbcli.CreatePaymentCapture(s, createdPayment.AccountId, &captureData, nil)
-	displaySuccessMsgOrAbort("Created payment transaction (CAPTURE)", "Failed to create payment transaction (AUTH)", err, createdPayment.PaymentId)
+	if isCapture {
+		captureData := gen.PaymentTransactionAttributes{PaymentId: createdPayment.PaymentId, TransactionType: "CAPTURE", Amount: 12.5, Currency: createdPayment.Currency}
+		createdPayment, err := kbcli.CreatePaymentCapture(s, createdPayment.AccountId, &captureData, nil)
+		displaySuccessMsgOrAbort("Created payment transaction (CAPTURE)", "Failed to create payment transaction (AUTH)", err, createdPayment.PaymentId)
+	}
 }
+
 
 func main() {
 
@@ -93,5 +116,28 @@ func main() {
 	createdTenant, err := kbcli.CreateTenant(s)
 	displaySuccessMsgOrAbort("Created tenant", "Failed to create tenant", err, createdTenant.ApiKey)
 
-	doComboAuthCapture(s, apiKey)
+	var concurrency int = 10
+	var sequentialIterations int = 1000
+
+	sem := make(chan int, concurrency);
+
+	ini := makeTimestamp()
+	for i := 0; i < concurrency; i++ {
+		go func(j int) {
+			for k := 0; k < sequentialIterations; k++ {
+				keyParts := []string{apiKey, "-", strconv.Itoa(i), "-", strconv.Itoa(k)}
+				key := strings.Join(keyParts, "")
+				doComboAuthCapture(s, key, false)
+			}
+			sem <- i
+		}(i);
+	}
+	for i := 0; i < concurrency; i++ {
+		<-sem
+	}
+
+	totalRequests := concurrency * sequentialIterations
+	elapsed := makeTimestamp() - ini
+	fmt.Printf("Processed %d requests in %d millis, rate = %v",
+		totalRequests, elapsed, (float64(totalRequests) / float64(elapsed) * 1000))
 }

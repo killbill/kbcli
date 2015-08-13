@@ -10,11 +10,13 @@ import (
 const EMPTY_STRING = ""
 
 const SLASH string = "/"
-const TENANT_PATH string = "/tenants"
-const ACCOUNT_PATH string = "/accounts"
-const PAYMENT_PATH string = "/payments"
+const PING_PATH string = "/1.0/ping"
+const TENANT_PATH string = "/1.0/kb/tenants"
+const ACCOUNT_PATH string = "/1.0/kb/accounts"
+const PAYMENT_PATH string = "/1.0/kb/payments"
 
-const PAYMENT_METHOD_PATH string = "/paymentMethods"
+const PAYMENT string = "/payments"
+const PAYMENT_METHOD string = "/paymentMethods"
 
 const COMBO_PATH = "/combo"
 
@@ -37,6 +39,17 @@ func CreateSession(killbillIp, killbillPort, userName, password, apiKey, apiSecr
 		Log: debugLog,
 	}
 }
+
+//
+//                            PING
+//
+func Ping(s *Session) (error) {
+	var url string = PING_PATH
+	_, err := s.Get(url, nil, nil)
+	return err
+}
+
+
 
 //
 //                            TENANT
@@ -102,7 +115,7 @@ func GetAccount(s *Session, accountId string, params *QueryParams) (*gen.Account
 //
 func CreatePaymentMethod(s *Session, attr *gen.PaymentMethodAttributes, params *QueryParams) (*gen.PaymentMethodAttributes, error) {
 
-	resourceParts := []string{ACCOUNT_PATH, SLASH, attr.AccountId, PAYMENT_METHOD_PATH}
+	resourceParts := []string{ACCOUNT_PATH, SLASH, attr.AccountId, PAYMENT_METHOD}
 	url := strings.Join(resourceParts, "")
 	resp, err := s.Post(url, attr, params)
 	if err != nil {
@@ -122,19 +135,19 @@ func CreatePaymentMethod(s *Session, attr *gen.PaymentMethodAttributes, params *
 
 
 func CreatePaymentAuthorization(s *Session, accountId string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
-	resourceParts := []string{ACCOUNT_PATH, SLASH, accountId, PAYMENT_PATH}
+	resourceParts := []string{ACCOUNT_PATH, SLASH, accountId, PAYMENT}
 	url := strings.Join(resourceParts, "")
 	return createPaymentTransaction(s, url, attr, params)
 }
 
 func CreatePaymentPurchase(s *Session, accountId string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
-	resourceParts := []string{ACCOUNT_PATH, SLASH, accountId, PAYMENT_PATH}
+	resourceParts := []string{ACCOUNT_PATH, SLASH, accountId, PAYMENT}
 	url := strings.Join(resourceParts, "")
 	return createPaymentTransaction(s, url, attr, params)
 }
 
 func CreatePaymentCredit(s *Session, accountId string, attr *gen.PaymentTransactionAttributes, params *QueryParams) (*gen.PaymentAttributes, error) {
-	resourceParts := []string{ACCOUNT_PATH, SLASH, accountId, PAYMENT_PATH}
+	resourceParts := []string{ACCOUNT_PATH, SLASH, accountId, PAYMENT}
 	url := strings.Join(resourceParts, "")
 	return createPaymentTransaction(s, url, attr, params)
 }

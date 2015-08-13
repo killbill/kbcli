@@ -12,7 +12,6 @@ import (
 	"errors"
 )
 
-const KILLBILL_PREFIX string = "/1.0/kb"
 
 
 type Session struct {
@@ -28,7 +27,6 @@ type Session struct {
 	ApiSecret    string
 	// Default headers
 	Header       *http.Header
-	// TODO
 	JsessionId   string
 	Log          bool
 }
@@ -37,7 +35,7 @@ func (s *Session) createUrl(resourcePathOrUrl string) string {
 	if strings.HasPrefix(resourcePathOrUrl, "http:") {
 		return resourcePathOrUrl
 	} else {
-		parts := []string{"http://", s.KillbillIp, ":", s.KillbillPort, KILLBILL_PREFIX, resourcePathOrUrl}
+		parts := []string{"http://", s.KillbillIp, ":", s.KillbillPort, resourcePathOrUrl}
 		return strings.Join(parts, "")
 	}
 }
@@ -173,6 +171,9 @@ func (s *Session) Send(inputRequest *Request, responseResult JsonDeserializer) (
 			s.log(err)
 			return
 		}
+
+		//fmt.Printf("JSON :")
+		//fmt.Println(string(b))
 		buf = bytes.NewBuffer(b)
 		if buf != nil {
 			req, err = http.NewRequest(inputRequest.Method, parsedUrl.String(), buf)
