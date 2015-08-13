@@ -6,6 +6,6 @@ The http layer has been adapated from the existing [napping](https://github.com/
 
 # Status
 
-Only a few APIs have been implemented so far, mostly around payments call. There is an example which using go concurrency feature to throw some load at an existing running Kill Bill instance.
+Only a few APIs have been implemented so far, mostly around payments call. There is an [example](https://github.com/sbrossie/kbcli/blob/master/examples/payments.go) which using go concurrency feature to throw some load at an existing running Kill Bill instance.
 
 
