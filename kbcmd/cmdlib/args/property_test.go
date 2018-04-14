@@ -83,7 +83,7 @@ func TestLoadProperties(t *testing.T) {
 		{Key: "endTime", Value: "2018-02-03T00:00:00Z"},
 	}
 	obj := testObj{}
-	err := LoadProperties(&obj, propertyList, inputs)
+	err := loadPropertiesFromInput(&obj, propertyList, inputs)
 	if err != nil {
 		t.Fatal(err)
 	}

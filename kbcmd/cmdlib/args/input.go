@@ -2,6 +2,7 @@ package args
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -53,6 +54,26 @@ func (pl *Properties) Get(propName string) *Property {
 	panic(fmt.Sprintf("property %s not found", propName))
 }
 
+// Sort sorts the properties
+func (pl *Properties) Sort(moveRequiredPropertiesFirst bool, alphabeticSort bool) {
+	propList := []Property(*pl)
+	sort.SliceStable(propList, func(i, j int) bool {
+		x := propList[i]
+		y := propList[j]
+		if moveRequiredPropertiesFirst {
+			if x.Required && !y.Required {
+				return j < i
+			} else if y.Required && !x.Required {
+				return i < j
+			}
+		}
+		if alphabeticSort {
+			return strings.Compare(x.NameLower(), y.NameLower()) < 0
+		}
+		return i < j
+	})
+}
+
 // InputArg - Represents input argument
 type InputArg string
 
@@ -69,9 +90,10 @@ func (ia InputArg) Split() (string, string, error) {
 type InputArgs []InputArg
 
 // ParseArgs parses given raw input args and returns list of Inputs
-func (ial InputArgs) ParseArgs() ([]Input, error) {
+func ParseArgs(argsList []string) ([]Input, error) {
 	var result []Input
-	for _, ia := range ial {
+	for _, a := range argsList {
+		ia := InputArg(a)
 		k, v, err := ia.Split()
 		if err != nil {
 			return nil, err

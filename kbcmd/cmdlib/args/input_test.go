@@ -49,6 +49,44 @@ func TestProperties_Remove(t *testing.T) {
 	}
 }
 
+func TestProperties_Sort(t *testing.T) {
+	var properties = Properties([]Property{
+		{Name: "P1"},
+		{Name: "P2", Required: true},
+		{Name: "P4"},
+		{Name: "P3"},
+	})
+	properties.Sort(true, false)
+	exp := Properties([]Property{
+		{Name: "P2", Required: true},
+		{Name: "P1"},
+		{Name: "P4"},
+		{Name: "P3"},
+	})
+	if diff := cmp.Diff(exp, properties); diff != "" {
+		t.Fatal(diff)
+	}
+}
+
+func TestProperties_SortAlphabetical(t *testing.T) {
+	var properties = Properties([]Property{
+		{Name: "P1"},
+		{Name: "P2", Required: true},
+		{Name: "P4"},
+		{Name: "P3"},
+	})
+	properties.Sort(true, true)
+	exp := Properties([]Property{
+		{Name: "P2", Required: true},
+		{Name: "P1"},
+		{Name: "P3"},
+		{Name: "P4"},
+	})
+	if diff := cmp.Diff(exp, properties); diff != "" {
+		t.Fatal(diff)
+	}
+}
+
 func TestInputArg_Split(t *testing.T) {
 	testConfigs := []struct {
 		Input string

@@ -51,8 +51,8 @@ func (o *Options) Print(v interface{}) {
 	o.out.Write([]byte(fmt.Sprintf("%s\n", strings.Join(rows, "\n"))))
 }
 
-// PrintCustom - print with custom formatter
-func (o *Options) PrintCustom(v interface{}, f Formatter) {
+// OutputWithFormatter - print with custom formatter
+func (o *Options) OutputWithFormatter(v interface{}, f Formatter) {
 	rows, err := getFormattedOutput(o.Log, v, *o.FO, f)
 	if err != nil {
 		o.out.Write([]byte(fmt.Sprintf("%v\n", err)))

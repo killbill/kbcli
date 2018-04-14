@@ -27,9 +27,9 @@ func ParseProperties(args []string) (map[string]string, error) {
 	return result, nil
 }
 
-// LoadProperties loads key value pairs into target object.
+// loadPropertiesFromInput loads key value pairs into target object.
 // property names must match
-func LoadProperties(obj interface{}, properties Properties, inputs Inputs) error {
+func loadPropertiesFromInput(obj interface{}, properties Properties, inputs Inputs) error {
 	if reflect.TypeOf(obj).Kind() != reflect.Ptr {
 		panic(fmt.Sprintf("invalid object. expecting pointer to struct. got - %#v", reflect.TypeOf(obj)))
 	}
@@ -61,6 +61,15 @@ func LoadProperties(obj interface{}, properties Properties, inputs Inputs) error
 		}
 	}
 	return nil
+}
+
+// LoadProperties loads properties from input arguments
+func LoadProperties(obj interface{}, properties Properties, argsList []string) error {
+	inputs, err := ParseArgs(argsList)
+	if err != nil {
+		return err
+	}
+	return loadPropertiesFromInput(obj, properties, inputs)
 }
 
 // GenerateUsageString parses given object and returns the usage string for properties.
