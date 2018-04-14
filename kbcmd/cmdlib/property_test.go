@@ -2,10 +2,12 @@ package cmdlib
 
 import (
 	"testing"
+	"time"
 
 	"github.com/go-openapi/strfmt"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
 func TestParseProperties_Valid(t *testing.T) {
@@ -49,6 +51,8 @@ type testObj struct {
 	IsDefaultPtr       *bool
 	UniqueID           strfmt.UUID
 	UniqueIDPtr        *strfmt.UUID
+	StartTime          strfmt.DateTime
+	EndTime            *strfmt.DateTime
 }
 
 func TestLoadProperties(t *testing.T) {
@@ -62,6 +66,8 @@ func TestLoadProperties(t *testing.T) {
 		"isdefaultPtr": "false",
 		"uniqueid":     string(uuid1),
 		"uniqueIdPtr":  string(uuid2),
+		"startTime":    "2018-01-02T00:00:00Z",
+		"endTime":      "2018-02-03T00:00:00Z",
 	}
 	obj := testObj{}
 	err := LoadProperties(kv, &obj)
@@ -79,9 +85,18 @@ func TestLoadProperties(t *testing.T) {
 		IsDefaultPtr: &isDefault,
 		UniqueID:     strfmt.UUID(uuid1),
 		UniqueIDPtr:  &uuid2,
+		EndTime:      obj.EndTime,
 	}
-	if diff := cmp.Diff(exp, obj); diff != "" {
+	if diff := cmp.Diff(exp, obj, cmpopts.IgnoreUnexported(strfmt.DateTime{})); diff != "" {
 		t.Fatal(diff)
+	}
+	dt1 := time.Date(2018, 1, 2, 0, 0, 0, 0, time.UTC)
+	dt2 := time.Date(2018, 2, 3, 0, 0, 0, 0, time.UTC)
+	if dt1.Sub(time.Time(obj.StartTime)) != 0 {
+		t.Fatalf("invalid starttime. Expecting %v, got %v", dt1, obj.StartTime)
+	}
+	if dt2.Sub(time.Time(*obj.EndTime)) != 0 {
+		t.Fatalf("invalid endtime. Expecting %v, got %v", dt2, obj.EndTime)
 	}
 }
 
@@ -95,7 +110,8 @@ func TestListProperties(t *testing.T) {
 
 func TestGenerateUsageString_Simple(t *testing.T) {
 	result := GenerateUsageString(&testObj{}, []string{"+accountid", "-companyName"})
-	exp := []string{"AccountID=string", "[ParentID=string]", "[IsDefault=bool]", "[IsDefaultPtr=*bool]", "[UniqueID=strfmt.UUID]", "[UniqueIDPtr=*strfmt.UUID]"}
+	exp := []string{"AccountID=STRING", "[ParentID=STRING]", "[IsDefault={True|False}]",
+		"[IsDefaultPtr={True|False}]", "[UniqueID=UUID]", "[UniqueIDPtr=UUID]"}
 	if diff := cmp.Diff(exp, result); diff != "" {
 		t.Fatal(diff)
 	}
@@ -103,7 +119,8 @@ func TestGenerateUsageString_Simple(t *testing.T) {
 
 func TestGenerateUsageString_Full(t *testing.T) {
 	result := GenerateUsageString(&testObj{}, []string{})
-	exp := []string{"[AccountID=string]", "[ParentID=string]", "[CompanyName=*string]", "[IsDefault=bool]", "[IsDefaultPtr=*bool]", "[UniqueID=strfmt.UUID]", "[UniqueIDPtr=*strfmt.UUID]"}
+	exp := []string{"[AccountID=STRING]", "[ParentID=STRING]", "[CompanyName=STRING]",
+		"[IsDefault={True|False}]", "[IsDefaultPtr={True|False}]", "[UniqueID=UUID]", "[UniqueIDPtr=UUID]"}
 	if diff := cmp.Diff(exp, result); diff != "" {
 		t.Fatal(diff)
 	}
