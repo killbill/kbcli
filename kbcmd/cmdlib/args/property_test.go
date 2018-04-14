@@ -1,4 +1,4 @@
-package cmdlib
+package args
 
 import (
 	"testing"
@@ -55,22 +55,35 @@ type testObj struct {
 	EndTime            *strfmt.DateTime
 }
 
+var propertyList = []Property{
+	{Name: "AccountID", Required: true},
+	{Name: "ParentID", Required: true},
+	{Name: "CompanyName"},
+	{Name: "IsDefault"},
+	{Name: "IsDefaultPtr"},
+	{Name: "UniqueID"},
+	{Name: "UniqueIDPtr"},
+	{Name: "StartTime"},
+	{Name: "EndTime"},
+}
+
 func TestLoadProperties(t *testing.T) {
 	uuid1 := strfmt.UUID("12345678-1234-1234-1234-123456789012")
 	uuid2 := strfmt.UUID("23456789-2345-2345-2345-234567890123")
-	kv := map[string]string{
-		"AccountID":    "123",
-		"ParentId":     "333",
-		"companyname":  "google",
-		"isdefault":    "true",
-		"isdefaultPtr": "false",
-		"uniqueid":     string(uuid1),
-		"uniqueIdPtr":  string(uuid2),
-		"startTime":    "2018-01-02T00:00:00Z",
-		"endTime":      "2018-02-03T00:00:00Z",
+
+	inputs := []Input{
+		{Key: "AccountID", Value: "123"},
+		{Key: "ParentId", Value: "333"},
+		{Key: "companyname", Value: "google"},
+		{Key: "isdefault", Value: "true"},
+		{Key: "isdefaultPtr", Value: "false"},
+		{Key: "uniqueid", Value: string(uuid1)},
+		{Key: "uniqueIdPtr", Value: string(uuid2)},
+		{Key: "startTime", Value: "2018-01-02T00:00:00Z"},
+		{Key: "endTime", Value: "2018-02-03T00:00:00Z"},
 	}
 	obj := testObj{}
-	err := LoadProperties(kv, &obj)
+	err := LoadProperties(&obj, propertyList, inputs)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -100,27 +113,28 @@ func TestLoadProperties(t *testing.T) {
 	}
 }
 
-func TestListProperties(t *testing.T) {
-	result := ListProperties(&testObj{})
-	exp := []string{"AccountID", "ParentID", "CompanyName", "IsDefault", "IsDefaultPtr", "UniqueID", "UniqueIDPtr"}
-	if diff := cmp.Diff(exp, result); diff != "" {
+func TestGetPropetyList(t *testing.T) {
+	result := GetPropetyList(&testObj{})
+	exp := []Property{
+		{Name: "AccountID"},
+		{Name: "ParentID"},
+		{Name: "CompanyName"},
+		{Name: "IsDefault"},
+		{Name: "IsDefaultPtr"},
+		{Name: "UniqueID"},
+		{Name: "UniqueIDPtr"},
+		{Name: "StartTime"},
+		{Name: "EndTime"},
+	}
+
+	if diff := cmp.Diff(Properties(exp), result); diff != "" {
 		t.Fatal(diff)
 	}
 }
 
 func TestGenerateUsageString_Simple(t *testing.T) {
-	result := GenerateUsageString(&testObj{}, []string{"+accountid", "-companyName"})
-	exp := []string{"AccountID=STRING", "[ParentID=STRING]", "[IsDefault={True|False}]",
-		"[IsDefaultPtr={True|False}]", "[UniqueID=UUID]", "[UniqueIDPtr=UUID]"}
-	if diff := cmp.Diff(exp, result); diff != "" {
-		t.Fatal(diff)
-	}
-}
-
-func TestGenerateUsageString_Full(t *testing.T) {
-	result := GenerateUsageString(&testObj{}, []string{})
-	exp := []string{"[AccountID=STRING]", "[ParentID=STRING]", "[CompanyName=STRING]",
-		"[IsDefault={True|False}]", "[IsDefaultPtr={True|False}]", "[UniqueID=UUID]", "[UniqueIDPtr=UUID]"}
+	result := GenerateUsageString(&testObj{}, propertyList)
+	exp := "AccountID=STRING ParentID=STRING [CompanyName=STRING] [IsDefault={True|False}] [IsDefaultPtr={True|False}] [UniqueID=UUID] [UniqueIDPtr=UUID] [StartTime=DATETIME] [EndTime=DATETIME]"
 	if diff := cmp.Diff(exp, result); diff != "" {
 		t.Fatal(diff)
 	}
