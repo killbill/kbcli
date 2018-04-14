@@ -36,6 +36,11 @@ func (o *Options) Output(format string, args ...interface{}) {
 	o.out.Write([]byte(fmt.Sprintf(format, args...)))
 }
 
+// Outputln writes the output and prints new line at the end
+func (o *Options) Outputln(format string, args ...interface{}) {
+	o.out.Write([]byte(fmt.Sprintf(format, args...) + "\n"))
+}
+
 // Print writes formatted output of given resource
 func (o *Options) Print(v interface{}) {
 	rows, err := getFormattedOutput(o.Log, v, *o.FO, getDefaultFormatter(o.Log, v))

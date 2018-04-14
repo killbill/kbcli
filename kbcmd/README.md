@@ -16,10 +16,15 @@ source src/github.com/killbill/kbcli/kbcmd/bash-autocomplete
 export PATH=$PWD/bin:$PATH
 ```
 
-
-### Running the command
+## Running the command
 ```bash
 kbcmd -h
 # (or)
 kbcmd <command> -h
 ```
+
+## Walkthrough: Create subscription and invoices
+The following walkthrough will walk you through the steps to create new account and subscription
+and then generate invoice for it.
+
+[kbcmd walkthrough](../docs/kbcmd/kbcmd-walkthrough.md)

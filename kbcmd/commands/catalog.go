@@ -21,10 +21,13 @@ func uploadCatalog(ctx context.Context, o *cmdlib.Options) error {
 	}
 	strContents := string(contents)
 
-	resp, err := o.Client().Catalog.UploadCatalogXML(ctx, &catalog.UploadCatalogXMLParams{
+	_, err = o.Client().Catalog.UploadCatalogXML(ctx, &catalog.UploadCatalogXMLParams{
 		Body: &strContents,
 	})
-	o.Output("%s\n", resp.Payload)
+	if err != nil {
+		return err
+	}
+	o.Outputln("catalog successfully uploaded")
 	return err
 }
 
