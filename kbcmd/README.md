@@ -5,7 +5,6 @@ to talk to killbill.
 
 ## Installing
 ```bash
-cd $GOPATH
 go get -u src/github.com/killbill/kbcli/kbcmd
 go install src/github.com/killbill/kbcli/kbcmd
 
@@ -13,7 +12,7 @@ go install src/github.com/killbill/kbcli/kbcmd
 source src/github.com/killbill/kbcli/kbcmd/bash-autocomplete
 
 # If you haven't added Go bin path to PATH
-export PATH=$PWD/bin:$PATH
+export PATH=$GOPATH/bin:$PATH
 ```
 
 ## Running the command
