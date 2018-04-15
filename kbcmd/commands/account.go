@@ -129,9 +129,6 @@ func updateAccount(ctx context.Context, o *cmdlib.Options) error {
 }
 
 func registerAccountCommands(r *cmdlib.App) {
-	registerAccountPaymentCommands(r)
-	registerAccountTagCommands(r)
-
 	// Register formatters
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.Account{}), accountFormatter)
 
@@ -139,21 +136,21 @@ func registerAccountCommands(r *cmdlib.App) {
 	r.Register("", cli.Command{
 		Name:    "accounts",
 		Aliases: []string{"acc"},
-		Usage:   "account related commands",
+		Usage:   "Account related commands",
 	}, nil)
 
 	// Get account
 	r.Register("accounts", cli.Command{
 		Name:        "get",
-		Usage:       "get account information",
-		ArgsUsage:   "{ACC_ID | [+]UNIQUE_KEY}",
-		Description: "If the external key is also UUID, then an optional + may be prefixed with external key for disambiguation",
+		Usage:       "Get account information",
+		ArgsUsage:   "ACCOUNT",
+		Description: "ACCOUNT can be the account id or external key. An optional + may be prefixed to external key for disambiguation",
 	}, getAccount)
 
 	// List all accounts
 	r.Register("accounts", cli.Command{
 		Name:      "list",
-		Usage:     "list all accounts",
+		Usage:     "List all accounts",
 		ArgsUsage: "",
 	}, listAccounts)
 
@@ -173,7 +170,7 @@ func registerAccountCommands(r *cmdlib.App) {
 
 	r.Register("accounts", cli.Command{
 		Name:        "create",
-		Usage:       "create new account",
+		Usage:       "Create new account",
 		ArgsUsage:   createAccountsUsage,
 		Description: "Creates new account",
 	}, createAccount)
@@ -198,9 +195,11 @@ func registerAccountCommands(r *cmdlib.App) {
 
 	r.Register("accounts", cli.Command{
 		Name:        "update",
-		Usage:       "updates existing account",
+		Usage:       "Updates existing account",
 		ArgsUsage:   updateAccountsUsage,
 		Description: "Updates existing account",
 	}, updateAccount)
 
+	registerAccountPaymentCommands(r)
+	registerAccountTagCommands(r)
 }

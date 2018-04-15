@@ -10,37 +10,6 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
-func TestParseProperties_Valid(t *testing.T) {
-	result, err := ParseProperties([]string{"one=1", "two=2"})
-	if err != nil {
-		t.Fatal(err)
-	}
-	exp := map[string]string{
-		"one": "1",
-		"two": "2",
-	}
-	if diff := cmp.Diff(exp, result); diff != "" {
-		t.Fatal(diff)
-	}
-}
-
-func TestParseProperties_Quoted(t *testing.T) {
-	result, err := ParseProperties([]string{
-		`one=hello one`,
-		`foo=foo bar`,
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-	exp := map[string]string{
-		"one": "hello one",
-		"foo": "foo bar",
-	}
-	if diff := cmp.Diff(exp, result); diff != "" {
-		t.Fatal(diff)
-	}
-}
-
 type testObj struct {
 	AccountID          string
 	ParentID           string

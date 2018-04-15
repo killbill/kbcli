@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/go-openapi/strfmt"
+
+	"github.com/killbill/kbcli/kbcmd/cmdlib/args"
+
 	"github.com/killbill/kbcli/kbclient/payment_method"
 
 	"github.com/killbill/kbcli/kbclient/account"
@@ -31,6 +35,8 @@ var paymentMethodFormatter = cmdlib.Formatter{
 	},
 }
 
+var addAccountPaymentMethodProperties args.Properties
+
 func listAccountPaymentMethods(ctx context.Context, o *cmdlib.Options) error {
 	if len(o.Args) != 1 {
 		return cmdlib.ErrorInvalidArgs
@@ -54,8 +60,26 @@ func listAccountPaymentMethods(ctx context.Context, o *cmdlib.Options) error {
 	return err
 }
 
+func getAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) != 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+
+	paymentMethodID := o.Args[0]
+
+	resp, err := o.Client().PaymentMethod.GetPaymentMethod(ctx, &payment_method.GetPaymentMethodParams{
+		PaymentMethodID: strfmt.UUID(paymentMethodID),
+	})
+	if err != nil {
+		return err
+	}
+
+	o.Print(resp.Payload)
+	return err
+}
+
 func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) != 2 {
+	if len(o.Args) < 2 {
 		return cmdlib.ErrorInvalidArgs
 	}
 
@@ -66,14 +90,24 @@ func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 	if err != nil {
 		return err
 	}
-	o.Log.Infof("account %s retrieved. Now adding payment method", acc.AccountID)
+	pluginProperties, err := args.ParseArgs(o.Args[2:])
+	if err != nil {
+		return err
+	}
+	pm := &kbmodel.PaymentMethod{
+		PluginName: method,
+		PluginInfo: &kbmodel.PaymentMethodPluginDetail{},
+	}
+	for _, pp := range pluginProperties {
+		pm.PluginInfo.Properties = append(pm.PluginInfo.Properties, &kbmodel.PluginProperty{
+			Key:   pp.Key,
+			Value: pp.Value,
+		})
+	}
 
 	_, err = o.Client().Account.CreatePaymentMethod(ctx, &account.CreatePaymentMethodParams{
 		AccountID: acc.AccountID,
-		Body: &kbmodel.PaymentMethod{
-			PluginName: method,
-			PluginInfo: &kbmodel.PaymentMethodPluginDetail{},
-		},
+		Body:      pm,
 	})
 
 	return err
@@ -120,6 +154,8 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 	// Payment method
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.PaymentMethod{}), paymentMethodFormatter)
 
+	addAccountPaymentMethodProperties = args.GetPropetyList(&kbmodel.PaymentMethod{})
+
 	// List payment methods
 	r.Register("accounts", cli.Command{
 		Name:      "list-payment-methods",
@@ -127,11 +163,18 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 		ArgsUsage: `ACCOUNT`,
 	}, listAccountPaymentMethods)
 
+	// Get payment method by ID
+	r.Register("accounts", cli.Command{
+		Name:      "get-payment-method",
+		Usage:     "Get payment method for the given account",
+		ArgsUsage: `PAYMENT_METHOD_ID`,
+	}, getAccountPaymentMethod)
+
 	// Add payment method
 	r.Register("accounts", cli.Command{
 		Name:      "add-payment-method",
 		Usage:     "Add new payment method",
-		ArgsUsage: `ACCOUNT METHOD`,
+		ArgsUsage: `ACCOUNT METHOD [Property1=Value1] ...`,
 	}, addAccountPaymentMethod)
 
 	// Remove payment method

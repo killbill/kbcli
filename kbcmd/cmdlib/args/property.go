@@ -14,19 +14,6 @@ var defaultProperties = map[string]bool{
 	"xkillbillreason":    true,
 }
 
-// ParseProperties parses key value pairs from argument
-func ParseProperties(args []string) (map[string]string, error) {
-	result := map[string]string{}
-	for _, a := range args {
-		comps := strings.Split(a, "=")
-		if len(comps) != 2 {
-			return nil, fmt.Errorf("invalid input %s. expecting var=value", a)
-		}
-		result[comps[0]] = comps[1]
-	}
-	return result, nil
-}
-
 // loadPropertiesFromInput loads key value pairs into target object.
 // property names must match
 func loadPropertiesFromInput(obj interface{}, properties Properties, inputs Inputs) error {
