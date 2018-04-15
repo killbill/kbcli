@@ -1,10 +1,14 @@
 package commands
 
-import "github.com/killbill/kbcli/kbcmd/cmdlib"
+import (
+	"github.com/killbill/kbcli/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/kbcmd/commands/accounts"
+)
 
 // RegisterAll registers all commands
 func RegisterAll(r *cmdlib.App) {
-	registerAccountCommands(r)
+	accounts.RegisterAccountCommands(r)
+
 	registerInvoicesCommands(r)
 	registerTenantCommands(r)
 	registerCatalogCommands(r)

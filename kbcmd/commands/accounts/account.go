@@ -1,4 +1,4 @@
-package commands
+package accounts
 
 import (
 	"context"
@@ -128,7 +128,7 @@ func updateAccount(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
-func registerAccountCommands(r *cmdlib.App) {
+func RegisterAccountCommands(r *cmdlib.App) {
 	// Register formatters
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.Account{}), accountFormatter)
 

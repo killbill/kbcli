@@ -1,4 +1,4 @@
-package commands
+package accounts
 
 import (
 	"context"
