@@ -2,7 +2,6 @@ package commands
 
 import (
 	"context"
-	"fmt"
 	"reflect"
 
 	"github.com/killbill/kbcli/kbclient/tenant"
@@ -11,10 +10,6 @@ import (
 	"github.com/killbill/kbcli/kbmodel"
 	"github.com/urfave/cli"
 )
-
-func formatTenant(t *kbmodel.Tenant) string {
-	return fmt.Sprintf("Tenant: %s, Json: %s\n", t.TenantID, cmdlib.MarshalJSON(t))
-}
 
 func createTenant(ctx context.Context, o *cmdlib.Options) error {
 	if len(o.Args) != 3 {

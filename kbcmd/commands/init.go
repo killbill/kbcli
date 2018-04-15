@@ -10,4 +10,7 @@ func RegisterAll(r *cmdlib.App) {
 	registerCatalogCommands(r)
 	registerSubscriptionCommands(r)
 	registerBundleCommands(r)
+
+	// Misc
+	registerStripeCommands(r)
 }
