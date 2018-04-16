@@ -158,5 +158,10 @@ func getDefaultFormatter(log Logger, v interface{}) Formatter {
 				Rows:    rows,
 			}
 		},
+		Columns: []Column{
+			{
+				Name: "RAW",
+			},
+		},
 	}
 }

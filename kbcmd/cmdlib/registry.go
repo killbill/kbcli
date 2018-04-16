@@ -163,7 +163,6 @@ func (r *App) toAction(fn HandlerFn) func(c *cli.Context) error {
 		authWriter := httptransport.BasicAuth(o.Username, o.Password)
 		o.client = kbclient.New(trp, strfmt.Default, authWriter, kbclient.KillbillDefaults{})
 
-		registerDefaultFormatters()
 		// Set defaults
 
 		apiKey := o.APIKey

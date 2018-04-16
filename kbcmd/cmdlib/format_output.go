@@ -37,6 +37,16 @@ type Output struct {
 	Rows []OutputRow
 }
 
+// Merge merges given output into the current one.
+func (out *Output) Merge(no Output) {
+	if len(out.Columns) != len(no.Columns) {
+		panic(fmt.Errorf("columns don't match. %#v vs %#v", out.Columns, no.Columns))
+	}
+	for _, r := range no.Rows {
+		out.Rows = append(out.Rows, r)
+	}
+}
+
 // NewOutput creates new output
 func NewOutput(f Formatter) Output {
 	o := Output{}
@@ -50,7 +60,8 @@ func NewOutput(f Formatter) Output {
 func (out *Output) applyFormatter(log Logger, v interface{}, fo FormatOptions, f Formatter) error {
 	// For custom formatters, just run and return.
 	if f.CustomFn != nil {
-		*out = f.CustomFn(v, fo)
+		no := f.CustomFn(v, fo)
+		out.Merge(no)
 		return nil
 	}
 
