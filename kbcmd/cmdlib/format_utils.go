@@ -154,7 +154,8 @@ func getDefaultFormatter(log Logger, v interface{}) Formatter {
 				})
 			}
 			return Output{
-				Rows: rows,
+				Columns: []string{"RAW"},
+				Rows:    rows,
 			}
 		},
 	}
