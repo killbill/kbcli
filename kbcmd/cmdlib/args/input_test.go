@@ -97,7 +97,7 @@ func TestInputArg_Split(t *testing.T) {
 		{"foo=bar", "foo", "bar", ""},
 		{"foo=foo bar", "foo", "foo bar", ""},
 		{"foo=", "foo", "", ""},
-		{"foo", "", "", "Invalid input. Expecting PROPERTY=VALUE"},
+		{"foo", "", "", "Invalid input foo. Expecting PROPERTY=VALUE"},
 	}
 
 	for _, tc := range testConfigs {

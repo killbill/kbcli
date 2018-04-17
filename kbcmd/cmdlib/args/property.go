@@ -14,6 +14,21 @@ var defaultProperties = map[string]bool{
 	"xkillbillreason":    true,
 }
 
+// loadProperty loads property value to the target struct
+func loadProperty(val reflect.Value, p Property, fieldMap map[string]reflect.StructField, valueToSet string) error {
+	ft, ok := fieldMap[p.NameLower()]
+	if !ok {
+		panic(fmt.Errorf("property %s not found in the object", p.Name))
+	}
+
+	f := val.FieldByIndex(ft.Index)
+	if !f.CanSet() {
+		panic(fmt.Errorf("readonly property %s", ft.Name))
+	}
+
+	return setFieldValue(f, ft, valueToSet)
+}
+
 // loadPropertiesFromInput loads key value pairs into target object.
 // property names must match
 func loadPropertiesFromInput(obj interface{}, properties Properties, inputs Inputs) error {
@@ -25,28 +40,40 @@ func loadPropertiesFromInput(obj interface{}, properties Properties, inputs Inpu
 	fieldMap := toFieldsMap(getStructFields(val.Type()))
 	propMap := properties.ToMap()
 
-	for _, inp := range inputs {
+	// Set up defaults
+	for _, p := range properties {
+		if p.Default != "" {
+			err := loadProperty(val, p, fieldMap, p.Default)
+			if err != nil {
+				return err
+			}
+		}
+	}
 
-		_, ok := propMap[inp.KeyLower()]
+	suppliedProperties := map[string]bool{}
+	for _, inp := range inputs {
+		suppliedProperties[inp.KeyLower()] = true
+		p, ok := propMap[inp.KeyLower()]
 		if !ok {
 			return fmt.Errorf("property %s not found", inp.Key)
 		}
-
-		ft, ok := fieldMap[inp.KeyLower()]
-		if !ok {
-			panic(fmt.Errorf("property %s not found in the object", inp.Key))
-		}
-
-		f := val.FieldByIndex(ft.Index)
-		if !f.CanSet() {
-			panic(fmt.Errorf("readonly property %s", ft.Name))
-		}
-
-		err := setFieldValue(f, ft, inp.Value)
+		err := loadProperty(val, p, fieldMap, inp.Value)
 		if err != nil {
 			return err
 		}
 	}
+
+	missingProperties := []string{}
+	for _, p := range properties {
+		if p.Required && !suppliedProperties[p.NameLower()] {
+			missingProperties = append(missingProperties, p.Name)
+		}
+	}
+
+	if len(missingProperties) > 0 {
+		return fmt.Errorf("Required properties are missing: %s", strings.Join(missingProperties, ","))
+	}
+
 	return nil
 }
 
@@ -81,7 +108,7 @@ func GenerateUsageString(obj interface{}, properties Properties) string {
 	val := reflect.Indirect(reflect.ValueOf(obj))
 	fieldMap := toFieldsMap(getStructFields(val.Type()))
 
-	var result []string
+	var result = []string{""}
 	for _, p := range properties {
 		f, ok := fieldMap[p.NameLower()]
 		if !ok {
@@ -97,13 +124,19 @@ func GenerateUsageString(obj interface{}, properties Properties) string {
 			panic(fmt.Errorf("unsupported type %s for property %s", fType.String(), f.Name))
 		}
 
+		var line string
 		if p.Required {
-			result = append(result, fmt.Sprintf("%s=%s", f.Name, handler.UsageString))
+			line = fmt.Sprintf("%s=%s", f.Name, handler.UsageString)
 		} else {
-			result = append(result, fmt.Sprintf("[%s=%s]", f.Name, handler.UsageString))
+			line = fmt.Sprintf("[%s=%s]", f.Name, handler.UsageString)
 		}
+		if p.Default != "" {
+			line += fmt.Sprintf("    Default: %s", p.Default)
+		}
+		result = append(result, line)
+
 	}
-	return strings.Join(result, " ")
+	return strings.Join(result, "\n         ")
 }
 
 // GetPropetyList returns all properties in a given object

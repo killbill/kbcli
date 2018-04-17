@@ -73,10 +73,6 @@ func getAccount(ctx context.Context, o *cmdlib.Options) error {
 }
 
 func createAccount(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) < 4 {
-		return cmdlib.ErrorInvalidArgs
-	}
-
 	accToCreate := &kbmodel.Account{}
 	err := args.LoadProperties(accToCreate, createAccountPropertyList, o.Args)
 	if err != nil {
@@ -99,7 +95,7 @@ func createAccount(ctx context.Context, o *cmdlib.Options) error {
 }
 
 func updateAccount(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) < 1 {
+	if len(o.Args) < 2 {
 		return cmdlib.ErrorInvalidArgs
 	}
 	key := o.Args[0]
@@ -128,6 +124,7 @@ func updateAccount(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
+// RegisterAccountCommands registers all account commands.
 func RegisterAccountCommands(r *cmdlib.App) {
 	// Register formatters
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.Account{}), accountFormatter)

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"strconv"
 	"time"
 
 	"github.com/go-openapi/strfmt"
@@ -11,9 +12,14 @@ import (
 	"github.com/killbill/kbcli/kbclient/invoice"
 
 	"github.com/killbill/kbcli/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/kbcmd/cmdlib/args"
 	"github.com/killbill/kbcli/kbcmd/kblib"
 	"github.com/killbill/kbcli/kbmodel"
 	"github.com/urfave/cli"
+)
+
+var (
+	getInvoiceProperties args.Properties
 )
 
 var invoiceItemFormatter = cmdlib.Formatter{
@@ -87,6 +93,48 @@ func listAccountInvoices(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
+func getInvoice(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) < 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+	invoiceIDOrNumber := o.Args[0]
+
+	if strfmt.IsUUID(invoiceIDOrNumber) {
+		params := &invoice.GetInvoiceParams{
+			InvoiceID: strfmt.UUID(invoiceIDOrNumber),
+		}
+		err := args.LoadProperties(params, getInvoiceProperties, o.Args[1:])
+		if err != nil {
+			return err
+		}
+		resp, err := o.Client().Invoice.GetInvoice(ctx, params)
+		if err != nil {
+			return err
+		}
+
+		o.Print(resp.Payload)
+	} else {
+		params := &invoice.GetInvoiceByNumberParams{}
+		invoiceNumber, err := strconv.ParseInt(invoiceIDOrNumber, 10, 64)
+		if err != nil {
+			return err
+		}
+		params.InvoiceNumber = int32(invoiceNumber)
+		err = args.LoadProperties(params, getInvoiceProperties, o.Args[1:])
+		if err != nil {
+			return err
+		}
+		resp, err := o.Client().Invoice.GetInvoiceByNumber(ctx, params)
+		if err != nil {
+			return err
+		}
+
+		o.Print(resp.Payload)
+	}
+
+	return nil
+}
+
 func dryRunInvoice(ctx context.Context, o *cmdlib.Options) error {
 	if len(o.Args) != 2 {
 		return cmdlib.ErrorInvalidArgs
@@ -141,6 +189,22 @@ func registerInvoicesCommands(r *cmdlib.App) {
 		Usage:     "list all invoices for a given account",
 		ArgsUsage: "ACCOUNT",
 	}, listAccountInvoices)
+
+	// get invoice (Both getInvoice and getInvoiceByNumber share the same properties)
+	getInvoiceProperties = args.GetPropetyList(&invoice.GetInvoiceParams{})
+	getInvoiceProperties.Remove("InvoiceID")
+	getInvoiceProperties.Get("WithItems").Default = "True"
+
+	getInvoiceUsage := args.GenerateUsageString(&invoice.GetInvoiceParams{}, getInvoiceProperties)
+	r.Register("invoices", cli.Command{
+		Name:  "get",
+		Usage: "get invoice",
+		ArgsUsage: fmt.Sprintf(`INVOICE_ID %s
+
+   For e.g.,
+	   kbcmd invoices get 57f3da8e-6125-43a5-9a38-7b448b15da83
+	   kbcmd invoices get 2`, getInvoiceUsage),
+	}, getInvoice)
 
 	// DryRun invoices
 	r.Register("invoices", cli.Command{

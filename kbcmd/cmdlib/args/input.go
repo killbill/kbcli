@@ -81,7 +81,7 @@ type InputArg string
 func (ia InputArg) Split() (string, string, error) {
 	comps := strings.Split(string(ia), "=")
 	if len(comps) != 2 {
-		return "", "", fmt.Errorf("Invalid input. Expecting PROPERTY=VALUE")
+		return "", "", fmt.Errorf("Invalid input %s. Expecting PROPERTY=VALUE", string(ia))
 	}
 	return comps[0], comps[1], nil
 }

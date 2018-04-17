@@ -103,7 +103,7 @@ func TestGetPropetyList(t *testing.T) {
 
 func TestGenerateUsageString_Simple(t *testing.T) {
 	result := GenerateUsageString(&testObj{}, propertyList)
-	exp := "AccountID=STRING ParentID=STRING [CompanyName=STRING] [IsDefault={True|False}] [IsDefaultPtr={True|False}] [UniqueID=UUID] [UniqueIDPtr=UUID] [StartTime=DATETIME] [EndTime=DATETIME]"
+	exp := "\n         AccountID=STRING\n         ParentID=STRING\n         [CompanyName=STRING]\n         [IsDefault={True|False}]\n         [IsDefaultPtr={True|False}]\n         [UniqueID=UUID]\n         [UniqueIDPtr=UUID]\n         [StartTime=DATETIME]\n         [EndTime=DATETIME]"
 	if diff := cmp.Diff(exp, result); diff != "" {
 		t.Fatal(diff)
 	}
