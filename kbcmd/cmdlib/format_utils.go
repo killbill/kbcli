@@ -133,7 +133,9 @@ func printColumns(out Output, fo FormatOptions, indent string) ([]string, error)
 	return rawRows, nil
 }
 
-func getDefaultFormatter(log Logger, v interface{}) Formatter {
+// getFormatter returns formatter for the given type.
+// If formatter is not registered, it will return the default formatter.
+func getFormatter(log Logger, v interface{}) Formatter {
 	tp := reflect.TypeOf(v)
 	if tp.Kind() == reflect.Slice {
 		tp = tp.Elem()
@@ -143,7 +145,7 @@ func getDefaultFormatter(log Logger, v interface{}) Formatter {
 		return f
 	}
 
-	log.Warningf("formatter for type %s not found", reflect.TypeOf(v))
+	log.Warningf("formatter for type %s not found, returning default", reflect.TypeOf(v))
 	return Formatter{
 		CustomFn: func(v interface{}, fo FormatOptions) Output {
 			contents := MarshalJSON(v)

@@ -43,7 +43,7 @@ func (o *Options) Outputln(format string, args ...interface{}) {
 
 // Print writes formatted output of given resource
 func (o *Options) Print(v interface{}) {
-	rows, err := getFormattedOutput(o.Log, v, *o.FO, getDefaultFormatter(o.Log, v))
+	rows, err := getFormattedOutput(o.Log, v, *o.FO, getFormatter(o.Log, v))
 	if err != nil {
 		o.out.Write([]byte(fmt.Sprintf("%v\n", err)))
 		return

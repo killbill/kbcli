@@ -3,6 +3,7 @@ package args
 import (
 	"fmt"
 	"reflect"
+	"sort"
 	"strings"
 )
 
@@ -14,7 +15,79 @@ var defaultProperties = map[string]bool{
 	"xkillbillreason":    true,
 }
 
-// loadProperty loads property value to the target struct
+// Property represents a single key/value pair that is used to collect input
+// from user. For ex., in a command, a property represents user input.
+// Since many killbill APIs have tons of properties, it is tedious and error prone
+// to define each property manually. So, we also provide helpers to load properties
+// from a given struct.
+type Property struct {
+	Name     string // Name of the property. The name should match the struct field name.
+	Required bool   // Specifies if the property is required.
+	Default  string // Default value for the property.
+}
+
+// NameLower returns lowercase  name
+func (p Property) NameLower() string {
+	return strings.ToLower(p.Name)
+}
+
+// Properties - list of properties.
+type Properties []Property
+
+// ToMap returns map.
+func (pl *Properties) ToMap() map[string]Property {
+	m := map[string]Property{}
+	for _, p := range *pl {
+		m[p.NameLower()] = p
+	}
+	return m
+}
+
+// Remove removes the given property from the list
+func (pl *Properties) Remove(propName string) {
+	propList := []Property(*pl)
+	for i, p := range propList {
+		if p.NameLower() == strings.ToLower(propName) {
+			*pl = append(propList[0:i], propList[i+1:]...)
+			return
+		}
+	}
+	panic(fmt.Errorf("property %s not found", propName))
+}
+
+// Get returns the property by name.
+func (pl *Properties) Get(propName string) *Property {
+	propList := (*[]Property)(pl)
+	for i := range *propList {
+		p := &(*propList)[i]
+		if p.NameLower() == strings.ToLower(propName) {
+			return p
+		}
+	}
+	panic(fmt.Sprintf("property %s not found", propName))
+}
+
+// Sort sorts the properties
+func (pl *Properties) Sort(moveRequiredPropertiesFirst bool, alphabeticSort bool) {
+	propList := []Property(*pl)
+	sort.SliceStable(propList, func(i, j int) bool {
+		x := propList[i]
+		y := propList[j]
+		if moveRequiredPropertiesFirst {
+			if x.Required && !y.Required {
+				return j < i
+			} else if y.Required && !x.Required {
+				return i < j
+			}
+		}
+		if alphabeticSort {
+			return strings.Compare(x.NameLower(), y.NameLower()) < 0
+		}
+		return i < j
+	})
+}
+
+// loadProperty loads property value to the target struct.
 func loadProperty(val reflect.Value, propName string, valueToSet string) bool {
 	for i := 0; i < val.Type().NumField(); i++ {
 		ft := val.Type().Field(i)
@@ -42,7 +115,7 @@ func loadProperty(val reflect.Value, propName string, valueToSet string) bool {
 }
 
 // loadPropertiesFromInput loads key value pairs into target object.
-// property names must match
+// If a required property is not found, then error is raised.
 func loadPropertiesFromInput(obj interface{}, properties Properties, inputs Inputs) error {
 	if reflect.TypeOf(obj).Kind() != reflect.Ptr {
 		panic(fmt.Sprintf("invalid object. expecting pointer to struct. got - %#v", reflect.TypeOf(obj)))
@@ -95,20 +168,23 @@ func LoadProperties(obj interface{}, properties Properties, argsList []string) e
 	return loadPropertiesFromInput(obj, properties, inputs)
 }
 
-// GenerateUsageString parses given object and returns the usage string for properties.
+// GenerateUsageString generates usage string for given list of properties.
+// This can be used to generate usage strings for commands.
+//
 // For ex., given struct
 // type account struct
 //   AccountID string
 //   CompanyName string
+//   Email string
 // }
-// and call like this
-//   GenerateUsageString(&account{}, []string{"AccountID"})
-// Returns, AccountID=STRING [CompanyName=STRING]
 //
-// filter can be
-//   +PROP_NAME - include, required
-//   -PROP_NAME - exclude
-//   -          - exclude all but the included ones
+// and call like this
+//   GenerateUsageString(&account{}, []Property{{Name: "AccountID", Required: true},
+//	{Name: "CompanyName"}})
+//
+// Returns:
+//   AccountID=STRING [CompanyName=STRING]
+//
 func GenerateUsageString(obj interface{}, properties Properties) string {
 	if reflect.TypeOf(obj).Kind() != reflect.Ptr {
 		panic(fmt.Sprintf("invalid object. expecting pointer to struct. got - %#v", reflect.TypeOf(obj)))
@@ -180,7 +256,8 @@ func ValidatePropertyList(obj interface{}, props Properties) {
 	}
 }
 
-// getStructFields returns list of struct fields that can be set through reflection.
+// getStructFields returns list of struct fields in a given struct.
+// All nested anonymous types are also processed
 func getStructFields(tp reflect.Type) []reflect.StructField {
 	if tp.Kind() != reflect.Struct {
 		panic(fmt.Sprintf("invalid object. expecting struct type, got %v instead", tp.Kind().String()))
@@ -210,6 +287,7 @@ func toFieldsMap(fields []reflect.StructField) map[string]reflect.StructField {
 	return m
 }
 
+// Returns true if the type is supported.
 func isTypeSupported(tp reflect.Type) bool {
 	if tp.Kind() == reflect.Ptr {
 		tp = tp.Elem()
@@ -217,6 +295,7 @@ func isTypeSupported(tp reflect.Type) bool {
 	return supportedTypes[tp] != nil
 }
 
+// setFieldValue parses the given value and sets the value to the target field.
 func setFieldValue(f reflect.Value, ft reflect.StructField, val string) error {
 	if !isTypeSupported(f.Type()) {
 		return fmt.Errorf("type %s not supported", ft.Name)

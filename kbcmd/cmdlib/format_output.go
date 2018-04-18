@@ -90,7 +90,7 @@ func (out *Output) applyFormatter(log Logger, v interface{}, fo FormatOptions, f
 		if subItem.Formatter != nil {
 			sf = *subItem.Formatter
 		} else {
-			sf = getDefaultFormatter(log, si)
+			sf = getFormatter(log, si)
 		}
 
 		subOut := NewOutput(sf)

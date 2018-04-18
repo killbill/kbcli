@@ -12,8 +12,8 @@ For users new to go, you need to have go compiler installed. If not,
 
 ## Installing kbcmd
 ```bash
-go get -u src/github.com/killbill/kbcli/kbcmd
-go install src/github.com/killbill/kbcli/kbcmd
+go get -u github.com/killbill/kbcli/kbcmd
+go install github.com/killbill/kbcli/kbcmd
 
 # For bash completion
 source $GOPATH/src/github.com/killbill/kbcli/kbcmd/bash-autocomplete
@@ -31,3 +31,9 @@ The following walkthrough will walk you through the steps to create new account 
 and then generate invoice for it.
 
 [kbcmd walkthrough](../docs/kbcmd/kbcmd-walkthrough.md)
+
+## Development
+For development, clone the repository to your git workspace under 
+`$GOPATH/src/github.com/killbill/kbcli` and then run `go get -t ./...`
+to install the dependencies. We use Visual Studio Code as IDE, but
+others work as well. Make sure to run the tests.

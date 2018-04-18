@@ -1,6 +1,7 @@
 #! /bin/bash
 
-# To enable autocomplete on startup, copy this file to "/etc/bash_completion.d" directory.
+# To enable autocomplete on startup, 
+#  rename this file to kbcmd and copy this file to "/etc/bash_completion.d" directory.
 
 PROG=kbcmd
 
