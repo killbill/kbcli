@@ -82,8 +82,8 @@ func TestLoadProperties(t *testing.T) {
 	}
 }
 
-func TestGetPropetyList(t *testing.T) {
-	result := GetPropetyList(&testObj{})
+func TestGetProperties(t *testing.T) {
+	result := GetProperties(&testObj{})
 	exp := []Property{
 		{Name: "AccountID"},
 		{Name: "ParentID"},

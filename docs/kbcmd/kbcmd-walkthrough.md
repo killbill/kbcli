@@ -10,6 +10,7 @@ the appropriate KB_* variables. (For details run `kbcmd -h`)
 ```sh
 # Set the api key and secret so future calls will use this.
 # These exports ensure kbcmd uses them for future calls.
+# Note: You can also pass these in explicitly to each command through flags.
 export KB_API_KEY=tenant1key
 export KB_API_SECRET=tenant1secret
 
@@ -25,27 +26,32 @@ tenant2      tenant2key tenant2secret
 This is the default output of kbcmd. To change formatting option, you can specify -f option.
 
 ## Step 2: Upload catalog
-Upload a sample catalog to the tentan.
+Upload a sample catalog to the created tenant.
 ```sh
 kbcmd catalog upload docs/samples/simple-catalog.xml
 ```
+
+Now the catalog has been uploaded.
 
 ## Step 3: Create new Account
 Let's create a new killbill account.
 
 ```sh
-kbcmd johndoe "John Doe" "john@blueboxapis.com"
+kbcmd acc create Name="John Doe" ExternalKey=johndoe Email=johndoe@gmail.com Company="Stark" Currency=USD
 ```
 
 This command will print the created account
 ```sh
-NAME     EXTERNAL_KEY ACCOUNT_ID                           EMAIL                BALANCE CURRENCY
-John Doe johndoe      4fc8f18c-1a6f-4c63-a486-f3ca03ef8a49 john@blueboxapis.com <nil>   USD
+NAME     EXTERNAL_KEY ACCOUNT_ID                           EMAIL             BALANCE CURRENCY
+John Doe johndoe      e4f47a6b-9975-4922-9c5a-baae7ef4d03c johndoe@gmail.com <nil>   USD
 ```
+
+If you want to get help for specific command, just specify `-h` option. For ex.,
+`kbcmd acc create -h` will print help for create command.
 
 ## Step 4: Create new subscription
 ```sh
-kbcmd subscriptions create johndoe bundle1 simple simple-monthly default
+kbcmd subscriptions create ExternalKey=bundle1 Account=johndoe ProductName=simple PlanName=simple-monthly PriceList=default
 ```
 This will create a new bundle and print the output. 
 ```

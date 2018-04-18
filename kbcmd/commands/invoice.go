@@ -191,7 +191,7 @@ func registerInvoicesCommands(r *cmdlib.App) {
 	}, listAccountInvoices)
 
 	// get invoice (Both getInvoice and getInvoiceByNumber share the same properties)
-	getInvoiceProperties = args.GetPropetyList(&invoice.GetInvoiceParams{})
+	getInvoiceProperties = args.GetProperties(&invoice.GetInvoiceParams{})
 	getInvoiceProperties.Remove("InvoiceID")
 	getInvoiceProperties.Get("WithItems").Default = "True"
 

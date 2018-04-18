@@ -84,7 +84,7 @@ func (r *App) init() {
 		cli.StringFlag{
 			Name:        "host",
 			Value:       "127.0.0.1:8080",
-			Usage:       "Value to use in X-Killbill-CreatedBy",
+			Usage:       "Value to use in X-Killbill-Host",
 			Destination: &r.o.Host,
 			EnvVar:      "KB_HOST",
 		},
@@ -111,15 +111,13 @@ func (r *App) init() {
 		},
 		cli.StringFlag{
 			Name:        "api_key",
-			Value:       "",
-			Usage:       "Killbill API key",
+			Usage:       "Killbill API key X-Killbill-ApiKey",
 			Destination: &r.o.APIKey,
 			EnvVar:      "KB_API_KEY",
 		},
 		cli.StringFlag{
 			Name:        "api_secret",
-			Value:       "",
-			Usage:       "Killbill API secret (can be set using $KB_API_SECRET)",
+			Usage:       "Killbill API secret X-Killbill-ApiSecret",
 			Destination: &r.o.APISecret,
 			EnvVar:      "KB_API_SECRET",
 		},

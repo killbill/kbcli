@@ -154,7 +154,7 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 	// Payment method
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.PaymentMethod{}), paymentMethodFormatter)
 
-	addAccountPaymentMethodProperties = args.GetPropetyList(&kbmodel.PaymentMethod{})
+	addAccountPaymentMethodProperties = args.GetProperties(&kbmodel.PaymentMethod{})
 
 	// List payment methods
 	r.Register("accounts", cli.Command{

@@ -152,10 +152,11 @@ func RegisterAccountCommands(r *cmdlib.App) {
 	}, listAccounts)
 
 	// Create account
-	createAccountPropertyList = args.GetPropetyList(&kbmodel.Account{})
+	createAccountPropertyList = args.GetProperties(&kbmodel.Account{})
 	createAccountPropertyList.Get("ExternalKey").Required = true
 	createAccountPropertyList.Get("Email").Required = true
 	createAccountPropertyList.Get("Name").Required = true
+	createAccountPropertyList.Get("Currency").Default = "USD"
 	createAccountPropertyList.Sort(true, true)
 
 	createAccountsUsage := fmt.Sprintf(`%s
@@ -173,7 +174,7 @@ func RegisterAccountCommands(r *cmdlib.App) {
 	}, createAccount)
 
 	// Update account
-	updateAccountPropertyList = args.GetPropetyList(&kbmodel.Account{})
+	updateAccountPropertyList = args.GetProperties(&kbmodel.Account{})
 	// Following properties can't change
 	updateAccountPropertyList.Remove("ExternalKey")
 	updateAccountPropertyList.Remove("AccountID")
@@ -185,9 +186,9 @@ func RegisterAccountCommands(r *cmdlib.App) {
 
 	updateAccountsUsage := fmt.Sprintf(`ACCOUNT %s
 
-		For ex.,:
-				kbcmd accounts create ExternalKey=prem1 Name="Prem Ramanathan" Email=prem@prem.com Currency=USD
-				`,
+        For ex.,:
+                kbcmd accounts create ExternalKey=prem1 Name="Prem Ramanathan" Email=prem@prem.com Currency=USD
+                `,
 		args.GenerateUsageString(&kbmodel.Account{}, updateAccountPropertyList))
 
 	r.Register("accounts", cli.Command{

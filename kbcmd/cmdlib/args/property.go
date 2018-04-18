@@ -15,18 +15,30 @@ var defaultProperties = map[string]bool{
 }
 
 // loadProperty loads property value to the target struct
-func loadProperty(val reflect.Value, p Property, fieldMap map[string]reflect.StructField, valueToSet string) error {
-	ft, ok := fieldMap[p.NameLower()]
-	if !ok {
-		panic(fmt.Errorf("property %s not found in the object", p.Name))
-	}
+func loadProperty(val reflect.Value, propName string, valueToSet string) bool {
+	for i := 0; i < val.Type().NumField(); i++ {
+		ft := val.Type().Field(i)
+		f := val.FieldByIndex(ft.Index)
 
-	f := val.FieldByIndex(ft.Index)
-	if !f.CanSet() {
-		panic(fmt.Errorf("readonly property %s", ft.Name))
-	}
+		if strings.ToLower(ft.Name) == strings.ToLower(propName) {
+			if !f.CanSet() {
+				panic(fmt.Errorf("readonly property %s", ft.Name))
+			}
+			err := setFieldValue(f, ft, valueToSet)
+			if err != nil {
+				return false
+			}
+			return true
+		}
 
-	return setFieldValue(f, ft, valueToSet)
+		if ft.Type.Kind() == reflect.Struct {
+			success := loadProperty(f, propName, valueToSet)
+			if success {
+				return success
+			}
+		}
+	}
+	return false
 }
 
 // loadPropertiesFromInput loads key value pairs into target object.
@@ -37,15 +49,13 @@ func loadPropertiesFromInput(obj interface{}, properties Properties, inputs Inpu
 	}
 
 	val := reflect.Indirect(reflect.ValueOf(obj))
-	fieldMap := toFieldsMap(getStructFields(val.Type()))
 	propMap := properties.ToMap()
 
 	// Set up defaults
 	for _, p := range properties {
 		if p.Default != "" {
-			err := loadProperty(val, p, fieldMap, p.Default)
-			if err != nil {
-				return err
+			if !loadProperty(val, p.Name, p.Default) {
+				return fmt.Errorf("property %s not found in type %s", p.Name, val.Type().String())
 			}
 		}
 	}
@@ -57,9 +67,8 @@ func loadPropertiesFromInput(obj interface{}, properties Properties, inputs Inpu
 		if !ok {
 			return fmt.Errorf("property %s not found", inp.Key)
 		}
-		err := loadProperty(val, p, fieldMap, inp.Value)
-		if err != nil {
-			return err
+		if !loadProperty(val, p.Name, inp.Value) {
+			return fmt.Errorf("property %s not found in type %s", p.Name, val.Type().String())
 		}
 	}
 
@@ -139,8 +148,8 @@ func GenerateUsageString(obj interface{}, properties Properties) string {
 	return strings.Join(result, "\n         ")
 }
 
-// GetPropetyList returns all properties in a given object
-func GetPropetyList(obj interface{}) Properties {
+// GetProperties returns all properties in a given object
+func GetProperties(obj interface{}) Properties {
 	if reflect.TypeOf(obj).Kind() != reflect.Ptr {
 		panic(fmt.Sprintf("invalid object. expecting pointer to struct. got - %#v", reflect.TypeOf(obj)))
 	}
@@ -157,6 +166,20 @@ func GetPropetyList(obj interface{}) Properties {
 	return result
 }
 
+// ValidatePropertyList validates given list is valid for a given object
+func ValidatePropertyList(obj interface{}, props Properties) {
+	propMap := map[string]bool{}
+	for _, p := range props {
+		propMap[p.NameLower()] = true
+	}
+
+	for _, p := range GetProperties(obj) {
+		if !propMap[p.NameLower()] {
+			panic(fmt.Errorf("Property '%s' doesn't exist in type %s", p.Name, reflect.TypeOf(obj).String()))
+		}
+	}
+}
+
 // getStructFields returns list of struct fields that can be set through reflection.
 func getStructFields(tp reflect.Type) []reflect.StructField {
 	if tp.Kind() != reflect.Struct {
@@ -168,6 +191,9 @@ func getStructFields(tp reflect.Type) []reflect.StructField {
 		f := tp.Field(i)
 		if isTypeSupported(f.Type) {
 			fields = append(fields, f)
+		}
+		if f.Type.Kind() == reflect.Struct && f.Anonymous {
+			fields = append(fields, getStructFields(f.Type)...)
 		}
 	}
 

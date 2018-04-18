@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"time"
 
 	"github.com/go-openapi/strfmt"
 )
@@ -105,6 +106,23 @@ var supportedTypes = map[reflect.Type]*typeHandler{
 				f.Set(reflect.ValueOf(&dateTime))
 			} else {
 				f.Set(reflect.ValueOf(dateTime))
+			}
+			return nil
+		},
+	},
+	reflect.TypeOf(strfmt.Date{}): &typeHandler{
+		Type:        reflect.TypeOf(strfmt.Date{}),
+		UsageString: "DATE",
+		SetterFn: func(f reflect.Value, val string) error {
+			date, err := time.Parse(strfmt.RFC3339FullDate, val)
+			if err != nil {
+				return fmt.Errorf("Value %s is not in date format. %v", val, err)
+			}
+			strDate := strfmt.Date(date)
+			if f.Type().Kind() == reflect.Ptr {
+				f.Set(reflect.ValueOf(&strDate))
+			} else {
+				f.Set(reflect.ValueOf(strDate))
 			}
 			return nil
 		},
