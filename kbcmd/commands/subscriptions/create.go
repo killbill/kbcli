@@ -76,8 +76,7 @@ func registerCreateCommand(r *cmdlib.App) {
 		ArgsUsage: fmt.Sprintf(`%s
       
        For e.g.,
-		kbcmd subscriptions create ExternalKey=bundle1 AccountID=johndoe1 ProductName=simple PlanName=simple-monthly PriceList=default`,
+         kbcmd subscriptions create Account=johndoe1 ExternalKey=bundle1 ProductName=simple PlanName=simple-monthly PriceList=default`,
 			usageString),
 	}, createSubscription)
-
 }
