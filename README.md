@@ -33,7 +33,7 @@ and the [sources are here](https://github.com/fieryorc/go-swagger).
 To generate, 
 
 ```bash
-swagger generate client -f swagger.json -m kbmodel -c kbclient --default-scheme=http --skip-validation
+swagger generate client -f swagger.json -m kbmodel -c kbclient --default-scheme=http
 ```
 
 ## Kill bill command line tool (kbcmd)

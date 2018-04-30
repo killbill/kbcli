@@ -789,6 +789,53 @@ func (a *Client) GetAccount(ctx context.Context, params *GetAccountParams) (*Get
 }
 
 /*
+GetAccountAuditLogs retrieves audit logs by account id
+*/
+func (a *Client) GetAccountAuditLogs(ctx context.Context, params *GetAccountAuditLogsParams) (*GetAccountAuditLogsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAccountAuditLogsParams()
+	}
+	params.Context = ctx
+	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
+		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
+		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getAccountAuditLogs",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/accounts/{accountId}/auditLogs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetAccountAuditLogsReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetAccountAuditLogsOK), nil
+
+}
+
+/*
 GetAccountBundles retrieves bundles for account
 */
 func (a *Client) GetAccountBundles(ctx context.Context, params *GetAccountBundlesParams) (*GetAccountBundlesOK, error) {

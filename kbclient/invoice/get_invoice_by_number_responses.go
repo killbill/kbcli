@@ -62,7 +62,7 @@ type GetInvoiceByNumberOK struct {
 }
 
 func (o *GetInvoiceByNumberOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceNumber}][%d] getInvoiceByNumberOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /1.0/kb/invoices/byNumber/{invoiceNumber}][%d] getInvoiceByNumberOK  %+v", 200, o.Payload)
 }
 
 func (o *GetInvoiceByNumberOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -90,7 +90,7 @@ type GetInvoiceByNumberNotFound struct {
 }
 
 func (o *GetInvoiceByNumberNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceNumber}][%d] getInvoiceByNumberNotFound ", 404)
+	return fmt.Sprintf("[GET /1.0/kb/invoices/byNumber/{invoiceNumber}][%d] getInvoiceByNumberNotFound ", 404)
 }
 
 func (o *GetInvoiceByNumberNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

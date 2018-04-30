@@ -1164,7 +1164,7 @@ func (a *Client) GetInvoiceByNumber(ctx context.Context, params *GetInvoiceByNum
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoiceByNumber",
 		Method:             "GET",
-		PathPattern:        "/1.0/kb/invoices/{invoiceNumber}",
+		PathPattern:        "/1.0/kb/invoices/byNumber/{invoiceNumber}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
