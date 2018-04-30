@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/killbill/kbcli/kbcommon"
+
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
@@ -170,13 +172,23 @@ func (r *App) toAction(fn HandlerFn) func(c *cli.Context) error {
 		reason := ""
 
 		o.client.SetDefaults(kbclient.KillbillDefaults{
-			APIKey:    &apiKey,
-			APISecret: &apiSecret,
-			CreatedBy: &createdBy,
-			Comment:   &comment,
-			Reason:    &reason,
+			APIKey:         &apiKey,
+			APISecret:      &apiSecret,
+			CreatedBy:      &createdBy,
+			Comment:        &comment,
+			Reason:         &reason,
+			WithStackTrace: &o.PrintDebug,
 		})
 
-		return fn(r.ctx, &o)
+		err := fn(r.ctx, &o)
+		if err == nil {
+			return err
+		}
+		if o.PrintDebug {
+			if kberr, ok := err.(*kbcommon.KillbillError); ok {
+				o.Outputln("%s", kberr.FormatStackTrace())
+			}
+		}
+		return err
 	}
 }
