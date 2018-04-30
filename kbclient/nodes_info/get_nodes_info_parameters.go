@@ -61,9 +61,10 @@ func NewGetNodesInfoParamsWithHTTPClient(client *http.Client) *GetNodesInfoParam
 for the get nodes info operation typically these are written to a http.Request
 */
 type GetNodesInfoParams struct {
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get nodes info params
@@ -106,6 +107,13 @@ func (o *GetNodesInfoParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		return err
 	}
 	var res []error
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
+	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

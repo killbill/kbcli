@@ -35,6 +35,8 @@ type KillbillDefaults interface {
 	XKillbillComment() *string
 	// Default Reason. If not set explicitly in params, this will be used.
 	XKillbillReason() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -60,22 +62,49 @@ func (a *Client) AdjustInvoiceItem(ctx context.Context, params *AdjustInvoiceIte
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "adjustInvoiceItem",
 		Method:             "POST",
@@ -109,22 +138,41 @@ func (a *Client) CommitInvoice(ctx context.Context, params *CommitInvoiceParams)
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "commitInvoice",
 		Method:             "PUT",
@@ -158,22 +206,69 @@ func (a *Client) CreateExternalCharges(ctx context.Context, params *CreateExtern
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createExternalCharges",
 		Method:             "POST",
@@ -207,22 +302,45 @@ func (a *Client) CreateFutureInvoice(ctx context.Context, params *CreateFutureIn
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createFutureInvoice",
 		Method:             "POST",
@@ -256,22 +374,53 @@ func (a *Client) CreateInstantPayment(ctx context.Context, params *CreateInstant
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createInstantPayment",
 		Method:             "POST",
@@ -311,22 +460,45 @@ func (a *Client) CreateInvoiceCustomFields(ctx context.Context, params *CreateIn
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createInvoiceCustomFields",
 		Method:             "POST",
@@ -360,22 +532,45 @@ func (a *Client) CreateInvoiceTags(ctx context.Context, params *CreateInvoiceTag
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createInvoiceTags",
 		Method:             "POST",
@@ -409,22 +604,49 @@ func (a *Client) CreateMigrationInvoice(ctx context.Context, params *CreateMigra
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createMigrationInvoice",
 		Method:             "POST",
@@ -458,22 +680,49 @@ func (a *Client) DeleteCBA(ctx context.Context, params *DeleteCBAParams) (*Delet
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteCBA",
 		Method:             "DELETE",
@@ -507,22 +756,45 @@ func (a *Client) DeleteInvoiceCustomFields(ctx context.Context, params *DeleteIn
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteInvoiceCustomFields",
 		Method:             "DELETE",
@@ -556,22 +828,45 @@ func (a *Client) DeleteInvoiceTags(ctx context.Context, params *DeleteInvoiceTag
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteInvoiceTags",
 		Method:             "DELETE",
@@ -605,22 +900,49 @@ func (a *Client) GenerateDryRunInvoice(ctx context.Context, params *GenerateDryR
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "generateDryRunInvoice",
 		Method:             "POST",
@@ -660,10 +982,20 @@ func (a *Client) GetCatalogTranslation(ctx context.Context, params *GetCatalogTr
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCatalogTranslation",
 		Method:             "GET",
@@ -697,10 +1029,32 @@ func (a *Client) GetInvoice(ctx context.Context, params *GetInvoiceParams) (*Get
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoice",
 		Method:             "GET",
@@ -734,10 +1088,20 @@ func (a *Client) GetInvoiceAsHTML(ctx context.Context, params *GetInvoiceAsHTMLP
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoiceAsHTML",
 		Method:             "GET",
@@ -771,10 +1135,32 @@ func (a *Client) GetInvoiceByNumber(ctx context.Context, params *GetInvoiceByNum
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoiceByNumber",
 		Method:             "GET",
@@ -808,10 +1194,24 @@ func (a *Client) GetInvoiceCustomFields(ctx context.Context, params *GetInvoiceC
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoiceCustomFields",
 		Method:             "GET",
@@ -845,10 +1245,20 @@ func (a *Client) GetInvoiceMPTemplate(ctx context.Context, params *GetInvoiceMPT
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoiceMPTemplate",
 		Method:             "GET",
@@ -882,10 +1292,28 @@ func (a *Client) GetInvoiceTags(ctx context.Context, params *GetInvoiceTagsParam
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoiceTags",
 		Method:             "GET",
@@ -919,10 +1347,16 @@ func (a *Client) GetInvoiceTemplate(ctx context.Context, params *GetInvoiceTempl
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoiceTemplate",
 		Method:             "GET",
@@ -956,10 +1390,20 @@ func (a *Client) GetInvoiceTranslation(ctx context.Context, params *GetInvoiceTr
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoiceTranslation",
 		Method:             "GET",
@@ -993,10 +1437,32 @@ func (a *Client) GetInvoices(ctx context.Context, params *GetInvoicesParams) (*G
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoices",
 		Method:             "GET",
@@ -1030,10 +1496,32 @@ func (a *Client) GetPaymentsForInvoice(ctx context.Context, params *GetPaymentsF
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentsForInvoice",
 		Method:             "GET",
@@ -1067,22 +1555,45 @@ func (a *Client) ModifyInvoiceCustomFields(ctx context.Context, params *ModifyIn
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "modifyInvoiceCustomFields",
 		Method:             "PUT",
@@ -1116,10 +1627,36 @@ func (a *Client) SearchInvoices(ctx context.Context, params *SearchInvoicesParam
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "searchInvoices",
 		Method:             "GET",
@@ -1153,22 +1690,49 @@ func (a *Client) UploadCatalogTranslation(ctx context.Context, params *UploadCat
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadCatalogTranslation",
 		Method:             "POST",
@@ -1202,22 +1766,45 @@ func (a *Client) UploadInvoiceMPTemplate(ctx context.Context, params *UploadInvo
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadInvoiceMPTemplate",
 		Method:             "POST",
@@ -1251,22 +1838,45 @@ func (a *Client) UploadInvoiceTemplate(ctx context.Context, params *UploadInvoic
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadInvoiceTemplate",
 		Method:             "POST",
@@ -1300,22 +1910,49 @@ func (a *Client) UploadInvoiceTranslation(ctx context.Context, params *UploadInv
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadInvoiceTranslation",
 		Method:             "POST",
@@ -1349,22 +1986,41 @@ func (a *Client) VoidInvoice(ctx context.Context, params *VoidInvoiceParams) (*V
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "voidInvoice",
 		Method:             "PUT",

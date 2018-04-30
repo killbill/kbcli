@@ -75,9 +75,10 @@ type CancelScheduledPaymentTransactionByExternalKeyParams struct {
 	/*TransactionExternalKey*/
 	TransactionExternalKey string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the cancel scheduled payment transaction by external key params
@@ -225,6 +226,13 @@ func (o *CancelScheduledPaymentTransactionByExternalKeyParams) WriteToRequest(r 
 	qTransactionExternalKey := qrTransactionExternalKey
 	if qTransactionExternalKey != "" {
 		if err := r.SetQueryParam("transactionExternalKey", qTransactionExternalKey); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}

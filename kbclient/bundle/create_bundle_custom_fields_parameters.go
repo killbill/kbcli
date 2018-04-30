@@ -79,9 +79,10 @@ type CreateBundleCustomFieldsParams struct {
 	/*BundleID*/
 	BundleID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the create bundle custom fields params
@@ -244,6 +245,13 @@ func (o *CreateBundleCustomFieldsParams) WriteToRequest(r runtime.ClientRequest,
 	// path param bundleId
 	if err := r.SetPathParam("bundleId", o.BundleID.String()); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

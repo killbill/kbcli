@@ -94,9 +94,10 @@ type GetAccountTagsParams struct {
 	/*IncludedDeleted*/
 	IncludedDeleted *bool
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get account tags params
@@ -240,6 +241,13 @@ func (o *GetAccountTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 			}
 		}
 
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

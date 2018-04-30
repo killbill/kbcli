@@ -78,9 +78,10 @@ type DeleteInvoiceCustomFieldsParams struct {
 	/*InvoiceID*/
 	InvoiceID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the delete invoice custom fields params
@@ -248,6 +249,13 @@ func (o *DeleteInvoiceCustomFieldsParams) WriteToRequest(r runtime.ClientRequest
 	// path param invoiceId
 	if err := r.SetPathParam("invoiceId", o.InvoiceID.String()); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

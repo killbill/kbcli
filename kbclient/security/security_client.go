@@ -35,6 +35,8 @@ type KillbillDefaults interface {
 	XKillbillComment() *string
 	// Default Reason. If not set explicitly in params, this will be used.
 	XKillbillReason() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -60,15 +62,27 @@ func (a *Client) AddRoleDefinition(ctx context.Context, params *AddRoleDefinitio
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addRoleDefinition",
 		Method:             "POST",
@@ -102,15 +116,27 @@ func (a *Client) AddUserRoles(ctx context.Context, params *AddUserRolesParams) (
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addUserRoles",
 		Method:             "POST",
@@ -199,6 +225,9 @@ func (a *Client) GetRoleDefinition(ctx context.Context, params *GetRoleDefinitio
 	}
 	params.Context = ctx
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getRoleDefinition",
 		Method:             "GET",
@@ -229,6 +258,9 @@ func (a *Client) GetUserRoles(ctx context.Context, params *GetUserRolesParams) (
 	}
 	params.Context = ctx
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getUserRoles",
 		Method:             "GET",
@@ -262,15 +294,27 @@ func (a *Client) InvalidateUser(ctx context.Context, params *InvalidateUserParam
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "invalidateUser",
 		Method:             "DELETE",
@@ -304,15 +348,27 @@ func (a *Client) UpdateRoleDefinition(ctx context.Context, params *UpdateRoleDef
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "updateRoleDefinition",
 		Method:             "PUT",
@@ -346,15 +402,31 @@ func (a *Client) UpdateUserPassword(ctx context.Context, params *UpdateUserPassw
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "updateUserPassword",
 		Method:             "PUT",
@@ -388,15 +460,31 @@ func (a *Client) UpdateUserRoles(ctx context.Context, params *UpdateUserRolesPar
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "updateUserRoles",
 		Method:             "PUT",

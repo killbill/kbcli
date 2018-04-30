@@ -61,9 +61,10 @@ func NewGetCurrentUserPermissionsParamsWithHTTPClient(client *http.Client) *GetC
 for the get current user permissions operation typically these are written to a http.Request
 */
 type GetCurrentUserPermissionsParams struct {
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get current user permissions params
@@ -106,6 +107,13 @@ func (o *GetCurrentUserPermissionsParams) WriteToRequest(r runtime.ClientRequest
 		return err
 	}
 	var res []error
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
+	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

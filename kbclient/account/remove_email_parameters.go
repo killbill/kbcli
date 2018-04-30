@@ -77,9 +77,10 @@ type RemoveEmailParams struct {
 	/*Email*/
 	Email string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the remove email params
@@ -241,6 +242,13 @@ func (o *RemoveEmailParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 	// path param email
 	if err := r.SetPathParam("email", o.Email); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

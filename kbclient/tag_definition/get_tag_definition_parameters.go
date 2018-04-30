@@ -83,9 +83,10 @@ type GetTagDefinitionParams struct {
 	/*TagDefinitionID*/
 	TagDefinitionID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get tag definition params
@@ -202,6 +203,13 @@ func (o *GetTagDefinitionParams) WriteToRequest(r runtime.ClientRequest, reg str
 	// path param tagDefinitionId
 	if err := r.SetPathParam("tagDefinitionId", o.TagDefinitionID.String()); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

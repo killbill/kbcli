@@ -81,9 +81,10 @@ type AdjustInvoiceItemParams struct {
 	/*RequestedDate*/
 	RequestedDate *strfmt.Date
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the adjust invoice item params
@@ -273,6 +274,13 @@ func (o *AdjustInvoiceItemParams) WriteToRequest(r runtime.ClientRequest, reg st
 			}
 		}
 
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

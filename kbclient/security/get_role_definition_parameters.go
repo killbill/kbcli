@@ -65,9 +65,10 @@ type GetRoleDefinitionParams struct {
 	/*Role*/
 	Role string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get role definition params
@@ -125,6 +126,13 @@ func (o *GetRoleDefinitionParams) WriteToRequest(r runtime.ClientRequest, reg st
 	// path param role
 	if err := r.SetPathParam("role", o.Role); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

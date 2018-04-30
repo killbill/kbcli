@@ -69,9 +69,10 @@ type GetInvoiceMPTemplateParams struct {
 	/*Locale*/
 	Locale string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get invoice m p template params
@@ -161,6 +162,13 @@ func (o *GetInvoiceMPTemplateParams) WriteToRequest(r runtime.ClientRequest, reg
 	// path param locale
 	if err := r.SetPathParam("locale", o.Locale); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

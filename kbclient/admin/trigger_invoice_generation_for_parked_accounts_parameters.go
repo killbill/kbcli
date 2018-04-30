@@ -98,9 +98,10 @@ type TriggerInvoiceGenerationForParkedAccountsParams struct {
 	/*Offset*/
 	Offset *int64
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the trigger invoice generation for parked accounts params
@@ -284,6 +285,13 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) WriteToRequest(r runti
 			}
 		}
 
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

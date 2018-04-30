@@ -77,9 +77,10 @@ type CreateTagDefinitionParams struct {
 	/*Body*/
 	Body *kbmodel.TagDefinition
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the create tag definition params
@@ -224,6 +225,13 @@ func (o *CreateTagDefinitionParams) WriteToRequest(r runtime.ClientRequest, reg 
 
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}

@@ -269,6 +269,8 @@ type KillbillDefaults struct {
 	Comment *string
 	// XKillbillReason property
 	Reason *string
+	// withStackTrace property
+	WithStackTrace *bool
 }
 
 type defaultsImpl struct {
@@ -298,4 +300,9 @@ func (d *defaultsImpl) XKillbillComment() *string {
 // Default Reason. If not set explicitly in params, this will be used.
 func (d *defaultsImpl) XKillbillReason() *string {
 	return d.Reason
+}
+
+// Default WithStackTrace. If not set explicitly in params, this will be used.
+func (d *defaultsImpl) KillbillWithStackTrace() *bool {
+	return d.WithStackTrace
 }

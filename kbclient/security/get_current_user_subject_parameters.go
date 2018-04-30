@@ -61,9 +61,10 @@ func NewGetCurrentUserSubjectParamsWithHTTPClient(client *http.Client) *GetCurre
 for the get current user subject operation typically these are written to a http.Request
 */
 type GetCurrentUserSubjectParams struct {
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get current user subject params
@@ -106,6 +107,13 @@ func (o *GetCurrentUserSubjectParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
+	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

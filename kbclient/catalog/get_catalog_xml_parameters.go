@@ -69,9 +69,10 @@ type GetCatalogXMLParams struct {
 	/*RequestedDate*/
 	RequestedDate *strfmt.Date
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get catalog Xml params
@@ -172,6 +173,13 @@ func (o *GetCatalogXMLParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 			}
 		}
 
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

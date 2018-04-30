@@ -65,9 +65,10 @@ type GetUserRolesParams struct {
 	/*Username*/
 	Username string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get user roles params
@@ -125,6 +126,13 @@ func (o *GetUserRolesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 	// path param username
 	if err := r.SetPathParam("username", o.Username); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

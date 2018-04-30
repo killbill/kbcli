@@ -104,9 +104,10 @@ type GetAccountByKeyParams struct {
 	/*ExternalKey*/
 	ExternalKey string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get account by key params
@@ -279,6 +280,13 @@ func (o *GetAccountByKeyParams) WriteToRequest(r runtime.ClientRequest, reg strf
 	qExternalKey := qrExternalKey
 	if qExternalKey != "" {
 		if err := r.SetQueryParam("externalKey", qExternalKey); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}

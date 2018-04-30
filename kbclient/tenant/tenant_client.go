@@ -35,6 +35,8 @@ type KillbillDefaults interface {
 	XKillbillComment() *string
 	// Default Reason. If not set explicitly in params, this will be used.
 	XKillbillReason() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -60,15 +62,31 @@ func (a *Client) CreateTenant(ctx context.Context, params *CreateTenantParams) (
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createTenant",
 		Method:             "POST",
@@ -102,20 +120,36 @@ func (a *Client) DeletePerTenantConfiguration(ctx context.Context, params *Delet
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deletePerTenantConfiguration",
@@ -150,22 +184,41 @@ func (a *Client) DeletePluginConfiguration(ctx context.Context, params *DeletePl
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deletePluginConfiguration",
 		Method:             "DELETE",
@@ -199,22 +252,41 @@ func (a *Client) DeletePluginPaymentStateMachineConfig(ctx context.Context, para
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deletePluginPaymentStateMachineConfig",
 		Method:             "DELETE",
@@ -248,20 +320,36 @@ func (a *Client) DeletePushNotificationCallbacks(ctx context.Context, params *De
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deletePushNotificationCallbacks",
@@ -296,22 +384,41 @@ func (a *Client) DeleteUserKeyValue(ctx context.Context, params *DeleteUserKeyVa
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteUserKeyValue",
 		Method:             "DELETE",
@@ -345,10 +452,20 @@ func (a *Client) GetAllPluginConfiguration(ctx context.Context, params *GetAllPl
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAllPluginConfiguration",
 		Method:             "GET",
@@ -382,10 +499,16 @@ func (a *Client) GetPerTenantConfiguration(ctx context.Context, params *GetPerTe
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPerTenantConfiguration",
 		Method:             "GET",
@@ -419,10 +542,20 @@ func (a *Client) GetPluginConfiguration(ctx context.Context, params *GetPluginCo
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPluginConfiguration",
 		Method:             "GET",
@@ -456,10 +589,20 @@ func (a *Client) GetPluginPaymentStateMachineConfig(ctx context.Context, params 
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPluginPaymentStateMachineConfig",
 		Method:             "GET",
@@ -493,10 +636,16 @@ func (a *Client) GetPushNotificationCallbacks(ctx context.Context, params *GetPu
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPushNotificationCallbacks",
 		Method:             "GET",
@@ -530,10 +679,20 @@ func (a *Client) GetTenant(ctx context.Context, params *GetTenantParams) (*GetTe
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getTenant",
 		Method:             "GET",
@@ -564,6 +723,9 @@ func (a *Client) GetTenantByAPIKey(ctx context.Context, params *GetTenantByAPIKe
 	}
 	params.Context = ctx
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getTenantByApiKey",
 		Method:             "GET",
@@ -597,10 +759,20 @@ func (a *Client) GetUserKeyValue(ctx context.Context, params *GetUserKeyValuePar
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getUserKeyValue",
 		Method:             "GET",
@@ -634,22 +806,45 @@ func (a *Client) InsertUserKeyValue(ctx context.Context, params *InsertUserKeyVa
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "insertUserKeyValue",
 		Method:             "POST",
@@ -683,22 +878,41 @@ func (a *Client) RegisterPushNotificationCallback(ctx context.Context, params *R
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "registerPushNotificationCallback",
 		Method:             "POST",
@@ -732,22 +946,41 @@ func (a *Client) UploadPerTenantConfiguration(ctx context.Context, params *Uploa
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadPerTenantConfiguration",
 		Method:             "POST",
@@ -781,22 +1014,45 @@ func (a *Client) UploadPluginConfiguration(ctx context.Context, params *UploadPl
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadPluginConfiguration",
 		Method:             "POST",
@@ -830,22 +1086,45 @@ func (a *Client) UploadPluginPaymentStateMachineConfig(ctx context.Context, para
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadPluginPaymentStateMachineConfig",
 		Method:             "POST",

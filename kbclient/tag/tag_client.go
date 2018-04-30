@@ -35,6 +35,8 @@ type KillbillDefaults interface {
 	XKillbillComment() *string
 	// Default Reason. If not set explicitly in params, this will be used.
 	XKillbillReason() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -60,10 +62,28 @@ func (a *Client) GetTags(ctx context.Context, params *GetTagsParams) (*GetTagsOK
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getTags",
 		Method:             "GET",
@@ -97,10 +117,32 @@ func (a *Client) SearchTags(ctx context.Context, params *SearchTagsParams) (*Sea
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "searchTags",
 		Method:             "GET",

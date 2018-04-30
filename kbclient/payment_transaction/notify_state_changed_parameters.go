@@ -82,9 +82,10 @@ type NotifyStateChangedParams struct {
 	/*TransactionID*/
 	TransactionID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the notify state changed params
@@ -266,6 +267,13 @@ func (o *NotifyStateChangedParams) WriteToRequest(r runtime.ClientRequest, reg s
 	// path param transactionId
 	if err := r.SetPathParam("transactionId", o.TransactionID.String()); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

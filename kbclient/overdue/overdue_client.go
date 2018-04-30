@@ -35,6 +35,8 @@ type KillbillDefaults interface {
 	XKillbillComment() *string
 	// Default Reason. If not set explicitly in params, this will be used.
 	XKillbillReason() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -60,10 +62,16 @@ func (a *Client) GetOverdueConfigJSON(ctx context.Context, params *GetOverdueCon
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getOverdueConfigJson",
 		Method:             "GET",
@@ -97,10 +105,16 @@ func (a *Client) GetOverdueConfigXML(ctx context.Context, params *GetOverdueConf
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getOverdueConfigXml",
 		Method:             "GET",
@@ -134,22 +148,41 @@ func (a *Client) UploadOverdueConfigJSON(ctx context.Context, params *UploadOver
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadOverdueConfigJson",
 		Method:             "POST",
@@ -183,22 +216,41 @@ func (a *Client) UploadOverdueConfigXML(ctx context.Context, params *UploadOverd
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadOverdueConfigXml",
 		Method:             "POST",

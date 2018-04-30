@@ -82,9 +82,10 @@ type ProcessNotificationParams struct {
 	/*PluginProperty*/
 	PluginProperty []string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the process notification params
@@ -285,6 +286,13 @@ func (o *ProcessNotificationParams) WriteToRequest(r runtime.ClientRequest, reg 
 	// query array param pluginProperty
 	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

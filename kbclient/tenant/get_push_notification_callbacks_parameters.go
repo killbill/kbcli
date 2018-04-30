@@ -67,9 +67,10 @@ type GetPushNotificationCallbacksParams struct {
 	/*XKillbillAPISecret*/
 	XKillbillAPISecret string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get push notification callbacks params
@@ -143,6 +144,13 @@ func (o *GetPushNotificationCallbacksParams) WriteToRequest(r runtime.ClientRequ
 	// header param X-Killbill-ApiSecret
 	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

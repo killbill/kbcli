@@ -83,9 +83,10 @@ type GetSubscriptionCustomFieldsParams struct {
 	/*SubscriptionID*/
 	SubscriptionID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get subscription custom fields params
@@ -202,6 +203,13 @@ func (o *GetSubscriptionCustomFieldsParams) WriteToRequest(r runtime.ClientReque
 	// path param subscriptionId
 	if err := r.SetPathParam("subscriptionId", o.SubscriptionID.String()); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

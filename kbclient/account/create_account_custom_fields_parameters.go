@@ -79,9 +79,10 @@ type CreateAccountCustomFieldsParams struct {
 	/*Body*/
 	Body []*kbmodel.CustomField
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the create account custom fields params
@@ -242,6 +243,13 @@ func (o *CreateAccountCustomFieldsParams) WriteToRequest(r runtime.ClientRequest
 
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}

@@ -77,9 +77,10 @@ type CreateFutureInvoiceParams struct {
 	/*TargetDate*/
 	TargetDate *strfmt.Date
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the create future invoice params
@@ -256,6 +257,13 @@ func (o *CreateFutureInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg 
 			}
 		}
 
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

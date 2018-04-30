@@ -73,9 +73,10 @@ type DeletePerTenantConfigurationParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the delete per tenant configuration params
@@ -205,6 +206,13 @@ func (o *DeletePerTenantConfigurationParams) WriteToRequest(r runtime.ClientRequ
 			return err
 		}
 
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

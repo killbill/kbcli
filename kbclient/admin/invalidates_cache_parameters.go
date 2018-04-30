@@ -69,9 +69,10 @@ type InvalidatesCacheParams struct {
 	/*CacheName*/
 	CacheName *string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the invalidates cache params
@@ -172,6 +173,13 @@ func (o *InvalidatesCacheParams) WriteToRequest(r runtime.ClientRequest, reg str
 			}
 		}
 
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

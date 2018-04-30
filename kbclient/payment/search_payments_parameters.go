@@ -128,9 +128,10 @@ type SearchPaymentsParams struct {
 	/*WithPluginInfo*/
 	WithPluginInfo *bool
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the search payments params
@@ -401,6 +402,13 @@ func (o *SearchPaymentsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 			}
 		}
 
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

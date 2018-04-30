@@ -96,9 +96,10 @@ type GetInvoiceItemTagsParams struct {
 	/*InvoiceItemID*/
 	InvoiceItemID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get invoice item tags params
@@ -262,6 +263,13 @@ func (o *GetInvoiceItemTagsParams) WriteToRequest(r runtime.ClientRequest, reg s
 	// path param invoiceItemId
 	if err := r.SetPathParam("invoiceItemId", o.InvoiceItemID.String()); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

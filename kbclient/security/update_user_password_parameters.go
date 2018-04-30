@@ -75,9 +75,10 @@ type UpdateUserPasswordParams struct {
 	/*Username*/
 	Username string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the update user password params
@@ -208,6 +209,13 @@ func (o *UpdateUserPasswordParams) WriteToRequest(r runtime.ClientRequest, reg s
 	// path param username
 	if err := r.SetPathParam("username", o.Username); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

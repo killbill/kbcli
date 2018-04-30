@@ -73,9 +73,10 @@ type GetAllUsageParams struct {
 	/*SubscriptionID*/
 	SubscriptionID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get all usage params
@@ -219,6 +220,13 @@ func (o *GetAllUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 	// path param subscriptionId
 	if err := r.SetPathParam("subscriptionId", o.SubscriptionID.String()); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

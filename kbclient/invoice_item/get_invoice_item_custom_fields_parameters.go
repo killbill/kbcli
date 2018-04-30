@@ -83,9 +83,10 @@ type GetInvoiceItemCustomFieldsParams struct {
 	/*InvoiceItemID*/
 	InvoiceItemID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
+	WithStackTrace *bool
+	timeout        time.Duration
+	Context        context.Context
+	HTTPClient     *http.Client
 }
 
 // WithTimeout adds the timeout to the get invoice item custom fields params
@@ -202,6 +203,13 @@ func (o *GetInvoiceItemCustomFieldsParams) WriteToRequest(r runtime.ClientReques
 	// path param invoiceItemId
 	if err := r.SetPathParam("invoiceItemId", o.InvoiceItemID.String()); err != nil {
 		return err
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {
