@@ -35,5 +35,5 @@ and then generate invoice for it.
 ## Development
 For development, clone the repository to your git workspace under 
 `$GOPATH/src/github.com/killbill/kbcli` and then run `go get -t ./...`
-to install the dependencies. We use Visual Studio Code as IDE, but
-others work as well. Make sure to run the tests.
+to install the dependencies. Visual Studio Code is recommmended IDE, but
+others work as well. Make sure to run the tests before submitting PR.
