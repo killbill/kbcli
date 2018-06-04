@@ -66,6 +66,8 @@ type GetAvailableAddonsParams struct {
 	XKillbillAPIKey string
 	/*XKillbillAPISecret*/
 	XKillbillAPISecret string
+	/*AccountID*/
+	AccountID *strfmt.UUID
 	/*BaseProductName*/
 	BaseProductName *string
 	/*PriceListName*/
@@ -132,6 +134,17 @@ func (o *GetAvailableAddonsParams) SetXKillbillAPISecret(xKillbillAPISecret stri
 	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
+// WithAccountID adds the accountID to the get available addons params
+func (o *GetAvailableAddonsParams) WithAccountID(accountID *strfmt.UUID) *GetAvailableAddonsParams {
+	o.SetAccountID(accountID)
+	return o
+}
+
+// SetAccountID adds the accountId to the get available addons params
+func (o *GetAvailableAddonsParams) SetAccountID(accountID *strfmt.UUID) {
+	o.AccountID = accountID
+}
+
 // WithBaseProductName adds the baseProductName to the get available addons params
 func (o *GetAvailableAddonsParams) WithBaseProductName(baseProductName *string) *GetAvailableAddonsParams {
 	o.SetBaseProductName(baseProductName)
@@ -170,6 +183,22 @@ func (o *GetAvailableAddonsParams) WriteToRequest(r runtime.ClientRequest, reg s
 	// header param X-Killbill-ApiSecret
 	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
 		return err
+	}
+
+	if o.AccountID != nil {
+
+		// query param accountId
+		var qrAccountID strfmt.UUID
+		if o.AccountID != nil {
+			qrAccountID = *o.AccountID
+		}
+		qAccountID := qrAccountID.String()
+		if qAccountID != "" {
+			if err := r.SetQueryParam("accountId", qAccountID); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	if o.BaseProductName != nil {

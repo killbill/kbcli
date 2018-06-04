@@ -76,8 +76,14 @@ type InvoiceItem struct {
 	// pretty plan name
 	PrettyPlanName string `json:"prettyPlanName,omitempty"`
 
+	// pretty product name
+	PrettyProductName string `json:"prettyProductName,omitempty"`
+
 	// pretty usage name
 	PrettyUsageName string `json:"prettyUsageName,omitempty"`
+
+	// product name
+	ProductName string `json:"productName,omitempty"`
 
 	// quantity
 	Quantity int32 `json:"quantity,omitempty"`

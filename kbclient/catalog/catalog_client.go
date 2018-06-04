@@ -212,6 +212,10 @@ func (a *Client) GetAvailableAddons(ctx context.Context, params *GetAvailableAdd
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAvailableAddons",
 		Method:             "GET",
@@ -250,6 +254,10 @@ func (a *Client) GetAvailableBasePlans(ctx context.Context, params *GetAvailable
 	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
@@ -302,6 +310,10 @@ func (a *Client) GetCatalogJSON(ctx context.Context, params *GetCatalogJSONParam
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCatalogJson",
 		Method:             "GET",
@@ -345,6 +357,10 @@ func (a *Client) GetCatalogVersions(ctx context.Context, params *GetCatalogVersi
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCatalogVersions",
 		Method:             "GET",
@@ -383,6 +399,10 @@ func (a *Client) GetCatalogXML(ctx context.Context, params *GetCatalogXMLParams)
 	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {

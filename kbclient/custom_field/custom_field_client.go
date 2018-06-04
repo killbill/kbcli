@@ -50,6 +50,53 @@ type Client struct {
 }
 
 /*
+GetCustomFieldAuditLogsWithHistory retrieves custom field audit logs with history by id
+*/
+func (a *Client) GetCustomFieldAuditLogsWithHistory(ctx context.Context, params *GetCustomFieldAuditLogsWithHistoryParams) (*GetCustomFieldAuditLogsWithHistoryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetCustomFieldAuditLogsWithHistoryParams()
+	}
+	params.Context = ctx
+	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
+		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
+		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getCustomFieldAuditLogsWithHistory",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/customFields/{customFieldId}/auditLogsWithHistory",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetCustomFieldAuditLogsWithHistoryReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetCustomFieldAuditLogsWithHistoryOK), nil
+
+}
+
+/*
 GetCustomFields lists custom fields
 */
 func (a *Client) GetCustomFields(ctx context.Context, params *GetCustomFieldsParams) (*GetCustomFieldsOK, error) {

@@ -148,7 +148,7 @@ var customFieldTypeObjectTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["ACCOUNT","ACCOUNT_EMAIL","BLOCKING_STATES","BUNDLE","CUSTOM_FIELD","INVOICE","PAYMENT","TRANSACTION","INVOICE_ITEM","INVOICE_PAYMENT","SUBSCRIPTION","SUBSCRIPTION_EVENT","SERVICE_BROADCAST","PAYMENT_ATTEMPT","PAYMENT_METHOD","REFUND","TAG","TAG_DEFINITION","TENANT","TENANT_KVS"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["ACCOUNT","ACCOUNT_EMAIL","BLOCKING_STATES","BUNDLE","CUSTOM_FIELD","INVOICE","PAYMENT","TRANSACTION","INVOICE_ITEM","INVOICE_PAYMENT","SUBSCRIPTION","SUBSCRIPTION_EVENT","SERVICE_BROADCAST","PAYMENT_ATTEMPT","PAYMENT_METHOD","TAG","TAG_DEFINITION","TENANT","TENANT_KVS"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -202,9 +202,6 @@ const (
 
 	// CustomFieldObjectTypePAYMENTMETHOD captures enum value "PAYMENT_METHOD"
 	CustomFieldObjectTypePAYMENTMETHOD string = "PAYMENT_METHOD"
-
-	// CustomFieldObjectTypeREFUND captures enum value "REFUND"
-	CustomFieldObjectTypeREFUND string = "REFUND"
 
 	// CustomFieldObjectTypeTAG captures enum value "TAG"
 	CustomFieldObjectTypeTAG string = "TAG"
