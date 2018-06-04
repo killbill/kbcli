@@ -66,6 +66,8 @@ type GetAvailableBasePlansParams struct {
 	XKillbillAPIKey string
 	/*XKillbillAPISecret*/
 	XKillbillAPISecret string
+	/*AccountID*/
+	AccountID *strfmt.UUID
 
 	WithStackTrace *bool
 	timeout        time.Duration
@@ -128,6 +130,17 @@ func (o *GetAvailableBasePlansParams) SetXKillbillAPISecret(xKillbillAPISecret s
 	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
+// WithAccountID adds the accountID to the get available base plans params
+func (o *GetAvailableBasePlansParams) WithAccountID(accountID *strfmt.UUID) *GetAvailableBasePlansParams {
+	o.SetAccountID(accountID)
+	return o
+}
+
+// SetAccountID adds the accountId to the get available base plans params
+func (o *GetAvailableBasePlansParams) SetAccountID(accountID *strfmt.UUID) {
+	o.AccountID = accountID
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *GetAvailableBasePlansParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -144,6 +157,22 @@ func (o *GetAvailableBasePlansParams) WriteToRequest(r runtime.ClientRequest, re
 	// header param X-Killbill-ApiSecret
 	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
 		return err
+	}
+
+	if o.AccountID != nil {
+
+		// query param accountId
+		var qrAccountID strfmt.UUID
+		if o.AccountID != nil {
+			qrAccountID = *o.AccountID
+		}
+		qAccountID := qrAccountID.String()
+		if qAccountID != "" {
+			if err := r.SetQueryParam("accountId", qAccountID); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	// header param withStackTrace

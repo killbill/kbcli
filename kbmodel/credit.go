@@ -31,6 +31,9 @@ type Credit struct {
 	// Required: true
 	CreditAmount *float64 `json:"creditAmount"`
 
+	// credit Id
+	CreditID strfmt.UUID `json:"creditId,omitempty"`
+
 	// currency
 	Currency string `json:"currency,omitempty"`
 
@@ -65,6 +68,11 @@ func (m *Credit) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCreditAmount(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateCreditID(formats); err != nil {
 		// prop
 		res = append(res, err)
 	}
@@ -134,6 +142,19 @@ func (m *Credit) validateAuditLogs(formats strfmt.Registry) error {
 func (m *Credit) validateCreditAmount(formats strfmt.Registry) error {
 
 	if err := validate.Required("creditAmount", "body", m.CreditAmount); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Credit) validateCreditID(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.CreditID) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("creditId", "body", "uuid", m.CreditID.String(), formats); err != nil {
 		return err
 	}
 

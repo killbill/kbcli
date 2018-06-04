@@ -31,6 +31,9 @@ type AuditLog struct {
 	// comments
 	Comments string `json:"comments,omitempty"`
 
+	// history
+	History *Entity `json:"history,omitempty"`
+
 	// object Id
 	ObjectID strfmt.UUID `json:"objectId,omitempty"`
 
@@ -49,6 +52,11 @@ func (m *AuditLog) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateChangeDate(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateHistory(formats); err != nil {
 		// prop
 		res = append(res, err)
 	}
@@ -82,6 +90,26 @@ func (m *AuditLog) validateChangeDate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *AuditLog) validateHistory(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.History) { // not required
+		return nil
+	}
+
+	if m.History != nil {
+
+		if err := m.History.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("history")
+			}
+			return err
+		}
+
+	}
+
+	return nil
+}
+
 func (m *AuditLog) validateObjectID(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.ObjectID) { // not required
@@ -99,7 +127,7 @@ var auditLogTypeObjectTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["ACCOUNT","ACCOUNT_EMAIL","BLOCKING_STATES","BUNDLE","CUSTOM_FIELD","INVOICE","PAYMENT","TRANSACTION","INVOICE_ITEM","INVOICE_PAYMENT","SUBSCRIPTION","SUBSCRIPTION_EVENT","SERVICE_BROADCAST","PAYMENT_ATTEMPT","PAYMENT_METHOD","REFUND","TAG","TAG_DEFINITION","TENANT","TENANT_KVS"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["ACCOUNT","ACCOUNT_EMAIL","BLOCKING_STATES","BUNDLE","CUSTOM_FIELD","INVOICE","PAYMENT","TRANSACTION","INVOICE_ITEM","INVOICE_PAYMENT","SUBSCRIPTION","SUBSCRIPTION_EVENT","SERVICE_BROADCAST","PAYMENT_ATTEMPT","PAYMENT_METHOD","TAG","TAG_DEFINITION","TENANT","TENANT_KVS"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -153,9 +181,6 @@ const (
 
 	// AuditLogObjectTypePAYMENTMETHOD captures enum value "PAYMENT_METHOD"
 	AuditLogObjectTypePAYMENTMETHOD string = "PAYMENT_METHOD"
-
-	// AuditLogObjectTypeREFUND captures enum value "REFUND"
-	AuditLogObjectTypeREFUND string = "REFUND"
 
 	// AuditLogObjectTypeTAG captures enum value "TAG"
 	AuditLogObjectTypeTAG string = "TAG"

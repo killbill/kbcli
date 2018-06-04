@@ -836,6 +836,53 @@ func (a *Client) GetAccountAuditLogs(ctx context.Context, params *GetAccountAudi
 }
 
 /*
+GetAccountAuditLogsWithHistory retrieves account audit logs with history by account id
+*/
+func (a *Client) GetAccountAuditLogsWithHistory(ctx context.Context, params *GetAccountAuditLogsWithHistoryParams) (*GetAccountAuditLogsWithHistoryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAccountAuditLogsWithHistoryParams()
+	}
+	params.Context = ctx
+	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
+		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
+		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getAccountAuditLogsWithHistory",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/accounts/{accountId}/auditLogsWithHistory",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetAccountAuditLogsWithHistoryReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetAccountAuditLogsWithHistoryOK), nil
+
+}
+
+/*
 GetAccountBundles retrieves bundles for account
 */
 func (a *Client) GetAccountBundles(ctx context.Context, params *GetAccountBundlesParams) (*GetAccountBundlesOK, error) {
@@ -1001,6 +1048,57 @@ func (a *Client) GetAccountCustomFields(ctx context.Context, params *GetAccountC
 		return nil, err
 	}
 	return result.(*GetAccountCustomFieldsOK), nil
+
+}
+
+/*
+GetAccountEmailAuditLogsWithHistory retrieves account email audit logs with history by id
+*/
+func (a *Client) GetAccountEmailAuditLogsWithHistory(ctx context.Context, params *GetAccountEmailAuditLogsWithHistoryParams) (*GetAccountEmailAuditLogsWithHistoryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAccountEmailAuditLogsWithHistoryParams()
+	}
+	params.Context = ctx
+	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
+		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
+		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getAccountEmailAuditLogsWithHistory",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/accounts/{accountId}/emails/{accountEmailId}/auditLogsWithHistory",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetAccountEmailAuditLogsWithHistoryReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*GetAccountEmailAuditLogsWithHistoryOK), nil
 
 }
 
@@ -1925,6 +2023,14 @@ func (a *Client) PayAllInvoices(ctx context.Context, params *PayAllInvoicesParam
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}

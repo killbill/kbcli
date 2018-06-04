@@ -91,8 +91,12 @@ type PayAllInvoicesParams struct {
 	ExternalPayment *bool
 	/*PaymentAmount*/
 	PaymentAmount *float64
+	/*PaymentMethodID*/
+	PaymentMethodID *strfmt.UUID
 	/*PluginProperty*/
 	PluginProperty []string
+	/*TargetDate*/
+	TargetDate *strfmt.Date
 
 	WithStackTrace *bool
 	timeout        time.Duration
@@ -221,6 +225,17 @@ func (o *PayAllInvoicesParams) SetPaymentAmount(paymentAmount *float64) {
 	o.PaymentAmount = paymentAmount
 }
 
+// WithPaymentMethodID adds the paymentMethodID to the pay all invoices params
+func (o *PayAllInvoicesParams) WithPaymentMethodID(paymentMethodID *strfmt.UUID) *PayAllInvoicesParams {
+	o.SetPaymentMethodID(paymentMethodID)
+	return o
+}
+
+// SetPaymentMethodID adds the paymentMethodId to the pay all invoices params
+func (o *PayAllInvoicesParams) SetPaymentMethodID(paymentMethodID *strfmt.UUID) {
+	o.PaymentMethodID = paymentMethodID
+}
+
 // WithPluginProperty adds the pluginProperty to the pay all invoices params
 func (o *PayAllInvoicesParams) WithPluginProperty(pluginProperty []string) *PayAllInvoicesParams {
 	o.SetPluginProperty(pluginProperty)
@@ -230,6 +245,17 @@ func (o *PayAllInvoicesParams) WithPluginProperty(pluginProperty []string) *PayA
 // SetPluginProperty adds the pluginProperty to the pay all invoices params
 func (o *PayAllInvoicesParams) SetPluginProperty(pluginProperty []string) {
 	o.PluginProperty = pluginProperty
+}
+
+// WithTargetDate adds the targetDate to the pay all invoices params
+func (o *PayAllInvoicesParams) WithTargetDate(targetDate *strfmt.Date) *PayAllInvoicesParams {
+	o.SetTargetDate(targetDate)
+	return o
+}
+
+// SetTargetDate adds the targetDate to the pay all invoices params
+func (o *PayAllInvoicesParams) SetTargetDate(targetDate *strfmt.Date) {
+	o.TargetDate = targetDate
 }
 
 // WriteToRequest writes these params to a swagger request
@@ -310,12 +336,44 @@ func (o *PayAllInvoicesParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 	}
 
+	if o.PaymentMethodID != nil {
+
+		// query param paymentMethodId
+		var qrPaymentMethodID strfmt.UUID
+		if o.PaymentMethodID != nil {
+			qrPaymentMethodID = *o.PaymentMethodID
+		}
+		qPaymentMethodID := qrPaymentMethodID.String()
+		if qPaymentMethodID != "" {
+			if err := r.SetQueryParam("paymentMethodId", qPaymentMethodID); err != nil {
+				return err
+			}
+		}
+
+	}
+
 	valuesPluginProperty := o.PluginProperty
 
 	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
 	// query array param pluginProperty
 	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
 		return err
+	}
+
+	if o.TargetDate != nil {
+
+		// query param targetDate
+		var qrTargetDate strfmt.Date
+		if o.TargetDate != nil {
+			qrTargetDate = *o.TargetDate
+		}
+		qTargetDate := qrTargetDate.String()
+		if qTargetDate != "" {
+			if err := r.SetQueryParam("targetDate", qTargetDate); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	// header param withStackTrace

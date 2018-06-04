@@ -66,6 +66,8 @@ type GetCatalogJSONParams struct {
 	XKillbillAPIKey string
 	/*XKillbillAPISecret*/
 	XKillbillAPISecret string
+	/*AccountID*/
+	AccountID *strfmt.UUID
 	/*RequestedDate*/
 	RequestedDate *strfmt.DateTime
 
@@ -130,6 +132,17 @@ func (o *GetCatalogJSONParams) SetXKillbillAPISecret(xKillbillAPISecret string) 
 	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
+// WithAccountID adds the accountID to the get catalog Json params
+func (o *GetCatalogJSONParams) WithAccountID(accountID *strfmt.UUID) *GetCatalogJSONParams {
+	o.SetAccountID(accountID)
+	return o
+}
+
+// SetAccountID adds the accountId to the get catalog Json params
+func (o *GetCatalogJSONParams) SetAccountID(accountID *strfmt.UUID) {
+	o.AccountID = accountID
+}
+
 // WithRequestedDate adds the requestedDate to the get catalog Json params
 func (o *GetCatalogJSONParams) WithRequestedDate(requestedDate *strfmt.DateTime) *GetCatalogJSONParams {
 	o.SetRequestedDate(requestedDate)
@@ -157,6 +170,22 @@ func (o *GetCatalogJSONParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 	// header param X-Killbill-ApiSecret
 	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
 		return err
+	}
+
+	if o.AccountID != nil {
+
+		// query param accountId
+		var qrAccountID strfmt.UUID
+		if o.AccountID != nil {
+			qrAccountID = *o.AccountID
+		}
+		qAccountID := qrAccountID.String()
+		if qAccountID != "" {
+			if err := r.SetQueryParam("accountId", qAccountID); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	if o.RequestedDate != nil {
