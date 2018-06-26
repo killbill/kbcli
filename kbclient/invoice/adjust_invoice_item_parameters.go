@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
 
@@ -78,6 +79,8 @@ type AdjustInvoiceItemParams struct {
 	Body *kbmodel.InvoiceItem
 	/*InvoiceID*/
 	InvoiceID strfmt.UUID
+	/*PluginProperty*/
+	PluginProperty []string
 	/*RequestedDate*/
 	RequestedDate *strfmt.Date
 
@@ -197,6 +200,17 @@ func (o *AdjustInvoiceItemParams) SetInvoiceID(invoiceID strfmt.UUID) {
 	o.InvoiceID = invoiceID
 }
 
+// WithPluginProperty adds the pluginProperty to the adjust invoice item params
+func (o *AdjustInvoiceItemParams) WithPluginProperty(pluginProperty []string) *AdjustInvoiceItemParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the adjust invoice item params
+func (o *AdjustInvoiceItemParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WithRequestedDate adds the requestedDate to the adjust invoice item params
 func (o *AdjustInvoiceItemParams) WithRequestedDate(requestedDate *strfmt.Date) *AdjustInvoiceItemParams {
 	o.SetRequestedDate(requestedDate)
@@ -257,6 +271,14 @@ func (o *AdjustInvoiceItemParams) WriteToRequest(r runtime.ClientRequest, reg st
 
 	// path param invoiceId
 	if err := r.SetPathParam("invoiceId", o.InvoiceID.String()); err != nil {
+		return err
+	}
+
+	valuesPluginProperty := o.PluginProperty
+
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
 		return err
 	}
 

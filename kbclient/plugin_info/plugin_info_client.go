@@ -62,9 +62,6 @@ func (a *Client) GetPluginsInfo(ctx context.Context, params *GetPluginsInfoParam
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -72,6 +69,7 @@ func (a *Client) GetPluginsInfo(ctx context.Context, params *GetPluginsInfoParam
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPluginsInfo",
 		Method:             "GET",

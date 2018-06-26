@@ -66,7 +66,10 @@ type Subscription struct {
 	PriceList *string `json:"priceList"`
 
 	// price overrides
-	PriceOverrides []*PhasePriceOverride `json:"priceOverrides"`
+	PriceOverrides []*PhasePrice `json:"priceOverrides"`
+
+	// prices
+	Prices []*PhasePrice `json:"prices"`
 
 	// product category
 	ProductCategory string `json:"productCategory,omitempty"`
@@ -153,6 +156,11 @@ func (m *Subscription) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validatePriceOverrides(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validatePrices(formats); err != nil {
 		// prop
 		res = append(res, err)
 	}
@@ -501,6 +509,34 @@ func (m *Subscription) validatePriceOverrides(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Subscription) validatePrices(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Prices) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Prices); i++ {
+
+		if swag.IsZero(m.Prices[i]) { // not required
+			continue
+		}
+
+		if m.Prices[i] != nil {
+
+			if err := m.Prices[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+
+		}
+
+	}
+
+	return nil
+}
+
 var subscriptionTypeProductCategoryPropEnum []interface{}
 
 func init() {
@@ -619,7 +655,7 @@ var subscriptionTypeStatePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["PENDING","ACTIVE","BLOCKED","CANCELLED"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["PENDING","ACTIVE","BLOCKED","CANCELLED","EXPIRED"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -640,6 +676,9 @@ const (
 
 	// SubscriptionStateCANCELLED captures enum value "CANCELLED"
 	SubscriptionStateCANCELLED string = "CANCELLED"
+
+	// SubscriptionStateEXPIRED captures enum value "EXPIRED"
+	SubscriptionStateEXPIRED string = "EXPIRED"
 )
 
 // prop value enum
