@@ -62,9 +62,6 @@ func (a *Client) GetCustomFieldAuditLogsWithHistory(ctx context.Context, params 
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -73,9 +70,6 @@ func (a *Client) GetCustomFieldAuditLogsWithHistory(ctx context.Context, params 
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCustomFieldAuditLogsWithHistory",
 		Method:             "GET",
@@ -109,9 +103,6 @@ func (a *Client) GetCustomFields(ctx context.Context, params *GetCustomFieldsPar
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -120,17 +111,6 @@ func (a *Client) GetCustomFields(ctx context.Context, params *GetCustomFieldsPar
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCustomFields",
 		Method:             "GET",
@@ -164,9 +144,6 @@ func (a *Client) SearchCustomFields(ctx context.Context, params *SearchCustomFie
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -175,21 +152,6 @@ func (a *Client) SearchCustomFields(ctx context.Context, params *SearchCustomFie
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "searchCustomFields",
 		Method:             "GET",

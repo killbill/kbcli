@@ -62,53 +62,26 @@ func (a *Client) AddBundleBlockingState(ctx context.Context, params *AddBundleBl
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addBundleBlockingState",
 		Method:             "POST",
@@ -142,45 +115,26 @@ func (a *Client) CreateBundleCustomFields(ctx context.Context, params *CreateBun
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createBundleCustomFields",
 		Method:             "POST",
@@ -214,45 +168,26 @@ func (a *Client) CreateBundleTags(ctx context.Context, params *CreateBundleTagsP
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createBundleTags",
 		Method:             "POST",
@@ -286,45 +221,26 @@ func (a *Client) DeleteBundleCustomFields(ctx context.Context, params *DeleteBun
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteBundleCustomFields",
 		Method:             "DELETE",
@@ -358,45 +274,26 @@ func (a *Client) DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsP
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteBundleTags",
 		Method:             "DELETE",
@@ -430,9 +327,6 @@ func (a *Client) GetBundle(ctx context.Context, params *GetBundleParams) (*GetBu
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -441,13 +335,6 @@ func (a *Client) GetBundle(ctx context.Context, params *GetBundleParams) (*GetBu
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getBundle",
 		Method:             "GET",
@@ -481,9 +368,6 @@ func (a *Client) GetBundleByKey(ctx context.Context, params *GetBundleByKeyParam
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -492,17 +376,6 @@ func (a *Client) GetBundleByKey(ctx context.Context, params *GetBundleByKeyParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getBundleByKey",
 		Method:             "GET",
@@ -536,9 +409,6 @@ func (a *Client) GetBundleCustomFields(ctx context.Context, params *GetBundleCus
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -547,13 +417,6 @@ func (a *Client) GetBundleCustomFields(ctx context.Context, params *GetBundleCus
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getBundleCustomFields",
 		Method:             "GET",
@@ -587,9 +450,6 @@ func (a *Client) GetBundleTags(ctx context.Context, params *GetBundleTagsParams)
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -598,17 +458,6 @@ func (a *Client) GetBundleTags(ctx context.Context, params *GetBundleTagsParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getBundleTags",
 		Method:             "GET",
@@ -642,9 +491,6 @@ func (a *Client) GetBundles(ctx context.Context, params *GetBundlesParams) (*Get
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -653,17 +499,6 @@ func (a *Client) GetBundles(ctx context.Context, params *GetBundlesParams) (*Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getBundles",
 		Method:             "GET",
@@ -697,45 +532,26 @@ func (a *Client) ModifyBundleCustomFields(ctx context.Context, params *ModifyBun
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "modifyBundleCustomFields",
 		Method:             "PUT",
@@ -769,49 +585,26 @@ func (a *Client) PauseBundle(ctx context.Context, params *PauseBundleParams) (*P
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "pauseBundle",
 		Method:             "PUT",
@@ -845,45 +638,26 @@ func (a *Client) RenameExternalKey(ctx context.Context, params *RenameExternalKe
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "renameExternalKey",
 		Method:             "PUT",
@@ -917,49 +691,26 @@ func (a *Client) ResumeBundle(ctx context.Context, params *ResumeBundleParams) (
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "resumeBundle",
 		Method:             "PUT",
@@ -993,9 +744,6 @@ func (a *Client) SearchBundles(ctx context.Context, params *SearchBundlesParams)
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -1004,21 +752,6 @@ func (a *Client) SearchBundles(ctx context.Context, params *SearchBundlesParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "searchBundles",
 		Method:             "GET",
@@ -1052,57 +785,26 @@ func (a *Client) TransferBundle(ctx context.Context, params *TransferBundleParam
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "transferBundle",
 		Method:             "POST",

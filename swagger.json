@@ -14,19 +14,34 @@
   },
   "tags": [
     {
-      "name": "Overdue"
+      "name": "Account"
     },
     {
-      "name": "Credit"
+      "name": "Subscription"
+    },
+    {
+      "name": "CustomField"
+    },
+    {
+      "name": "Catalog"
+    },
+    {
+      "name": "Invoice"
+    },
+    {
+      "name": "TagDefinition"
+    },
+    {
+      "name": "Bundle"
     },
     {
       "name": "Export"
     },
     {
-      "name": "Payment"
+      "name": "PluginInfo"
     },
     {
-      "name": "Usage"
+      "name": "Admin"
     },
     {
       "name": "PaymentTransaction"
@@ -35,52 +50,37 @@
       "name": "InvoiceItem"
     },
     {
+      "name": "Overdue"
+    },
+    {
       "name": "Security"
-    },
-    {
-      "name": "PaymentGateway"
-    },
-    {
-      "name": "Tag"
-    },
-    {
-      "name": "PluginInfo"
-    },
-    {
-      "name": "Invoice"
-    },
-    {
-      "name": "NodesInfo"
-    },
-    {
-      "name": "Subscription"
-    },
-    {
-      "name": "PaymentMethod"
-    },
-    {
-      "name": "Bundle"
-    },
-    {
-      "name": "Tenant"
     },
     {
       "name": "InvoicePayment"
     },
     {
-      "name": "Admin"
+      "name": "PaymentMethod"
     },
     {
-      "name": "TagDefinition"
+      "name": "Tag"
     },
     {
-      "name": "Account"
+      "name": "Credit"
     },
     {
-      "name": "CustomField"
+      "name": "NodesInfo"
     },
     {
-      "name": "Catalog"
+      "name": "PaymentGateway"
+    },
+    {
+      "name": "Payment"
+    },
+    {
+      "name": "Usage"
+    },
+    {
+      "name": "Tenant"
     }
   ],
   "paths": {
@@ -2441,6 +2441,13 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date"
           },
           {
             "name": "withItems",
@@ -6025,6 +6032,16 @@
             "default": false
           },
           {
+            "name": "pluginProperty",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
             "name": "X-Killbill-CreatedBy",
             "in": "header",
             "required": true,
@@ -8063,6 +8080,83 @@
         ]
       }
     },
+    "/1.0/kb/invoices/byItemId/{itemId}": {
+      "get": {
+        "tags": [
+          "Invoice"
+        ],
+        "summary": "Retrieve an invoice by invoice item id",
+        "description": "",
+        "operationId": "getInvoiceByItemId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
+            "format": "uuid"
+          },
+          {
+            "name": "withItems",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          },
+          {
+            "name": "withChildrenItems",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          },
+          {
+            "name": "audit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "default": "NONE",
+            "enum": [
+              "FULL",
+              "MINIMAL",
+              "NONE"
+            ]
+          },
+          {
+            "name": "X-Killbill-ApiKey",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Killbill-ApiSecret",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Invoice"
+            }
+          },
+          "404": {
+            "description": "Invoice not found"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
     "/1.0/kb/invoices/byNumber/{invoiceNumber}": {
       "get": {
         "tags": [
@@ -8316,7 +8410,7 @@
             "format": "date"
           },
           {
-            "name": "payInvoice",
+            "name": "autoCommit",
             "in": "query",
             "required": false,
             "type": "boolean",
@@ -8331,25 +8425,6 @@
               "type": "string"
             },
             "collectionFormat": "multi"
-          },
-          {
-            "name": "autoCommit",
-            "in": "query",
-            "required": false,
-            "type": "boolean",
-            "default": false
-          },
-          {
-            "name": "paymentExternalKey",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "transactionExternalKey",
-            "in": "query",
-            "required": false,
-            "type": "string"
           },
           {
             "name": "X-Killbill-CreatedBy",
@@ -8874,6 +8949,119 @@
         ]
       }
     },
+    "/1.0/kb/invoices/taxes/{accountId}": {
+      "post": {
+        "tags": [
+          "Invoice"
+        ],
+        "summary": "Create tax items",
+        "description": "",
+        "operationId": "createTaxItems",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/InvoiceItem"
+              }
+            }
+          },
+          {
+            "name": "autoCommit",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          },
+          {
+            "name": "requestedDate",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "pluginProperty",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "X-Killbill-CreatedBy",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Killbill-Reason",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Killbill-Comment",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Killbill-ApiKey",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Killbill-ApiSecret",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create tax items successfully",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/InvoiceItem"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid account id supplied"
+          },
+          "404": {
+            "description": "Account not found"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
     "/1.0/kb/invoices/template": {
       "get": {
         "tags": [
@@ -9240,6 +9428,16 @@
             "required": false,
             "type": "string",
             "format": "date"
+          },
+          {
+            "name": "pluginProperty",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
           },
           {
             "name": "X-Killbill-CreatedBy",
@@ -11714,6 +11912,91 @@
           },
           "204": {
             "description": "Successful operation"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/1.0/kb/paymentTransactions": {
+      "get": {
+        "tags": [
+          "PaymentTransaction"
+        ],
+        "summary": "Retrieve a payment by transaction external key",
+        "description": "",
+        "operationId": "getPaymentByTransactionExternalKey",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "transactionExternalKey",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "withPluginInfo",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          },
+          {
+            "name": "withAttempts",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          },
+          {
+            "name": "pluginProperty",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "audit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "default": "NONE",
+            "enum": [
+              "FULL",
+              "MINIMAL",
+              "NONE"
+            ]
+          },
+          {
+            "name": "X-Killbill-ApiKey",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "X-Killbill-ApiSecret",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Payment"
+            }
+          },
+          "404": {
+            "description": "Payment not found"
           }
         },
         "security": [
@@ -15537,6 +15820,9 @@
             "schema": {
               "$ref": "#/definitions/UserRoles"
             }
+          },
+          "404": {
+            "description": "The user does not exist or has been inactivated"
           }
         },
         "security": [
@@ -19623,20 +19909,6 @@
         }
       }
     },
-    "TenantKeyValue": {
-      "type": "object",
-      "properties": {
-        "key": {
-          "type": "string"
-        },
-        "values": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "AdminPayment": {
       "type": "object",
       "properties": {
@@ -19648,6 +19920,20 @@
         },
         "transactionStatus": {
           "type": "string"
+        }
+      }
+    },
+    "TenantKeyValue": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -19707,25 +19993,6 @@
         }
       }
     },
-    "BlockPriceOverride": {
-      "type": "object",
-      "properties": {
-        "unitName": {
-          "type": "string"
-        },
-        "size": {
-          "type": "number",
-          "format": "double"
-        },
-        "price": {
-          "type": "number"
-        },
-        "max": {
-          "type": "number",
-          "format": "double"
-        }
-      }
-    },
     "AuditLog": {
       "type": "object",
       "properties": {
@@ -19781,17 +20048,6 @@
         }
       }
     },
-    "NodeCommandProperty": {
-      "type": "object",
-      "properties": {
-        "key": {
-          "type": "string"
-        },
-        "value": {
-          "type": "object"
-        }
-      }
-    },
     "OverdueState": {
       "type": "object",
       "properties": {
@@ -19823,6 +20079,17 @@
         "reevaluationIntervalDays": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "NodeCommandProperty": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "object"
         }
       }
     },
@@ -20370,37 +20637,6 @@
         }
       }
     },
-    "PluginInfo": {
-      "type": "object",
-      "properties": {
-        "bundleSymbolicName": {
-          "type": "string"
-        },
-        "pluginKey": {
-          "type": "string"
-        },
-        "pluginName": {
-          "type": "string"
-        },
-        "version": {
-          "type": "string"
-        },
-        "state": {
-          "type": "string"
-        },
-        "isSelectedForStart": {
-          "type": "boolean",
-          "default": false
-        },
-        "services": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/PluginServiceInfo"
-          }
-        }
-      }
-    },
     "PlanDetail": {
       "type": "object",
       "properties": {
@@ -20440,24 +20676,33 @@
         }
       }
     },
-    "SubscriptionUsageRecord": {
+    "PluginInfo": {
       "type": "object",
-      "required": [
-        "subscriptionId",
-        "unitUsageRecords"
-      ],
       "properties": {
-        "subscriptionId": {
-          "type": "string",
-          "format": "uuid"
-        },
-        "trackingId": {
+        "bundleSymbolicName": {
           "type": "string"
         },
-        "unitUsageRecords": {
+        "pluginKey": {
+          "type": "string"
+        },
+        "pluginName": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "isSelectedForStart": {
+          "type": "boolean",
+          "default": false
+        },
+        "services": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
-            "$ref": "#/definitions/UnitUsageRecord"
+            "$ref": "#/definitions/PluginServiceInfo"
           }
         }
       }
@@ -20541,7 +20786,8 @@
             "PENDING",
             "ACTIVE",
             "BLOCKED",
-            "CANCELLED"
+            "CANCELLED",
+            "EXPIRED"
           ]
         },
         "sourceType": {
@@ -20581,13 +20827,41 @@
         "priceOverrides": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PhasePriceOverride"
+            "$ref": "#/definitions/PhasePrice"
+          }
+        },
+        "prices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PhasePrice"
           }
         },
         "auditLogs": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/AuditLog"
+          }
+        }
+      }
+    },
+    "SubscriptionUsageRecord": {
+      "type": "object",
+      "required": [
+        "subscriptionId",
+        "unitUsageRecords"
+      ],
+      "properties": {
+        "subscriptionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "trackingId": {
+          "type": "string"
+        },
+        "unitUsageRecords": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitUsageRecord"
           }
         }
       }
@@ -20894,6 +21168,17 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/OverdueStateConfig"
+          }
+        }
+      }
+    },
+    "TierPrice": {
+      "type": "object",
+      "properties": {
+        "blockPrices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BlockPrice"
           }
         }
       }
@@ -21940,32 +22225,6 @@
         }
       }
     },
-    "PhasePriceOverride": {
-      "type": "object",
-      "properties": {
-        "planName": {
-          "type": "string"
-        },
-        "phaseName": {
-          "type": "string"
-        },
-        "phaseType": {
-          "type": "string"
-        },
-        "fixedPrice": {
-          "type": "number"
-        },
-        "recurringPrice": {
-          "type": "number"
-        },
-        "usagePriceOverrides": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/UsagePriceOverride"
-          }
-        }
-      }
-    },
     "AccountTimeline": {
       "type": "object",
       "properties": {
@@ -22135,7 +22394,7 @@
         "priceOverrides": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PhasePriceOverride"
+            "$ref": "#/definitions/PhasePrice"
           }
         }
       }
@@ -22230,6 +22489,41 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/AuditLog"
+          }
+        }
+      }
+    },
+    "UsagePrice": {
+      "type": "object",
+      "properties": {
+        "usageName": {
+          "type": "string"
+        },
+        "usageType": {
+          "type": "string",
+          "enum": [
+            "CAPACITY",
+            "CONSUMABLE"
+          ]
+        },
+        "billingMode": {
+          "type": "string",
+          "enum": [
+            "IN_ADVANCE",
+            "IN_ARREAR"
+          ]
+        },
+        "tierBlockPolicy": {
+          "type": "string",
+          "enum": [
+            "ALL_TIERS",
+            "TOP_TIER"
+          ]
+        },
+        "tierPrices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TierPrice"
           }
         }
       }
@@ -22586,52 +22880,6 @@
         }
       }
     },
-    "TierPriceOverride": {
-      "type": "object",
-      "properties": {
-        "blockPriceOverrides": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BlockPriceOverride"
-          }
-        }
-      }
-    },
-    "UsagePriceOverride": {
-      "type": "object",
-      "properties": {
-        "usageName": {
-          "type": "string"
-        },
-        "usageType": {
-          "type": "string",
-          "enum": [
-            "CAPACITY",
-            "CONSUMABLE"
-          ]
-        },
-        "billingMode": {
-          "type": "string",
-          "enum": [
-            "IN_ADVANCE",
-            "IN_ARREAR"
-          ]
-        },
-        "tierBlockPolicy": {
-          "type": "string",
-          "enum": [
-            "ALL_TIERS",
-            "TOP_TIER"
-          ]
-        },
-        "tierPriceOverrides": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/TierPriceOverride"
-          }
-        }
-      }
-    },
     "TieredBlock": {
       "type": "object",
       "properties": {
@@ -22893,18 +23141,6 @@
         }
       }
     },
-    "RolledUpUnit": {
-      "type": "object",
-      "properties": {
-        "unitType": {
-          "type": "string"
-        },
-        "amount": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
     "EventSubscription": {
       "type": "object",
       "properties": {
@@ -22985,6 +23221,18 @@
         }
       }
     },
+    "RolledUpUnit": {
+      "type": "object",
+      "properties": {
+        "unitType": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "UnitUsageRecord": {
       "type": "object",
       "properties": {
@@ -23021,6 +23269,32 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/AuditLog"
+          }
+        }
+      }
+    },
+    "PhasePrice": {
+      "type": "object",
+      "properties": {
+        "planName": {
+          "type": "string"
+        },
+        "phaseName": {
+          "type": "string"
+        },
+        "phaseType": {
+          "type": "string"
+        },
+        "fixedPrice": {
+          "type": "number"
+        },
+        "recurringPrice": {
+          "type": "number"
+        },
+        "usagePrices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UsagePrice"
           }
         }
       }
@@ -23570,24 +23844,6 @@
         }
       }
     },
-    "RoleDefinition": {
-      "type": "object",
-      "required": [
-        "permissions",
-        "role"
-      ],
-      "properties": {
-        "role": {
-          "type": "string"
-        },
-        "permissions": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "AccountEmail": {
       "type": "object",
       "required": [
@@ -23605,6 +23861,24 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/AuditLog"
+          }
+        }
+      }
+    },
+    "RoleDefinition": {
+      "type": "object",
+      "required": [
+        "permissions",
+        "role"
+      ],
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       }
@@ -23661,6 +23935,25 @@
         },
         "session": {
           "$ref": "#/definitions/Session"
+        }
+      }
+    },
+    "BlockPrice": {
+      "type": "object",
+      "properties": {
+        "unitName": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number",
+          "format": "double"
+        },
+        "price": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number",
+          "format": "double"
         }
       }
     },

@@ -117,6 +117,8 @@ type GetInvoicesForAccountParams struct {
 	Audit *string
 	/*IncludeVoidedInvoices*/
 	IncludeVoidedInvoices *bool
+	/*StartDate*/
+	StartDate *strfmt.Date
 	/*UnpaidInvoicesOnly*/
 	UnpaidInvoicesOnly *bool
 	/*WithItems*/
@@ -218,6 +220,17 @@ func (o *GetInvoicesForAccountParams) SetIncludeVoidedInvoices(includeVoidedInvo
 	o.IncludeVoidedInvoices = includeVoidedInvoices
 }
 
+// WithStartDate adds the startDate to the get invoices for account params
+func (o *GetInvoicesForAccountParams) WithStartDate(startDate *strfmt.Date) *GetInvoicesForAccountParams {
+	o.SetStartDate(startDate)
+	return o
+}
+
+// SetStartDate adds the startDate to the get invoices for account params
+func (o *GetInvoicesForAccountParams) SetStartDate(startDate *strfmt.Date) {
+	o.StartDate = startDate
+}
+
 // WithUnpaidInvoicesOnly adds the unpaidInvoicesOnly to the get invoices for account params
 func (o *GetInvoicesForAccountParams) WithUnpaidInvoicesOnly(unpaidInvoicesOnly *bool) *GetInvoicesForAccountParams {
 	o.SetUnpaidInvoicesOnly(unpaidInvoicesOnly)
@@ -300,6 +313,22 @@ func (o *GetInvoicesForAccountParams) WriteToRequest(r runtime.ClientRequest, re
 		qIncludeVoidedInvoices := swag.FormatBool(qrIncludeVoidedInvoices)
 		if qIncludeVoidedInvoices != "" {
 			if err := r.SetQueryParam("includeVoidedInvoices", qIncludeVoidedInvoices); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.StartDate != nil {
+
+		// query param startDate
+		var qrStartDate strfmt.Date
+		if o.StartDate != nil {
+			qrStartDate = *o.StartDate
+		}
+		qStartDate := qrStartDate.String()
+		if qStartDate != "" {
+			if err := r.SetQueryParam("startDate", qStartDate); err != nil {
 				return err
 			}
 		}

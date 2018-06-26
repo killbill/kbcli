@@ -26,11 +26,9 @@ import (
 func NewCreateExternalChargesParams() *CreateExternalChargesParams {
 	var (
 		autoCommitDefault = bool(false)
-		payInvoiceDefault = bool(false)
 	)
 	return &CreateExternalChargesParams{
 		AutoCommit: &autoCommitDefault,
-		PayInvoice: &payInvoiceDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -41,11 +39,9 @@ func NewCreateExternalChargesParams() *CreateExternalChargesParams {
 func NewCreateExternalChargesParamsWithTimeout(timeout time.Duration) *CreateExternalChargesParams {
 	var (
 		autoCommitDefault = bool(false)
-		payInvoiceDefault = bool(false)
 	)
 	return &CreateExternalChargesParams{
 		AutoCommit: &autoCommitDefault,
-		PayInvoice: &payInvoiceDefault,
 
 		timeout: timeout,
 	}
@@ -56,11 +52,9 @@ func NewCreateExternalChargesParamsWithTimeout(timeout time.Duration) *CreateExt
 func NewCreateExternalChargesParamsWithContext(ctx context.Context) *CreateExternalChargesParams {
 	var (
 		autoCommitDefault = bool(false)
-		payInvoiceDefault = bool(false)
 	)
 	return &CreateExternalChargesParams{
 		AutoCommit: &autoCommitDefault,
-		PayInvoice: &payInvoiceDefault,
 
 		Context: ctx,
 	}
@@ -71,11 +65,9 @@ func NewCreateExternalChargesParamsWithContext(ctx context.Context) *CreateExter
 func NewCreateExternalChargesParamsWithHTTPClient(client *http.Client) *CreateExternalChargesParams {
 	var (
 		autoCommitDefault = bool(false)
-		payInvoiceDefault = bool(false)
 	)
 	return &CreateExternalChargesParams{
 		AutoCommit: &autoCommitDefault,
-		PayInvoice: &payInvoiceDefault,
 		HTTPClient: client,
 	}
 }
@@ -101,16 +93,10 @@ type CreateExternalChargesParams struct {
 	AutoCommit *bool
 	/*Body*/
 	Body []*kbmodel.InvoiceItem
-	/*PayInvoice*/
-	PayInvoice *bool
-	/*PaymentExternalKey*/
-	PaymentExternalKey *string
 	/*PluginProperty*/
 	PluginProperty []string
 	/*RequestedDate*/
 	RequestedDate *strfmt.Date
-	/*TransactionExternalKey*/
-	TransactionExternalKey *string
 
 	WithStackTrace *bool
 	timeout        time.Duration
@@ -239,28 +225,6 @@ func (o *CreateExternalChargesParams) SetBody(body []*kbmodel.InvoiceItem) {
 	o.Body = body
 }
 
-// WithPayInvoice adds the payInvoice to the create external charges params
-func (o *CreateExternalChargesParams) WithPayInvoice(payInvoice *bool) *CreateExternalChargesParams {
-	o.SetPayInvoice(payInvoice)
-	return o
-}
-
-// SetPayInvoice adds the payInvoice to the create external charges params
-func (o *CreateExternalChargesParams) SetPayInvoice(payInvoice *bool) {
-	o.PayInvoice = payInvoice
-}
-
-// WithPaymentExternalKey adds the paymentExternalKey to the create external charges params
-func (o *CreateExternalChargesParams) WithPaymentExternalKey(paymentExternalKey *string) *CreateExternalChargesParams {
-	o.SetPaymentExternalKey(paymentExternalKey)
-	return o
-}
-
-// SetPaymentExternalKey adds the paymentExternalKey to the create external charges params
-func (o *CreateExternalChargesParams) SetPaymentExternalKey(paymentExternalKey *string) {
-	o.PaymentExternalKey = paymentExternalKey
-}
-
 // WithPluginProperty adds the pluginProperty to the create external charges params
 func (o *CreateExternalChargesParams) WithPluginProperty(pluginProperty []string) *CreateExternalChargesParams {
 	o.SetPluginProperty(pluginProperty)
@@ -281,17 +245,6 @@ func (o *CreateExternalChargesParams) WithRequestedDate(requestedDate *strfmt.Da
 // SetRequestedDate adds the requestedDate to the create external charges params
 func (o *CreateExternalChargesParams) SetRequestedDate(requestedDate *strfmt.Date) {
 	o.RequestedDate = requestedDate
-}
-
-// WithTransactionExternalKey adds the transactionExternalKey to the create external charges params
-func (o *CreateExternalChargesParams) WithTransactionExternalKey(transactionExternalKey *string) *CreateExternalChargesParams {
-	o.SetTransactionExternalKey(transactionExternalKey)
-	return o
-}
-
-// SetTransactionExternalKey adds the transactionExternalKey to the create external charges params
-func (o *CreateExternalChargesParams) SetTransactionExternalKey(transactionExternalKey *string) {
-	o.TransactionExternalKey = transactionExternalKey
 }
 
 // WriteToRequest writes these params to a swagger request
@@ -362,38 +315,6 @@ func (o *CreateExternalChargesParams) WriteToRequest(r runtime.ClientRequest, re
 		}
 	}
 
-	if o.PayInvoice != nil {
-
-		// query param payInvoice
-		var qrPayInvoice bool
-		if o.PayInvoice != nil {
-			qrPayInvoice = *o.PayInvoice
-		}
-		qPayInvoice := swag.FormatBool(qrPayInvoice)
-		if qPayInvoice != "" {
-			if err := r.SetQueryParam("payInvoice", qPayInvoice); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.PaymentExternalKey != nil {
-
-		// query param paymentExternalKey
-		var qrPaymentExternalKey string
-		if o.PaymentExternalKey != nil {
-			qrPaymentExternalKey = *o.PaymentExternalKey
-		}
-		qPaymentExternalKey := qrPaymentExternalKey
-		if qPaymentExternalKey != "" {
-			if err := r.SetQueryParam("paymentExternalKey", qPaymentExternalKey); err != nil {
-				return err
-			}
-		}
-
-	}
-
 	valuesPluginProperty := o.PluginProperty
 
 	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
@@ -412,22 +333,6 @@ func (o *CreateExternalChargesParams) WriteToRequest(r runtime.ClientRequest, re
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.TransactionExternalKey != nil {
-
-		// query param transactionExternalKey
-		var qrTransactionExternalKey string
-		if o.TransactionExternalKey != nil {
-			qrTransactionExternalKey = *o.TransactionExternalKey
-		}
-		qTransactionExternalKey := qrTransactionExternalKey
-		if qTransactionExternalKey != "" {
-			if err := r.SetQueryParam("transactionExternalKey", qTransactionExternalKey); err != nil {
 				return err
 			}
 		}

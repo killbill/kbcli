@@ -62,41 +62,26 @@ func (a *Client) CancelScheduledPaymentTransactionByExternalKey(ctx context.Cont
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "cancelScheduledPaymentTransactionByExternalKey",
 		Method:             "DELETE",
@@ -130,41 +115,26 @@ func (a *Client) CancelScheduledPaymentTransactionByID(ctx context.Context, para
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "cancelScheduledPaymentTransactionById",
 		Method:             "DELETE",
@@ -198,53 +168,26 @@ func (a *Client) CaptureAuthorization(ctx context.Context, params *CaptureAuthor
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "captureAuthorization",
 		Method:             "POST",
@@ -278,49 +221,26 @@ func (a *Client) CaptureAuthorizationByExternalKey(ctx context.Context, params *
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "captureAuthorizationByExternalKey",
 		Method:             "POST",
@@ -354,53 +274,26 @@ func (a *Client) ChargebackPayment(ctx context.Context, params *ChargebackPaymen
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "chargebackPayment",
 		Method:             "POST",
@@ -434,49 +327,26 @@ func (a *Client) ChargebackPaymentByExternalKey(ctx context.Context, params *Cha
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "chargebackPaymentByExternalKey",
 		Method:             "POST",
@@ -510,53 +380,26 @@ func (a *Client) ChargebackReversalPayment(ctx context.Context, params *Chargeba
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "chargebackReversalPayment",
 		Method:             "POST",
@@ -590,49 +433,26 @@ func (a *Client) ChargebackReversalPaymentByExternalKey(ctx context.Context, par
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "chargebackReversalPaymentByExternalKey",
 		Method:             "POST",
@@ -666,53 +486,26 @@ func (a *Client) CompleteTransaction(ctx context.Context, params *CompleteTransa
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "completeTransaction",
 		Method:             "PUT",
@@ -746,49 +539,26 @@ func (a *Client) CompleteTransactionByExternalKey(ctx context.Context, params *C
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "completeTransactionByExternalKey",
 		Method:             "PUT",
@@ -822,45 +592,26 @@ func (a *Client) CreateComboPayment(ctx context.Context, params *CreateComboPaym
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createComboPayment",
 		Method:             "POST",
@@ -894,45 +645,26 @@ func (a *Client) CreatePaymentCustomFields(ctx context.Context, params *CreatePa
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createPaymentCustomFields",
 		Method:             "POST",
@@ -966,45 +698,26 @@ func (a *Client) CreatePaymentTags(ctx context.Context, params *CreatePaymentTag
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createPaymentTags",
 		Method:             "POST",
@@ -1038,45 +751,26 @@ func (a *Client) DeletePaymentCustomFields(ctx context.Context, params *DeletePa
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deletePaymentCustomFields",
 		Method:             "DELETE",
@@ -1110,45 +804,26 @@ func (a *Client) DeletePaymentTags(ctx context.Context, params *DeletePaymentTag
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deletePaymentTags",
 		Method:             "DELETE",
@@ -1182,9 +857,6 @@ func (a *Client) GetPayment(ctx context.Context, params *GetPaymentParams) (*Get
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -1193,25 +865,6 @@ func (a *Client) GetPayment(ctx context.Context, params *GetPaymentParams) (*Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPayment",
 		Method:             "GET",
@@ -1245,9 +898,6 @@ func (a *Client) GetPaymentAttemptAuditLogsWithHistory(ctx context.Context, para
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -1256,9 +906,6 @@ func (a *Client) GetPaymentAttemptAuditLogsWithHistory(ctx context.Context, para
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentAttemptAuditLogsWithHistory",
 		Method:             "GET",
@@ -1292,9 +939,6 @@ func (a *Client) GetPaymentAuditLogsWithHistory(ctx context.Context, params *Get
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -1303,9 +947,6 @@ func (a *Client) GetPaymentAuditLogsWithHistory(ctx context.Context, params *Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentAuditLogsWithHistory",
 		Method:             "GET",
@@ -1339,9 +980,6 @@ func (a *Client) GetPaymentByExternalKey(ctx context.Context, params *GetPayment
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -1350,25 +988,6 @@ func (a *Client) GetPaymentByExternalKey(ctx context.Context, params *GetPayment
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentByExternalKey",
 		Method:             "GET",
@@ -1402,9 +1021,6 @@ func (a *Client) GetPaymentCustomFields(ctx context.Context, params *GetPaymentC
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -1413,13 +1029,6 @@ func (a *Client) GetPaymentCustomFields(ctx context.Context, params *GetPaymentC
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentCustomFields",
 		Method:             "GET",
@@ -1453,9 +1062,6 @@ func (a *Client) GetPaymentTags(ctx context.Context, params *GetPaymentTagsParam
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -1464,17 +1070,6 @@ func (a *Client) GetPaymentTags(ctx context.Context, params *GetPaymentTagsParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentTags",
 		Method:             "GET",
@@ -1508,9 +1103,6 @@ func (a *Client) GetPayments(ctx context.Context, params *GetPaymentsParams) (*G
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -1519,33 +1111,6 @@ func (a *Client) GetPayments(ctx context.Context, params *GetPaymentsParams) (*G
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPayments",
 		Method:             "GET",
@@ -1579,45 +1144,26 @@ func (a *Client) ModifyPaymentCustomFields(ctx context.Context, params *ModifyPa
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "modifyPaymentCustomFields",
 		Method:             "PUT",
@@ -1651,53 +1197,26 @@ func (a *Client) RefundPayment(ctx context.Context, params *RefundPaymentParams)
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "refundPayment",
 		Method:             "POST",
@@ -1731,49 +1250,26 @@ func (a *Client) RefundPaymentByExternalKey(ctx context.Context, params *RefundP
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "refundPaymentByExternalKey",
 		Method:             "POST",
@@ -1807,9 +1303,6 @@ func (a *Client) SearchPayments(ctx context.Context, params *SearchPaymentsParam
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -1818,37 +1311,6 @@ func (a *Client) SearchPayments(ctx context.Context, params *SearchPaymentsParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "searchPayments",
 		Method:             "GET",
@@ -1882,53 +1344,26 @@ func (a *Client) VoidPayment(ctx context.Context, params *VoidPaymentParams) (*V
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "voidPayment",
 		Method:             "DELETE",
@@ -1962,49 +1397,26 @@ func (a *Client) VoidPaymentByExternalKey(ctx context.Context, params *VoidPayme
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "voidPaymentByExternalKey",
 		Method:             "DELETE",

@@ -45,7 +45,7 @@ type InvoiceDryRun struct {
 	PriceListName string `json:"priceListName,omitempty"`
 
 	// price overrides
-	PriceOverrides []*PhasePriceOverride `json:"priceOverrides"`
+	PriceOverrides []*PhasePrice `json:"priceOverrides"`
 
 	// product category
 	ProductCategory string `json:"productCategory,omitempty"`

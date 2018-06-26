@@ -91,6 +91,8 @@ type CreateCreditParams struct {
 	AutoCommit *bool
 	/*Body*/
 	Body *kbmodel.Credit
+	/*PluginProperty*/
+	PluginProperty []string
 
 	WithStackTrace *bool
 	timeout        time.Duration
@@ -208,6 +210,17 @@ func (o *CreateCreditParams) SetBody(body *kbmodel.Credit) {
 	o.Body = body
 }
 
+// WithPluginProperty adds the pluginProperty to the create credit params
+func (o *CreateCreditParams) WithPluginProperty(pluginProperty []string) *CreateCreditParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the create credit params
+func (o *CreateCreditParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *CreateCreditParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -269,6 +282,14 @@ func (o *CreateCreditParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
+	}
+
+	valuesPluginProperty := o.PluginProperty
+
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	// header param withStackTrace

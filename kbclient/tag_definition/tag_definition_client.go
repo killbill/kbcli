@@ -62,41 +62,26 @@ func (a *Client) CreateTagDefinition(ctx context.Context, params *CreateTagDefin
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createTagDefinition",
 		Method:             "POST",
@@ -130,41 +115,26 @@ func (a *Client) DeleteTagDefinition(ctx context.Context, params *DeleteTagDefin
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteTagDefinition",
 		Method:             "DELETE",
@@ -198,9 +168,6 @@ func (a *Client) GetTagDefinition(ctx context.Context, params *GetTagDefinitionP
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -209,13 +176,6 @@ func (a *Client) GetTagDefinition(ctx context.Context, params *GetTagDefinitionP
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getTagDefinition",
 		Method:             "GET",
@@ -249,9 +209,6 @@ func (a *Client) GetTagDefinitionAuditLogsWithHistory(ctx context.Context, param
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -260,9 +217,6 @@ func (a *Client) GetTagDefinitionAuditLogsWithHistory(ctx context.Context, param
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getTagDefinitionAuditLogsWithHistory",
 		Method:             "GET",
@@ -296,9 +250,6 @@ func (a *Client) GetTagDefinitions(ctx context.Context, params *GetTagDefinition
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -307,9 +258,6 @@ func (a *Client) GetTagDefinitions(ctx context.Context, params *GetTagDefinition
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getTagDefinitions",
 		Method:             "GET",

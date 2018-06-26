@@ -62,41 +62,26 @@ func (a *Client) AddSimplePlan(ctx context.Context, params *AddSimplePlanParams)
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addSimplePlan",
 		Method:             "POST",
@@ -130,29 +115,16 @@ func (a *Client) DeleteCatalog(ctx context.Context, params *DeleteCatalogParams)
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
@@ -161,6 +133,7 @@ func (a *Client) DeleteCatalog(ctx context.Context, params *DeleteCatalogParams)
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteCatalog",
 		Method:             "DELETE",
@@ -194,9 +167,6 @@ func (a *Client) GetAvailableAddons(ctx context.Context, params *GetAvailableAdd
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -205,17 +175,6 @@ func (a *Client) GetAvailableAddons(ctx context.Context, params *GetAvailableAdd
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAvailableAddons",
 		Method:             "GET",
@@ -249,9 +208,6 @@ func (a *Client) GetAvailableBasePlans(ctx context.Context, params *GetAvailable
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -260,9 +216,6 @@ func (a *Client) GetAvailableBasePlans(ctx context.Context, params *GetAvailable
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAvailableBasePlans",
 		Method:             "GET",
@@ -296,9 +249,6 @@ func (a *Client) GetCatalogJSON(ctx context.Context, params *GetCatalogJSONParam
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -307,13 +257,6 @@ func (a *Client) GetCatalogJSON(ctx context.Context, params *GetCatalogJSONParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCatalogJson",
 		Method:             "GET",
@@ -347,9 +290,6 @@ func (a *Client) GetCatalogVersions(ctx context.Context, params *GetCatalogVersi
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -358,9 +298,6 @@ func (a *Client) GetCatalogVersions(ctx context.Context, params *GetCatalogVersi
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCatalogVersions",
 		Method:             "GET",
@@ -394,9 +331,6 @@ func (a *Client) GetCatalogXML(ctx context.Context, params *GetCatalogXMLParams)
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -405,13 +339,6 @@ func (a *Client) GetCatalogXML(ctx context.Context, params *GetCatalogXMLParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCatalogXml",
 		Method:             "GET",
@@ -445,9 +372,6 @@ func (a *Client) GetPhaseForSubscriptionAndDate(ctx context.Context, params *Get
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -456,13 +380,6 @@ func (a *Client) GetPhaseForSubscriptionAndDate(ctx context.Context, params *Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPhaseForSubscriptionAndDate",
 		Method:             "GET",
@@ -496,9 +413,6 @@ func (a *Client) GetPlanForSubscriptionAndDate(ctx context.Context, params *GetP
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -507,13 +421,6 @@ func (a *Client) GetPlanForSubscriptionAndDate(ctx context.Context, params *GetP
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPlanForSubscriptionAndDate",
 		Method:             "GET",
@@ -547,9 +454,6 @@ func (a *Client) GetPriceListForSubscriptionAndDate(ctx context.Context, params 
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -558,13 +462,6 @@ func (a *Client) GetPriceListForSubscriptionAndDate(ctx context.Context, params 
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPriceListForSubscriptionAndDate",
 		Method:             "GET",
@@ -598,9 +495,6 @@ func (a *Client) GetProductForSubscriptionAndDate(ctx context.Context, params *G
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
@@ -609,13 +503,6 @@ func (a *Client) GetProductForSubscriptionAndDate(ctx context.Context, params *G
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getProductForSubscriptionAndDate",
 		Method:             "GET",
@@ -649,41 +536,26 @@ func (a *Client) UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLP
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
 
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadCatalogXml",
 		Method:             "POST",
