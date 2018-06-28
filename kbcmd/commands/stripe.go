@@ -17,13 +17,12 @@ var stripeSecret string
 var createCardProperties = []args.Property{
 	{Name: "Name", Required: true},
 	{Name: "Number", Required: true},
-	{Name: "Month", Required: true},
-	{Name: "Year", Required: true},
+	{Name: "ExpMonth", Required: true},
+	{Name: "ExpYear", Required: true},
 	{Name: "CVC"},
-	{Name: "Country"},
+	{Name: "AddressCountry"},
 	{Name: "Currency"},
-	{Name: "State"},
-	{Name: "Zip"},
+	{Name: "AddressZip"},
 }
 
 // createStripeCardToken - new stripe credit card token
