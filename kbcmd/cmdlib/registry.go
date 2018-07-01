@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/killbill/kbcli/kbcommon"
 
@@ -48,14 +49,20 @@ func (r *App) Run(args []string) error {
 // Register new command
 func (r *App) Register(parentCmd string, command cli.Command, fn HandlerFn) {
 	var parent *cli.Commands
+	// Locate parent command
 	if parentCmd != "" {
-		for i := range r.app.Commands {
-			c := &r.app.Commands[i]
-			if c.Name == parentCmd {
-				if c.Subcommands == nil {
-					c.Subcommands = cli.Commands{}
+		root := r.app.Commands
+		for _, cmdName := range strings.Split(parentCmd, ".") {
+			for i := range root {
+				c := &root[i]
+				if c.Name == cmdName {
+					if c.Subcommands == nil {
+						c.Subcommands = cli.Commands{}
+					}
+					parent = &c.Subcommands
+					root = c.Subcommands
+					break
 				}
-				parent = &c.Subcommands
 			}
 		}
 		if parent == nil {
@@ -126,12 +133,13 @@ func (r *App) init() {
 		cli.StringFlag{
 			Name:  "format, f",
 			Value: "default",
-			Usage: `Output format. (One of table, short, default, json)
+			Usage: `Output format. (One of table, short, default, list, json)
 
      table   - tabular format
      short   - short tabular format. child items are not printed.
-     default - use short for collections (list), and table for single items (get).
-     json    - print json
+	 default - use short for collections, and table for single item.
+	 list    - list of key value pairs.
+     json    - print json.
 `,
 			Destination: &formatStr,
 		},

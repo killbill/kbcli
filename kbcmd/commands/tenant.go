@@ -18,15 +18,23 @@ var tenantKeyValueFormatter = cmdlib.Formatter{
 	Columns: []cmdlib.Column{
 		{
 			Name: "KEY",
-			Path: "$.key",
 		},
 	},
-	SubItems: []cmdlib.SubItem{
-		{
-			Name:      "VALUES",
-			FieldName: "Values",
-		},
-	},
+	CustomFn: customTenantKeyValueFormatter,
+}
+
+func customTenantKeyValueFormatter(v interface{}, fo cmdlib.FormatOptions) cmdlib.Output {
+	kv := v.(*kbmodel.TenantKeyValue)
+	out := cmdlib.Output{
+		Title:   "Keys",
+		Columns: []string{"KEY"},
+	}
+	for _, v := range kv.Values {
+		out.Rows = append(out.Rows, cmdlib.OutputRow{
+			Values: []string{v},
+		})
+	}
+	return out
 }
 
 func createTenant(ctx context.Context, o *cmdlib.Options) error {
@@ -85,24 +93,18 @@ func configureStripePlugin(ctx context.Context, o *cmdlib.Options) error {
 		stripeConfig += fmt.Sprintf("  :fees_amount: %f", fees)
 	}
 
-	o.Outputln("format: %s", stripeConfig)
-	resp, err := o.Client().Tenant.UploadPluginConfiguration(ctx, &tenant.UploadPluginConfigurationParams{
+	_, err = o.Client().Tenant.UploadPluginConfiguration(ctx, &tenant.UploadPluginConfigurationParams{
 		PluginName: "killbill-stripe",
 		Body:       &stripeConfig,
 	})
 	if err != nil {
 		return err
 	}
-	o.Print(resp.Payload)
-	return nil
-}
 
-func testCommand(ctx context.Context, o *cmdlib.Options) error {
-	test := &kbmodel.TenantKeyValue{
-		Key:    "hello",
-		Values: []string{"hey", "you", "come"},
-	}
-	o.Print(test)
+	config, err := o.Client().Tenant.GetPluginConfiguration(ctx, &tenant.GetPluginConfigurationParams{
+		PluginName: "killbill-stripe",
+	})
+	o.Print(config.Payload)
 	return nil
 }
 
@@ -141,17 +143,11 @@ func registerTenantCommands(r *cmdlib.App) {
 
 	// add stripe plugin
 	r.Register("tenants", cli.Command{
-		Name:  "add-stripe-plugin",
+		Name:  "configure-stripe-plugin",
 		Usage: "Adds stripe plugin configuration",
 		ArgsUsage: `PUBLIC_KEY PRIVATE_KEY FEES 
 		
 		For e.g., 
-			tenants add-stripe-plugin pk_test_WgswzvAG2ssFcB7Xk7tBi0XL sk_test_aM1UY1u411tPNI4LEL2tTFay 3%`,
+			tenants configure-stripe-plugin pk_test_WgswzvAG2ssFcB7Xk7tBi0XL sk_test_aM1UY1u411tPNI4LEL2tTFay 3%`,
 	}, configureStripePlugin)
-
-	// TODO: TEST command
-	r.Register("tenants", cli.Command{
-		Name:  "test",
-		Usage: "Test command to be removed",
-	}, testCommand)
 }

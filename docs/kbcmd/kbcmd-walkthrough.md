@@ -49,24 +49,63 @@ John Doe johndoe      e4f47a6b-9975-4922-9c5a-baae7ef4d03c johndoe@gmail.com <ni
 If you want to get help for specific command, just specify `-h` option. For ex.,
 `kbcmd acc create -h` will print help for create command.
 
-## Step 4: Create new subscription
-```sh
-kbcmd subscriptions create ExternalKey=bundle1 Account=johndoe ProductName=simple PlanName=simple-monthly PriceList=default
+## Step 4: Configure stripe (optional)
+This step configures stripe plugin. To do this, you need to get stripe account.
+Visit https://stripe.com/ and create a new account for yourself. After that, you
+can get the public/private key from Developers -> API Keys section.
+
+### Step 4.1 Configure plugin for tenant
+```bash
+# Configure stripe plugin with the keys that you got from stripe.com
+# Last parameter (3%) is the connect fee.
+# https://github.com/killbill/killbill-stripe-plugin/tree/work-for-release-0.19.x#connect
+kbcmd ten configure-stripe-plugin STRIPE_PUBLIC_KEY STRIPE_PRIVATE_KEY 3% 
 ```
-This will create a new bundle and print the output. 
+
+### Step 4.2 Generate stripe card token
+Stripe card token is anonymized credit card information. We will use this instead
+of using credit card directly.
+```bash
+kbcmd stripe --stripe_key STRIPE_PRIVATE_KEY new-card-token  Name="John Doe" Number=4242424242424242 ExpMonth=08 ExpYear=2019
+```
+store the card token in `CARD_TOKEN` variable.
+
+### Step 4.3 Set default payment method
+```bash
+# Add the payment method and set to default
+kbcmd accounts add-payment-method johndoe killbill-stripe true token=$CARD_TOKEN
+```
+
+## Step 5: Create new subscription
+```sh
+kbcmd subscriptions create ExternalKey=bundle1 Account=johndoe PlanName=simple-monthly
+```
+This will create a new bundle and print the output.
 ```
 EXTERNAL_KEY BUNDLE_ID
 bundle1      447ac056-182f-40a0-a672-8f7a4daa3851
 ```
 
-## Step 5: Generate invoices
+## Step 6: Check invoices
+Get list of invoices for account `johndoe`.
+```bash
+kbcmd invoices list johndoe
+```
+Since the subscription has fixed fees, you should see one invoice with $200.
+```
+AMOUNT BALANCE INVOICE_ID                           TARGET_DATE
+200    <nil>   303b4d21-2809-4e8a-a553-665b313da860 2018-08-03
+```
+
+## Step 7: Generate invoices for future date
 ```sh
 # Set the date one month in advance to current date
-DATE=2018-05-01
+# Don't copy paste the date!
+DATE=2018-08-03
 kbcmd invoices dry-run johndoe $DATE
 ```
 
-## Invoking other APIs
+# Invoking other APIs
 
 kbcmd -h will print all the supported commands. You can also specify `-h` for a specific command to usage.
 For ex., to print usage for `accounts create` command,

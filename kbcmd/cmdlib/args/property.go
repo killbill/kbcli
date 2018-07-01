@@ -8,11 +8,13 @@ import (
 )
 
 var defaultProperties = map[string]bool{
-	"xkillbillapikey":    true,
-	"xkillbillapisecret": true,
-	"xkillbillcomment":   true,
-	"xkillbillcreatedby": true,
-	"xkillbillreason":    true,
+	"xkillbillapikey":       true,
+	"xkillbillapisecret":    true,
+	"xkillbillcomment":      true,
+	"xkillbillcreatedby":    true,
+	"xkillbillreason":       true,
+	"processlocationheader": true,
+	"withstacktrace":        true,
 }
 
 // Property represents a single key/value pair that is used to collect input

@@ -3,7 +3,7 @@
   -->
 <catalog
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CatalogSchema.xsd ">
-    <effectiveDate>2018-04-13T02:24:15</effectiveDate>
+    <effectiveDate>2018-06-29T20:00:00</effectiveDate>
     <catalogName>simple-catalog</catalogName>
     <recurringBillingMode>IN_ARREAR</recurringBillingMode>
     <currencies>

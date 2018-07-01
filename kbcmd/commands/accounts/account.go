@@ -79,18 +79,15 @@ func createAccount(ctx context.Context, o *cmdlib.Options) error {
 		return err
 	}
 
-	_, err = o.Client().Account.CreateAccount(ctx, &account.CreateAccountParams{
+	accCreated, err := o.Client().Account.CreateAccount(ctx, &account.CreateAccountParams{
 		Body: accToCreate,
+		ProcessLocationHeader: true,
 	})
 	if err != nil {
 		return err
 	}
+	o.Print(accCreated.Payload)
 
-	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accToCreate.ExternalKey)
-	if err != nil {
-		return err
-	}
-	o.Print(acc)
 	return nil
 }
 
@@ -200,4 +197,5 @@ func RegisterAccountCommands(r *cmdlib.App) {
 
 	registerAccountPaymentCommands(r)
 	registerAccountTagCommands(r)
+	registerAccountCustomFieldCommands(r)
 }

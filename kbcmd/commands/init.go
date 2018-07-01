@@ -11,11 +11,15 @@ func RegisterAll(r *cmdlib.App) {
 	accounts.RegisterAccountCommands(r)
 	subscriptions.RegisterCommands(r)
 
-	registerInvoicesCommands(r)
-	registerTenantCommands(r)
-	registerCatalogCommands(r)
+	registerAuditLogCommands(r)
 	registerBundleCommands(r)
-
-	// Misc
+	registerCatalogCommands(r)
+	registerCustomFieldFunctions(r)
+	registerInvoicesCommands(r)
 	registerStripeCommands(r)
+	registerTagDefinitionCommands(r)
+	registerTenantCommands(r)
+
+	// Dev
+	registerDevCommands(r)
 }

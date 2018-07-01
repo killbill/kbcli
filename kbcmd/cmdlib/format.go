@@ -13,6 +13,9 @@ const (
 	// FormatTypeShort - Tabular but sub items are not printed
 	FormatTypeShort FormatType = iota
 
+	// FormatTypeList - List of key value pairs (same items as table)
+	FormatTypeList FormatType = iota
+
 	// FormatTypeFullJSON - Full JSON
 	FormatTypeFullJSON
 )
@@ -26,6 +29,8 @@ func (t *FormatType) Scan(str string) {
 		*t = FormatTypeTabular
 	case "short":
 		*t = FormatTypeShort
+	case "list":
+		*t = FormatTypeList
 	case "json":
 		*t = FormatTypeFullJSON
 	}
@@ -61,6 +66,9 @@ type Column struct {
 
 	// JsonPath to get the column
 	Path string
+
+	// Getter - Custom getter function
+	Getter func(interface{}) interface{}
 }
 
 // SubItem represents sub collection

@@ -49,7 +49,9 @@ func (out *Output) Merge(no Output) {
 
 // NewOutput creates new output
 func NewOutput(f Formatter) Output {
-	o := Output{}
+	o := Output{
+		Title: "Result",
+	}
 	for _, c := range f.Columns {
 		o.Columns = append(o.Columns, c.Name)
 	}
@@ -73,7 +75,12 @@ func (out *Output) applyFormatter(log Logger, v interface{}, fo FormatOptions, f
 	var row OutputRow
 
 	for _, c := range f.Columns {
-		res, _ := jsonpath.JsonPathLookup(jsonData, c.Path)
+		var res interface{}
+		if c.Getter != nil {
+			res = c.Getter(v)
+		} else {
+			res, _ = jsonpath.JsonPathLookup(jsonData, c.Path)
+		}
 		row.Values = append(row.Values, fmt.Sprintf("%v", res))
 	}
 
@@ -149,5 +156,8 @@ func getFormattedOutput(log Logger, v interface{}, fo FormatOptions, f Formatter
 		return nil, err
 	}
 
+	if fo.Type == FormatTypeList {
+		return printList(out, fo, "")
+	}
 	return printColumns(out, fo, "")
 }

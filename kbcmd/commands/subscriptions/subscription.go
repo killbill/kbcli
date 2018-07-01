@@ -50,6 +50,13 @@ var subscriptionFormatter = cmdlib.Formatter{
 			Name: "PRODUCT",
 			Path: "$.productName",
 		},
+		{
+			Name: "EVENT_COUNT",
+			Getter: func(v interface{}) interface{} {
+				s := v.(*kbmodel.Subscription)
+				return len(s.Events)
+			},
+		},
 	},
 	SubItems: []cmdlib.SubItem{
 		{
