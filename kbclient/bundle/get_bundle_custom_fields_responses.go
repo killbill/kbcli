@@ -28,17 +28,12 @@ func (o *GetBundleCustomFieldsReader) ReadResponse(response runtime.ClientRespon
 
 	case 200:
 		result := NewGetBundleCustomFieldsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetBundleCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetBundleCustomFieldsOK struct {
 	Payload []*kbmodel.CustomField
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleCustomFieldsOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetBundleCustomFieldsBadRequest() *GetBundleCustomFieldsBadRequest {
 Invalid bundle id supplied
 */
 type GetBundleCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleCustomFieldsBadRequest) Error() string {

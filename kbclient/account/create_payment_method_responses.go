@@ -26,26 +26,14 @@ type CreatePaymentMethodReader struct {
 func (o *CreatePaymentMethodReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreatePaymentMethodCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreatePaymentMethodBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCreatePaymentMethodNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Payment method created
 */
 type CreatePaymentMethodCreated struct {
 	Payload *kbmodel.PaymentMethod
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreatePaymentMethodCreated) Error() string {
@@ -94,6 +84,7 @@ func NewCreatePaymentMethodBadRequest() *CreatePaymentMethodBadRequest {
 Invalid account id supplied
 */
 type CreatePaymentMethodBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreatePaymentMethodBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewCreatePaymentMethodNotFound() *CreatePaymentMethodNotFound {
 Account not found
 */
 type CreatePaymentMethodNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreatePaymentMethodNotFound) Error() string {

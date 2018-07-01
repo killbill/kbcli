@@ -26,17 +26,12 @@ func (o *ModifyInvoiceItemCustomFieldsReader) ReadResponse(response runtime.Clie
 
 	case 204:
 		result := NewModifyInvoiceItemCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewModifyInvoiceItemCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewModifyInvoiceItemCustomFieldsNoContent() *ModifyInvoiceItemCustomFieldsN
 Successful operation
 */
 type ModifyInvoiceItemCustomFieldsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyInvoiceItemCustomFieldsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewModifyInvoiceItemCustomFieldsBadRequest() *ModifyInvoiceItemCustomFields
 Invalid invoice item id supplied
 */
 type ModifyInvoiceItemCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyInvoiceItemCustomFieldsBadRequest) Error() string {

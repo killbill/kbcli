@@ -28,17 +28,12 @@ func (o *GetUserRolesReader) ReadResponse(response runtime.ClientResponse, consu
 
 	case 200:
 		result := NewGetUserRolesOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetUserRolesNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetUserRolesOK struct {
 	Payload *kbmodel.UserRoles
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetUserRolesOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetUserRolesNotFound() *GetUserRolesNotFound {
 The user does not exist or has been inactivated
 */
 type GetUserRolesNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetUserRolesNotFound) Error() string {

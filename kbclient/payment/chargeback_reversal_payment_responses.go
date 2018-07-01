@@ -26,61 +26,14 @@ type ChargebackReversalPaymentReader struct {
 func (o *ChargebackReversalPaymentReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewChargebackReversalPaymentCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewChargebackReversalPaymentBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 402:
-		result := NewChargebackReversalPaymentPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewChargebackReversalPaymentNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewChargebackReversalPaymentUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewChargebackReversalPaymentBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewChargebackReversalPaymentServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewChargebackReversalPaymentGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -101,6 +54,8 @@ Payment transaction created successfully
 */
 type ChargebackReversalPaymentCreated struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentCreated) Error() string {
@@ -129,6 +84,7 @@ func NewChargebackReversalPaymentBadRequest() *ChargebackReversalPaymentBadReque
 Invalid paymentId supplied
 */
 type ChargebackReversalPaymentBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentBadRequest) Error() string {
@@ -150,6 +106,7 @@ func NewChargebackReversalPaymentPaymentRequired() *ChargebackReversalPaymentPay
 Transaction declined by gateway
 */
 type ChargebackReversalPaymentPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentPaymentRequired) Error() string {
@@ -171,6 +128,7 @@ func NewChargebackReversalPaymentNotFound() *ChargebackReversalPaymentNotFound {
 Account or payment not found
 */
 type ChargebackReversalPaymentNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentNotFound) Error() string {
@@ -192,6 +150,7 @@ func NewChargebackReversalPaymentUnprocessableEntity() *ChargebackReversalPaymen
 Payment is aborted by a control plugin
 */
 type ChargebackReversalPaymentUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentUnprocessableEntity) Error() string {
@@ -213,6 +172,7 @@ func NewChargebackReversalPaymentBadGateway() *ChargebackReversalPaymentBadGatew
 Failed to submit payment transaction
 */
 type ChargebackReversalPaymentBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentBadGateway) Error() string {
@@ -234,6 +194,7 @@ func NewChargebackReversalPaymentServiceUnavailable() *ChargebackReversalPayment
 Payment in unknown status, failed to receive gateway response
 */
 type ChargebackReversalPaymentServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentServiceUnavailable) Error() string {
@@ -255,6 +216,7 @@ func NewChargebackReversalPaymentGatewayTimeout() *ChargebackReversalPaymentGate
 Payment operation timeout
 */
 type ChargebackReversalPaymentGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentGatewayTimeout) Error() string {

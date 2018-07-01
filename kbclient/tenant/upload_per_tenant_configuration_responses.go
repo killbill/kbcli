@@ -26,19 +26,14 @@ type UploadPerTenantConfigurationReader struct {
 func (o *UploadPerTenantConfigurationReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewUploadPerTenantConfigurationCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUploadPerTenantConfigurationBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Per tenant configuration uploaded successfully
 */
 type UploadPerTenantConfigurationCreated struct {
 	Payload *kbmodel.TenantKeyValue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadPerTenantConfigurationCreated) Error() string {
@@ -87,6 +84,7 @@ func NewUploadPerTenantConfigurationBadRequest() *UploadPerTenantConfigurationBa
 Invalid tenantId supplied
 */
 type UploadPerTenantConfigurationBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadPerTenantConfigurationBadRequest) Error() string {

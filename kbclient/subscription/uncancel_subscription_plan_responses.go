@@ -26,24 +26,12 @@ func (o *UncancelSubscriptionPlanReader) ReadResponse(response runtime.ClientRes
 
 	case 204:
 		result := NewUncancelSubscriptionPlanNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUncancelSubscriptionPlanBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewUncancelSubscriptionPlanNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewUncancelSubscriptionPlanNoContent() *UncancelSubscriptionPlanNoContent {
 Successful operation
 */
 type UncancelSubscriptionPlanNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UncancelSubscriptionPlanNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewUncancelSubscriptionPlanBadRequest() *UncancelSubscriptionPlanBadRequest
 Invalid subscription id supplied
 */
 type UncancelSubscriptionPlanBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UncancelSubscriptionPlanBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewUncancelSubscriptionPlanNotFound() *UncancelSubscriptionPlanNotFound {
 Entitlement not found
 */
 type UncancelSubscriptionPlanNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UncancelSubscriptionPlanNotFound) Error() string {

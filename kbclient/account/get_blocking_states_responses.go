@@ -28,17 +28,12 @@ func (o *GetBlockingStatesReader) ReadResponse(response runtime.ClientResponse, 
 
 	case 200:
 		result := NewGetBlockingStatesOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetBlockingStatesBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetBlockingStatesOK struct {
 	Payload []*kbmodel.BlockingState
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBlockingStatesOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetBlockingStatesBadRequest() *GetBlockingStatesBadRequest {
 Invalid account id supplied
 */
 type GetBlockingStatesBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBlockingStatesBadRequest) Error() string {

@@ -28,17 +28,12 @@ func (o *GetAllUsageReader) ReadResponse(response runtime.ClientResponse, consum
 
 	case 200:
 		result := NewGetAllUsageOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetAllUsageBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetAllUsageOK struct {
 	Payload *kbmodel.RolledUpUsage
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllUsageOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetAllUsageBadRequest() *GetAllUsageBadRequest {
 Missing start date or end date
 */
 type GetAllUsageBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllUsageBadRequest) Error() string {

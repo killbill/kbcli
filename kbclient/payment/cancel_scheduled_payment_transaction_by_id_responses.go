@@ -26,17 +26,12 @@ func (o *CancelScheduledPaymentTransactionByIDReader) ReadResponse(response runt
 
 	case 204:
 		result := NewCancelScheduledPaymentTransactionByIDNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCancelScheduledPaymentTransactionByIDBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewCancelScheduledPaymentTransactionByIDNoContent() *CancelScheduledPayment
 Successful operation
 */
 type CancelScheduledPaymentTransactionByIDNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CancelScheduledPaymentTransactionByIDNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewCancelScheduledPaymentTransactionByIDBadRequest() *CancelScheduledPaymen
 Invalid paymentTransactionId supplied
 */
 type CancelScheduledPaymentTransactionByIDBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CancelScheduledPaymentTransactionByIDBadRequest) Error() string {

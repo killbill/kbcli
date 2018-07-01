@@ -26,17 +26,12 @@ func (o *GetInvoiceTemplateReader) ReadResponse(response runtime.ClientResponse,
 
 	case 200:
 		result := NewGetInvoiceTemplateOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetInvoiceTemplateNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -57,6 +52,8 @@ successful operation
 */
 type GetInvoiceTemplateOK struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceTemplateOK) Error() string {
@@ -83,6 +80,7 @@ func NewGetInvoiceTemplateNotFound() *GetInvoiceTemplateNotFound {
 Template not found
 */
 type GetInvoiceTemplateNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceTemplateNotFound) Error() string {

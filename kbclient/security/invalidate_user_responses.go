@@ -26,6 +26,7 @@ func (o *InvalidateUserReader) ReadResponse(response runtime.ClientResponse, con
 
 	case 204:
 		result := NewInvalidateUserNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +50,7 @@ func NewInvalidateUserNoContent() *InvalidateUserNoContent {
 Successful operation
 */
 type InvalidateUserNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *InvalidateUserNoContent) Error() string {

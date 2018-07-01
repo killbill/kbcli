@@ -26,26 +26,14 @@ type AddAccountBlockingStateReader struct {
 func (o *AddAccountBlockingStateReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewAddAccountBlockingStateCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewAddAccountBlockingStateBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewAddAccountBlockingStateNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Blocking state created successfully
 */
 type AddAccountBlockingStateCreated struct {
 	Payload []*kbmodel.BlockingState
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddAccountBlockingStateCreated) Error() string {
@@ -92,6 +82,7 @@ func NewAddAccountBlockingStateBadRequest() *AddAccountBlockingStateBadRequest {
 Invalid account id supplied
 */
 type AddAccountBlockingStateBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddAccountBlockingStateBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewAddAccountBlockingStateNotFound() *AddAccountBlockingStateNotFound {
 Account not found
 */
 type AddAccountBlockingStateNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddAccountBlockingStateNotFound) Error() string {

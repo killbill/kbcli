@@ -26,17 +26,12 @@ func (o *DeletePaymentTagsReader) ReadResponse(response runtime.ClientResponse, 
 
 	case 204:
 		result := NewDeletePaymentTagsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeletePaymentTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeletePaymentTagsNoContent() *DeletePaymentTagsNoContent {
 Successful operation
 */
 type DeletePaymentTagsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePaymentTagsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeletePaymentTagsBadRequest() *DeletePaymentTagsBadRequest {
 Invalid payment id supplied
 */
 type DeletePaymentTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePaymentTagsBadRequest) Error() string {

@@ -26,54 +26,14 @@ type RefundPaymentByExternalKeyReader struct {
 func (o *RefundPaymentByExternalKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewRefundPaymentByExternalKeyCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 402:
-		result := NewRefundPaymentByExternalKeyPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewRefundPaymentByExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewRefundPaymentByExternalKeyUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewRefundPaymentByExternalKeyBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewRefundPaymentByExternalKeyServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewRefundPaymentByExternalKeyGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -94,6 +54,8 @@ Payment transaction created successfully
 */
 type RefundPaymentByExternalKeyCreated struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentByExternalKeyCreated) Error() string {
@@ -122,6 +84,7 @@ func NewRefundPaymentByExternalKeyPaymentRequired() *RefundPaymentByExternalKeyP
 Transaction declined by gateway
 */
 type RefundPaymentByExternalKeyPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentByExternalKeyPaymentRequired) Error() string {
@@ -143,6 +106,7 @@ func NewRefundPaymentByExternalKeyNotFound() *RefundPaymentByExternalKeyNotFound
 Account or payment not found
 */
 type RefundPaymentByExternalKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentByExternalKeyNotFound) Error() string {
@@ -164,6 +128,7 @@ func NewRefundPaymentByExternalKeyUnprocessableEntity() *RefundPaymentByExternal
 Payment is aborted by a control plugin
 */
 type RefundPaymentByExternalKeyUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentByExternalKeyUnprocessableEntity) Error() string {
@@ -185,6 +150,7 @@ func NewRefundPaymentByExternalKeyBadGateway() *RefundPaymentByExternalKeyBadGat
 Failed to submit payment transaction
 */
 type RefundPaymentByExternalKeyBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentByExternalKeyBadGateway) Error() string {
@@ -206,6 +172,7 @@ func NewRefundPaymentByExternalKeyServiceUnavailable() *RefundPaymentByExternalK
 Payment in unknown status, failed to receive gateway response
 */
 type RefundPaymentByExternalKeyServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentByExternalKeyServiceUnavailable) Error() string {
@@ -227,6 +194,7 @@ func NewRefundPaymentByExternalKeyGatewayTimeout() *RefundPaymentByExternalKeyGa
 Payment operation timeout
 */
 type RefundPaymentByExternalKeyGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentByExternalKeyGatewayTimeout) Error() string {

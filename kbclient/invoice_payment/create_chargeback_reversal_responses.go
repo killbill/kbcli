@@ -26,26 +26,14 @@ type CreateChargebackReversalReader struct {
 func (o *CreateChargebackReversalReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateChargebackReversalCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateChargebackReversalBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCreateChargebackReversalNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Created chargeback reversal successfully
 */
 type CreateChargebackReversalCreated struct {
 	Payload *kbmodel.InvoicePayment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateChargebackReversalCreated) Error() string {
@@ -94,6 +84,7 @@ func NewCreateChargebackReversalBadRequest() *CreateChargebackReversalBadRequest
 Invalid payment id supplied
 */
 type CreateChargebackReversalBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateChargebackReversalBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewCreateChargebackReversalNotFound() *CreateChargebackReversalNotFound {
 Account or payment not found
 */
 type CreateChargebackReversalNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateChargebackReversalNotFound) Error() string {

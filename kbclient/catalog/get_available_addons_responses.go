@@ -28,6 +28,7 @@ func (o *GetAvailableAddonsReader) ReadResponse(response runtime.ClientResponse,
 
 	case 200:
 		result := NewGetAvailableAddonsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetAvailableAddonsOK struct {
 	Payload []*kbmodel.PlanDetail
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAvailableAddonsOK) Error() string {

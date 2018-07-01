@@ -28,6 +28,7 @@ func (o *GetAvailableBasePlansReader) ReadResponse(response runtime.ClientRespon
 
 	case 200:
 		result := NewGetAvailableBasePlansOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetAvailableBasePlansOK struct {
 	Payload []*kbmodel.PlanDetail
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAvailableBasePlansOK) Error() string {

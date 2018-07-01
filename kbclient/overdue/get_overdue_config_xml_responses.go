@@ -26,6 +26,7 @@ func (o *GetOverdueConfigXMLReader) ReadResponse(response runtime.ClientResponse
 
 	case 200:
 		result := NewGetOverdueConfigXMLOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +51,8 @@ successful operation
 */
 type GetOverdueConfigXMLOK struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetOverdueConfigXMLOK) Error() string {

@@ -28,24 +28,12 @@ func (o *GetAllTagsReader) ReadResponse(response runtime.ClientResponse, consume
 
 	case 200:
 		result := NewGetAllTagsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetAllTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetAllTagsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetAllTagsOK struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllTagsOK) Error() string {
@@ -92,6 +82,7 @@ func NewGetAllTagsBadRequest() *GetAllTagsBadRequest {
 Invalid account id supplied
 */
 type GetAllTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllTagsBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewGetAllTagsNotFound() *GetAllTagsNotFound {
 Account not found
 */
 type GetAllTagsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllTagsNotFound) Error() string {

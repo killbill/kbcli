@@ -28,24 +28,12 @@ func (o *GetInvoiceItemTagsReader) ReadResponse(response runtime.ClientResponse,
 
 	case 200:
 		result := NewGetInvoiceItemTagsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetInvoiceItemTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetInvoiceItemTagsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetInvoiceItemTagsOK struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceItemTagsOK) Error() string {
@@ -92,6 +82,7 @@ func NewGetInvoiceItemTagsBadRequest() *GetInvoiceItemTagsBadRequest {
 Invalid invoice item id supplied
 */
 type GetInvoiceItemTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceItemTagsBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewGetInvoiceItemTagsNotFound() *GetInvoiceItemTagsNotFound {
 Account not found
 */
 type GetInvoiceItemTagsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceItemTagsNotFound) Error() string {

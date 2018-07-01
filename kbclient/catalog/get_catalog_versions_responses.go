@@ -26,6 +26,7 @@ func (o *GetCatalogVersionsReader) ReadResponse(response runtime.ClientResponse,
 
 	case 200:
 		result := NewGetCatalogVersionsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +51,8 @@ successful operation
 */
 type GetCatalogVersionsOK struct {
 	Payload []strfmt.DateTime
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCatalogVersionsOK) Error() string {

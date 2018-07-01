@@ -28,6 +28,7 @@ func (o *GetTagDefinitionsReader) ReadResponse(response runtime.ClientResponse, 
 
 	case 200:
 		result := NewGetTagDefinitionsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetTagDefinitionsOK struct {
 	Payload []*kbmodel.TagDefinition
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTagDefinitionsOK) Error() string {

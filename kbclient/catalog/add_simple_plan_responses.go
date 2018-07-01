@@ -24,8 +24,9 @@ type AddSimplePlanReader struct {
 func (o *AddSimplePlanReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewAddSimplePlanCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +51,8 @@ Created new plan successfully
 */
 type AddSimplePlanCreated struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddSimplePlanCreated) Error() string {

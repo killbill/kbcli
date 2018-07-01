@@ -26,52 +26,12 @@ func (o *CompleteTransactionByExternalKeyReader) ReadResponse(response runtime.C
 
 	case 204:
 		result := NewCompleteTransactionByExternalKeyNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 402:
-		result := NewCompleteTransactionByExternalKeyPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCompleteTransactionByExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewCompleteTransactionByExternalKeyUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewCompleteTransactionByExternalKeyBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewCompleteTransactionByExternalKeyServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewCompleteTransactionByExternalKeyGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -91,6 +51,7 @@ func NewCompleteTransactionByExternalKeyNoContent() *CompleteTransactionByExtern
 Successful operation
 */
 type CompleteTransactionByExternalKeyNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionByExternalKeyNoContent) Error() string {
@@ -112,6 +73,7 @@ func NewCompleteTransactionByExternalKeyPaymentRequired() *CompleteTransactionBy
 Transaction declined by gateway
 */
 type CompleteTransactionByExternalKeyPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionByExternalKeyPaymentRequired) Error() string {
@@ -133,6 +95,7 @@ func NewCompleteTransactionByExternalKeyNotFound() *CompleteTransactionByExterna
 Account or payment not found
 */
 type CompleteTransactionByExternalKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionByExternalKeyNotFound) Error() string {
@@ -154,6 +117,7 @@ func NewCompleteTransactionByExternalKeyUnprocessableEntity() *CompleteTransacti
 Payment is aborted by a control plugin
 */
 type CompleteTransactionByExternalKeyUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionByExternalKeyUnprocessableEntity) Error() string {
@@ -175,6 +139,7 @@ func NewCompleteTransactionByExternalKeyBadGateway() *CompleteTransactionByExter
 Failed to submit payment transaction
 */
 type CompleteTransactionByExternalKeyBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionByExternalKeyBadGateway) Error() string {
@@ -196,6 +161,7 @@ func NewCompleteTransactionByExternalKeyServiceUnavailable() *CompleteTransactio
 Payment in unknown status, failed to receive gateway response
 */
 type CompleteTransactionByExternalKeyServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionByExternalKeyServiceUnavailable) Error() string {
@@ -217,6 +183,7 @@ func NewCompleteTransactionByExternalKeyGatewayTimeout() *CompleteTransactionByE
 Payment operation timeout
 */
 type CompleteTransactionByExternalKeyGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionByExternalKeyGatewayTimeout) Error() string {

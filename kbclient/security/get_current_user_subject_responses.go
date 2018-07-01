@@ -28,6 +28,7 @@ func (o *GetCurrentUserSubjectReader) ReadResponse(response runtime.ClientRespon
 
 	case 200:
 		result := NewGetCurrentUserSubjectOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetCurrentUserSubjectOK struct {
 	Payload *kbmodel.Subject
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCurrentUserSubjectOK) Error() string {

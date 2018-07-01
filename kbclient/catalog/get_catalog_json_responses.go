@@ -28,6 +28,7 @@ func (o *GetCatalogJSONReader) ReadResponse(response runtime.ClientResponse, con
 
 	case 200:
 		result := NewGetCatalogJSONOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetCatalogJSONOK struct {
 	Payload []*kbmodel.Catalog
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCatalogJSONOK) Error() string {

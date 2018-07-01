@@ -26,26 +26,14 @@ type CreateCreditReader struct {
 func (o *CreateCreditReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateCreditCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateCreditBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCreateCreditNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Created credit successfully
 */
 type CreateCreditCreated struct {
 	Payload *kbmodel.Credit
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateCreditCreated) Error() string {
@@ -94,6 +84,7 @@ func NewCreateCreditBadRequest() *CreateCreditBadRequest {
 Invalid account id supplied
 */
 type CreateCreditBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateCreditBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewCreateCreditNotFound() *CreateCreditNotFound {
 Account not found
 */
 type CreateCreditNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateCreditNotFound) Error() string {

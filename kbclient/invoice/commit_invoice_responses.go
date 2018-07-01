@@ -26,17 +26,12 @@ func (o *CommitInvoiceReader) ReadResponse(response runtime.ClientResponse, cons
 
 	case 204:
 		result := NewCommitInvoiceNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewCommitInvoiceNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewCommitInvoiceNoContent() *CommitInvoiceNoContent {
 Successful operation
 */
 type CommitInvoiceNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CommitInvoiceNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewCommitInvoiceNotFound() *CommitInvoiceNotFound {
 Invoice not found
 */
 type CommitInvoiceNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CommitInvoiceNotFound) Error() string {

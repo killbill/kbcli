@@ -26,17 +26,12 @@ func (o *GetInvoiceAsHTMLReader) ReadResponse(response runtime.ClientResponse, c
 
 	case 200:
 		result := NewGetInvoiceAsHTMLOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetInvoiceAsHTMLNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -57,6 +52,8 @@ successful operation
 */
 type GetInvoiceAsHTMLOK struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceAsHTMLOK) Error() string {
@@ -83,6 +80,7 @@ func NewGetInvoiceAsHTMLNotFound() *GetInvoiceAsHTMLNotFound {
 Invoice not found
 */
 type GetInvoiceAsHTMLNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceAsHTMLNotFound) Error() string {

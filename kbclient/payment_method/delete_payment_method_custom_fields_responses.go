@@ -26,17 +26,12 @@ func (o *DeletePaymentMethodCustomFieldsReader) ReadResponse(response runtime.Cl
 
 	case 204:
 		result := NewDeletePaymentMethodCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeletePaymentMethodCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeletePaymentMethodCustomFieldsNoContent() *DeletePaymentMethodCustomFie
 Successful operation
 */
 type DeletePaymentMethodCustomFieldsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePaymentMethodCustomFieldsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeletePaymentMethodCustomFieldsBadRequest() *DeletePaymentMethodCustomFi
 Invalid payment method id supplied
 */
 type DeletePaymentMethodCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePaymentMethodCustomFieldsBadRequest) Error() string {

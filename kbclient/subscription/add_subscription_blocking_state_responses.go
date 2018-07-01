@@ -26,26 +26,14 @@ type AddSubscriptionBlockingStateReader struct {
 func (o *AddSubscriptionBlockingStateReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewAddSubscriptionBlockingStateCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewAddSubscriptionBlockingStateBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewAddSubscriptionBlockingStateNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Blocking state created successfully
 */
 type AddSubscriptionBlockingStateCreated struct {
 	Payload []*kbmodel.BlockingState
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddSubscriptionBlockingStateCreated) Error() string {
@@ -92,6 +82,7 @@ func NewAddSubscriptionBlockingStateBadRequest() *AddSubscriptionBlockingStateBa
 Invalid subscription id supplied
 */
 type AddSubscriptionBlockingStateBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddSubscriptionBlockingStateBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewAddSubscriptionBlockingStateNotFound() *AddSubscriptionBlockingStateNotF
 Subscription not found
 */
 type AddSubscriptionBlockingStateNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddSubscriptionBlockingStateNotFound) Error() string {

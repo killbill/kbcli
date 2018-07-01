@@ -26,59 +26,12 @@ func (o *CompleteInvoicePaymentTransactionReader) ReadResponse(response runtime.
 
 	case 204:
 		result := NewCompleteInvoicePaymentTransactionNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCompleteInvoicePaymentTransactionBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 402:
-		result := NewCompleteInvoicePaymentTransactionPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCompleteInvoicePaymentTransactionNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewCompleteInvoicePaymentTransactionUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewCompleteInvoicePaymentTransactionBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewCompleteInvoicePaymentTransactionServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewCompleteInvoicePaymentTransactionGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -98,6 +51,7 @@ func NewCompleteInvoicePaymentTransactionNoContent() *CompleteInvoicePaymentTran
 Successful operation
 */
 type CompleteInvoicePaymentTransactionNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionNoContent) Error() string {
@@ -119,6 +73,7 @@ func NewCompleteInvoicePaymentTransactionBadRequest() *CompleteInvoicePaymentTra
 Invalid paymentId supplied
 */
 type CompleteInvoicePaymentTransactionBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionBadRequest) Error() string {
@@ -140,6 +95,7 @@ func NewCompleteInvoicePaymentTransactionPaymentRequired() *CompleteInvoicePayme
 Transaction declined by gateway
 */
 type CompleteInvoicePaymentTransactionPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionPaymentRequired) Error() string {
@@ -161,6 +117,7 @@ func NewCompleteInvoicePaymentTransactionNotFound() *CompleteInvoicePaymentTrans
 Account or payment not found
 */
 type CompleteInvoicePaymentTransactionNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionNotFound) Error() string {
@@ -182,6 +139,7 @@ func NewCompleteInvoicePaymentTransactionUnprocessableEntity() *CompleteInvoiceP
 Payment is aborted by a control plugin
 */
 type CompleteInvoicePaymentTransactionUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionUnprocessableEntity) Error() string {
@@ -203,6 +161,7 @@ func NewCompleteInvoicePaymentTransactionBadGateway() *CompleteInvoicePaymentTra
 Failed to submit payment transaction
 */
 type CompleteInvoicePaymentTransactionBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionBadGateway) Error() string {
@@ -224,6 +183,7 @@ func NewCompleteInvoicePaymentTransactionServiceUnavailable() *CompleteInvoicePa
 Payment in unknown status, failed to receive gateway response
 */
 type CompleteInvoicePaymentTransactionServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionServiceUnavailable) Error() string {
@@ -245,6 +205,7 @@ func NewCompleteInvoicePaymentTransactionGatewayTimeout() *CompleteInvoicePaymen
 Payment operation timeout
 */
 type CompleteInvoicePaymentTransactionGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionGatewayTimeout) Error() string {

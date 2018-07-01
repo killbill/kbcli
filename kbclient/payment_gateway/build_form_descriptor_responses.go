@@ -28,17 +28,12 @@ func (o *BuildFormDescriptorReader) ReadResponse(response runtime.ClientResponse
 
 	case 200:
 		result := NewBuildFormDescriptorOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewBuildFormDescriptorNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type BuildFormDescriptorOK struct {
 	Payload *kbmodel.HostedPaymentPageFormDescriptor
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *BuildFormDescriptorOK) Error() string {
@@ -87,6 +84,7 @@ func NewBuildFormDescriptorNotFound() *BuildFormDescriptorNotFound {
 Account not found
 */
 type BuildFormDescriptorNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *BuildFormDescriptorNotFound) Error() string {

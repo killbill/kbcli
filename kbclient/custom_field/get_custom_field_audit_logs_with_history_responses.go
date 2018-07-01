@@ -28,17 +28,12 @@ func (o *GetCustomFieldAuditLogsWithHistoryReader) ReadResponse(response runtime
 
 	case 200:
 		result := NewGetCustomFieldAuditLogsWithHistoryOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetCustomFieldAuditLogsWithHistoryNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetCustomFieldAuditLogsWithHistoryOK struct {
 	Payload []*kbmodel.AuditLog
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCustomFieldAuditLogsWithHistoryOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetCustomFieldAuditLogsWithHistoryNotFound() *GetCustomFieldAuditLogsWit
 Account not found
 */
 type GetCustomFieldAuditLogsWithHistoryNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCustomFieldAuditLogsWithHistoryNotFound) Error() string {

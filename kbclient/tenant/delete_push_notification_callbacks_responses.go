@@ -26,17 +26,12 @@ func (o *DeletePushNotificationCallbacksReader) ReadResponse(response runtime.Cl
 
 	case 204:
 		result := NewDeletePushNotificationCallbacksNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeletePushNotificationCallbacksBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeletePushNotificationCallbacksNoContent() *DeletePushNotificationCallba
 Successful operation
 */
 type DeletePushNotificationCallbacksNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePushNotificationCallbacksNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeletePushNotificationCallbacksBadRequest() *DeletePushNotificationCallb
 Invalid tenantId supplied
 */
 type DeletePushNotificationCallbacksBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePushNotificationCallbacksBadRequest) Error() string {

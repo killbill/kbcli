@@ -28,17 +28,12 @@ func (o *GetTagDefinitionAuditLogsWithHistoryReader) ReadResponse(response runti
 
 	case 200:
 		result := NewGetTagDefinitionAuditLogsWithHistoryOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetTagDefinitionAuditLogsWithHistoryNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetTagDefinitionAuditLogsWithHistoryOK struct {
 	Payload []*kbmodel.AuditLog
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTagDefinitionAuditLogsWithHistoryOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetTagDefinitionAuditLogsWithHistoryNotFound() *GetTagDefinitionAuditLog
 Account not found
 */
 type GetTagDefinitionAuditLogsWithHistoryNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTagDefinitionAuditLogsWithHistoryNotFound) Error() string {

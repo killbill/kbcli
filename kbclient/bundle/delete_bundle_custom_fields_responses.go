@@ -26,17 +26,12 @@ func (o *DeleteBundleCustomFieldsReader) ReadResponse(response runtime.ClientRes
 
 	case 204:
 		result := NewDeleteBundleCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteBundleCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteBundleCustomFieldsNoContent() *DeleteBundleCustomFieldsNoContent {
 Successful operation
 */
 type DeleteBundleCustomFieldsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteBundleCustomFieldsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteBundleCustomFieldsBadRequest() *DeleteBundleCustomFieldsBadRequest
 Invalid bundle id supplied
 */
 type DeleteBundleCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteBundleCustomFieldsBadRequest) Error() string {

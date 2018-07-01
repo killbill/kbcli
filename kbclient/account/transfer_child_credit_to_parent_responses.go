@@ -26,24 +26,12 @@ func (o *TransferChildCreditToParentReader) ReadResponse(response runtime.Client
 
 	case 204:
 		result := NewTransferChildCreditToParentNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewTransferChildCreditToParentBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewTransferChildCreditToParentNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewTransferChildCreditToParentNoContent() *TransferChildCreditToParentNoCon
 Successful operation
 */
 type TransferChildCreditToParentNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *TransferChildCreditToParentNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewTransferChildCreditToParentBadRequest() *TransferChildCreditToParentBadR
 Account does not have credit
 */
 type TransferChildCreditToParentBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *TransferChildCreditToParentBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewTransferChildCreditToParentNotFound() *TransferChildCreditToParentNotFou
 Account not found
 */
 type TransferChildCreditToParentNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *TransferChildCreditToParentNotFound) Error() string {

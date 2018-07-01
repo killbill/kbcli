@@ -26,19 +26,14 @@ type CreateTagDefinitionReader struct {
 func (o *CreateTagDefinitionReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateTagDefinitionCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateTagDefinitionBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Tag definition created successfully
 */
 type CreateTagDefinitionCreated struct {
 	Payload *kbmodel.TagDefinition
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateTagDefinitionCreated) Error() string {
@@ -87,6 +84,7 @@ func NewCreateTagDefinitionBadRequest() *CreateTagDefinitionBadRequest {
 Invalid name or description supplied
 */
 type CreateTagDefinitionBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateTagDefinitionBadRequest) Error() string {

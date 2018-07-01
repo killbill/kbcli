@@ -26,52 +26,12 @@ func (o *VoidPaymentByExternalKeyReader) ReadResponse(response runtime.ClientRes
 
 	case 204:
 		result := NewVoidPaymentByExternalKeyNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 402:
-		result := NewVoidPaymentByExternalKeyPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewVoidPaymentByExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewVoidPaymentByExternalKeyUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewVoidPaymentByExternalKeyBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewVoidPaymentByExternalKeyServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewVoidPaymentByExternalKeyGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -91,6 +51,7 @@ func NewVoidPaymentByExternalKeyNoContent() *VoidPaymentByExternalKeyNoContent {
 Successful operation
 */
 type VoidPaymentByExternalKeyNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentByExternalKeyNoContent) Error() string {
@@ -112,6 +73,7 @@ func NewVoidPaymentByExternalKeyPaymentRequired() *VoidPaymentByExternalKeyPayme
 Transaction declined by gateway
 */
 type VoidPaymentByExternalKeyPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentByExternalKeyPaymentRequired) Error() string {
@@ -133,6 +95,7 @@ func NewVoidPaymentByExternalKeyNotFound() *VoidPaymentByExternalKeyNotFound {
 Account or payment not found
 */
 type VoidPaymentByExternalKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentByExternalKeyNotFound) Error() string {
@@ -154,6 +117,7 @@ func NewVoidPaymentByExternalKeyUnprocessableEntity() *VoidPaymentByExternalKeyU
 Payment is aborted by a control plugin
 */
 type VoidPaymentByExternalKeyUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentByExternalKeyUnprocessableEntity) Error() string {
@@ -175,6 +139,7 @@ func NewVoidPaymentByExternalKeyBadGateway() *VoidPaymentByExternalKeyBadGateway
 Failed to submit payment transaction
 */
 type VoidPaymentByExternalKeyBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentByExternalKeyBadGateway) Error() string {
@@ -196,6 +161,7 @@ func NewVoidPaymentByExternalKeyServiceUnavailable() *VoidPaymentByExternalKeySe
 Payment in unknown status, failed to receive gateway response
 */
 type VoidPaymentByExternalKeyServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentByExternalKeyServiceUnavailable) Error() string {
@@ -217,6 +183,7 @@ func NewVoidPaymentByExternalKeyGatewayTimeout() *VoidPaymentByExternalKeyGatewa
 Payment operation timeout
 */
 type VoidPaymentByExternalKeyGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentByExternalKeyGatewayTimeout) Error() string {

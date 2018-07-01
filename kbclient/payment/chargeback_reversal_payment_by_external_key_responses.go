@@ -26,54 +26,14 @@ type ChargebackReversalPaymentByExternalKeyReader struct {
 func (o *ChargebackReversalPaymentByExternalKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewChargebackReversalPaymentByExternalKeyCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 402:
-		result := NewChargebackReversalPaymentByExternalKeyPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewChargebackReversalPaymentByExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewChargebackReversalPaymentByExternalKeyUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewChargebackReversalPaymentByExternalKeyBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewChargebackReversalPaymentByExternalKeyServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewChargebackReversalPaymentByExternalKeyGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -94,6 +54,8 @@ Payment transaction created successfully
 */
 type ChargebackReversalPaymentByExternalKeyCreated struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyCreated) Error() string {
@@ -122,6 +84,7 @@ func NewChargebackReversalPaymentByExternalKeyPaymentRequired() *ChargebackRever
 Transaction declined by gateway
 */
 type ChargebackReversalPaymentByExternalKeyPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyPaymentRequired) Error() string {
@@ -143,6 +106,7 @@ func NewChargebackReversalPaymentByExternalKeyNotFound() *ChargebackReversalPaym
 Account or payment not found
 */
 type ChargebackReversalPaymentByExternalKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyNotFound) Error() string {
@@ -164,6 +128,7 @@ func NewChargebackReversalPaymentByExternalKeyUnprocessableEntity() *ChargebackR
 Payment is aborted by a control plugin
 */
 type ChargebackReversalPaymentByExternalKeyUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyUnprocessableEntity) Error() string {
@@ -185,6 +150,7 @@ func NewChargebackReversalPaymentByExternalKeyBadGateway() *ChargebackReversalPa
 Failed to submit payment transaction
 */
 type ChargebackReversalPaymentByExternalKeyBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyBadGateway) Error() string {
@@ -206,6 +172,7 @@ func NewChargebackReversalPaymentByExternalKeyServiceUnavailable() *ChargebackRe
 Payment in unknown status, failed to receive gateway response
 */
 type ChargebackReversalPaymentByExternalKeyServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyServiceUnavailable) Error() string {
@@ -227,6 +194,7 @@ func NewChargebackReversalPaymentByExternalKeyGatewayTimeout() *ChargebackRevers
 Payment operation timeout
 */
 type ChargebackReversalPaymentByExternalKeyGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyGatewayTimeout) Error() string {

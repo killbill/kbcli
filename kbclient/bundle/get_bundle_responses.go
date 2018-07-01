@@ -28,24 +28,12 @@ func (o *GetBundleReader) ReadResponse(response runtime.ClientResponse, consumer
 
 	case 200:
 		result := NewGetBundleOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetBundleBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetBundleNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetBundleOK struct {
 	Payload *kbmodel.Bundle
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleOK) Error() string {
@@ -94,6 +84,7 @@ func NewGetBundleBadRequest() *GetBundleBadRequest {
 Invalid bundle id supplied
 */
 type GetBundleBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewGetBundleNotFound() *GetBundleNotFound {
 Bundle not found
 */
 type GetBundleNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleNotFound) Error() string {

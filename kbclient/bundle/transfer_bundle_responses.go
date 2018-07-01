@@ -26,26 +26,14 @@ type TransferBundleReader struct {
 func (o *TransferBundleReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewTransferBundleCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewTransferBundleBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewTransferBundleNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Bundle transferred successfully
 */
 type TransferBundleCreated struct {
 	Payload *kbmodel.Bundle
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *TransferBundleCreated) Error() string {
@@ -94,6 +84,7 @@ func NewTransferBundleBadRequest() *TransferBundleBadRequest {
 Invalid bundle id, requested date or policy supplied
 */
 type TransferBundleBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *TransferBundleBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewTransferBundleNotFound() *TransferBundleNotFound {
 Bundle not found
 */
 type TransferBundleNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *TransferBundleNotFound) Error() string {

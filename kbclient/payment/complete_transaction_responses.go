@@ -26,59 +26,12 @@ func (o *CompleteTransactionReader) ReadResponse(response runtime.ClientResponse
 
 	case 204:
 		result := NewCompleteTransactionNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCompleteTransactionBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 402:
-		result := NewCompleteTransactionPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCompleteTransactionNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewCompleteTransactionUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewCompleteTransactionBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewCompleteTransactionServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewCompleteTransactionGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -98,6 +51,7 @@ func NewCompleteTransactionNoContent() *CompleteTransactionNoContent {
 Successful operation
 */
 type CompleteTransactionNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionNoContent) Error() string {
@@ -119,6 +73,7 @@ func NewCompleteTransactionBadRequest() *CompleteTransactionBadRequest {
 Invalid paymentId supplied
 */
 type CompleteTransactionBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionBadRequest) Error() string {
@@ -140,6 +95,7 @@ func NewCompleteTransactionPaymentRequired() *CompleteTransactionPaymentRequired
 Transaction declined by gateway
 */
 type CompleteTransactionPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionPaymentRequired) Error() string {
@@ -161,6 +117,7 @@ func NewCompleteTransactionNotFound() *CompleteTransactionNotFound {
 Account or payment not found
 */
 type CompleteTransactionNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionNotFound) Error() string {
@@ -182,6 +139,7 @@ func NewCompleteTransactionUnprocessableEntity() *CompleteTransactionUnprocessab
 Payment is aborted by a control plugin
 */
 type CompleteTransactionUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionUnprocessableEntity) Error() string {
@@ -203,6 +161,7 @@ func NewCompleteTransactionBadGateway() *CompleteTransactionBadGateway {
 Failed to submit payment transaction
 */
 type CompleteTransactionBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionBadGateway) Error() string {
@@ -224,6 +183,7 @@ func NewCompleteTransactionServiceUnavailable() *CompleteTransactionServiceUnava
 Payment in unknown status, failed to receive gateway response
 */
 type CompleteTransactionServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionServiceUnavailable) Error() string {
@@ -245,6 +205,7 @@ func NewCompleteTransactionGatewayTimeout() *CompleteTransactionGatewayTimeout {
 Payment operation timeout
 */
 type CompleteTransactionGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteTransactionGatewayTimeout) Error() string {

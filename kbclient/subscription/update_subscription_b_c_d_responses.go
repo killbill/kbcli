@@ -26,17 +26,12 @@ func (o *UpdateSubscriptionBCDReader) ReadResponse(response runtime.ClientRespon
 
 	case 204:
 		result := NewUpdateSubscriptionBCDNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUpdateSubscriptionBCDBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewUpdateSubscriptionBCDNoContent() *UpdateSubscriptionBCDNoContent {
 Successful operation
 */
 type UpdateSubscriptionBCDNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UpdateSubscriptionBCDNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewUpdateSubscriptionBCDBadRequest() *UpdateSubscriptionBCDBadRequest {
 Invalid entitlement supplied
 */
 type UpdateSubscriptionBCDBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UpdateSubscriptionBCDBadRequest) Error() string {

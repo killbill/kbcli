@@ -26,26 +26,14 @@ type CreateExternalChargesReader struct {
 func (o *CreateExternalChargesReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateExternalChargesCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateExternalChargesBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCreateExternalChargesNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Created external charge Successfully
 */
 type CreateExternalChargesCreated struct {
 	Payload []*kbmodel.InvoiceItem
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateExternalChargesCreated) Error() string {
@@ -92,6 +82,7 @@ func NewCreateExternalChargesBadRequest() *CreateExternalChargesBadRequest {
 Invalid account id supplied
 */
 type CreateExternalChargesBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateExternalChargesBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewCreateExternalChargesNotFound() *CreateExternalChargesNotFound {
 Account not found
 */
 type CreateExternalChargesNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateExternalChargesNotFound) Error() string {

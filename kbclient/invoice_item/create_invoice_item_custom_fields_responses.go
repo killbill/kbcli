@@ -26,19 +26,14 @@ type CreateInvoiceItemCustomFieldsReader struct {
 func (o *CreateInvoiceItemCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateInvoiceItemCustomFieldsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateInvoiceItemCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Custom field created successfully
 */
 type CreateInvoiceItemCustomFieldsCreated struct {
 	Payload []*kbmodel.CustomField
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateInvoiceItemCustomFieldsCreated) Error() string {
@@ -85,6 +82,7 @@ func NewCreateInvoiceItemCustomFieldsBadRequest() *CreateInvoiceItemCustomFields
 Invalid invoice item id supplied
 */
 type CreateInvoiceItemCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateInvoiceItemCustomFieldsBadRequest) Error() string {

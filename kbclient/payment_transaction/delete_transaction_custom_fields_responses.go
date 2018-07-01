@@ -26,17 +26,12 @@ func (o *DeleteTransactionCustomFieldsReader) ReadResponse(response runtime.Clie
 
 	case 204:
 		result := NewDeleteTransactionCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteTransactionCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteTransactionCustomFieldsNoContent() *DeleteTransactionCustomFieldsN
 Successful operation
 */
 type DeleteTransactionCustomFieldsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteTransactionCustomFieldsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteTransactionCustomFieldsBadRequest() *DeleteTransactionCustomFields
 Invalid transaction id supplied
 */
 type DeleteTransactionCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteTransactionCustomFieldsBadRequest) Error() string {

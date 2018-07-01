@@ -28,24 +28,12 @@ func (o *GetAccountReader) ReadResponse(response runtime.ClientResponse, consume
 
 	case 200:
 		result := NewGetAccountOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetAccountNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetAccountOK struct {
 	Payload *kbmodel.Account
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountOK) Error() string {
@@ -94,6 +84,7 @@ func NewGetAccountBadRequest() *GetAccountBadRequest {
 Invalid account id supplied
 */
 type GetAccountBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewGetAccountNotFound() *GetAccountNotFound {
 Account not found
 */
 type GetAccountNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountNotFound) Error() string {

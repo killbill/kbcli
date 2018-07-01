@@ -28,6 +28,7 @@ func (o *GetPluginsInfoReader) ReadResponse(response runtime.ClientResponse, con
 
 	case 200:
 		result := NewGetPluginsInfoOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetPluginsInfoOK struct {
 	Payload []*kbmodel.PluginInfo
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPluginsInfoOK) Error() string {

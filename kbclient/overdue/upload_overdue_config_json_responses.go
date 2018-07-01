@@ -26,19 +26,14 @@ type UploadOverdueConfigJSONReader struct {
 func (o *UploadOverdueConfigJSONReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewUploadOverdueConfigJSONCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUploadOverdueConfigJSONBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Successfully uploaded overdue config
 */
 type UploadOverdueConfigJSONCreated struct {
 	Payload *kbmodel.Overdue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadOverdueConfigJSONCreated) Error() string {
@@ -87,6 +84,7 @@ func NewUploadOverdueConfigJSONBadRequest() *UploadOverdueConfigJSONBadRequest {
 Invalid node command supplied
 */
 type UploadOverdueConfigJSONBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadOverdueConfigJSONBadRequest) Error() string {

@@ -26,17 +26,12 @@ func (o *ModifyInvoicePaymentCustomFieldsReader) ReadResponse(response runtime.C
 
 	case 204:
 		result := NewModifyInvoicePaymentCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewModifyInvoicePaymentCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewModifyInvoicePaymentCustomFieldsNoContent() *ModifyInvoicePaymentCustomF
 Successful operation
 */
 type ModifyInvoicePaymentCustomFieldsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyInvoicePaymentCustomFieldsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewModifyInvoicePaymentCustomFieldsBadRequest() *ModifyInvoicePaymentCustom
 Invalid payment id supplied
 */
 type ModifyInvoicePaymentCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyInvoicePaymentCustomFieldsBadRequest) Error() string {

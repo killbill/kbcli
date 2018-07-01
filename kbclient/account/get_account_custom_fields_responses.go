@@ -28,17 +28,12 @@ func (o *GetAccountCustomFieldsReader) ReadResponse(response runtime.ClientRespo
 
 	case 200:
 		result := NewGetAccountCustomFieldsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetAccountCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetAccountCustomFieldsOK struct {
 	Payload []*kbmodel.CustomField
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountCustomFieldsOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetAccountCustomFieldsBadRequest() *GetAccountCustomFieldsBadRequest {
 Invalid account id supplied
 */
 type GetAccountCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountCustomFieldsBadRequest) Error() string {

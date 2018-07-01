@@ -26,26 +26,14 @@ type AdjustInvoiceItemReader struct {
 func (o *AdjustInvoiceItemReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewAdjustInvoiceItemCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewAdjustInvoiceItemBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewAdjustInvoiceItemNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Created adjustment Successfully
 */
 type AdjustInvoiceItemCreated struct {
 	Payload *kbmodel.Invoice
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AdjustInvoiceItemCreated) Error() string {
@@ -94,6 +84,7 @@ func NewAdjustInvoiceItemBadRequest() *AdjustInvoiceItemBadRequest {
 Invalid account id, invoice id or invoice item id supplied
 */
 type AdjustInvoiceItemBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AdjustInvoiceItemBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewAdjustInvoiceItemNotFound() *AdjustInvoiceItemNotFound {
 Invoice not found
 */
 type AdjustInvoiceItemNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AdjustInvoiceItemNotFound) Error() string {

@@ -28,17 +28,12 @@ func (o *GetPaymentAuditLogsWithHistoryReader) ReadResponse(response runtime.Cli
 
 	case 200:
 		result := NewGetPaymentAuditLogsWithHistoryOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetPaymentAuditLogsWithHistoryNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetPaymentAuditLogsWithHistoryOK struct {
 	Payload []*kbmodel.AuditLog
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentAuditLogsWithHistoryOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetPaymentAuditLogsWithHistoryNotFound() *GetPaymentAuditLogsWithHistory
 Account not found
 */
 type GetPaymentAuditLogsWithHistoryNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentAuditLogsWithHistoryNotFound) Error() string {

@@ -28,17 +28,12 @@ func (o *GetPushNotificationCallbacksReader) ReadResponse(response runtime.Clien
 
 	case 200:
 		result := NewGetPushNotificationCallbacksOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetPushNotificationCallbacksBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetPushNotificationCallbacksOK struct {
 	Payload *kbmodel.TenantKeyValue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPushNotificationCallbacksOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetPushNotificationCallbacksBadRequest() *GetPushNotificationCallbacksBa
 Invalid tenantId supplied
 */
 type GetPushNotificationCallbacksBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPushNotificationCallbacksBadRequest) Error() string {

@@ -28,6 +28,7 @@ func (o *SearchBundlesReader) ReadResponse(response runtime.ClientResponse, cons
 
 	case 200:
 		result := NewSearchBundlesOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type SearchBundlesOK struct {
 	Payload []*kbmodel.Bundle
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *SearchBundlesOK) Error() string {

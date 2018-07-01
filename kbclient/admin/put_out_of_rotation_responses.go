@@ -26,6 +26,7 @@ func (o *PutOutOfRotationReader) ReadResponse(response runtime.ClientResponse, c
 
 	case 204:
 		result := NewPutOutOfRotationNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +50,7 @@ func NewPutOutOfRotationNoContent() *PutOutOfRotationNoContent {
 Successful operation
 */
 type PutOutOfRotationNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *PutOutOfRotationNoContent) Error() string {

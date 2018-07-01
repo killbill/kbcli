@@ -26,8 +26,9 @@ type AddUserRolesReader struct {
 func (o *AddUserRolesReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewAddUserRolesCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ User role created successfully
 */
 type AddUserRolesCreated struct {
 	Payload *kbmodel.UserRoles
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddUserRolesCreated) Error() string {

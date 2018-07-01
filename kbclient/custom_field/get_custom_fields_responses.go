@@ -28,6 +28,7 @@ func (o *GetCustomFieldsReader) ReadResponse(response runtime.ClientResponse, co
 
 	case 200:
 		result := NewGetCustomFieldsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetCustomFieldsOK struct {
 	Payload []*kbmodel.CustomField
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCustomFieldsOK) Error() string {

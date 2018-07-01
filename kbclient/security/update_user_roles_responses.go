@@ -26,6 +26,7 @@ func (o *UpdateUserRolesReader) ReadResponse(response runtime.ClientResponse, co
 
 	case 204:
 		result := NewUpdateUserRolesNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +50,7 @@ func NewUpdateUserRolesNoContent() *UpdateUserRolesNoContent {
 Successful operation
 */
 type UpdateUserRolesNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UpdateUserRolesNoContent) Error() string {

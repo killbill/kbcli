@@ -28,17 +28,12 @@ func (o *GetAllPluginConfigurationReader) ReadResponse(response runtime.ClientRe
 
 	case 200:
 		result := NewGetAllPluginConfigurationOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetAllPluginConfigurationBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetAllPluginConfigurationOK struct {
 	Payload *kbmodel.TenantKeyValue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllPluginConfigurationOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetAllPluginConfigurationBadRequest() *GetAllPluginConfigurationBadReque
 Invalid tenantId supplied
 */
 type GetAllPluginConfigurationBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllPluginConfigurationBadRequest) Error() string {

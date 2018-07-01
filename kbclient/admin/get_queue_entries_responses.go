@@ -26,24 +26,12 @@ func (o *GetQueueEntriesReader) ReadResponse(response runtime.ClientResponse, co
 
 	case 200:
 		result := NewGetQueueEntriesOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetQueueEntriesBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetQueueEntriesNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewGetQueueEntriesOK() *GetQueueEntriesOK {
 Success
 */
 type GetQueueEntriesOK struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetQueueEntriesOK) Error() string {
@@ -84,6 +73,7 @@ func NewGetQueueEntriesBadRequest() *GetQueueEntriesBadRequest {
 Invalid account id supplied
 */
 type GetQueueEntriesBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetQueueEntriesBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewGetQueueEntriesNotFound() *GetQueueEntriesNotFound {
 Account not found
 */
 type GetQueueEntriesNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetQueueEntriesNotFound) Error() string {

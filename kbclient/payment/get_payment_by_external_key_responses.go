@@ -28,17 +28,12 @@ func (o *GetPaymentByExternalKeyReader) ReadResponse(response runtime.ClientResp
 
 	case 200:
 		result := NewGetPaymentByExternalKeyOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetPaymentByExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetPaymentByExternalKeyOK struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentByExternalKeyOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetPaymentByExternalKeyNotFound() *GetPaymentByExternalKeyNotFound {
 Payment not found
 */
 type GetPaymentByExternalKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentByExternalKeyNotFound) Error() string {

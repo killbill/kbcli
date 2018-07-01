@@ -28,6 +28,7 @@ func (o *GetRoleDefinitionReader) ReadResponse(response runtime.ClientResponse, 
 
 	case 200:
 		result := NewGetRoleDefinitionOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetRoleDefinitionOK struct {
 	Payload *kbmodel.RoleDefinition
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetRoleDefinitionOK) Error() string {

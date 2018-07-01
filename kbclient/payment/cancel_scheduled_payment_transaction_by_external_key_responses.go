@@ -26,17 +26,12 @@ func (o *CancelScheduledPaymentTransactionByExternalKeyReader) ReadResponse(resp
 
 	case 204:
 		result := NewCancelScheduledPaymentTransactionByExternalKeyNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCancelScheduledPaymentTransactionByExternalKeyBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewCancelScheduledPaymentTransactionByExternalKeyNoContent() *CancelSchedul
 Successful operation
 */
 type CancelScheduledPaymentTransactionByExternalKeyNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CancelScheduledPaymentTransactionByExternalKeyNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewCancelScheduledPaymentTransactionByExternalKeyBadRequest() *CancelSchedu
 Invalid paymentTransactionExternalKey supplied
 */
 type CancelScheduledPaymentTransactionByExternalKeyBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CancelScheduledPaymentTransactionByExternalKeyBadRequest) Error() string {

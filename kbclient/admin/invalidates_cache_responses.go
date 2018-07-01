@@ -26,17 +26,12 @@ func (o *InvalidatesCacheReader) ReadResponse(response runtime.ClientResponse, c
 
 	case 204:
 		result := NewInvalidatesCacheNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewInvalidatesCacheBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewInvalidatesCacheNoContent() *InvalidatesCacheNoContent {
 Successful operation
 */
 type InvalidatesCacheNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *InvalidatesCacheNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewInvalidatesCacheBadRequest() *InvalidatesCacheBadRequest {
 Cache name does not exist or is not alive
 */
 type InvalidatesCacheBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *InvalidatesCacheBadRequest) Error() string {

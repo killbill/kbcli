@@ -26,24 +26,12 @@ func (o *PauseBundleReader) ReadResponse(response runtime.ClientResponse, consum
 
 	case 204:
 		result := NewPauseBundleNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewPauseBundleBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewPauseBundleNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewPauseBundleNoContent() *PauseBundleNoContent {
 Successful operation
 */
 type PauseBundleNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *PauseBundleNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewPauseBundleBadRequest() *PauseBundleBadRequest {
 Invalid bundle id supplied
 */
 type PauseBundleBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *PauseBundleBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewPauseBundleNotFound() *PauseBundleNotFound {
 Bundle not found
 */
 type PauseBundleNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *PauseBundleNotFound) Error() string {

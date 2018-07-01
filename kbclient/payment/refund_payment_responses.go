@@ -26,61 +26,14 @@ type RefundPaymentReader struct {
 func (o *RefundPaymentReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewRefundPaymentCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewRefundPaymentBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 402:
-		result := NewRefundPaymentPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewRefundPaymentNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewRefundPaymentUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewRefundPaymentBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewRefundPaymentServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewRefundPaymentGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -101,6 +54,8 @@ Payment transaction created successfully
 */
 type RefundPaymentCreated struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentCreated) Error() string {
@@ -129,6 +84,7 @@ func NewRefundPaymentBadRequest() *RefundPaymentBadRequest {
 Invalid paymentId supplied
 */
 type RefundPaymentBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentBadRequest) Error() string {
@@ -150,6 +106,7 @@ func NewRefundPaymentPaymentRequired() *RefundPaymentPaymentRequired {
 Transaction declined by gateway
 */
 type RefundPaymentPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentPaymentRequired) Error() string {
@@ -171,6 +128,7 @@ func NewRefundPaymentNotFound() *RefundPaymentNotFound {
 Account or payment not found
 */
 type RefundPaymentNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentNotFound) Error() string {
@@ -192,6 +150,7 @@ func NewRefundPaymentUnprocessableEntity() *RefundPaymentUnprocessableEntity {
 Payment is aborted by a control plugin
 */
 type RefundPaymentUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentUnprocessableEntity) Error() string {
@@ -213,6 +172,7 @@ func NewRefundPaymentBadGateway() *RefundPaymentBadGateway {
 Failed to submit payment transaction
 */
 type RefundPaymentBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentBadGateway) Error() string {
@@ -234,6 +194,7 @@ func NewRefundPaymentServiceUnavailable() *RefundPaymentServiceUnavailable {
 Payment in unknown status, failed to receive gateway response
 */
 type RefundPaymentServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentServiceUnavailable) Error() string {
@@ -255,6 +216,7 @@ func NewRefundPaymentGatewayTimeout() *RefundPaymentGatewayTimeout {
 Payment operation timeout
 */
 type RefundPaymentGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefundPaymentGatewayTimeout) Error() string {

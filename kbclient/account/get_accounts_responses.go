@@ -28,6 +28,7 @@ func (o *GetAccountsReader) ReadResponse(response runtime.ClientResponse, consum
 
 	case 200:
 		result := NewGetAccountsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetAccountsOK struct {
 	Payload []*kbmodel.Account
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountsOK) Error() string {

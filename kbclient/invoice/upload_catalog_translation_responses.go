@@ -24,8 +24,9 @@ type UploadCatalogTranslationReader struct {
 func (o *UploadCatalogTranslationReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewUploadCatalogTranslationCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +51,8 @@ Uploaded catalog translation Successfully
 */
 type UploadCatalogTranslationCreated struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadCatalogTranslationCreated) Error() string {

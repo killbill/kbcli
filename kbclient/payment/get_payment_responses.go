@@ -28,24 +28,12 @@ func (o *GetPaymentReader) ReadResponse(response runtime.ClientResponse, consume
 
 	case 200:
 		result := NewGetPaymentOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetPaymentBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetPaymentNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetPaymentOK struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentOK) Error() string {
@@ -94,6 +84,7 @@ func NewGetPaymentBadRequest() *GetPaymentBadRequest {
 Invalid paymentId supplied
 */
 type GetPaymentBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewGetPaymentNotFound() *GetPaymentNotFound {
 Payment not found
 */
 type GetPaymentNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentNotFound) Error() string {

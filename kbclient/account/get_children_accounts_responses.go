@@ -28,24 +28,12 @@ func (o *GetChildrenAccountsReader) ReadResponse(response runtime.ClientResponse
 
 	case 200:
 		result := NewGetChildrenAccountsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetChildrenAccountsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetChildrenAccountsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetChildrenAccountsOK struct {
 	Payload []*kbmodel.Account
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetChildrenAccountsOK) Error() string {
@@ -92,6 +82,7 @@ func NewGetChildrenAccountsBadRequest() *GetChildrenAccountsBadRequest {
 Invalid parent account id supplied
 */
 type GetChildrenAccountsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetChildrenAccountsBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewGetChildrenAccountsNotFound() *GetChildrenAccountsNotFound {
 Parent Account not found
 */
 type GetChildrenAccountsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetChildrenAccountsNotFound) Error() string {

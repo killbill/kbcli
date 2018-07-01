@@ -26,19 +26,14 @@ type CreateInvoiceTagsReader struct {
 func (o *CreateInvoiceTagsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateInvoiceTagsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateInvoiceTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Tag created successfully
 */
 type CreateInvoiceTagsCreated struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateInvoiceTagsCreated) Error() string {
@@ -85,6 +82,7 @@ func NewCreateInvoiceTagsBadRequest() *CreateInvoiceTagsBadRequest {
 Invalid invoice id supplied
 */
 type CreateInvoiceTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateInvoiceTagsBadRequest) Error() string {

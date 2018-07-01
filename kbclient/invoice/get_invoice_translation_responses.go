@@ -26,24 +26,12 @@ func (o *GetInvoiceTranslationReader) ReadResponse(response runtime.ClientRespon
 
 	case 200:
 		result := NewGetInvoiceTranslationOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetInvoiceTranslationBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetInvoiceTranslationNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -64,6 +52,8 @@ successful operation
 */
 type GetInvoiceTranslationOK struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceTranslationOK) Error() string {
@@ -90,6 +80,7 @@ func NewGetInvoiceTranslationBadRequest() *GetInvoiceTranslationBadRequest {
 Invalid locale supplied
 */
 type GetInvoiceTranslationBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceTranslationBadRequest) Error() string {
@@ -111,6 +102,7 @@ func NewGetInvoiceTranslationNotFound() *GetInvoiceTranslationNotFound {
 Translation not found
 */
 type GetInvoiceTranslationNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceTranslationNotFound) Error() string {

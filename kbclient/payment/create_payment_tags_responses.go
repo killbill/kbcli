@@ -26,19 +26,14 @@ type CreatePaymentTagsReader struct {
 func (o *CreatePaymentTagsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreatePaymentTagsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreatePaymentTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Tag created successfully
 */
 type CreatePaymentTagsCreated struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreatePaymentTagsCreated) Error() string {
@@ -85,6 +82,7 @@ func NewCreatePaymentTagsBadRequest() *CreatePaymentTagsBadRequest {
 Invalid payment id supplied
 */
 type CreatePaymentTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreatePaymentTagsBadRequest) Error() string {

@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/runtime"
+	"github.com/killbill/kbcli/kbcommon"
 
 	strfmt "github.com/go-openapi/strfmt"
 )
@@ -57,23 +58,29 @@ func (a *Client) CreateTenant(ctx context.Context, params *CreateTenantParams) (
 	if params == nil {
 		params = NewCreateTenantParams()
 	}
+	getParams := NewCreateTenantParams()
+	getParams.Context = ctx
 	params.Context = ctx
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createTenant",
@@ -91,7 +98,29 @@ func (a *Client) CreateTenant(ctx context.Context, params *CreateTenantParams) (
 	if err != nil {
 		return nil, err
 	}
-	return result.(*CreateTenantCreated), nil
+	createdResult := result.(*CreateTenantCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createTenant",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateTenantReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateTenantCreated), nil
 
 }
 
@@ -123,6 +152,7 @@ func (a *Client) DeletePerTenantConfiguration(ctx context.Context, params *Delet
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -281,6 +311,7 @@ func (a *Client) DeletePushNotificationCallbacks(ctx context.Context, params *De
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -687,30 +718,38 @@ func (a *Client) InsertUserKeyValue(ctx context.Context, params *InsertUserKeyVa
 	if params == nil {
 		params = NewInsertUserKeyValueParams()
 	}
+	getParams := NewInsertUserKeyValueParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "insertUserKeyValue",
@@ -728,7 +767,29 @@ func (a *Client) InsertUserKeyValue(ctx context.Context, params *InsertUserKeyVa
 	if err != nil {
 		return nil, err
 	}
-	return result.(*InsertUserKeyValueCreated), nil
+	createdResult := result.(*InsertUserKeyValueCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "insertUserKeyValue",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"text/plain"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &InsertUserKeyValueReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*InsertUserKeyValueCreated), nil
 
 }
 
@@ -740,30 +801,38 @@ func (a *Client) RegisterPushNotificationCallback(ctx context.Context, params *R
 	if params == nil {
 		params = NewRegisterPushNotificationCallbackParams()
 	}
+	getParams := NewRegisterPushNotificationCallbackParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "registerPushNotificationCallback",
@@ -781,7 +850,29 @@ func (a *Client) RegisterPushNotificationCallback(ctx context.Context, params *R
 	if err != nil {
 		return nil, err
 	}
-	return result.(*RegisterPushNotificationCallbackCreated), nil
+	createdResult := result.(*RegisterPushNotificationCallbackCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "registerPushNotificationCallback",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &RegisterPushNotificationCallbackReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*RegisterPushNotificationCallbackCreated), nil
 
 }
 
@@ -793,30 +884,38 @@ func (a *Client) UploadPerTenantConfiguration(ctx context.Context, params *Uploa
 	if params == nil {
 		params = NewUploadPerTenantConfigurationParams()
 	}
+	getParams := NewUploadPerTenantConfigurationParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadPerTenantConfiguration",
@@ -834,7 +933,29 @@ func (a *Client) UploadPerTenantConfiguration(ctx context.Context, params *Uploa
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UploadPerTenantConfigurationCreated), nil
+	createdResult := result.(*UploadPerTenantConfigurationCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "uploadPerTenantConfiguration",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"text/plain"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &UploadPerTenantConfigurationReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*UploadPerTenantConfigurationCreated), nil
 
 }
 
@@ -846,30 +967,38 @@ func (a *Client) UploadPluginConfiguration(ctx context.Context, params *UploadPl
 	if params == nil {
 		params = NewUploadPluginConfigurationParams()
 	}
+	getParams := NewUploadPluginConfigurationParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadPluginConfiguration",
@@ -887,7 +1016,29 @@ func (a *Client) UploadPluginConfiguration(ctx context.Context, params *UploadPl
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UploadPluginConfigurationCreated), nil
+	createdResult := result.(*UploadPluginConfigurationCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "uploadPluginConfiguration",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"text/plain"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &UploadPluginConfigurationReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*UploadPluginConfigurationCreated), nil
 
 }
 
@@ -899,30 +1050,38 @@ func (a *Client) UploadPluginPaymentStateMachineConfig(ctx context.Context, para
 	if params == nil {
 		params = NewUploadPluginPaymentStateMachineConfigParams()
 	}
+	getParams := NewUploadPluginPaymentStateMachineConfigParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadPluginPaymentStateMachineConfig",
@@ -940,7 +1099,29 @@ func (a *Client) UploadPluginPaymentStateMachineConfig(ctx context.Context, para
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UploadPluginPaymentStateMachineConfigCreated), nil
+	createdResult := result.(*UploadPluginPaymentStateMachineConfigCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "uploadPluginPaymentStateMachineConfig",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"text/plain"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &UploadPluginPaymentStateMachineConfigReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*UploadPluginPaymentStateMachineConfigCreated), nil
 
 }
 

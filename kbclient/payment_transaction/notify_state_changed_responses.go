@@ -26,26 +26,14 @@ type NotifyStateChangedReader struct {
 func (o *NotifyStateChangedReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewNotifyStateChangedCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewNotifyStateChangedBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewNotifyStateChangedNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Successfully notifiy state change
 */
 type NotifyStateChangedCreated struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *NotifyStateChangedCreated) Error() string {
@@ -94,6 +84,7 @@ func NewNotifyStateChangedBadRequest() *NotifyStateChangedBadRequest {
 Invalid paymentId supplied
 */
 type NotifyStateChangedBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *NotifyStateChangedBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewNotifyStateChangedNotFound() *NotifyStateChangedNotFound {
 Account or Payment not found
 */
 type NotifyStateChangedNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *NotifyStateChangedNotFound) Error() string {

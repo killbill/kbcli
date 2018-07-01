@@ -28,6 +28,7 @@ func (o *SearchAccountsReader) ReadResponse(response runtime.ClientResponse, con
 
 	case 200:
 		result := NewSearchAccountsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type SearchAccountsOK struct {
 	Payload []*kbmodel.Account
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *SearchAccountsOK) Error() string {

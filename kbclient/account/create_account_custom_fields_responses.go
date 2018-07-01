@@ -26,19 +26,14 @@ type CreateAccountCustomFieldsReader struct {
 func (o *CreateAccountCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateAccountCustomFieldsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateAccountCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Custom field created successfully
 */
 type CreateAccountCustomFieldsCreated struct {
 	Payload []*kbmodel.CustomField
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateAccountCustomFieldsCreated) Error() string {
@@ -85,6 +82,7 @@ func NewCreateAccountCustomFieldsBadRequest() *CreateAccountCustomFieldsBadReque
 Invalid account id supplied
 */
 type CreateAccountCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateAccountCustomFieldsBadRequest) Error() string {

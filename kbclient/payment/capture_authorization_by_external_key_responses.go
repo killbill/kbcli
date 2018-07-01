@@ -26,54 +26,14 @@ type CaptureAuthorizationByExternalKeyReader struct {
 func (o *CaptureAuthorizationByExternalKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCaptureAuthorizationByExternalKeyCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 402:
-		result := NewCaptureAuthorizationByExternalKeyPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCaptureAuthorizationByExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewCaptureAuthorizationByExternalKeyUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewCaptureAuthorizationByExternalKeyBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewCaptureAuthorizationByExternalKeyServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewCaptureAuthorizationByExternalKeyGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -94,6 +54,8 @@ Payment transaction created successfully
 */
 type CaptureAuthorizationByExternalKeyCreated struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyCreated) Error() string {
@@ -122,6 +84,7 @@ func NewCaptureAuthorizationByExternalKeyPaymentRequired() *CaptureAuthorization
 Transaction declined by gateway
 */
 type CaptureAuthorizationByExternalKeyPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyPaymentRequired) Error() string {
@@ -143,6 +106,7 @@ func NewCaptureAuthorizationByExternalKeyNotFound() *CaptureAuthorizationByExter
 Account or payment not found
 */
 type CaptureAuthorizationByExternalKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyNotFound) Error() string {
@@ -164,6 +128,7 @@ func NewCaptureAuthorizationByExternalKeyUnprocessableEntity() *CaptureAuthoriza
 Payment is aborted by a control plugin
 */
 type CaptureAuthorizationByExternalKeyUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyUnprocessableEntity) Error() string {
@@ -185,6 +150,7 @@ func NewCaptureAuthorizationByExternalKeyBadGateway() *CaptureAuthorizationByExt
 Failed to submit payment transaction
 */
 type CaptureAuthorizationByExternalKeyBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyBadGateway) Error() string {
@@ -206,6 +172,7 @@ func NewCaptureAuthorizationByExternalKeyServiceUnavailable() *CaptureAuthorizat
 Payment in unknown status, failed to receive gateway response
 */
 type CaptureAuthorizationByExternalKeyServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyServiceUnavailable) Error() string {
@@ -227,6 +194,7 @@ func NewCaptureAuthorizationByExternalKeyGatewayTimeout() *CaptureAuthorizationB
 Payment operation timeout
 */
 type CaptureAuthorizationByExternalKeyGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyGatewayTimeout) Error() string {

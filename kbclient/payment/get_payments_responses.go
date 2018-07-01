@@ -28,6 +28,7 @@ func (o *GetPaymentsReader) ReadResponse(response runtime.ClientResponse, consum
 
 	case 200:
 		result := NewGetPaymentsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetPaymentsOK struct {
 	Payload []*kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentsOK) Error() string {

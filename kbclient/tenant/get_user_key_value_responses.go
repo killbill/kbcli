@@ -28,17 +28,12 @@ func (o *GetUserKeyValueReader) ReadResponse(response runtime.ClientResponse, co
 
 	case 200:
 		result := NewGetUserKeyValueOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetUserKeyValueBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetUserKeyValueOK struct {
 	Payload *kbmodel.TenantKeyValue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetUserKeyValueOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetUserKeyValueBadRequest() *GetUserKeyValueBadRequest {
 Invalid tenantId supplied
 */
 type GetUserKeyValueBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetUserKeyValueBadRequest) Error() string {

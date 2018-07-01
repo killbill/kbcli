@@ -28,6 +28,7 @@ func (o *GenerateDryRunInvoiceReader) ReadResponse(response runtime.ClientRespon
 
 	case 200:
 		result := NewGenerateDryRunInvoiceOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -35,17 +36,12 @@ func (o *GenerateDryRunInvoiceReader) ReadResponse(response runtime.ClientRespon
 
 	case 204:
 		result := NewGenerateDryRunInvoiceNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGenerateDryRunInvoiceBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +62,8 @@ successful operation
 */
 type GenerateDryRunInvoiceOK struct {
 	Payload *kbmodel.Invoice
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GenerateDryRunInvoiceOK) Error() string {
@@ -94,6 +92,7 @@ func NewGenerateDryRunInvoiceNoContent() *GenerateDryRunInvoiceNoContent {
 Nothing to generate
 */
 type GenerateDryRunInvoiceNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GenerateDryRunInvoiceNoContent) Error() string {
@@ -115,6 +114,7 @@ func NewGenerateDryRunInvoiceBadRequest() *GenerateDryRunInvoiceBadRequest {
 Invalid account id or target datetime supplied
 */
 type GenerateDryRunInvoiceBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GenerateDryRunInvoiceBadRequest) Error() string {

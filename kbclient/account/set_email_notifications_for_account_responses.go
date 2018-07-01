@@ -26,24 +26,12 @@ func (o *SetEmailNotificationsForAccountReader) ReadResponse(response runtime.Cl
 
 	case 204:
 		result := NewSetEmailNotificationsForAccountNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewSetEmailNotificationsForAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewSetEmailNotificationsForAccountNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewSetEmailNotificationsForAccountNoContent() *SetEmailNotificationsForAcco
 Successful operation
 */
 type SetEmailNotificationsForAccountNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *SetEmailNotificationsForAccountNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewSetEmailNotificationsForAccountBadRequest() *SetEmailNotificationsForAcc
 Invalid account id supplied
 */
 type SetEmailNotificationsForAccountBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *SetEmailNotificationsForAccountBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewSetEmailNotificationsForAccountNotFound() *SetEmailNotificationsForAccou
 Account not found
 */
 type SetEmailNotificationsForAccountNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *SetEmailNotificationsForAccountNotFound) Error() string {

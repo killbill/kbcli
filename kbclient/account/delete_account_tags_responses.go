@@ -26,17 +26,12 @@ func (o *DeleteAccountTagsReader) ReadResponse(response runtime.ClientResponse, 
 
 	case 204:
 		result := NewDeleteAccountTagsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteAccountTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteAccountTagsNoContent() *DeleteAccountTagsNoContent {
 Successful operation
 */
 type DeleteAccountTagsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteAccountTagsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteAccountTagsBadRequest() *DeleteAccountTagsBadRequest {
 Invalid account id supplied or account does not have a default payment method (AUTO_PAY_OFF tag only)
 */
 type DeleteAccountTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteAccountTagsBadRequest) Error() string {

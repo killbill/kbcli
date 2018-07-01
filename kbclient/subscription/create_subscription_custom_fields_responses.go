@@ -24,19 +24,14 @@ type CreateSubscriptionCustomFieldsReader struct {
 func (o *CreateSubscriptionCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateSubscriptionCustomFieldsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateSubscriptionCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewCreateSubscriptionCustomFieldsCreated() *CreateSubscriptionCustomFieldsC
 Custom field created successfully
 */
 type CreateSubscriptionCustomFieldsCreated struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateSubscriptionCustomFieldsCreated) Error() string {
@@ -77,6 +73,7 @@ func NewCreateSubscriptionCustomFieldsBadRequest() *CreateSubscriptionCustomFiel
 Invalid subscription id supplied
 */
 type CreateSubscriptionCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateSubscriptionCustomFieldsBadRequest) Error() string {

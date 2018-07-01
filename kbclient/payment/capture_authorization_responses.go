@@ -26,61 +26,14 @@ type CaptureAuthorizationReader struct {
 func (o *CaptureAuthorizationReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCaptureAuthorizationCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCaptureAuthorizationBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 402:
-		result := NewCaptureAuthorizationPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCaptureAuthorizationNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewCaptureAuthorizationUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewCaptureAuthorizationBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewCaptureAuthorizationServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewCaptureAuthorizationGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -101,6 +54,8 @@ Payment transaction created successfully
 */
 type CaptureAuthorizationCreated struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationCreated) Error() string {
@@ -129,6 +84,7 @@ func NewCaptureAuthorizationBadRequest() *CaptureAuthorizationBadRequest {
 Invalid paymentId supplied
 */
 type CaptureAuthorizationBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationBadRequest) Error() string {
@@ -150,6 +106,7 @@ func NewCaptureAuthorizationPaymentRequired() *CaptureAuthorizationPaymentRequir
 Transaction declined by gateway
 */
 type CaptureAuthorizationPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationPaymentRequired) Error() string {
@@ -171,6 +128,7 @@ func NewCaptureAuthorizationNotFound() *CaptureAuthorizationNotFound {
 Account or payment not found
 */
 type CaptureAuthorizationNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationNotFound) Error() string {
@@ -192,6 +150,7 @@ func NewCaptureAuthorizationUnprocessableEntity() *CaptureAuthorizationUnprocess
 Payment is aborted by a control plugin
 */
 type CaptureAuthorizationUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationUnprocessableEntity) Error() string {
@@ -213,6 +172,7 @@ func NewCaptureAuthorizationBadGateway() *CaptureAuthorizationBadGateway {
 Failed to submit payment transaction
 */
 type CaptureAuthorizationBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationBadGateway) Error() string {
@@ -234,6 +194,7 @@ func NewCaptureAuthorizationServiceUnavailable() *CaptureAuthorizationServiceUna
 Payment in unknown status, failed to receive gateway response
 */
 type CaptureAuthorizationServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationServiceUnavailable) Error() string {
@@ -255,6 +216,7 @@ func NewCaptureAuthorizationGatewayTimeout() *CaptureAuthorizationGatewayTimeout
 Payment operation timeout
 */
 type CaptureAuthorizationGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationGatewayTimeout) Error() string {

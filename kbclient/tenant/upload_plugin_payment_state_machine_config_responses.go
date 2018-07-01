@@ -26,19 +26,14 @@ type UploadPluginPaymentStateMachineConfigReader struct {
 func (o *UploadPluginPaymentStateMachineConfigReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewUploadPluginPaymentStateMachineConfigCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUploadPluginPaymentStateMachineConfigBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Per tenant state machine uploaded successfully
 */
 type UploadPluginPaymentStateMachineConfigCreated struct {
 	Payload *kbmodel.TenantKeyValue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadPluginPaymentStateMachineConfigCreated) Error() string {
@@ -87,6 +84,7 @@ func NewUploadPluginPaymentStateMachineConfigBadRequest() *UploadPluginPaymentSt
 Invalid tenantId supplied
 */
 type UploadPluginPaymentStateMachineConfigBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadPluginPaymentStateMachineConfigBadRequest) Error() string {

@@ -26,17 +26,12 @@ func (o *UpdateAccountReader) ReadResponse(response runtime.ClientResponse, cons
 
 	case 204:
 		result := NewUpdateAccountNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUpdateAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewUpdateAccountNoContent() *UpdateAccountNoContent {
 Successful operation
 */
 type UpdateAccountNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UpdateAccountNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewUpdateAccountBadRequest() *UpdateAccountBadRequest {
 Invalid account data supplied
 */
 type UpdateAccountBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UpdateAccountBadRequest) Error() string {

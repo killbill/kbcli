@@ -24,8 +24,9 @@ type UploadInvoiceTranslationReader struct {
 func (o *UploadInvoiceTranslationReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewUploadInvoiceTranslationCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +51,8 @@ Uploaded invoice translation Successfully
 */
 type UploadInvoiceTranslationCreated struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadInvoiceTranslationCreated) Error() string {

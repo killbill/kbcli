@@ -26,17 +26,12 @@ func (o *PayAllInvoicesReader) ReadResponse(response runtime.ClientResponse, con
 
 	case 204:
 		result := NewPayAllInvoicesNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewPayAllInvoicesNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewPayAllInvoicesNoContent() *PayAllInvoicesNoContent {
 Successful operation
 */
 type PayAllInvoicesNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *PayAllInvoicesNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewPayAllInvoicesNotFound() *PayAllInvoicesNotFound {
 Invalid account id supplied
 */
 type PayAllInvoicesNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *PayAllInvoicesNotFound) Error() string {

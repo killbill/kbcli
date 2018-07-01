@@ -26,6 +26,7 @@ func (o *DeleteCatalogReader) ReadResponse(response runtime.ClientResponse, cons
 
 	case 204:
 		result := NewDeleteCatalogNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +50,7 @@ func NewDeleteCatalogNoContent() *DeleteCatalogNoContent {
 Successful operation
 */
 type DeleteCatalogNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteCatalogNoContent) Error() string {

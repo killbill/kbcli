@@ -28,17 +28,12 @@ func (o *GetPluginPaymentStateMachineConfigReader) ReadResponse(response runtime
 
 	case 200:
 		result := NewGetPluginPaymentStateMachineConfigOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetPluginPaymentStateMachineConfigBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetPluginPaymentStateMachineConfigOK struct {
 	Payload *kbmodel.TenantKeyValue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPluginPaymentStateMachineConfigOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetPluginPaymentStateMachineConfigBadRequest() *GetPluginPaymentStateMac
 Invalid tenantId supplied
 */
 type GetPluginPaymentStateMachineConfigBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPluginPaymentStateMachineConfigBadRequest) Error() string {
