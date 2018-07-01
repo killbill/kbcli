@@ -39,7 +39,7 @@ func NewKillbillError(httpCode int) *KillbillError {
 
 // Error returns error message
 func (k *KillbillError) Error() string {
-	return fmt.Sprintf("code = %d desc = %s", k.HTTPCode, k.Message)
+	return fmt.Sprintf("[%d] %s", k.HTTPCode, k.Message)
 }
 
 // FormatStackTrace returns formatted stack trace.
