@@ -26,24 +26,12 @@ func (o *SetDefaultPaymentMethodReader) ReadResponse(response runtime.ClientResp
 
 	case 204:
 		result := NewSetDefaultPaymentMethodNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewSetDefaultPaymentMethodBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewSetDefaultPaymentMethodNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewSetDefaultPaymentMethodNoContent() *SetDefaultPaymentMethodNoContent {
 Successful operation
 */
 type SetDefaultPaymentMethodNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *SetDefaultPaymentMethodNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewSetDefaultPaymentMethodBadRequest() *SetDefaultPaymentMethodBadRequest {
 Invalid account id or payment method id supplied
 */
 type SetDefaultPaymentMethodBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *SetDefaultPaymentMethodBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewSetDefaultPaymentMethodNotFound() *SetDefaultPaymentMethodNotFound {
 Account not found
 */
 type SetDefaultPaymentMethodNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *SetDefaultPaymentMethodNotFound) Error() string {

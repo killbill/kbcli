@@ -26,17 +26,12 @@ func (o *DeletePluginConfigurationReader) ReadResponse(response runtime.ClientRe
 
 	case 204:
 		result := NewDeletePluginConfigurationNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeletePluginConfigurationBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeletePluginConfigurationNoContent() *DeletePluginConfigurationNoContent
 Successful operation
 */
 type DeletePluginConfigurationNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePluginConfigurationNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeletePluginConfigurationBadRequest() *DeletePluginConfigurationBadReque
 Invalid tenantId supplied
 */
 type DeletePluginConfigurationBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePluginConfigurationBadRequest) Error() string {

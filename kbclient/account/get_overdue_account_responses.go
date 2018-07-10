@@ -28,24 +28,12 @@ func (o *GetOverdueAccountReader) ReadResponse(response runtime.ClientResponse, 
 
 	case 200:
 		result := NewGetOverdueAccountOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetOverdueAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetOverdueAccountNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetOverdueAccountOK struct {
 	Payload *kbmodel.OverdueState
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetOverdueAccountOK) Error() string {
@@ -94,6 +84,7 @@ func NewGetOverdueAccountBadRequest() *GetOverdueAccountBadRequest {
 Invalid account id supplied
 */
 type GetOverdueAccountBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetOverdueAccountBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewGetOverdueAccountNotFound() *GetOverdueAccountNotFound {
 Account not found
 */
 type GetOverdueAccountNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetOverdueAccountNotFound) Error() string {

@@ -26,17 +26,12 @@ func (o *DeleteInvoiceItemCustomFieldsReader) ReadResponse(response runtime.Clie
 
 	case 204:
 		result := NewDeleteInvoiceItemCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteInvoiceItemCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteInvoiceItemCustomFieldsNoContent() *DeleteInvoiceItemCustomFieldsN
 Successful operation
 */
 type DeleteInvoiceItemCustomFieldsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteInvoiceItemCustomFieldsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteInvoiceItemCustomFieldsBadRequest() *DeleteInvoiceItemCustomFields
 Invalid invoice item id supplied
 */
 type DeleteInvoiceItemCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteInvoiceItemCustomFieldsBadRequest) Error() string {

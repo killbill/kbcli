@@ -24,19 +24,14 @@ type UploadOverdueConfigXMLReader struct {
 func (o *UploadOverdueConfigXMLReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewUploadOverdueConfigXMLCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUploadOverdueConfigXMLBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -57,6 +52,8 @@ Successfully uploaded overdue config
 */
 type UploadOverdueConfigXMLCreated struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadOverdueConfigXMLCreated) Error() string {
@@ -83,6 +80,7 @@ func NewUploadOverdueConfigXMLBadRequest() *UploadOverdueConfigXMLBadRequest {
 Invalid node command supplied
 */
 type UploadOverdueConfigXMLBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadOverdueConfigXMLBadRequest) Error() string {

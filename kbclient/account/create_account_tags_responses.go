@@ -26,19 +26,14 @@ type CreateAccountTagsReader struct {
 func (o *CreateAccountTagsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateAccountTagsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateAccountTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Tag created successfully
 */
 type CreateAccountTagsCreated struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateAccountTagsCreated) Error() string {
@@ -85,6 +82,7 @@ func NewCreateAccountTagsBadRequest() *CreateAccountTagsBadRequest {
 Invalid account id supplied
 */
 type CreateAccountTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateAccountTagsBadRequest) Error() string {

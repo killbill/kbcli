@@ -28,6 +28,7 @@ func (o *GetPhaseForSubscriptionAndDateReader) ReadResponse(response runtime.Cli
 
 	case 200:
 		result := NewGetPhaseForSubscriptionAndDateOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetPhaseForSubscriptionAndDateOK struct {
 	Payload *kbmodel.Phase
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPhaseForSubscriptionAndDateOK) Error() string {

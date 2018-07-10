@@ -28,17 +28,12 @@ func (o *GetAccountAuditLogsReader) ReadResponse(response runtime.ClientResponse
 
 	case 200:
 		result := NewGetAccountAuditLogsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetAccountAuditLogsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetAccountAuditLogsOK struct {
 	Payload []*kbmodel.AuditLog
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountAuditLogsOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetAccountAuditLogsNotFound() *GetAccountAuditLogsNotFound {
 Account not found
 */
 type GetAccountAuditLogsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountAuditLogsNotFound) Error() string {

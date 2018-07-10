@@ -28,24 +28,12 @@ func (o *GetPaymentTagsReader) ReadResponse(response runtime.ClientResponse, con
 
 	case 200:
 		result := NewGetPaymentTagsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetPaymentTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetPaymentTagsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetPaymentTagsOK struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentTagsOK) Error() string {
@@ -92,6 +82,7 @@ func NewGetPaymentTagsBadRequest() *GetPaymentTagsBadRequest {
 Invalid payment id supplied
 */
 type GetPaymentTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentTagsBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewGetPaymentTagsNotFound() *GetPaymentTagsNotFound {
 Invoice not found
 */
 type GetPaymentTagsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentTagsNotFound) Error() string {

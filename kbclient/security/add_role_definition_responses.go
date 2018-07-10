@@ -26,8 +26,9 @@ type AddRoleDefinitionReader struct {
 func (o *AddRoleDefinitionReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewAddRoleDefinitionCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ Role definition created successfully
 */
 type AddRoleDefinitionCreated struct {
 	Payload *kbmodel.RoleDefinition
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddRoleDefinitionCreated) Error() string {

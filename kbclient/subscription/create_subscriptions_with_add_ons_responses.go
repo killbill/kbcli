@@ -26,8 +26,9 @@ type CreateSubscriptionsWithAddOnsReader struct {
 func (o *CreateSubscriptionsWithAddOnsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateSubscriptionsWithAddOnsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ Subscriptions created successfully
 */
 type CreateSubscriptionsWithAddOnsCreated struct {
 	Payload []*kbmodel.Bundle
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateSubscriptionsWithAddOnsCreated) Error() string {

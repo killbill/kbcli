@@ -26,24 +26,12 @@ func (o *VoidInvoiceReader) ReadResponse(response runtime.ClientResponse, consum
 
 	case 204:
 		result := NewVoidInvoiceNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewVoidInvoiceBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewVoidInvoiceNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewVoidInvoiceNoContent() *VoidInvoiceNoContent {
 Successful operation
 */
 type VoidInvoiceNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidInvoiceNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewVoidInvoiceBadRequest() *VoidInvoiceBadRequest {
 Invalid invoice id supplied
 */
 type VoidInvoiceBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidInvoiceBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewVoidInvoiceNotFound() *VoidInvoiceNotFound {
 Invoice not found
 */
 type VoidInvoiceNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidInvoiceNotFound) Error() string {

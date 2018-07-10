@@ -28,24 +28,12 @@ func (o *GetAccountBundlesReader) ReadResponse(response runtime.ClientResponse, 
 
 	case 200:
 		result := NewGetAccountBundlesOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetAccountBundlesBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetAccountBundlesNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetAccountBundlesOK struct {
 	Payload []*kbmodel.Bundle
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountBundlesOK) Error() string {
@@ -92,6 +82,7 @@ func NewGetAccountBundlesBadRequest() *GetAccountBundlesBadRequest {
 Invalid account id supplied
 */
 type GetAccountBundlesBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountBundlesBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewGetAccountBundlesNotFound() *GetAccountBundlesNotFound {
 Account not found
 */
 type GetAccountBundlesNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountBundlesNotFound) Error() string {

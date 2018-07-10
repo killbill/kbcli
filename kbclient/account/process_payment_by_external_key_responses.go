@@ -26,61 +26,14 @@ type ProcessPaymentByExternalKeyReader struct {
 func (o *ProcessPaymentByExternalKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewProcessPaymentByExternalKeyCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewProcessPaymentByExternalKeyBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 402:
-		result := NewProcessPaymentByExternalKeyPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewProcessPaymentByExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewProcessPaymentByExternalKeyUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewProcessPaymentByExternalKeyBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewProcessPaymentByExternalKeyServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewProcessPaymentByExternalKeyGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -101,6 +54,8 @@ Payment transaction created successfully
 */
 type ProcessPaymentByExternalKeyCreated struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ProcessPaymentByExternalKeyCreated) Error() string {
@@ -129,6 +84,7 @@ func NewProcessPaymentByExternalKeyBadRequest() *ProcessPaymentByExternalKeyBadR
 Invalid account external key supplied
 */
 type ProcessPaymentByExternalKeyBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ProcessPaymentByExternalKeyBadRequest) Error() string {
@@ -150,6 +106,7 @@ func NewProcessPaymentByExternalKeyPaymentRequired() *ProcessPaymentByExternalKe
 Transaction declined by gateway
 */
 type ProcessPaymentByExternalKeyPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ProcessPaymentByExternalKeyPaymentRequired) Error() string {
@@ -171,6 +128,7 @@ func NewProcessPaymentByExternalKeyNotFound() *ProcessPaymentByExternalKeyNotFou
 Account not found
 */
 type ProcessPaymentByExternalKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ProcessPaymentByExternalKeyNotFound) Error() string {
@@ -192,6 +150,7 @@ func NewProcessPaymentByExternalKeyUnprocessableEntity() *ProcessPaymentByExtern
 Payment is aborted by a control plugin
 */
 type ProcessPaymentByExternalKeyUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ProcessPaymentByExternalKeyUnprocessableEntity) Error() string {
@@ -213,6 +172,7 @@ func NewProcessPaymentByExternalKeyBadGateway() *ProcessPaymentByExternalKeyBadG
 Failed to submit payment transaction
 */
 type ProcessPaymentByExternalKeyBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ProcessPaymentByExternalKeyBadGateway) Error() string {
@@ -234,6 +194,7 @@ func NewProcessPaymentByExternalKeyServiceUnavailable() *ProcessPaymentByExterna
 Payment in unknown status, failed to receive gateway response
 */
 type ProcessPaymentByExternalKeyServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ProcessPaymentByExternalKeyServiceUnavailable) Error() string {
@@ -255,6 +216,7 @@ func NewProcessPaymentByExternalKeyGatewayTimeout() *ProcessPaymentByExternalKey
 Payment operation timeout
 */
 type ProcessPaymentByExternalKeyGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ProcessPaymentByExternalKeyGatewayTimeout) Error() string {

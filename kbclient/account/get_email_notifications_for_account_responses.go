@@ -28,6 +28,7 @@ func (o *GetEmailNotificationsForAccountReader) ReadResponse(response runtime.Cl
 
 	case 200:
 		result := NewGetEmailNotificationsForAccountOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -35,24 +36,12 @@ func (o *GetEmailNotificationsForAccountReader) ReadResponse(response runtime.Cl
 
 	case 204:
 		result := NewGetEmailNotificationsForAccountNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetEmailNotificationsForAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetEmailNotificationsForAccountNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -73,6 +62,8 @@ successful operation
 */
 type GetEmailNotificationsForAccountOK struct {
 	Payload *kbmodel.InvoiceEmail
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetEmailNotificationsForAccountOK) Error() string {
@@ -101,6 +92,7 @@ func NewGetEmailNotificationsForAccountNoContent() *GetEmailNotificationsForAcco
 Successful operation
 */
 type GetEmailNotificationsForAccountNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetEmailNotificationsForAccountNoContent) Error() string {
@@ -122,6 +114,7 @@ func NewGetEmailNotificationsForAccountBadRequest() *GetEmailNotificationsForAcc
 Invalid account id supplied
 */
 type GetEmailNotificationsForAccountBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetEmailNotificationsForAccountBadRequest) Error() string {
@@ -143,6 +136,7 @@ func NewGetEmailNotificationsForAccountNotFound() *GetEmailNotificationsForAccou
 Account not found
 */
 type GetEmailNotificationsForAccountNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetEmailNotificationsForAccountNotFound) Error() string {

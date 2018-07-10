@@ -26,17 +26,12 @@ func (o *ModifyBundleCustomFieldsReader) ReadResponse(response runtime.ClientRes
 
 	case 204:
 		result := NewModifyBundleCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewModifyBundleCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewModifyBundleCustomFieldsNoContent() *ModifyBundleCustomFieldsNoContent {
 Successful operation
 */
 type ModifyBundleCustomFieldsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyBundleCustomFieldsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewModifyBundleCustomFieldsBadRequest() *ModifyBundleCustomFieldsBadRequest
 Invalid bundle id supplied
 */
 type ModifyBundleCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyBundleCustomFieldsBadRequest) Error() string {

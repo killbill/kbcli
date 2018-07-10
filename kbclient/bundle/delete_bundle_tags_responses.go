@@ -26,17 +26,12 @@ func (o *DeleteBundleTagsReader) ReadResponse(response runtime.ClientResponse, c
 
 	case 204:
 		result := NewDeleteBundleTagsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteBundleTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteBundleTagsNoContent() *DeleteBundleTagsNoContent {
 Successful operation
 */
 type DeleteBundleTagsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteBundleTagsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteBundleTagsBadRequest() *DeleteBundleTagsBadRequest {
 Invalid bundle id supplied
 */
 type DeleteBundleTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteBundleTagsBadRequest) Error() string {

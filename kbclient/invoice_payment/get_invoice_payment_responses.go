@@ -28,24 +28,12 @@ func (o *GetInvoicePaymentReader) ReadResponse(response runtime.ClientResponse, 
 
 	case 200:
 		result := NewGetInvoicePaymentOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetInvoicePaymentBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetInvoicePaymentNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetInvoicePaymentOK struct {
 	Payload *kbmodel.InvoicePayment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoicePaymentOK) Error() string {
@@ -94,6 +84,7 @@ func NewGetInvoicePaymentBadRequest() *GetInvoicePaymentBadRequest {
 Invalid payment id supplied
 */
 type GetInvoicePaymentBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoicePaymentBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewGetInvoicePaymentNotFound() *GetInvoicePaymentNotFound {
 Payment not found
 */
 type GetInvoicePaymentNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoicePaymentNotFound) Error() string {

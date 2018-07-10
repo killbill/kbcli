@@ -28,24 +28,12 @@ func (o *GetCreditReader) ReadResponse(response runtime.ClientResponse, consumer
 
 	case 200:
 		result := NewGetCreditOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetCreditBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetCreditNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetCreditOK struct {
 	Payload *kbmodel.Credit
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCreditOK) Error() string {
@@ -94,6 +84,7 @@ func NewGetCreditBadRequest() *GetCreditBadRequest {
 Invalid credit id supplied
 */
 type GetCreditBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCreditBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewGetCreditNotFound() *GetCreditNotFound {
 Credit not found
 */
 type GetCreditNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCreditNotFound) Error() string {

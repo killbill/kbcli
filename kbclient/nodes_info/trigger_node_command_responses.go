@@ -26,17 +26,12 @@ func (o *TriggerNodeCommandReader) ReadResponse(response runtime.ClientResponse,
 
 	case 202:
 		result := NewTriggerNodeCommandAccepted()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewTriggerNodeCommandBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewTriggerNodeCommandAccepted() *TriggerNodeCommandAccepted {
 Successful operation
 */
 type TriggerNodeCommandAccepted struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *TriggerNodeCommandAccepted) Error() string {
@@ -77,6 +73,7 @@ func NewTriggerNodeCommandBadRequest() *TriggerNodeCommandBadRequest {
 Invalid node command supplied
 */
 type TriggerNodeCommandBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *TriggerNodeCommandBadRequest) Error() string {

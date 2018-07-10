@@ -26,26 +26,14 @@ type AddEmailReader struct {
 func (o *AddEmailReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewAddEmailCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewAddEmailBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewAddEmailNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Email created successfully
 */
 type AddEmailCreated struct {
 	Payload []*kbmodel.AccountEmail
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddEmailCreated) Error() string {
@@ -92,6 +82,7 @@ func NewAddEmailBadRequest() *AddEmailBadRequest {
 Invalid account id supplied
 */
 type AddEmailBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddEmailBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewAddEmailNotFound() *AddEmailNotFound {
 Account not found
 */
 type AddEmailNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *AddEmailNotFound) Error() string {

@@ -28,24 +28,12 @@ func (o *GetTenantReader) ReadResponse(response runtime.ClientResponse, consumer
 
 	case 200:
 		result := NewGetTenantOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetTenantBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetTenantNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetTenantOK struct {
 	Payload *kbmodel.Tenant
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTenantOK) Error() string {
@@ -94,6 +84,7 @@ func NewGetTenantBadRequest() *GetTenantBadRequest {
 Invalid tenantId supplied
 */
 type GetTenantBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTenantBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewGetTenantNotFound() *GetTenantNotFound {
 Tenant not found
 */
 type GetTenantNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTenantNotFound) Error() string {

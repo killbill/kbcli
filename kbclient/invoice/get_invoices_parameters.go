@@ -112,10 +112,11 @@ type GetInvoicesParams struct {
 	/*WithItems*/
 	WithItems *bool
 
-	WithStackTrace *bool
-	timeout        time.Duration
-	Context        context.Context
-	HTTPClient     *http.Client
+	WithStackTrace        *bool // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get invoices params

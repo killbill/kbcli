@@ -26,24 +26,12 @@ func (o *ExportDataForAccountReader) ReadResponse(response runtime.ClientRespons
 
 	case 200:
 		result := NewExportDataForAccountOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewExportDataForAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewExportDataForAccountNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewExportDataForAccountOK() *ExportDataForAccountOK {
 Success
 */
 type ExportDataForAccountOK struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ExportDataForAccountOK) Error() string {
@@ -84,6 +73,7 @@ func NewExportDataForAccountBadRequest() *ExportDataForAccountBadRequest {
 Invalid account id supplied
 */
 type ExportDataForAccountBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ExportDataForAccountBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewExportDataForAccountNotFound() *ExportDataForAccountNotFound {
 Account not found
 */
 type ExportDataForAccountNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ExportDataForAccountNotFound) Error() string {

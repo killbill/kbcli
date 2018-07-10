@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/runtime"
+	"github.com/killbill/kbcli/kbcommon"
 
 	strfmt "github.com/go-openapi/strfmt"
 )
@@ -57,30 +58,38 @@ func (a *Client) AddBundleBlockingState(ctx context.Context, params *AddBundleBl
 	if params == nil {
 		params = NewAddBundleBlockingStateParams()
 	}
+	getParams := NewAddBundleBlockingStateParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addBundleBlockingState",
@@ -98,7 +107,29 @@ func (a *Client) AddBundleBlockingState(ctx context.Context, params *AddBundleBl
 	if err != nil {
 		return nil, err
 	}
-	return result.(*AddBundleBlockingStateCreated), nil
+	createdResult := result.(*AddBundleBlockingStateCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "addBundleBlockingState",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &AddBundleBlockingStateReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*AddBundleBlockingStateCreated), nil
 
 }
 
@@ -110,30 +141,38 @@ func (a *Client) CreateBundleCustomFields(ctx context.Context, params *CreateBun
 	if params == nil {
 		params = NewCreateBundleCustomFieldsParams()
 	}
+	getParams := NewCreateBundleCustomFieldsParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createBundleCustomFields",
@@ -151,7 +190,29 @@ func (a *Client) CreateBundleCustomFields(ctx context.Context, params *CreateBun
 	if err != nil {
 		return nil, err
 	}
-	return result.(*CreateBundleCustomFieldsCreated), nil
+	createdResult := result.(*CreateBundleCustomFieldsCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createBundleCustomFields",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateBundleCustomFieldsReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateBundleCustomFieldsCreated), nil
 
 }
 
@@ -163,30 +224,38 @@ func (a *Client) CreateBundleTags(ctx context.Context, params *CreateBundleTagsP
 	if params == nil {
 		params = NewCreateBundleTagsParams()
 	}
+	getParams := NewCreateBundleTagsParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createBundleTags",
@@ -204,7 +273,29 @@ func (a *Client) CreateBundleTags(ctx context.Context, params *CreateBundleTagsP
 	if err != nil {
 		return nil, err
 	}
-	return result.(*CreateBundleTagsCreated), nil
+	createdResult := result.(*CreateBundleTagsCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createBundleTags",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateBundleTagsReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateBundleTagsCreated), nil
 
 }
 
@@ -780,30 +871,38 @@ func (a *Client) TransferBundle(ctx context.Context, params *TransferBundleParam
 	if params == nil {
 		params = NewTransferBundleParams()
 	}
+	getParams := NewTransferBundleParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "transferBundle",
@@ -821,7 +920,29 @@ func (a *Client) TransferBundle(ctx context.Context, params *TransferBundleParam
 	if err != nil {
 		return nil, err
 	}
-	return result.(*TransferBundleCreated), nil
+	createdResult := result.(*TransferBundleCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "transferBundle",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &TransferBundleReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*TransferBundleCreated), nil
 
 }
 

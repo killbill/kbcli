@@ -26,24 +26,12 @@ func (o *ResumeBundleReader) ReadResponse(response runtime.ClientResponse, consu
 
 	case 204:
 		result := NewResumeBundleNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewResumeBundleBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewResumeBundleNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewResumeBundleNoContent() *ResumeBundleNoContent {
 Successful operation
 */
 type ResumeBundleNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ResumeBundleNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewResumeBundleBadRequest() *ResumeBundleBadRequest {
 Invalid bundle id supplied
 */
 type ResumeBundleBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ResumeBundleBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewResumeBundleNotFound() *ResumeBundleNotFound {
 Bundle not found
 */
 type ResumeBundleNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ResumeBundleNotFound) Error() string {

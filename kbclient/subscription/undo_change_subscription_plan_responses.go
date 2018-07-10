@@ -26,24 +26,12 @@ func (o *UndoChangeSubscriptionPlanReader) ReadResponse(response runtime.ClientR
 
 	case 204:
 		result := NewUndoChangeSubscriptionPlanNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUndoChangeSubscriptionPlanBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewUndoChangeSubscriptionPlanNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewUndoChangeSubscriptionPlanNoContent() *UndoChangeSubscriptionPlanNoConte
 Successful operation
 */
 type UndoChangeSubscriptionPlanNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UndoChangeSubscriptionPlanNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewUndoChangeSubscriptionPlanBadRequest() *UndoChangeSubscriptionPlanBadReq
 Invalid subscription id supplied
 */
 type UndoChangeSubscriptionPlanBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UndoChangeSubscriptionPlanBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewUndoChangeSubscriptionPlanNotFound() *UndoChangeSubscriptionPlanNotFound
 Entitlement not found
 */
 type UndoChangeSubscriptionPlanNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UndoChangeSubscriptionPlanNotFound) Error() string {

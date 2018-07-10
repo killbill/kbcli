@@ -28,17 +28,12 @@ func (o *GetTagDefinitionReader) ReadResponse(response runtime.ClientResponse, c
 
 	case 200:
 		result := NewGetTagDefinitionOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetTagDefinitionBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetTagDefinitionOK struct {
 	Payload *kbmodel.TagDefinition
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTagDefinitionOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetTagDefinitionBadRequest() *GetTagDefinitionBadRequest {
 Invalid tagDefinitionId supplied
 */
 type GetTagDefinitionBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTagDefinitionBadRequest) Error() string {

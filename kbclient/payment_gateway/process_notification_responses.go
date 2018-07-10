@@ -26,6 +26,7 @@ func (o *ProcessNotificationReader) ReadResponse(response runtime.ClientResponse
 
 	case 200:
 		result := NewProcessNotificationOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +50,7 @@ func NewProcessNotificationOK() *ProcessNotificationOK {
 Successful
 */
 type ProcessNotificationOK struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ProcessNotificationOK) Error() string {

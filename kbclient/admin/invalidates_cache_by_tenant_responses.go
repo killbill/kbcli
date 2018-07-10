@@ -26,6 +26,7 @@ func (o *InvalidatesCacheByTenantReader) ReadResponse(response runtime.ClientRes
 
 	case 204:
 		result := NewInvalidatesCacheByTenantNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +50,7 @@ func NewInvalidatesCacheByTenantNoContent() *InvalidatesCacheByTenantNoContent {
 Successful operation
 */
 type InvalidatesCacheByTenantNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *InvalidatesCacheByTenantNoContent) Error() string {

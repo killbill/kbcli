@@ -26,17 +26,12 @@ func (o *ModifyTransactionCustomFieldsReader) ReadResponse(response runtime.Clie
 
 	case 204:
 		result := NewModifyTransactionCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewModifyTransactionCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewModifyTransactionCustomFieldsNoContent() *ModifyTransactionCustomFieldsN
 Successful operation
 */
 type ModifyTransactionCustomFieldsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyTransactionCustomFieldsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewModifyTransactionCustomFieldsBadRequest() *ModifyTransactionCustomFields
 Invalid transaction id supplied
 */
 type ModifyTransactionCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyTransactionCustomFieldsBadRequest) Error() string {

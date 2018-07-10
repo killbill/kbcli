@@ -28,6 +28,7 @@ func (o *GetNodesInfoReader) ReadResponse(response runtime.ClientResponse, consu
 
 	case 200:
 		result := NewGetNodesInfoOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetNodesInfoOK struct {
 	Payload []*kbmodel.PluginInfo
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetNodesInfoOK) Error() string {

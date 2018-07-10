@@ -28,24 +28,12 @@ func (o *GetSubscriptionReader) ReadResponse(response runtime.ClientResponse, co
 
 	case 200:
 		result := NewGetSubscriptionOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetSubscriptionBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetSubscriptionNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetSubscriptionOK struct {
 	Payload *kbmodel.Subscription
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionOK) Error() string {
@@ -94,6 +84,7 @@ func NewGetSubscriptionBadRequest() *GetSubscriptionBadRequest {
 Invalid subscription id supplied
 */
 type GetSubscriptionBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewGetSubscriptionNotFound() *GetSubscriptionNotFound {
 Subscription not found
 */
 type GetSubscriptionNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionNotFound) Error() string {

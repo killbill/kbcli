@@ -72,13 +72,15 @@ func addAccountTag(ctx context.Context, o *cmdlib.Options) error {
 		return fmt.Errorf("tag %s not found", tagName)
 	}
 
-	_, err = o.Client().Account.CreateAccountTags(ctx, &account.CreateAccountTagsParams{
+	resp, err := o.Client().Account.CreateAccountTags(ctx, &account.CreateAccountTagsParams{
 		AccountID: acc.AccountID,
 		Body:      []strfmt.UUID{tag.ID},
+		ProcessLocationHeader: true,
 	})
 	if err != nil {
 		return err
 	}
+	o.Print(resp.Payload)
 
 	return nil
 }
@@ -115,23 +117,31 @@ func registerAccountTagCommands(r *cmdlib.App) {
 	// Tag
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.Tag{}), tagFormatter)
 
-	// List account tags
+	// Account tag related functions
 	r.Register("accounts", cli.Command{
-		Name:      "list-tags",
+		Name:  "tags",
+		Usage: "Tag related commands",
+	}, nil)
+
+	// List account tags
+	r.Register("accounts.tags", cli.Command{
+		Name:      "list",
+		Aliases:   []string{"ls"},
 		Usage:     "List all account tags",
 		ArgsUsage: "ACCOUNT",
 	}, listAccountTags)
 
 	// Add account tag
-	r.Register("accounts", cli.Command{
-		Name:      "add-tag",
+	r.Register("accounts.tags", cli.Command{
+		Name:      "add",
 		Usage:     "Add tag to the account",
 		ArgsUsage: "ACCOUNT TAG_NAME",
 	}, addAccountTag)
 
 	// Remove account tag
-	r.Register("accounts", cli.Command{
-		Name:      "remove-tag",
+	r.Register("accounts.tags", cli.Command{
+		Name:      "remove",
+		Aliases:   []string{"rm"},
 		Usage:     "Remove tag from the account",
 		ArgsUsage: "ACCOUNT TAG_NAME",
 	}, removeAccountTag)

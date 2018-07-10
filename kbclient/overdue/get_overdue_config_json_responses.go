@@ -28,6 +28,7 @@ func (o *GetOverdueConfigJSONReader) ReadResponse(response runtime.ClientRespons
 
 	case 200:
 		result := NewGetOverdueConfigJSONOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetOverdueConfigJSONOK struct {
 	Payload *kbmodel.Overdue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetOverdueConfigJSONOK) Error() string {

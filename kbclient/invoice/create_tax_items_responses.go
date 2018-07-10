@@ -26,26 +26,14 @@ type CreateTaxItemsReader struct {
 func (o *CreateTaxItemsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateTaxItemsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateTaxItemsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCreateTaxItemsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Create tax items successfully
 */
 type CreateTaxItemsCreated struct {
 	Payload []*kbmodel.InvoiceItem
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateTaxItemsCreated) Error() string {
@@ -92,6 +82,7 @@ func NewCreateTaxItemsBadRequest() *CreateTaxItemsBadRequest {
 Invalid account id supplied
 */
 type CreateTaxItemsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateTaxItemsBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewCreateTaxItemsNotFound() *CreateTaxItemsNotFound {
 Account not found
 */
 type CreateTaxItemsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateTaxItemsNotFound) Error() string {

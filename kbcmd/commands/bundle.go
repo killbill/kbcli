@@ -4,10 +4,10 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/killbill/kbcli/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/kbcmd/kblib"
 	"github.com/killbill/kbcli/kbclient/account"
 	"github.com/killbill/kbcli/kbclient/bundle"
+	"github.com/killbill/kbcli/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/kbcmd/kblib"
 	"github.com/killbill/kbcli/kbmodel"
 	"github.com/urfave/cli"
 )
@@ -42,6 +42,19 @@ var bundleFormatter = cmdlib.Formatter{
 		{
 			Name: "BUNDLE_ID",
 			Path: "$.bundleId",
+		},
+		{
+			Name: "ACTIVE_SUBSCRIPTIONS",
+			Getter: func(v interface{}) interface{} {
+				b := v.(*kbmodel.Bundle)
+				var count int
+				for _, s := range b.Subscriptions {
+					if s.State == "ACTIVE" {
+						count++
+					}
+				}
+				return count
+			},
 		},
 	},
 	SubItems: []cmdlib.SubItem{

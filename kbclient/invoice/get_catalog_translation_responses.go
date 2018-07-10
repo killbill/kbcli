@@ -26,24 +26,12 @@ func (o *GetCatalogTranslationReader) ReadResponse(response runtime.ClientRespon
 
 	case 200:
 		result := NewGetCatalogTranslationOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetCatalogTranslationBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetCatalogTranslationNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -64,6 +52,8 @@ successful operation
 */
 type GetCatalogTranslationOK struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCatalogTranslationOK) Error() string {
@@ -90,6 +80,7 @@ func NewGetCatalogTranslationBadRequest() *GetCatalogTranslationBadRequest {
 Invalid locale supplied
 */
 type GetCatalogTranslationBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCatalogTranslationBadRequest) Error() string {
@@ -111,6 +102,7 @@ func NewGetCatalogTranslationNotFound() *GetCatalogTranslationNotFound {
 Template not found
 */
 type GetCatalogTranslationNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCatalogTranslationNotFound) Error() string {

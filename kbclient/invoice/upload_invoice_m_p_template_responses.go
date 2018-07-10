@@ -26,6 +26,7 @@ func (o *UploadInvoiceMPTemplateReader) ReadResponse(response runtime.ClientResp
 
 	case 200:
 		result := NewUploadInvoiceMPTemplateOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +51,8 @@ successful operation
 */
 type UploadInvoiceMPTemplateOK struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadInvoiceMPTemplateOK) Error() string {

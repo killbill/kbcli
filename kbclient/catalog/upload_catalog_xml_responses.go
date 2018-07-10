@@ -24,8 +24,9 @@ type UploadCatalogXMLReader struct {
 func (o *UploadCatalogXMLReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewUploadCatalogXMLCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +51,8 @@ Catalog XML created successfully
 */
 type UploadCatalogXMLCreated struct {
 	Payload string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadCatalogXMLCreated) Error() string {

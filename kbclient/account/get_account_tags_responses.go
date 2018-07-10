@@ -28,24 +28,12 @@ func (o *GetAccountTagsReader) ReadResponse(response runtime.ClientResponse, con
 
 	case 200:
 		result := NewGetAccountTagsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetAccountTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetAccountTagsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetAccountTagsOK struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountTagsOK) Error() string {
@@ -92,6 +82,7 @@ func NewGetAccountTagsBadRequest() *GetAccountTagsBadRequest {
 Invalid account id supplied
 */
 type GetAccountTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountTagsBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewGetAccountTagsNotFound() *GetAccountTagsNotFound {
 Account not found
 */
 type GetAccountTagsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountTagsNotFound) Error() string {

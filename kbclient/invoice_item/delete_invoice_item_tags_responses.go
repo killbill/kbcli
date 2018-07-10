@@ -26,17 +26,12 @@ func (o *DeleteInvoiceItemTagsReader) ReadResponse(response runtime.ClientRespon
 
 	case 204:
 		result := NewDeleteInvoiceItemTagsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteInvoiceItemTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteInvoiceItemTagsNoContent() *DeleteInvoiceItemTagsNoContent {
 Successful operation
 */
 type DeleteInvoiceItemTagsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteInvoiceItemTagsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteInvoiceItemTagsBadRequest() *DeleteInvoiceItemTagsBadRequest {
 Invalid invoice item id supplied
 */
 type DeleteInvoiceItemTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteInvoiceItemTagsBadRequest) Error() string {

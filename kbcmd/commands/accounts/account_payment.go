@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"strconv"
 
 	"github.com/go-openapi/strfmt"
 
@@ -79,18 +80,22 @@ func getAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 }
 
 func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) < 2 {
+	if len(o.Args) < 3 {
 		return cmdlib.ErrorInvalidArgs
 	}
 
 	accKey := o.Args[0]
 	method := o.Args[1]
+	isDefault, err := strconv.ParseBool(o.Args[2])
+	if err != nil {
+		return err
+	}
 
 	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accKey)
 	if err != nil {
 		return err
 	}
-	pluginProperties, err := args.ParseArgs(o.Args[2:])
+	pluginProperties, err := args.ParseArgs(o.Args[3:])
 	if err != nil {
 		return err
 	}
@@ -105,10 +110,17 @@ func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 		})
 	}
 
-	_, err = o.Client().Account.CreatePaymentMethod(ctx, &account.CreatePaymentMethodParams{
-		AccountID: acc.AccountID,
-		Body:      pm,
+	resp, err := o.Client().Account.CreatePaymentMethod(ctx, &account.CreatePaymentMethodParams{
+		AccountID:             acc.AccountID,
+		Body:                  pm,
+		IsDefault:             &isDefault,
+		ProcessLocationHeader: true,
 	})
+	if err != nil {
+		return err
+	}
+
+	o.Print(resp.Payload)
 
 	return err
 }
@@ -156,30 +168,43 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 
 	addAccountPaymentMethodProperties = args.GetProperties(&kbmodel.PaymentMethod{})
 
-	// List payment methods
+	// payment methods
 	r.Register("accounts", cli.Command{
-		Name:      "list-payment-methods",
+		Name:    "payment-methods",
+		Aliases: []string{"pm"},
+		Usage:   "Payment method related commands",
+	}, nil)
+
+	// List payment methods
+	r.Register("accounts.payment-methods", cli.Command{
+		Name:      "list",
+		Aliases:   []string{"ls"},
 		Usage:     "List payment methods for the given account",
 		ArgsUsage: `ACCOUNT`,
 	}, listAccountPaymentMethods)
 
 	// Get payment method by ID
-	r.Register("accounts", cli.Command{
-		Name:      "get-payment-method",
+	r.Register("accounts.payment-methods", cli.Command{
+		Name:      "get",
 		Usage:     "Get payment method for the given account",
 		ArgsUsage: `PAYMENT_METHOD_ID`,
 	}, getAccountPaymentMethod)
 
 	// Add payment method
-	r.Register("accounts", cli.Command{
-		Name:      "add-payment-method",
-		Usage:     "Add new payment method",
-		ArgsUsage: `ACCOUNT METHOD [Property1=Value1] ...`,
+	r.Register("accounts.payment-methods", cli.Command{
+		Name:  "add",
+		Usage: "Add new payment method",
+		ArgsUsage: `ACCOUNT METHOD IS_DEFAULT [Property1=Value1] ...
+
+   For ex.,
+      kbcmd accounts payment-methods add johndoe killbill-stripe true token=tok_1CidZ7HGlIo9NLGOy7sPvbsz
+		`,
 	}, addAccountPaymentMethod)
 
 	// Remove payment method
-	r.Register("accounts", cli.Command{
-		Name:      "remove-payment-method",
+	r.Register("accounts.payment-methods", cli.Command{
+		Name:      "remove",
+		Aliases:   []string{"rm"},
 		Usage:     "Remove payment method",
 		ArgsUsage: `ACCOUNT METHOD`,
 	}, removeAccountPaymentMethod)

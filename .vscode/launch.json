@@ -11,10 +11,12 @@
             "mode": "debug",
             "program": "${workspaceRoot}/kbcmd",
             "args": [
-                "tenants",
-                "test"
-            ],
-            "backend": "native"
+                "acc",
+                "create",
+                "ExternalKey=p4",
+                "Name=p3",
+                "email=p1@p1.com"
+            ]
         }
     ]
 }

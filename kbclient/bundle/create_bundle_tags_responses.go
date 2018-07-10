@@ -26,19 +26,14 @@ type CreateBundleTagsReader struct {
 func (o *CreateBundleTagsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateBundleTagsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateBundleTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Tag created successfully
 */
 type CreateBundleTagsCreated struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateBundleTagsCreated) Error() string {
@@ -85,6 +82,7 @@ func NewCreateBundleTagsBadRequest() *CreateBundleTagsBadRequest {
 Invalid bundle id supplied
 */
 type CreateBundleTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateBundleTagsBadRequest) Error() string {

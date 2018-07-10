@@ -28,17 +28,12 @@ func (o *GetPaymentsForAccountReader) ReadResponse(response runtime.ClientRespon
 
 	case 200:
 		result := NewGetPaymentsForAccountOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetPaymentsForAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetPaymentsForAccountOK struct {
 	Payload []*kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentsForAccountOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetPaymentsForAccountBadRequest() *GetPaymentsForAccountBadRequest {
 Invalid account id supplied
 */
 type GetPaymentsForAccountBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentsForAccountBadRequest) Error() string {

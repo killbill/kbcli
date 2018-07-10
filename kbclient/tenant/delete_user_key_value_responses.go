@@ -26,17 +26,12 @@ func (o *DeleteUserKeyValueReader) ReadResponse(response runtime.ClientResponse,
 
 	case 204:
 		result := NewDeleteUserKeyValueNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteUserKeyValueBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteUserKeyValueNoContent() *DeleteUserKeyValueNoContent {
 Successful operation
 */
 type DeleteUserKeyValueNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteUserKeyValueNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteUserKeyValueBadRequest() *DeleteUserKeyValueBadRequest {
 Invalid tenantId supplied
 */
 type DeleteUserKeyValueBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteUserKeyValueBadRequest) Error() string {

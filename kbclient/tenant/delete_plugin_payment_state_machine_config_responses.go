@@ -26,17 +26,12 @@ func (o *DeletePluginPaymentStateMachineConfigReader) ReadResponse(response runt
 
 	case 204:
 		result := NewDeletePluginPaymentStateMachineConfigNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeletePluginPaymentStateMachineConfigBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeletePluginPaymentStateMachineConfigNoContent() *DeletePluginPaymentSta
 Successful operation
 */
 type DeletePluginPaymentStateMachineConfigNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePluginPaymentStateMachineConfigNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeletePluginPaymentStateMachineConfigBadRequest() *DeletePluginPaymentSt
 Invalid tenantId supplied
 */
 type DeletePluginPaymentStateMachineConfigBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeletePluginPaymentStateMachineConfigBadRequest) Error() string {

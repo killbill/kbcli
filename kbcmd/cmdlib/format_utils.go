@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+// defaultListIndent - default indent level for lists
+const defaultIndent = "  "
+
 // Converts to generic interface that jsonpath can work with
 func toGenericObject(v interface{}) (interface{}, error) {
 	var jsonData interface{}
@@ -84,6 +87,43 @@ func printSingleRow(values []string, maxColSize []int, fo FormatOptions) string 
 	}
 
 	return result
+}
+
+// printList converts structured input into simple list of key/value pairs
+func printList(out Output, fo FormatOptions, indent string) ([]string, error) {
+	if len(out.Rows) == 0 {
+		return nil, nil
+	}
+	var result []string
+	if !fo.NoHeader {
+		result = append(result, fmt.Sprintf("%s%s:", indent, out.Title))
+	}
+
+	indent += defaultIndent
+
+	// Compute the header value that has the longest size.
+	var maxHeaderLength int
+	for _, c := range out.Columns {
+		if len(c) > maxHeaderLength {
+			maxHeaderLength = len(c)
+		}
+	}
+
+	for _, r := range out.Rows {
+		for i, v := range r.Values {
+			reqIndent := strings.Repeat(" ", maxHeaderLength-len(out.Columns[i])+1)
+			result = append(result, fmt.Sprintf("%s%s:%s%s", indent, out.Columns[i], reqIndent, v))
+		}
+		for _, child := range r.Children {
+			childResult, err := printList(child, fo, indent)
+			if err != nil {
+				return nil, err
+			}
+			result = append(result, childResult...)
+		}
+		result = append(result, "")
+	}
+	return result, nil
 }
 
 // printColumns converts structured input into set of simple lines that is ready for printing.

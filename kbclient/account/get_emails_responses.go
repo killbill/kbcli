@@ -28,17 +28,12 @@ func (o *GetEmailsReader) ReadResponse(response runtime.ClientResponse, consumer
 
 	case 200:
 		result := NewGetEmailsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetEmailsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetEmailsOK struct {
 	Payload []*kbmodel.AccountEmail
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetEmailsOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetEmailsBadRequest() *GetEmailsBadRequest {
 Invalid account id supplied
 */
 type GetEmailsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetEmailsBadRequest) Error() string {

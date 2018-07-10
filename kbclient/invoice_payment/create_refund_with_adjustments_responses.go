@@ -26,26 +26,14 @@ type CreateRefundWithAdjustmentsReader struct {
 func (o *CreateRefundWithAdjustmentsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateRefundWithAdjustmentsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateRefundWithAdjustmentsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCreateRefundWithAdjustmentsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ Created refund successfully
 */
 type CreateRefundWithAdjustmentsCreated struct {
 	Payload *kbmodel.InvoicePayment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateRefundWithAdjustmentsCreated) Error() string {
@@ -94,6 +84,7 @@ func NewCreateRefundWithAdjustmentsBadRequest() *CreateRefundWithAdjustmentsBadR
 Invalid payment id supplied
 */
 type CreateRefundWithAdjustmentsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateRefundWithAdjustmentsBadRequest) Error() string {
@@ -115,6 +106,7 @@ func NewCreateRefundWithAdjustmentsNotFound() *CreateRefundWithAdjustmentsNotFou
 Account or payment not found
 */
 type CreateRefundWithAdjustmentsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateRefundWithAdjustmentsNotFound) Error() string {

@@ -28,17 +28,12 @@ func (o *GetPaymentCustomFieldsReader) ReadResponse(response runtime.ClientRespo
 
 	case 200:
 		result := NewGetPaymentCustomFieldsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetPaymentCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetPaymentCustomFieldsOK struct {
 	Payload []*kbmodel.CustomField
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentCustomFieldsOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetPaymentCustomFieldsBadRequest() *GetPaymentCustomFieldsBadRequest {
 Invalid payment id supplied
 */
 type GetPaymentCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentCustomFieldsBadRequest) Error() string {

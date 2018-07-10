@@ -28,17 +28,12 @@ func (o *GetBundleByKeyReader) ReadResponse(response runtime.ClientResponse, con
 
 	case 200:
 		result := NewGetBundleByKeyOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetBundleByKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetBundleByKeyOK struct {
 	Payload []*kbmodel.Bundle
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleByKeyOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetBundleByKeyNotFound() *GetBundleByKeyNotFound {
 Bundle not found
 */
 type GetBundleByKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleByKeyNotFound) Error() string {

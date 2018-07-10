@@ -28,6 +28,7 @@ func (o *SearchTagsReader) ReadResponse(response runtime.ClientResponse, consume
 
 	case 200:
 		result := NewSearchTagsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type SearchTagsOK struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *SearchTagsOK) Error() string {

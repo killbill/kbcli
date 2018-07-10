@@ -26,24 +26,12 @@ func (o *RenameExternalKeyReader) ReadResponse(response runtime.ClientResponse, 
 
 	case 204:
 		result := NewRenameExternalKeyNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewRenameExternalKeyBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewRenameExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewRenameExternalKeyNoContent() *RenameExternalKeyNoContent {
 Successful operation
 */
 type RenameExternalKeyNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RenameExternalKeyNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewRenameExternalKeyBadRequest() *RenameExternalKeyBadRequest {
 Invalid argumnent supplied
 */
 type RenameExternalKeyBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RenameExternalKeyBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewRenameExternalKeyNotFound() *RenameExternalKeyNotFound {
 Bundle not found
 */
 type RenameExternalKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RenameExternalKeyNotFound) Error() string {

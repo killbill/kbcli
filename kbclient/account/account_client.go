@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/runtime"
+	"github.com/killbill/kbcli/kbcommon"
 
 	strfmt "github.com/go-openapi/strfmt"
 )
@@ -57,30 +58,38 @@ func (a *Client) AddAccountBlockingState(ctx context.Context, params *AddAccount
 	if params == nil {
 		params = NewAddAccountBlockingStateParams()
 	}
+	getParams := NewAddAccountBlockingStateParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addAccountBlockingState",
@@ -98,7 +107,29 @@ func (a *Client) AddAccountBlockingState(ctx context.Context, params *AddAccount
 	if err != nil {
 		return nil, err
 	}
-	return result.(*AddAccountBlockingStateCreated), nil
+	createdResult := result.(*AddAccountBlockingStateCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "addAccountBlockingState",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &AddAccountBlockingStateReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*AddAccountBlockingStateCreated), nil
 
 }
 
@@ -110,30 +141,38 @@ func (a *Client) AddEmail(ctx context.Context, params *AddEmailParams) (*AddEmai
 	if params == nil {
 		params = NewAddEmailParams()
 	}
+	getParams := NewAddEmailParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addEmail",
@@ -151,7 +190,29 @@ func (a *Client) AddEmail(ctx context.Context, params *AddEmailParams) (*AddEmai
 	if err != nil {
 		return nil, err
 	}
-	return result.(*AddEmailCreated), nil
+	createdResult := result.(*AddEmailCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "addEmail",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &AddEmailReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*AddEmailCreated), nil
 
 }
 
@@ -216,30 +277,38 @@ func (a *Client) CreateAccount(ctx context.Context, params *CreateAccountParams)
 	if params == nil {
 		params = NewCreateAccountParams()
 	}
+	getParams := NewCreateAccountParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createAccount",
@@ -257,7 +326,29 @@ func (a *Client) CreateAccount(ctx context.Context, params *CreateAccountParams)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*CreateAccountCreated), nil
+	createdResult := result.(*CreateAccountCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createAccount",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateAccountReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateAccountCreated), nil
 
 }
 
@@ -269,30 +360,38 @@ func (a *Client) CreateAccountCustomFields(ctx context.Context, params *CreateAc
 	if params == nil {
 		params = NewCreateAccountCustomFieldsParams()
 	}
+	getParams := NewCreateAccountCustomFieldsParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createAccountCustomFields",
@@ -310,7 +409,29 @@ func (a *Client) CreateAccountCustomFields(ctx context.Context, params *CreateAc
 	if err != nil {
 		return nil, err
 	}
-	return result.(*CreateAccountCustomFieldsCreated), nil
+	createdResult := result.(*CreateAccountCustomFieldsCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createAccountCustomFields",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateAccountCustomFieldsReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateAccountCustomFieldsCreated), nil
 
 }
 
@@ -322,30 +443,38 @@ func (a *Client) CreateAccountTags(ctx context.Context, params *CreateAccountTag
 	if params == nil {
 		params = NewCreateAccountTagsParams()
 	}
+	getParams := NewCreateAccountTagsParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createAccountTags",
@@ -363,7 +492,29 @@ func (a *Client) CreateAccountTags(ctx context.Context, params *CreateAccountTag
 	if err != nil {
 		return nil, err
 	}
-	return result.(*CreateAccountTagsCreated), nil
+	createdResult := result.(*CreateAccountTagsCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createAccountTags",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateAccountTagsReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateAccountTagsCreated), nil
 
 }
 
@@ -375,30 +526,38 @@ func (a *Client) CreatePaymentMethod(ctx context.Context, params *CreatePaymentM
 	if params == nil {
 		params = NewCreatePaymentMethodParams()
 	}
+	getParams := NewCreatePaymentMethodParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createPaymentMethod",
@@ -416,7 +575,29 @@ func (a *Client) CreatePaymentMethod(ctx context.Context, params *CreatePaymentM
 	if err != nil {
 		return nil, err
 	}
-	return result.(*CreatePaymentMethodCreated), nil
+	createdResult := result.(*CreatePaymentMethodCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createPaymentMethod",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreatePaymentMethodReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreatePaymentMethodCreated), nil
 
 }
 
@@ -1507,30 +1688,38 @@ func (a *Client) ProcessPayment(ctx context.Context, params *ProcessPaymentParam
 	if params == nil {
 		params = NewProcessPaymentParams()
 	}
+	getParams := NewProcessPaymentParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "processPayment",
@@ -1548,7 +1737,29 @@ func (a *Client) ProcessPayment(ctx context.Context, params *ProcessPaymentParam
 	if err != nil {
 		return nil, err
 	}
-	return result.(*ProcessPaymentCreated), nil
+	createdResult := result.(*ProcessPaymentCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "processPayment",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &ProcessPaymentReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*ProcessPaymentCreated), nil
 
 }
 
@@ -1560,30 +1771,38 @@ func (a *Client) ProcessPaymentByExternalKey(ctx context.Context, params *Proces
 	if params == nil {
 		params = NewProcessPaymentByExternalKeyParams()
 	}
+	getParams := NewProcessPaymentByExternalKeyParams()
+	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
 		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
 	}
+	getParams.XKillbillAPIKey = params.XKillbillAPIKey
 
 	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
 		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
 	}
+	getParams.XKillbillAPISecret = params.XKillbillAPISecret
 
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
+	getParams.XKillbillComment = params.XKillbillComment
 
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
 
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
+	getParams.XKillbillReason = params.XKillbillReason
 
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
+	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "processPaymentByExternalKey",
@@ -1601,7 +1820,29 @@ func (a *Client) ProcessPaymentByExternalKey(ctx context.Context, params *Proces
 	if err != nil {
 		return nil, err
 	}
-	return result.(*ProcessPaymentByExternalKeyCreated), nil
+	createdResult := result.(*ProcessPaymentByExternalKeyCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
+	}
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "processPaymentByExternalKey",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &ProcessPaymentByExternalKeyReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*ProcessPaymentByExternalKeyCreated), nil
 
 }
 

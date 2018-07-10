@@ -26,6 +26,7 @@ func (o *TriggerInvoiceGenerationForParkedAccountsReader) ReadResponse(response 
 
 	case 200:
 		result := NewTriggerInvoiceGenerationForParkedAccountsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +50,7 @@ func NewTriggerInvoiceGenerationForParkedAccountsOK() *TriggerInvoiceGenerationF
 Successful operation
 */
 type TriggerInvoiceGenerationForParkedAccountsOK struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *TriggerInvoiceGenerationForParkedAccountsOK) Error() string {

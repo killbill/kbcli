@@ -28,17 +28,12 @@ func (o *GetTransactionCustomFieldsReader) ReadResponse(response runtime.ClientR
 
 	case 200:
 		result := NewGetTransactionCustomFieldsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetTransactionCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetTransactionCustomFieldsOK struct {
 	Payload []*kbmodel.CustomField
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTransactionCustomFieldsOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetTransactionCustomFieldsBadRequest() *GetTransactionCustomFieldsBadReq
 Invalid transaction id supplied
 */
 type GetTransactionCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTransactionCustomFieldsBadRequest) Error() string {

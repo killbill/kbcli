@@ -26,17 +26,12 @@ func (o *DeleteTagDefinitionReader) ReadResponse(response runtime.ClientResponse
 
 	case 204:
 		result := NewDeleteTagDefinitionNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteTagDefinitionBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteTagDefinitionNoContent() *DeleteTagDefinitionNoContent {
 Successful operation
 */
 type DeleteTagDefinitionNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteTagDefinitionNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteTagDefinitionBadRequest() *DeleteTagDefinitionBadRequest {
 Invalid tagDefinitionId supplied
 */
 type DeleteTagDefinitionBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteTagDefinitionBadRequest) Error() string {

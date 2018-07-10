@@ -26,17 +26,12 @@ func (o *DeleteTransactionTagsReader) ReadResponse(response runtime.ClientRespon
 
 	case 204:
 		result := NewDeleteTransactionTagsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteTransactionTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteTransactionTagsNoContent() *DeleteTransactionTagsNoContent {
 Successful operation
 */
 type DeleteTransactionTagsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteTransactionTagsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteTransactionTagsBadRequest() *DeleteTransactionTagsBadRequest {
 Invalid transaction id supplied
 */
 type DeleteTransactionTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteTransactionTagsBadRequest) Error() string {

@@ -26,17 +26,12 @@ func (o *DeleteSubscriptionTagsReader) ReadResponse(response runtime.ClientRespo
 
 	case 204:
 		result := NewDeleteSubscriptionTagsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteSubscriptionTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewDeleteSubscriptionTagsNoContent() *DeleteSubscriptionTagsNoContent {
 Successful operation
 */
 type DeleteSubscriptionTagsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteSubscriptionTagsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewDeleteSubscriptionTagsBadRequest() *DeleteSubscriptionTagsBadRequest {
 Invalid subscription id supplied
 */
 type DeleteSubscriptionTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteSubscriptionTagsBadRequest) Error() string {

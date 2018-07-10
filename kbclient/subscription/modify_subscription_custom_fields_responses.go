@@ -26,17 +26,12 @@ func (o *ModifySubscriptionCustomFieldsReader) ReadResponse(response runtime.Cli
 
 	case 204:
 		result := NewModifySubscriptionCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewModifySubscriptionCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewModifySubscriptionCustomFieldsNoContent() *ModifySubscriptionCustomField
 Successful operation
 */
 type ModifySubscriptionCustomFieldsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifySubscriptionCustomFieldsNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewModifySubscriptionCustomFieldsBadRequest() *ModifySubscriptionCustomFiel
 Invalid subscription id supplied
 */
 type ModifySubscriptionCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifySubscriptionCustomFieldsBadRequest) Error() string {

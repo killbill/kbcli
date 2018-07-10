@@ -28,6 +28,7 @@ func (o *GetProductForSubscriptionAndDateReader) ReadResponse(response runtime.C
 
 	case 200:
 		result := NewGetProductForSubscriptionAndDateOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetProductForSubscriptionAndDateOK struct {
 	Payload *kbmodel.Product
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetProductForSubscriptionAndDateOK) Error() string {

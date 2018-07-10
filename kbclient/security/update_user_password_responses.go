@@ -26,6 +26,7 @@ func (o *UpdateUserPasswordReader) ReadResponse(response runtime.ClientResponse,
 
 	case 204:
 		result := NewUpdateUserPasswordNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -49,6 +50,7 @@ func NewUpdateUserPasswordNoContent() *UpdateUserPasswordNoContent {
 Successful operation
 */
 type UpdateUserPasswordNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UpdateUserPasswordNoContent) Error() string {

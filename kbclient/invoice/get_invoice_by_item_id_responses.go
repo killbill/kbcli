@@ -28,17 +28,12 @@ func (o *GetInvoiceByItemIDReader) ReadResponse(response runtime.ClientResponse,
 
 	case 200:
 		result := NewGetInvoiceByItemIDOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetInvoiceByItemIDNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetInvoiceByItemIDOK struct {
 	Payload *kbmodel.Invoice
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceByItemIDOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetInvoiceByItemIDNotFound() *GetInvoiceByItemIDNotFound {
 Invoice not found
 */
 type GetInvoiceByItemIDNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoiceByItemIDNotFound) Error() string {

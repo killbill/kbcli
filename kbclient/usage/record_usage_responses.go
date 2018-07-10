@@ -26,17 +26,12 @@ func (o *RecordUsageReader) ReadResponse(response runtime.ClientResponse, consum
 
 	case 200:
 		result := NewRecordUsageOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewRecordUsageBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewRecordUsageOK() *RecordUsageOK {
 Successfully recorded usage data change
 */
 type RecordUsageOK struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RecordUsageOK) Error() string {
@@ -77,6 +73,7 @@ func NewRecordUsageBadRequest() *RecordUsageBadRequest {
 Invalid subscription (e.g. inactive)
 */
 type RecordUsageBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RecordUsageBadRequest) Error() string {

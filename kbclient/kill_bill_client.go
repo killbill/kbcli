@@ -62,7 +62,7 @@ func New(transport runtime.ClientTransport,
 
 	cli := &KillBill{
 		Transport: transport,
-		defaults:  defaultsImpl{KillbillDefaults: defaults},
+		defaults:  defaults,
 	}
 
 	cli.Account = account.New(transport, formats, authInfo, &cli.defaults)
@@ -192,7 +192,7 @@ type KillBill struct {
 	Usage *usage.Client
 
 	Transport runtime.ClientTransport
-	defaults  defaultsImpl
+	defaults  KillbillDefaults
 }
 
 // SetTransport changes the transport on the client and all its subresources
@@ -249,12 +249,12 @@ func (c *KillBill) SetTransport(transport runtime.ClientTransport) {
 
 // Defaults returns killbill defaults
 func (c *KillBill) Defaults() KillbillDefaults {
-	return c.defaults.KillbillDefaults
+	return c.defaults
 }
 
 // SetDefaults sets killbill defaults
 func (c *KillBill) SetDefaults(defaults KillbillDefaults) {
-	c.defaults = defaultsImpl{KillbillDefaults: defaults}
+	c.defaults = defaults
 }
 
 // Implements killbill default values.
@@ -273,36 +273,32 @@ type KillbillDefaults struct {
 	WithStackTrace *bool
 }
 
-type defaultsImpl struct {
-	KillbillDefaults
-}
-
 // Default API Key. If not set explicitly in params, this will be used.
-func (d *defaultsImpl) XKillbillAPIKey() *string {
+func (d KillbillDefaults) XKillbillAPIKey() *string {
 	return d.APIKey
 }
 
 // Default API Secret. If not set explicitly in params, this will be used.
-func (d *defaultsImpl) XKillbillAPISecret() *string {
+func (d KillbillDefaults) XKillbillAPISecret() *string {
 	return d.APISecret
 }
 
 // Default CreatedBy. If not set explicitly in params, this will be used.
-func (d *defaultsImpl) XKillbillCreatedBy() *string {
+func (d KillbillDefaults) XKillbillCreatedBy() *string {
 	return d.CreatedBy
 }
 
 // Default Comment. If not set explicitly in params, this will be used.
-func (d *defaultsImpl) XKillbillComment() *string {
+func (d KillbillDefaults) XKillbillComment() *string {
 	return d.Comment
 }
 
 // Default Reason. If not set explicitly in params, this will be used.
-func (d *defaultsImpl) XKillbillReason() *string {
+func (d KillbillDefaults) XKillbillReason() *string {
 	return d.Reason
 }
 
 // Default WithStackTrace. If not set explicitly in params, this will be used.
-func (d *defaultsImpl) KillbillWithStackTrace() *bool {
+func (d KillbillDefaults) KillbillWithStackTrace() *bool {
 	return d.WithStackTrace
 }

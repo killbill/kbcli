@@ -26,19 +26,14 @@ type RegisterPushNotificationCallbackReader struct {
 func (o *RegisterPushNotificationCallbackReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewRegisterPushNotificationCallbackCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewRegisterPushNotificationCallbackBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Push notification registered successfully
 */
 type RegisterPushNotificationCallbackCreated struct {
 	Payload *kbmodel.TenantKeyValue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RegisterPushNotificationCallbackCreated) Error() string {
@@ -87,6 +84,7 @@ func NewRegisterPushNotificationCallbackBadRequest() *RegisterPushNotificationCa
 Invalid tenantId supplied
 */
 type RegisterPushNotificationCallbackBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RegisterPushNotificationCallbackBadRequest) Error() string {

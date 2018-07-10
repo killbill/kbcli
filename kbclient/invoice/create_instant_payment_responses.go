@@ -26,8 +26,9 @@ type CreateInstantPaymentReader struct {
 func (o *CreateInstantPaymentReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateInstantPaymentCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -35,24 +36,12 @@ func (o *CreateInstantPaymentReader) ReadResponse(response runtime.ClientRespons
 
 	case 204:
 		result := NewCreateInstantPaymentNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateInstantPaymentBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewCreateInstantPaymentNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -73,6 +62,8 @@ Created payment Successfully
 */
 type CreateInstantPaymentCreated struct {
 	Payload *kbmodel.InvoicePayment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateInstantPaymentCreated) Error() string {
@@ -101,6 +92,7 @@ func NewCreateInstantPaymentNoContent() *CreateInstantPaymentNoContent {
 Nothing to pay for
 */
 type CreateInstantPaymentNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateInstantPaymentNoContent) Error() string {
@@ -122,6 +114,7 @@ func NewCreateInstantPaymentBadRequest() *CreateInstantPaymentBadRequest {
 Invalid account id or invoice id supplied
 */
 type CreateInstantPaymentBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateInstantPaymentBadRequest) Error() string {
@@ -143,6 +136,7 @@ func NewCreateInstantPaymentNotFound() *CreateInstantPaymentNotFound {
 Account not found
 */
 type CreateInstantPaymentNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateInstantPaymentNotFound) Error() string {

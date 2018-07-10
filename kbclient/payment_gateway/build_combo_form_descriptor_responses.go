@@ -28,17 +28,12 @@ func (o *BuildComboFormDescriptorReader) ReadResponse(response runtime.ClientRes
 
 	case 200:
 		result := NewBuildComboFormDescriptorOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewBuildComboFormDescriptorBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type BuildComboFormDescriptorOK struct {
 	Payload *kbmodel.HostedPaymentPageFormDescriptor
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *BuildComboFormDescriptorOK) Error() string {
@@ -87,6 +84,7 @@ func NewBuildComboFormDescriptorBadRequest() *BuildComboFormDescriptorBadRequest
 Invalid data for Account or PaymentMethod
 */
 type BuildComboFormDescriptorBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *BuildComboFormDescriptorBadRequest) Error() string {

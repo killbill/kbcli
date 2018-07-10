@@ -26,19 +26,14 @@ type UploadPluginConfigurationReader struct {
 func (o *UploadPluginConfigurationReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewUploadPluginConfigurationCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUploadPluginConfigurationBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Plugin configuration uploaded successfully
 */
 type UploadPluginConfigurationCreated struct {
 	Payload *kbmodel.TenantKeyValue
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadPluginConfigurationCreated) Error() string {
@@ -87,6 +84,7 @@ func NewUploadPluginConfigurationBadRequest() *UploadPluginConfigurationBadReque
 Invalid tenantId supplied
 */
 type UploadPluginConfigurationBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UploadPluginConfigurationBadRequest) Error() string {

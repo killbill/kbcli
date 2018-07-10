@@ -28,24 +28,12 @@ func (o *GetSubscriptionTagsReader) ReadResponse(response runtime.ClientResponse
 
 	case 200:
 		result := NewGetSubscriptionTagsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetSubscriptionTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetSubscriptionTagsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetSubscriptionTagsOK struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionTagsOK) Error() string {
@@ -92,6 +82,7 @@ func NewGetSubscriptionTagsBadRequest() *GetSubscriptionTagsBadRequest {
 Invalid subscription id supplied
 */
 type GetSubscriptionTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionTagsBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewGetSubscriptionTagsNotFound() *GetSubscriptionTagsNotFound {
 Subscription not found
 */
 type GetSubscriptionTagsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionTagsNotFound) Error() string {

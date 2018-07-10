@@ -26,17 +26,12 @@ func (o *RebalanceExistingCBAOnAccountReader) ReadResponse(response runtime.Clie
 
 	case 204:
 		result := NewRebalanceExistingCBAOnAccountNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewRebalanceExistingCBAOnAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewRebalanceExistingCBAOnAccountNoContent() *RebalanceExistingCBAOnAccountN
 Successful operation
 */
 type RebalanceExistingCBAOnAccountNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RebalanceExistingCBAOnAccountNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewRebalanceExistingCBAOnAccountBadRequest() *RebalanceExistingCBAOnAccount
 Invalid account id supplied
 */
 type RebalanceExistingCBAOnAccountBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RebalanceExistingCBAOnAccountBadRequest) Error() string {

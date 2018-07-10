@@ -26,19 +26,14 @@ type CreateAccountReader struct {
 func (o *CreateAccountReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewCreateAccountCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewCreateAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ Account created successfully
 */
 type CreateAccountCreated struct {
 	Payload *kbmodel.Account
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateAccountCreated) Error() string {
@@ -87,6 +84,7 @@ func NewCreateAccountBadRequest() *CreateAccountBadRequest {
 Invalid account data supplied
 */
 type CreateAccountBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateAccountBadRequest) Error() string {

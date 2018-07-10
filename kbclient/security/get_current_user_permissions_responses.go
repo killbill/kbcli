@@ -26,6 +26,7 @@ func (o *GetCurrentUserPermissionsReader) ReadResponse(response runtime.ClientRe
 
 	case 200:
 		result := NewGetCurrentUserPermissionsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -50,6 +51,8 @@ successful operation
 */
 type GetCurrentUserPermissionsOK struct {
 	Payload []string
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCurrentUserPermissionsOK) Error() string {

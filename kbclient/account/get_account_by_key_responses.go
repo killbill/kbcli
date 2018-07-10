@@ -28,17 +28,12 @@ func (o *GetAccountByKeyReader) ReadResponse(response runtime.ClientResponse, co
 
 	case 200:
 		result := NewGetAccountByKeyOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetAccountByKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetAccountByKeyOK struct {
 	Payload *kbmodel.Account
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountByKeyOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetAccountByKeyNotFound() *GetAccountByKeyNotFound {
 Account not found
 */
 type GetAccountByKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountByKeyNotFound) Error() string {

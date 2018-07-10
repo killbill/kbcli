@@ -26,17 +26,12 @@ func (o *UpdatePaymentTransactionStateReader) ReadResponse(response runtime.Clie
 
 	case 204:
 		result := NewUpdatePaymentTransactionStateNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewUpdatePaymentTransactionStateBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -56,6 +51,7 @@ func NewUpdatePaymentTransactionStateNoContent() *UpdatePaymentTransactionStateN
 Successful operation
 */
 type UpdatePaymentTransactionStateNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UpdatePaymentTransactionStateNoContent) Error() string {
@@ -77,6 +73,7 @@ func NewUpdatePaymentTransactionStateBadRequest() *UpdatePaymentTransactionState
 Invalid account data supplied
 */
 type UpdatePaymentTransactionStateBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UpdatePaymentTransactionStateBadRequest) Error() string {

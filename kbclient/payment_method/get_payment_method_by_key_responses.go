@@ -28,17 +28,12 @@ func (o *GetPaymentMethodByKeyReader) ReadResponse(response runtime.ClientRespon
 
 	case 200:
 		result := NewGetPaymentMethodByKeyOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 404:
-		result := NewGetPaymentMethodByKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetPaymentMethodByKeyOK struct {
 	Payload *kbmodel.PaymentMethod
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentMethodByKeyOK) Error() string {
@@ -87,6 +84,7 @@ func NewGetPaymentMethodByKeyNotFound() *GetPaymentMethodByKeyNotFound {
 Account or payment method not found
 */
 type GetPaymentMethodByKeyNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentMethodByKeyNotFound) Error() string {

@@ -28,17 +28,12 @@ func (o *GetSubscriptionCustomFieldsReader) ReadResponse(response runtime.Client
 
 	case 200:
 		result := NewGetSubscriptionCustomFieldsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetSubscriptionCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -59,6 +54,8 @@ successful operation
 */
 type GetSubscriptionCustomFieldsOK struct {
 	Payload []*kbmodel.CustomField
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionCustomFieldsOK) Error() string {
@@ -85,6 +82,7 @@ func NewGetSubscriptionCustomFieldsBadRequest() *GetSubscriptionCustomFieldsBadR
 Invalid subscription id supplied
 */
 type GetSubscriptionCustomFieldsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionCustomFieldsBadRequest) Error() string {

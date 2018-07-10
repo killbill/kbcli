@@ -26,24 +26,12 @@ func (o *RefreshPaymentMethodsReader) ReadResponse(response runtime.ClientRespon
 
 	case 204:
 		result := NewRefreshPaymentMethodsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewRefreshPaymentMethodsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewRefreshPaymentMethodsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewRefreshPaymentMethodsNoContent() *RefreshPaymentMethodsNoContent {
 Successful operation
 */
 type RefreshPaymentMethodsNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefreshPaymentMethodsNoContent) Error() string {
@@ -84,6 +73,7 @@ func NewRefreshPaymentMethodsBadRequest() *RefreshPaymentMethodsBadRequest {
 Invalid account id supplied
 */
 type RefreshPaymentMethodsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefreshPaymentMethodsBadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewRefreshPaymentMethodsNotFound() *RefreshPaymentMethodsNotFound {
 Account not found
 */
 type RefreshPaymentMethodsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *RefreshPaymentMethodsNotFound) Error() string {

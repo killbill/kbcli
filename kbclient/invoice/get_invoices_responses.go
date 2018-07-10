@@ -28,6 +28,7 @@ func (o *GetInvoicesReader) ReadResponse(response runtime.ClientResponse, consum
 
 	case 200:
 		result := NewGetInvoicesOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
@@ -52,6 +53,8 @@ successful operation
 */
 type GetInvoicesOK struct {
 	Payload []*kbmodel.Invoice
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoicesOK) Error() string {

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/killbill/kbcli/kbclient/bundle"
 	"github.com/killbill/kbcli/kbclient/subscription"
 	"github.com/killbill/kbcli/kbcmd/cmdlib"
 	"github.com/killbill/kbcli/kbcmd/cmdlib/args"
@@ -39,16 +38,9 @@ func createSubscription(ctx context.Context, o *cmdlib.Options) error {
 	createParams = csa.CreateSubscriptionParams
 	createParams.Body = &csa.Subscription
 	createParams.Body.AccountID = acc.AccountID
+	createParams.ProcessLocationHeader = true
+	resp, err := o.Client().Subscription.CreateSubscription(ctx, &createParams)
 
-	_, err = o.Client().Subscription.CreateSubscription(ctx, &createParams)
-
-	if err != nil {
-		return err
-	}
-
-	resp, err := o.Client().Bundle.GetBundleByKey(ctx, &bundle.GetBundleByKeyParams{
-		ExternalKey: createParams.Body.ExternalKey,
-	})
 	if err != nil {
 		return err
 	}
@@ -63,10 +55,7 @@ func registerCreateCommand(r *cmdlib.App) {
 	subscriptionProperties.Get("Account").Required = true
 	subscriptionProperties.Remove("AccountID")
 	subscriptionProperties.Get("StartDate").Default = time.Now().Format("2006-01-02")
-	subscriptionProperties.Get("ProductName").Required = true
-	subscriptionProperties.Get("ProductCategory").Default = "BASE"
 	subscriptionProperties.Get("PlanName").Required = true
-	subscriptionProperties.Get("PriceList").Required = true
 	subscriptionProperties.Sort(true, true)
 	usageString := args.GenerateUsageString(&createSubscriptionArgs{}, subscriptionProperties)
 
@@ -74,9 +63,9 @@ func registerCreateCommand(r *cmdlib.App) {
 		Name:  "create",
 		Usage: "create new subscription",
 		ArgsUsage: fmt.Sprintf(`%s
-      
+
        For e.g.,
-         kbcmd subscriptions create Account=johndoe1 ExternalKey=bundle1 ProductName=simple PlanName=simple-monthly PriceList=default`,
+         kbcmd subscriptions create Account=johndoe1 ExternalKey=bundle1 PlanName=simple-monthly`,
 			usageString),
 	}, createSubscription)
 }

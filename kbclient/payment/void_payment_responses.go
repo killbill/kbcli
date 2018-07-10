@@ -26,59 +26,12 @@ func (o *VoidPaymentReader) ReadResponse(response runtime.ClientResponse, consum
 
 	case 204:
 		result := NewVoidPaymentNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewVoidPaymentBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 402:
-		result := NewVoidPaymentPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewVoidPaymentNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewVoidPaymentUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewVoidPaymentBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewVoidPaymentServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewVoidPaymentGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -98,6 +51,7 @@ func NewVoidPaymentNoContent() *VoidPaymentNoContent {
 Successful operation
 */
 type VoidPaymentNoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentNoContent) Error() string {
@@ -119,6 +73,7 @@ func NewVoidPaymentBadRequest() *VoidPaymentBadRequest {
 Invalid paymentId supplied
 */
 type VoidPaymentBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentBadRequest) Error() string {
@@ -140,6 +95,7 @@ func NewVoidPaymentPaymentRequired() *VoidPaymentPaymentRequired {
 Transaction declined by gateway
 */
 type VoidPaymentPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentPaymentRequired) Error() string {
@@ -161,6 +117,7 @@ func NewVoidPaymentNotFound() *VoidPaymentNotFound {
 Account or payment not found
 */
 type VoidPaymentNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentNotFound) Error() string {
@@ -182,6 +139,7 @@ func NewVoidPaymentUnprocessableEntity() *VoidPaymentUnprocessableEntity {
 Payment is aborted by a control plugin
 */
 type VoidPaymentUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentUnprocessableEntity) Error() string {
@@ -203,6 +161,7 @@ func NewVoidPaymentBadGateway() *VoidPaymentBadGateway {
 Failed to submit payment transaction
 */
 type VoidPaymentBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentBadGateway) Error() string {
@@ -224,6 +183,7 @@ func NewVoidPaymentServiceUnavailable() *VoidPaymentServiceUnavailable {
 Payment in unknown status, failed to receive gateway response
 */
 type VoidPaymentServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentServiceUnavailable) Error() string {
@@ -245,6 +205,7 @@ func NewVoidPaymentGatewayTimeout() *VoidPaymentGatewayTimeout {
 Payment operation timeout
 */
 type VoidPaymentGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentGatewayTimeout) Error() string {

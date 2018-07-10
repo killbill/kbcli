@@ -26,24 +26,12 @@ func (o *DeleteCBAReader) ReadResponse(response runtime.ClientResponse, consumer
 
 	case 204:
 		result := NewDeleteCBANoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewDeleteCBABadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewDeleteCBANotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -63,6 +51,7 @@ func NewDeleteCBANoContent() *DeleteCBANoContent {
 Successful operation
 */
 type DeleteCBANoContent struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteCBANoContent) Error() string {
@@ -84,6 +73,7 @@ func NewDeleteCBABadRequest() *DeleteCBABadRequest {
 Invalid account id, invoice id or invoice item id supplied
 */
 type DeleteCBABadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteCBABadRequest) Error() string {
@@ -105,6 +95,7 @@ func NewDeleteCBANotFound() *DeleteCBANotFound {
 Account or invoice not found
 */
 type DeleteCBANotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteCBANotFound) Error() string {

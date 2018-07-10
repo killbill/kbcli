@@ -28,24 +28,12 @@ func (o *GetBundleTagsReader) ReadResponse(response runtime.ClientResponse, cons
 
 	case 200:
 		result := NewGetBundleTagsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewGetBundleTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewGetBundleTagsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -66,6 +54,8 @@ successful operation
 */
 type GetBundleTagsOK struct {
 	Payload []*kbmodel.Tag
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleTagsOK) Error() string {
@@ -92,6 +82,7 @@ func NewGetBundleTagsBadRequest() *GetBundleTagsBadRequest {
 Invalid bundle id supplied
 */
 type GetBundleTagsBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleTagsBadRequest) Error() string {
@@ -113,6 +104,7 @@ func NewGetBundleTagsNotFound() *GetBundleTagsNotFound {
 Bundle not found
 */
 type GetBundleTagsNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleTagsNotFound) Error() string {

@@ -26,61 +26,14 @@ type ChargebackPaymentReader struct {
 func (o *ChargebackPaymentReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
 
-	case 201:
+	case 201, 200:
 		result := NewChargebackPaymentCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
-	case 400:
-		result := NewChargebackPaymentBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 402:
-		result := NewChargebackPaymentPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 404:
-		result := NewChargebackPaymentNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 422:
-		result := NewChargebackPaymentUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 502:
-		result := NewChargebackPaymentBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 503:
-		result := NewChargebackPaymentServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-
-	case 504:
-		result := NewChargebackPaymentGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 	default:
 		errorResult := kbcommon.NewKillbillError(response.Code())
 		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
@@ -101,6 +54,8 @@ Payment transaction created successfully
 */
 type ChargebackPaymentCreated struct {
 	Payload *kbmodel.Payment
+
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentCreated) Error() string {
@@ -129,6 +84,7 @@ func NewChargebackPaymentBadRequest() *ChargebackPaymentBadRequest {
 Invalid paymentId supplied
 */
 type ChargebackPaymentBadRequest struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentBadRequest) Error() string {
@@ -150,6 +106,7 @@ func NewChargebackPaymentPaymentRequired() *ChargebackPaymentPaymentRequired {
 Transaction declined by gateway
 */
 type ChargebackPaymentPaymentRequired struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentPaymentRequired) Error() string {
@@ -171,6 +128,7 @@ func NewChargebackPaymentNotFound() *ChargebackPaymentNotFound {
 Account or payment not found
 */
 type ChargebackPaymentNotFound struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentNotFound) Error() string {
@@ -192,6 +150,7 @@ func NewChargebackPaymentUnprocessableEntity() *ChargebackPaymentUnprocessableEn
 Payment is aborted by a control plugin
 */
 type ChargebackPaymentUnprocessableEntity struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentUnprocessableEntity) Error() string {
@@ -213,6 +172,7 @@ func NewChargebackPaymentBadGateway() *ChargebackPaymentBadGateway {
 Failed to submit payment transaction
 */
 type ChargebackPaymentBadGateway struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentBadGateway) Error() string {
@@ -234,6 +194,7 @@ func NewChargebackPaymentServiceUnavailable() *ChargebackPaymentServiceUnavailab
 Payment in unknown status, failed to receive gateway response
 */
 type ChargebackPaymentServiceUnavailable struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentServiceUnavailable) Error() string {
@@ -255,6 +216,7 @@ func NewChargebackPaymentGatewayTimeout() *ChargebackPaymentGatewayTimeout {
 Payment operation timeout
 */
 type ChargebackPaymentGatewayTimeout struct {
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentGatewayTimeout) Error() string {
