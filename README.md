@@ -50,7 +50,7 @@ run the following.
 
 ```bash
 # Regenerate the tool
-swagger generate client -f swagger.json -m kbmodel -c kbclient --default-scheme=http
+swagger generate client -f swagger-dev.json -m kbmodel -c kbclient --default-scheme=http
 
 # Delete the client file.
 rm kbclient/kill_bill_dev_client.go

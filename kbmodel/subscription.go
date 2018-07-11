@@ -34,7 +34,7 @@ type Subscription struct {
 
 	// billing period
 	// Required: true
-	BillingPeriod *string `json:"billingPeriod"`
+	BillingPeriod *SubscriptionBillingPeriodEnum `json:"billingPeriod"`
 
 	// billing start date
 	BillingStartDate strfmt.Date `json:"billingStartDate,omitempty"`
@@ -55,7 +55,7 @@ type Subscription struct {
 	ExternalKey string `json:"externalKey,omitempty"`
 
 	// phase type
-	PhaseType string `json:"phaseType,omitempty"`
+	PhaseType SubscriptionPhaseTypeEnum `json:"phaseType,omitempty"`
 
 	// plan name
 	// Required: true
@@ -72,20 +72,20 @@ type Subscription struct {
 	Prices []*PhasePrice `json:"prices"`
 
 	// product category
-	ProductCategory string `json:"productCategory,omitempty"`
+	ProductCategory SubscriptionProductCategoryEnum `json:"productCategory,omitempty"`
 
 	// product name
 	// Required: true
 	ProductName *string `json:"productName"`
 
 	// source type
-	SourceType string `json:"sourceType,omitempty"`
+	SourceType SubscriptionSourceTypeEnum `json:"sourceType,omitempty"`
 
 	// start date
 	StartDate strfmt.Date `json:"startDate,omitempty"`
 
 	// state
-	State string `json:"state,omitempty"`
+	State SubscriptionStateEnum `json:"state,omitempty"`
 
 	// subscription Id
 	SubscriptionID strfmt.UUID `json:"subscriptionId,omitempty"`
@@ -258,7 +258,7 @@ func (m *Subscription) validateBillingEndDate(formats strfmt.Registry) error {
 var subscriptionTypeBillingPeriodPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []SubscriptionBillingPeriodEnum
 	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
@@ -267,53 +267,81 @@ func init() {
 	}
 }
 
+type SubscriptionBillingPeriodEnum string
+
 const (
 
 	// SubscriptionBillingPeriodDAILY captures enum value "DAILY"
-	SubscriptionBillingPeriodDAILY string = "DAILY"
+	SubscriptionBillingPeriodDAILY SubscriptionBillingPeriodEnum = "DAILY"
 
 	// SubscriptionBillingPeriodWEEKLY captures enum value "WEEKLY"
-	SubscriptionBillingPeriodWEEKLY string = "WEEKLY"
+	SubscriptionBillingPeriodWEEKLY SubscriptionBillingPeriodEnum = "WEEKLY"
 
 	// SubscriptionBillingPeriodBIWEEKLY captures enum value "BIWEEKLY"
-	SubscriptionBillingPeriodBIWEEKLY string = "BIWEEKLY"
+	SubscriptionBillingPeriodBIWEEKLY SubscriptionBillingPeriodEnum = "BIWEEKLY"
 
 	// SubscriptionBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
-	SubscriptionBillingPeriodTHIRTYDAYS string = "THIRTY_DAYS"
+	SubscriptionBillingPeriodTHIRTYDAYS SubscriptionBillingPeriodEnum = "THIRTY_DAYS"
 
 	// SubscriptionBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
-	SubscriptionBillingPeriodSIXTYDAYS string = "SIXTY_DAYS"
+	SubscriptionBillingPeriodSIXTYDAYS SubscriptionBillingPeriodEnum = "SIXTY_DAYS"
 
 	// SubscriptionBillingPeriodNINETYDAYS captures enum value "NINETY_DAYS"
-	SubscriptionBillingPeriodNINETYDAYS string = "NINETY_DAYS"
+	SubscriptionBillingPeriodNINETYDAYS SubscriptionBillingPeriodEnum = "NINETY_DAYS"
 
 	// SubscriptionBillingPeriodMONTHLY captures enum value "MONTHLY"
-	SubscriptionBillingPeriodMONTHLY string = "MONTHLY"
+	SubscriptionBillingPeriodMONTHLY SubscriptionBillingPeriodEnum = "MONTHLY"
 
 	// SubscriptionBillingPeriodBIMESTRIAL captures enum value "BIMESTRIAL"
-	SubscriptionBillingPeriodBIMESTRIAL string = "BIMESTRIAL"
+	SubscriptionBillingPeriodBIMESTRIAL SubscriptionBillingPeriodEnum = "BIMESTRIAL"
 
 	// SubscriptionBillingPeriodQUARTERLY captures enum value "QUARTERLY"
-	SubscriptionBillingPeriodQUARTERLY string = "QUARTERLY"
+	SubscriptionBillingPeriodQUARTERLY SubscriptionBillingPeriodEnum = "QUARTERLY"
 
 	// SubscriptionBillingPeriodTRIANNUAL captures enum value "TRIANNUAL"
-	SubscriptionBillingPeriodTRIANNUAL string = "TRIANNUAL"
+	SubscriptionBillingPeriodTRIANNUAL SubscriptionBillingPeriodEnum = "TRIANNUAL"
 
 	// SubscriptionBillingPeriodBIANNUAL captures enum value "BIANNUAL"
-	SubscriptionBillingPeriodBIANNUAL string = "BIANNUAL"
+	SubscriptionBillingPeriodBIANNUAL SubscriptionBillingPeriodEnum = "BIANNUAL"
 
 	// SubscriptionBillingPeriodANNUAL captures enum value "ANNUAL"
-	SubscriptionBillingPeriodANNUAL string = "ANNUAL"
+	SubscriptionBillingPeriodANNUAL SubscriptionBillingPeriodEnum = "ANNUAL"
 
 	// SubscriptionBillingPeriodBIENNIAL captures enum value "BIENNIAL"
-	SubscriptionBillingPeriodBIENNIAL string = "BIENNIAL"
+	SubscriptionBillingPeriodBIENNIAL SubscriptionBillingPeriodEnum = "BIENNIAL"
 
 	// SubscriptionBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
-	SubscriptionBillingPeriodNOBILLINGPERIOD string = "NO_BILLING_PERIOD"
+	SubscriptionBillingPeriodNOBILLINGPERIOD SubscriptionBillingPeriodEnum = "NO_BILLING_PERIOD"
 )
 
+var SubscriptionBillingPeriodEnumValues = []string{
+	"DAILY",
+	"WEEKLY",
+	"BIWEEKLY",
+	"THIRTY_DAYS",
+	"SIXTY_DAYS",
+	"NINETY_DAYS",
+	"MONTHLY",
+	"BIMESTRIAL",
+	"QUARTERLY",
+	"TRIANNUAL",
+	"BIANNUAL",
+	"ANNUAL",
+	"BIENNIAL",
+	"NO_BILLING_PERIOD",
+}
+
+func (e SubscriptionBillingPeriodEnum) IsValid() bool {
+	for _, v := range SubscriptionBillingPeriodEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Subscription) validateBillingPeriodEnum(path, location string, value string) error {
+func (m *Subscription) validateBillingPeriodEnum(path, location string, value SubscriptionBillingPeriodEnum) error {
 	if err := validate.Enum(path, location, value, subscriptionTypeBillingPeriodPropEnum); err != nil {
 		return err
 	}
@@ -417,7 +445,7 @@ func (m *Subscription) validateEvents(formats strfmt.Registry) error {
 var subscriptionTypePhaseTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []SubscriptionPhaseTypeEnum
 	if err := json.Unmarshal([]byte(`["TRIAL","DISCOUNT","FIXEDTERM","EVERGREEN"]`), &res); err != nil {
 		panic(err)
 	}
@@ -426,23 +454,41 @@ func init() {
 	}
 }
 
+type SubscriptionPhaseTypeEnum string
+
 const (
 
 	// SubscriptionPhaseTypeTRIAL captures enum value "TRIAL"
-	SubscriptionPhaseTypeTRIAL string = "TRIAL"
+	SubscriptionPhaseTypeTRIAL SubscriptionPhaseTypeEnum = "TRIAL"
 
 	// SubscriptionPhaseTypeDISCOUNT captures enum value "DISCOUNT"
-	SubscriptionPhaseTypeDISCOUNT string = "DISCOUNT"
+	SubscriptionPhaseTypeDISCOUNT SubscriptionPhaseTypeEnum = "DISCOUNT"
 
 	// SubscriptionPhaseTypeFIXEDTERM captures enum value "FIXEDTERM"
-	SubscriptionPhaseTypeFIXEDTERM string = "FIXEDTERM"
+	SubscriptionPhaseTypeFIXEDTERM SubscriptionPhaseTypeEnum = "FIXEDTERM"
 
 	// SubscriptionPhaseTypeEVERGREEN captures enum value "EVERGREEN"
-	SubscriptionPhaseTypeEVERGREEN string = "EVERGREEN"
+	SubscriptionPhaseTypeEVERGREEN SubscriptionPhaseTypeEnum = "EVERGREEN"
 )
 
+var SubscriptionPhaseTypeEnumValues = []string{
+	"TRIAL",
+	"DISCOUNT",
+	"FIXEDTERM",
+	"EVERGREEN",
+}
+
+func (e SubscriptionPhaseTypeEnum) IsValid() bool {
+	for _, v := range SubscriptionPhaseTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Subscription) validatePhaseTypeEnum(path, location string, value string) error {
+func (m *Subscription) validatePhaseTypeEnum(path, location string, value SubscriptionPhaseTypeEnum) error {
 	if err := validate.Enum(path, location, value, subscriptionTypePhaseTypePropEnum); err != nil {
 		return err
 	}
@@ -540,7 +586,7 @@ func (m *Subscription) validatePrices(formats strfmt.Registry) error {
 var subscriptionTypeProductCategoryPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []SubscriptionProductCategoryEnum
 	if err := json.Unmarshal([]byte(`["BASE","ADD_ON","STANDALONE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -549,20 +595,37 @@ func init() {
 	}
 }
 
+type SubscriptionProductCategoryEnum string
+
 const (
 
 	// SubscriptionProductCategoryBASE captures enum value "BASE"
-	SubscriptionProductCategoryBASE string = "BASE"
+	SubscriptionProductCategoryBASE SubscriptionProductCategoryEnum = "BASE"
 
 	// SubscriptionProductCategoryADDON captures enum value "ADD_ON"
-	SubscriptionProductCategoryADDON string = "ADD_ON"
+	SubscriptionProductCategoryADDON SubscriptionProductCategoryEnum = "ADD_ON"
 
 	// SubscriptionProductCategorySTANDALONE captures enum value "STANDALONE"
-	SubscriptionProductCategorySTANDALONE string = "STANDALONE"
+	SubscriptionProductCategorySTANDALONE SubscriptionProductCategoryEnum = "STANDALONE"
 )
 
+var SubscriptionProductCategoryEnumValues = []string{
+	"BASE",
+	"ADD_ON",
+	"STANDALONE",
+}
+
+func (e SubscriptionProductCategoryEnum) IsValid() bool {
+	for _, v := range SubscriptionProductCategoryEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Subscription) validateProductCategoryEnum(path, location string, value string) error {
+func (m *Subscription) validateProductCategoryEnum(path, location string, value SubscriptionProductCategoryEnum) error {
 	if err := validate.Enum(path, location, value, subscriptionTypeProductCategoryPropEnum); err != nil {
 		return err
 	}
@@ -595,7 +658,7 @@ func (m *Subscription) validateProductName(formats strfmt.Registry) error {
 var subscriptionTypeSourceTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []SubscriptionSourceTypeEnum
 	if err := json.Unmarshal([]byte(`["NATIVE","MIGRATED","TRANSFERRED"]`), &res); err != nil {
 		panic(err)
 	}
@@ -604,20 +667,37 @@ func init() {
 	}
 }
 
+type SubscriptionSourceTypeEnum string
+
 const (
 
 	// SubscriptionSourceTypeNATIVE captures enum value "NATIVE"
-	SubscriptionSourceTypeNATIVE string = "NATIVE"
+	SubscriptionSourceTypeNATIVE SubscriptionSourceTypeEnum = "NATIVE"
 
 	// SubscriptionSourceTypeMIGRATED captures enum value "MIGRATED"
-	SubscriptionSourceTypeMIGRATED string = "MIGRATED"
+	SubscriptionSourceTypeMIGRATED SubscriptionSourceTypeEnum = "MIGRATED"
 
 	// SubscriptionSourceTypeTRANSFERRED captures enum value "TRANSFERRED"
-	SubscriptionSourceTypeTRANSFERRED string = "TRANSFERRED"
+	SubscriptionSourceTypeTRANSFERRED SubscriptionSourceTypeEnum = "TRANSFERRED"
 )
 
+var SubscriptionSourceTypeEnumValues = []string{
+	"NATIVE",
+	"MIGRATED",
+	"TRANSFERRED",
+}
+
+func (e SubscriptionSourceTypeEnum) IsValid() bool {
+	for _, v := range SubscriptionSourceTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Subscription) validateSourceTypeEnum(path, location string, value string) error {
+func (m *Subscription) validateSourceTypeEnum(path, location string, value SubscriptionSourceTypeEnum) error {
 	if err := validate.Enum(path, location, value, subscriptionTypeSourceTypePropEnum); err != nil {
 		return err
 	}
@@ -654,7 +734,7 @@ func (m *Subscription) validateStartDate(formats strfmt.Registry) error {
 var subscriptionTypeStatePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []SubscriptionStateEnum
 	if err := json.Unmarshal([]byte(`["PENDING","ACTIVE","BLOCKED","CANCELLED","EXPIRED"]`), &res); err != nil {
 		panic(err)
 	}
@@ -663,26 +743,45 @@ func init() {
 	}
 }
 
+type SubscriptionStateEnum string
+
 const (
 
 	// SubscriptionStatePENDING captures enum value "PENDING"
-	SubscriptionStatePENDING string = "PENDING"
+	SubscriptionStatePENDING SubscriptionStateEnum = "PENDING"
 
 	// SubscriptionStateACTIVE captures enum value "ACTIVE"
-	SubscriptionStateACTIVE string = "ACTIVE"
+	SubscriptionStateACTIVE SubscriptionStateEnum = "ACTIVE"
 
 	// SubscriptionStateBLOCKED captures enum value "BLOCKED"
-	SubscriptionStateBLOCKED string = "BLOCKED"
+	SubscriptionStateBLOCKED SubscriptionStateEnum = "BLOCKED"
 
 	// SubscriptionStateCANCELLED captures enum value "CANCELLED"
-	SubscriptionStateCANCELLED string = "CANCELLED"
+	SubscriptionStateCANCELLED SubscriptionStateEnum = "CANCELLED"
 
 	// SubscriptionStateEXPIRED captures enum value "EXPIRED"
-	SubscriptionStateEXPIRED string = "EXPIRED"
+	SubscriptionStateEXPIRED SubscriptionStateEnum = "EXPIRED"
 )
 
+var SubscriptionStateEnumValues = []string{
+	"PENDING",
+	"ACTIVE",
+	"BLOCKED",
+	"CANCELLED",
+	"EXPIRED",
+}
+
+func (e SubscriptionStateEnum) IsValid() bool {
+	for _, v := range SubscriptionStateEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Subscription) validateStateEnum(path, location string, value string) error {
+func (m *Subscription) validateStateEnum(path, location string, value SubscriptionStateEnum) error {
 	if err := validate.Enum(path, location, value, subscriptionTypeStatePropEnum); err != nil {
 		return err
 	}

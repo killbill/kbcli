@@ -128,3 +128,46 @@ var supportedTypes = map[reflect.Type]*typeHandler{
 		},
 	},
 }
+
+type iEnum interface {
+	IsValid() bool
+}
+
+// Handles alias types (enums)
+var stringAliasTypeHandler = &typeHandler{
+	Type:        reflect.TypeOf(""),
+	UsageString: "STRING",
+	SetterFn: func(f reflect.Value, val string) error {
+		var newVal reflect.Value
+		if f.Type().Kind() == reflect.Ptr {
+			newVal = reflect.New(f.Type().Elem())
+		} else {
+			newVal = reflect.New(f.Type())
+		}
+		newVal.Elem().SetString(val)
+
+		if iEn, ok := newVal.Elem().Interface().(iEnum); ok {
+			if !iEn.IsValid() {
+				return fmt.Errorf("Invalid value %s for enum", val)
+			}
+		}
+
+		if f.Type().Kind() == reflect.Ptr {
+			f.Set(newVal)
+		} else {
+			f.SetString(val)
+		}
+		return nil
+	},
+}
+
+func getTypeHandler(tp reflect.Type) *typeHandler {
+	handler := supportedTypes[tp]
+	if handler != nil {
+		return handler
+	}
+	if tp.Kind() == reflect.String {
+		return stringAliasTypeHandler
+	}
+	return nil
+}

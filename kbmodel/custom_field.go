@@ -34,7 +34,7 @@ type CustomField struct {
 	ObjectID strfmt.UUID `json:"objectId,omitempty"`
 
 	// object type
-	ObjectType string `json:"objectType,omitempty"`
+	ObjectType CustomFieldObjectTypeEnum `json:"objectType,omitempty"`
 
 	// value
 	// Required: true
@@ -147,7 +147,7 @@ func (m *CustomField) validateObjectID(formats strfmt.Registry) error {
 var customFieldTypeObjectTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []CustomFieldObjectTypeEnum
 	if err := json.Unmarshal([]byte(`["ACCOUNT","ACCOUNT_EMAIL","BLOCKING_STATES","BUNDLE","CUSTOM_FIELD","INVOICE","PAYMENT","TRANSACTION","INVOICE_ITEM","INVOICE_PAYMENT","SUBSCRIPTION","SUBSCRIPTION_EVENT","SERVICE_BROADCAST","PAYMENT_ATTEMPT","PAYMENT_METHOD","TAG","TAG_DEFINITION","TENANT","TENANT_KVS"]`), &res); err != nil {
 		panic(err)
 	}
@@ -156,68 +156,101 @@ func init() {
 	}
 }
 
+type CustomFieldObjectTypeEnum string
+
 const (
 
 	// CustomFieldObjectTypeACCOUNT captures enum value "ACCOUNT"
-	CustomFieldObjectTypeACCOUNT string = "ACCOUNT"
+	CustomFieldObjectTypeACCOUNT CustomFieldObjectTypeEnum = "ACCOUNT"
 
 	// CustomFieldObjectTypeACCOUNTEMAIL captures enum value "ACCOUNT_EMAIL"
-	CustomFieldObjectTypeACCOUNTEMAIL string = "ACCOUNT_EMAIL"
+	CustomFieldObjectTypeACCOUNTEMAIL CustomFieldObjectTypeEnum = "ACCOUNT_EMAIL"
 
 	// CustomFieldObjectTypeBLOCKINGSTATES captures enum value "BLOCKING_STATES"
-	CustomFieldObjectTypeBLOCKINGSTATES string = "BLOCKING_STATES"
+	CustomFieldObjectTypeBLOCKINGSTATES CustomFieldObjectTypeEnum = "BLOCKING_STATES"
 
 	// CustomFieldObjectTypeBUNDLE captures enum value "BUNDLE"
-	CustomFieldObjectTypeBUNDLE string = "BUNDLE"
+	CustomFieldObjectTypeBUNDLE CustomFieldObjectTypeEnum = "BUNDLE"
 
 	// CustomFieldObjectTypeCUSTOMFIELD captures enum value "CUSTOM_FIELD"
-	CustomFieldObjectTypeCUSTOMFIELD string = "CUSTOM_FIELD"
+	CustomFieldObjectTypeCUSTOMFIELD CustomFieldObjectTypeEnum = "CUSTOM_FIELD"
 
 	// CustomFieldObjectTypeINVOICE captures enum value "INVOICE"
-	CustomFieldObjectTypeINVOICE string = "INVOICE"
+	CustomFieldObjectTypeINVOICE CustomFieldObjectTypeEnum = "INVOICE"
 
 	// CustomFieldObjectTypePAYMENT captures enum value "PAYMENT"
-	CustomFieldObjectTypePAYMENT string = "PAYMENT"
+	CustomFieldObjectTypePAYMENT CustomFieldObjectTypeEnum = "PAYMENT"
 
 	// CustomFieldObjectTypeTRANSACTION captures enum value "TRANSACTION"
-	CustomFieldObjectTypeTRANSACTION string = "TRANSACTION"
+	CustomFieldObjectTypeTRANSACTION CustomFieldObjectTypeEnum = "TRANSACTION"
 
 	// CustomFieldObjectTypeINVOICEITEM captures enum value "INVOICE_ITEM"
-	CustomFieldObjectTypeINVOICEITEM string = "INVOICE_ITEM"
+	CustomFieldObjectTypeINVOICEITEM CustomFieldObjectTypeEnum = "INVOICE_ITEM"
 
 	// CustomFieldObjectTypeINVOICEPAYMENT captures enum value "INVOICE_PAYMENT"
-	CustomFieldObjectTypeINVOICEPAYMENT string = "INVOICE_PAYMENT"
+	CustomFieldObjectTypeINVOICEPAYMENT CustomFieldObjectTypeEnum = "INVOICE_PAYMENT"
 
 	// CustomFieldObjectTypeSUBSCRIPTION captures enum value "SUBSCRIPTION"
-	CustomFieldObjectTypeSUBSCRIPTION string = "SUBSCRIPTION"
+	CustomFieldObjectTypeSUBSCRIPTION CustomFieldObjectTypeEnum = "SUBSCRIPTION"
 
 	// CustomFieldObjectTypeSUBSCRIPTIONEVENT captures enum value "SUBSCRIPTION_EVENT"
-	CustomFieldObjectTypeSUBSCRIPTIONEVENT string = "SUBSCRIPTION_EVENT"
+	CustomFieldObjectTypeSUBSCRIPTIONEVENT CustomFieldObjectTypeEnum = "SUBSCRIPTION_EVENT"
 
 	// CustomFieldObjectTypeSERVICEBROADCAST captures enum value "SERVICE_BROADCAST"
-	CustomFieldObjectTypeSERVICEBROADCAST string = "SERVICE_BROADCAST"
+	CustomFieldObjectTypeSERVICEBROADCAST CustomFieldObjectTypeEnum = "SERVICE_BROADCAST"
 
 	// CustomFieldObjectTypePAYMENTATTEMPT captures enum value "PAYMENT_ATTEMPT"
-	CustomFieldObjectTypePAYMENTATTEMPT string = "PAYMENT_ATTEMPT"
+	CustomFieldObjectTypePAYMENTATTEMPT CustomFieldObjectTypeEnum = "PAYMENT_ATTEMPT"
 
 	// CustomFieldObjectTypePAYMENTMETHOD captures enum value "PAYMENT_METHOD"
-	CustomFieldObjectTypePAYMENTMETHOD string = "PAYMENT_METHOD"
+	CustomFieldObjectTypePAYMENTMETHOD CustomFieldObjectTypeEnum = "PAYMENT_METHOD"
 
 	// CustomFieldObjectTypeTAG captures enum value "TAG"
-	CustomFieldObjectTypeTAG string = "TAG"
+	CustomFieldObjectTypeTAG CustomFieldObjectTypeEnum = "TAG"
 
 	// CustomFieldObjectTypeTAGDEFINITION captures enum value "TAG_DEFINITION"
-	CustomFieldObjectTypeTAGDEFINITION string = "TAG_DEFINITION"
+	CustomFieldObjectTypeTAGDEFINITION CustomFieldObjectTypeEnum = "TAG_DEFINITION"
 
 	// CustomFieldObjectTypeTENANT captures enum value "TENANT"
-	CustomFieldObjectTypeTENANT string = "TENANT"
+	CustomFieldObjectTypeTENANT CustomFieldObjectTypeEnum = "TENANT"
 
 	// CustomFieldObjectTypeTENANTKVS captures enum value "TENANT_KVS"
-	CustomFieldObjectTypeTENANTKVS string = "TENANT_KVS"
+	CustomFieldObjectTypeTENANTKVS CustomFieldObjectTypeEnum = "TENANT_KVS"
 )
 
+var CustomFieldObjectTypeEnumValues = []string{
+	"ACCOUNT",
+	"ACCOUNT_EMAIL",
+	"BLOCKING_STATES",
+	"BUNDLE",
+	"CUSTOM_FIELD",
+	"INVOICE",
+	"PAYMENT",
+	"TRANSACTION",
+	"INVOICE_ITEM",
+	"INVOICE_PAYMENT",
+	"SUBSCRIPTION",
+	"SUBSCRIPTION_EVENT",
+	"SERVICE_BROADCAST",
+	"PAYMENT_ATTEMPT",
+	"PAYMENT_METHOD",
+	"TAG",
+	"TAG_DEFINITION",
+	"TENANT",
+	"TENANT_KVS",
+}
+
+func (e CustomFieldObjectTypeEnum) IsValid() bool {
+	for _, v := range CustomFieldObjectTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *CustomField) validateObjectTypeEnum(path, location string, value string) error {
+func (m *CustomField) validateObjectTypeEnum(path, location string, value CustomFieldObjectTypeEnum) error {
 	if err := validate.Enum(path, location, value, customFieldTypeObjectTypePropEnum); err != nil {
 		return err
 	}

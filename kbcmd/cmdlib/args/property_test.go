@@ -10,6 +10,16 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
+type TestEnum string
+
+const (
+	TestEnumFOO TestEnum = "FOO"
+)
+
+func (e TestEnum) IsValid() bool {
+	return e == TestEnumFOO
+}
+
 type testObj struct {
 	AccountID          string
 	ParentID           string
@@ -22,6 +32,8 @@ type testObj struct {
 	UniqueIDPtr        *strfmt.UUID
 	StartTime          strfmt.DateTime
 	EndTime            *strfmt.DateTime
+	Enum               TestEnum
+	EnumPtr            *TestEnum
 }
 
 var propertyList = []Property{
@@ -34,12 +46,13 @@ var propertyList = []Property{
 	{Name: "UniqueIDPtr"},
 	{Name: "StartTime"},
 	{Name: "EndTime"},
+	{Name: "Enum"},
+	{Name: "EnumPtr"},
 }
 
 func TestLoadProperties(t *testing.T) {
 	uuid1 := strfmt.UUID("12345678-1234-1234-1234-123456789012")
 	uuid2 := strfmt.UUID("23456789-2345-2345-2345-234567890123")
-
 	inputs := []Input{
 		{Key: "AccountID", Value: "123"},
 		{Key: "ParentId", Value: "333"},
@@ -50,6 +63,8 @@ func TestLoadProperties(t *testing.T) {
 		{Key: "uniqueIdPtr", Value: string(uuid2)},
 		{Key: "startTime", Value: "2018-01-02T00:00:00Z"},
 		{Key: "endTime", Value: "2018-02-03T00:00:00Z"},
+		{Key: "enum", Value: "FOO"},
+		{Key: "enumptr", Value: "FOO"},
 	}
 	obj := testObj{}
 	err := loadPropertiesFromInput(&obj, propertyList, inputs)
@@ -59,6 +74,7 @@ func TestLoadProperties(t *testing.T) {
 
 	companyName := "google"
 	isDefault := false
+	enumVal := TestEnumFOO
 	exp := testObj{
 		AccountID:    "123",
 		ParentID:     "333",
@@ -68,6 +84,8 @@ func TestLoadProperties(t *testing.T) {
 		UniqueID:     strfmt.UUID(uuid1),
 		UniqueIDPtr:  &uuid2,
 		EndTime:      obj.EndTime,
+		Enum:         "FOO",
+		EnumPtr:      &enumVal,
 	}
 	if diff := cmp.Diff(exp, obj, cmpopts.IgnoreUnexported(strfmt.DateTime{})); diff != "" {
 		t.Fatal(diff)
@@ -82,6 +100,43 @@ func TestLoadProperties(t *testing.T) {
 	}
 }
 
+func TestLoadProperties_InvalidEnum(t *testing.T) {
+	inputs := []Input{
+		{Key: "AccountID", Value: "123"},
+		{Key: "ParentId", Value: "333"},
+		{Key: "Enum", Value: "FOO1"},
+	}
+	obj := testObj{}
+	err := loadPropertiesFromInput(&obj, propertyList, inputs)
+	if err == nil {
+		t.Fatal("expecting error, got nil instead")
+	}
+
+	expError := "Invalid value FOO1 for enum"
+	if err.Error() != expError {
+		t.Fatalf("Expecting: %v, Got: %v", expError, err.Error())
+	}
+}
+
+func TestLoadProperties_InvalidEnumPtr(t *testing.T) {
+	inputs := []Input{
+		{Key: "AccountID", Value: "123"},
+		{Key: "ParentId", Value: "333"},
+		{Key: "EnumPtr", Value: "FOO1"},
+	}
+	obj := testObj{}
+	err := loadPropertiesFromInput(&obj, propertyList, inputs)
+	if err == nil {
+		t.Fatal("expecting error, got nil instead")
+	}
+
+	expError := "Invalid value FOO1 for enum"
+	if err.Error() != expError {
+		t.Fatalf("Expecting: %v, Got: %v", expError, err.Error())
+	}
+
+}
+
 func TestGetProperties(t *testing.T) {
 	result := GetProperties(&testObj{})
 	exp := []Property{
@@ -94,6 +149,8 @@ func TestGetProperties(t *testing.T) {
 		{Name: "UniqueIDPtr"},
 		{Name: "StartTime"},
 		{Name: "EndTime"},
+		{Name: "Enum"},
+		{Name: "EnumPtr"},
 	}
 
 	if diff := cmp.Diff(Properties(exp), result); diff != "" {
@@ -103,7 +160,7 @@ func TestGetProperties(t *testing.T) {
 
 func TestGenerateUsageString_Simple(t *testing.T) {
 	result := GenerateUsageString(&testObj{}, propertyList)
-	exp := "\n         AccountID=STRING\n         ParentID=STRING\n         [CompanyName=STRING]\n         [IsDefault={True|False}]\n         [IsDefaultPtr={True|False}]\n         [UniqueID=UUID]\n         [UniqueIDPtr=UUID]\n         [StartTime=DATETIME]\n         [EndTime=DATETIME]"
+	exp := "\n         AccountID=STRING\n         ParentID=STRING\n         [CompanyName=STRING]\n         [IsDefault={True|False}]\n         [IsDefaultPtr={True|False}]\n         [UniqueID=UUID]\n         [UniqueIDPtr=UUID]\n         [StartTime=DATETIME]\n         [EndTime=DATETIME]\n         [Enum=STRING]\n         [EnumPtr=STRING]"
 	if diff := cmp.Diff(exp, result); diff != "" {
 		t.Fatal(diff)
 	}

@@ -22,7 +22,7 @@ type TagDefinition struct {
 
 	// applicable object types
 	// Unique: true
-	ApplicableObjectTypes []string `json:"applicableObjectTypes"`
+	ApplicableObjectTypes []TagDefinitionApplicableObjectTypesEnum `json:"applicableObjectTypes"`
 
 	// audit logs
 	AuditLogs []*AuditLog `json:"auditLogs"`
@@ -77,10 +77,103 @@ func (m *TagDefinition) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+type TagDefinitionApplicableObjectTypesEnum string
+
+const (
+
+	// TagDefinitionApplicableObjectTypesACCOUNT captures enum value "ACCOUNT"
+	TagDefinitionApplicableObjectTypesACCOUNT TagDefinitionApplicableObjectTypesEnum = "ACCOUNT"
+
+	// TagDefinitionApplicableObjectTypesACCOUNTEMAIL captures enum value "ACCOUNT_EMAIL"
+	TagDefinitionApplicableObjectTypesACCOUNTEMAIL TagDefinitionApplicableObjectTypesEnum = "ACCOUNT_EMAIL"
+
+	// TagDefinitionApplicableObjectTypesBLOCKINGSTATES captures enum value "BLOCKING_STATES"
+	TagDefinitionApplicableObjectTypesBLOCKINGSTATES TagDefinitionApplicableObjectTypesEnum = "BLOCKING_STATES"
+
+	// TagDefinitionApplicableObjectTypesBUNDLE captures enum value "BUNDLE"
+	TagDefinitionApplicableObjectTypesBUNDLE TagDefinitionApplicableObjectTypesEnum = "BUNDLE"
+
+	// TagDefinitionApplicableObjectTypesCUSTOMFIELD captures enum value "CUSTOM_FIELD"
+	TagDefinitionApplicableObjectTypesCUSTOMFIELD TagDefinitionApplicableObjectTypesEnum = "CUSTOM_FIELD"
+
+	// TagDefinitionApplicableObjectTypesINVOICE captures enum value "INVOICE"
+	TagDefinitionApplicableObjectTypesINVOICE TagDefinitionApplicableObjectTypesEnum = "INVOICE"
+
+	// TagDefinitionApplicableObjectTypesPAYMENT captures enum value "PAYMENT"
+	TagDefinitionApplicableObjectTypesPAYMENT TagDefinitionApplicableObjectTypesEnum = "PAYMENT"
+
+	// TagDefinitionApplicableObjectTypesTRANSACTION captures enum value "TRANSACTION"
+	TagDefinitionApplicableObjectTypesTRANSACTION TagDefinitionApplicableObjectTypesEnum = "TRANSACTION"
+
+	// TagDefinitionApplicableObjectTypesINVOICEITEM captures enum value "INVOICE_ITEM"
+	TagDefinitionApplicableObjectTypesINVOICEITEM TagDefinitionApplicableObjectTypesEnum = "INVOICE_ITEM"
+
+	// TagDefinitionApplicableObjectTypesINVOICEPAYMENT captures enum value "INVOICE_PAYMENT"
+	TagDefinitionApplicableObjectTypesINVOICEPAYMENT TagDefinitionApplicableObjectTypesEnum = "INVOICE_PAYMENT"
+
+	// TagDefinitionApplicableObjectTypesSUBSCRIPTION captures enum value "SUBSCRIPTION"
+	TagDefinitionApplicableObjectTypesSUBSCRIPTION TagDefinitionApplicableObjectTypesEnum = "SUBSCRIPTION"
+
+	// TagDefinitionApplicableObjectTypesSUBSCRIPTIONEVENT captures enum value "SUBSCRIPTION_EVENT"
+	TagDefinitionApplicableObjectTypesSUBSCRIPTIONEVENT TagDefinitionApplicableObjectTypesEnum = "SUBSCRIPTION_EVENT"
+
+	// TagDefinitionApplicableObjectTypesSERVICEBROADCAST captures enum value "SERVICE_BROADCAST"
+	TagDefinitionApplicableObjectTypesSERVICEBROADCAST TagDefinitionApplicableObjectTypesEnum = "SERVICE_BROADCAST"
+
+	// TagDefinitionApplicableObjectTypesPAYMENTATTEMPT captures enum value "PAYMENT_ATTEMPT"
+	TagDefinitionApplicableObjectTypesPAYMENTATTEMPT TagDefinitionApplicableObjectTypesEnum = "PAYMENT_ATTEMPT"
+
+	// TagDefinitionApplicableObjectTypesPAYMENTMETHOD captures enum value "PAYMENT_METHOD"
+	TagDefinitionApplicableObjectTypesPAYMENTMETHOD TagDefinitionApplicableObjectTypesEnum = "PAYMENT_METHOD"
+
+	// TagDefinitionApplicableObjectTypesTAG captures enum value "TAG"
+	TagDefinitionApplicableObjectTypesTAG TagDefinitionApplicableObjectTypesEnum = "TAG"
+
+	// TagDefinitionApplicableObjectTypesTAGDEFINITION captures enum value "TAG_DEFINITION"
+	TagDefinitionApplicableObjectTypesTAGDEFINITION TagDefinitionApplicableObjectTypesEnum = "TAG_DEFINITION"
+
+	// TagDefinitionApplicableObjectTypesTENANT captures enum value "TENANT"
+	TagDefinitionApplicableObjectTypesTENANT TagDefinitionApplicableObjectTypesEnum = "TENANT"
+
+	// TagDefinitionApplicableObjectTypesTENANTKVS captures enum value "TENANT_KVS"
+	TagDefinitionApplicableObjectTypesTENANTKVS TagDefinitionApplicableObjectTypesEnum = "TENANT_KVS"
+)
+
+var TagDefinitionApplicableObjectTypesEnumValues = []string{
+	"ACCOUNT",
+	"ACCOUNT_EMAIL",
+	"BLOCKING_STATES",
+	"BUNDLE",
+	"CUSTOM_FIELD",
+	"INVOICE",
+	"PAYMENT",
+	"TRANSACTION",
+	"INVOICE_ITEM",
+	"INVOICE_PAYMENT",
+	"SUBSCRIPTION",
+	"SUBSCRIPTION_EVENT",
+	"SERVICE_BROADCAST",
+	"PAYMENT_ATTEMPT",
+	"PAYMENT_METHOD",
+	"TAG",
+	"TAG_DEFINITION",
+	"TENANT",
+	"TENANT_KVS",
+}
+
+func (e TagDefinitionApplicableObjectTypesEnum) IsValid() bool {
+	for _, v := range TagDefinitionApplicableObjectTypesEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 var tagDefinitionApplicableObjectTypesItemsEnum []interface{}
 
 func init() {
-	var res []string
+	var res []TagDefinitionApplicableObjectTypesEnum
 	if err := json.Unmarshal([]byte(`["ACCOUNT","ACCOUNT_EMAIL","BLOCKING_STATES","BUNDLE","CUSTOM_FIELD","INVOICE","PAYMENT","TRANSACTION","INVOICE_ITEM","INVOICE_PAYMENT","SUBSCRIPTION","SUBSCRIPTION_EVENT","SERVICE_BROADCAST","PAYMENT_ATTEMPT","PAYMENT_METHOD","TAG","TAG_DEFINITION","TENANT","TENANT_KVS"]`), &res); err != nil {
 		panic(err)
 	}
@@ -89,7 +182,7 @@ func init() {
 	}
 }
 
-func (m *TagDefinition) validateApplicableObjectTypesItemsEnum(path, location string, value string) error {
+func (m *TagDefinition) validateApplicableObjectTypesItemsEnum(path, location string, value TagDefinitionApplicableObjectTypesEnum) error {
 	if err := validate.Enum(path, location, value, tagDefinitionApplicableObjectTypesItemsEnum); err != nil {
 		return err
 	}

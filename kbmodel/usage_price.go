@@ -21,10 +21,10 @@ import (
 type UsagePrice struct {
 
 	// billing mode
-	BillingMode string `json:"billingMode,omitempty"`
+	BillingMode UsagePriceBillingModeEnum `json:"billingMode,omitempty"`
 
 	// tier block policy
-	TierBlockPolicy string `json:"tierBlockPolicy,omitempty"`
+	TierBlockPolicy UsagePriceTierBlockPolicyEnum `json:"tierBlockPolicy,omitempty"`
 
 	// tier prices
 	TierPrices []*TierPrice `json:"tierPrices"`
@@ -33,7 +33,7 @@ type UsagePrice struct {
 	UsageName string `json:"usageName,omitempty"`
 
 	// usage type
-	UsageType string `json:"usageType,omitempty"`
+	UsageType UsagePriceUsageTypeEnum `json:"usageType,omitempty"`
 }
 
 // Validate validates this usage price
@@ -69,7 +69,7 @@ func (m *UsagePrice) Validate(formats strfmt.Registry) error {
 var usagePriceTypeBillingModePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []UsagePriceBillingModeEnum
 	if err := json.Unmarshal([]byte(`["IN_ADVANCE","IN_ARREAR"]`), &res); err != nil {
 		panic(err)
 	}
@@ -78,17 +78,33 @@ func init() {
 	}
 }
 
+type UsagePriceBillingModeEnum string
+
 const (
 
 	// UsagePriceBillingModeINADVANCE captures enum value "IN_ADVANCE"
-	UsagePriceBillingModeINADVANCE string = "IN_ADVANCE"
+	UsagePriceBillingModeINADVANCE UsagePriceBillingModeEnum = "IN_ADVANCE"
 
 	// UsagePriceBillingModeINARREAR captures enum value "IN_ARREAR"
-	UsagePriceBillingModeINARREAR string = "IN_ARREAR"
+	UsagePriceBillingModeINARREAR UsagePriceBillingModeEnum = "IN_ARREAR"
 )
 
+var UsagePriceBillingModeEnumValues = []string{
+	"IN_ADVANCE",
+	"IN_ARREAR",
+}
+
+func (e UsagePriceBillingModeEnum) IsValid() bool {
+	for _, v := range UsagePriceBillingModeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *UsagePrice) validateBillingModeEnum(path, location string, value string) error {
+func (m *UsagePrice) validateBillingModeEnum(path, location string, value UsagePriceBillingModeEnum) error {
 	if err := validate.Enum(path, location, value, usagePriceTypeBillingModePropEnum); err != nil {
 		return err
 	}
@@ -112,7 +128,7 @@ func (m *UsagePrice) validateBillingMode(formats strfmt.Registry) error {
 var usagePriceTypeTierBlockPolicyPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []UsagePriceTierBlockPolicyEnum
 	if err := json.Unmarshal([]byte(`["ALL_TIERS","TOP_TIER"]`), &res); err != nil {
 		panic(err)
 	}
@@ -121,17 +137,33 @@ func init() {
 	}
 }
 
+type UsagePriceTierBlockPolicyEnum string
+
 const (
 
 	// UsagePriceTierBlockPolicyALLTIERS captures enum value "ALL_TIERS"
-	UsagePriceTierBlockPolicyALLTIERS string = "ALL_TIERS"
+	UsagePriceTierBlockPolicyALLTIERS UsagePriceTierBlockPolicyEnum = "ALL_TIERS"
 
 	// UsagePriceTierBlockPolicyTOPTIER captures enum value "TOP_TIER"
-	UsagePriceTierBlockPolicyTOPTIER string = "TOP_TIER"
+	UsagePriceTierBlockPolicyTOPTIER UsagePriceTierBlockPolicyEnum = "TOP_TIER"
 )
 
+var UsagePriceTierBlockPolicyEnumValues = []string{
+	"ALL_TIERS",
+	"TOP_TIER",
+}
+
+func (e UsagePriceTierBlockPolicyEnum) IsValid() bool {
+	for _, v := range UsagePriceTierBlockPolicyEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *UsagePrice) validateTierBlockPolicyEnum(path, location string, value string) error {
+func (m *UsagePrice) validateTierBlockPolicyEnum(path, location string, value UsagePriceTierBlockPolicyEnum) error {
 	if err := validate.Enum(path, location, value, usagePriceTypeTierBlockPolicyPropEnum); err != nil {
 		return err
 	}
@@ -183,7 +215,7 @@ func (m *UsagePrice) validateTierPrices(formats strfmt.Registry) error {
 var usagePriceTypeUsageTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []UsagePriceUsageTypeEnum
 	if err := json.Unmarshal([]byte(`["CAPACITY","CONSUMABLE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -192,17 +224,33 @@ func init() {
 	}
 }
 
+type UsagePriceUsageTypeEnum string
+
 const (
 
 	// UsagePriceUsageTypeCAPACITY captures enum value "CAPACITY"
-	UsagePriceUsageTypeCAPACITY string = "CAPACITY"
+	UsagePriceUsageTypeCAPACITY UsagePriceUsageTypeEnum = "CAPACITY"
 
 	// UsagePriceUsageTypeCONSUMABLE captures enum value "CONSUMABLE"
-	UsagePriceUsageTypeCONSUMABLE string = "CONSUMABLE"
+	UsagePriceUsageTypeCONSUMABLE UsagePriceUsageTypeEnum = "CONSUMABLE"
 )
 
+var UsagePriceUsageTypeEnumValues = []string{
+	"CAPACITY",
+	"CONSUMABLE",
+}
+
+func (e UsagePriceUsageTypeEnum) IsValid() bool {
+	for _, v := range UsagePriceUsageTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *UsagePrice) validateUsageTypeEnum(path, location string, value string) error {
+func (m *UsagePrice) validateUsageTypeEnum(path, location string, value UsagePriceUsageTypeEnum) error {
 	if err := validate.Enum(path, location, value, usagePriceTypeUsageTypePropEnum); err != nil {
 		return err
 	}

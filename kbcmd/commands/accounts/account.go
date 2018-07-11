@@ -153,7 +153,7 @@ func RegisterAccountCommands(r *cmdlib.App) {
 	createAccountPropertyList.Get("ExternalKey").Required = true
 	createAccountPropertyList.Get("Email").Required = true
 	createAccountPropertyList.Get("Name").Required = true
-	createAccountPropertyList.Get("Currency").Default = "USD"
+	createAccountPropertyList.Get("Currency").Default = string(kbmodel.AccountCurrencyUSD)
 	createAccountPropertyList.Sort(true, true)
 
 	createAccountsUsage := fmt.Sprintf(`%s

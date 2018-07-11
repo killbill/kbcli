@@ -21,16 +21,16 @@ import (
 type OverdueCondition struct {
 
 	// control tag exclusion
-	ControlTagExclusion string `json:"controlTagExclusion,omitempty"`
+	ControlTagExclusion OverdueConditionControlTagExclusionEnum `json:"controlTagExclusion,omitempty"`
 
 	// control tag inclusion
-	ControlTagInclusion string `json:"controlTagInclusion,omitempty"`
+	ControlTagInclusion OverdueConditionControlTagInclusionEnum `json:"controlTagInclusion,omitempty"`
 
 	// number of unpaid invoices equals or exceeds
 	NumberOfUnpaidInvoicesEqualsOrExceeds int32 `json:"numberOfUnpaidInvoicesEqualsOrExceeds,omitempty"`
 
 	// response for last failed payment
-	ResponseForLastFailedPayment []string `json:"responseForLastFailedPayment"`
+	ResponseForLastFailedPayment []OverdueConditionResponseForLastFailedPaymentEnum `json:"responseForLastFailedPayment"`
 
 	// time since earliest unpaid invoice equals or exceeds
 	TimeSinceEarliestUnpaidInvoiceEqualsOrExceeds *Duration `json:"timeSinceEarliestUnpaidInvoiceEqualsOrExceeds,omitempty"`
@@ -72,7 +72,7 @@ func (m *OverdueCondition) Validate(formats strfmt.Registry) error {
 var overdueConditionTypeControlTagExclusionPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []OverdueConditionControlTagExclusionEnum
 	if err := json.Unmarshal([]byte(`["AUTO_PAY_OFF","AUTO_INVOICING_OFF","OVERDUE_ENFORCEMENT_OFF","WRITTEN_OFF","MANUAL_PAY","TEST","PARTNER","AUTO_INVOICING_DRAFT","AUTO_INVOICING_REUSE_DRAFT"]`), &res); err != nil {
 		panic(err)
 	}
@@ -81,38 +81,61 @@ func init() {
 	}
 }
 
+type OverdueConditionControlTagExclusionEnum string
+
 const (
 
 	// OverdueConditionControlTagExclusionAUTOPAYOFF captures enum value "AUTO_PAY_OFF"
-	OverdueConditionControlTagExclusionAUTOPAYOFF string = "AUTO_PAY_OFF"
+	OverdueConditionControlTagExclusionAUTOPAYOFF OverdueConditionControlTagExclusionEnum = "AUTO_PAY_OFF"
 
 	// OverdueConditionControlTagExclusionAUTOINVOICINGOFF captures enum value "AUTO_INVOICING_OFF"
-	OverdueConditionControlTagExclusionAUTOINVOICINGOFF string = "AUTO_INVOICING_OFF"
+	OverdueConditionControlTagExclusionAUTOINVOICINGOFF OverdueConditionControlTagExclusionEnum = "AUTO_INVOICING_OFF"
 
 	// OverdueConditionControlTagExclusionOVERDUEENFORCEMENTOFF captures enum value "OVERDUE_ENFORCEMENT_OFF"
-	OverdueConditionControlTagExclusionOVERDUEENFORCEMENTOFF string = "OVERDUE_ENFORCEMENT_OFF"
+	OverdueConditionControlTagExclusionOVERDUEENFORCEMENTOFF OverdueConditionControlTagExclusionEnum = "OVERDUE_ENFORCEMENT_OFF"
 
 	// OverdueConditionControlTagExclusionWRITTENOFF captures enum value "WRITTEN_OFF"
-	OverdueConditionControlTagExclusionWRITTENOFF string = "WRITTEN_OFF"
+	OverdueConditionControlTagExclusionWRITTENOFF OverdueConditionControlTagExclusionEnum = "WRITTEN_OFF"
 
 	// OverdueConditionControlTagExclusionMANUALPAY captures enum value "MANUAL_PAY"
-	OverdueConditionControlTagExclusionMANUALPAY string = "MANUAL_PAY"
+	OverdueConditionControlTagExclusionMANUALPAY OverdueConditionControlTagExclusionEnum = "MANUAL_PAY"
 
 	// OverdueConditionControlTagExclusionTEST captures enum value "TEST"
-	OverdueConditionControlTagExclusionTEST string = "TEST"
+	OverdueConditionControlTagExclusionTEST OverdueConditionControlTagExclusionEnum = "TEST"
 
 	// OverdueConditionControlTagExclusionPARTNER captures enum value "PARTNER"
-	OverdueConditionControlTagExclusionPARTNER string = "PARTNER"
+	OverdueConditionControlTagExclusionPARTNER OverdueConditionControlTagExclusionEnum = "PARTNER"
 
 	// OverdueConditionControlTagExclusionAUTOINVOICINGDRAFT captures enum value "AUTO_INVOICING_DRAFT"
-	OverdueConditionControlTagExclusionAUTOINVOICINGDRAFT string = "AUTO_INVOICING_DRAFT"
+	OverdueConditionControlTagExclusionAUTOINVOICINGDRAFT OverdueConditionControlTagExclusionEnum = "AUTO_INVOICING_DRAFT"
 
 	// OverdueConditionControlTagExclusionAUTOINVOICINGREUSEDRAFT captures enum value "AUTO_INVOICING_REUSE_DRAFT"
-	OverdueConditionControlTagExclusionAUTOINVOICINGREUSEDRAFT string = "AUTO_INVOICING_REUSE_DRAFT"
+	OverdueConditionControlTagExclusionAUTOINVOICINGREUSEDRAFT OverdueConditionControlTagExclusionEnum = "AUTO_INVOICING_REUSE_DRAFT"
 )
 
+var OverdueConditionControlTagExclusionEnumValues = []string{
+	"AUTO_PAY_OFF",
+	"AUTO_INVOICING_OFF",
+	"OVERDUE_ENFORCEMENT_OFF",
+	"WRITTEN_OFF",
+	"MANUAL_PAY",
+	"TEST",
+	"PARTNER",
+	"AUTO_INVOICING_DRAFT",
+	"AUTO_INVOICING_REUSE_DRAFT",
+}
+
+func (e OverdueConditionControlTagExclusionEnum) IsValid() bool {
+	for _, v := range OverdueConditionControlTagExclusionEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *OverdueCondition) validateControlTagExclusionEnum(path, location string, value string) error {
+func (m *OverdueCondition) validateControlTagExclusionEnum(path, location string, value OverdueConditionControlTagExclusionEnum) error {
 	if err := validate.Enum(path, location, value, overdueConditionTypeControlTagExclusionPropEnum); err != nil {
 		return err
 	}
@@ -136,7 +159,7 @@ func (m *OverdueCondition) validateControlTagExclusion(formats strfmt.Registry) 
 var overdueConditionTypeControlTagInclusionPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []OverdueConditionControlTagInclusionEnum
 	if err := json.Unmarshal([]byte(`["AUTO_PAY_OFF","AUTO_INVOICING_OFF","OVERDUE_ENFORCEMENT_OFF","WRITTEN_OFF","MANUAL_PAY","TEST","PARTNER","AUTO_INVOICING_DRAFT","AUTO_INVOICING_REUSE_DRAFT"]`), &res); err != nil {
 		panic(err)
 	}
@@ -145,38 +168,61 @@ func init() {
 	}
 }
 
+type OverdueConditionControlTagInclusionEnum string
+
 const (
 
 	// OverdueConditionControlTagInclusionAUTOPAYOFF captures enum value "AUTO_PAY_OFF"
-	OverdueConditionControlTagInclusionAUTOPAYOFF string = "AUTO_PAY_OFF"
+	OverdueConditionControlTagInclusionAUTOPAYOFF OverdueConditionControlTagInclusionEnum = "AUTO_PAY_OFF"
 
 	// OverdueConditionControlTagInclusionAUTOINVOICINGOFF captures enum value "AUTO_INVOICING_OFF"
-	OverdueConditionControlTagInclusionAUTOINVOICINGOFF string = "AUTO_INVOICING_OFF"
+	OverdueConditionControlTagInclusionAUTOINVOICINGOFF OverdueConditionControlTagInclusionEnum = "AUTO_INVOICING_OFF"
 
 	// OverdueConditionControlTagInclusionOVERDUEENFORCEMENTOFF captures enum value "OVERDUE_ENFORCEMENT_OFF"
-	OverdueConditionControlTagInclusionOVERDUEENFORCEMENTOFF string = "OVERDUE_ENFORCEMENT_OFF"
+	OverdueConditionControlTagInclusionOVERDUEENFORCEMENTOFF OverdueConditionControlTagInclusionEnum = "OVERDUE_ENFORCEMENT_OFF"
 
 	// OverdueConditionControlTagInclusionWRITTENOFF captures enum value "WRITTEN_OFF"
-	OverdueConditionControlTagInclusionWRITTENOFF string = "WRITTEN_OFF"
+	OverdueConditionControlTagInclusionWRITTENOFF OverdueConditionControlTagInclusionEnum = "WRITTEN_OFF"
 
 	// OverdueConditionControlTagInclusionMANUALPAY captures enum value "MANUAL_PAY"
-	OverdueConditionControlTagInclusionMANUALPAY string = "MANUAL_PAY"
+	OverdueConditionControlTagInclusionMANUALPAY OverdueConditionControlTagInclusionEnum = "MANUAL_PAY"
 
 	// OverdueConditionControlTagInclusionTEST captures enum value "TEST"
-	OverdueConditionControlTagInclusionTEST string = "TEST"
+	OverdueConditionControlTagInclusionTEST OverdueConditionControlTagInclusionEnum = "TEST"
 
 	// OverdueConditionControlTagInclusionPARTNER captures enum value "PARTNER"
-	OverdueConditionControlTagInclusionPARTNER string = "PARTNER"
+	OverdueConditionControlTagInclusionPARTNER OverdueConditionControlTagInclusionEnum = "PARTNER"
 
 	// OverdueConditionControlTagInclusionAUTOINVOICINGDRAFT captures enum value "AUTO_INVOICING_DRAFT"
-	OverdueConditionControlTagInclusionAUTOINVOICINGDRAFT string = "AUTO_INVOICING_DRAFT"
+	OverdueConditionControlTagInclusionAUTOINVOICINGDRAFT OverdueConditionControlTagInclusionEnum = "AUTO_INVOICING_DRAFT"
 
 	// OverdueConditionControlTagInclusionAUTOINVOICINGREUSEDRAFT captures enum value "AUTO_INVOICING_REUSE_DRAFT"
-	OverdueConditionControlTagInclusionAUTOINVOICINGREUSEDRAFT string = "AUTO_INVOICING_REUSE_DRAFT"
+	OverdueConditionControlTagInclusionAUTOINVOICINGREUSEDRAFT OverdueConditionControlTagInclusionEnum = "AUTO_INVOICING_REUSE_DRAFT"
 )
 
+var OverdueConditionControlTagInclusionEnumValues = []string{
+	"AUTO_PAY_OFF",
+	"AUTO_INVOICING_OFF",
+	"OVERDUE_ENFORCEMENT_OFF",
+	"WRITTEN_OFF",
+	"MANUAL_PAY",
+	"TEST",
+	"PARTNER",
+	"AUTO_INVOICING_DRAFT",
+	"AUTO_INVOICING_REUSE_DRAFT",
+}
+
+func (e OverdueConditionControlTagInclusionEnum) IsValid() bool {
+	for _, v := range OverdueConditionControlTagInclusionEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *OverdueCondition) validateControlTagInclusionEnum(path, location string, value string) error {
+func (m *OverdueCondition) validateControlTagInclusionEnum(path, location string, value OverdueConditionControlTagInclusionEnum) error {
 	if err := validate.Enum(path, location, value, overdueConditionTypeControlTagInclusionPropEnum); err != nil {
 		return err
 	}
@@ -197,10 +243,67 @@ func (m *OverdueCondition) validateControlTagInclusion(formats strfmt.Registry) 
 	return nil
 }
 
+type OverdueConditionResponseForLastFailedPaymentEnum string
+
+const (
+
+	// OverdueConditionResponseForLastFailedPaymentINVALIDCARD captures enum value "INVALID_CARD"
+	OverdueConditionResponseForLastFailedPaymentINVALIDCARD OverdueConditionResponseForLastFailedPaymentEnum = "INVALID_CARD"
+
+	// OverdueConditionResponseForLastFailedPaymentEXPIREDCARD captures enum value "EXPIRED_CARD"
+	OverdueConditionResponseForLastFailedPaymentEXPIREDCARD OverdueConditionResponseForLastFailedPaymentEnum = "EXPIRED_CARD"
+
+	// OverdueConditionResponseForLastFailedPaymentLOSTORSTOLENCARD captures enum value "LOST_OR_STOLEN_CARD"
+	OverdueConditionResponseForLastFailedPaymentLOSTORSTOLENCARD OverdueConditionResponseForLastFailedPaymentEnum = "LOST_OR_STOLEN_CARD"
+
+	// OverdueConditionResponseForLastFailedPaymentDONOTHONOR captures enum value "DO_NOT_HONOR"
+	OverdueConditionResponseForLastFailedPaymentDONOTHONOR OverdueConditionResponseForLastFailedPaymentEnum = "DO_NOT_HONOR"
+
+	// OverdueConditionResponseForLastFailedPaymentINSUFFICIENTFUNDS captures enum value "INSUFFICIENT_FUNDS"
+	OverdueConditionResponseForLastFailedPaymentINSUFFICIENTFUNDS OverdueConditionResponseForLastFailedPaymentEnum = "INSUFFICIENT_FUNDS"
+
+	// OverdueConditionResponseForLastFailedPaymentDECLINE captures enum value "DECLINE"
+	OverdueConditionResponseForLastFailedPaymentDECLINE OverdueConditionResponseForLastFailedPaymentEnum = "DECLINE"
+
+	// OverdueConditionResponseForLastFailedPaymentPROCESSINGERROR captures enum value "PROCESSING_ERROR"
+	OverdueConditionResponseForLastFailedPaymentPROCESSINGERROR OverdueConditionResponseForLastFailedPaymentEnum = "PROCESSING_ERROR"
+
+	// OverdueConditionResponseForLastFailedPaymentINVALIDAMOUNT captures enum value "INVALID_AMOUNT"
+	OverdueConditionResponseForLastFailedPaymentINVALIDAMOUNT OverdueConditionResponseForLastFailedPaymentEnum = "INVALID_AMOUNT"
+
+	// OverdueConditionResponseForLastFailedPaymentDUPLICATETRANSACTION captures enum value "DUPLICATE_TRANSACTION"
+	OverdueConditionResponseForLastFailedPaymentDUPLICATETRANSACTION OverdueConditionResponseForLastFailedPaymentEnum = "DUPLICATE_TRANSACTION"
+
+	// OverdueConditionResponseForLastFailedPaymentOTHER captures enum value "OTHER"
+	OverdueConditionResponseForLastFailedPaymentOTHER OverdueConditionResponseForLastFailedPaymentEnum = "OTHER"
+)
+
+var OverdueConditionResponseForLastFailedPaymentEnumValues = []string{
+	"INVALID_CARD",
+	"EXPIRED_CARD",
+	"LOST_OR_STOLEN_CARD",
+	"DO_NOT_HONOR",
+	"INSUFFICIENT_FUNDS",
+	"DECLINE",
+	"PROCESSING_ERROR",
+	"INVALID_AMOUNT",
+	"DUPLICATE_TRANSACTION",
+	"OTHER",
+}
+
+func (e OverdueConditionResponseForLastFailedPaymentEnum) IsValid() bool {
+	for _, v := range OverdueConditionResponseForLastFailedPaymentEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 var overdueConditionResponseForLastFailedPaymentItemsEnum []interface{}
 
 func init() {
-	var res []string
+	var res []OverdueConditionResponseForLastFailedPaymentEnum
 	if err := json.Unmarshal([]byte(`["INVALID_CARD","EXPIRED_CARD","LOST_OR_STOLEN_CARD","DO_NOT_HONOR","INSUFFICIENT_FUNDS","DECLINE","PROCESSING_ERROR","INVALID_AMOUNT","DUPLICATE_TRANSACTION","OTHER"]`), &res); err != nil {
 		panic(err)
 	}
@@ -209,7 +312,7 @@ func init() {
 	}
 }
 
-func (m *OverdueCondition) validateResponseForLastFailedPaymentItemsEnum(path, location string, value string) error {
+func (m *OverdueCondition) validateResponseForLastFailedPaymentItemsEnum(path, location string, value OverdueConditionResponseForLastFailedPaymentEnum) error {
 	if err := validate.Enum(path, location, value, overdueConditionResponseForLastFailedPaymentItemsEnum); err != nil {
 		return err
 	}
