@@ -76,15 +76,18 @@ func createTagDefinition(ctx context.Context, o *cmdlib.Options) error {
 	}
 	name := o.Args[0]
 	description := o.Args[1]
-	var applicableTypes []string
+	var applicableTypes []kbmodel.TagDefinitionApplicableObjectTypesEnum
 
 	if o.Args[2] == "all" {
-		applicableTypes = kblib.GetAllSupportedTagTargets()
+		for _, v := range kbmodel.TagDefinitionApplicableObjectTypesEnumValues {
+			applicableTypes = append(applicableTypes, kbmodel.TagDefinitionApplicableObjectTypesEnum(v))
+		}
 	} else {
-		applicableTypes = strings.Split(o.Args[2], ",")
-		for _, at := range applicableTypes {
-			if !kblib.IsValidTagTarget(at) {
-				return fmt.Errorf("Invalid type: %s. Must be one of %s", at, strings.Join(kblib.GetAllSupportedTagTargets(), ","))
+		list := strings.Split(o.Args[2], ",")
+		for _, v := range list {
+			e := kbmodel.TagDefinitionApplicableObjectTypesEnum(v)
+			if !e.IsValid() {
+				return fmt.Errorf("Invalid type: %s. Must be one of %s", v, strings.Join(kbmodel.TagObjectTypeEnumValues, ","))
 			}
 		}
 	}
@@ -166,7 +169,7 @@ func registerTagDefinitionCommands(r *cmdlib.App) {
 
    For e.g.,
      kbcmd tags create premium_account "Account has high transaction volume" ACCOUNT,INVOICE`,
-			strings.Join(kblib.GetAllSupportedTagTargets(), "\n   ")),
+			strings.Join(kbmodel.TagDefinitionApplicableObjectTypesEnumValues, "\n   ")),
 	}, createTagDefinition)
 
 	r.Register("tags", cli.Command{

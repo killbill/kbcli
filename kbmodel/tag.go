@@ -27,7 +27,7 @@ type Tag struct {
 	ObjectID strfmt.UUID `json:"objectId,omitempty"`
 
 	// object type
-	ObjectType string `json:"objectType,omitempty"`
+	ObjectType TagObjectTypeEnum `json:"objectType,omitempty"`
 
 	// tag definition Id
 	TagDefinitionID strfmt.UUID `json:"tagDefinitionId,omitempty"`
@@ -118,7 +118,7 @@ func (m *Tag) validateObjectID(formats strfmt.Registry) error {
 var tagTypeObjectTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []TagObjectTypeEnum
 	if err := json.Unmarshal([]byte(`["ACCOUNT","ACCOUNT_EMAIL","BLOCKING_STATES","BUNDLE","CUSTOM_FIELD","INVOICE","PAYMENT","TRANSACTION","INVOICE_ITEM","INVOICE_PAYMENT","SUBSCRIPTION","SUBSCRIPTION_EVENT","SERVICE_BROADCAST","PAYMENT_ATTEMPT","PAYMENT_METHOD","TAG","TAG_DEFINITION","TENANT","TENANT_KVS"]`), &res); err != nil {
 		panic(err)
 	}
@@ -127,68 +127,101 @@ func init() {
 	}
 }
 
+type TagObjectTypeEnum string
+
 const (
 
 	// TagObjectTypeACCOUNT captures enum value "ACCOUNT"
-	TagObjectTypeACCOUNT string = "ACCOUNT"
+	TagObjectTypeACCOUNT TagObjectTypeEnum = "ACCOUNT"
 
 	// TagObjectTypeACCOUNTEMAIL captures enum value "ACCOUNT_EMAIL"
-	TagObjectTypeACCOUNTEMAIL string = "ACCOUNT_EMAIL"
+	TagObjectTypeACCOUNTEMAIL TagObjectTypeEnum = "ACCOUNT_EMAIL"
 
 	// TagObjectTypeBLOCKINGSTATES captures enum value "BLOCKING_STATES"
-	TagObjectTypeBLOCKINGSTATES string = "BLOCKING_STATES"
+	TagObjectTypeBLOCKINGSTATES TagObjectTypeEnum = "BLOCKING_STATES"
 
 	// TagObjectTypeBUNDLE captures enum value "BUNDLE"
-	TagObjectTypeBUNDLE string = "BUNDLE"
+	TagObjectTypeBUNDLE TagObjectTypeEnum = "BUNDLE"
 
 	// TagObjectTypeCUSTOMFIELD captures enum value "CUSTOM_FIELD"
-	TagObjectTypeCUSTOMFIELD string = "CUSTOM_FIELD"
+	TagObjectTypeCUSTOMFIELD TagObjectTypeEnum = "CUSTOM_FIELD"
 
 	// TagObjectTypeINVOICE captures enum value "INVOICE"
-	TagObjectTypeINVOICE string = "INVOICE"
+	TagObjectTypeINVOICE TagObjectTypeEnum = "INVOICE"
 
 	// TagObjectTypePAYMENT captures enum value "PAYMENT"
-	TagObjectTypePAYMENT string = "PAYMENT"
+	TagObjectTypePAYMENT TagObjectTypeEnum = "PAYMENT"
 
 	// TagObjectTypeTRANSACTION captures enum value "TRANSACTION"
-	TagObjectTypeTRANSACTION string = "TRANSACTION"
+	TagObjectTypeTRANSACTION TagObjectTypeEnum = "TRANSACTION"
 
 	// TagObjectTypeINVOICEITEM captures enum value "INVOICE_ITEM"
-	TagObjectTypeINVOICEITEM string = "INVOICE_ITEM"
+	TagObjectTypeINVOICEITEM TagObjectTypeEnum = "INVOICE_ITEM"
 
 	// TagObjectTypeINVOICEPAYMENT captures enum value "INVOICE_PAYMENT"
-	TagObjectTypeINVOICEPAYMENT string = "INVOICE_PAYMENT"
+	TagObjectTypeINVOICEPAYMENT TagObjectTypeEnum = "INVOICE_PAYMENT"
 
 	// TagObjectTypeSUBSCRIPTION captures enum value "SUBSCRIPTION"
-	TagObjectTypeSUBSCRIPTION string = "SUBSCRIPTION"
+	TagObjectTypeSUBSCRIPTION TagObjectTypeEnum = "SUBSCRIPTION"
 
 	// TagObjectTypeSUBSCRIPTIONEVENT captures enum value "SUBSCRIPTION_EVENT"
-	TagObjectTypeSUBSCRIPTIONEVENT string = "SUBSCRIPTION_EVENT"
+	TagObjectTypeSUBSCRIPTIONEVENT TagObjectTypeEnum = "SUBSCRIPTION_EVENT"
 
 	// TagObjectTypeSERVICEBROADCAST captures enum value "SERVICE_BROADCAST"
-	TagObjectTypeSERVICEBROADCAST string = "SERVICE_BROADCAST"
+	TagObjectTypeSERVICEBROADCAST TagObjectTypeEnum = "SERVICE_BROADCAST"
 
 	// TagObjectTypePAYMENTATTEMPT captures enum value "PAYMENT_ATTEMPT"
-	TagObjectTypePAYMENTATTEMPT string = "PAYMENT_ATTEMPT"
+	TagObjectTypePAYMENTATTEMPT TagObjectTypeEnum = "PAYMENT_ATTEMPT"
 
 	// TagObjectTypePAYMENTMETHOD captures enum value "PAYMENT_METHOD"
-	TagObjectTypePAYMENTMETHOD string = "PAYMENT_METHOD"
+	TagObjectTypePAYMENTMETHOD TagObjectTypeEnum = "PAYMENT_METHOD"
 
 	// TagObjectTypeTAG captures enum value "TAG"
-	TagObjectTypeTAG string = "TAG"
+	TagObjectTypeTAG TagObjectTypeEnum = "TAG"
 
 	// TagObjectTypeTAGDEFINITION captures enum value "TAG_DEFINITION"
-	TagObjectTypeTAGDEFINITION string = "TAG_DEFINITION"
+	TagObjectTypeTAGDEFINITION TagObjectTypeEnum = "TAG_DEFINITION"
 
 	// TagObjectTypeTENANT captures enum value "TENANT"
-	TagObjectTypeTENANT string = "TENANT"
+	TagObjectTypeTENANT TagObjectTypeEnum = "TENANT"
 
 	// TagObjectTypeTENANTKVS captures enum value "TENANT_KVS"
-	TagObjectTypeTENANTKVS string = "TENANT_KVS"
+	TagObjectTypeTENANTKVS TagObjectTypeEnum = "TENANT_KVS"
 )
 
+var TagObjectTypeEnumValues = []string{
+	"ACCOUNT",
+	"ACCOUNT_EMAIL",
+	"BLOCKING_STATES",
+	"BUNDLE",
+	"CUSTOM_FIELD",
+	"INVOICE",
+	"PAYMENT",
+	"TRANSACTION",
+	"INVOICE_ITEM",
+	"INVOICE_PAYMENT",
+	"SUBSCRIPTION",
+	"SUBSCRIPTION_EVENT",
+	"SERVICE_BROADCAST",
+	"PAYMENT_ATTEMPT",
+	"PAYMENT_METHOD",
+	"TAG",
+	"TAG_DEFINITION",
+	"TENANT",
+	"TENANT_KVS",
+}
+
+func (e TagObjectTypeEnum) IsValid() bool {
+	for _, v := range TagObjectTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Tag) validateObjectTypeEnum(path, location string, value string) error {
+func (m *Tag) validateObjectTypeEnum(path, location string, value TagObjectTypeEnum) error {
 	if err := validate.Enum(path, location, value, tagTypeObjectTypePropEnum); err != nil {
 		return err
 	}

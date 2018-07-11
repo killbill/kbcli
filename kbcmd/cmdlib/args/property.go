@@ -23,9 +23,10 @@ var defaultProperties = map[string]bool{
 // to define each property manually. So, we also provide helpers to load properties
 // from a given struct.
 type Property struct {
-	Name     string // Name of the property. The name should match the struct field name.
-	Required bool   // Specifies if the property is required.
-	Default  string // Default value for the property.
+	Name     string   // Name of the property. The name should match the struct field name.
+	Required bool     // Specifies if the property is required.
+	Default  string   // Default value for the property.
+	Enums    []string // List of enum values
 }
 
 // NameLower returns lowercase  name
@@ -90,7 +91,7 @@ func (pl *Properties) Sort(moveRequiredPropertiesFirst bool, alphabeticSort bool
 }
 
 // loadProperty loads property value to the target struct.
-func loadProperty(val reflect.Value, propName string, valueToSet string) bool {
+func loadProperty(val reflect.Value, propName string, valueToSet string) error {
 	for i := 0; i < val.Type().NumField(); i++ {
 		ft := val.Type().Field(i)
 		f := val.FieldByIndex(ft.Index)
@@ -101,19 +102,19 @@ func loadProperty(val reflect.Value, propName string, valueToSet string) bool {
 			}
 			err := setFieldValue(f, ft, valueToSet)
 			if err != nil {
-				return false
+				return err
 			}
-			return true
+			return nil
 		}
 
 		if ft.Type.Kind() == reflect.Struct {
-			success := loadProperty(f, propName, valueToSet)
-			if success {
-				return success
+			err := loadProperty(f, propName, valueToSet)
+			if err == nil {
+				return nil
 			}
 		}
 	}
-	return false
+	return fmt.Errorf("property %s not found in type %s", propName, val.Type().String())
 }
 
 // loadPropertiesFromInput loads key value pairs into target object.
@@ -129,8 +130,8 @@ func loadPropertiesFromInput(obj interface{}, properties Properties, inputs Inpu
 	// Set up defaults
 	for _, p := range properties {
 		if p.Default != "" {
-			if !loadProperty(val, p.Name, p.Default) {
-				return fmt.Errorf("property %s not found in type %s", p.Name, val.Type().String())
+			if err := loadProperty(val, p.Name, p.Default); err != nil {
+				return err
 			}
 		}
 	}
@@ -142,8 +143,8 @@ func loadPropertiesFromInput(obj interface{}, properties Properties, inputs Inpu
 		if !ok {
 			return fmt.Errorf("property %s not found", inp.Key)
 		}
-		if !loadProperty(val, p.Name, inp.Value) {
-			return fmt.Errorf("property %s not found in type %s", p.Name, val.Type().String())
+		if err := loadProperty(val, p.Name, inp.Value); err != nil {
+			return err
 		}
 	}
 
@@ -206,8 +207,8 @@ func GenerateUsageString(obj interface{}, properties Properties) string {
 		if fType.Kind() == reflect.Ptr {
 			fType = fType.Elem()
 		}
-		handler, ok := supportedTypes[fType]
-		if !ok {
+		handler := getTypeHandler(fType)
+		if handler == nil {
 			panic(fmt.Errorf("unsupported type %s for property %s", fType.String(), f.Name))
 		}
 
@@ -219,6 +220,9 @@ func GenerateUsageString(obj interface{}, properties Properties) string {
 		}
 		if p.Default != "" {
 			line += fmt.Sprintf("    Default: %s", p.Default)
+		}
+		if len(p.Enums) > 0 {
+			line += fmt.Sprintf("\n               One Of: %s", strings.Join(p.Enums, ", "))
 		}
 		result = append(result, line)
 
@@ -294,7 +298,7 @@ func isTypeSupported(tp reflect.Type) bool {
 	if tp.Kind() == reflect.Ptr {
 		tp = tp.Elem()
 	}
-	return supportedTypes[tp] != nil
+	return getTypeHandler(tp) != nil
 }
 
 // setFieldValue parses the given value and sets the value to the target field.
@@ -308,7 +312,7 @@ func setFieldValue(f reflect.Value, ft reflect.StructField, val string) error {
 	if isPtr {
 		tp = tp.Elem()
 	}
-	handler := supportedTypes[tp]
+	handler := getTypeHandler(tp)
 	if handler == nil {
 		return fmt.Errorf("unknown type %s", tp.String())
 	}

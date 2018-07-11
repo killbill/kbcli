@@ -41,7 +41,7 @@ type OverdueStateConfig struct {
 	Name string `json:"name,omitempty"`
 
 	// subscription cancellation policy
-	SubscriptionCancellationPolicy string `json:"subscriptionCancellationPolicy,omitempty"`
+	SubscriptionCancellationPolicy OverdueStateConfigSubscriptionCancellationPolicyEnum `json:"subscriptionCancellationPolicy,omitempty"`
 }
 
 // Validate validates this overdue state config
@@ -87,7 +87,7 @@ func (m *OverdueStateConfig) validateCondition(formats strfmt.Registry) error {
 var overdueStateConfigTypeSubscriptionCancellationPolicyPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []OverdueStateConfigSubscriptionCancellationPolicyEnum
 	if err := json.Unmarshal([]byte(`["END_OF_TERM","IMMEDIATE","NONE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -96,20 +96,37 @@ func init() {
 	}
 }
 
+type OverdueStateConfigSubscriptionCancellationPolicyEnum string
+
 const (
 
 	// OverdueStateConfigSubscriptionCancellationPolicyENDOFTERM captures enum value "END_OF_TERM"
-	OverdueStateConfigSubscriptionCancellationPolicyENDOFTERM string = "END_OF_TERM"
+	OverdueStateConfigSubscriptionCancellationPolicyENDOFTERM OverdueStateConfigSubscriptionCancellationPolicyEnum = "END_OF_TERM"
 
 	// OverdueStateConfigSubscriptionCancellationPolicyIMMEDIATE captures enum value "IMMEDIATE"
-	OverdueStateConfigSubscriptionCancellationPolicyIMMEDIATE string = "IMMEDIATE"
+	OverdueStateConfigSubscriptionCancellationPolicyIMMEDIATE OverdueStateConfigSubscriptionCancellationPolicyEnum = "IMMEDIATE"
 
 	// OverdueStateConfigSubscriptionCancellationPolicyNONE captures enum value "NONE"
-	OverdueStateConfigSubscriptionCancellationPolicyNONE string = "NONE"
+	OverdueStateConfigSubscriptionCancellationPolicyNONE OverdueStateConfigSubscriptionCancellationPolicyEnum = "NONE"
 )
 
+var OverdueStateConfigSubscriptionCancellationPolicyEnumValues = []string{
+	"END_OF_TERM",
+	"IMMEDIATE",
+	"NONE",
+}
+
+func (e OverdueStateConfigSubscriptionCancellationPolicyEnum) IsValid() bool {
+	for _, v := range OverdueStateConfigSubscriptionCancellationPolicyEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *OverdueStateConfig) validateSubscriptionCancellationPolicyEnum(path, location string, value string) error {
+func (m *OverdueStateConfig) validateSubscriptionCancellationPolicyEnum(path, location string, value OverdueStateConfigSubscriptionCancellationPolicyEnum) error {
 	if err := validate.Enum(path, location, value, overdueStateConfigTypeSubscriptionCancellationPolicyPropEnum); err != nil {
 		return err
 	}

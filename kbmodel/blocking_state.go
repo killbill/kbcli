@@ -45,7 +45,7 @@ type BlockingState struct {
 	StateName string `json:"stateName,omitempty"`
 
 	// type
-	Type string `json:"type,omitempty"`
+	Type BlockingStateTypeEnum `json:"type,omitempty"`
 }
 
 // Validate validates this blocking state
@@ -135,7 +135,7 @@ func (m *BlockingState) validateEffectiveDate(formats strfmt.Registry) error {
 var blockingStateTypeTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []BlockingStateTypeEnum
 	if err := json.Unmarshal([]byte(`["SUBSCRIPTION","SUBSCRIPTION_BUNDLE","ACCOUNT"]`), &res); err != nil {
 		panic(err)
 	}
@@ -144,20 +144,37 @@ func init() {
 	}
 }
 
+type BlockingStateTypeEnum string
+
 const (
 
 	// BlockingStateTypeSUBSCRIPTION captures enum value "SUBSCRIPTION"
-	BlockingStateTypeSUBSCRIPTION string = "SUBSCRIPTION"
+	BlockingStateTypeSUBSCRIPTION BlockingStateTypeEnum = "SUBSCRIPTION"
 
 	// BlockingStateTypeSUBSCRIPTIONBUNDLE captures enum value "SUBSCRIPTION_BUNDLE"
-	BlockingStateTypeSUBSCRIPTIONBUNDLE string = "SUBSCRIPTION_BUNDLE"
+	BlockingStateTypeSUBSCRIPTIONBUNDLE BlockingStateTypeEnum = "SUBSCRIPTION_BUNDLE"
 
 	// BlockingStateTypeACCOUNT captures enum value "ACCOUNT"
-	BlockingStateTypeACCOUNT string = "ACCOUNT"
+	BlockingStateTypeACCOUNT BlockingStateTypeEnum = "ACCOUNT"
 )
 
+var BlockingStateTypeEnumValues = []string{
+	"SUBSCRIPTION",
+	"SUBSCRIPTION_BUNDLE",
+	"ACCOUNT",
+}
+
+func (e BlockingStateTypeEnum) IsValid() bool {
+	for _, v := range BlockingStateTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *BlockingState) validateTypeEnum(path, location string, value string) error {
+func (m *BlockingState) validateTypeEnum(path, location string, value BlockingStateTypeEnum) error {
 	if err := validate.Enum(path, location, value, blockingStateTypeTypePropEnum); err != nil {
 		return err
 	}

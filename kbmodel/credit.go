@@ -35,7 +35,7 @@ type Credit struct {
 	CreditID strfmt.UUID `json:"creditId,omitempty"`
 
 	// currency
-	Currency string `json:"currency,omitempty"`
+	Currency CreditCurrencyEnum `json:"currency,omitempty"`
 
 	// description
 	Description string `json:"description,omitempty"`
@@ -164,7 +164,7 @@ func (m *Credit) validateCreditID(formats strfmt.Registry) error {
 var creditTypeCurrencyPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []CreditCurrencyEnum
 	if err := json.Unmarshal([]byte(`["AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CAD","CDF","CHF","CLP","CNY","COP","CRC","CUC","CUP","CVE","CZK","DJF","DKK","DOP","DZD","EGP","ERN","ETB","EUR","FJD","FKP","GBP","GEL","GGP","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","IMP","INR","IQD","IRR","ISK","JEP","JMD","JOD","JPY","KES","KGS","KHR","KMF","KPW","KRW","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SEK","SGD","SHP","SLL","SOS","SPL","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TVD","TWD","TZS","UAH","UGX","USD","UYU","UZS","VEF","VND","VUV","WST","XAF","XCD","XDR","XOF","XPF","YER","ZAR","ZMW","ZWD","BTC"]`), &res); err != nil {
 		panic(err)
 	}
@@ -173,506 +173,685 @@ func init() {
 	}
 }
 
+type CreditCurrencyEnum string
+
 const (
 
 	// CreditCurrencyAED captures enum value "AED"
-	CreditCurrencyAED string = "AED"
+	CreditCurrencyAED CreditCurrencyEnum = "AED"
 
 	// CreditCurrencyAFN captures enum value "AFN"
-	CreditCurrencyAFN string = "AFN"
+	CreditCurrencyAFN CreditCurrencyEnum = "AFN"
 
 	// CreditCurrencyALL captures enum value "ALL"
-	CreditCurrencyALL string = "ALL"
+	CreditCurrencyALL CreditCurrencyEnum = "ALL"
 
 	// CreditCurrencyAMD captures enum value "AMD"
-	CreditCurrencyAMD string = "AMD"
+	CreditCurrencyAMD CreditCurrencyEnum = "AMD"
 
 	// CreditCurrencyANG captures enum value "ANG"
-	CreditCurrencyANG string = "ANG"
+	CreditCurrencyANG CreditCurrencyEnum = "ANG"
 
 	// CreditCurrencyAOA captures enum value "AOA"
-	CreditCurrencyAOA string = "AOA"
+	CreditCurrencyAOA CreditCurrencyEnum = "AOA"
 
 	// CreditCurrencyARS captures enum value "ARS"
-	CreditCurrencyARS string = "ARS"
+	CreditCurrencyARS CreditCurrencyEnum = "ARS"
 
 	// CreditCurrencyAUD captures enum value "AUD"
-	CreditCurrencyAUD string = "AUD"
+	CreditCurrencyAUD CreditCurrencyEnum = "AUD"
 
 	// CreditCurrencyAWG captures enum value "AWG"
-	CreditCurrencyAWG string = "AWG"
+	CreditCurrencyAWG CreditCurrencyEnum = "AWG"
 
 	// CreditCurrencyAZN captures enum value "AZN"
-	CreditCurrencyAZN string = "AZN"
+	CreditCurrencyAZN CreditCurrencyEnum = "AZN"
 
 	// CreditCurrencyBAM captures enum value "BAM"
-	CreditCurrencyBAM string = "BAM"
+	CreditCurrencyBAM CreditCurrencyEnum = "BAM"
 
 	// CreditCurrencyBBD captures enum value "BBD"
-	CreditCurrencyBBD string = "BBD"
+	CreditCurrencyBBD CreditCurrencyEnum = "BBD"
 
 	// CreditCurrencyBDT captures enum value "BDT"
-	CreditCurrencyBDT string = "BDT"
+	CreditCurrencyBDT CreditCurrencyEnum = "BDT"
 
 	// CreditCurrencyBGN captures enum value "BGN"
-	CreditCurrencyBGN string = "BGN"
+	CreditCurrencyBGN CreditCurrencyEnum = "BGN"
 
 	// CreditCurrencyBHD captures enum value "BHD"
-	CreditCurrencyBHD string = "BHD"
+	CreditCurrencyBHD CreditCurrencyEnum = "BHD"
 
 	// CreditCurrencyBIF captures enum value "BIF"
-	CreditCurrencyBIF string = "BIF"
+	CreditCurrencyBIF CreditCurrencyEnum = "BIF"
 
 	// CreditCurrencyBMD captures enum value "BMD"
-	CreditCurrencyBMD string = "BMD"
+	CreditCurrencyBMD CreditCurrencyEnum = "BMD"
 
 	// CreditCurrencyBND captures enum value "BND"
-	CreditCurrencyBND string = "BND"
+	CreditCurrencyBND CreditCurrencyEnum = "BND"
 
 	// CreditCurrencyBOB captures enum value "BOB"
-	CreditCurrencyBOB string = "BOB"
+	CreditCurrencyBOB CreditCurrencyEnum = "BOB"
 
 	// CreditCurrencyBRL captures enum value "BRL"
-	CreditCurrencyBRL string = "BRL"
+	CreditCurrencyBRL CreditCurrencyEnum = "BRL"
 
 	// CreditCurrencyBSD captures enum value "BSD"
-	CreditCurrencyBSD string = "BSD"
+	CreditCurrencyBSD CreditCurrencyEnum = "BSD"
 
 	// CreditCurrencyBTN captures enum value "BTN"
-	CreditCurrencyBTN string = "BTN"
+	CreditCurrencyBTN CreditCurrencyEnum = "BTN"
 
 	// CreditCurrencyBWP captures enum value "BWP"
-	CreditCurrencyBWP string = "BWP"
+	CreditCurrencyBWP CreditCurrencyEnum = "BWP"
 
 	// CreditCurrencyBYR captures enum value "BYR"
-	CreditCurrencyBYR string = "BYR"
+	CreditCurrencyBYR CreditCurrencyEnum = "BYR"
 
 	// CreditCurrencyBZD captures enum value "BZD"
-	CreditCurrencyBZD string = "BZD"
+	CreditCurrencyBZD CreditCurrencyEnum = "BZD"
 
 	// CreditCurrencyCAD captures enum value "CAD"
-	CreditCurrencyCAD string = "CAD"
+	CreditCurrencyCAD CreditCurrencyEnum = "CAD"
 
 	// CreditCurrencyCDF captures enum value "CDF"
-	CreditCurrencyCDF string = "CDF"
+	CreditCurrencyCDF CreditCurrencyEnum = "CDF"
 
 	// CreditCurrencyCHF captures enum value "CHF"
-	CreditCurrencyCHF string = "CHF"
+	CreditCurrencyCHF CreditCurrencyEnum = "CHF"
 
 	// CreditCurrencyCLP captures enum value "CLP"
-	CreditCurrencyCLP string = "CLP"
+	CreditCurrencyCLP CreditCurrencyEnum = "CLP"
 
 	// CreditCurrencyCNY captures enum value "CNY"
-	CreditCurrencyCNY string = "CNY"
+	CreditCurrencyCNY CreditCurrencyEnum = "CNY"
 
 	// CreditCurrencyCOP captures enum value "COP"
-	CreditCurrencyCOP string = "COP"
+	CreditCurrencyCOP CreditCurrencyEnum = "COP"
 
 	// CreditCurrencyCRC captures enum value "CRC"
-	CreditCurrencyCRC string = "CRC"
+	CreditCurrencyCRC CreditCurrencyEnum = "CRC"
 
 	// CreditCurrencyCUC captures enum value "CUC"
-	CreditCurrencyCUC string = "CUC"
+	CreditCurrencyCUC CreditCurrencyEnum = "CUC"
 
 	// CreditCurrencyCUP captures enum value "CUP"
-	CreditCurrencyCUP string = "CUP"
+	CreditCurrencyCUP CreditCurrencyEnum = "CUP"
 
 	// CreditCurrencyCVE captures enum value "CVE"
-	CreditCurrencyCVE string = "CVE"
+	CreditCurrencyCVE CreditCurrencyEnum = "CVE"
 
 	// CreditCurrencyCZK captures enum value "CZK"
-	CreditCurrencyCZK string = "CZK"
+	CreditCurrencyCZK CreditCurrencyEnum = "CZK"
 
 	// CreditCurrencyDJF captures enum value "DJF"
-	CreditCurrencyDJF string = "DJF"
+	CreditCurrencyDJF CreditCurrencyEnum = "DJF"
 
 	// CreditCurrencyDKK captures enum value "DKK"
-	CreditCurrencyDKK string = "DKK"
+	CreditCurrencyDKK CreditCurrencyEnum = "DKK"
 
 	// CreditCurrencyDOP captures enum value "DOP"
-	CreditCurrencyDOP string = "DOP"
+	CreditCurrencyDOP CreditCurrencyEnum = "DOP"
 
 	// CreditCurrencyDZD captures enum value "DZD"
-	CreditCurrencyDZD string = "DZD"
+	CreditCurrencyDZD CreditCurrencyEnum = "DZD"
 
 	// CreditCurrencyEGP captures enum value "EGP"
-	CreditCurrencyEGP string = "EGP"
+	CreditCurrencyEGP CreditCurrencyEnum = "EGP"
 
 	// CreditCurrencyERN captures enum value "ERN"
-	CreditCurrencyERN string = "ERN"
+	CreditCurrencyERN CreditCurrencyEnum = "ERN"
 
 	// CreditCurrencyETB captures enum value "ETB"
-	CreditCurrencyETB string = "ETB"
+	CreditCurrencyETB CreditCurrencyEnum = "ETB"
 
 	// CreditCurrencyEUR captures enum value "EUR"
-	CreditCurrencyEUR string = "EUR"
+	CreditCurrencyEUR CreditCurrencyEnum = "EUR"
 
 	// CreditCurrencyFJD captures enum value "FJD"
-	CreditCurrencyFJD string = "FJD"
+	CreditCurrencyFJD CreditCurrencyEnum = "FJD"
 
 	// CreditCurrencyFKP captures enum value "FKP"
-	CreditCurrencyFKP string = "FKP"
+	CreditCurrencyFKP CreditCurrencyEnum = "FKP"
 
 	// CreditCurrencyGBP captures enum value "GBP"
-	CreditCurrencyGBP string = "GBP"
+	CreditCurrencyGBP CreditCurrencyEnum = "GBP"
 
 	// CreditCurrencyGEL captures enum value "GEL"
-	CreditCurrencyGEL string = "GEL"
+	CreditCurrencyGEL CreditCurrencyEnum = "GEL"
 
 	// CreditCurrencyGGP captures enum value "GGP"
-	CreditCurrencyGGP string = "GGP"
+	CreditCurrencyGGP CreditCurrencyEnum = "GGP"
 
 	// CreditCurrencyGHS captures enum value "GHS"
-	CreditCurrencyGHS string = "GHS"
+	CreditCurrencyGHS CreditCurrencyEnum = "GHS"
 
 	// CreditCurrencyGIP captures enum value "GIP"
-	CreditCurrencyGIP string = "GIP"
+	CreditCurrencyGIP CreditCurrencyEnum = "GIP"
 
 	// CreditCurrencyGMD captures enum value "GMD"
-	CreditCurrencyGMD string = "GMD"
+	CreditCurrencyGMD CreditCurrencyEnum = "GMD"
 
 	// CreditCurrencyGNF captures enum value "GNF"
-	CreditCurrencyGNF string = "GNF"
+	CreditCurrencyGNF CreditCurrencyEnum = "GNF"
 
 	// CreditCurrencyGTQ captures enum value "GTQ"
-	CreditCurrencyGTQ string = "GTQ"
+	CreditCurrencyGTQ CreditCurrencyEnum = "GTQ"
 
 	// CreditCurrencyGYD captures enum value "GYD"
-	CreditCurrencyGYD string = "GYD"
+	CreditCurrencyGYD CreditCurrencyEnum = "GYD"
 
 	// CreditCurrencyHKD captures enum value "HKD"
-	CreditCurrencyHKD string = "HKD"
+	CreditCurrencyHKD CreditCurrencyEnum = "HKD"
 
 	// CreditCurrencyHNL captures enum value "HNL"
-	CreditCurrencyHNL string = "HNL"
+	CreditCurrencyHNL CreditCurrencyEnum = "HNL"
 
 	// CreditCurrencyHRK captures enum value "HRK"
-	CreditCurrencyHRK string = "HRK"
+	CreditCurrencyHRK CreditCurrencyEnum = "HRK"
 
 	// CreditCurrencyHTG captures enum value "HTG"
-	CreditCurrencyHTG string = "HTG"
+	CreditCurrencyHTG CreditCurrencyEnum = "HTG"
 
 	// CreditCurrencyHUF captures enum value "HUF"
-	CreditCurrencyHUF string = "HUF"
+	CreditCurrencyHUF CreditCurrencyEnum = "HUF"
 
 	// CreditCurrencyIDR captures enum value "IDR"
-	CreditCurrencyIDR string = "IDR"
+	CreditCurrencyIDR CreditCurrencyEnum = "IDR"
 
 	// CreditCurrencyILS captures enum value "ILS"
-	CreditCurrencyILS string = "ILS"
+	CreditCurrencyILS CreditCurrencyEnum = "ILS"
 
 	// CreditCurrencyIMP captures enum value "IMP"
-	CreditCurrencyIMP string = "IMP"
+	CreditCurrencyIMP CreditCurrencyEnum = "IMP"
 
 	// CreditCurrencyINR captures enum value "INR"
-	CreditCurrencyINR string = "INR"
+	CreditCurrencyINR CreditCurrencyEnum = "INR"
 
 	// CreditCurrencyIQD captures enum value "IQD"
-	CreditCurrencyIQD string = "IQD"
+	CreditCurrencyIQD CreditCurrencyEnum = "IQD"
 
 	// CreditCurrencyIRR captures enum value "IRR"
-	CreditCurrencyIRR string = "IRR"
+	CreditCurrencyIRR CreditCurrencyEnum = "IRR"
 
 	// CreditCurrencyISK captures enum value "ISK"
-	CreditCurrencyISK string = "ISK"
+	CreditCurrencyISK CreditCurrencyEnum = "ISK"
 
 	// CreditCurrencyJEP captures enum value "JEP"
-	CreditCurrencyJEP string = "JEP"
+	CreditCurrencyJEP CreditCurrencyEnum = "JEP"
 
 	// CreditCurrencyJMD captures enum value "JMD"
-	CreditCurrencyJMD string = "JMD"
+	CreditCurrencyJMD CreditCurrencyEnum = "JMD"
 
 	// CreditCurrencyJOD captures enum value "JOD"
-	CreditCurrencyJOD string = "JOD"
+	CreditCurrencyJOD CreditCurrencyEnum = "JOD"
 
 	// CreditCurrencyJPY captures enum value "JPY"
-	CreditCurrencyJPY string = "JPY"
+	CreditCurrencyJPY CreditCurrencyEnum = "JPY"
 
 	// CreditCurrencyKES captures enum value "KES"
-	CreditCurrencyKES string = "KES"
+	CreditCurrencyKES CreditCurrencyEnum = "KES"
 
 	// CreditCurrencyKGS captures enum value "KGS"
-	CreditCurrencyKGS string = "KGS"
+	CreditCurrencyKGS CreditCurrencyEnum = "KGS"
 
 	// CreditCurrencyKHR captures enum value "KHR"
-	CreditCurrencyKHR string = "KHR"
+	CreditCurrencyKHR CreditCurrencyEnum = "KHR"
 
 	// CreditCurrencyKMF captures enum value "KMF"
-	CreditCurrencyKMF string = "KMF"
+	CreditCurrencyKMF CreditCurrencyEnum = "KMF"
 
 	// CreditCurrencyKPW captures enum value "KPW"
-	CreditCurrencyKPW string = "KPW"
+	CreditCurrencyKPW CreditCurrencyEnum = "KPW"
 
 	// CreditCurrencyKRW captures enum value "KRW"
-	CreditCurrencyKRW string = "KRW"
+	CreditCurrencyKRW CreditCurrencyEnum = "KRW"
 
 	// CreditCurrencyKWD captures enum value "KWD"
-	CreditCurrencyKWD string = "KWD"
+	CreditCurrencyKWD CreditCurrencyEnum = "KWD"
 
 	// CreditCurrencyKYD captures enum value "KYD"
-	CreditCurrencyKYD string = "KYD"
+	CreditCurrencyKYD CreditCurrencyEnum = "KYD"
 
 	// CreditCurrencyKZT captures enum value "KZT"
-	CreditCurrencyKZT string = "KZT"
+	CreditCurrencyKZT CreditCurrencyEnum = "KZT"
 
 	// CreditCurrencyLAK captures enum value "LAK"
-	CreditCurrencyLAK string = "LAK"
+	CreditCurrencyLAK CreditCurrencyEnum = "LAK"
 
 	// CreditCurrencyLBP captures enum value "LBP"
-	CreditCurrencyLBP string = "LBP"
+	CreditCurrencyLBP CreditCurrencyEnum = "LBP"
 
 	// CreditCurrencyLKR captures enum value "LKR"
-	CreditCurrencyLKR string = "LKR"
+	CreditCurrencyLKR CreditCurrencyEnum = "LKR"
 
 	// CreditCurrencyLRD captures enum value "LRD"
-	CreditCurrencyLRD string = "LRD"
+	CreditCurrencyLRD CreditCurrencyEnum = "LRD"
 
 	// CreditCurrencyLSL captures enum value "LSL"
-	CreditCurrencyLSL string = "LSL"
+	CreditCurrencyLSL CreditCurrencyEnum = "LSL"
 
 	// CreditCurrencyLTL captures enum value "LTL"
-	CreditCurrencyLTL string = "LTL"
+	CreditCurrencyLTL CreditCurrencyEnum = "LTL"
 
 	// CreditCurrencyLVL captures enum value "LVL"
-	CreditCurrencyLVL string = "LVL"
+	CreditCurrencyLVL CreditCurrencyEnum = "LVL"
 
 	// CreditCurrencyLYD captures enum value "LYD"
-	CreditCurrencyLYD string = "LYD"
+	CreditCurrencyLYD CreditCurrencyEnum = "LYD"
 
 	// CreditCurrencyMAD captures enum value "MAD"
-	CreditCurrencyMAD string = "MAD"
+	CreditCurrencyMAD CreditCurrencyEnum = "MAD"
 
 	// CreditCurrencyMDL captures enum value "MDL"
-	CreditCurrencyMDL string = "MDL"
+	CreditCurrencyMDL CreditCurrencyEnum = "MDL"
 
 	// CreditCurrencyMGA captures enum value "MGA"
-	CreditCurrencyMGA string = "MGA"
+	CreditCurrencyMGA CreditCurrencyEnum = "MGA"
 
 	// CreditCurrencyMKD captures enum value "MKD"
-	CreditCurrencyMKD string = "MKD"
+	CreditCurrencyMKD CreditCurrencyEnum = "MKD"
 
 	// CreditCurrencyMMK captures enum value "MMK"
-	CreditCurrencyMMK string = "MMK"
+	CreditCurrencyMMK CreditCurrencyEnum = "MMK"
 
 	// CreditCurrencyMNT captures enum value "MNT"
-	CreditCurrencyMNT string = "MNT"
+	CreditCurrencyMNT CreditCurrencyEnum = "MNT"
 
 	// CreditCurrencyMOP captures enum value "MOP"
-	CreditCurrencyMOP string = "MOP"
+	CreditCurrencyMOP CreditCurrencyEnum = "MOP"
 
 	// CreditCurrencyMRO captures enum value "MRO"
-	CreditCurrencyMRO string = "MRO"
+	CreditCurrencyMRO CreditCurrencyEnum = "MRO"
 
 	// CreditCurrencyMUR captures enum value "MUR"
-	CreditCurrencyMUR string = "MUR"
+	CreditCurrencyMUR CreditCurrencyEnum = "MUR"
 
 	// CreditCurrencyMVR captures enum value "MVR"
-	CreditCurrencyMVR string = "MVR"
+	CreditCurrencyMVR CreditCurrencyEnum = "MVR"
 
 	// CreditCurrencyMWK captures enum value "MWK"
-	CreditCurrencyMWK string = "MWK"
+	CreditCurrencyMWK CreditCurrencyEnum = "MWK"
 
 	// CreditCurrencyMXN captures enum value "MXN"
-	CreditCurrencyMXN string = "MXN"
+	CreditCurrencyMXN CreditCurrencyEnum = "MXN"
 
 	// CreditCurrencyMYR captures enum value "MYR"
-	CreditCurrencyMYR string = "MYR"
+	CreditCurrencyMYR CreditCurrencyEnum = "MYR"
 
 	// CreditCurrencyMZN captures enum value "MZN"
-	CreditCurrencyMZN string = "MZN"
+	CreditCurrencyMZN CreditCurrencyEnum = "MZN"
 
 	// CreditCurrencyNAD captures enum value "NAD"
-	CreditCurrencyNAD string = "NAD"
+	CreditCurrencyNAD CreditCurrencyEnum = "NAD"
 
 	// CreditCurrencyNGN captures enum value "NGN"
-	CreditCurrencyNGN string = "NGN"
+	CreditCurrencyNGN CreditCurrencyEnum = "NGN"
 
 	// CreditCurrencyNIO captures enum value "NIO"
-	CreditCurrencyNIO string = "NIO"
+	CreditCurrencyNIO CreditCurrencyEnum = "NIO"
 
 	// CreditCurrencyNOK captures enum value "NOK"
-	CreditCurrencyNOK string = "NOK"
+	CreditCurrencyNOK CreditCurrencyEnum = "NOK"
 
 	// CreditCurrencyNPR captures enum value "NPR"
-	CreditCurrencyNPR string = "NPR"
+	CreditCurrencyNPR CreditCurrencyEnum = "NPR"
 
 	// CreditCurrencyNZD captures enum value "NZD"
-	CreditCurrencyNZD string = "NZD"
+	CreditCurrencyNZD CreditCurrencyEnum = "NZD"
 
 	// CreditCurrencyOMR captures enum value "OMR"
-	CreditCurrencyOMR string = "OMR"
+	CreditCurrencyOMR CreditCurrencyEnum = "OMR"
 
 	// CreditCurrencyPAB captures enum value "PAB"
-	CreditCurrencyPAB string = "PAB"
+	CreditCurrencyPAB CreditCurrencyEnum = "PAB"
 
 	// CreditCurrencyPEN captures enum value "PEN"
-	CreditCurrencyPEN string = "PEN"
+	CreditCurrencyPEN CreditCurrencyEnum = "PEN"
 
 	// CreditCurrencyPGK captures enum value "PGK"
-	CreditCurrencyPGK string = "PGK"
+	CreditCurrencyPGK CreditCurrencyEnum = "PGK"
 
 	// CreditCurrencyPHP captures enum value "PHP"
-	CreditCurrencyPHP string = "PHP"
+	CreditCurrencyPHP CreditCurrencyEnum = "PHP"
 
 	// CreditCurrencyPKR captures enum value "PKR"
-	CreditCurrencyPKR string = "PKR"
+	CreditCurrencyPKR CreditCurrencyEnum = "PKR"
 
 	// CreditCurrencyPLN captures enum value "PLN"
-	CreditCurrencyPLN string = "PLN"
+	CreditCurrencyPLN CreditCurrencyEnum = "PLN"
 
 	// CreditCurrencyPYG captures enum value "PYG"
-	CreditCurrencyPYG string = "PYG"
+	CreditCurrencyPYG CreditCurrencyEnum = "PYG"
 
 	// CreditCurrencyQAR captures enum value "QAR"
-	CreditCurrencyQAR string = "QAR"
+	CreditCurrencyQAR CreditCurrencyEnum = "QAR"
 
 	// CreditCurrencyRON captures enum value "RON"
-	CreditCurrencyRON string = "RON"
+	CreditCurrencyRON CreditCurrencyEnum = "RON"
 
 	// CreditCurrencyRSD captures enum value "RSD"
-	CreditCurrencyRSD string = "RSD"
+	CreditCurrencyRSD CreditCurrencyEnum = "RSD"
 
 	// CreditCurrencyRUB captures enum value "RUB"
-	CreditCurrencyRUB string = "RUB"
+	CreditCurrencyRUB CreditCurrencyEnum = "RUB"
 
 	// CreditCurrencyRWF captures enum value "RWF"
-	CreditCurrencyRWF string = "RWF"
+	CreditCurrencyRWF CreditCurrencyEnum = "RWF"
 
 	// CreditCurrencySAR captures enum value "SAR"
-	CreditCurrencySAR string = "SAR"
+	CreditCurrencySAR CreditCurrencyEnum = "SAR"
 
 	// CreditCurrencySBD captures enum value "SBD"
-	CreditCurrencySBD string = "SBD"
+	CreditCurrencySBD CreditCurrencyEnum = "SBD"
 
 	// CreditCurrencySCR captures enum value "SCR"
-	CreditCurrencySCR string = "SCR"
+	CreditCurrencySCR CreditCurrencyEnum = "SCR"
 
 	// CreditCurrencySDG captures enum value "SDG"
-	CreditCurrencySDG string = "SDG"
+	CreditCurrencySDG CreditCurrencyEnum = "SDG"
 
 	// CreditCurrencySEK captures enum value "SEK"
-	CreditCurrencySEK string = "SEK"
+	CreditCurrencySEK CreditCurrencyEnum = "SEK"
 
 	// CreditCurrencySGD captures enum value "SGD"
-	CreditCurrencySGD string = "SGD"
+	CreditCurrencySGD CreditCurrencyEnum = "SGD"
 
 	// CreditCurrencySHP captures enum value "SHP"
-	CreditCurrencySHP string = "SHP"
+	CreditCurrencySHP CreditCurrencyEnum = "SHP"
 
 	// CreditCurrencySLL captures enum value "SLL"
-	CreditCurrencySLL string = "SLL"
+	CreditCurrencySLL CreditCurrencyEnum = "SLL"
 
 	// CreditCurrencySOS captures enum value "SOS"
-	CreditCurrencySOS string = "SOS"
+	CreditCurrencySOS CreditCurrencyEnum = "SOS"
 
 	// CreditCurrencySPL captures enum value "SPL"
-	CreditCurrencySPL string = "SPL"
+	CreditCurrencySPL CreditCurrencyEnum = "SPL"
 
 	// CreditCurrencySRD captures enum value "SRD"
-	CreditCurrencySRD string = "SRD"
+	CreditCurrencySRD CreditCurrencyEnum = "SRD"
 
 	// CreditCurrencySTD captures enum value "STD"
-	CreditCurrencySTD string = "STD"
+	CreditCurrencySTD CreditCurrencyEnum = "STD"
 
 	// CreditCurrencySVC captures enum value "SVC"
-	CreditCurrencySVC string = "SVC"
+	CreditCurrencySVC CreditCurrencyEnum = "SVC"
 
 	// CreditCurrencySYP captures enum value "SYP"
-	CreditCurrencySYP string = "SYP"
+	CreditCurrencySYP CreditCurrencyEnum = "SYP"
 
 	// CreditCurrencySZL captures enum value "SZL"
-	CreditCurrencySZL string = "SZL"
+	CreditCurrencySZL CreditCurrencyEnum = "SZL"
 
 	// CreditCurrencyTHB captures enum value "THB"
-	CreditCurrencyTHB string = "THB"
+	CreditCurrencyTHB CreditCurrencyEnum = "THB"
 
 	// CreditCurrencyTJS captures enum value "TJS"
-	CreditCurrencyTJS string = "TJS"
+	CreditCurrencyTJS CreditCurrencyEnum = "TJS"
 
 	// CreditCurrencyTMT captures enum value "TMT"
-	CreditCurrencyTMT string = "TMT"
+	CreditCurrencyTMT CreditCurrencyEnum = "TMT"
 
 	// CreditCurrencyTND captures enum value "TND"
-	CreditCurrencyTND string = "TND"
+	CreditCurrencyTND CreditCurrencyEnum = "TND"
 
 	// CreditCurrencyTOP captures enum value "TOP"
-	CreditCurrencyTOP string = "TOP"
+	CreditCurrencyTOP CreditCurrencyEnum = "TOP"
 
 	// CreditCurrencyTRY captures enum value "TRY"
-	CreditCurrencyTRY string = "TRY"
+	CreditCurrencyTRY CreditCurrencyEnum = "TRY"
 
 	// CreditCurrencyTTD captures enum value "TTD"
-	CreditCurrencyTTD string = "TTD"
+	CreditCurrencyTTD CreditCurrencyEnum = "TTD"
 
 	// CreditCurrencyTVD captures enum value "TVD"
-	CreditCurrencyTVD string = "TVD"
+	CreditCurrencyTVD CreditCurrencyEnum = "TVD"
 
 	// CreditCurrencyTWD captures enum value "TWD"
-	CreditCurrencyTWD string = "TWD"
+	CreditCurrencyTWD CreditCurrencyEnum = "TWD"
 
 	// CreditCurrencyTZS captures enum value "TZS"
-	CreditCurrencyTZS string = "TZS"
+	CreditCurrencyTZS CreditCurrencyEnum = "TZS"
 
 	// CreditCurrencyUAH captures enum value "UAH"
-	CreditCurrencyUAH string = "UAH"
+	CreditCurrencyUAH CreditCurrencyEnum = "UAH"
 
 	// CreditCurrencyUGX captures enum value "UGX"
-	CreditCurrencyUGX string = "UGX"
+	CreditCurrencyUGX CreditCurrencyEnum = "UGX"
 
 	// CreditCurrencyUSD captures enum value "USD"
-	CreditCurrencyUSD string = "USD"
+	CreditCurrencyUSD CreditCurrencyEnum = "USD"
 
 	// CreditCurrencyUYU captures enum value "UYU"
-	CreditCurrencyUYU string = "UYU"
+	CreditCurrencyUYU CreditCurrencyEnum = "UYU"
 
 	// CreditCurrencyUZS captures enum value "UZS"
-	CreditCurrencyUZS string = "UZS"
+	CreditCurrencyUZS CreditCurrencyEnum = "UZS"
 
 	// CreditCurrencyVEF captures enum value "VEF"
-	CreditCurrencyVEF string = "VEF"
+	CreditCurrencyVEF CreditCurrencyEnum = "VEF"
 
 	// CreditCurrencyVND captures enum value "VND"
-	CreditCurrencyVND string = "VND"
+	CreditCurrencyVND CreditCurrencyEnum = "VND"
 
 	// CreditCurrencyVUV captures enum value "VUV"
-	CreditCurrencyVUV string = "VUV"
+	CreditCurrencyVUV CreditCurrencyEnum = "VUV"
 
 	// CreditCurrencyWST captures enum value "WST"
-	CreditCurrencyWST string = "WST"
+	CreditCurrencyWST CreditCurrencyEnum = "WST"
 
 	// CreditCurrencyXAF captures enum value "XAF"
-	CreditCurrencyXAF string = "XAF"
+	CreditCurrencyXAF CreditCurrencyEnum = "XAF"
 
 	// CreditCurrencyXCD captures enum value "XCD"
-	CreditCurrencyXCD string = "XCD"
+	CreditCurrencyXCD CreditCurrencyEnum = "XCD"
 
 	// CreditCurrencyXDR captures enum value "XDR"
-	CreditCurrencyXDR string = "XDR"
+	CreditCurrencyXDR CreditCurrencyEnum = "XDR"
 
 	// CreditCurrencyXOF captures enum value "XOF"
-	CreditCurrencyXOF string = "XOF"
+	CreditCurrencyXOF CreditCurrencyEnum = "XOF"
 
 	// CreditCurrencyXPF captures enum value "XPF"
-	CreditCurrencyXPF string = "XPF"
+	CreditCurrencyXPF CreditCurrencyEnum = "XPF"
 
 	// CreditCurrencyYER captures enum value "YER"
-	CreditCurrencyYER string = "YER"
+	CreditCurrencyYER CreditCurrencyEnum = "YER"
 
 	// CreditCurrencyZAR captures enum value "ZAR"
-	CreditCurrencyZAR string = "ZAR"
+	CreditCurrencyZAR CreditCurrencyEnum = "ZAR"
 
 	// CreditCurrencyZMW captures enum value "ZMW"
-	CreditCurrencyZMW string = "ZMW"
+	CreditCurrencyZMW CreditCurrencyEnum = "ZMW"
 
 	// CreditCurrencyZWD captures enum value "ZWD"
-	CreditCurrencyZWD string = "ZWD"
+	CreditCurrencyZWD CreditCurrencyEnum = "ZWD"
 
 	// CreditCurrencyBTC captures enum value "BTC"
-	CreditCurrencyBTC string = "BTC"
+	CreditCurrencyBTC CreditCurrencyEnum = "BTC"
 )
 
+var CreditCurrencyEnumValues = []string{
+	"AED",
+	"AFN",
+	"ALL",
+	"AMD",
+	"ANG",
+	"AOA",
+	"ARS",
+	"AUD",
+	"AWG",
+	"AZN",
+	"BAM",
+	"BBD",
+	"BDT",
+	"BGN",
+	"BHD",
+	"BIF",
+	"BMD",
+	"BND",
+	"BOB",
+	"BRL",
+	"BSD",
+	"BTN",
+	"BWP",
+	"BYR",
+	"BZD",
+	"CAD",
+	"CDF",
+	"CHF",
+	"CLP",
+	"CNY",
+	"COP",
+	"CRC",
+	"CUC",
+	"CUP",
+	"CVE",
+	"CZK",
+	"DJF",
+	"DKK",
+	"DOP",
+	"DZD",
+	"EGP",
+	"ERN",
+	"ETB",
+	"EUR",
+	"FJD",
+	"FKP",
+	"GBP",
+	"GEL",
+	"GGP",
+	"GHS",
+	"GIP",
+	"GMD",
+	"GNF",
+	"GTQ",
+	"GYD",
+	"HKD",
+	"HNL",
+	"HRK",
+	"HTG",
+	"HUF",
+	"IDR",
+	"ILS",
+	"IMP",
+	"INR",
+	"IQD",
+	"IRR",
+	"ISK",
+	"JEP",
+	"JMD",
+	"JOD",
+	"JPY",
+	"KES",
+	"KGS",
+	"KHR",
+	"KMF",
+	"KPW",
+	"KRW",
+	"KWD",
+	"KYD",
+	"KZT",
+	"LAK",
+	"LBP",
+	"LKR",
+	"LRD",
+	"LSL",
+	"LTL",
+	"LVL",
+	"LYD",
+	"MAD",
+	"MDL",
+	"MGA",
+	"MKD",
+	"MMK",
+	"MNT",
+	"MOP",
+	"MRO",
+	"MUR",
+	"MVR",
+	"MWK",
+	"MXN",
+	"MYR",
+	"MZN",
+	"NAD",
+	"NGN",
+	"NIO",
+	"NOK",
+	"NPR",
+	"NZD",
+	"OMR",
+	"PAB",
+	"PEN",
+	"PGK",
+	"PHP",
+	"PKR",
+	"PLN",
+	"PYG",
+	"QAR",
+	"RON",
+	"RSD",
+	"RUB",
+	"RWF",
+	"SAR",
+	"SBD",
+	"SCR",
+	"SDG",
+	"SEK",
+	"SGD",
+	"SHP",
+	"SLL",
+	"SOS",
+	"SPL",
+	"SRD",
+	"STD",
+	"SVC",
+	"SYP",
+	"SZL",
+	"THB",
+	"TJS",
+	"TMT",
+	"TND",
+	"TOP",
+	"TRY",
+	"TTD",
+	"TVD",
+	"TWD",
+	"TZS",
+	"UAH",
+	"UGX",
+	"USD",
+	"UYU",
+	"UZS",
+	"VEF",
+	"VND",
+	"VUV",
+	"WST",
+	"XAF",
+	"XCD",
+	"XDR",
+	"XOF",
+	"XPF",
+	"YER",
+	"ZAR",
+	"ZMW",
+	"ZWD",
+	"BTC",
+}
+
+func (e CreditCurrencyEnum) IsValid() bool {
+	for _, v := range CreditCurrencyEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Credit) validateCurrencyEnum(path, location string, value string) error {
+func (m *Credit) validateCurrencyEnum(path, location string, value CreditCurrencyEnum) error {
 	if err := validate.Enum(path, location, value, creditTypeCurrencyPropEnum); err != nil {
 		return err
 	}

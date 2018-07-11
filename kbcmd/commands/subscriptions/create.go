@@ -56,6 +56,7 @@ func registerCreateCommand(r *cmdlib.App) {
 	subscriptionProperties.Remove("AccountID")
 	subscriptionProperties.Get("StartDate").Default = time.Now().Format("2006-01-02")
 	subscriptionProperties.Get("PlanName").Required = true
+	subscriptionProperties.Get("BillingPeriod").Enums = kbmodel.SubscriptionBillingPeriodEnumValues
 	subscriptionProperties.Sort(true, true)
 	usageString := args.GenerateUsageString(&createSubscriptionArgs{}, subscriptionProperties)
 
