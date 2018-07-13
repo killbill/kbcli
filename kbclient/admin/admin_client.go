@@ -49,6 +49,49 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IAdmin - interface for Admin client.
+type IAdmin interface {
+	/*
+		GetQueueEntries gets queues entries
+	*/
+	GetQueueEntries(ctx context.Context, params *GetQueueEntriesParams) (*GetQueueEntriesOK, error)
+
+	/*
+		InvalidatesCache invalidates the given cache if specified otherwise invalidates all caches
+	*/
+	InvalidatesCache(ctx context.Context, params *InvalidatesCacheParams) (*InvalidatesCacheNoContent, error)
+
+	/*
+		InvalidatesCacheByAccount invalidates caches per account level
+	*/
+	InvalidatesCacheByAccount(ctx context.Context, params *InvalidatesCacheByAccountParams) (*InvalidatesCacheByAccountNoContent, error)
+
+	/*
+		InvalidatesCacheByTenant invalidates caches per tenant level
+	*/
+	InvalidatesCacheByTenant(ctx context.Context, params *InvalidatesCacheByTenantParams) (*InvalidatesCacheByTenantNoContent, error)
+
+	/*
+		PutInRotation puts the host back into rotation
+	*/
+	PutInRotation(ctx context.Context, params *PutInRotationParams) (*PutInRotationNoContent, error)
+
+	/*
+		PutOutOfRotation puts the host out of rotation
+	*/
+	PutOutOfRotation(ctx context.Context, params *PutOutOfRotationParams) (*PutOutOfRotationNoContent, error)
+
+	/*
+		TriggerInvoiceGenerationForParkedAccounts triggers an invoice generation for all parked accounts
+	*/
+	TriggerInvoiceGenerationForParkedAccounts(ctx context.Context, params *TriggerInvoiceGenerationForParkedAccountsParams) (*TriggerInvoiceGenerationForParkedAccountsOK, error)
+
+	/*
+		UpdatePaymentTransactionState updates existing payment transaction and associated payment state
+	*/
+	UpdatePaymentTransactionState(ctx context.Context, params *UpdatePaymentTransactionStateParams) (*UpdatePaymentTransactionStateNoContent, error)
+}
+
 /*
 GetQueueEntries gets queues entries
 */

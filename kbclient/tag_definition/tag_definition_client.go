@@ -50,6 +50,34 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// ITagDefinition - interface for TagDefinition client.
+type ITagDefinition interface {
+	/*
+		CreateTagDefinition creates a tag definition
+	*/
+	CreateTagDefinition(ctx context.Context, params *CreateTagDefinitionParams) (*CreateTagDefinitionCreated, error)
+
+	/*
+		DeleteTagDefinition deletes a tag definition
+	*/
+	DeleteTagDefinition(ctx context.Context, params *DeleteTagDefinitionParams) (*DeleteTagDefinitionNoContent, error)
+
+	/*
+		GetTagDefinition retrieves a tag definition
+	*/
+	GetTagDefinition(ctx context.Context, params *GetTagDefinitionParams) (*GetTagDefinitionOK, error)
+
+	/*
+		GetTagDefinitionAuditLogsWithHistory retrieves tag definition audit logs with history by id
+	*/
+	GetTagDefinitionAuditLogsWithHistory(ctx context.Context, params *GetTagDefinitionAuditLogsWithHistoryParams) (*GetTagDefinitionAuditLogsWithHistoryOK, error)
+
+	/*
+		GetTagDefinitions lists tag definitions
+	*/
+	GetTagDefinitions(ctx context.Context, params *GetTagDefinitionsParams) (*GetTagDefinitionsOK, error)
+}
+
 /*
 CreateTagDefinition creates a tag definition
 */

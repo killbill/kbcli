@@ -49,6 +49,19 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// INodesInfo - interface for NodesInfo client.
+type INodesInfo interface {
+	/*
+		GetNodesInfo retrieves all the nodes infos
+	*/
+	GetNodesInfo(ctx context.Context, params *GetNodesInfoParams) (*GetNodesInfoOK, error)
+
+	/*
+		TriggerNodeCommand triggers a node command
+	*/
+	TriggerNodeCommand(ctx context.Context, params *TriggerNodeCommandParams) (*TriggerNodeCommandAccepted, error)
+}
+
 /*
 GetNodesInfo retrieves all the nodes infos
 */

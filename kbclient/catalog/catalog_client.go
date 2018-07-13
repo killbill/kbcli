@@ -50,6 +50,69 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// ICatalog - interface for Catalog client.
+type ICatalog interface {
+	/*
+		AddSimplePlan adds a simple plan entry in the current version of the catalog
+	*/
+	AddSimplePlan(ctx context.Context, params *AddSimplePlanParams) (*AddSimplePlanCreated, error)
+
+	/*
+		DeleteCatalog deletes all versions for a per tenant catalog
+	*/
+	DeleteCatalog(ctx context.Context, params *DeleteCatalogParams) (*DeleteCatalogNoContent, error)
+
+	/*
+		GetAvailableAddons retrieves available add ons for a given product
+	*/
+	GetAvailableAddons(ctx context.Context, params *GetAvailableAddonsParams) (*GetAvailableAddonsOK, error)
+
+	/*
+		GetAvailableBasePlans retrieves available base plans
+	*/
+	GetAvailableBasePlans(ctx context.Context, params *GetAvailableBasePlansParams) (*GetAvailableBasePlansOK, error)
+
+	/*
+		GetCatalogJSON retrieves the catalog as JSON
+	*/
+	GetCatalogJSON(ctx context.Context, params *GetCatalogJSONParams) (*GetCatalogJSONOK, error)
+
+	/*
+		GetCatalogVersions retrieves a list of catalog versions
+	*/
+	GetCatalogVersions(ctx context.Context, params *GetCatalogVersionsParams) (*GetCatalogVersionsOK, error)
+
+	/*
+		GetCatalogXML retrieves the full catalog as XML
+	*/
+	GetCatalogXML(ctx context.Context, params *GetCatalogXMLParams) (*GetCatalogXMLOK, error)
+
+	/*
+		GetPhaseForSubscriptionAndDate retrieves phase for a given subscription and date
+	*/
+	GetPhaseForSubscriptionAndDate(ctx context.Context, params *GetPhaseForSubscriptionAndDateParams) (*GetPhaseForSubscriptionAndDateOK, error)
+
+	/*
+		GetPlanForSubscriptionAndDate retrieves plan for a given subscription and date
+	*/
+	GetPlanForSubscriptionAndDate(ctx context.Context, params *GetPlanForSubscriptionAndDateParams) (*GetPlanForSubscriptionAndDateOK, error)
+
+	/*
+		GetPriceListForSubscriptionAndDate retrieves price list for a given subscription and date
+	*/
+	GetPriceListForSubscriptionAndDate(ctx context.Context, params *GetPriceListForSubscriptionAndDateParams) (*GetPriceListForSubscriptionAndDateOK, error)
+
+	/*
+		GetProductForSubscriptionAndDate retrieves product for a given subscription and date
+	*/
+	GetProductForSubscriptionAndDate(ctx context.Context, params *GetProductForSubscriptionAndDateParams) (*GetProductForSubscriptionAndDateOK, error)
+
+	/*
+		UploadCatalogXML uploads the full catalog as XML
+	*/
+	UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLParams) (*UploadCatalogXMLCreated, error)
+}
+
 /*
 AddSimplePlan adds a simple plan entry in the current version of the catalog
 */

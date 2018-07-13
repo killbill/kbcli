@@ -50,6 +50,64 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IPaymentTransaction - interface for PaymentTransaction client.
+type IPaymentTransaction interface {
+	/*
+		CreateTransactionCustomFields adds custom fields to payment transaction
+	*/
+	CreateTransactionCustomFields(ctx context.Context, params *CreateTransactionCustomFieldsParams) (*CreateTransactionCustomFieldsCreated, error)
+
+	/*
+		CreateTransactionTags adds tags to payment transaction
+	*/
+	CreateTransactionTags(ctx context.Context, params *CreateTransactionTagsParams) (*CreateTransactionTagsCreated, error)
+
+	/*
+		DeleteTransactionCustomFields removes custom fields from payment transaction
+	*/
+	DeleteTransactionCustomFields(ctx context.Context, params *DeleteTransactionCustomFieldsParams) (*DeleteTransactionCustomFieldsNoContent, error)
+
+	/*
+		DeleteTransactionTags removes tags from payment transaction
+	*/
+	DeleteTransactionTags(ctx context.Context, params *DeleteTransactionTagsParams) (*DeleteTransactionTagsNoContent, error)
+
+	/*
+		GetPaymentByTransactionExternalKey retrieves a payment by transaction external key
+	*/
+	GetPaymentByTransactionExternalKey(ctx context.Context, params *GetPaymentByTransactionExternalKeyParams) (*GetPaymentByTransactionExternalKeyOK, error)
+
+	/*
+		GetPaymentByTransactionID retrieves a payment by transaction id
+	*/
+	GetPaymentByTransactionID(ctx context.Context, params *GetPaymentByTransactionIDParams) (*GetPaymentByTransactionIDOK, error)
+
+	/*
+		GetTransactionAuditLogsWithHistory retrieves payment transaction audit logs with history by id
+	*/
+	GetTransactionAuditLogsWithHistory(ctx context.Context, params *GetTransactionAuditLogsWithHistoryParams) (*GetTransactionAuditLogsWithHistoryOK, error)
+
+	/*
+		GetTransactionCustomFields retrieves payment transaction custom fields
+	*/
+	GetTransactionCustomFields(ctx context.Context, params *GetTransactionCustomFieldsParams) (*GetTransactionCustomFieldsOK, error)
+
+	/*
+		GetTransactionTags retrieves payment transaction tags
+	*/
+	GetTransactionTags(ctx context.Context, params *GetTransactionTagsParams) (*GetTransactionTagsOK, error)
+
+	/*
+		ModifyTransactionCustomFields modifies custom fields to payment transaction
+	*/
+	ModifyTransactionCustomFields(ctx context.Context, params *ModifyTransactionCustomFieldsParams) (*ModifyTransactionCustomFieldsNoContent, error)
+
+	/*
+		NotifyStateChanged marks a pending payment transaction as succeeded or failed
+	*/
+	NotifyStateChanged(ctx context.Context, params *NotifyStateChangedParams) (*NotifyStateChangedCreated, error)
+}
+
 /*
 CreateTransactionCustomFields adds custom fields to payment transaction
 */

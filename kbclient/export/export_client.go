@@ -49,6 +49,14 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IExport - interface for Export client.
+type IExport interface {
+	/*
+		ExportDataForAccount exports account data
+	*/
+	ExportDataForAccount(ctx context.Context, params *ExportDataForAccountParams) (*ExportDataForAccountOK, error)
+}
+
 /*
 ExportDataForAccount exports account data
 */

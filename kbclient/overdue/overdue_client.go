@@ -50,6 +50,29 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IOverdue - interface for Overdue client.
+type IOverdue interface {
+	/*
+		GetOverdueConfigJSON retrieves the overdue config as JSON
+	*/
+	GetOverdueConfigJSON(ctx context.Context, params *GetOverdueConfigJSONParams) (*GetOverdueConfigJSONOK, error)
+
+	/*
+		GetOverdueConfigXML retrieves the overdue config as XML
+	*/
+	GetOverdueConfigXML(ctx context.Context, params *GetOverdueConfigXMLParams) (*GetOverdueConfigXMLOK, error)
+
+	/*
+		UploadOverdueConfigJSON uploads the full overdue config as JSON
+	*/
+	UploadOverdueConfigJSON(ctx context.Context, params *UploadOverdueConfigJSONParams) (*UploadOverdueConfigJSONCreated, error)
+
+	/*
+		UploadOverdueConfigXML uploads the full overdue config as XML
+	*/
+	UploadOverdueConfigXML(ctx context.Context, params *UploadOverdueConfigXMLParams) (*UploadOverdueConfigXMLCreated, error)
+}
+
 /*
 GetOverdueConfigJSON retrieves the overdue config as JSON
 */

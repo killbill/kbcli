@@ -49,6 +49,24 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// ICustomField - interface for CustomField client.
+type ICustomField interface {
+	/*
+		GetCustomFieldAuditLogsWithHistory retrieves custom field audit logs with history by id
+	*/
+	GetCustomFieldAuditLogsWithHistory(ctx context.Context, params *GetCustomFieldAuditLogsWithHistoryParams) (*GetCustomFieldAuditLogsWithHistoryOK, error)
+
+	/*
+		GetCustomFields lists custom fields
+	*/
+	GetCustomFields(ctx context.Context, params *GetCustomFieldsParams) (*GetCustomFieldsOK, error)
+
+	/*
+		SearchCustomFields searches custom fields
+	*/
+	SearchCustomFields(ctx context.Context, params *SearchCustomFieldsParams) (*SearchCustomFieldsOK, error)
+}
+
 /*
 GetCustomFieldAuditLogsWithHistory retrieves custom field audit logs with history by id
 */

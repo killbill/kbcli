@@ -49,6 +49,24 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IUsage - interface for Usage client.
+type IUsage interface {
+	/*
+		GetAllUsage retrieves usage for a subscription
+	*/
+	GetAllUsage(ctx context.Context, params *GetAllUsageParams) (*GetAllUsageOK, error)
+
+	/*
+		GetUsage retrieves usage for a subscription and unit type
+	*/
+	GetUsage(ctx context.Context, params *GetUsageParams) (*GetUsageOK, error)
+
+	/*
+		RecordUsage records usage for a subscription
+	*/
+	RecordUsage(ctx context.Context, params *RecordUsageParams) (*RecordUsageOK, error)
+}
+
 /*
 GetAllUsage retrieves usage for a subscription
 */
