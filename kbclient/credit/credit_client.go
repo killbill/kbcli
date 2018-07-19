@@ -50,6 +50,19 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// ICredit - interface for Credit client.
+type ICredit interface {
+	/*
+		CreateCredit creates a credit
+	*/
+	CreateCredit(ctx context.Context, params *CreateCreditParams) (*CreateCreditCreated, error)
+
+	/*
+		GetCredit retrieves a credit by id
+	*/
+	GetCredit(ctx context.Context, params *GetCreditParams) (*GetCreditOK, error)
+}
+
 /*
 CreateCredit creates a credit
 */

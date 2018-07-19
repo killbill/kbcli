@@ -49,6 +49,14 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IPluginInfo - interface for PluginInfo client.
+type IPluginInfo interface {
+	/*
+		GetPluginsInfo retrieves the list of registered plugins
+	*/
+	GetPluginsInfo(ctx context.Context, params *GetPluginsInfoParams) (*GetPluginsInfoOK, error)
+}
+
 /*
 GetPluginsInfo retrieves the list of registered plugins
 */

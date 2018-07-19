@@ -50,6 +50,169 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IInvoice - interface for Invoice client.
+type IInvoice interface {
+	/*
+		AdjustInvoiceItem adjusts an invoice item
+	*/
+	AdjustInvoiceItem(ctx context.Context, params *AdjustInvoiceItemParams) (*AdjustInvoiceItemCreated, error)
+
+	/*
+		CommitInvoice performs the invoice status transition from d r a f t to c o m m i t t e d
+	*/
+	CommitInvoice(ctx context.Context, params *CommitInvoiceParams) (*CommitInvoiceNoContent, error)
+
+	/*
+		CreateExternalCharges creates external charge s
+	*/
+	CreateExternalCharges(ctx context.Context, params *CreateExternalChargesParams) (*CreateExternalChargesCreated, error)
+
+	/*
+		CreateFutureInvoice triggers an invoice generation
+	*/
+	CreateFutureInvoice(ctx context.Context, params *CreateFutureInvoiceParams) (*CreateFutureInvoiceCreated, error)
+
+	/*
+		CreateInstantPayment triggers a payment for invoice
+	*/
+	CreateInstantPayment(ctx context.Context, params *CreateInstantPaymentParams) (*CreateInstantPaymentCreated, *CreateInstantPaymentNoContent, error)
+
+	/*
+		CreateInvoiceCustomFields adds custom fields to invoice
+	*/
+	CreateInvoiceCustomFields(ctx context.Context, params *CreateInvoiceCustomFieldsParams) (*CreateInvoiceCustomFieldsCreated, error)
+
+	/*
+		CreateInvoiceTags adds tags to invoice
+	*/
+	CreateInvoiceTags(ctx context.Context, params *CreateInvoiceTagsParams) (*CreateInvoiceTagsCreated, error)
+
+	/*
+		CreateMigrationInvoice creates a migration invoice
+	*/
+	CreateMigrationInvoice(ctx context.Context, params *CreateMigrationInvoiceParams) (*CreateMigrationInvoiceCreated, error)
+
+	/*
+		CreateTaxItems creates tax items
+	*/
+	CreateTaxItems(ctx context.Context, params *CreateTaxItemsParams) (*CreateTaxItemsCreated, error)
+
+	/*
+		DeleteCBA deletes a c b a item
+	*/
+	DeleteCBA(ctx context.Context, params *DeleteCBAParams) (*DeleteCBANoContent, error)
+
+	/*
+		DeleteInvoiceCustomFields removes custom fields from invoice
+	*/
+	DeleteInvoiceCustomFields(ctx context.Context, params *DeleteInvoiceCustomFieldsParams) (*DeleteInvoiceCustomFieldsNoContent, error)
+
+	/*
+		DeleteInvoiceTags removes tags from invoice
+	*/
+	DeleteInvoiceTags(ctx context.Context, params *DeleteInvoiceTagsParams) (*DeleteInvoiceTagsNoContent, error)
+
+	/*
+		GenerateDryRunInvoice generates a dry run invoice
+	*/
+	GenerateDryRunInvoice(ctx context.Context, params *GenerateDryRunInvoiceParams) (*GenerateDryRunInvoiceOK, *GenerateDryRunInvoiceNoContent, error)
+
+	/*
+		GetCatalogTranslation retrieves the catalog translation for the tenant
+	*/
+	GetCatalogTranslation(ctx context.Context, params *GetCatalogTranslationParams) (*GetCatalogTranslationOK, error)
+
+	/*
+		GetInvoice retrieves an invoice by id
+	*/
+	GetInvoice(ctx context.Context, params *GetInvoiceParams) (*GetInvoiceOK, error)
+
+	/*
+		GetInvoiceAsHTML renders an invoice as HTML
+	*/
+	GetInvoiceAsHTML(ctx context.Context, params *GetInvoiceAsHTMLParams) (*GetInvoiceAsHTMLOK, error)
+
+	/*
+		GetInvoiceByItemID retrieves an invoice by invoice item id
+	*/
+	GetInvoiceByItemID(ctx context.Context, params *GetInvoiceByItemIDParams) (*GetInvoiceByItemIDOK, error)
+
+	/*
+		GetInvoiceByNumber retrieves an invoice by number
+	*/
+	GetInvoiceByNumber(ctx context.Context, params *GetInvoiceByNumberParams) (*GetInvoiceByNumberOK, error)
+
+	/*
+		GetInvoiceCustomFields retrieves invoice custom fields
+	*/
+	GetInvoiceCustomFields(ctx context.Context, params *GetInvoiceCustomFieldsParams) (*GetInvoiceCustomFieldsOK, error)
+
+	/*
+		GetInvoiceMPTemplate retrieves the manual pay invoice template for the tenant
+	*/
+	GetInvoiceMPTemplate(ctx context.Context, params *GetInvoiceMPTemplateParams) (*GetInvoiceMPTemplateOK, error)
+
+	/*
+		GetInvoiceTags retrieves invoice tags
+	*/
+	GetInvoiceTags(ctx context.Context, params *GetInvoiceTagsParams) (*GetInvoiceTagsOK, error)
+
+	/*
+		GetInvoiceTemplate retrieves the invoice template for the tenant
+	*/
+	GetInvoiceTemplate(ctx context.Context, params *GetInvoiceTemplateParams) (*GetInvoiceTemplateOK, error)
+
+	/*
+		GetInvoiceTranslation retrieves the invoice translation for the tenant
+	*/
+	GetInvoiceTranslation(ctx context.Context, params *GetInvoiceTranslationParams) (*GetInvoiceTranslationOK, error)
+
+	/*
+		GetInvoices lists invoices
+	*/
+	GetInvoices(ctx context.Context, params *GetInvoicesParams) (*GetInvoicesOK, error)
+
+	/*
+		GetPaymentsForInvoice retrieves payments associated with an invoice
+	*/
+	GetPaymentsForInvoice(ctx context.Context, params *GetPaymentsForInvoiceParams) (*GetPaymentsForInvoiceOK, error)
+
+	/*
+		ModifyInvoiceCustomFields modifies custom fields to invoice
+	*/
+	ModifyInvoiceCustomFields(ctx context.Context, params *ModifyInvoiceCustomFieldsParams) (*ModifyInvoiceCustomFieldsNoContent, error)
+
+	/*
+		SearchInvoices searches invoices
+	*/
+	SearchInvoices(ctx context.Context, params *SearchInvoicesParams) (*SearchInvoicesOK, error)
+
+	/*
+		UploadCatalogTranslation uploads the catalog translation for the tenant
+	*/
+	UploadCatalogTranslation(ctx context.Context, params *UploadCatalogTranslationParams) (*UploadCatalogTranslationCreated, error)
+
+	/*
+		UploadInvoiceMPTemplate uploads the manual pay invoice template for the tenant
+	*/
+	UploadInvoiceMPTemplate(ctx context.Context, params *UploadInvoiceMPTemplateParams) (*UploadInvoiceMPTemplateOK, error)
+
+	/*
+		UploadInvoiceTemplate uploads the invoice template for the tenant
+	*/
+	UploadInvoiceTemplate(ctx context.Context, params *UploadInvoiceTemplateParams) (*UploadInvoiceTemplateCreated, error)
+
+	/*
+		UploadInvoiceTranslation uploads the invoice translation for the tenant
+	*/
+	UploadInvoiceTranslation(ctx context.Context, params *UploadInvoiceTranslationParams) (*UploadInvoiceTranslationCreated, error)
+
+	/*
+		VoidInvoice performs the action of voiding an invoice
+	*/
+	VoidInvoice(ctx context.Context, params *VoidInvoiceParams) (*VoidInvoiceNoContent, error)
+}
+
 /*
 AdjustInvoiceItem adjusts an invoice item
 */

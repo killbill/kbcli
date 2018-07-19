@@ -50,6 +50,104 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// ITenant - interface for Tenant client.
+type ITenant interface {
+	/*
+		CreateTenant creates a tenant
+	*/
+	CreateTenant(ctx context.Context, params *CreateTenantParams) (*CreateTenantCreated, error)
+
+	/*
+		DeletePerTenantConfiguration deletes a per tenant configuration system properties
+	*/
+	DeletePerTenantConfiguration(ctx context.Context, params *DeletePerTenantConfigurationParams) (*DeletePerTenantConfigurationNoContent, error)
+
+	/*
+		DeletePluginConfiguration deletes a per tenant configuration for a plugin
+	*/
+	DeletePluginConfiguration(ctx context.Context, params *DeletePluginConfigurationParams) (*DeletePluginConfigurationNoContent, error)
+
+	/*
+		DeletePluginPaymentStateMachineConfig deletes a per tenant payment state machine for a plugin
+	*/
+	DeletePluginPaymentStateMachineConfig(ctx context.Context, params *DeletePluginPaymentStateMachineConfigParams) (*DeletePluginPaymentStateMachineConfigNoContent, error)
+
+	/*
+		DeletePushNotificationCallbacks deletes a push notification
+	*/
+	DeletePushNotificationCallbacks(ctx context.Context, params *DeletePushNotificationCallbacksParams) (*DeletePushNotificationCallbacksNoContent, error)
+
+	/*
+		DeleteUserKeyValue deletes a per tenant user key value
+	*/
+	DeleteUserKeyValue(ctx context.Context, params *DeleteUserKeyValueParams) (*DeleteUserKeyValueNoContent, error)
+
+	/*
+		GetAllPluginConfiguration retrieves a per tenant key value based on key prefix
+	*/
+	GetAllPluginConfiguration(ctx context.Context, params *GetAllPluginConfigurationParams) (*GetAllPluginConfigurationOK, error)
+
+	/*
+		GetPerTenantConfiguration retrieves a per tenant configuration system properties
+	*/
+	GetPerTenantConfiguration(ctx context.Context, params *GetPerTenantConfigurationParams) (*GetPerTenantConfigurationOK, error)
+
+	/*
+		GetPluginConfiguration retrieves a per tenant configuration for a plugin
+	*/
+	GetPluginConfiguration(ctx context.Context, params *GetPluginConfigurationParams) (*GetPluginConfigurationOK, error)
+
+	/*
+		GetPluginPaymentStateMachineConfig retrieves a per tenant payment state machine for a plugin
+	*/
+	GetPluginPaymentStateMachineConfig(ctx context.Context, params *GetPluginPaymentStateMachineConfigParams) (*GetPluginPaymentStateMachineConfigOK, error)
+
+	/*
+		GetPushNotificationCallbacks retrieves a push notification
+	*/
+	GetPushNotificationCallbacks(ctx context.Context, params *GetPushNotificationCallbacksParams) (*GetPushNotificationCallbacksOK, error)
+
+	/*
+		GetTenant retrieves a tenant by id
+	*/
+	GetTenant(ctx context.Context, params *GetTenantParams) (*GetTenantOK, error)
+
+	/*
+		GetTenantByAPIKey retrieves a tenant by its API key
+	*/
+	GetTenantByAPIKey(ctx context.Context, params *GetTenantByAPIKeyParams) (*GetTenantByAPIKeyOK, error)
+
+	/*
+		GetUserKeyValue retrieves a per tenant user key value
+	*/
+	GetUserKeyValue(ctx context.Context, params *GetUserKeyValueParams) (*GetUserKeyValueOK, error)
+
+	/*
+		InsertUserKeyValue adds a per tenant user key value
+	*/
+	InsertUserKeyValue(ctx context.Context, params *InsertUserKeyValueParams) (*InsertUserKeyValueCreated, error)
+
+	/*
+		RegisterPushNotificationCallback creates a push notification
+	*/
+	RegisterPushNotificationCallback(ctx context.Context, params *RegisterPushNotificationCallbackParams) (*RegisterPushNotificationCallbackCreated, error)
+
+	/*
+		UploadPerTenantConfiguration adds a per tenant configuration system properties
+	*/
+	UploadPerTenantConfiguration(ctx context.Context, params *UploadPerTenantConfigurationParams) (*UploadPerTenantConfigurationCreated, error)
+
+	/*
+		UploadPluginConfiguration adds a per tenant configuration for a plugin
+	*/
+	UploadPluginConfiguration(ctx context.Context, params *UploadPluginConfigurationParams) (*UploadPluginConfigurationCreated, error)
+
+	/*
+		UploadPluginPaymentStateMachineConfig adds a per tenant payment state machine for a plugin
+	*/
+	UploadPluginPaymentStateMachineConfig(ctx context.Context, params *UploadPluginPaymentStateMachineConfigParams) (*UploadPluginPaymentStateMachineConfigCreated, error)
+}
+
 /*
 CreateTenant creates a tenant
 */

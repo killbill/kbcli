@@ -50,6 +50,219 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IAccount - interface for Account client.
+type IAccount interface {
+	/*
+		AddAccountBlockingState blocks an account
+	*/
+	AddAccountBlockingState(ctx context.Context, params *AddAccountBlockingStateParams) (*AddAccountBlockingStateCreated, error)
+
+	/*
+		AddEmail adds account email
+	*/
+	AddEmail(ctx context.Context, params *AddEmailParams) (*AddEmailCreated, error)
+
+	/*
+		CloseAccount closes account
+	*/
+	CloseAccount(ctx context.Context, params *CloseAccountParams) (*CloseAccountNoContent, error)
+
+	/*
+		CreateAccount creates account
+	*/
+	CreateAccount(ctx context.Context, params *CreateAccountParams) (*CreateAccountCreated, error)
+
+	/*
+		CreateAccountCustomFields adds custom fields to account
+	*/
+	CreateAccountCustomFields(ctx context.Context, params *CreateAccountCustomFieldsParams) (*CreateAccountCustomFieldsCreated, error)
+
+	/*
+		CreateAccountTags adds tags to account
+	*/
+	CreateAccountTags(ctx context.Context, params *CreateAccountTagsParams) (*CreateAccountTagsCreated, error)
+
+	/*
+		CreatePaymentMethod adds a payment method
+	*/
+	CreatePaymentMethod(ctx context.Context, params *CreatePaymentMethodParams) (*CreatePaymentMethodCreated, error)
+
+	/*
+		DeleteAccountCustomFields removes custom fields from account
+	*/
+	DeleteAccountCustomFields(ctx context.Context, params *DeleteAccountCustomFieldsParams) (*DeleteAccountCustomFieldsNoContent, error)
+
+	/*
+		DeleteAccountTags removes tags from account
+	*/
+	DeleteAccountTags(ctx context.Context, params *DeleteAccountTagsParams) (*DeleteAccountTagsNoContent, error)
+
+	/*
+		GetAccount retrieves an account by id
+	*/
+	GetAccount(ctx context.Context, params *GetAccountParams) (*GetAccountOK, error)
+
+	/*
+		GetAccountAuditLogs retrieves audit logs by account id
+	*/
+	GetAccountAuditLogs(ctx context.Context, params *GetAccountAuditLogsParams) (*GetAccountAuditLogsOK, error)
+
+	/*
+		GetAccountAuditLogsWithHistory retrieves account audit logs with history by account id
+	*/
+	GetAccountAuditLogsWithHistory(ctx context.Context, params *GetAccountAuditLogsWithHistoryParams) (*GetAccountAuditLogsWithHistoryOK, error)
+
+	/*
+		GetAccountBundles retrieves bundles for account
+	*/
+	GetAccountBundles(ctx context.Context, params *GetAccountBundlesParams) (*GetAccountBundlesOK, error)
+
+	/*
+		GetAccountByKey retrieves an account by external key
+	*/
+	GetAccountByKey(ctx context.Context, params *GetAccountByKeyParams) (*GetAccountByKeyOK, error)
+
+	/*
+		GetAccountCustomFields retrieves account custom fields
+	*/
+	GetAccountCustomFields(ctx context.Context, params *GetAccountCustomFieldsParams) (*GetAccountCustomFieldsOK, error)
+
+	/*
+		GetAccountEmailAuditLogsWithHistory retrieves account email audit logs with history by id
+	*/
+	GetAccountEmailAuditLogsWithHistory(ctx context.Context, params *GetAccountEmailAuditLogsWithHistoryParams) (*GetAccountEmailAuditLogsWithHistoryOK, error)
+
+	/*
+		GetAccountTags retrieves account tags
+	*/
+	GetAccountTags(ctx context.Context, params *GetAccountTagsParams) (*GetAccountTagsOK, error)
+
+	/*
+		GetAccountTimeline retrieves account timeline
+	*/
+	GetAccountTimeline(ctx context.Context, params *GetAccountTimelineParams) (*GetAccountTimelineOK, error)
+
+	/*
+		GetAccounts lists accounts
+	*/
+	GetAccounts(ctx context.Context, params *GetAccountsParams) (*GetAccountsOK, error)
+
+	/*
+		GetAllCustomFields retrieves account custom fields
+	*/
+	GetAllCustomFields(ctx context.Context, params *GetAllCustomFieldsParams) (*GetAllCustomFieldsOK, error)
+
+	/*
+		GetAllTags retrieves account tags
+	*/
+	GetAllTags(ctx context.Context, params *GetAllTagsParams) (*GetAllTagsOK, error)
+
+	/*
+		GetBlockingStates retrieves blocking states for account
+	*/
+	GetBlockingStates(ctx context.Context, params *GetBlockingStatesParams) (*GetBlockingStatesOK, error)
+
+	/*
+		GetChildrenAccounts lists children accounts
+	*/
+	GetChildrenAccounts(ctx context.Context, params *GetChildrenAccountsParams) (*GetChildrenAccountsOK, error)
+
+	/*
+		GetEmailNotificationsForAccount retrieves account email notification
+	*/
+	GetEmailNotificationsForAccount(ctx context.Context, params *GetEmailNotificationsForAccountParams) (*GetEmailNotificationsForAccountOK, *GetEmailNotificationsForAccountNoContent, error)
+
+	/*
+		GetEmails retrieves an account emails
+	*/
+	GetEmails(ctx context.Context, params *GetEmailsParams) (*GetEmailsOK, error)
+
+	/*
+		GetInvoicePayments retrieves account invoice payments
+	*/
+	GetInvoicePayments(ctx context.Context, params *GetInvoicePaymentsParams) (*GetInvoicePaymentsOK, error)
+
+	/*
+		GetInvoicesForAccount retrieves account invoices
+	*/
+	GetInvoicesForAccount(ctx context.Context, params *GetInvoicesForAccountParams) (*GetInvoicesForAccountOK, error)
+
+	/*
+		GetOverdueAccount retrieves overdue state for account
+	*/
+	GetOverdueAccount(ctx context.Context, params *GetOverdueAccountParams) (*GetOverdueAccountOK, error)
+
+	/*
+		GetPaymentMethodsForAccount retrieves account payment methods
+	*/
+	GetPaymentMethodsForAccount(ctx context.Context, params *GetPaymentMethodsForAccountParams) (*GetPaymentMethodsForAccountOK, error)
+
+	/*
+		GetPaymentsForAccount retrieves account payments
+	*/
+	GetPaymentsForAccount(ctx context.Context, params *GetPaymentsForAccountParams) (*GetPaymentsForAccountOK, error)
+
+	/*
+		ModifyAccountCustomFields modifies custom fields to account
+	*/
+	ModifyAccountCustomFields(ctx context.Context, params *ModifyAccountCustomFieldsParams) (*ModifyAccountCustomFieldsNoContent, error)
+
+	/*
+		PayAllInvoices triggers a payment for all unpaid invoices
+	*/
+	PayAllInvoices(ctx context.Context, params *PayAllInvoicesParams) (*PayAllInvoicesNoContent, error)
+
+	/*
+		ProcessPayment triggers a payment authorization purchase or credit
+	*/
+	ProcessPayment(ctx context.Context, params *ProcessPaymentParams) (*ProcessPaymentCreated, error)
+
+	/*
+		ProcessPaymentByExternalKey triggers a payment using the account external key authorization purchase or credit
+	*/
+	ProcessPaymentByExternalKey(ctx context.Context, params *ProcessPaymentByExternalKeyParams) (*ProcessPaymentByExternalKeyCreated, error)
+
+	/*
+		RebalanceExistingCBAOnAccount rebalances account c b a
+	*/
+	RebalanceExistingCBAOnAccount(ctx context.Context, params *RebalanceExistingCBAOnAccountParams) (*RebalanceExistingCBAOnAccountNoContent, error)
+
+	/*
+		RefreshPaymentMethods refreshes account payment methods
+	*/
+	RefreshPaymentMethods(ctx context.Context, params *RefreshPaymentMethodsParams) (*RefreshPaymentMethodsNoContent, error)
+
+	/*
+		RemoveEmail deletes email from account
+	*/
+	RemoveEmail(ctx context.Context, params *RemoveEmailParams) (*RemoveEmailNoContent, error)
+
+	/*
+		SearchAccounts searches accounts
+	*/
+	SearchAccounts(ctx context.Context, params *SearchAccountsParams) (*SearchAccountsOK, error)
+
+	/*
+		SetDefaultPaymentMethod sets the default payment method
+	*/
+	SetDefaultPaymentMethod(ctx context.Context, params *SetDefaultPaymentMethodParams) (*SetDefaultPaymentMethodNoContent, error)
+
+	/*
+		SetEmailNotificationsForAccount sets account email notification
+	*/
+	SetEmailNotificationsForAccount(ctx context.Context, params *SetEmailNotificationsForAccountParams) (*SetEmailNotificationsForAccountNoContent, error)
+
+	/*
+		TransferChildCreditToParent moves a given child credit to the parent level
+	*/
+	TransferChildCreditToParent(ctx context.Context, params *TransferChildCreditToParentParams) (*TransferChildCreditToParentNoContent, error)
+
+	/*
+		UpdateAccount updates account
+	*/
+	UpdateAccount(ctx context.Context, params *UpdateAccountParams) (*UpdateAccountNoContent, error)
+}
+
 /*
 AddAccountBlockingState blocks an account
 */

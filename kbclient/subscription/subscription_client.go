@@ -50,6 +50,94 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// ISubscription - interface for Subscription client.
+type ISubscription interface {
+	/*
+		AddSubscriptionBlockingState blocks a subscription
+	*/
+	AddSubscriptionBlockingState(ctx context.Context, params *AddSubscriptionBlockingStateParams) (*AddSubscriptionBlockingStateCreated, error)
+
+	/*
+		CancelSubscriptionPlan cancels an entitlement plan
+	*/
+	CancelSubscriptionPlan(ctx context.Context, params *CancelSubscriptionPlanParams) (*CancelSubscriptionPlanNoContent, error)
+
+	/*
+		ChangeSubscriptionPlan changes entitlement plan
+	*/
+	ChangeSubscriptionPlan(ctx context.Context, params *ChangeSubscriptionPlanParams) (*ChangeSubscriptionPlanNoContent, error)
+
+	/*
+		CreateSubscription creates an subscription
+	*/
+	CreateSubscription(ctx context.Context, params *CreateSubscriptionParams) (*CreateSubscriptionCreated, error)
+
+	/*
+		CreateSubscriptionCustomFields adds custom fields to subscription
+	*/
+	CreateSubscriptionCustomFields(ctx context.Context, params *CreateSubscriptionCustomFieldsParams) (*CreateSubscriptionCustomFieldsCreated, error)
+
+	/*
+		CreateSubscriptionTags create subscription tags API
+	*/
+	CreateSubscriptionTags(ctx context.Context, params *CreateSubscriptionTagsParams) (*CreateSubscriptionTagsCreated, error)
+
+	/*
+		CreateSubscriptionWithAddOns creates an entitlement with add on products
+	*/
+	CreateSubscriptionWithAddOns(ctx context.Context, params *CreateSubscriptionWithAddOnsParams) (*CreateSubscriptionWithAddOnsCreated, error)
+
+	/*
+		CreateSubscriptionsWithAddOns creates multiple entitlements with add on products
+	*/
+	CreateSubscriptionsWithAddOns(ctx context.Context, params *CreateSubscriptionsWithAddOnsParams) (*CreateSubscriptionsWithAddOnsCreated, error)
+
+	/*
+		DeleteSubscriptionCustomFields removes custom fields from subscription
+	*/
+	DeleteSubscriptionCustomFields(ctx context.Context, params *DeleteSubscriptionCustomFieldsParams) (*DeleteSubscriptionCustomFieldsNoContent, error)
+
+	/*
+		DeleteSubscriptionTags removes tags from subscription
+	*/
+	DeleteSubscriptionTags(ctx context.Context, params *DeleteSubscriptionTagsParams) (*DeleteSubscriptionTagsNoContent, error)
+
+	/*
+		GetSubscription retrieves a subscription by id
+	*/
+	GetSubscription(ctx context.Context, params *GetSubscriptionParams) (*GetSubscriptionOK, error)
+
+	/*
+		GetSubscriptionCustomFields retrieves subscription custom fields
+	*/
+	GetSubscriptionCustomFields(ctx context.Context, params *GetSubscriptionCustomFieldsParams) (*GetSubscriptionCustomFieldsOK, error)
+
+	/*
+		GetSubscriptionTags retrieves subscription tags
+	*/
+	GetSubscriptionTags(ctx context.Context, params *GetSubscriptionTagsParams) (*GetSubscriptionTagsOK, error)
+
+	/*
+		ModifySubscriptionCustomFields modifies custom fields to subscription
+	*/
+	ModifySubscriptionCustomFields(ctx context.Context, params *ModifySubscriptionCustomFieldsParams) (*ModifySubscriptionCustomFieldsNoContent, error)
+
+	/*
+		UncancelSubscriptionPlan uns cancel an entitlement
+	*/
+	UncancelSubscriptionPlan(ctx context.Context, params *UncancelSubscriptionPlanParams) (*UncancelSubscriptionPlanNoContent, error)
+
+	/*
+		UndoChangeSubscriptionPlan undos a pending change plan on an entitlement
+	*/
+	UndoChangeSubscriptionPlan(ctx context.Context, params *UndoChangeSubscriptionPlanParams) (*UndoChangeSubscriptionPlanNoContent, error)
+
+	/*
+		UpdateSubscriptionBCD updates the b c d associated to a subscription
+	*/
+	UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscriptionBCDParams) (*UpdateSubscriptionBCDNoContent, error)
+}
+
 /*
 AddSubscriptionBlockingState blocks a subscription
 */

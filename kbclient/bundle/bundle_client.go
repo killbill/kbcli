@@ -50,6 +50,89 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IBundle - interface for Bundle client.
+type IBundle interface {
+	/*
+		AddBundleBlockingState blocks a bundle
+	*/
+	AddBundleBlockingState(ctx context.Context, params *AddBundleBlockingStateParams) (*AddBundleBlockingStateCreated, error)
+
+	/*
+		CreateBundleCustomFields adds custom fields to bundle
+	*/
+	CreateBundleCustomFields(ctx context.Context, params *CreateBundleCustomFieldsParams) (*CreateBundleCustomFieldsCreated, error)
+
+	/*
+		CreateBundleTags adds tags to bundle
+	*/
+	CreateBundleTags(ctx context.Context, params *CreateBundleTagsParams) (*CreateBundleTagsCreated, error)
+
+	/*
+		DeleteBundleCustomFields removes custom fields from bundle
+	*/
+	DeleteBundleCustomFields(ctx context.Context, params *DeleteBundleCustomFieldsParams) (*DeleteBundleCustomFieldsNoContent, error)
+
+	/*
+		DeleteBundleTags removes tags from bundle
+	*/
+	DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsParams) (*DeleteBundleTagsNoContent, error)
+
+	/*
+		GetBundle retrieves a bundle by id
+	*/
+	GetBundle(ctx context.Context, params *GetBundleParams) (*GetBundleOK, error)
+
+	/*
+		GetBundleByKey retrieves a bundle by external key
+	*/
+	GetBundleByKey(ctx context.Context, params *GetBundleByKeyParams) (*GetBundleByKeyOK, error)
+
+	/*
+		GetBundleCustomFields retrieves bundle custom fields
+	*/
+	GetBundleCustomFields(ctx context.Context, params *GetBundleCustomFieldsParams) (*GetBundleCustomFieldsOK, error)
+
+	/*
+		GetBundleTags retrieves bundle tags
+	*/
+	GetBundleTags(ctx context.Context, params *GetBundleTagsParams) (*GetBundleTagsOK, error)
+
+	/*
+		GetBundles lists bundles
+	*/
+	GetBundles(ctx context.Context, params *GetBundlesParams) (*GetBundlesOK, error)
+
+	/*
+		ModifyBundleCustomFields modifies custom fields to bundle
+	*/
+	ModifyBundleCustomFields(ctx context.Context, params *ModifyBundleCustomFieldsParams) (*ModifyBundleCustomFieldsNoContent, error)
+
+	/*
+		PauseBundle pauses a bundle
+	*/
+	PauseBundle(ctx context.Context, params *PauseBundleParams) (*PauseBundleNoContent, error)
+
+	/*
+		RenameExternalKey updates a bundle external key
+	*/
+	RenameExternalKey(ctx context.Context, params *RenameExternalKeyParams) (*RenameExternalKeyNoContent, error)
+
+	/*
+		ResumeBundle resumes a bundle
+	*/
+	ResumeBundle(ctx context.Context, params *ResumeBundleParams) (*ResumeBundleNoContent, error)
+
+	/*
+		SearchBundles searches bundles
+	*/
+	SearchBundles(ctx context.Context, params *SearchBundlesParams) (*SearchBundlesOK, error)
+
+	/*
+		TransferBundle transfers a bundle to another account
+	*/
+	TransferBundle(ctx context.Context, params *TransferBundleParams) (*TransferBundleCreated, error)
+}
+
 /*
 AddBundleBlockingState blocks a bundle
 */

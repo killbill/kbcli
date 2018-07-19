@@ -50,6 +50,69 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IInvoicePayment - interface for InvoicePayment client.
+type IInvoicePayment interface {
+	/*
+		CompleteInvoicePaymentTransaction completes an existing transaction
+	*/
+	CompleteInvoicePaymentTransaction(ctx context.Context, params *CompleteInvoicePaymentTransactionParams) (*CompleteInvoicePaymentTransactionNoContent, error)
+
+	/*
+		CreateChargeback records a chargeback
+	*/
+	CreateChargeback(ctx context.Context, params *CreateChargebackParams) (*CreateChargebackCreated, error)
+
+	/*
+		CreateChargebackReversal records a chargeback reversal
+	*/
+	CreateChargebackReversal(ctx context.Context, params *CreateChargebackReversalParams) (*CreateChargebackReversalCreated, error)
+
+	/*
+		CreateInvoicePaymentCustomFields adds custom fields to payment
+	*/
+	CreateInvoicePaymentCustomFields(ctx context.Context, params *CreateInvoicePaymentCustomFieldsParams) (*CreateInvoicePaymentCustomFieldsCreated, error)
+
+	/*
+		CreateInvoicePaymentTags adds tags to payment
+	*/
+	CreateInvoicePaymentTags(ctx context.Context, params *CreateInvoicePaymentTagsParams) (*CreateInvoicePaymentTagsCreated, error)
+
+	/*
+		CreateRefundWithAdjustments refunds a payment and adjust the invoice if needed
+	*/
+	CreateRefundWithAdjustments(ctx context.Context, params *CreateRefundWithAdjustmentsParams) (*CreateRefundWithAdjustmentsCreated, error)
+
+	/*
+		DeleteInvoicePaymentCustomFields removes custom fields from payment
+	*/
+	DeleteInvoicePaymentCustomFields(ctx context.Context, params *DeleteInvoicePaymentCustomFieldsParams) (*DeleteInvoicePaymentCustomFieldsNoContent, error)
+
+	/*
+		DeleteInvoicePaymentTags removes tags from payment
+	*/
+	DeleteInvoicePaymentTags(ctx context.Context, params *DeleteInvoicePaymentTagsParams) (*DeleteInvoicePaymentTagsNoContent, error)
+
+	/*
+		GetInvoicePayment retrieves a payment by id
+	*/
+	GetInvoicePayment(ctx context.Context, params *GetInvoicePaymentParams) (*GetInvoicePaymentOK, error)
+
+	/*
+		GetInvoicePaymentCustomFields retrieves payment custom fields
+	*/
+	GetInvoicePaymentCustomFields(ctx context.Context, params *GetInvoicePaymentCustomFieldsParams) (*GetInvoicePaymentCustomFieldsOK, error)
+
+	/*
+		GetInvoicePaymentTags retrieves payment tags
+	*/
+	GetInvoicePaymentTags(ctx context.Context, params *GetInvoicePaymentTagsParams) (*GetInvoicePaymentTagsOK, error)
+
+	/*
+		ModifyInvoicePaymentCustomFields modifies custom fields to payment
+	*/
+	ModifyInvoicePaymentCustomFields(ctx context.Context, params *ModifyInvoicePaymentCustomFieldsParams) (*ModifyInvoicePaymentCustomFieldsNoContent, error)
+}
+
 /*
 CompleteInvoicePaymentTransaction completes an existing transaction
 */

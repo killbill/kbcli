@@ -49,6 +49,26 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IPaymentGateway - interface for PaymentGateway client.
+type IPaymentGateway interface {
+	/*
+		BuildComboFormDescriptor combos API to generate form data to redirect the customer to the gateway
+	*/
+	BuildComboFormDescriptor(ctx context.Context, params *BuildComboFormDescriptorParams) (*BuildComboFormDescriptorOK, error)
+
+	/*
+		BuildFormDescriptor generates form data to redirect the customer to the gateway
+	*/
+	BuildFormDescriptor(ctx context.Context, params *BuildFormDescriptorParams) (*BuildFormDescriptorOK, error)
+
+	/*
+		ProcessNotification processes a gateway notification
+
+		The response is built by the appropriate plugin
+	*/
+	ProcessNotification(ctx context.Context, params *ProcessNotificationParams) (*ProcessNotificationOK, error)
+}
+
 /*
 BuildComboFormDescriptor combos API to generate form data to redirect the customer to the gateway
 */

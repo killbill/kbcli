@@ -50,6 +50,149 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IPayment - interface for Payment client.
+type IPayment interface {
+	/*
+		CancelScheduledPaymentTransactionByExternalKey cancels a scheduled payment attempt retry
+	*/
+	CancelScheduledPaymentTransactionByExternalKey(ctx context.Context, params *CancelScheduledPaymentTransactionByExternalKeyParams) (*CancelScheduledPaymentTransactionByExternalKeyNoContent, error)
+
+	/*
+		CancelScheduledPaymentTransactionByID cancels a scheduled payment attempt retry
+	*/
+	CancelScheduledPaymentTransactionByID(ctx context.Context, params *CancelScheduledPaymentTransactionByIDParams) (*CancelScheduledPaymentTransactionByIDNoContent, error)
+
+	/*
+		CaptureAuthorization captures an existing authorization
+	*/
+	CaptureAuthorization(ctx context.Context, params *CaptureAuthorizationParams) (*CaptureAuthorizationCreated, error)
+
+	/*
+		CaptureAuthorizationByExternalKey captures an existing authorization
+	*/
+	CaptureAuthorizationByExternalKey(ctx context.Context, params *CaptureAuthorizationByExternalKeyParams) (*CaptureAuthorizationByExternalKeyCreated, error)
+
+	/*
+		ChargebackPayment records a chargeback
+	*/
+	ChargebackPayment(ctx context.Context, params *ChargebackPaymentParams) (*ChargebackPaymentCreated, error)
+
+	/*
+		ChargebackPaymentByExternalKey records a chargeback
+	*/
+	ChargebackPaymentByExternalKey(ctx context.Context, params *ChargebackPaymentByExternalKeyParams) (*ChargebackPaymentByExternalKeyCreated, error)
+
+	/*
+		ChargebackReversalPayment records a chargeback reversal
+	*/
+	ChargebackReversalPayment(ctx context.Context, params *ChargebackReversalPaymentParams) (*ChargebackReversalPaymentCreated, error)
+
+	/*
+		ChargebackReversalPaymentByExternalKey records a chargeback reversal
+	*/
+	ChargebackReversalPaymentByExternalKey(ctx context.Context, params *ChargebackReversalPaymentByExternalKeyParams) (*ChargebackReversalPaymentByExternalKeyCreated, error)
+
+	/*
+		CompleteTransaction completes an existing transaction
+	*/
+	CompleteTransaction(ctx context.Context, params *CompleteTransactionParams) (*CompleteTransactionNoContent, error)
+
+	/*
+		CompleteTransactionByExternalKey completes an existing transaction
+	*/
+	CompleteTransactionByExternalKey(ctx context.Context, params *CompleteTransactionByExternalKeyParams) (*CompleteTransactionByExternalKeyNoContent, error)
+
+	/*
+		CreateComboPayment combos api to create a new payment transaction on a existing or not account
+	*/
+	CreateComboPayment(ctx context.Context, params *CreateComboPaymentParams) (*CreateComboPaymentCreated, error)
+
+	/*
+		CreatePaymentCustomFields adds custom fields to payment
+	*/
+	CreatePaymentCustomFields(ctx context.Context, params *CreatePaymentCustomFieldsParams) (*CreatePaymentCustomFieldsCreated, error)
+
+	/*
+		CreatePaymentTags adds tags to payment payment
+	*/
+	CreatePaymentTags(ctx context.Context, params *CreatePaymentTagsParams) (*CreatePaymentTagsCreated, error)
+
+	/*
+		DeletePaymentCustomFields removes custom fields from payment payment
+	*/
+	DeletePaymentCustomFields(ctx context.Context, params *DeletePaymentCustomFieldsParams) (*DeletePaymentCustomFieldsNoContent, error)
+
+	/*
+		DeletePaymentTags removes tags from payment payment
+	*/
+	DeletePaymentTags(ctx context.Context, params *DeletePaymentTagsParams) (*DeletePaymentTagsNoContent, error)
+
+	/*
+		GetPayment retrieves a payment by id
+	*/
+	GetPayment(ctx context.Context, params *GetPaymentParams) (*GetPaymentOK, error)
+
+	/*
+		GetPaymentAttemptAuditLogsWithHistory retrieves payment attempt audit logs with history by id
+	*/
+	GetPaymentAttemptAuditLogsWithHistory(ctx context.Context, params *GetPaymentAttemptAuditLogsWithHistoryParams) (*GetPaymentAttemptAuditLogsWithHistoryOK, error)
+
+	/*
+		GetPaymentAuditLogsWithHistory retrieves payment audit logs with history by id
+	*/
+	GetPaymentAuditLogsWithHistory(ctx context.Context, params *GetPaymentAuditLogsWithHistoryParams) (*GetPaymentAuditLogsWithHistoryOK, error)
+
+	/*
+		GetPaymentByExternalKey retrieves a payment by external key
+	*/
+	GetPaymentByExternalKey(ctx context.Context, params *GetPaymentByExternalKeyParams) (*GetPaymentByExternalKeyOK, error)
+
+	/*
+		GetPaymentCustomFields retrieves payment custom fields
+	*/
+	GetPaymentCustomFields(ctx context.Context, params *GetPaymentCustomFieldsParams) (*GetPaymentCustomFieldsOK, error)
+
+	/*
+		GetPaymentTags retrieves payment payment tags
+	*/
+	GetPaymentTags(ctx context.Context, params *GetPaymentTagsParams) (*GetPaymentTagsOK, error)
+
+	/*
+		GetPayments gets payments
+	*/
+	GetPayments(ctx context.Context, params *GetPaymentsParams) (*GetPaymentsOK, error)
+
+	/*
+		ModifyPaymentCustomFields modifies custom fields to payment
+	*/
+	ModifyPaymentCustomFields(ctx context.Context, params *ModifyPaymentCustomFieldsParams) (*ModifyPaymentCustomFieldsNoContent, error)
+
+	/*
+		RefundPayment refunds an existing payment
+	*/
+	RefundPayment(ctx context.Context, params *RefundPaymentParams) (*RefundPaymentCreated, error)
+
+	/*
+		RefundPaymentByExternalKey refunds an existing payment
+	*/
+	RefundPaymentByExternalKey(ctx context.Context, params *RefundPaymentByExternalKeyParams) (*RefundPaymentByExternalKeyCreated, error)
+
+	/*
+		SearchPayments searches payments
+	*/
+	SearchPayments(ctx context.Context, params *SearchPaymentsParams) (*SearchPaymentsOK, error)
+
+	/*
+		VoidPayment voids an existing payment
+	*/
+	VoidPayment(ctx context.Context, params *VoidPaymentParams) (*VoidPaymentNoContent, error)
+
+	/*
+		VoidPaymentByExternalKey voids an existing payment
+	*/
+	VoidPaymentByExternalKey(ctx context.Context, params *VoidPaymentByExternalKeyParams) (*VoidPaymentByExternalKeyNoContent, error)
+}
+
 /*
 CancelScheduledPaymentTransactionByExternalKey cancels a scheduled payment attempt retry
 */

@@ -50,6 +50,44 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IInvoiceItem - interface for InvoiceItem client.
+type IInvoiceItem interface {
+	/*
+		CreateInvoiceItemCustomFields adds custom fields to invoice item
+	*/
+	CreateInvoiceItemCustomFields(ctx context.Context, params *CreateInvoiceItemCustomFieldsParams) (*CreateInvoiceItemCustomFieldsCreated, error)
+
+	/*
+		CreateInvoiceItemTags adds tags to invoice item
+	*/
+	CreateInvoiceItemTags(ctx context.Context, params *CreateInvoiceItemTagsParams) (*CreateInvoiceItemTagsCreated, error)
+
+	/*
+		DeleteInvoiceItemCustomFields removes custom fields from invoice item
+	*/
+	DeleteInvoiceItemCustomFields(ctx context.Context, params *DeleteInvoiceItemCustomFieldsParams) (*DeleteInvoiceItemCustomFieldsNoContent, error)
+
+	/*
+		DeleteInvoiceItemTags removes tags from invoice item
+	*/
+	DeleteInvoiceItemTags(ctx context.Context, params *DeleteInvoiceItemTagsParams) (*DeleteInvoiceItemTagsNoContent, error)
+
+	/*
+		GetInvoiceItemCustomFields retrieves invoice item custom fields
+	*/
+	GetInvoiceItemCustomFields(ctx context.Context, params *GetInvoiceItemCustomFieldsParams) (*GetInvoiceItemCustomFieldsOK, error)
+
+	/*
+		GetInvoiceItemTags retrieves invoice item tags
+	*/
+	GetInvoiceItemTags(ctx context.Context, params *GetInvoiceItemTagsParams) (*GetInvoiceItemTagsOK, error)
+
+	/*
+		ModifyInvoiceItemCustomFields modifies custom fields to invoice item
+	*/
+	ModifyInvoiceItemCustomFields(ctx context.Context, params *ModifyInvoiceItemCustomFieldsParams) (*ModifyInvoiceItemCustomFieldsNoContent, error)
+}
+
 /*
 CreateInvoiceItemCustomFields adds custom fields to invoice item
 */

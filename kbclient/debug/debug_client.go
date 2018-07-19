@@ -49,6 +49,19 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IDebug - interface for Debug client.
+type IDebug interface {
+	/*
+		GetClock gets test clock
+	*/
+	GetClock(ctx context.Context, params *GetClockParams) (*GetClockOK, error)
+
+	/*
+		SetClock sets test clock
+	*/
+	SetClock(ctx context.Context, params *SetClockParams) (*SetClockOK, error)
+}
+
 /*
 GetClock gets test clock
 */

@@ -50,6 +50,59 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// ISecurity - interface for Security client.
+type ISecurity interface {
+	/*
+		AddRoleDefinition adds a new role definition
+	*/
+	AddRoleDefinition(ctx context.Context, params *AddRoleDefinitionParams) (*AddRoleDefinitionCreated, error)
+
+	/*
+		AddUserRoles adds a new user with roles to make api requests
+	*/
+	AddUserRoles(ctx context.Context, params *AddUserRolesParams) (*AddUserRolesCreated, error)
+
+	/*
+		GetCurrentUserPermissions lists user permissions
+	*/
+	GetCurrentUserPermissions(ctx context.Context, params *GetCurrentUserPermissionsParams) (*GetCurrentUserPermissionsOK, error)
+
+	/*
+		GetCurrentUserSubject gets user information
+	*/
+	GetCurrentUserSubject(ctx context.Context, params *GetCurrentUserSubjectParams) (*GetCurrentUserSubjectOK, error)
+
+	/*
+		GetRoleDefinition gets role definition
+	*/
+	GetRoleDefinition(ctx context.Context, params *GetRoleDefinitionParams) (*GetRoleDefinitionOK, error)
+
+	/*
+		GetUserRoles gets roles associated to a user
+	*/
+	GetUserRoles(ctx context.Context, params *GetUserRolesParams) (*GetUserRolesOK, error)
+
+	/*
+		InvalidateUser invalidates an existing user
+	*/
+	InvalidateUser(ctx context.Context, params *InvalidateUserParams) (*InvalidateUserNoContent, error)
+
+	/*
+		UpdateRoleDefinition updates a new role definition
+	*/
+	UpdateRoleDefinition(ctx context.Context, params *UpdateRoleDefinitionParams) (*UpdateRoleDefinitionNoContent, error)
+
+	/*
+		UpdateUserPassword updates a user password
+	*/
+	UpdateUserPassword(ctx context.Context, params *UpdateUserPasswordParams) (*UpdateUserPasswordNoContent, error)
+
+	/*
+		UpdateUserRoles updates roles associated to a user
+	*/
+	UpdateUserRoles(ctx context.Context, params *UpdateUserRolesParams) (*UpdateUserRolesNoContent, error)
+}
+
 /*
 AddRoleDefinition adds a new role definition
 */

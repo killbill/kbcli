@@ -50,6 +50,59 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// IPaymentMethod - interface for PaymentMethod client.
+type IPaymentMethod interface {
+	/*
+		CreatePaymentMethodCustomFields adds custom fields to payment method
+	*/
+	CreatePaymentMethodCustomFields(ctx context.Context, params *CreatePaymentMethodCustomFieldsParams) (*CreatePaymentMethodCustomFieldsCreated, error)
+
+	/*
+		DeletePaymentMethod deletes a payment method
+	*/
+	DeletePaymentMethod(ctx context.Context, params *DeletePaymentMethodParams) (*DeletePaymentMethodNoContent, error)
+
+	/*
+		DeletePaymentMethodCustomFields removes custom fields from payment method
+	*/
+	DeletePaymentMethodCustomFields(ctx context.Context, params *DeletePaymentMethodCustomFieldsParams) (*DeletePaymentMethodCustomFieldsNoContent, error)
+
+	/*
+		GetPaymentMethod retrieves a payment method by id
+	*/
+	GetPaymentMethod(ctx context.Context, params *GetPaymentMethodParams) (*GetPaymentMethodOK, error)
+
+	/*
+		GetPaymentMethodAuditLogsWithHistory retrieves payment method audit logs with history by id
+	*/
+	GetPaymentMethodAuditLogsWithHistory(ctx context.Context, params *GetPaymentMethodAuditLogsWithHistoryParams) (*GetPaymentMethodAuditLogsWithHistoryOK, error)
+
+	/*
+		GetPaymentMethodByKey retrieves a payment method by external key
+	*/
+	GetPaymentMethodByKey(ctx context.Context, params *GetPaymentMethodByKeyParams) (*GetPaymentMethodByKeyOK, error)
+
+	/*
+		GetPaymentMethodCustomFields retrieves payment method custom fields
+	*/
+	GetPaymentMethodCustomFields(ctx context.Context, params *GetPaymentMethodCustomFieldsParams) (*GetPaymentMethodCustomFieldsOK, error)
+
+	/*
+		GetPaymentMethods lists payment methods
+	*/
+	GetPaymentMethods(ctx context.Context, params *GetPaymentMethodsParams) (*GetPaymentMethodsOK, error)
+
+	/*
+		ModifyPaymentMethodCustomFields modifies custom fields to payment method
+	*/
+	ModifyPaymentMethodCustomFields(ctx context.Context, params *ModifyPaymentMethodCustomFieldsParams) (*ModifyPaymentMethodCustomFieldsNoContent, error)
+
+	/*
+		SearchPaymentMethods searches payment methods
+	*/
+	SearchPaymentMethods(ctx context.Context, params *SearchPaymentMethodsParams) (*SearchPaymentMethodsOK, error)
+}
+
 /*
 CreatePaymentMethodCustomFields adds custom fields to payment method
 */

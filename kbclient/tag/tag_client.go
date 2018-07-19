@@ -49,6 +49,24 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
+// ITag - interface for Tag client.
+type ITag interface {
+	/*
+		GetTagAuditLogsWithHistory retrieves tag audit logs with history by id
+	*/
+	GetTagAuditLogsWithHistory(ctx context.Context, params *GetTagAuditLogsWithHistoryParams) (*GetTagAuditLogsWithHistoryOK, error)
+
+	/*
+		GetTags lists tags
+	*/
+	GetTags(ctx context.Context, params *GetTagsParams) (*GetTagsOK, error)
+
+	/*
+		SearchTags searches tags
+	*/
+	SearchTags(ctx context.Context, params *SearchTagsParams) (*SearchTagsOK, error)
+}
+
 /*
 GetTagAuditLogsWithHistory retrieves tag audit logs with history by id
 */
