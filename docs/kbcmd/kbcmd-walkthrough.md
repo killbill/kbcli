@@ -56,17 +56,21 @@ can get the public/private key from Developers -> API Keys section.
 
 ### Step 4.1 Configure plugin for tenant
 ```bash
+# Set your stripe keys here
+STRIPE_PRIVATE_KEY=sk_test_YOUR_STRIPE_KEY
+STRIPE_PUBLIC_KEY=pk_test_YOUR_STRIPE_KEY
+
 # Configure stripe plugin with the keys that you got from stripe.com
 # Last parameter (3%) is the connect fee.
 # https://github.com/killbill/killbill-stripe-plugin/tree/work-for-release-0.19.x#connect
-kbcmd ten configure-stripe-plugin STRIPE_PUBLIC_KEY STRIPE_PRIVATE_KEY 3% 
+kbcmd ten configure-stripe-plugin $STRIPE_PUBLIC_KEY $STRIPE_PRIVATE_KEY 3% 
 ```
 
 ### Step 4.2 Generate stripe card token
 Stripe card token is anonymized credit card information. We will use this instead
 of using credit card directly.
 ```bash
-kbcmd stripe --stripe_key STRIPE_PRIVATE_KEY new-card-token  Name="John Doe" Number=4242424242424242 ExpMonth=08 ExpYear=2019
+kbcmd stripe --stripe_key $STRIPE_PRIVATE_KEY new-card-token  Name="John Doe" Number=4242424242424242 ExpMonth=08 ExpYear=2019
 ```
 store the card token in `CARD_TOKEN` variable.
 
@@ -97,12 +101,9 @@ AMOUNT BALANCE INVOICE_ID                           TARGET_DATE
 200    <nil>   303b4d21-2809-4e8a-a553-665b313da860 2018-08-03
 ```
 
-## Step 7: Generate invoices for future date
+## Step 7: Generate upcoming invoice (Dry Run)
 ```sh
-# Set the date one month in advance to current date
-# Don't copy paste the date!
-DATE=2018-08-03
-kbcmd invoices dry-run johndoe $DATE
+kbcmd invoices dry-run johndoe
 ```
 
 # Invoking other APIs
