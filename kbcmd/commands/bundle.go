@@ -4,6 +4,8 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/go-openapi/strfmt"
+
 	"github.com/killbill/kbcli/kbclient/account"
 	"github.com/killbill/kbcli/kbclient/bundle"
 	"github.com/killbill/kbcli/kbcmd/cmdlib"
@@ -95,19 +97,36 @@ func getBundle(ctx context.Context, o *cmdlib.Options) error {
 		return cmdlib.ErrorInvalidArgs
 	}
 
-	bundleKey := o.Args[0]
+	idOrKey, isID := kblib.ParseKeyOrID(o.Args[0])
 
-	resp, err := o.Client().Bundle.GetBundleByKey(ctx, &bundle.GetBundleByKeyParams{
-		ExternalKey: bundleKey,
-	})
-	if err != nil {
-		return err
-	}
-	if len(resp.Payload) == 1 {
-		o.Print(resp.Payload[0])
+	var result *kbmodel.Bundle
+	if isID {
+		resp, err := o.Client().Bundle.GetBundle(ctx, &bundle.GetBundleParams{
+			BundleID: strfmt.UUID(idOrKey),
+		})
+		if err != nil {
+			return err
+		}
+		result = resp.Payload
 	} else {
-		o.Print(resp.Payload)
-		o.Log.Warningf("why is getbundle returning multiple items?")
+		resp, err := o.Client().Bundle.GetBundleByKey(ctx, &bundle.GetBundleByKeyParams{
+			ExternalKey:     idOrKey,
+			IncludedDeleted: kblib.BoolPtr(true),
+		})
+		if err != nil {
+			return err
+		}
+		if len(resp.Payload) == 1 {
+			result = resp.Payload[0]
+		} else if len(resp.Payload) > 1 {
+			o.Log.Warningf("why is getbundle returning more than 1 items (%d)?", len(resp.Payload))
+		}
+	}
+
+	if result != nil {
+		o.Print(result)
+	} else {
+		o.Outputln("bundle %s not found", idOrKey)
 	}
 	return nil
 }

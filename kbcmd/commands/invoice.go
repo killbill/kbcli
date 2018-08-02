@@ -135,27 +135,47 @@ func getInvoice(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
+type dryRunInvoiceParams struct {
+	TargetDate     string
+	SubscriptionID string
+}
+
+var dryRunInvoiceProperties args.Properties
+
 func dryRunInvoice(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) != 2 {
+	if len(o.Args) < 1 {
 		return cmdlib.ErrorInvalidArgs
 	}
 	accIDOrKey := o.Args[0]
-	dateStr := o.Args[1]
+
+	var inputParams dryRunInvoiceParams
+	if err := args.LoadProperties(&inputParams, dryRunInvoiceProperties, o.Args[1:]); err != nil {
+		return err
+	}
+
+	p := &invoice.GenerateDryRunInvoiceParams{
+		Body: &kbmodel.InvoiceDryRun{
+			DryRunType:     kbmodel.InvoiceDryRunDryRunTypeUPCOMINGINVOICE,
+			SubscriptionID: strfmt.UUID(inputParams.SubscriptionID),
+		},
+	}
+
+	if inputParams.TargetDate != "" {
+		targetDate, err := time.Parse("2006-01-02", inputParams.TargetDate)
+		if err != nil {
+			return fmt.Errorf("unable to parse date %s. %v", inputParams.TargetDate, err)
+		}
+		p.TargetDate = (*strfmt.Date)(&targetDate)
+		p.Body.DryRunType = kbmodel.InvoiceDryRunDryRunTypeTARGETDATE
+	}
 
 	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accIDOrKey)
 	if err != nil {
 		return err
 	}
+	p.AccountID = acc.AccountID
 
-	targetDate, err := time.Parse("2006-01-02", dateStr)
-	if err != nil {
-		return fmt.Errorf("unable to parse date %s. %v", dateStr, err)
-	}
-
-	invoice, _, err := o.Client().Invoice.GenerateDryRunInvoice(ctx, &invoice.GenerateDryRunInvoiceParams{
-		AccountID:  acc.AccountID,
-		TargetDate: (*strfmt.Date)(&targetDate),
-	})
+	invoice, _, err := o.Client().Invoice.GenerateDryRunInvoice(ctx, p)
 	if err != nil {
 		return err
 	}
@@ -207,12 +227,16 @@ func registerInvoicesCommands(r *cmdlib.App) {
 	}, getInvoice)
 
 	// DryRun invoices
+	dryRunInvoiceProperties = args.GetProperties(&dryRunInvoiceParams{})
+	dryRunInvoiceUsage := args.GenerateUsageString(&dryRunInvoiceParams{}, dryRunInvoiceProperties)
 	r.Register("invoices", cli.Command{
 		Name:  "dry-run",
 		Usage: "Dry run invoice generation for a given account",
-		ArgsUsage: `ACCOUNT TARGET_DATE
+		ArgsUsage: fmt.Sprintf(`ACCOUNT %s
 For ex.,
-kbcmd invoices dry-run account3 2018-05-05
-`,
+kbcmd invoices dry-run account3 TargetDate=2018-05-05
+
+will generate invoice for the given date. If date is omitted, next upcoming invoice will be generated.
+`, dryRunInvoiceUsage),
 	}, dryRunInvoice)
 }
