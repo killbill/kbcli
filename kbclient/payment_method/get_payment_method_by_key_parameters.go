@@ -91,10 +91,6 @@ for the get payment method by key operation typically these are written to a htt
 */
 type GetPaymentMethodByKeyParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*ExternalKey*/
@@ -144,28 +140,6 @@ func (o *GetPaymentMethodByKeyParams) WithHTTPClient(client *http.Client) *GetPa
 // SetHTTPClient adds the HTTPClient to the get payment method by key params
 func (o *GetPaymentMethodByKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get payment method by key params
-func (o *GetPaymentMethodByKeyParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPaymentMethodByKeyParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get payment method by key params
-func (o *GetPaymentMethodByKeyParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get payment method by key params
-func (o *GetPaymentMethodByKeyParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPaymentMethodByKeyParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get payment method by key params
-func (o *GetPaymentMethodByKeyParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAudit adds the audit to the get payment method by key params
@@ -230,16 +204,6 @@ func (o *GetPaymentMethodByKeyParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

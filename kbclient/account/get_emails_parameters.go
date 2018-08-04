@@ -62,10 +62,6 @@ for the get emails operation typically these are written to a http.Request
 */
 type GetEmailsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountID*/
 	AccountID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetEmailsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get emails params
-func (o *GetEmailsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetEmailsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get emails params
-func (o *GetEmailsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get emails params
-func (o *GetEmailsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetEmailsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get emails params
-func (o *GetEmailsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAccountID adds the accountID to the get emails params
 func (o *GetEmailsParams) WithAccountID(accountID strfmt.UUID) *GetEmailsParams {
 	o.SetAccountID(accountID)
@@ -149,16 +123,6 @@ func (o *GetEmailsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {

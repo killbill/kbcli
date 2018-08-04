@@ -65,10 +65,6 @@ for the notify state changed operation typically these are written to a http.Req
 */
 type NotifyStateChangedParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -120,28 +116,6 @@ func (o *NotifyStateChangedParams) WithHTTPClient(client *http.Client) *NotifySt
 // SetHTTPClient adds the HTTPClient to the notify state changed params
 func (o *NotifyStateChangedParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the notify state changed params
-func (o *NotifyStateChangedParams) WithXKillbillAPIKey(xKillbillAPIKey string) *NotifyStateChangedParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the notify state changed params
-func (o *NotifyStateChangedParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the notify state changed params
-func (o *NotifyStateChangedParams) WithXKillbillAPISecret(xKillbillAPISecret string) *NotifyStateChangedParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the notify state changed params
-func (o *NotifyStateChangedParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the notify state changed params
@@ -217,16 +191,6 @@ func (o *NotifyStateChangedParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

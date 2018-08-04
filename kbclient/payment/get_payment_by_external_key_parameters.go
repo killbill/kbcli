@@ -91,10 +91,6 @@ for the get payment by external key operation typically these are written to a h
 */
 type GetPaymentByExternalKeyParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*ExternalKey*/
@@ -144,28 +140,6 @@ func (o *GetPaymentByExternalKeyParams) WithHTTPClient(client *http.Client) *Get
 // SetHTTPClient adds the HTTPClient to the get payment by external key params
 func (o *GetPaymentByExternalKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get payment by external key params
-func (o *GetPaymentByExternalKeyParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPaymentByExternalKeyParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get payment by external key params
-func (o *GetPaymentByExternalKeyParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get payment by external key params
-func (o *GetPaymentByExternalKeyParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPaymentByExternalKeyParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get payment by external key params
-func (o *GetPaymentByExternalKeyParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAudit adds the audit to the get payment by external key params
@@ -230,16 +204,6 @@ func (o *GetPaymentByExternalKeyParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

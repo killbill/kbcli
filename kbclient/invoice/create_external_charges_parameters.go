@@ -77,10 +77,6 @@ for the create external charges operation typically these are written to a http.
 */
 type CreateExternalChargesParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -136,28 +132,6 @@ func (o *CreateExternalChargesParams) WithHTTPClient(client *http.Client) *Creat
 // SetHTTPClient adds the HTTPClient to the create external charges params
 func (o *CreateExternalChargesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the create external charges params
-func (o *CreateExternalChargesParams) WithXKillbillAPIKey(xKillbillAPIKey string) *CreateExternalChargesParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the create external charges params
-func (o *CreateExternalChargesParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the create external charges params
-func (o *CreateExternalChargesParams) WithXKillbillAPISecret(xKillbillAPISecret string) *CreateExternalChargesParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the create external charges params
-func (o *CreateExternalChargesParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the create external charges params
@@ -255,16 +229,6 @@ func (o *CreateExternalChargesParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

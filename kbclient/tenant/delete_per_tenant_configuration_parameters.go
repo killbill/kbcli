@@ -62,10 +62,6 @@ for the delete per tenant configuration operation typically these are written to
 */
 type DeletePerTenantConfigurationParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -113,28 +109,6 @@ func (o *DeletePerTenantConfigurationParams) SetHTTPClient(client *http.Client) 
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the delete per tenant configuration params
-func (o *DeletePerTenantConfigurationParams) WithXKillbillAPIKey(xKillbillAPIKey string) *DeletePerTenantConfigurationParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the delete per tenant configuration params
-func (o *DeletePerTenantConfigurationParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the delete per tenant configuration params
-func (o *DeletePerTenantConfigurationParams) WithXKillbillAPISecret(xKillbillAPISecret string) *DeletePerTenantConfigurationParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the delete per tenant configuration params
-func (o *DeletePerTenantConfigurationParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithXKillbillComment adds the xKillbillComment to the delete per tenant configuration params
 func (o *DeletePerTenantConfigurationParams) WithXKillbillComment(xKillbillComment *string) *DeletePerTenantConfigurationParams {
 	o.SetXKillbillComment(xKillbillComment)
@@ -175,16 +149,6 @@ func (o *DeletePerTenantConfigurationParams) WriteToRequest(r runtime.ClientRequ
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

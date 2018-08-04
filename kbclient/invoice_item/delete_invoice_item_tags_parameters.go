@@ -63,10 +63,6 @@ for the delete invoice item tags operation typically these are written to a http
 */
 type DeleteInvoiceItemTagsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -116,28 +112,6 @@ func (o *DeleteInvoiceItemTagsParams) WithHTTPClient(client *http.Client) *Delet
 // SetHTTPClient adds the HTTPClient to the delete invoice item tags params
 func (o *DeleteInvoiceItemTagsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the delete invoice item tags params
-func (o *DeleteInvoiceItemTagsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *DeleteInvoiceItemTagsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the delete invoice item tags params
-func (o *DeleteInvoiceItemTagsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the delete invoice item tags params
-func (o *DeleteInvoiceItemTagsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *DeleteInvoiceItemTagsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the delete invoice item tags params
-func (o *DeleteInvoiceItemTagsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the delete invoice item tags params
@@ -202,16 +176,6 @@ func (o *DeleteInvoiceItemTagsParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

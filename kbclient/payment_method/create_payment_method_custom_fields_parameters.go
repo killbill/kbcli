@@ -64,10 +64,6 @@ for the create payment method custom fields operation typically these are writte
 */
 type CreatePaymentMethodCustomFieldsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -117,28 +113,6 @@ func (o *CreatePaymentMethodCustomFieldsParams) WithHTTPClient(client *http.Clie
 // SetHTTPClient adds the HTTPClient to the create payment method custom fields params
 func (o *CreatePaymentMethodCustomFieldsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the create payment method custom fields params
-func (o *CreatePaymentMethodCustomFieldsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *CreatePaymentMethodCustomFieldsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the create payment method custom fields params
-func (o *CreatePaymentMethodCustomFieldsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the create payment method custom fields params
-func (o *CreatePaymentMethodCustomFieldsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *CreatePaymentMethodCustomFieldsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the create payment method custom fields params
-func (o *CreatePaymentMethodCustomFieldsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the create payment method custom fields params
@@ -203,16 +177,6 @@ func (o *CreatePaymentMethodCustomFieldsParams) WriteToRequest(r runtime.ClientR
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

@@ -21,7 +21,7 @@ import (
 // NewGetOverdueConfigXMLParams creates a new GetOverdueConfigXMLParams object
 // with the default values initialized.
 func NewGetOverdueConfigXMLParams() *GetOverdueConfigXMLParams {
-	var ()
+
 	return &GetOverdueConfigXMLParams{
 
 		timeout: cr.DefaultTimeout,
@@ -31,7 +31,7 @@ func NewGetOverdueConfigXMLParams() *GetOverdueConfigXMLParams {
 // NewGetOverdueConfigXMLParamsWithTimeout creates a new GetOverdueConfigXMLParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetOverdueConfigXMLParamsWithTimeout(timeout time.Duration) *GetOverdueConfigXMLParams {
-	var ()
+
 	return &GetOverdueConfigXMLParams{
 
 		timeout: timeout,
@@ -41,7 +41,7 @@ func NewGetOverdueConfigXMLParamsWithTimeout(timeout time.Duration) *GetOverdueC
 // NewGetOverdueConfigXMLParamsWithContext creates a new GetOverdueConfigXMLParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewGetOverdueConfigXMLParamsWithContext(ctx context.Context) *GetOverdueConfigXMLParams {
-	var ()
+
 	return &GetOverdueConfigXMLParams{
 
 		Context: ctx,
@@ -51,7 +51,7 @@ func NewGetOverdueConfigXMLParamsWithContext(ctx context.Context) *GetOverdueCon
 // NewGetOverdueConfigXMLParamsWithHTTPClient creates a new GetOverdueConfigXMLParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetOverdueConfigXMLParamsWithHTTPClient(client *http.Client) *GetOverdueConfigXMLParams {
-	var ()
+
 	return &GetOverdueConfigXMLParams{
 		HTTPClient: client,
 	}
@@ -61,12 +61,6 @@ func NewGetOverdueConfigXMLParamsWithHTTPClient(client *http.Client) *GetOverdue
 for the get overdue config Xml operation typically these are written to a http.Request
 */
 type GetOverdueConfigXMLParams struct {
-
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
-
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
@@ -107,28 +101,6 @@ func (o *GetOverdueConfigXMLParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get overdue config Xml params
-func (o *GetOverdueConfigXMLParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetOverdueConfigXMLParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get overdue config Xml params
-func (o *GetOverdueConfigXMLParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get overdue config Xml params
-func (o *GetOverdueConfigXMLParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetOverdueConfigXMLParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get overdue config Xml params
-func (o *GetOverdueConfigXMLParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetOverdueConfigXMLParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -136,16 +108,6 @@ func (o *GetOverdueConfigXMLParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// header param withStackTrace
 	if o.WithStackTrace != nil && *o.WithStackTrace {

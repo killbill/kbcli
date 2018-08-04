@@ -63,10 +63,6 @@ for the delete payment tags operation typically these are written to a http.Requ
 */
 type DeletePaymentTagsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -116,28 +112,6 @@ func (o *DeletePaymentTagsParams) WithHTTPClient(client *http.Client) *DeletePay
 // SetHTTPClient adds the HTTPClient to the delete payment tags params
 func (o *DeletePaymentTagsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the delete payment tags params
-func (o *DeletePaymentTagsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *DeletePaymentTagsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the delete payment tags params
-func (o *DeletePaymentTagsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the delete payment tags params
-func (o *DeletePaymentTagsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *DeletePaymentTagsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the delete payment tags params
-func (o *DeletePaymentTagsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the delete payment tags params
@@ -202,16 +176,6 @@ func (o *DeletePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

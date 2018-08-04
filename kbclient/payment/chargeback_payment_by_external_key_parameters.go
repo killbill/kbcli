@@ -65,10 +65,6 @@ for the chargeback payment by external key operation typically these are written
 */
 type ChargebackPaymentByExternalKeyParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -120,28 +116,6 @@ func (o *ChargebackPaymentByExternalKeyParams) WithHTTPClient(client *http.Clien
 // SetHTTPClient adds the HTTPClient to the chargeback payment by external key params
 func (o *ChargebackPaymentByExternalKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the chargeback payment by external key params
-func (o *ChargebackPaymentByExternalKeyParams) WithXKillbillAPIKey(xKillbillAPIKey string) *ChargebackPaymentByExternalKeyParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the chargeback payment by external key params
-func (o *ChargebackPaymentByExternalKeyParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the chargeback payment by external key params
-func (o *ChargebackPaymentByExternalKeyParams) WithXKillbillAPISecret(xKillbillAPISecret string) *ChargebackPaymentByExternalKeyParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the chargeback payment by external key params
-func (o *ChargebackPaymentByExternalKeyParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the chargeback payment by external key params
@@ -217,16 +191,6 @@ func (o *ChargebackPaymentByExternalKeyParams) WriteToRequest(r runtime.ClientRe
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

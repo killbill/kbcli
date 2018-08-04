@@ -77,10 +77,6 @@ for the transfer bundle operation typically these are written to a http.Request
 */
 type TransferBundleParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -136,28 +132,6 @@ func (o *TransferBundleParams) WithHTTPClient(client *http.Client) *TransferBund
 // SetHTTPClient adds the HTTPClient to the transfer bundle params
 func (o *TransferBundleParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the transfer bundle params
-func (o *TransferBundleParams) WithXKillbillAPIKey(xKillbillAPIKey string) *TransferBundleParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the transfer bundle params
-func (o *TransferBundleParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the transfer bundle params
-func (o *TransferBundleParams) WithXKillbillAPISecret(xKillbillAPISecret string) *TransferBundleParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the transfer bundle params
-func (o *TransferBundleParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the transfer bundle params
@@ -255,16 +229,6 @@ func (o *TransferBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

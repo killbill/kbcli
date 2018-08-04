@@ -65,10 +65,6 @@ for the refund payment operation typically these are written to a http.Request
 */
 type RefundPaymentParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -122,28 +118,6 @@ func (o *RefundPaymentParams) WithHTTPClient(client *http.Client) *RefundPayment
 // SetHTTPClient adds the HTTPClient to the refund payment params
 func (o *RefundPaymentParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the refund payment params
-func (o *RefundPaymentParams) WithXKillbillAPIKey(xKillbillAPIKey string) *RefundPaymentParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the refund payment params
-func (o *RefundPaymentParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the refund payment params
-func (o *RefundPaymentParams) WithXKillbillAPISecret(xKillbillAPISecret string) *RefundPaymentParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the refund payment params
-func (o *RefundPaymentParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the refund payment params
@@ -230,16 +204,6 @@ func (o *RefundPaymentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

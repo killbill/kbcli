@@ -91,10 +91,6 @@ for the get invoice by number operation typically these are written to a http.Re
 */
 type GetInvoiceByNumberParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*InvoiceNumber*/
@@ -142,28 +138,6 @@ func (o *GetInvoiceByNumberParams) WithHTTPClient(client *http.Client) *GetInvoi
 // SetHTTPClient adds the HTTPClient to the get invoice by number params
 func (o *GetInvoiceByNumberParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get invoice by number params
-func (o *GetInvoiceByNumberParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetInvoiceByNumberParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get invoice by number params
-func (o *GetInvoiceByNumberParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get invoice by number params
-func (o *GetInvoiceByNumberParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetInvoiceByNumberParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get invoice by number params
-func (o *GetInvoiceByNumberParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAudit adds the audit to the get invoice by number params
@@ -217,16 +191,6 @@ func (o *GetInvoiceByNumberParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

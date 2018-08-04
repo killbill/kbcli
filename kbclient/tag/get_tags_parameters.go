@@ -91,10 +91,6 @@ for the get tags operation typically these are written to a http.Request
 */
 type GetTagsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*Limit*/
@@ -142,28 +138,6 @@ func (o *GetTagsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get tags params
-func (o *GetTagsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetTagsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get tags params
-func (o *GetTagsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get tags params
-func (o *GetTagsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetTagsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get tags params
-func (o *GetTagsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAudit adds the audit to the get tags params
 func (o *GetTagsParams) WithAudit(audit *string) *GetTagsParams {
 	o.SetAudit(audit)
@@ -204,16 +178,6 @@ func (o *GetTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regis
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

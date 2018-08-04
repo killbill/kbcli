@@ -62,10 +62,6 @@ for the cancel scheduled payment transaction by external key operation typically
 */
 type CancelScheduledPaymentTransactionByExternalKeyParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -113,28 +109,6 @@ func (o *CancelScheduledPaymentTransactionByExternalKeyParams) WithHTTPClient(cl
 // SetHTTPClient adds the HTTPClient to the cancel scheduled payment transaction by external key params
 func (o *CancelScheduledPaymentTransactionByExternalKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the cancel scheduled payment transaction by external key params
-func (o *CancelScheduledPaymentTransactionByExternalKeyParams) WithXKillbillAPIKey(xKillbillAPIKey string) *CancelScheduledPaymentTransactionByExternalKeyParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the cancel scheduled payment transaction by external key params
-func (o *CancelScheduledPaymentTransactionByExternalKeyParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the cancel scheduled payment transaction by external key params
-func (o *CancelScheduledPaymentTransactionByExternalKeyParams) WithXKillbillAPISecret(xKillbillAPISecret string) *CancelScheduledPaymentTransactionByExternalKeyParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the cancel scheduled payment transaction by external key params
-func (o *CancelScheduledPaymentTransactionByExternalKeyParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the cancel scheduled payment transaction by external key params
@@ -188,16 +162,6 @@ func (o *CancelScheduledPaymentTransactionByExternalKeyParams) WriteToRequest(r 
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

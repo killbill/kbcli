@@ -99,10 +99,6 @@ for the search payment methods operation typically these are written to a http.R
 */
 type SearchPaymentMethodsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*Limit*/
@@ -156,28 +152,6 @@ func (o *SearchPaymentMethodsParams) WithHTTPClient(client *http.Client) *Search
 // SetHTTPClient adds the HTTPClient to the search payment methods params
 func (o *SearchPaymentMethodsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the search payment methods params
-func (o *SearchPaymentMethodsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *SearchPaymentMethodsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the search payment methods params
-func (o *SearchPaymentMethodsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the search payment methods params
-func (o *SearchPaymentMethodsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *SearchPaymentMethodsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the search payment methods params
-func (o *SearchPaymentMethodsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAudit adds the audit to the search payment methods params
@@ -264,16 +238,6 @@ func (o *SearchPaymentMethodsParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

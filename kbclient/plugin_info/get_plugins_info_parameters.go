@@ -21,7 +21,7 @@ import (
 // NewGetPluginsInfoParams creates a new GetPluginsInfoParams object
 // with the default values initialized.
 func NewGetPluginsInfoParams() *GetPluginsInfoParams {
-	var ()
+
 	return &GetPluginsInfoParams{
 
 		timeout: cr.DefaultTimeout,
@@ -31,7 +31,7 @@ func NewGetPluginsInfoParams() *GetPluginsInfoParams {
 // NewGetPluginsInfoParamsWithTimeout creates a new GetPluginsInfoParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetPluginsInfoParamsWithTimeout(timeout time.Duration) *GetPluginsInfoParams {
-	var ()
+
 	return &GetPluginsInfoParams{
 
 		timeout: timeout,
@@ -41,7 +41,7 @@ func NewGetPluginsInfoParamsWithTimeout(timeout time.Duration) *GetPluginsInfoPa
 // NewGetPluginsInfoParamsWithContext creates a new GetPluginsInfoParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewGetPluginsInfoParamsWithContext(ctx context.Context) *GetPluginsInfoParams {
-	var ()
+
 	return &GetPluginsInfoParams{
 
 		Context: ctx,
@@ -51,7 +51,7 @@ func NewGetPluginsInfoParamsWithContext(ctx context.Context) *GetPluginsInfoPara
 // NewGetPluginsInfoParamsWithHTTPClient creates a new GetPluginsInfoParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetPluginsInfoParamsWithHTTPClient(client *http.Client) *GetPluginsInfoParams {
-	var ()
+
 	return &GetPluginsInfoParams{
 		HTTPClient: client,
 	}
@@ -61,12 +61,6 @@ func NewGetPluginsInfoParamsWithHTTPClient(client *http.Client) *GetPluginsInfoP
 for the get plugins info operation typically these are written to a http.Request
 */
 type GetPluginsInfoParams struct {
-
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
-
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
@@ -107,28 +101,6 @@ func (o *GetPluginsInfoParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get plugins info params
-func (o *GetPluginsInfoParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPluginsInfoParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get plugins info params
-func (o *GetPluginsInfoParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get plugins info params
-func (o *GetPluginsInfoParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPluginsInfoParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get plugins info params
-func (o *GetPluginsInfoParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetPluginsInfoParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -136,16 +108,6 @@ func (o *GetPluginsInfoParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// header param withStackTrace
 	if o.WithStackTrace != nil && *o.WithStackTrace {

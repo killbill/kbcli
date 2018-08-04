@@ -62,10 +62,6 @@ for the insert user key value operation typically these are written to a http.Re
 */
 type InsertUserKeyValueParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -115,28 +111,6 @@ func (o *InsertUserKeyValueParams) WithHTTPClient(client *http.Client) *InsertUs
 // SetHTTPClient adds the HTTPClient to the insert user key value params
 func (o *InsertUserKeyValueParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the insert user key value params
-func (o *InsertUserKeyValueParams) WithXKillbillAPIKey(xKillbillAPIKey string) *InsertUserKeyValueParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the insert user key value params
-func (o *InsertUserKeyValueParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the insert user key value params
-func (o *InsertUserKeyValueParams) WithXKillbillAPISecret(xKillbillAPISecret string) *InsertUserKeyValueParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the insert user key value params
-func (o *InsertUserKeyValueParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the insert user key value params
@@ -201,16 +175,6 @@ func (o *InsertUserKeyValueParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

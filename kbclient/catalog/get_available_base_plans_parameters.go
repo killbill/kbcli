@@ -62,10 +62,6 @@ for the get available base plans operation typically these are written to a http
 */
 type GetAvailableBasePlansParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountID*/
 	AccountID *strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetAvailableBasePlansParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get available base plans params
-func (o *GetAvailableBasePlansParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetAvailableBasePlansParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get available base plans params
-func (o *GetAvailableBasePlansParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get available base plans params
-func (o *GetAvailableBasePlansParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetAvailableBasePlansParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get available base plans params
-func (o *GetAvailableBasePlansParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAccountID adds the accountID to the get available base plans params
 func (o *GetAvailableBasePlansParams) WithAccountID(accountID *strfmt.UUID) *GetAvailableBasePlansParams {
 	o.SetAccountID(accountID)
@@ -149,16 +123,6 @@ func (o *GetAvailableBasePlansParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.AccountID != nil {
 

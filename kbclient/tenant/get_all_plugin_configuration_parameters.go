@@ -62,10 +62,6 @@ for the get all plugin configuration operation typically these are written to a 
 */
 type GetAllPluginConfigurationParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*KeyPrefix*/
 	KeyPrefix string
 
@@ -109,28 +105,6 @@ func (o *GetAllPluginConfigurationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get all plugin configuration params
-func (o *GetAllPluginConfigurationParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetAllPluginConfigurationParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get all plugin configuration params
-func (o *GetAllPluginConfigurationParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get all plugin configuration params
-func (o *GetAllPluginConfigurationParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetAllPluginConfigurationParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get all plugin configuration params
-func (o *GetAllPluginConfigurationParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithKeyPrefix adds the keyPrefix to the get all plugin configuration params
 func (o *GetAllPluginConfigurationParams) WithKeyPrefix(keyPrefix string) *GetAllPluginConfigurationParams {
 	o.SetKeyPrefix(keyPrefix)
@@ -149,16 +123,6 @@ func (o *GetAllPluginConfigurationParams) WriteToRequest(r runtime.ClientRequest
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param keyPrefix
 	if err := r.SetPathParam("keyPrefix", o.KeyPrefix); err != nil {

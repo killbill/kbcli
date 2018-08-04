@@ -65,10 +65,6 @@ for the capture authorization operation typically these are written to a http.Re
 */
 type CaptureAuthorizationParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -122,28 +118,6 @@ func (o *CaptureAuthorizationParams) WithHTTPClient(client *http.Client) *Captur
 // SetHTTPClient adds the HTTPClient to the capture authorization params
 func (o *CaptureAuthorizationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the capture authorization params
-func (o *CaptureAuthorizationParams) WithXKillbillAPIKey(xKillbillAPIKey string) *CaptureAuthorizationParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the capture authorization params
-func (o *CaptureAuthorizationParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the capture authorization params
-func (o *CaptureAuthorizationParams) WithXKillbillAPISecret(xKillbillAPISecret string) *CaptureAuthorizationParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the capture authorization params
-func (o *CaptureAuthorizationParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the capture authorization params
@@ -230,16 +204,6 @@ func (o *CaptureAuthorizationParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

@@ -62,10 +62,6 @@ for the get price list for subscription and date operation typically these are w
 */
 type GetPriceListForSubscriptionAndDateParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*RequestedDate*/
 	RequestedDate *strfmt.Date
 	/*SubscriptionID*/
@@ -111,28 +107,6 @@ func (o *GetPriceListForSubscriptionAndDateParams) SetHTTPClient(client *http.Cl
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get price list for subscription and date params
-func (o *GetPriceListForSubscriptionAndDateParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPriceListForSubscriptionAndDateParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get price list for subscription and date params
-func (o *GetPriceListForSubscriptionAndDateParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get price list for subscription and date params
-func (o *GetPriceListForSubscriptionAndDateParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPriceListForSubscriptionAndDateParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get price list for subscription and date params
-func (o *GetPriceListForSubscriptionAndDateParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithRequestedDate adds the requestedDate to the get price list for subscription and date params
 func (o *GetPriceListForSubscriptionAndDateParams) WithRequestedDate(requestedDate *strfmt.Date) *GetPriceListForSubscriptionAndDateParams {
 	o.SetRequestedDate(requestedDate)
@@ -162,16 +136,6 @@ func (o *GetPriceListForSubscriptionAndDateParams) WriteToRequest(r runtime.Clie
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.RequestedDate != nil {
 

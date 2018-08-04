@@ -62,10 +62,6 @@ for the get payment method audit logs with history operation typically these are
 */
 type GetPaymentMethodAuditLogsWithHistoryParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*PaymentMethodID*/
 	PaymentMethodID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetPaymentMethodAuditLogsWithHistoryParams) SetHTTPClient(client *http.
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get payment method audit logs with history params
-func (o *GetPaymentMethodAuditLogsWithHistoryParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPaymentMethodAuditLogsWithHistoryParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get payment method audit logs with history params
-func (o *GetPaymentMethodAuditLogsWithHistoryParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get payment method audit logs with history params
-func (o *GetPaymentMethodAuditLogsWithHistoryParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPaymentMethodAuditLogsWithHistoryParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get payment method audit logs with history params
-func (o *GetPaymentMethodAuditLogsWithHistoryParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithPaymentMethodID adds the paymentMethodID to the get payment method audit logs with history params
 func (o *GetPaymentMethodAuditLogsWithHistoryParams) WithPaymentMethodID(paymentMethodID strfmt.UUID) *GetPaymentMethodAuditLogsWithHistoryParams {
 	o.SetPaymentMethodID(paymentMethodID)
@@ -149,16 +123,6 @@ func (o *GetPaymentMethodAuditLogsWithHistoryParams) WriteToRequest(r runtime.Cl
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param paymentMethodId
 	if err := r.SetPathParam("paymentMethodId", o.PaymentMethodID.String()); err != nil {

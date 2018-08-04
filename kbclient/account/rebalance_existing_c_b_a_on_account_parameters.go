@@ -62,10 +62,6 @@ for the rebalance existing c b a on account operation typically these are writte
 */
 type RebalanceExistingCBAOnAccountParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -113,28 +109,6 @@ func (o *RebalanceExistingCBAOnAccountParams) WithHTTPClient(client *http.Client
 // SetHTTPClient adds the HTTPClient to the rebalance existing c b a on account params
 func (o *RebalanceExistingCBAOnAccountParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the rebalance existing c b a on account params
-func (o *RebalanceExistingCBAOnAccountParams) WithXKillbillAPIKey(xKillbillAPIKey string) *RebalanceExistingCBAOnAccountParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the rebalance existing c b a on account params
-func (o *RebalanceExistingCBAOnAccountParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the rebalance existing c b a on account params
-func (o *RebalanceExistingCBAOnAccountParams) WithXKillbillAPISecret(xKillbillAPISecret string) *RebalanceExistingCBAOnAccountParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the rebalance existing c b a on account params
-func (o *RebalanceExistingCBAOnAccountParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the rebalance existing c b a on account params
@@ -188,16 +162,6 @@ func (o *RebalanceExistingCBAOnAccountParams) WriteToRequest(r runtime.ClientReq
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

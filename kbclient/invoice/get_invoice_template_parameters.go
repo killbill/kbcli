@@ -21,7 +21,7 @@ import (
 // NewGetInvoiceTemplateParams creates a new GetInvoiceTemplateParams object
 // with the default values initialized.
 func NewGetInvoiceTemplateParams() *GetInvoiceTemplateParams {
-	var ()
+
 	return &GetInvoiceTemplateParams{
 
 		timeout: cr.DefaultTimeout,
@@ -31,7 +31,7 @@ func NewGetInvoiceTemplateParams() *GetInvoiceTemplateParams {
 // NewGetInvoiceTemplateParamsWithTimeout creates a new GetInvoiceTemplateParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetInvoiceTemplateParamsWithTimeout(timeout time.Duration) *GetInvoiceTemplateParams {
-	var ()
+
 	return &GetInvoiceTemplateParams{
 
 		timeout: timeout,
@@ -41,7 +41,7 @@ func NewGetInvoiceTemplateParamsWithTimeout(timeout time.Duration) *GetInvoiceTe
 // NewGetInvoiceTemplateParamsWithContext creates a new GetInvoiceTemplateParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewGetInvoiceTemplateParamsWithContext(ctx context.Context) *GetInvoiceTemplateParams {
-	var ()
+
 	return &GetInvoiceTemplateParams{
 
 		Context: ctx,
@@ -51,7 +51,7 @@ func NewGetInvoiceTemplateParamsWithContext(ctx context.Context) *GetInvoiceTemp
 // NewGetInvoiceTemplateParamsWithHTTPClient creates a new GetInvoiceTemplateParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetInvoiceTemplateParamsWithHTTPClient(client *http.Client) *GetInvoiceTemplateParams {
-	var ()
+
 	return &GetInvoiceTemplateParams{
 		HTTPClient: client,
 	}
@@ -61,12 +61,6 @@ func NewGetInvoiceTemplateParamsWithHTTPClient(client *http.Client) *GetInvoiceT
 for the get invoice template operation typically these are written to a http.Request
 */
 type GetInvoiceTemplateParams struct {
-
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
-
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
@@ -107,28 +101,6 @@ func (o *GetInvoiceTemplateParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get invoice template params
-func (o *GetInvoiceTemplateParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetInvoiceTemplateParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get invoice template params
-func (o *GetInvoiceTemplateParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get invoice template params
-func (o *GetInvoiceTemplateParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetInvoiceTemplateParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get invoice template params
-func (o *GetInvoiceTemplateParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetInvoiceTemplateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -136,16 +108,6 @@ func (o *GetInvoiceTemplateParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// header param withStackTrace
 	if o.WithStackTrace != nil && *o.WithStackTrace {

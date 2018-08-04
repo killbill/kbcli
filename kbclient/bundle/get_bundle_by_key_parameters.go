@@ -83,10 +83,6 @@ for the get bundle by key operation typically these are written to a http.Reques
 */
 type GetBundleByKeyParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*ExternalKey*/
@@ -134,28 +130,6 @@ func (o *GetBundleByKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get bundle by key params
-func (o *GetBundleByKeyParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetBundleByKeyParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get bundle by key params
-func (o *GetBundleByKeyParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get bundle by key params
-func (o *GetBundleByKeyParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetBundleByKeyParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get bundle by key params
-func (o *GetBundleByKeyParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAudit adds the audit to the get bundle by key params
 func (o *GetBundleByKeyParams) WithAudit(audit *string) *GetBundleByKeyParams {
 	o.SetAudit(audit)
@@ -196,16 +170,6 @@ func (o *GetBundleByKeyParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

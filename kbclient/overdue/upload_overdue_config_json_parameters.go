@@ -64,10 +64,6 @@ for the upload overdue config Json operation typically these are written to a ht
 */
 type UploadOverdueConfigJSONParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -115,28 +111,6 @@ func (o *UploadOverdueConfigJSONParams) WithHTTPClient(client *http.Client) *Upl
 // SetHTTPClient adds the HTTPClient to the upload overdue config Json params
 func (o *UploadOverdueConfigJSONParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the upload overdue config Json params
-func (o *UploadOverdueConfigJSONParams) WithXKillbillAPIKey(xKillbillAPIKey string) *UploadOverdueConfigJSONParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the upload overdue config Json params
-func (o *UploadOverdueConfigJSONParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the upload overdue config Json params
-func (o *UploadOverdueConfigJSONParams) WithXKillbillAPISecret(xKillbillAPISecret string) *UploadOverdueConfigJSONParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the upload overdue config Json params
-func (o *UploadOverdueConfigJSONParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the upload overdue config Json params
@@ -190,16 +164,6 @@ func (o *UploadOverdueConfigJSONParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

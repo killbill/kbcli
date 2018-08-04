@@ -2,6 +2,7 @@ package cmdlib
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"os"
 	"strings"
@@ -168,20 +169,29 @@ func (r *App) toAction(fn HandlerFn) func(c *cli.Context) error {
 		// Add text/xml producer which is not handled by openapi runtime.
 		trp.Producers["text/xml"] = runtime.TextProducer()
 		trp.Debug = o.PrintDebug
-		authWriter := httptransport.BasicAuth(o.Username, o.Password)
+		authWriter := runtime.ClientAuthInfoWriterFunc(func(r runtime.ClientRequest, _ strfmt.Registry) error {
+			encoded := base64.StdEncoding.EncodeToString([]byte(o.Username + ":" + o.Password))
+			if err := r.SetHeaderParam("Authorization", "Basic "+encoded); err != nil {
+				return err
+			}
+			if err := r.SetHeaderParam("X-KillBill-ApiKey", o.APIKey); err != nil {
+				return err
+			}
+			if err := r.SetHeaderParam("X-KillBill-ApiSecret", o.APISecret); err != nil {
+				return err
+			}
+			return nil
+		})
+
 		o.client = kbclient.New(trp, strfmt.Default, authWriter, kbclient.KillbillDefaults{})
 
 		// Set defaults
 
-		apiKey := o.APIKey
-		apiSecret := o.APISecret
 		createdBy := os.Getenv("USER") + "-kbcmd"
 		comment := "Created by kbcmd tool"
 		reason := ""
 
 		o.client.SetDefaults(kbclient.KillbillDefaults{
-			APIKey:         &apiKey,
-			APISecret:      &apiSecret,
 			CreatedBy:      &createdBy,
 			Comment:        &comment,
 			Reason:         &reason,

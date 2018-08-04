@@ -74,10 +74,6 @@ for the get invoice payment custom fields operation typically these are written 
 */
 type GetInvoicePaymentCustomFieldsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*PaymentID*/
@@ -123,28 +119,6 @@ func (o *GetInvoicePaymentCustomFieldsParams) SetHTTPClient(client *http.Client)
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get invoice payment custom fields params
-func (o *GetInvoicePaymentCustomFieldsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetInvoicePaymentCustomFieldsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get invoice payment custom fields params
-func (o *GetInvoicePaymentCustomFieldsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get invoice payment custom fields params
-func (o *GetInvoicePaymentCustomFieldsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetInvoicePaymentCustomFieldsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get invoice payment custom fields params
-func (o *GetInvoicePaymentCustomFieldsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAudit adds the audit to the get invoice payment custom fields params
 func (o *GetInvoicePaymentCustomFieldsParams) WithAudit(audit *string) *GetInvoicePaymentCustomFieldsParams {
 	o.SetAudit(audit)
@@ -174,16 +148,6 @@ func (o *GetInvoicePaymentCustomFieldsParams) WriteToRequest(r runtime.ClientReq
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

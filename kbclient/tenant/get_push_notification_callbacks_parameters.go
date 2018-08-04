@@ -21,7 +21,7 @@ import (
 // NewGetPushNotificationCallbacksParams creates a new GetPushNotificationCallbacksParams object
 // with the default values initialized.
 func NewGetPushNotificationCallbacksParams() *GetPushNotificationCallbacksParams {
-	var ()
+
 	return &GetPushNotificationCallbacksParams{
 
 		timeout: cr.DefaultTimeout,
@@ -31,7 +31,7 @@ func NewGetPushNotificationCallbacksParams() *GetPushNotificationCallbacksParams
 // NewGetPushNotificationCallbacksParamsWithTimeout creates a new GetPushNotificationCallbacksParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetPushNotificationCallbacksParamsWithTimeout(timeout time.Duration) *GetPushNotificationCallbacksParams {
-	var ()
+
 	return &GetPushNotificationCallbacksParams{
 
 		timeout: timeout,
@@ -41,7 +41,7 @@ func NewGetPushNotificationCallbacksParamsWithTimeout(timeout time.Duration) *Ge
 // NewGetPushNotificationCallbacksParamsWithContext creates a new GetPushNotificationCallbacksParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewGetPushNotificationCallbacksParamsWithContext(ctx context.Context) *GetPushNotificationCallbacksParams {
-	var ()
+
 	return &GetPushNotificationCallbacksParams{
 
 		Context: ctx,
@@ -51,7 +51,7 @@ func NewGetPushNotificationCallbacksParamsWithContext(ctx context.Context) *GetP
 // NewGetPushNotificationCallbacksParamsWithHTTPClient creates a new GetPushNotificationCallbacksParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetPushNotificationCallbacksParamsWithHTTPClient(client *http.Client) *GetPushNotificationCallbacksParams {
-	var ()
+
 	return &GetPushNotificationCallbacksParams{
 		HTTPClient: client,
 	}
@@ -61,12 +61,6 @@ func NewGetPushNotificationCallbacksParamsWithHTTPClient(client *http.Client) *G
 for the get push notification callbacks operation typically these are written to a http.Request
 */
 type GetPushNotificationCallbacksParams struct {
-
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
-
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
@@ -107,28 +101,6 @@ func (o *GetPushNotificationCallbacksParams) SetHTTPClient(client *http.Client) 
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get push notification callbacks params
-func (o *GetPushNotificationCallbacksParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPushNotificationCallbacksParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get push notification callbacks params
-func (o *GetPushNotificationCallbacksParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get push notification callbacks params
-func (o *GetPushNotificationCallbacksParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPushNotificationCallbacksParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get push notification callbacks params
-func (o *GetPushNotificationCallbacksParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetPushNotificationCallbacksParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -136,16 +108,6 @@ func (o *GetPushNotificationCallbacksParams) WriteToRequest(r runtime.ClientRequ
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// header param withStackTrace
 	if o.WithStackTrace != nil && *o.WithStackTrace {

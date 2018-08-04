@@ -21,7 +21,7 @@ import (
 // NewGetOverdueConfigJSONParams creates a new GetOverdueConfigJSONParams object
 // with the default values initialized.
 func NewGetOverdueConfigJSONParams() *GetOverdueConfigJSONParams {
-	var ()
+
 	return &GetOverdueConfigJSONParams{
 
 		timeout: cr.DefaultTimeout,
@@ -31,7 +31,7 @@ func NewGetOverdueConfigJSONParams() *GetOverdueConfigJSONParams {
 // NewGetOverdueConfigJSONParamsWithTimeout creates a new GetOverdueConfigJSONParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetOverdueConfigJSONParamsWithTimeout(timeout time.Duration) *GetOverdueConfigJSONParams {
-	var ()
+
 	return &GetOverdueConfigJSONParams{
 
 		timeout: timeout,
@@ -41,7 +41,7 @@ func NewGetOverdueConfigJSONParamsWithTimeout(timeout time.Duration) *GetOverdue
 // NewGetOverdueConfigJSONParamsWithContext creates a new GetOverdueConfigJSONParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewGetOverdueConfigJSONParamsWithContext(ctx context.Context) *GetOverdueConfigJSONParams {
-	var ()
+
 	return &GetOverdueConfigJSONParams{
 
 		Context: ctx,
@@ -51,7 +51,7 @@ func NewGetOverdueConfigJSONParamsWithContext(ctx context.Context) *GetOverdueCo
 // NewGetOverdueConfigJSONParamsWithHTTPClient creates a new GetOverdueConfigJSONParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetOverdueConfigJSONParamsWithHTTPClient(client *http.Client) *GetOverdueConfigJSONParams {
-	var ()
+
 	return &GetOverdueConfigJSONParams{
 		HTTPClient: client,
 	}
@@ -61,12 +61,6 @@ func NewGetOverdueConfigJSONParamsWithHTTPClient(client *http.Client) *GetOverdu
 for the get overdue config Json operation typically these are written to a http.Request
 */
 type GetOverdueConfigJSONParams struct {
-
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
-
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
@@ -107,28 +101,6 @@ func (o *GetOverdueConfigJSONParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get overdue config Json params
-func (o *GetOverdueConfigJSONParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetOverdueConfigJSONParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get overdue config Json params
-func (o *GetOverdueConfigJSONParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get overdue config Json params
-func (o *GetOverdueConfigJSONParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetOverdueConfigJSONParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get overdue config Json params
-func (o *GetOverdueConfigJSONParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetOverdueConfigJSONParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -136,16 +108,6 @@ func (o *GetOverdueConfigJSONParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// header param withStackTrace
 	if o.WithStackTrace != nil && *o.WithStackTrace {

@@ -62,10 +62,6 @@ for the upload catalog Xml operation typically these are written to a http.Reque
 */
 type UploadCatalogXMLParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -113,28 +109,6 @@ func (o *UploadCatalogXMLParams) WithHTTPClient(client *http.Client) *UploadCata
 // SetHTTPClient adds the HTTPClient to the upload catalog Xml params
 func (o *UploadCatalogXMLParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the upload catalog Xml params
-func (o *UploadCatalogXMLParams) WithXKillbillAPIKey(xKillbillAPIKey string) *UploadCatalogXMLParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the upload catalog Xml params
-func (o *UploadCatalogXMLParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the upload catalog Xml params
-func (o *UploadCatalogXMLParams) WithXKillbillAPISecret(xKillbillAPISecret string) *UploadCatalogXMLParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the upload catalog Xml params
-func (o *UploadCatalogXMLParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the upload catalog Xml params
@@ -188,16 +162,6 @@ func (o *UploadCatalogXMLParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

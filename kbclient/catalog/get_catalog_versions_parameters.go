@@ -62,10 +62,6 @@ for the get catalog versions operation typically these are written to a http.Req
 */
 type GetCatalogVersionsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountID*/
 	AccountID *strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetCatalogVersionsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get catalog versions params
-func (o *GetCatalogVersionsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetCatalogVersionsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get catalog versions params
-func (o *GetCatalogVersionsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get catalog versions params
-func (o *GetCatalogVersionsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetCatalogVersionsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get catalog versions params
-func (o *GetCatalogVersionsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAccountID adds the accountID to the get catalog versions params
 func (o *GetCatalogVersionsParams) WithAccountID(accountID *strfmt.UUID) *GetCatalogVersionsParams {
 	o.SetAccountID(accountID)
@@ -149,16 +123,6 @@ func (o *GetCatalogVersionsParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.AccountID != nil {
 

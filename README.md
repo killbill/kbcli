@@ -18,7 +18,20 @@ go get -u github.com/killbill/kbcli
     trp.Producers["text/xml"] = runtime.TextProducer()
     // Set this to true to dump http messages
     trp.Debug = false
-    authWriter := httptransport.BasicAuth("admin"/*username*/, "password" /**password*/)
+    // Authentication
+    authWriter := runtime.ClientAuthInfoWriterFunc(func(r runtime.ClientRequest, _ strfmt.Registry) error {
+        encoded := base64.StdEncoding.EncodeToString([]byte("admin"/*username*/ + ":" + "password" /**password*/))
+        if err := r.SetHeaderParam("Authorization", "Basic "+encoded); err != nil {
+            return err
+        }
+        if err := r.SetHeaderParam("X-KillBill-ApiKey", apiKey); err != nil {
+            return err
+        }
+        if err := r.SetHeaderParam("X-KillBill-ApiSecret", apiSecret); err != nil {
+            return err
+        }
+        return nil
+    })
     client := kbclient.New(trp, strfmt.Default, authWriter, kbclient.KillbillDefaults{})
 ```
 

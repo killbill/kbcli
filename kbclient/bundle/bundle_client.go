@@ -26,10 +26,6 @@ func New(transport runtime.ClientTransport,
 // killbill default values. When a call is made to an operation, these values are used
 // if params doesn't specify them.
 type KillbillDefaults interface {
-	// Default API Key. If not set explicitly in params, this will be used.
-	XKillbillAPIKey() *string
-	// Default API Secret. If not set explicitly in params, this will be used.
-	XKillbillAPISecret() *string
 	// Default CreatedBy. If not set explicitly in params, this will be used.
 	XKillbillCreatedBy() *string
 	// Default Comment. If not set explicitly in params, this will be used.
@@ -144,31 +140,18 @@ func (a *Client) AddBundleBlockingState(ctx context.Context, params *AddBundleBl
 	getParams := NewAddBundleBlockingStateParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -227,31 +210,18 @@ func (a *Client) CreateBundleCustomFields(ctx context.Context, params *CreateBun
 	getParams := NewCreateBundleCustomFieldsParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -310,31 +280,18 @@ func (a *Client) CreateBundleTags(ctx context.Context, params *CreateBundleTagsP
 	getParams := NewCreateBundleTagsParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -391,14 +348,6 @@ func (a *Client) DeleteBundleCustomFields(ctx context.Context, params *DeleteBun
 		params = NewDeleteBundleCustomFieldsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -444,14 +393,6 @@ func (a *Client) DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsP
 		params = NewDeleteBundleTagsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -497,14 +438,6 @@ func (a *Client) GetBundle(ctx context.Context, params *GetBundleParams) (*GetBu
 		params = NewGetBundleParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -538,14 +471,6 @@ func (a *Client) GetBundleByKey(ctx context.Context, params *GetBundleByKeyParam
 		params = NewGetBundleByKeyParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -579,14 +504,6 @@ func (a *Client) GetBundleCustomFields(ctx context.Context, params *GetBundleCus
 		params = NewGetBundleCustomFieldsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -620,14 +537,6 @@ func (a *Client) GetBundleTags(ctx context.Context, params *GetBundleTagsParams)
 		params = NewGetBundleTagsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -661,14 +570,6 @@ func (a *Client) GetBundles(ctx context.Context, params *GetBundlesParams) (*Get
 		params = NewGetBundlesParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -702,14 +603,6 @@ func (a *Client) ModifyBundleCustomFields(ctx context.Context, params *ModifyBun
 		params = NewModifyBundleCustomFieldsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -755,14 +648,6 @@ func (a *Client) PauseBundle(ctx context.Context, params *PauseBundleParams) (*P
 		params = NewPauseBundleParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -808,14 +693,6 @@ func (a *Client) RenameExternalKey(ctx context.Context, params *RenameExternalKe
 		params = NewRenameExternalKeyParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -861,14 +738,6 @@ func (a *Client) ResumeBundle(ctx context.Context, params *ResumeBundleParams) (
 		params = NewResumeBundleParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -914,14 +783,6 @@ func (a *Client) SearchBundles(ctx context.Context, params *SearchBundlesParams)
 		params = NewSearchBundlesParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -957,31 +818,18 @@ func (a *Client) TransferBundle(ctx context.Context, params *TransferBundleParam
 	getParams := NewTransferBundleParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}

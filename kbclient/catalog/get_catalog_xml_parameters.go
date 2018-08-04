@@ -62,10 +62,6 @@ for the get catalog Xml operation typically these are written to a http.Request
 */
 type GetCatalogXMLParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountID*/
 	AccountID *strfmt.UUID
 	/*RequestedDate*/
@@ -111,28 +107,6 @@ func (o *GetCatalogXMLParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get catalog Xml params
-func (o *GetCatalogXMLParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetCatalogXMLParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get catalog Xml params
-func (o *GetCatalogXMLParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get catalog Xml params
-func (o *GetCatalogXMLParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetCatalogXMLParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get catalog Xml params
-func (o *GetCatalogXMLParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAccountID adds the accountID to the get catalog Xml params
 func (o *GetCatalogXMLParams) WithAccountID(accountID *strfmt.UUID) *GetCatalogXMLParams {
 	o.SetAccountID(accountID)
@@ -162,16 +136,6 @@ func (o *GetCatalogXMLParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.AccountID != nil {
 

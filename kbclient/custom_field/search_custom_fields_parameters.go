@@ -91,10 +91,6 @@ for the search custom fields operation typically these are written to a http.Req
 */
 type SearchCustomFieldsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*Limit*/
@@ -142,28 +138,6 @@ func (o *SearchCustomFieldsParams) WithHTTPClient(client *http.Client) *SearchCu
 // SetHTTPClient adds the HTTPClient to the search custom fields params
 func (o *SearchCustomFieldsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the search custom fields params
-func (o *SearchCustomFieldsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *SearchCustomFieldsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the search custom fields params
-func (o *SearchCustomFieldsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the search custom fields params
-func (o *SearchCustomFieldsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *SearchCustomFieldsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the search custom fields params
-func (o *SearchCustomFieldsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAudit adds the audit to the search custom fields params
@@ -217,16 +191,6 @@ func (o *SearchCustomFieldsParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

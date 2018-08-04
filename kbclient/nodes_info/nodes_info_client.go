@@ -25,10 +25,6 @@ func New(transport runtime.ClientTransport,
 // killbill default values. When a call is made to an operation, these values are used
 // if params doesn't specify them.
 type KillbillDefaults interface {
-	// Default API Key. If not set explicitly in params, this will be used.
-	XKillbillAPIKey() *string
-	// Default API Secret. If not set explicitly in params, this will be used.
-	XKillbillAPISecret() *string
 	// Default CreatedBy. If not set explicitly in params, this will be used.
 	XKillbillCreatedBy() *string
 	// Default Comment. If not set explicitly in params, this will be used.
@@ -104,7 +100,6 @@ func (a *Client) TriggerNodeCommand(ctx context.Context, params *TriggerNodeComm
 		params = NewTriggerNodeCommandParams()
 	}
 	params.Context = ctx
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}

@@ -62,10 +62,6 @@ for the get usage operation typically these are written to a http.Request
 */
 type GetUsageParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*EndDate*/
 	EndDate *strfmt.Date
 	/*StartDate*/
@@ -113,28 +109,6 @@ func (o *GetUsageParams) WithHTTPClient(client *http.Client) *GetUsageParams {
 // SetHTTPClient adds the HTTPClient to the get usage params
 func (o *GetUsageParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get usage params
-func (o *GetUsageParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetUsageParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get usage params
-func (o *GetUsageParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get usage params
-func (o *GetUsageParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetUsageParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get usage params
-func (o *GetUsageParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithEndDate adds the endDate to the get usage params
@@ -188,16 +162,6 @@ func (o *GetUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regi
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.EndDate != nil {
 

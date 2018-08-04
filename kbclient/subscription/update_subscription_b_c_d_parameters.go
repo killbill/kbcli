@@ -77,10 +77,6 @@ for the update subscription b c d operation typically these are written to a htt
 */
 type UpdateSubscriptionBCDParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -134,28 +130,6 @@ func (o *UpdateSubscriptionBCDParams) WithHTTPClient(client *http.Client) *Updat
 // SetHTTPClient adds the HTTPClient to the update subscription b c d params
 func (o *UpdateSubscriptionBCDParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the update subscription b c d params
-func (o *UpdateSubscriptionBCDParams) WithXKillbillAPIKey(xKillbillAPIKey string) *UpdateSubscriptionBCDParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the update subscription b c d params
-func (o *UpdateSubscriptionBCDParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the update subscription b c d params
-func (o *UpdateSubscriptionBCDParams) WithXKillbillAPISecret(xKillbillAPISecret string) *UpdateSubscriptionBCDParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the update subscription b c d params
-func (o *UpdateSubscriptionBCDParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the update subscription b c d params
@@ -242,16 +216,6 @@ func (o *UpdateSubscriptionBCDParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

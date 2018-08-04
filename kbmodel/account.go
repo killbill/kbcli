@@ -65,9 +65,6 @@ type Account struct {
 	// is migrated
 	IsMigrated *bool `json:"isMigrated,omitempty"`
 
-	// is notified for invoices
-	IsNotifiedForInvoices *bool `json:"isNotifiedForInvoices,omitempty"`
-
 	// is payment delegated to parent
 	IsPaymentDelegatedToParent *bool `json:"isPaymentDelegatedToParent,omitempty"`
 

@@ -107,10 +107,6 @@ for the get accounts operation typically these are written to a http.Request
 */
 type GetAccountsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountWithBalance*/
 	AccountWithBalance *bool
 	/*AccountWithBalanceAndCBA*/
@@ -160,28 +156,6 @@ func (o *GetAccountsParams) WithHTTPClient(client *http.Client) *GetAccountsPara
 // SetHTTPClient adds the HTTPClient to the get accounts params
 func (o *GetAccountsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get accounts params
-func (o *GetAccountsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetAccountsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get accounts params
-func (o *GetAccountsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get accounts params
-func (o *GetAccountsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetAccountsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get accounts params
-func (o *GetAccountsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAccountWithBalance adds the accountWithBalance to the get accounts params
@@ -246,16 +220,6 @@ func (o *GetAccountsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.AccountWithBalance != nil {
 

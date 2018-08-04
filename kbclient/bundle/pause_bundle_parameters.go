@@ -63,10 +63,6 @@ for the pause bundle operation typically these are written to a http.Request
 */
 type PauseBundleParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -118,28 +114,6 @@ func (o *PauseBundleParams) WithHTTPClient(client *http.Client) *PauseBundlePara
 // SetHTTPClient adds the HTTPClient to the pause bundle params
 func (o *PauseBundleParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the pause bundle params
-func (o *PauseBundleParams) WithXKillbillAPIKey(xKillbillAPIKey string) *PauseBundleParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the pause bundle params
-func (o *PauseBundleParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the pause bundle params
-func (o *PauseBundleParams) WithXKillbillAPISecret(xKillbillAPISecret string) *PauseBundleParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the pause bundle params
-func (o *PauseBundleParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the pause bundle params
@@ -215,16 +189,6 @@ func (o *PauseBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

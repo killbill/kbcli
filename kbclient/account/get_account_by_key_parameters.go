@@ -91,10 +91,6 @@ for the get account by key operation typically these are written to a http.Reque
 */
 type GetAccountByKeyParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountWithBalance*/
 	AccountWithBalance *bool
 	/*AccountWithBalanceAndCBA*/
@@ -142,28 +138,6 @@ func (o *GetAccountByKeyParams) WithHTTPClient(client *http.Client) *GetAccountB
 // SetHTTPClient adds the HTTPClient to the get account by key params
 func (o *GetAccountByKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get account by key params
-func (o *GetAccountByKeyParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetAccountByKeyParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get account by key params
-func (o *GetAccountByKeyParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get account by key params
-func (o *GetAccountByKeyParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetAccountByKeyParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get account by key params
-func (o *GetAccountByKeyParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAccountWithBalance adds the accountWithBalance to the get account by key params
@@ -217,16 +191,6 @@ func (o *GetAccountByKeyParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.AccountWithBalance != nil {
 

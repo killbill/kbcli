@@ -25,10 +25,6 @@ func New(transport runtime.ClientTransport,
 // killbill default values. When a call is made to an operation, these values are used
 // if params doesn't specify them.
 type KillbillDefaults interface {
-	// Default API Key. If not set explicitly in params, this will be used.
-	XKillbillAPIKey() *string
-	// Default API Secret. If not set explicitly in params, this will be used.
-	XKillbillAPISecret() *string
 	// Default CreatedBy. If not set explicitly in params, this will be used.
 	XKillbillCreatedBy() *string
 	// Default Comment. If not set explicitly in params, this will be used.
@@ -78,14 +74,6 @@ func (a *Client) BuildComboFormDescriptor(ctx context.Context, params *BuildComb
 		params = NewBuildComboFormDescriptorParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -131,14 +119,6 @@ func (a *Client) BuildFormDescriptor(ctx context.Context, params *BuildFormDescr
 		params = NewBuildFormDescriptorParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -186,14 +166,6 @@ func (a *Client) ProcessNotification(ctx context.Context, params *ProcessNotific
 		params = NewProcessNotificationParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}

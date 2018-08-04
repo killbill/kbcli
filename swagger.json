@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "Kill Bill is an open-source billing and payments platform",
-    "version": "0.19.17-SNAPSHOT",
+    "version": "0.20.2-SNAPSHOT",
     "title": "Kill Bill",
     "contact": {
       "name": "killbilling-users@googlegroups.com"
@@ -14,19 +14,22 @@
   },
   "tags": [
     {
-      "name": "Account"
+      "name": "Overdue"
     },
     {
-      "name": "Subscription"
-    },
-    {
-      "name": "CustomField"
+      "name": "Usage"
     },
     {
       "name": "Catalog"
     },
     {
-      "name": "Invoice"
+      "name": "Credit"
+    },
+    {
+      "name": "PaymentMethod"
+    },
+    {
+      "name": "InvoicePayment"
     },
     {
       "name": "TagDefinition"
@@ -35,52 +38,49 @@
       "name": "Bundle"
     },
     {
-      "name": "Export"
+      "name": "PaymentGateway"
     },
     {
       "name": "PluginInfo"
     },
     {
-      "name": "Admin"
-    },
-    {
-      "name": "PaymentTransaction"
+      "name": "Security"
     },
     {
       "name": "InvoiceItem"
     },
     {
-      "name": "Overdue"
-    },
-    {
-      "name": "Security"
-    },
-    {
-      "name": "InvoicePayment"
-    },
-    {
-      "name": "PaymentMethod"
-    },
-    {
-      "name": "Tag"
-    },
-    {
-      "name": "Credit"
-    },
-    {
       "name": "NodesInfo"
-    },
-    {
-      "name": "PaymentGateway"
     },
     {
       "name": "Payment"
     },
     {
-      "name": "Usage"
+      "name": "Account"
+    },
+    {
+      "name": "Tag"
+    },
+    {
+      "name": "Subscription"
     },
     {
       "name": "Tenant"
+    },
+    {
+      "name": "CustomField"
+    },
+    {
+      "name": "PaymentTransaction"
+    },
+    {
+      "name": "Admin"
+    },
+    {
+      "name": "Export"
+    },
+    {
+      "name": "Invoice"
     }
   ],
   "paths": {
@@ -127,18 +127,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -155,6 +143,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -197,18 +191,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -225,6 +207,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -282,18 +270,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -310,6 +286,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -387,18 +369,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -433,6 +403,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -497,18 +473,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -525,6 +489,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -574,18 +544,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -605,6 +563,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -662,18 +626,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -687,6 +639,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -754,18 +712,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -779,6 +725,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -841,18 +793,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -875,6 +815,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -944,18 +890,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -978,6 +912,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -1001,18 +941,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1032,6 +960,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -1055,18 +989,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1086,6 +1008,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -1146,18 +1074,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1177,6 +1093,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -1241,18 +1163,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1275,6 +1185,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -1322,18 +1238,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1356,6 +1260,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -1400,18 +1310,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1425,6 +1323,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -1474,18 +1378,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1508,6 +1400,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -1543,18 +1441,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1574,6 +1460,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -1627,18 +1519,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1658,6 +1538,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -1711,18 +1597,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1736,6 +1610,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -1789,18 +1669,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1814,141 +1682,12 @@
         "security": [
           {
             "basicAuth": []
-          }
-        ]
-      }
-    },
-    "/1.0/kb/accounts/{accountId}/emailNotifications": {
-      "get": {
-        "tags": [
-          "Account"
-        ],
-        "summary": "Retrieve account email notification",
-        "description": "",
-        "operationId": "getEmailNotificationsForAccount",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
-            "format": "uuid"
           },
           {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
+            "Killbill Api Key": []
           },
           {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/InvoiceEmail"
-            }
-          },
-          "400": {
-            "description": "Invalid account id supplied"
-          },
-          "204": {
-            "description": "Successful operation"
-          },
-          "404": {
-            "description": "Account not found"
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ]
-      },
-      "put": {
-        "tags": [
-          "Account"
-        ],
-        "summary": "Set account email notification",
-        "description": "",
-        "operationId": "setEmailNotificationsForAccount",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
-            "format": "uuid"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/InvoiceEmail"
-            }
-          },
-          {
-            "name": "X-Killbill-CreatedBy",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-Reason",
-            "in": "header",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-Comment",
-            "in": "header",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid account id supplied"
-          },
-          "204": {
-            "description": "Successful operation"
-          },
-          "404": {
-            "description": "Account not found"
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -1972,18 +1711,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2003,6 +1730,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -2053,18 +1786,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2087,6 +1808,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -2118,18 +1845,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2149,6 +1864,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -2196,18 +1917,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2221,6 +1930,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -2280,18 +1995,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2314,6 +2017,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -2393,18 +2102,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2418,6 +2115,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -2488,18 +2191,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2522,6 +2213,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -2545,18 +2242,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2576,6 +2261,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -2635,18 +2326,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2669,6 +2348,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -2753,18 +2438,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2784,6 +2457,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -2841,18 +2520,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2869,6 +2536,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -2938,18 +2611,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2966,6 +2627,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3025,18 +2692,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3056,6 +2711,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -3133,18 +2794,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3179,6 +2828,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3221,18 +2876,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3255,6 +2898,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -3309,18 +2958,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3340,6 +2977,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -3393,18 +3036,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3418,6 +3049,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3460,18 +3097,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3491,6 +3116,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3535,18 +3166,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3563,6 +3182,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3584,18 +3209,6 @@
             "in": "query",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3609,6 +3222,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3632,18 +3251,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3657,6 +3264,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3672,20 +3285,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "204": {
             "description": "Successful operation"
@@ -3694,6 +3294,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3709,20 +3315,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "204": {
             "description": "Successful operation"
@@ -3731,6 +3324,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -3744,20 +3343,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "204": {
             "description": "Successful operation"
@@ -3766,6 +3352,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3818,18 +3410,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3840,6 +3420,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3900,18 +3486,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -3925,6 +3499,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -3999,18 +3579,6 @@
             "required": false,
             "type": "boolean",
             "default": true
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4027,6 +3595,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -4067,18 +3641,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4098,6 +3660,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -4141,18 +3709,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4169,6 +3725,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -4219,18 +3781,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4247,6 +3797,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -4282,18 +3838,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4313,6 +3857,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -4393,18 +3943,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4424,6 +3962,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -4490,18 +4034,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4524,6 +4056,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -4559,18 +4097,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4590,6 +4116,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -4643,18 +4175,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4674,6 +4194,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -4727,18 +4253,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4752,6 +4266,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -4805,18 +4325,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4830,6 +4338,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -4891,18 +4405,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4919,6 +4421,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -4968,18 +4476,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -4996,6 +4492,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5057,18 +4559,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5085,6 +4575,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5127,18 +4623,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5161,6 +4645,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -5215,18 +4705,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5246,6 +4724,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -5299,18 +4783,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5324,6 +4796,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5353,18 +4831,6 @@
             "required": false,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5381,6 +4847,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -5409,18 +4881,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5431,6 +4891,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5465,18 +4931,6 @@
             "required": false,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5493,6 +4947,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5515,18 +4975,6 @@
             "required": false,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5543,6 +4991,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5572,18 +5026,6 @@
             "required": false,
             "type": "string",
             "format": "date"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5597,6 +5039,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5626,18 +5074,6 @@
             "required": false,
             "type": "string",
             "format": "date"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5651,6 +5087,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5680,18 +5122,6 @@
             "required": false,
             "type": "string",
             "format": "date"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5705,6 +5135,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5734,18 +5170,6 @@
             "required": false,
             "type": "string",
             "format": "date"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5759,6 +5183,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5803,18 +5233,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5828,6 +5246,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5850,18 +5274,6 @@
             "required": false,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5879,6 +5291,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -5908,18 +5326,6 @@
             "required": false,
             "type": "string",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5933,6 +5339,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -5972,18 +5384,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -5997,6 +5397,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -6058,18 +5464,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6089,6 +5483,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -6112,18 +5512,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6143,6 +5531,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -6186,18 +5580,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6214,6 +5596,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -6264,18 +5652,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6292,6 +5668,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -6315,18 +5697,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6346,6 +5716,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -6387,18 +5763,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6415,6 +5779,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -6450,18 +5820,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6481,6 +5839,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -6534,18 +5898,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6565,6 +5917,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -6618,18 +5976,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6643,6 +5989,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -6696,18 +6048,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6721,6 +6061,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -6770,18 +6116,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6804,6 +6138,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -6858,18 +6198,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6889,6 +6217,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -6942,18 +6276,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -6967,6 +6289,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -7026,18 +6354,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7057,6 +6373,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -7127,18 +6449,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7170,6 +6480,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -7206,6 +6522,16 @@
             }
           },
           {
+            "name": "pluginProperty",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
             "name": "X-Killbill-CreatedBy",
             "in": "header",
             "required": true,
@@ -7221,18 +6547,6 @@
             "name": "X-Killbill-Comment",
             "in": "header",
             "required": false,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
             "type": "string"
           }
         ],
@@ -7253,6 +6567,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -7289,6 +6609,16 @@
             }
           },
           {
+            "name": "pluginProperty",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
             "name": "X-Killbill-CreatedBy",
             "in": "header",
             "required": true,
@@ -7304,18 +6634,6 @@
             "name": "X-Killbill-Comment",
             "in": "header",
             "required": false,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
             "type": "string"
           }
         ],
@@ -7336,6 +6654,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -7371,18 +6695,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7402,6 +6714,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -7455,18 +6773,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7486,6 +6792,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -7539,18 +6851,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7564,6 +6864,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -7617,18 +6923,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7642,6 +6936,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -7718,18 +7018,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7749,6 +7037,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -7801,18 +7095,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7835,6 +7117,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -7889,18 +7177,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7920,6 +7196,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -7973,18 +7255,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -7998,6 +7268,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8048,18 +7324,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8076,6 +7340,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8125,18 +7395,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8153,6 +7411,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8202,18 +7466,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8230,6 +7482,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8252,18 +7510,6 @@
             "required": true,
             "type": "string",
             "pattern": ".*"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8283,6 +7529,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -8339,18 +7591,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8364,6 +7604,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8443,18 +7689,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8477,6 +7711,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8535,18 +7775,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8566,6 +7794,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8617,18 +7851,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8642,6 +7864,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8664,18 +7892,6 @@
             "required": true,
             "type": "string",
             "pattern": ".*"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8692,6 +7908,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8754,18 +7976,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8782,6 +7992,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8832,18 +8048,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8860,6 +8064,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -8917,18 +8127,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -8945,6 +8143,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -9024,18 +8228,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9058,6 +8250,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -9073,20 +8271,7 @@
         "produces": [
           "text/html"
         ],
-        "parameters": [
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -9101,6 +8286,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -9150,18 +8341,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9175,6 +8354,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -9197,18 +8382,6 @@
             "required": true,
             "type": "string",
             "pattern": ".*"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9228,6 +8401,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -9284,18 +8463,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9309,6 +8476,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -9358,18 +8531,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9389,6 +8550,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -9456,18 +8623,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9487,6 +8642,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -9531,18 +8692,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9556,6 +8705,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -9591,18 +8746,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9622,6 +8765,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -9675,18 +8824,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9706,6 +8843,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -9759,18 +8902,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9784,6 +8915,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -9837,18 +8974,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9862,6 +8987,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -9885,18 +9016,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9913,6 +9032,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -9962,18 +9087,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -9996,6 +9109,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -10063,18 +9182,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -10097,6 +9204,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -10139,18 +9252,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -10173,6 +9274,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -10227,18 +9334,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -10258,6 +9353,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -10311,18 +9412,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -10336,6 +9425,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -10380,18 +9475,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -10408,6 +9491,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -10467,18 +9556,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -10495,6 +9572,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -10602,20 +9685,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -10627,6 +9697,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -10669,18 +9745,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -10697,6 +9761,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -10712,20 +9782,7 @@
         "produces": [
           "text/xml"
         ],
-        "parameters": [
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -10737,6 +9794,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -10776,18 +9839,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -10804,6 +9855,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -10868,18 +9925,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -10896,6 +9941,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -10975,18 +10026,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11003,6 +10042,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -11074,18 +10119,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11096,6 +10129,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -11153,18 +10192,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11181,6 +10208,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -11247,18 +10280,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11275,6 +10296,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -11348,18 +10375,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11376,6 +10391,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -11435,18 +10456,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11466,6 +10475,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -11529,18 +10544,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11557,6 +10560,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -11580,18 +10589,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11611,6 +10608,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -11646,18 +10649,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11677,6 +10668,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -11730,18 +10727,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11761,6 +10746,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -11814,18 +10805,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11839,6 +10818,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -11892,18 +10877,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -11917,6 +10890,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -11974,18 +10953,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12002,6 +10969,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -12061,18 +11034,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12089,6 +11050,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -12149,18 +11116,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12180,6 +11135,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -12203,18 +11164,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12234,6 +11183,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -12269,18 +11224,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12300,6 +11243,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -12353,18 +11302,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12384,6 +11321,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -12437,18 +11380,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12462,6 +11393,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -12515,18 +11452,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12540,6 +11465,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -12582,18 +11513,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12616,6 +11535,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -12670,18 +11595,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12701,6 +11614,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -12754,18 +11673,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12779,6 +11686,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -12836,18 +11749,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12864,6 +11765,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -12926,18 +11833,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -12969,6 +11864,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -13031,18 +11932,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13071,6 +11960,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -13133,18 +12028,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13173,6 +12056,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -13196,18 +12085,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13227,6 +12104,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -13269,18 +12152,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13294,6 +12165,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -13358,18 +12235,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13401,6 +12266,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -13465,18 +12336,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13508,6 +12367,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -13562,18 +12427,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13605,6 +12458,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -13678,18 +12537,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13706,6 +12553,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -13770,18 +12623,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13813,6 +12654,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -13893,18 +12740,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -13921,6 +12756,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -13980,18 +12821,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14011,6 +12840,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -14081,18 +12916,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14127,6 +12950,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -14197,18 +13026,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14240,6 +13057,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -14310,18 +13133,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14353,6 +13164,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -14376,18 +13193,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14407,6 +13212,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -14479,18 +13290,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14525,6 +13324,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -14597,18 +13402,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14643,6 +13436,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -14678,18 +13477,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14709,6 +13496,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -14762,18 +13555,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14793,6 +13574,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -14846,18 +13633,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14871,6 +13646,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -14924,18 +13705,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -14949,6 +13718,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -15021,18 +13796,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -15067,6 +13830,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -15109,18 +13878,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -15143,6 +13900,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -15197,18 +13960,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -15228,6 +13979,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -15281,18 +14038,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -15306,6 +14051,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -15350,18 +14101,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -15375,6 +14114,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -15390,20 +14135,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -15418,6 +14150,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -15991,18 +14729,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16016,6 +14742,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -16116,18 +14848,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16141,6 +14861,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -16241,18 +14967,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16269,6 +14983,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -16304,18 +15024,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16335,6 +15043,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -16429,18 +15143,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16457,6 +15159,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -16557,18 +15265,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16585,6 +15281,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -16651,18 +15353,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16676,6 +15366,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -16742,18 +15438,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16776,6 +15460,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -16811,18 +15501,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16842,6 +15520,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -16895,18 +15579,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16920,6 +15592,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -16973,18 +15651,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -16998,6 +15664,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -17051,18 +15723,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17076,6 +15736,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -17118,18 +15784,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17152,6 +15806,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -17204,18 +15864,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17229,6 +15877,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -17282,18 +15936,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17307,6 +15949,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -17358,18 +16006,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17386,6 +16022,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -17437,18 +16079,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17465,6 +16095,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -17492,18 +16128,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17520,6 +16144,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -17562,18 +16192,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17590,6 +16208,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -17625,18 +16249,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17653,6 +16265,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -17692,18 +16310,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17717,6 +16323,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -17740,18 +16352,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17771,6 +16371,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -17814,18 +16420,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17842,6 +16436,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -17892,18 +16492,6 @@
               "MINIMAL",
               "NONE"
             ]
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17920,6 +16508,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -17943,18 +16537,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -17974,6 +16556,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -18091,20 +16679,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -18119,6 +16694,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18159,18 +16740,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18187,6 +16756,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18215,18 +16790,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18240,6 +16803,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -18255,20 +16824,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -18283,6 +16839,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18325,18 +16887,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18353,6 +16903,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18381,18 +16937,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18406,6 +16950,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -18428,18 +16978,6 @@
             "required": true,
             "type": "string",
             "pattern": ".*"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18456,6 +16994,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -18478,18 +17022,6 @@
             "required": true,
             "type": "string",
             "pattern": ".*"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18506,6 +17038,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18555,18 +17093,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18583,6 +17109,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18618,18 +17150,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18643,6 +17163,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -18665,18 +17191,6 @@
             "required": true,
             "type": "string",
             "pattern": ".*"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18693,6 +17207,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18742,18 +17262,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18770,6 +17278,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18805,18 +17319,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18830,6 +17332,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -18852,18 +17360,6 @@
             "required": true,
             "type": "string",
             "pattern": ".*"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18880,6 +17376,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18929,18 +17431,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -18957,6 +17447,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       },
@@ -18992,18 +17488,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -19017,6 +17501,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -19040,18 +17530,6 @@
             "type": "string",
             "pattern": "\\w+-\\w+-\\w+-\\w+-\\w+",
             "format": "uuid"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -19071,6 +17549,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -19115,18 +17599,6 @@
             "in": "header",
             "required": false,
             "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -19140,6 +17612,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -19177,18 +17655,6 @@
             "required": false,
             "type": "string",
             "format": "date"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -19205,6 +17671,12 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
@@ -19248,18 +17720,6 @@
             "required": false,
             "type": "string",
             "format": "date"
-          },
-          {
-            "name": "X-Killbill-ApiKey",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "X-Killbill-ApiSecret",
-            "in": "header",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -19276,12 +17736,28 @@
         "security": [
           {
             "basicAuth": []
+          },
+          {
+            "Killbill Api Key": []
+          },
+          {
+            "Killbill Api Secret": []
           }
         ]
       }
     }
   },
   "securityDefinitions": {
+    "Killbill Api Key": {
+      "type": "apiKey",
+      "name": "X-Killbill-ApiKey",
+      "in": "header"
+    },
+    "Killbill Api Secret": {
+      "type": "apiKey",
+      "name": "X-Killbill-ApiSecret",
+      "in": "header"
+    },
     "basicAuth": {
       "type": "basic"
     }
@@ -19290,10 +17766,6 @@
     "Entity": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "format": "uuid"
-        },
         "createdDate": {
           "type": "string",
           "format": "date-time"
@@ -19301,6 +17773,10 @@
         "updatedDate": {
           "type": "string",
           "format": "date-time"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
         }
       }
     },
@@ -19548,10 +18024,6 @@
           "type": "string"
         },
         "isMigrated": {
-          "type": "boolean",
-          "default": false
-        },
-        "isNotifiedForInvoices": {
           "type": "boolean",
           "default": false
         },
@@ -19909,20 +18381,6 @@
         }
       }
     },
-    "AdminPayment": {
-      "type": "object",
-      "properties": {
-        "lastSuccessPaymentState": {
-          "type": "string"
-        },
-        "currentPaymentStateName": {
-          "type": "string"
-        },
-        "transactionStatus": {
-          "type": "string"
-        }
-      }
-    },
     "TenantKeyValue": {
       "type": "object",
       "properties": {
@@ -19934,6 +18392,20 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "AdminPayment": {
+      "type": "object",
+      "properties": {
+        "lastSuccessPaymentState": {
+          "type": "string"
+        },
+        "currentPaymentStateName": {
+          "type": "string"
+        },
+        "transactionStatus": {
+          "type": "string"
         }
       }
     },
@@ -20048,6 +18520,17 @@
         }
       }
     },
+    "NodeCommandProperty": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "object"
+        }
+      }
+    },
     "OverdueState": {
       "type": "object",
       "properties": {
@@ -20079,17 +18562,6 @@
         "reevaluationIntervalDays": {
           "type": "integer",
           "format": "int32"
-        }
-      }
-    },
-    "NodeCommandProperty": {
-      "type": "object",
-      "properties": {
-        "key": {
-          "type": "string"
-        },
-        "value": {
-          "type": "object"
         }
       }
     },
@@ -20707,6 +19179,28 @@
         }
       }
     },
+    "SubscriptionUsageRecord": {
+      "type": "object",
+      "required": [
+        "subscriptionId",
+        "unitUsageRecords"
+      ],
+      "properties": {
+        "subscriptionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "trackingId": {
+          "type": "string"
+        },
+        "unitUsageRecords": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitUsageRecord"
+          }
+        }
+      }
+    },
     "Subscription": {
       "type": "object",
       "required": [
@@ -20840,28 +19334,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/AuditLog"
-          }
-        }
-      }
-    },
-    "SubscriptionUsageRecord": {
-      "type": "object",
-      "required": [
-        "subscriptionId",
-        "unitUsageRecords"
-      ],
-      "properties": {
-        "subscriptionId": {
-          "type": "string",
-          "format": "uuid"
-        },
-        "trackingId": {
-          "type": "string"
-        },
-        "unitUsageRecords": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/UnitUsageRecord"
           }
         }
       }
@@ -22417,25 +20889,6 @@
         }
       }
     },
-    "InvoiceEmail": {
-      "type": "object",
-      "properties": {
-        "accountId": {
-          "type": "string",
-          "format": "uuid"
-        },
-        "isNotifiedForInvoices": {
-          "type": "boolean",
-          "default": false
-        },
-        "auditLogs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AuditLog"
-          }
-        }
-      }
-    },
     "TagDefinition": {
       "type": "object",
       "required": [
@@ -22524,6 +20977,35 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/TierPrice"
+          }
+        }
+      }
+    },
+    "Phase": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "prices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Price"
+          }
+        },
+        "fixedPrices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Price"
+          }
+        },
+        "duration": {
+          "$ref": "#/definitions/Duration"
+        },
+        "usages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Usage"
           }
         }
       }
@@ -22806,35 +21288,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/AuditLog"
-          }
-        }
-      }
-    },
-    "Phase": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string"
-        },
-        "prices": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Price"
-          }
-        },
-        "fixedPrices": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Price"
-          }
-        },
-        "duration": {
-          "$ref": "#/definitions/Duration"
-        },
-        "usages": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Usage"
           }
         }
       }
@@ -23141,6 +21594,18 @@
         }
       }
     },
+    "RolledUpUnit": {
+      "type": "object",
+      "properties": {
+        "unitType": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "EventSubscription": {
       "type": "object",
       "properties": {
@@ -23218,18 +21683,6 @@
           "items": {
             "$ref": "#/definitions/AuditLog"
           }
-        }
-      }
-    },
-    "RolledUpUnit": {
-      "type": "object",
-      "properties": {
-        "unitType": {
-          "type": "string"
-        },
-        "amount": {
-          "type": "integer",
-          "format": "int64"
         }
       }
     },
@@ -23844,6 +22297,24 @@
         }
       }
     },
+    "RoleDefinition": {
+      "type": "object",
+      "required": [
+        "permissions",
+        "role"
+      ],
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "AccountEmail": {
       "type": "object",
       "required": [
@@ -23861,24 +22332,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/AuditLog"
-          }
-        }
-      }
-    },
-    "RoleDefinition": {
-      "type": "object",
-      "required": [
-        "permissions",
-        "role"
-      ],
-      "properties": {
-        "role": {
-          "type": "string"
-        },
-        "permissions": {
-          "type": "array",
-          "items": {
-            "type": "string"
           }
         }
       }
@@ -24047,6 +22500,20 @@
         }
       }
     },
+    "Limit": {
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string"
+        },
+        "max": {
+          "type": "string"
+        },
+        "min": {
+          "type": "string"
+        }
+      }
+    },
     "Tag": {
       "type": "object",
       "properties": {
@@ -24094,20 +22561,6 @@
           "items": {
             "$ref": "#/definitions/AuditLog"
           }
-        }
-      }
-    },
-    "Limit": {
-      "type": "object",
-      "properties": {
-        "unit": {
-          "type": "string"
-        },
-        "max": {
-          "type": "string"
-        },
-        "min": {
-          "type": "string"
         }
       }
     },

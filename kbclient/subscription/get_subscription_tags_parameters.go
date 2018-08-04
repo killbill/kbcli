@@ -83,10 +83,6 @@ for the get subscription tags operation typically these are written to a http.Re
 */
 type GetSubscriptionTagsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*IncludedDeleted*/
@@ -134,28 +130,6 @@ func (o *GetSubscriptionTagsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get subscription tags params
-func (o *GetSubscriptionTagsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetSubscriptionTagsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get subscription tags params
-func (o *GetSubscriptionTagsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get subscription tags params
-func (o *GetSubscriptionTagsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetSubscriptionTagsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get subscription tags params
-func (o *GetSubscriptionTagsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAudit adds the audit to the get subscription tags params
 func (o *GetSubscriptionTagsParams) WithAudit(audit *string) *GetSubscriptionTagsParams {
 	o.SetAudit(audit)
@@ -196,16 +170,6 @@ func (o *GetSubscriptionTagsParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

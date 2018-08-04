@@ -26,10 +26,6 @@ func New(transport runtime.ClientTransport,
 // killbill default values. When a call is made to an operation, these values are used
 // if params doesn't specify them.
 type KillbillDefaults interface {
-	// Default API Key. If not set explicitly in params, this will be used.
-	XKillbillAPIKey() *string
-	// Default API Secret. If not set explicitly in params, this will be used.
-	XKillbillAPISecret() *string
 	// Default CreatedBy. If not set explicitly in params, this will be used.
 	XKillbillCreatedBy() *string
 	// Default Comment. If not set explicitly in params, this will be used.
@@ -202,14 +198,6 @@ func (a *Client) CancelScheduledPaymentTransactionByExternalKey(ctx context.Cont
 		params = NewCancelScheduledPaymentTransactionByExternalKeyParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -255,14 +243,6 @@ func (a *Client) CancelScheduledPaymentTransactionByID(ctx context.Context, para
 		params = NewCancelScheduledPaymentTransactionByIDParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -310,31 +290,18 @@ func (a *Client) CaptureAuthorization(ctx context.Context, params *CaptureAuthor
 	getParams := NewCaptureAuthorizationParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -393,31 +360,18 @@ func (a *Client) CaptureAuthorizationByExternalKey(ctx context.Context, params *
 	getParams := NewCaptureAuthorizationByExternalKeyParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -476,31 +430,18 @@ func (a *Client) ChargebackPayment(ctx context.Context, params *ChargebackPaymen
 	getParams := NewChargebackPaymentParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -559,31 +500,18 @@ func (a *Client) ChargebackPaymentByExternalKey(ctx context.Context, params *Cha
 	getParams := NewChargebackPaymentByExternalKeyParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -642,31 +570,18 @@ func (a *Client) ChargebackReversalPayment(ctx context.Context, params *Chargeba
 	getParams := NewChargebackReversalPaymentParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -725,31 +640,18 @@ func (a *Client) ChargebackReversalPaymentByExternalKey(ctx context.Context, par
 	getParams := NewChargebackReversalPaymentByExternalKeyParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -806,14 +708,6 @@ func (a *Client) CompleteTransaction(ctx context.Context, params *CompleteTransa
 		params = NewCompleteTransactionParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -859,14 +753,6 @@ func (a *Client) CompleteTransactionByExternalKey(ctx context.Context, params *C
 		params = NewCompleteTransactionByExternalKeyParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -914,31 +800,18 @@ func (a *Client) CreateComboPayment(ctx context.Context, params *CreateComboPaym
 	getParams := NewCreateComboPaymentParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -997,31 +870,18 @@ func (a *Client) CreatePaymentCustomFields(ctx context.Context, params *CreatePa
 	getParams := NewCreatePaymentCustomFieldsParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1080,31 +940,18 @@ func (a *Client) CreatePaymentTags(ctx context.Context, params *CreatePaymentTag
 	getParams := NewCreatePaymentTagsParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1161,14 +1008,6 @@ func (a *Client) DeletePaymentCustomFields(ctx context.Context, params *DeletePa
 		params = NewDeletePaymentCustomFieldsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -1214,14 +1053,6 @@ func (a *Client) DeletePaymentTags(ctx context.Context, params *DeletePaymentTag
 		params = NewDeletePaymentTagsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -1267,14 +1098,6 @@ func (a *Client) GetPayment(ctx context.Context, params *GetPaymentParams) (*Get
 		params = NewGetPaymentParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1308,14 +1131,6 @@ func (a *Client) GetPaymentAttemptAuditLogsWithHistory(ctx context.Context, para
 		params = NewGetPaymentAttemptAuditLogsWithHistoryParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1349,14 +1164,6 @@ func (a *Client) GetPaymentAuditLogsWithHistory(ctx context.Context, params *Get
 		params = NewGetPaymentAuditLogsWithHistoryParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1390,14 +1197,6 @@ func (a *Client) GetPaymentByExternalKey(ctx context.Context, params *GetPayment
 		params = NewGetPaymentByExternalKeyParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1431,14 +1230,6 @@ func (a *Client) GetPaymentCustomFields(ctx context.Context, params *GetPaymentC
 		params = NewGetPaymentCustomFieldsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1472,14 +1263,6 @@ func (a *Client) GetPaymentTags(ctx context.Context, params *GetPaymentTagsParam
 		params = NewGetPaymentTagsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1513,14 +1296,6 @@ func (a *Client) GetPayments(ctx context.Context, params *GetPaymentsParams) (*G
 		params = NewGetPaymentsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1554,14 +1329,6 @@ func (a *Client) ModifyPaymentCustomFields(ctx context.Context, params *ModifyPa
 		params = NewModifyPaymentCustomFieldsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -1609,31 +1376,18 @@ func (a *Client) RefundPayment(ctx context.Context, params *RefundPaymentParams)
 	getParams := NewRefundPaymentParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1692,31 +1446,18 @@ func (a *Client) RefundPaymentByExternalKey(ctx context.Context, params *RefundP
 	getParams := NewRefundPaymentByExternalKeyParams()
 	getParams.Context = ctx
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-	getParams.XKillbillAPIKey = params.XKillbillAPIKey
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-	getParams.XKillbillAPISecret = params.XKillbillAPISecret
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1773,14 +1514,6 @@ func (a *Client) SearchPayments(ctx context.Context, params *SearchPaymentsParam
 		params = NewSearchPaymentsParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -1814,14 +1547,6 @@ func (a *Client) VoidPayment(ctx context.Context, params *VoidPaymentParams) (*V
 		params = NewVoidPaymentParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -1867,14 +1592,6 @@ func (a *Client) VoidPaymentByExternalKey(ctx context.Context, params *VoidPayme
 		params = NewVoidPaymentByExternalKeyParams()
 	}
 	params.Context = ctx
-	if params.XKillbillAPIKey == "" && a.defaults.XKillbillAPIKey() != nil {
-		params.XKillbillAPIKey = *a.defaults.XKillbillAPIKey()
-	}
-
-	if params.XKillbillAPISecret == "" && a.defaults.XKillbillAPISecret() != nil {
-		params.XKillbillAPISecret = *a.defaults.XKillbillAPISecret()
-	}
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}

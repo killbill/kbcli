@@ -62,10 +62,6 @@ for the get custom field audit logs with history operation typically these are w
 */
 type GetCustomFieldAuditLogsWithHistoryParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*CustomFieldID*/
 	CustomFieldID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetCustomFieldAuditLogsWithHistoryParams) SetHTTPClient(client *http.Cl
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get custom field audit logs with history params
-func (o *GetCustomFieldAuditLogsWithHistoryParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetCustomFieldAuditLogsWithHistoryParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get custom field audit logs with history params
-func (o *GetCustomFieldAuditLogsWithHistoryParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get custom field audit logs with history params
-func (o *GetCustomFieldAuditLogsWithHistoryParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetCustomFieldAuditLogsWithHistoryParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get custom field audit logs with history params
-func (o *GetCustomFieldAuditLogsWithHistoryParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithCustomFieldID adds the customFieldID to the get custom field audit logs with history params
 func (o *GetCustomFieldAuditLogsWithHistoryParams) WithCustomFieldID(customFieldID strfmt.UUID) *GetCustomFieldAuditLogsWithHistoryParams {
 	o.SetCustomFieldID(customFieldID)
@@ -149,16 +123,6 @@ func (o *GetCustomFieldAuditLogsWithHistoryParams) WriteToRequest(r runtime.Clie
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param customFieldId
 	if err := r.SetPathParam("customFieldId", o.CustomFieldID.String()); err != nil {

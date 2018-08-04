@@ -77,10 +77,6 @@ for the create instant payment operation typically these are written to a http.R
 */
 type CreateInstantPaymentParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -134,28 +130,6 @@ func (o *CreateInstantPaymentParams) WithHTTPClient(client *http.Client) *Create
 // SetHTTPClient adds the HTTPClient to the create instant payment params
 func (o *CreateInstantPaymentParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the create instant payment params
-func (o *CreateInstantPaymentParams) WithXKillbillAPIKey(xKillbillAPIKey string) *CreateInstantPaymentParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the create instant payment params
-func (o *CreateInstantPaymentParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the create instant payment params
-func (o *CreateInstantPaymentParams) WithXKillbillAPISecret(xKillbillAPISecret string) *CreateInstantPaymentParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the create instant payment params
-func (o *CreateInstantPaymentParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the create instant payment params
@@ -242,16 +216,6 @@ func (o *CreateInstantPaymentParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

@@ -75,10 +75,6 @@ for the upload invoice translation operation typically these are written to a ht
 */
 type UploadInvoiceTranslationParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -130,28 +126,6 @@ func (o *UploadInvoiceTranslationParams) WithHTTPClient(client *http.Client) *Up
 // SetHTTPClient adds the HTTPClient to the upload invoice translation params
 func (o *UploadInvoiceTranslationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the upload invoice translation params
-func (o *UploadInvoiceTranslationParams) WithXKillbillAPIKey(xKillbillAPIKey string) *UploadInvoiceTranslationParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the upload invoice translation params
-func (o *UploadInvoiceTranslationParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the upload invoice translation params
-func (o *UploadInvoiceTranslationParams) WithXKillbillAPISecret(xKillbillAPISecret string) *UploadInvoiceTranslationParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the upload invoice translation params
-func (o *UploadInvoiceTranslationParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the upload invoice translation params
@@ -227,16 +201,6 @@ func (o *UploadInvoiceTranslationParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 
