@@ -62,10 +62,6 @@ for the get tenant operation typically these are written to a http.Request
 */
 type GetTenantParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*TenantID*/
 	TenantID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetTenantParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get tenant params
-func (o *GetTenantParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetTenantParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get tenant params
-func (o *GetTenantParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get tenant params
-func (o *GetTenantParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetTenantParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get tenant params
-func (o *GetTenantParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithTenantID adds the tenantID to the get tenant params
 func (o *GetTenantParams) WithTenantID(tenantID strfmt.UUID) *GetTenantParams {
 	o.SetTenantID(tenantID)
@@ -149,16 +123,6 @@ func (o *GetTenantParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param tenantId
 	if err := r.SetPathParam("tenantId", o.TenantID.String()); err != nil {

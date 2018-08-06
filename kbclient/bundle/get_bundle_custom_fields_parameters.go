@@ -74,10 +74,6 @@ for the get bundle custom fields operation typically these are written to a http
 */
 type GetBundleCustomFieldsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*BundleID*/
@@ -123,28 +119,6 @@ func (o *GetBundleCustomFieldsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get bundle custom fields params
-func (o *GetBundleCustomFieldsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetBundleCustomFieldsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get bundle custom fields params
-func (o *GetBundleCustomFieldsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get bundle custom fields params
-func (o *GetBundleCustomFieldsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetBundleCustomFieldsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get bundle custom fields params
-func (o *GetBundleCustomFieldsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAudit adds the audit to the get bundle custom fields params
 func (o *GetBundleCustomFieldsParams) WithAudit(audit *string) *GetBundleCustomFieldsParams {
 	o.SetAudit(audit)
@@ -174,16 +148,6 @@ func (o *GetBundleCustomFieldsParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

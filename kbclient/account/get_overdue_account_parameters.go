@@ -62,10 +62,6 @@ for the get overdue account operation typically these are written to a http.Requ
 */
 type GetOverdueAccountParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountID*/
 	AccountID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetOverdueAccountParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get overdue account params
-func (o *GetOverdueAccountParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetOverdueAccountParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get overdue account params
-func (o *GetOverdueAccountParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get overdue account params
-func (o *GetOverdueAccountParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetOverdueAccountParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get overdue account params
-func (o *GetOverdueAccountParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAccountID adds the accountID to the get overdue account params
 func (o *GetOverdueAccountParams) WithAccountID(accountID strfmt.UUID) *GetOverdueAccountParams {
 	o.SetAccountID(accountID)
@@ -149,16 +123,6 @@ func (o *GetOverdueAccountParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {

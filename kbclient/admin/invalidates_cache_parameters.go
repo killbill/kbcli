@@ -62,10 +62,6 @@ for the invalidates cache operation typically these are written to a http.Reques
 */
 type InvalidatesCacheParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*CacheName*/
 	CacheName *string
 
@@ -109,28 +105,6 @@ func (o *InvalidatesCacheParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the invalidates cache params
-func (o *InvalidatesCacheParams) WithXKillbillAPIKey(xKillbillAPIKey string) *InvalidatesCacheParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the invalidates cache params
-func (o *InvalidatesCacheParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the invalidates cache params
-func (o *InvalidatesCacheParams) WithXKillbillAPISecret(xKillbillAPISecret string) *InvalidatesCacheParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the invalidates cache params
-func (o *InvalidatesCacheParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithCacheName adds the cacheName to the invalidates cache params
 func (o *InvalidatesCacheParams) WithCacheName(cacheName *string) *InvalidatesCacheParams {
 	o.SetCacheName(cacheName)
@@ -149,16 +123,6 @@ func (o *InvalidatesCacheParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.CacheName != nil {
 

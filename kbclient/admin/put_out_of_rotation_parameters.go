@@ -21,7 +21,7 @@ import (
 // NewPutOutOfRotationParams creates a new PutOutOfRotationParams object
 // with the default values initialized.
 func NewPutOutOfRotationParams() *PutOutOfRotationParams {
-	var ()
+
 	return &PutOutOfRotationParams{
 
 		timeout: cr.DefaultTimeout,
@@ -31,7 +31,7 @@ func NewPutOutOfRotationParams() *PutOutOfRotationParams {
 // NewPutOutOfRotationParamsWithTimeout creates a new PutOutOfRotationParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewPutOutOfRotationParamsWithTimeout(timeout time.Duration) *PutOutOfRotationParams {
-	var ()
+
 	return &PutOutOfRotationParams{
 
 		timeout: timeout,
@@ -41,7 +41,7 @@ func NewPutOutOfRotationParamsWithTimeout(timeout time.Duration) *PutOutOfRotati
 // NewPutOutOfRotationParamsWithContext creates a new PutOutOfRotationParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewPutOutOfRotationParamsWithContext(ctx context.Context) *PutOutOfRotationParams {
-	var ()
+
 	return &PutOutOfRotationParams{
 
 		Context: ctx,
@@ -51,7 +51,7 @@ func NewPutOutOfRotationParamsWithContext(ctx context.Context) *PutOutOfRotation
 // NewPutOutOfRotationParamsWithHTTPClient creates a new PutOutOfRotationParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewPutOutOfRotationParamsWithHTTPClient(client *http.Client) *PutOutOfRotationParams {
-	var ()
+
 	return &PutOutOfRotationParams{
 		HTTPClient: client,
 	}
@@ -61,12 +61,6 @@ func NewPutOutOfRotationParamsWithHTTPClient(client *http.Client) *PutOutOfRotat
 for the put out of rotation operation typically these are written to a http.Request
 */
 type PutOutOfRotationParams struct {
-
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
-
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
@@ -107,28 +101,6 @@ func (o *PutOutOfRotationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the put out of rotation params
-func (o *PutOutOfRotationParams) WithXKillbillAPIKey(xKillbillAPIKey string) *PutOutOfRotationParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the put out of rotation params
-func (o *PutOutOfRotationParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the put out of rotation params
-func (o *PutOutOfRotationParams) WithXKillbillAPISecret(xKillbillAPISecret string) *PutOutOfRotationParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the put out of rotation params
-func (o *PutOutOfRotationParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *PutOutOfRotationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -136,16 +108,6 @@ func (o *PutOutOfRotationParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// header param withStackTrace
 	if o.WithStackTrace != nil && *o.WithStackTrace {

@@ -62,10 +62,6 @@ for the get available addons operation typically these are written to a http.Req
 */
 type GetAvailableAddonsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountID*/
 	AccountID *strfmt.UUID
 	/*BaseProductName*/
@@ -113,28 +109,6 @@ func (o *GetAvailableAddonsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get available addons params
-func (o *GetAvailableAddonsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetAvailableAddonsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get available addons params
-func (o *GetAvailableAddonsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get available addons params
-func (o *GetAvailableAddonsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetAvailableAddonsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get available addons params
-func (o *GetAvailableAddonsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAccountID adds the accountID to the get available addons params
 func (o *GetAvailableAddonsParams) WithAccountID(accountID *strfmt.UUID) *GetAvailableAddonsParams {
 	o.SetAccountID(accountID)
@@ -175,16 +149,6 @@ func (o *GetAvailableAddonsParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.AccountID != nil {
 

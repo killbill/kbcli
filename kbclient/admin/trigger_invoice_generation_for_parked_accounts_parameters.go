@@ -83,10 +83,6 @@ for the trigger invoice generation for parked accounts operation typically these
 */
 type TriggerInvoiceGenerationForParkedAccountsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -136,28 +132,6 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) WithHTTPClient(client 
 // SetHTTPClient adds the HTTPClient to the trigger invoice generation for parked accounts params
 func (o *TriggerInvoiceGenerationForParkedAccountsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the trigger invoice generation for parked accounts params
-func (o *TriggerInvoiceGenerationForParkedAccountsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *TriggerInvoiceGenerationForParkedAccountsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the trigger invoice generation for parked accounts params
-func (o *TriggerInvoiceGenerationForParkedAccountsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the trigger invoice generation for parked accounts params
-func (o *TriggerInvoiceGenerationForParkedAccountsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *TriggerInvoiceGenerationForParkedAccountsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the trigger invoice generation for parked accounts params
-func (o *TriggerInvoiceGenerationForParkedAccountsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the trigger invoice generation for parked accounts params
@@ -222,16 +196,6 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) WriteToRequest(r runti
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

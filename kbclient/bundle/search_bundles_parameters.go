@@ -91,10 +91,6 @@ for the search bundles operation typically these are written to a http.Request
 */
 type SearchBundlesParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*Limit*/
@@ -142,28 +138,6 @@ func (o *SearchBundlesParams) WithHTTPClient(client *http.Client) *SearchBundles
 // SetHTTPClient adds the HTTPClient to the search bundles params
 func (o *SearchBundlesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the search bundles params
-func (o *SearchBundlesParams) WithXKillbillAPIKey(xKillbillAPIKey string) *SearchBundlesParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the search bundles params
-func (o *SearchBundlesParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the search bundles params
-func (o *SearchBundlesParams) WithXKillbillAPISecret(xKillbillAPISecret string) *SearchBundlesParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the search bundles params
-func (o *SearchBundlesParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAudit adds the audit to the search bundles params
@@ -217,16 +191,6 @@ func (o *SearchBundlesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

@@ -62,10 +62,6 @@ for the delete c b a operation typically these are written to a http.Request
 */
 type DeleteCBAParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -117,28 +113,6 @@ func (o *DeleteCBAParams) WithHTTPClient(client *http.Client) *DeleteCBAParams {
 // SetHTTPClient adds the HTTPClient to the delete c b a params
 func (o *DeleteCBAParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the delete c b a params
-func (o *DeleteCBAParams) WithXKillbillAPIKey(xKillbillAPIKey string) *DeleteCBAParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the delete c b a params
-func (o *DeleteCBAParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the delete c b a params
-func (o *DeleteCBAParams) WithXKillbillAPISecret(xKillbillAPISecret string) *DeleteCBAParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the delete c b a params
-func (o *DeleteCBAParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the delete c b a params
@@ -214,16 +188,6 @@ func (o *DeleteCBAParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

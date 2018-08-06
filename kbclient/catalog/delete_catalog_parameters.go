@@ -62,10 +62,6 @@ for the delete catalog operation typically these are written to a http.Request
 */
 type DeleteCatalogParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -113,28 +109,6 @@ func (o *DeleteCatalogParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the delete catalog params
-func (o *DeleteCatalogParams) WithXKillbillAPIKey(xKillbillAPIKey string) *DeleteCatalogParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the delete catalog params
-func (o *DeleteCatalogParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the delete catalog params
-func (o *DeleteCatalogParams) WithXKillbillAPISecret(xKillbillAPISecret string) *DeleteCatalogParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the delete catalog params
-func (o *DeleteCatalogParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithXKillbillComment adds the xKillbillComment to the delete catalog params
 func (o *DeleteCatalogParams) WithXKillbillComment(xKillbillComment *string) *DeleteCatalogParams {
 	o.SetXKillbillComment(xKillbillComment)
@@ -175,16 +149,6 @@ func (o *DeleteCatalogParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

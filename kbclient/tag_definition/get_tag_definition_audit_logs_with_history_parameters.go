@@ -62,10 +62,6 @@ for the get tag definition audit logs with history operation typically these are
 */
 type GetTagDefinitionAuditLogsWithHistoryParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*TagDefinitionID*/
 	TagDefinitionID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetTagDefinitionAuditLogsWithHistoryParams) SetHTTPClient(client *http.
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get tag definition audit logs with history params
-func (o *GetTagDefinitionAuditLogsWithHistoryParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetTagDefinitionAuditLogsWithHistoryParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get tag definition audit logs with history params
-func (o *GetTagDefinitionAuditLogsWithHistoryParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get tag definition audit logs with history params
-func (o *GetTagDefinitionAuditLogsWithHistoryParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetTagDefinitionAuditLogsWithHistoryParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get tag definition audit logs with history params
-func (o *GetTagDefinitionAuditLogsWithHistoryParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithTagDefinitionID adds the tagDefinitionID to the get tag definition audit logs with history params
 func (o *GetTagDefinitionAuditLogsWithHistoryParams) WithTagDefinitionID(tagDefinitionID strfmt.UUID) *GetTagDefinitionAuditLogsWithHistoryParams {
 	o.SetTagDefinitionID(tagDefinitionID)
@@ -149,16 +123,6 @@ func (o *GetTagDefinitionAuditLogsWithHistoryParams) WriteToRequest(r runtime.Cl
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param tagDefinitionId
 	if err := r.SetPathParam("tagDefinitionId", o.TagDefinitionID.String()); err != nil {

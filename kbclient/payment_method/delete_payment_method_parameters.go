@@ -83,10 +83,6 @@ for the delete payment method operation typically these are written to a http.Re
 */
 type DeletePaymentMethodParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -140,28 +136,6 @@ func (o *DeletePaymentMethodParams) WithHTTPClient(client *http.Client) *DeleteP
 // SetHTTPClient adds the HTTPClient to the delete payment method params
 func (o *DeletePaymentMethodParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the delete payment method params
-func (o *DeletePaymentMethodParams) WithXKillbillAPIKey(xKillbillAPIKey string) *DeletePaymentMethodParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the delete payment method params
-func (o *DeletePaymentMethodParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the delete payment method params
-func (o *DeletePaymentMethodParams) WithXKillbillAPISecret(xKillbillAPISecret string) *DeletePaymentMethodParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the delete payment method params
-func (o *DeletePaymentMethodParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the delete payment method params
@@ -248,16 +222,6 @@ func (o *DeletePaymentMethodParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

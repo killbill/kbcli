@@ -21,7 +21,7 @@ import (
 // NewGetPerTenantConfigurationParams creates a new GetPerTenantConfigurationParams object
 // with the default values initialized.
 func NewGetPerTenantConfigurationParams() *GetPerTenantConfigurationParams {
-	var ()
+
 	return &GetPerTenantConfigurationParams{
 
 		timeout: cr.DefaultTimeout,
@@ -31,7 +31,7 @@ func NewGetPerTenantConfigurationParams() *GetPerTenantConfigurationParams {
 // NewGetPerTenantConfigurationParamsWithTimeout creates a new GetPerTenantConfigurationParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetPerTenantConfigurationParamsWithTimeout(timeout time.Duration) *GetPerTenantConfigurationParams {
-	var ()
+
 	return &GetPerTenantConfigurationParams{
 
 		timeout: timeout,
@@ -41,7 +41,7 @@ func NewGetPerTenantConfigurationParamsWithTimeout(timeout time.Duration) *GetPe
 // NewGetPerTenantConfigurationParamsWithContext creates a new GetPerTenantConfigurationParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewGetPerTenantConfigurationParamsWithContext(ctx context.Context) *GetPerTenantConfigurationParams {
-	var ()
+
 	return &GetPerTenantConfigurationParams{
 
 		Context: ctx,
@@ -51,7 +51,7 @@ func NewGetPerTenantConfigurationParamsWithContext(ctx context.Context) *GetPerT
 // NewGetPerTenantConfigurationParamsWithHTTPClient creates a new GetPerTenantConfigurationParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetPerTenantConfigurationParamsWithHTTPClient(client *http.Client) *GetPerTenantConfigurationParams {
-	var ()
+
 	return &GetPerTenantConfigurationParams{
 		HTTPClient: client,
 	}
@@ -61,12 +61,6 @@ func NewGetPerTenantConfigurationParamsWithHTTPClient(client *http.Client) *GetP
 for the get per tenant configuration operation typically these are written to a http.Request
 */
 type GetPerTenantConfigurationParams struct {
-
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
-
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
@@ -107,28 +101,6 @@ func (o *GetPerTenantConfigurationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get per tenant configuration params
-func (o *GetPerTenantConfigurationParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPerTenantConfigurationParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get per tenant configuration params
-func (o *GetPerTenantConfigurationParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get per tenant configuration params
-func (o *GetPerTenantConfigurationParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPerTenantConfigurationParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get per tenant configuration params
-func (o *GetPerTenantConfigurationParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetPerTenantConfigurationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -136,16 +108,6 @@ func (o *GetPerTenantConfigurationParams) WriteToRequest(r runtime.ClientRequest
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// header param withStackTrace
 	if o.WithStackTrace != nil && *o.WithStackTrace {

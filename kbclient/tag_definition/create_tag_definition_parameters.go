@@ -64,10 +64,6 @@ for the create tag definition operation typically these are written to a http.Re
 */
 type CreateTagDefinitionParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -115,28 +111,6 @@ func (o *CreateTagDefinitionParams) WithHTTPClient(client *http.Client) *CreateT
 // SetHTTPClient adds the HTTPClient to the create tag definition params
 func (o *CreateTagDefinitionParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the create tag definition params
-func (o *CreateTagDefinitionParams) WithXKillbillAPIKey(xKillbillAPIKey string) *CreateTagDefinitionParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the create tag definition params
-func (o *CreateTagDefinitionParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the create tag definition params
-func (o *CreateTagDefinitionParams) WithXKillbillAPISecret(xKillbillAPISecret string) *CreateTagDefinitionParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the create tag definition params
-func (o *CreateTagDefinitionParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the create tag definition params
@@ -190,16 +164,6 @@ func (o *CreateTagDefinitionParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

@@ -62,10 +62,6 @@ for the get credit operation typically these are written to a http.Request
 */
 type GetCreditParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*CreditID*/
 	CreditID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetCreditParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get credit params
-func (o *GetCreditParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetCreditParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get credit params
-func (o *GetCreditParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get credit params
-func (o *GetCreditParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetCreditParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get credit params
-func (o *GetCreditParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithCreditID adds the creditID to the get credit params
 func (o *GetCreditParams) WithCreditID(creditID strfmt.UUID) *GetCreditParams {
 	o.SetCreditID(creditID)
@@ -149,16 +123,6 @@ func (o *GetCreditParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param creditId
 	if err := r.SetPathParam("creditId", o.CreditID.String()); err != nil {

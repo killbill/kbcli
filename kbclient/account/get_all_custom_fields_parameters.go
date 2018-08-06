@@ -74,10 +74,6 @@ for the get all custom fields operation typically these are written to a http.Re
 */
 type GetAllCustomFieldsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountID*/
 	AccountID strfmt.UUID
 	/*Audit*/
@@ -125,28 +121,6 @@ func (o *GetAllCustomFieldsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get all custom fields params
-func (o *GetAllCustomFieldsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetAllCustomFieldsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get all custom fields params
-func (o *GetAllCustomFieldsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get all custom fields params
-func (o *GetAllCustomFieldsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetAllCustomFieldsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get all custom fields params
-func (o *GetAllCustomFieldsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAccountID adds the accountID to the get all custom fields params
 func (o *GetAllCustomFieldsParams) WithAccountID(accountID strfmt.UUID) *GetAllCustomFieldsParams {
 	o.SetAccountID(accountID)
@@ -187,16 +161,6 @@ func (o *GetAllCustomFieldsParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {

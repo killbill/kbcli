@@ -77,10 +77,6 @@ for the create tax items operation typically these are written to a http.Request
 */
 type CreateTaxItemsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -136,28 +132,6 @@ func (o *CreateTaxItemsParams) WithHTTPClient(client *http.Client) *CreateTaxIte
 // SetHTTPClient adds the HTTPClient to the create tax items params
 func (o *CreateTaxItemsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the create tax items params
-func (o *CreateTaxItemsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *CreateTaxItemsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the create tax items params
-func (o *CreateTaxItemsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the create tax items params
-func (o *CreateTaxItemsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *CreateTaxItemsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the create tax items params
-func (o *CreateTaxItemsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the create tax items params
@@ -255,16 +229,6 @@ func (o *CreateTaxItemsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

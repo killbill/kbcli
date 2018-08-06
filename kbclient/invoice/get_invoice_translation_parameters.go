@@ -62,10 +62,6 @@ for the get invoice translation operation typically these are written to a http.
 */
 type GetInvoiceTranslationParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Locale*/
 	Locale string
 
@@ -109,28 +105,6 @@ func (o *GetInvoiceTranslationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get invoice translation params
-func (o *GetInvoiceTranslationParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetInvoiceTranslationParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get invoice translation params
-func (o *GetInvoiceTranslationParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get invoice translation params
-func (o *GetInvoiceTranslationParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetInvoiceTranslationParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get invoice translation params
-func (o *GetInvoiceTranslationParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithLocale adds the locale to the get invoice translation params
 func (o *GetInvoiceTranslationParams) WithLocale(locale string) *GetInvoiceTranslationParams {
 	o.SetLocale(locale)
@@ -149,16 +123,6 @@ func (o *GetInvoiceTranslationParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param locale
 	if err := r.SetPathParam("locale", o.Locale); err != nil {

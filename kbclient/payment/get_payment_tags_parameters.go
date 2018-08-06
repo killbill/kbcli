@@ -83,10 +83,6 @@ for the get payment tags operation typically these are written to a http.Request
 */
 type GetPaymentTagsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*IncludedDeleted*/
@@ -134,28 +130,6 @@ func (o *GetPaymentTagsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get payment tags params
-func (o *GetPaymentTagsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPaymentTagsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get payment tags params
-func (o *GetPaymentTagsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get payment tags params
-func (o *GetPaymentTagsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPaymentTagsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get payment tags params
-func (o *GetPaymentTagsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAudit adds the audit to the get payment tags params
 func (o *GetPaymentTagsParams) WithAudit(audit *string) *GetPaymentTagsParams {
 	o.SetAudit(audit)
@@ -196,16 +170,6 @@ func (o *GetPaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

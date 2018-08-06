@@ -26,10 +26,6 @@ func New(transport runtime.ClientTransport,
 // killbill default values. When a call is made to an operation, these values are used
 // if params doesn't specify them.
 type KillbillDefaults interface {
-	// Default API Key. If not set explicitly in params, this will be used.
-	XKillbillAPIKey() *string
-	// Default API Secret. If not set explicitly in params, this will be used.
-	XKillbillAPISecret() *string
 	// Default CreatedBy. If not set explicitly in params, this will be used.
 	XKillbillCreatedBy() *string
 	// Default Comment. If not set explicitly in params, this will be used.
@@ -114,22 +110,18 @@ func (a *Client) AddRoleDefinition(ctx context.Context, params *AddRoleDefinitio
 	getParams := NewAddRoleDefinitionParams()
 	getParams.Context = ctx
 	params.Context = ctx
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -188,22 +180,18 @@ func (a *Client) AddUserRoles(ctx context.Context, params *AddUserRolesParams) (
 	getParams := NewAddUserRolesParams()
 	getParams.Context = ctx
 	params.Context = ctx
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
 	getParams.XKillbillComment = params.XKillbillComment
-
 	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
 		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
 	}
 	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-
 	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
 		params.XKillbillReason = a.defaults.XKillbillReason()
 	}
 	getParams.XKillbillReason = params.XKillbillReason
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -326,7 +314,6 @@ func (a *Client) GetRoleDefinition(ctx context.Context, params *GetRoleDefinitio
 		params = NewGetRoleDefinitionParams()
 	}
 	params.Context = ctx
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -360,7 +347,6 @@ func (a *Client) GetUserRoles(ctx context.Context, params *GetUserRolesParams) (
 		params = NewGetUserRolesParams()
 	}
 	params.Context = ctx
-
 	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
@@ -394,7 +380,6 @@ func (a *Client) InvalidateUser(ctx context.Context, params *InvalidateUserParam
 		params = NewInvalidateUserParams()
 	}
 	params.Context = ctx
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -440,7 +425,6 @@ func (a *Client) UpdateRoleDefinition(ctx context.Context, params *UpdateRoleDef
 		params = NewUpdateRoleDefinitionParams()
 	}
 	params.Context = ctx
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -486,7 +470,6 @@ func (a *Client) UpdateUserPassword(ctx context.Context, params *UpdateUserPassw
 		params = NewUpdateUserPasswordParams()
 	}
 	params.Context = ctx
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}
@@ -532,7 +515,6 @@ func (a *Client) UpdateUserRoles(ctx context.Context, params *UpdateUserRolesPar
 		params = NewUpdateUserRolesParams()
 	}
 	params.Context = ctx
-
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
 		params.XKillbillComment = a.defaults.XKillbillComment()
 	}

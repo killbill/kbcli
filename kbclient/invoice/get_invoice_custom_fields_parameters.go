@@ -74,10 +74,6 @@ for the get invoice custom fields operation typically these are written to a htt
 */
 type GetInvoiceCustomFieldsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*InvoiceID*/
@@ -123,28 +119,6 @@ func (o *GetInvoiceCustomFieldsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get invoice custom fields params
-func (o *GetInvoiceCustomFieldsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetInvoiceCustomFieldsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get invoice custom fields params
-func (o *GetInvoiceCustomFieldsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get invoice custom fields params
-func (o *GetInvoiceCustomFieldsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetInvoiceCustomFieldsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get invoice custom fields params
-func (o *GetInvoiceCustomFieldsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAudit adds the audit to the get invoice custom fields params
 func (o *GetInvoiceCustomFieldsParams) WithAudit(audit *string) *GetInvoiceCustomFieldsParams {
 	o.SetAudit(audit)
@@ -174,16 +148,6 @@ func (o *GetInvoiceCustomFieldsParams) WriteToRequest(r runtime.ClientRequest, r
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

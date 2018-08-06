@@ -62,10 +62,6 @@ for the get plugin payment state machine config operation typically these are wr
 */
 type GetPluginPaymentStateMachineConfigParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*PluginName*/
 	PluginName string
 
@@ -109,28 +105,6 @@ func (o *GetPluginPaymentStateMachineConfigParams) SetHTTPClient(client *http.Cl
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get plugin payment state machine config params
-func (o *GetPluginPaymentStateMachineConfigParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPluginPaymentStateMachineConfigParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get plugin payment state machine config params
-func (o *GetPluginPaymentStateMachineConfigParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get plugin payment state machine config params
-func (o *GetPluginPaymentStateMachineConfigParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPluginPaymentStateMachineConfigParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get plugin payment state machine config params
-func (o *GetPluginPaymentStateMachineConfigParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithPluginName adds the pluginName to the get plugin payment state machine config params
 func (o *GetPluginPaymentStateMachineConfigParams) WithPluginName(pluginName string) *GetPluginPaymentStateMachineConfigParams {
 	o.SetPluginName(pluginName)
@@ -149,16 +123,6 @@ func (o *GetPluginPaymentStateMachineConfigParams) WriteToRequest(r runtime.Clie
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param pluginName
 	if err := r.SetPathParam("pluginName", o.PluginName); err != nil {

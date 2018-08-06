@@ -63,10 +63,6 @@ for the refresh payment methods operation typically these are written to a http.
 */
 type RefreshPaymentMethodsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -118,28 +114,6 @@ func (o *RefreshPaymentMethodsParams) WithHTTPClient(client *http.Client) *Refre
 // SetHTTPClient adds the HTTPClient to the refresh payment methods params
 func (o *RefreshPaymentMethodsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the refresh payment methods params
-func (o *RefreshPaymentMethodsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *RefreshPaymentMethodsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the refresh payment methods params
-func (o *RefreshPaymentMethodsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the refresh payment methods params
-func (o *RefreshPaymentMethodsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *RefreshPaymentMethodsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the refresh payment methods params
-func (o *RefreshPaymentMethodsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the refresh payment methods params
@@ -215,16 +189,6 @@ func (o *RefreshPaymentMethodsParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

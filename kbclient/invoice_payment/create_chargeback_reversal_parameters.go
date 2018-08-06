@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
 
@@ -64,10 +65,6 @@ for the create chargeback reversal operation typically these are written to a ht
 */
 type CreateChargebackReversalParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -78,6 +75,8 @@ type CreateChargebackReversalParams struct {
 	Body *kbmodel.InvoicePaymentTransaction
 	/*PaymentID*/
 	PaymentID strfmt.UUID
+	/*PluginProperty*/
+	PluginProperty []string
 
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -117,28 +116,6 @@ func (o *CreateChargebackReversalParams) WithHTTPClient(client *http.Client) *Cr
 // SetHTTPClient adds the HTTPClient to the create chargeback reversal params
 func (o *CreateChargebackReversalParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the create chargeback reversal params
-func (o *CreateChargebackReversalParams) WithXKillbillAPIKey(xKillbillAPIKey string) *CreateChargebackReversalParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the create chargeback reversal params
-func (o *CreateChargebackReversalParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the create chargeback reversal params
-func (o *CreateChargebackReversalParams) WithXKillbillAPISecret(xKillbillAPISecret string) *CreateChargebackReversalParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the create chargeback reversal params
-func (o *CreateChargebackReversalParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the create chargeback reversal params
@@ -196,6 +173,17 @@ func (o *CreateChargebackReversalParams) SetPaymentID(paymentID strfmt.UUID) {
 	o.PaymentID = paymentID
 }
 
+// WithPluginProperty adds the pluginProperty to the create chargeback reversal params
+func (o *CreateChargebackReversalParams) WithPluginProperty(pluginProperty []string) *CreateChargebackReversalParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the create chargeback reversal params
+func (o *CreateChargebackReversalParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *CreateChargebackReversalParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -203,16 +191,6 @@ func (o *CreateChargebackReversalParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 
@@ -245,6 +223,14 @@ func (o *CreateChargebackReversalParams) WriteToRequest(r runtime.ClientRequest,
 
 	// path param paymentId
 	if err := r.SetPathParam("paymentId", o.PaymentID.String()); err != nil {
+		return err
+	}
+
+	valuesPluginProperty := o.PluginProperty
+
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
 		return err
 	}
 

@@ -75,10 +75,6 @@ for the set default payment method operation typically these are written to a ht
 */
 type SetDefaultPaymentMethodParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -132,28 +128,6 @@ func (o *SetDefaultPaymentMethodParams) WithHTTPClient(client *http.Client) *Set
 // SetHTTPClient adds the HTTPClient to the set default payment method params
 func (o *SetDefaultPaymentMethodParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the set default payment method params
-func (o *SetDefaultPaymentMethodParams) WithXKillbillAPIKey(xKillbillAPIKey string) *SetDefaultPaymentMethodParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the set default payment method params
-func (o *SetDefaultPaymentMethodParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the set default payment method params
-func (o *SetDefaultPaymentMethodParams) WithXKillbillAPISecret(xKillbillAPISecret string) *SetDefaultPaymentMethodParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the set default payment method params
-func (o *SetDefaultPaymentMethodParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the set default payment method params
@@ -240,16 +214,6 @@ func (o *SetDefaultPaymentMethodParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

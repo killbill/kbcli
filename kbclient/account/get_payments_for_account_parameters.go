@@ -91,10 +91,6 @@ for the get payments for account operation typically these are written to a http
 */
 type GetPaymentsForAccountParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountID*/
 	AccountID strfmt.UUID
 	/*Audit*/
@@ -144,28 +140,6 @@ func (o *GetPaymentsForAccountParams) WithHTTPClient(client *http.Client) *GetPa
 // SetHTTPClient adds the HTTPClient to the get payments for account params
 func (o *GetPaymentsForAccountParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get payments for account params
-func (o *GetPaymentsForAccountParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPaymentsForAccountParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get payments for account params
-func (o *GetPaymentsForAccountParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get payments for account params
-func (o *GetPaymentsForAccountParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPaymentsForAccountParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get payments for account params
-func (o *GetPaymentsForAccountParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAccountID adds the accountID to the get payments for account params
@@ -230,16 +204,6 @@ func (o *GetPaymentsForAccountParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {

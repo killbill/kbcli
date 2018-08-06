@@ -259,10 +259,6 @@ func (c *KillBill) SetDefaults(defaults KillbillDefaults) {
 
 // Implements killbill default values.
 type KillbillDefaults struct {
-	// XKillbillAPIKey property
-	APIKey *string
-	// XKillbillAPISecret property
-	APISecret *string
 	// XKillbillCreatedBy property
 	CreatedBy *string
 	// XKillbillComment property
@@ -271,16 +267,6 @@ type KillbillDefaults struct {
 	Reason *string
 	// withStackTrace property
 	WithStackTrace *bool
-}
-
-// Default API Key. If not set explicitly in params, this will be used.
-func (d KillbillDefaults) XKillbillAPIKey() *string {
-	return d.APIKey
-}
-
-// Default API Secret. If not set explicitly in params, this will be used.
-func (d KillbillDefaults) XKillbillAPISecret() *string {
-	return d.APISecret
 }
 
 // Default CreatedBy. If not set explicitly in params, this will be used.

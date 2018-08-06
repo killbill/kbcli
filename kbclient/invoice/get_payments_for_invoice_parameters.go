@@ -91,10 +91,6 @@ for the get payments for invoice operation typically these are written to a http
 */
 type GetPaymentsForInvoiceParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*Audit*/
 	Audit *string
 	/*InvoiceID*/
@@ -142,28 +138,6 @@ func (o *GetPaymentsForInvoiceParams) WithHTTPClient(client *http.Client) *GetPa
 // SetHTTPClient adds the HTTPClient to the get payments for invoice params
 func (o *GetPaymentsForInvoiceParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get payments for invoice params
-func (o *GetPaymentsForInvoiceParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetPaymentsForInvoiceParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get payments for invoice params
-func (o *GetPaymentsForInvoiceParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get payments for invoice params
-func (o *GetPaymentsForInvoiceParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetPaymentsForInvoiceParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get payments for invoice params
-func (o *GetPaymentsForInvoiceParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAudit adds the audit to the get payments for invoice params
@@ -217,16 +191,6 @@ func (o *GetPaymentsForInvoiceParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.Audit != nil {
 

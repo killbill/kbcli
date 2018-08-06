@@ -64,10 +64,6 @@ for the add simple plan operation typically these are written to a http.Request
 */
 type AddSimplePlanParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -115,28 +111,6 @@ func (o *AddSimplePlanParams) WithHTTPClient(client *http.Client) *AddSimplePlan
 // SetHTTPClient adds the HTTPClient to the add simple plan params
 func (o *AddSimplePlanParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the add simple plan params
-func (o *AddSimplePlanParams) WithXKillbillAPIKey(xKillbillAPIKey string) *AddSimplePlanParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the add simple plan params
-func (o *AddSimplePlanParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the add simple plan params
-func (o *AddSimplePlanParams) WithXKillbillAPISecret(xKillbillAPISecret string) *AddSimplePlanParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the add simple plan params
-func (o *AddSimplePlanParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the add simple plan params
@@ -190,16 +164,6 @@ func (o *AddSimplePlanParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

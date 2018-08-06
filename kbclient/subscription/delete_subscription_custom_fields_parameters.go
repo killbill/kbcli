@@ -63,10 +63,6 @@ for the delete subscription custom fields operation typically these are written 
 */
 type DeleteSubscriptionCustomFieldsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -116,28 +112,6 @@ func (o *DeleteSubscriptionCustomFieldsParams) WithHTTPClient(client *http.Clien
 // SetHTTPClient adds the HTTPClient to the delete subscription custom fields params
 func (o *DeleteSubscriptionCustomFieldsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the delete subscription custom fields params
-func (o *DeleteSubscriptionCustomFieldsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *DeleteSubscriptionCustomFieldsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the delete subscription custom fields params
-func (o *DeleteSubscriptionCustomFieldsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the delete subscription custom fields params
-func (o *DeleteSubscriptionCustomFieldsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *DeleteSubscriptionCustomFieldsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the delete subscription custom fields params
-func (o *DeleteSubscriptionCustomFieldsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the delete subscription custom fields params
@@ -202,16 +176,6 @@ func (o *DeleteSubscriptionCustomFieldsParams) WriteToRequest(r runtime.ClientRe
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

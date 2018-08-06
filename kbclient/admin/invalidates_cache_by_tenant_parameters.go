@@ -21,7 +21,7 @@ import (
 // NewInvalidatesCacheByTenantParams creates a new InvalidatesCacheByTenantParams object
 // with the default values initialized.
 func NewInvalidatesCacheByTenantParams() *InvalidatesCacheByTenantParams {
-	var ()
+
 	return &InvalidatesCacheByTenantParams{
 
 		timeout: cr.DefaultTimeout,
@@ -31,7 +31,7 @@ func NewInvalidatesCacheByTenantParams() *InvalidatesCacheByTenantParams {
 // NewInvalidatesCacheByTenantParamsWithTimeout creates a new InvalidatesCacheByTenantParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewInvalidatesCacheByTenantParamsWithTimeout(timeout time.Duration) *InvalidatesCacheByTenantParams {
-	var ()
+
 	return &InvalidatesCacheByTenantParams{
 
 		timeout: timeout,
@@ -41,7 +41,7 @@ func NewInvalidatesCacheByTenantParamsWithTimeout(timeout time.Duration) *Invali
 // NewInvalidatesCacheByTenantParamsWithContext creates a new InvalidatesCacheByTenantParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewInvalidatesCacheByTenantParamsWithContext(ctx context.Context) *InvalidatesCacheByTenantParams {
-	var ()
+
 	return &InvalidatesCacheByTenantParams{
 
 		Context: ctx,
@@ -51,7 +51,7 @@ func NewInvalidatesCacheByTenantParamsWithContext(ctx context.Context) *Invalida
 // NewInvalidatesCacheByTenantParamsWithHTTPClient creates a new InvalidatesCacheByTenantParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewInvalidatesCacheByTenantParamsWithHTTPClient(client *http.Client) *InvalidatesCacheByTenantParams {
-	var ()
+
 	return &InvalidatesCacheByTenantParams{
 		HTTPClient: client,
 	}
@@ -61,12 +61,6 @@ func NewInvalidatesCacheByTenantParamsWithHTTPClient(client *http.Client) *Inval
 for the invalidates cache by tenant operation typically these are written to a http.Request
 */
 type InvalidatesCacheByTenantParams struct {
-
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
-
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
@@ -107,28 +101,6 @@ func (o *InvalidatesCacheByTenantParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the invalidates cache by tenant params
-func (o *InvalidatesCacheByTenantParams) WithXKillbillAPIKey(xKillbillAPIKey string) *InvalidatesCacheByTenantParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the invalidates cache by tenant params
-func (o *InvalidatesCacheByTenantParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the invalidates cache by tenant params
-func (o *InvalidatesCacheByTenantParams) WithXKillbillAPISecret(xKillbillAPISecret string) *InvalidatesCacheByTenantParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the invalidates cache by tenant params
-func (o *InvalidatesCacheByTenantParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *InvalidatesCacheByTenantParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -136,16 +108,6 @@ func (o *InvalidatesCacheByTenantParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// header param withStackTrace
 	if o.WithStackTrace != nil && *o.WithStackTrace {

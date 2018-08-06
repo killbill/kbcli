@@ -62,10 +62,6 @@ for the upload overdue config Xml operation typically these are written to a htt
 */
 type UploadOverdueConfigXMLParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -113,28 +109,6 @@ func (o *UploadOverdueConfigXMLParams) WithHTTPClient(client *http.Client) *Uplo
 // SetHTTPClient adds the HTTPClient to the upload overdue config Xml params
 func (o *UploadOverdueConfigXMLParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the upload overdue config Xml params
-func (o *UploadOverdueConfigXMLParams) WithXKillbillAPIKey(xKillbillAPIKey string) *UploadOverdueConfigXMLParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the upload overdue config Xml params
-func (o *UploadOverdueConfigXMLParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the upload overdue config Xml params
-func (o *UploadOverdueConfigXMLParams) WithXKillbillAPISecret(xKillbillAPISecret string) *UploadOverdueConfigXMLParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the upload overdue config Xml params
-func (o *UploadOverdueConfigXMLParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the upload overdue config Xml params
@@ -188,16 +162,6 @@ func (o *UploadOverdueConfigXMLParams) WriteToRequest(r runtime.ClientRequest, r
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

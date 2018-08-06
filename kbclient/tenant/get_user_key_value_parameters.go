@@ -62,10 +62,6 @@ for the get user key value operation typically these are written to a http.Reque
 */
 type GetUserKeyValueParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*KeyName*/
 	KeyName string
 
@@ -109,28 +105,6 @@ func (o *GetUserKeyValueParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get user key value params
-func (o *GetUserKeyValueParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetUserKeyValueParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get user key value params
-func (o *GetUserKeyValueParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get user key value params
-func (o *GetUserKeyValueParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetUserKeyValueParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get user key value params
-func (o *GetUserKeyValueParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithKeyName adds the keyName to the get user key value params
 func (o *GetUserKeyValueParams) WithKeyName(keyName string) *GetUserKeyValueParams {
 	o.SetKeyName(keyName)
@@ -149,16 +123,6 @@ func (o *GetUserKeyValueParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param keyName
 	if err := r.SetPathParam("keyName", o.KeyName); err != nil {

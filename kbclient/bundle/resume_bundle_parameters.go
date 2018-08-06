@@ -63,10 +63,6 @@ for the resume bundle operation typically these are written to a http.Request
 */
 type ResumeBundleParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -118,28 +114,6 @@ func (o *ResumeBundleParams) WithHTTPClient(client *http.Client) *ResumeBundlePa
 // SetHTTPClient adds the HTTPClient to the resume bundle params
 func (o *ResumeBundleParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the resume bundle params
-func (o *ResumeBundleParams) WithXKillbillAPIKey(xKillbillAPIKey string) *ResumeBundleParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the resume bundle params
-func (o *ResumeBundleParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the resume bundle params
-func (o *ResumeBundleParams) WithXKillbillAPISecret(xKillbillAPISecret string) *ResumeBundleParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the resume bundle params
-func (o *ResumeBundleParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the resume bundle params
@@ -215,16 +189,6 @@ func (o *ResumeBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

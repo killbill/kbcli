@@ -62,10 +62,6 @@ for the get tag audit logs with history operation typically these are written to
 */
 type GetTagAuditLogsWithHistoryParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*TagID*/
 	TagID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetTagAuditLogsWithHistoryParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get tag audit logs with history params
-func (o *GetTagAuditLogsWithHistoryParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetTagAuditLogsWithHistoryParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get tag audit logs with history params
-func (o *GetTagAuditLogsWithHistoryParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get tag audit logs with history params
-func (o *GetTagAuditLogsWithHistoryParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetTagAuditLogsWithHistoryParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get tag audit logs with history params
-func (o *GetTagAuditLogsWithHistoryParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithTagID adds the tagID to the get tag audit logs with history params
 func (o *GetTagAuditLogsWithHistoryParams) WithTagID(tagID strfmt.UUID) *GetTagAuditLogsWithHistoryParams {
 	o.SetTagID(tagID)
@@ -149,16 +123,6 @@ func (o *GetTagAuditLogsWithHistoryParams) WriteToRequest(r runtime.ClientReques
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param tagId
 	if err := r.SetPathParam("tagId", o.TagID.String()); err != nil {

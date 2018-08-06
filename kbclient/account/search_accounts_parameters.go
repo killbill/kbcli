@@ -107,10 +107,6 @@ for the search accounts operation typically these are written to a http.Request
 */
 type SearchAccountsParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountWithBalance*/
 	AccountWithBalance *bool
 	/*AccountWithBalanceAndCBA*/
@@ -162,28 +158,6 @@ func (o *SearchAccountsParams) WithHTTPClient(client *http.Client) *SearchAccoun
 // SetHTTPClient adds the HTTPClient to the search accounts params
 func (o *SearchAccountsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the search accounts params
-func (o *SearchAccountsParams) WithXKillbillAPIKey(xKillbillAPIKey string) *SearchAccountsParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the search accounts params
-func (o *SearchAccountsParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the search accounts params
-func (o *SearchAccountsParams) WithXKillbillAPISecret(xKillbillAPISecret string) *SearchAccountsParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the search accounts params
-func (o *SearchAccountsParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithAccountWithBalance adds the accountWithBalance to the search accounts params
@@ -259,16 +233,6 @@ func (o *SearchAccountsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.AccountWithBalance != nil {
 

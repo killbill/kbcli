@@ -65,10 +65,6 @@ for the create combo payment operation typically these are written to a http.Req
 */
 type CreateComboPaymentParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -118,28 +114,6 @@ func (o *CreateComboPaymentParams) WithHTTPClient(client *http.Client) *CreateCo
 // SetHTTPClient adds the HTTPClient to the create combo payment params
 func (o *CreateComboPaymentParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the create combo payment params
-func (o *CreateComboPaymentParams) WithXKillbillAPIKey(xKillbillAPIKey string) *CreateComboPaymentParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the create combo payment params
-func (o *CreateComboPaymentParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the create combo payment params
-func (o *CreateComboPaymentParams) WithXKillbillAPISecret(xKillbillAPISecret string) *CreateComboPaymentParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the create combo payment params
-func (o *CreateComboPaymentParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the create combo payment params
@@ -204,16 +178,6 @@ func (o *CreateComboPaymentParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

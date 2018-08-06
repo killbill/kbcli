@@ -65,10 +65,6 @@ for the void payment by external key operation typically these are written to a 
 */
 type VoidPaymentByExternalKeyParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -120,28 +116,6 @@ func (o *VoidPaymentByExternalKeyParams) WithHTTPClient(client *http.Client) *Vo
 // SetHTTPClient adds the HTTPClient to the void payment by external key params
 func (o *VoidPaymentByExternalKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the void payment by external key params
-func (o *VoidPaymentByExternalKeyParams) WithXKillbillAPIKey(xKillbillAPIKey string) *VoidPaymentByExternalKeyParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the void payment by external key params
-func (o *VoidPaymentByExternalKeyParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the void payment by external key params
-func (o *VoidPaymentByExternalKeyParams) WithXKillbillAPISecret(xKillbillAPISecret string) *VoidPaymentByExternalKeyParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the void payment by external key params
-func (o *VoidPaymentByExternalKeyParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the void payment by external key params
@@ -217,16 +191,6 @@ func (o *VoidPaymentByExternalKeyParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

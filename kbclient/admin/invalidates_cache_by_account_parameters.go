@@ -62,10 +62,6 @@ for the invalidates cache by account operation typically these are written to a 
 */
 type InvalidatesCacheByAccountParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*AccountID*/
 	AccountID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *InvalidatesCacheByAccountParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the invalidates cache by account params
-func (o *InvalidatesCacheByAccountParams) WithXKillbillAPIKey(xKillbillAPIKey string) *InvalidatesCacheByAccountParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the invalidates cache by account params
-func (o *InvalidatesCacheByAccountParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the invalidates cache by account params
-func (o *InvalidatesCacheByAccountParams) WithXKillbillAPISecret(xKillbillAPISecret string) *InvalidatesCacheByAccountParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the invalidates cache by account params
-func (o *InvalidatesCacheByAccountParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithAccountID adds the accountID to the invalidates cache by account params
 func (o *InvalidatesCacheByAccountParams) WithAccountID(accountID strfmt.UUID) *InvalidatesCacheByAccountParams {
 	o.SetAccountID(accountID)
@@ -149,16 +123,6 @@ func (o *InvalidatesCacheByAccountParams) WriteToRequest(r runtime.ClientRequest
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {

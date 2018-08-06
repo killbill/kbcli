@@ -62,10 +62,6 @@ for the get transaction audit logs with history operation typically these are wr
 */
 type GetTransactionAuditLogsWithHistoryParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*TransactionID*/
 	TransactionID strfmt.UUID
 
@@ -109,28 +105,6 @@ func (o *GetTransactionAuditLogsWithHistoryParams) SetHTTPClient(client *http.Cl
 	o.HTTPClient = client
 }
 
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the get transaction audit logs with history params
-func (o *GetTransactionAuditLogsWithHistoryParams) WithXKillbillAPIKey(xKillbillAPIKey string) *GetTransactionAuditLogsWithHistoryParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the get transaction audit logs with history params
-func (o *GetTransactionAuditLogsWithHistoryParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the get transaction audit logs with history params
-func (o *GetTransactionAuditLogsWithHistoryParams) WithXKillbillAPISecret(xKillbillAPISecret string) *GetTransactionAuditLogsWithHistoryParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the get transaction audit logs with history params
-func (o *GetTransactionAuditLogsWithHistoryParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
-}
-
 // WithTransactionID adds the transactionID to the get transaction audit logs with history params
 func (o *GetTransactionAuditLogsWithHistoryParams) WithTransactionID(transactionID strfmt.UUID) *GetTransactionAuditLogsWithHistoryParams {
 	o.SetTransactionID(transactionID)
@@ -149,16 +123,6 @@ func (o *GetTransactionAuditLogsWithHistoryParams) WriteToRequest(r runtime.Clie
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	// path param transactionId
 	if err := r.SetPathParam("transactionId", o.TransactionID.String()); err != nil {

@@ -63,10 +63,6 @@ for the uncancel subscription plan operation typically these are written to a ht
 */
 type UncancelSubscriptionPlanParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -116,28 +112,6 @@ func (o *UncancelSubscriptionPlanParams) WithHTTPClient(client *http.Client) *Un
 // SetHTTPClient adds the HTTPClient to the uncancel subscription plan params
 func (o *UncancelSubscriptionPlanParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the uncancel subscription plan params
-func (o *UncancelSubscriptionPlanParams) WithXKillbillAPIKey(xKillbillAPIKey string) *UncancelSubscriptionPlanParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the uncancel subscription plan params
-func (o *UncancelSubscriptionPlanParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the uncancel subscription plan params
-func (o *UncancelSubscriptionPlanParams) WithXKillbillAPISecret(xKillbillAPISecret string) *UncancelSubscriptionPlanParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the uncancel subscription plan params
-func (o *UncancelSubscriptionPlanParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the uncancel subscription plan params
@@ -202,16 +176,6 @@ func (o *UncancelSubscriptionPlanParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 

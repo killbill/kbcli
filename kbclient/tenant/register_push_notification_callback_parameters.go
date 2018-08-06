@@ -62,10 +62,6 @@ for the register push notification callback operation typically these are writte
 */
 type RegisterPushNotificationCallbackParams struct {
 
-	/*XKillbillAPIKey*/
-	XKillbillAPIKey string
-	/*XKillbillAPISecret*/
-	XKillbillAPISecret string
 	/*XKillbillComment*/
 	XKillbillComment *string
 	/*XKillbillCreatedBy*/
@@ -113,28 +109,6 @@ func (o *RegisterPushNotificationCallbackParams) WithHTTPClient(client *http.Cli
 // SetHTTPClient adds the HTTPClient to the register push notification callback params
 func (o *RegisterPushNotificationCallbackParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
-}
-
-// WithXKillbillAPIKey adds the xKillbillAPIKey to the register push notification callback params
-func (o *RegisterPushNotificationCallbackParams) WithXKillbillAPIKey(xKillbillAPIKey string) *RegisterPushNotificationCallbackParams {
-	o.SetXKillbillAPIKey(xKillbillAPIKey)
-	return o
-}
-
-// SetXKillbillAPIKey adds the xKillbillApiKey to the register push notification callback params
-func (o *RegisterPushNotificationCallbackParams) SetXKillbillAPIKey(xKillbillAPIKey string) {
-	o.XKillbillAPIKey = xKillbillAPIKey
-}
-
-// WithXKillbillAPISecret adds the xKillbillAPISecret to the register push notification callback params
-func (o *RegisterPushNotificationCallbackParams) WithXKillbillAPISecret(xKillbillAPISecret string) *RegisterPushNotificationCallbackParams {
-	o.SetXKillbillAPISecret(xKillbillAPISecret)
-	return o
-}
-
-// SetXKillbillAPISecret adds the xKillbillApiSecret to the register push notification callback params
-func (o *RegisterPushNotificationCallbackParams) SetXKillbillAPISecret(xKillbillAPISecret string) {
-	o.XKillbillAPISecret = xKillbillAPISecret
 }
 
 // WithXKillbillComment adds the xKillbillComment to the register push notification callback params
@@ -188,16 +162,6 @@ func (o *RegisterPushNotificationCallbackParams) WriteToRequest(r runtime.Client
 		return err
 	}
 	var res []error
-
-	// header param X-Killbill-ApiKey
-	if err := r.SetHeaderParam("X-Killbill-ApiKey", o.XKillbillAPIKey); err != nil {
-		return err
-	}
-
-	// header param X-Killbill-ApiSecret
-	if err := r.SetHeaderParam("X-Killbill-ApiSecret", o.XKillbillAPISecret); err != nil {
-		return err
-	}
 
 	if o.XKillbillComment != nil {
 
