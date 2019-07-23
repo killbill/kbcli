@@ -30,7 +30,7 @@ func NewGetInvoicesForAccountParams() *GetInvoicesForAccountParams {
 		withMigrationInvoicesDefault = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit: &auditDefault,
+		Audit:                 &auditDefault,
 		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
 		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
 		WithItems:             &withItemsDefault,
@@ -51,7 +51,7 @@ func NewGetInvoicesForAccountParamsWithTimeout(timeout time.Duration) *GetInvoic
 		withMigrationInvoicesDefault = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit: &auditDefault,
+		Audit:                 &auditDefault,
 		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
 		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
 		WithItems:             &withItemsDefault,
@@ -72,7 +72,7 @@ func NewGetInvoicesForAccountParamsWithContext(ctx context.Context) *GetInvoices
 		withMigrationInvoicesDefault = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit: &auditDefault,
+		Audit:                 &auditDefault,
 		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
 		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
 		WithItems:             &withItemsDefault,
@@ -93,7 +93,7 @@ func NewGetInvoicesForAccountParamsWithHTTPClient(client *http.Client) *GetInvoi
 		withMigrationInvoicesDefault = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit: &auditDefault,
+		Audit:                 &auditDefault,
 		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
 		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
 		WithItems:             &withItemsDefault,

@@ -30,7 +30,7 @@ func NewGetAccountParams() *GetAccountParams {
 	return &GetAccountParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -47,7 +47,7 @@ func NewGetAccountParamsWithTimeout(timeout time.Duration) *GetAccountParams {
 	return &GetAccountParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		timeout: timeout,
 	}
@@ -64,7 +64,7 @@ func NewGetAccountParamsWithContext(ctx context.Context) *GetAccountParams {
 	return &GetAccountParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		Context: ctx,
 	}
@@ -81,8 +81,8 @@ func NewGetAccountParamsWithHTTPClient(client *http.Client) *GetAccountParams {
 	return &GetAccountParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:      &auditDefault,
-		HTTPClient: client,
+		Audit:                    &auditDefault,
+		HTTPClient:               client,
 	}
 }
 

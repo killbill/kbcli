@@ -30,7 +30,7 @@ func NewGetChildrenAccountsParams() *GetChildrenAccountsParams {
 	return &GetChildrenAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -47,7 +47,7 @@ func NewGetChildrenAccountsParamsWithTimeout(timeout time.Duration) *GetChildren
 	return &GetChildrenAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		timeout: timeout,
 	}
@@ -64,7 +64,7 @@ func NewGetChildrenAccountsParamsWithContext(ctx context.Context) *GetChildrenAc
 	return &GetChildrenAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		Context: ctx,
 	}
@@ -81,8 +81,8 @@ func NewGetChildrenAccountsParamsWithHTTPClient(client *http.Client) *GetChildre
 	return &GetChildrenAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:      &auditDefault,
-		HTTPClient: client,
+		Audit:                    &auditDefault,
+		HTTPClient:               client,
 	}
 }
 

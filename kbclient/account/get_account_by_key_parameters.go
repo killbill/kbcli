@@ -30,7 +30,7 @@ func NewGetAccountByKeyParams() *GetAccountByKeyParams {
 	return &GetAccountByKeyParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -47,7 +47,7 @@ func NewGetAccountByKeyParamsWithTimeout(timeout time.Duration) *GetAccountByKey
 	return &GetAccountByKeyParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		timeout: timeout,
 	}
@@ -64,7 +64,7 @@ func NewGetAccountByKeyParamsWithContext(ctx context.Context) *GetAccountByKeyPa
 	return &GetAccountByKeyParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		Context: ctx,
 	}
@@ -81,8 +81,8 @@ func NewGetAccountByKeyParamsWithHTTPClient(client *http.Client) *GetAccountByKe
 	return &GetAccountByKeyParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:      &auditDefault,
-		HTTPClient: client,
+		Audit:                    &auditDefault,
+		HTTPClient:               client,
 	}
 }
 
