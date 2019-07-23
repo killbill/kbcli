@@ -69,7 +69,7 @@ type UploadCatalogXMLParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 	/*Body*/
-	Body *string
+	Body string
 
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -145,13 +145,13 @@ func (o *UploadCatalogXMLParams) SetXKillbillReason(xKillbillReason *string) {
 }
 
 // WithBody adds the body to the upload catalog Xml params
-func (o *UploadCatalogXMLParams) WithBody(body *string) *UploadCatalogXMLParams {
+func (o *UploadCatalogXMLParams) WithBody(body string) *UploadCatalogXMLParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the upload catalog Xml params
-func (o *UploadCatalogXMLParams) SetBody(body *string) {
+func (o *UploadCatalogXMLParams) SetBody(body string) {
 	o.Body = body
 }
 
@@ -186,10 +186,8 @@ func (o *UploadCatalogXMLParams) WriteToRequest(r runtime.ClientRequest, reg str
 
 	}
 
-	if o.Body != nil {
-		if err := r.SetBodyParam(o.Body); err != nil {
-			return err
-		}
+	if err := r.SetBodyParam(o.Body); err != nil {
+		return err
 	}
 
 	// header param withStackTrace

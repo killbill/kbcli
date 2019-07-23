@@ -82,7 +82,7 @@ type UploadInvoiceTranslationParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 	/*Body*/
-	Body *string
+	Body string
 	/*DeleteIfExists*/
 	DeleteIfExists *bool
 	/*Locale*/
@@ -162,13 +162,13 @@ func (o *UploadInvoiceTranslationParams) SetXKillbillReason(xKillbillReason *str
 }
 
 // WithBody adds the body to the upload invoice translation params
-func (o *UploadInvoiceTranslationParams) WithBody(body *string) *UploadInvoiceTranslationParams {
+func (o *UploadInvoiceTranslationParams) WithBody(body string) *UploadInvoiceTranslationParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the upload invoice translation params
-func (o *UploadInvoiceTranslationParams) SetBody(body *string) {
+func (o *UploadInvoiceTranslationParams) SetBody(body string) {
 	o.Body = body
 }
 
@@ -225,10 +225,8 @@ func (o *UploadInvoiceTranslationParams) WriteToRequest(r runtime.ClientRequest,
 
 	}
 
-	if o.Body != nil {
-		if err := r.SetBodyParam(o.Body); err != nil {
-			return err
-		}
+	if err := r.SetBodyParam(o.Body); err != nil {
+		return err
 	}
 
 	if o.DeleteIfExists != nil {

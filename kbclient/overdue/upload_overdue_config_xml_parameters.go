@@ -69,7 +69,7 @@ type UploadOverdueConfigXMLParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 	/*Body*/
-	Body *string
+	Body string
 
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -145,13 +145,13 @@ func (o *UploadOverdueConfigXMLParams) SetXKillbillReason(xKillbillReason *strin
 }
 
 // WithBody adds the body to the upload overdue config Xml params
-func (o *UploadOverdueConfigXMLParams) WithBody(body *string) *UploadOverdueConfigXMLParams {
+func (o *UploadOverdueConfigXMLParams) WithBody(body string) *UploadOverdueConfigXMLParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the upload overdue config Xml params
-func (o *UploadOverdueConfigXMLParams) SetBody(body *string) {
+func (o *UploadOverdueConfigXMLParams) SetBody(body string) {
 	o.Body = body
 }
 
@@ -186,10 +186,8 @@ func (o *UploadOverdueConfigXMLParams) WriteToRequest(r runtime.ClientRequest, r
 
 	}
 
-	if o.Body != nil {
-		if err := r.SetBodyParam(o.Body); err != nil {
-			return err
-		}
+	if err := r.SetBodyParam(o.Body); err != nil {
+		return err
 	}
 
 	// header param withStackTrace
