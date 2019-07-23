@@ -34,7 +34,6 @@ func (m *Subject) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateSession(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -51,14 +50,12 @@ func (m *Subject) validateSession(formats strfmt.Registry) error {
 	}
 
 	if m.Session != nil {
-
 		if err := m.Session.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("session")
 			}
 			return err
 		}
-
 	}
 
 	return nil

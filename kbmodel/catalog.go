@@ -24,6 +24,7 @@ type Catalog struct {
 	Currencies []CatalogCurrenciesEnum `json:"currencies"`
 
 	// effective date
+	// Format: date-time
 	EffectiveDate strfmt.DateTime `json:"effectiveDate,omitempty"`
 
 	// name
@@ -44,27 +45,22 @@ func (m *Catalog) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateCurrencies(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEffectiveDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePriceLists(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateProducts(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUnits(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -808,20 +804,17 @@ func (m *Catalog) validatePriceLists(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.PriceLists); i++ {
-
 		if swag.IsZero(m.PriceLists[i]) { // not required
 			continue
 		}
 
 		if m.PriceLists[i] != nil {
-
 			if err := m.PriceLists[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("priceLists" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -836,20 +829,17 @@ func (m *Catalog) validateProducts(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Products); i++ {
-
 		if swag.IsZero(m.Products[i]) { // not required
 			continue
 		}
 
 		if m.Products[i] != nil {
-
 			if err := m.Products[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("products" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -864,20 +854,17 @@ func (m *Catalog) validateUnits(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Units); i++ {
-
 		if swag.IsZero(m.Units[i]) { // not required
 			continue
 		}
 
 		if m.Units[i] != nil {
-
 			if err := m.Units[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("units" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

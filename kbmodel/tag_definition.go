@@ -32,6 +32,7 @@ type TagDefinition struct {
 	Description *string `json:"description"`
 
 	// id
+	// Format: uuid
 	ID strfmt.UUID `json:"id,omitempty"`
 
 	// is control tag
@@ -47,27 +48,22 @@ func (m *TagDefinition) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateApplicableObjectTypes(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDescription(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -218,20 +214,17 @@ func (m *TagDefinition) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

@@ -47,7 +47,6 @@ func (m *PluginInfo) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateServices(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -68,20 +67,17 @@ func (m *PluginInfo) validateServices(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Services); i++ {
-
 		if swag.IsZero(m.Services[i]) { // not required
 			continue
 		}
 
 		if m.Services[i] != nil {
-
 			if err := m.Services[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("services" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

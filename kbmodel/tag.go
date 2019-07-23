@@ -24,18 +24,22 @@ type Tag struct {
 	AuditLogs []*AuditLog `json:"auditLogs"`
 
 	// object Id
+	// Format: uuid
 	ObjectID strfmt.UUID `json:"objectId,omitempty"`
 
 	// object type
+	// Enum: [ACCOUNT ACCOUNT_EMAIL BLOCKING_STATES BUNDLE CUSTOM_FIELD INVOICE PAYMENT TRANSACTION INVOICE_ITEM INVOICE_PAYMENT SUBSCRIPTION SUBSCRIPTION_EVENT SERVICE_BROADCAST PAYMENT_ATTEMPT PAYMENT_METHOD TAG TAG_DEFINITION TENANT TENANT_KVS]
 	ObjectType TagObjectTypeEnum `json:"objectType,omitempty"`
 
 	// tag definition Id
+	// Format: uuid
 	TagDefinitionID strfmt.UUID `json:"tagDefinitionId,omitempty"`
 
 	// tag definition name
 	TagDefinitionName string `json:"tagDefinitionName,omitempty"`
 
 	// tag Id
+	// Format: uuid
 	TagID strfmt.UUID `json:"tagId,omitempty"`
 }
 
@@ -44,27 +48,22 @@ func (m *Tag) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateObjectID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateObjectType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTagDefinitionID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTagID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -81,20 +80,17 @@ func (m *Tag) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

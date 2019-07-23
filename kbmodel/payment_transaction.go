@@ -27,9 +27,11 @@ type PaymentTransaction struct {
 	AuditLogs []*AuditLog `json:"auditLogs"`
 
 	// Amount currency (account currency unless specified)
+	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
 	Currency PaymentTransactionCurrencyEnum `json:"currency,omitempty"`
 
 	// effective date
+	// Format: date-time
 	EffectiveDate strfmt.DateTime `json:"effectiveDate,omitempty"`
 
 	// first payment reference Id
@@ -45,12 +47,14 @@ type PaymentTransaction struct {
 	PaymentExternalKey string `json:"paymentExternalKey,omitempty"`
 
 	// Associated payment id, required when notifying state transitions
+	// Format: uuid
 	PaymentID strfmt.UUID `json:"paymentId,omitempty"`
 
 	// processed amount
 	ProcessedAmount float64 `json:"processedAmount,omitempty"`
 
 	// processed currency
+	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
 	ProcessedCurrency PaymentTransactionProcessedCurrencyEnum `json:"processedCurrency,omitempty"`
 
 	// properties
@@ -60,15 +64,18 @@ type PaymentTransaction struct {
 	SecondPaymentReferenceID string `json:"secondPaymentReferenceId,omitempty"`
 
 	// Transaction status, required for state change notifications
+	// Enum: [SUCCESS UNKNOWN PENDING PAYMENT_FAILURE PLUGIN_FAILURE PAYMENT_SYSTEM_OFF]
 	Status PaymentTransactionStatusEnum `json:"status,omitempty"`
 
 	// transaction external key
 	TransactionExternalKey string `json:"transactionExternalKey,omitempty"`
 
 	// transaction Id
+	// Format: uuid
 	TransactionID strfmt.UUID `json:"transactionId,omitempty"`
 
 	// transaction type
+	// Enum: [AUTHORIZE CAPTURE CHARGEBACK CREDIT PURCHASE REFUND VOID]
 	TransactionType PaymentTransactionTransactionTypeEnum `json:"transactionType,omitempty"`
 }
 
@@ -77,47 +84,38 @@ func (m *PaymentTransaction) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateCurrency(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEffectiveDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePaymentID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateProcessedCurrency(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateProperties(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateStatus(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTransactionID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTransactionType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -134,20 +132,17 @@ func (m *PaymentTransaction) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -1610,20 +1605,17 @@ func (m *PaymentTransaction) validateProperties(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Properties); i++ {
-
 		if swag.IsZero(m.Properties[i]) { // not required
 			continue
 		}
 
 		if m.Properties[i] != nil {
-
 			if err := m.Properties[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("properties" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

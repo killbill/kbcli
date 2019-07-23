@@ -34,6 +34,7 @@ type Tenant struct {
 	ExternalKey string `json:"externalKey,omitempty"`
 
 	// tenant Id
+	// Format: uuid
 	TenantID strfmt.UUID `json:"tenantId,omitempty"`
 }
 
@@ -42,22 +43,18 @@ func (m *Tenant) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAPIKey(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAPISecret(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTenantID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -92,20 +89,17 @@ func (m *Tenant) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

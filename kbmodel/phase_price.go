@@ -42,7 +42,6 @@ func (m *PhasePrice) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateUsagePrices(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -59,20 +58,17 @@ func (m *PhasePrice) validateUsagePrices(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.UsagePrices); i++ {
-
 		if swag.IsZero(m.UsagePrices[i]) { // not required
 			continue
 		}
 
 		if m.UsagePrices[i] != nil {
-
 			if err := m.UsagePrices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("usagePrices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

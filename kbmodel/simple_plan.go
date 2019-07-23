@@ -26,15 +26,18 @@ type SimplePlan struct {
 	AvailableBaseProducts []string `json:"availableBaseProducts"`
 
 	// billing period
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod SimplePlanBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
 	// currency
+	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
 	Currency SimplePlanCurrencyEnum `json:"currency,omitempty"`
 
 	// plan Id
 	PlanID string `json:"planId,omitempty"`
 
 	// product category
+	// Enum: [BASE ADD_ON STANDALONE]
 	ProductCategory SimplePlanProductCategoryEnum `json:"productCategory,omitempty"`
 
 	// product name
@@ -44,6 +47,7 @@ type SimplePlan struct {
 	TrialLength int32 `json:"trialLength,omitempty"`
 
 	// trial time unit
+	// Enum: [DAYS WEEKS MONTHS YEARS UNLIMITED]
 	TrialTimeUnit SimplePlanTrialTimeUnitEnum `json:"trialTimeUnit,omitempty"`
 }
 
@@ -51,43 +55,25 @@ type SimplePlan struct {
 func (m *SimplePlan) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateAvailableBaseProducts(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
 	if err := m.validateBillingPeriod(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateCurrency(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateProductCategory(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTrialTimeUnit(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *SimplePlan) validateAvailableBaseProducts(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.AvailableBaseProducts) { // not required
-		return nil
-	}
-
 	return nil
 }
 

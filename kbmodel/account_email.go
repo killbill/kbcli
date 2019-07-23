@@ -20,6 +20,7 @@ import (
 type AccountEmail struct {
 
 	// account Id
+	// Format: uuid
 	AccountID strfmt.UUID `json:"accountId,omitempty"`
 
 	// audit logs
@@ -35,17 +36,14 @@ func (m *AccountEmail) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccountID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEmail(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -75,20 +73,17 @@ func (m *AccountEmail) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

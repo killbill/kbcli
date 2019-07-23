@@ -20,6 +20,7 @@ import (
 type PaymentMethod struct {
 
 	// account Id
+	// Format: uuid
 	AccountID strfmt.UUID `json:"accountId,omitempty"`
 
 	// audit logs
@@ -32,6 +33,7 @@ type PaymentMethod struct {
 	IsDefault *bool `json:"isDefault,omitempty"`
 
 	// payment method Id
+	// Format: uuid
 	PaymentMethodID strfmt.UUID `json:"paymentMethodId,omitempty"`
 
 	// plugin info
@@ -46,22 +48,18 @@ func (m *PaymentMethod) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccountID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePaymentMethodID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePluginInfo(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -91,20 +89,17 @@ func (m *PaymentMethod) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -132,14 +127,12 @@ func (m *PaymentMethod) validatePluginInfo(formats strfmt.Registry) error {
 	}
 
 	if m.PluginInfo != nil {
-
 		if err := m.PluginInfo.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("pluginInfo")
 			}
 			return err
 		}
-
 	}
 
 	return nil

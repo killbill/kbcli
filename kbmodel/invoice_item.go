@@ -22,6 +22,7 @@ type InvoiceItem struct {
 
 	// account Id
 	// Required: true
+	// Format: uuid
 	AccountID *strfmt.UUID `json:"accountId"`
 
 	// amount
@@ -31,37 +32,45 @@ type InvoiceItem struct {
 	AuditLogs []*AuditLog `json:"auditLogs"`
 
 	// bundle Id
+	// Format: uuid
 	BundleID strfmt.UUID `json:"bundleId,omitempty"`
 
 	// child account Id
+	// Format: uuid
 	ChildAccountID strfmt.UUID `json:"childAccountId,omitempty"`
 
 	// child items
 	ChildItems []*InvoiceItem `json:"childItems"`
 
 	// currency
+	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
 	Currency InvoiceItemCurrencyEnum `json:"currency,omitempty"`
 
 	// description
 	Description string `json:"description,omitempty"`
 
 	// end date
+	// Format: date
 	EndDate strfmt.Date `json:"endDate,omitempty"`
 
 	// invoice Id
+	// Format: uuid
 	InvoiceID strfmt.UUID `json:"invoiceId,omitempty"`
 
 	// invoice item Id
 	// Required: true
+	// Format: uuid
 	InvoiceItemID *strfmt.UUID `json:"invoiceItemId"`
 
 	// item details
 	ItemDetails string `json:"itemDetails,omitempty"`
 
 	// item type
+	// Enum: [EXTERNAL_CHARGE FIXED RECURRING REPAIR_ADJ CBA_ADJ CREDIT_ADJ ITEM_ADJ USAGE TAX PARENT_SUMMARY]
 	ItemType InvoiceItemItemTypeEnum `json:"itemType,omitempty"`
 
 	// linked invoice item Id
+	// Format: uuid
 	LinkedInvoiceItemID strfmt.UUID `json:"linkedInvoiceItemId,omitempty"`
 
 	// phase name
@@ -92,9 +101,11 @@ type InvoiceItem struct {
 	Rate float64 `json:"rate,omitempty"`
 
 	// start date
+	// Format: date
 	StartDate strfmt.Date `json:"startDate,omitempty"`
 
 	// subscription Id
+	// Format: uuid
 	SubscriptionID strfmt.UUID `json:"subscriptionId,omitempty"`
 
 	// usage name
@@ -106,67 +117,54 @@ func (m *InvoiceItem) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccountID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBundleID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateChildAccountID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateChildItems(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateCurrency(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEndDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateInvoiceID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateInvoiceItemID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateItemType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateLinkedInvoiceItemID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateStartDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSubscriptionID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -196,20 +194,17 @@ func (m *InvoiceItem) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -250,20 +245,17 @@ func (m *InvoiceItem) validateChildItems(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.ChildItems); i++ {
-
 		if swag.IsZero(m.ChildItems[i]) { // not required
 			continue
 		}
 
 		if m.ChildItems[i] != nil {
-
 			if err := m.ChildItems[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("childItems" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

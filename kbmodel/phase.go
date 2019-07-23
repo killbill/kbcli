@@ -39,22 +39,18 @@ func (m *Phase) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDuration(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFixedPrices(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePrices(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUsages(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -71,14 +67,12 @@ func (m *Phase) validateDuration(formats strfmt.Registry) error {
 	}
 
 	if m.Duration != nil {
-
 		if err := m.Duration.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("duration")
 			}
 			return err
 		}
-
 	}
 
 	return nil
@@ -91,20 +85,17 @@ func (m *Phase) validateFixedPrices(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.FixedPrices); i++ {
-
 		if swag.IsZero(m.FixedPrices[i]) { // not required
 			continue
 		}
 
 		if m.FixedPrices[i] != nil {
-
 			if err := m.FixedPrices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("fixedPrices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -119,20 +110,17 @@ func (m *Phase) validatePrices(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Prices); i++ {
-
 		if swag.IsZero(m.Prices[i]) { // not required
 			continue
 		}
 
 		if m.Prices[i] != nil {
-
 			if err := m.Prices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -147,20 +135,17 @@ func (m *Phase) validateUsages(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Usages); i++ {
-
 		if swag.IsZero(m.Usages[i]) { // not required
 			continue
 		}
 
 		if m.Usages[i] != nil {
-
 			if err := m.Usages[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("usages" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

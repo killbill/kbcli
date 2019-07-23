@@ -32,6 +32,7 @@ type HostedPaymentPageFormDescriptor struct {
 	FormURL string `json:"formUrl,omitempty"`
 
 	// kb account Id
+	// Format: uuid
 	KbAccountID strfmt.UUID `json:"kbAccountId,omitempty"`
 
 	// properties
@@ -43,12 +44,10 @@ func (m *HostedPaymentPageFormDescriptor) Validate(formats strfmt.Registry) erro
 	var res []error
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateKbAccountID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -65,20 +64,17 @@ func (m *HostedPaymentPageFormDescriptor) validateAuditLogs(formats strfmt.Regis
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

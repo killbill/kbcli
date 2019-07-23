@@ -24,9 +24,11 @@ type Session struct {
 	ID string `json:"id,omitempty"`
 
 	// last access date
+	// Format: date-time
 	LastAccessDate strfmt.DateTime `json:"lastAccessDate,omitempty"`
 
 	// start date
+	// Format: date-time
 	StartDate strfmt.DateTime `json:"startDate,omitempty"`
 
 	// timeout
@@ -38,12 +40,10 @@ func (m *Session) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateLastAccessDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateStartDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

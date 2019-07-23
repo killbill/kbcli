@@ -8,7 +8,6 @@ package kbmodel
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 )
 
@@ -40,25 +39,6 @@ type OverdueState struct {
 
 // Validate validates this overdue state
 func (m *OverdueState) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateDaysBetweenPaymentRetries(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *OverdueState) validateDaysBetweenPaymentRetries(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.DaysBetweenPaymentRetries) { // not required
-		return nil
-	}
-
 	return nil
 }
 

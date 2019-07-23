@@ -21,6 +21,7 @@ type SubscriptionUsageRecord struct {
 
 	// subscription Id
 	// Required: true
+	// Format: uuid
 	SubscriptionID *strfmt.UUID `json:"subscriptionId"`
 
 	// tracking Id
@@ -36,12 +37,10 @@ func (m *SubscriptionUsageRecord) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateSubscriptionID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUnitUsageRecords(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -71,20 +70,17 @@ func (m *SubscriptionUsageRecord) validateUnitUsageRecords(formats strfmt.Regist
 	}
 
 	for i := 0; i < len(m.UnitUsageRecords); i++ {
-
 		if swag.IsZero(m.UnitUsageRecords[i]) { // not required
 			continue
 		}
 
 		if m.UnitUsageRecords[i] != nil {
-
 			if err := m.UnitUsageRecords[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("unitUsageRecords" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
