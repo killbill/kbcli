@@ -70,6 +70,11 @@ type IInvoiceItem interface {
 	DeleteInvoiceItemTags(ctx context.Context, params *DeleteInvoiceItemTagsParams) (*DeleteInvoiceItemTagsNoContent, error)
 
 	/*
+		GetInvoiceItemAuditLogsWithHistory retrieves invoice item audit logs with history by id
+	*/
+	GetInvoiceItemAuditLogsWithHistory(ctx context.Context, params *GetInvoiceItemAuditLogsWithHistoryParams) (*GetInvoiceItemAuditLogsWithHistoryOK, error)
+
+	/*
 		GetInvoiceItemCustomFields retrieves invoice item custom fields
 	*/
 	GetInvoiceItemCustomFields(ctx context.Context, params *GetInvoiceItemCustomFieldsParams) (*GetInvoiceItemCustomFieldsOK, error)
@@ -325,6 +330,46 @@ func (a *Client) DeleteInvoiceItemTags(ctx context.Context, params *DeleteInvoic
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteInvoiceItemTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+
+}
+
+/*
+GetInvoiceItemAuditLogsWithHistory retrieves invoice item audit logs with history by id
+*/
+func (a *Client) GetInvoiceItemAuditLogsWithHistory(ctx context.Context, params *GetInvoiceItemAuditLogsWithHistoryParams) (*GetInvoiceItemAuditLogsWithHistoryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetInvoiceItemAuditLogsWithHistoryParams()
+	}
+	params.Context = ctx
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getInvoiceItemAuditLogsWithHistory",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/invoiceItems/{invoiceItemId}/auditLogsWithHistory",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetInvoiceItemAuditLogsWithHistoryReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetInvoiceItemAuditLogsWithHistoryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getInvoiceItemAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 
 }

@@ -36,7 +36,7 @@ type TagDefinition struct {
 	ID strfmt.UUID `json:"id,omitempty"`
 
 	// is control tag
-	IsControlTag *bool `json:"isControlTag,omitempty"`
+	IsControlTag bool `json:"isControlTag,omitempty"`
 
 	// name
 	// Required: true

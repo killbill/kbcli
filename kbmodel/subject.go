@@ -17,10 +17,10 @@ import (
 type Subject struct {
 
 	// is authenticated
-	IsAuthenticated *bool `json:"isAuthenticated,omitempty"`
+	IsAuthenticated bool `json:"isAuthenticated,omitempty"`
 
 	// is remembered
-	IsRemembered *bool `json:"isRemembered,omitempty"`
+	IsRemembered bool `json:"isRemembered,omitempty"`
 
 	// principal
 	Principal string `json:"principal,omitempty"`

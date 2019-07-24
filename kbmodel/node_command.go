@@ -19,7 +19,7 @@ import (
 type NodeCommand struct {
 
 	// is system command type
-	IsSystemCommandType *bool `json:"isSystemCommandType,omitempty"`
+	IsSystemCommandType bool `json:"isSystemCommandType,omitempty"`
 
 	// node command properties
 	NodeCommandProperties []*NodeCommandProperty `json:"nodeCommandProperties"`

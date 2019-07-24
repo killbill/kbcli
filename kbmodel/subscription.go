@@ -43,6 +43,9 @@ type Subscription struct {
 	// Format: date
 	BillingStartDate strfmt.Date `json:"billingStartDate,omitempty"`
 
+	// bundle external key
+	BundleExternalKey string `json:"bundleExternalKey,omitempty"`
+
 	// bundle Id
 	// Format: uuid
 	BundleID strfmt.UUID `json:"bundleId,omitempty"`

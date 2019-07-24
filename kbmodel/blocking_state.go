@@ -32,13 +32,13 @@ type BlockingState struct {
 	EffectiveDate strfmt.DateTime `json:"effectiveDate,omitempty"`
 
 	// is block billing
-	IsBlockBilling *bool `json:"isBlockBilling,omitempty"`
+	IsBlockBilling bool `json:"isBlockBilling,omitempty"`
 
 	// is block change
-	IsBlockChange *bool `json:"isBlockChange,omitempty"`
+	IsBlockChange bool `json:"isBlockChange,omitempty"`
 
 	// is block entitlement
-	IsBlockEntitlement *bool `json:"isBlockEntitlement,omitempty"`
+	IsBlockEntitlement bool `json:"isBlockEntitlement,omitempty"`
 
 	// service
 	Service string `json:"service,omitempty"`

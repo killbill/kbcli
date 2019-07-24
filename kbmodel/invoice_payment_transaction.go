@@ -47,7 +47,7 @@ type InvoicePaymentTransaction struct {
 	GatewayErrorMsg string `json:"gatewayErrorMsg,omitempty"`
 
 	// is adjusted
-	IsAdjusted *bool `json:"isAdjusted,omitempty"`
+	IsAdjusted bool `json:"isAdjusted,omitempty"`
 
 	// payment external key
 	PaymentExternalKey string `json:"paymentExternalKey,omitempty"`

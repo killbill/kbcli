@@ -155,6 +155,11 @@ type IAccount interface {
 	GetAllTags(ctx context.Context, params *GetAllTagsParams) (*GetAllTagsOK, error)
 
 	/*
+		GetBlockingStateAuditLogsWithHistory retrieves blocking state audit logs with history by id
+	*/
+	GetBlockingStateAuditLogsWithHistory(ctx context.Context, params *GetBlockingStateAuditLogsWithHistoryParams) (*GetBlockingStateAuditLogsWithHistoryOK, error)
+
+	/*
 		GetBlockingStates retrieves blocking states for account
 	*/
 	GetBlockingStates(ctx context.Context, params *GetBlockingStatesParams) (*GetBlockingStatesOK, error)
@@ -1302,6 +1307,46 @@ func (a *Client) GetAllTags(ctx context.Context, params *GetAllTagsParams) (*Get
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAllTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+
+}
+
+/*
+GetBlockingStateAuditLogsWithHistory retrieves blocking state audit logs with history by id
+*/
+func (a *Client) GetBlockingStateAuditLogsWithHistory(ctx context.Context, params *GetBlockingStateAuditLogsWithHistoryParams) (*GetBlockingStateAuditLogsWithHistoryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetBlockingStateAuditLogsWithHistoryParams()
+	}
+	params.Context = ctx
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getBlockingStateAuditLogsWithHistory",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/accounts/block/{blockingId}/auditLogsWithHistory",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetBlockingStateAuditLogsWithHistoryReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetBlockingStateAuditLogsWithHistoryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getBlockingStateAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 
 }

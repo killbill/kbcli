@@ -65,10 +65,10 @@ type Account struct {
 	FirstNameLength int32 `json:"firstNameLength,omitempty"`
 
 	// is migrated
-	IsMigrated *bool `json:"isMigrated,omitempty"`
+	IsMigrated bool `json:"isMigrated,omitempty"`
 
 	// is payment delegated to parent
-	IsPaymentDelegatedToParent *bool `json:"isPaymentDelegatedToParent,omitempty"`
+	IsPaymentDelegatedToParent bool `json:"isPaymentDelegatedToParent,omitempty"`
 
 	// locale
 	Locale string `json:"locale,omitempty"`

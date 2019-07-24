@@ -15,20 +15,17 @@ import (
 // swagger:model OverdueState
 type OverdueState struct {
 
-	// days between payment retries
-	DaysBetweenPaymentRetries []int32 `json:"daysBetweenPaymentRetries"`
-
 	// external message
 	ExternalMessage string `json:"externalMessage,omitempty"`
 
 	// is block changes
-	IsBlockChanges *bool `json:"isBlockChanges,omitempty"`
+	IsBlockChanges bool `json:"isBlockChanges,omitempty"`
 
 	// is clear state
-	IsClearState *bool `json:"isClearState,omitempty"`
+	IsClearState bool `json:"isClearState,omitempty"`
 
 	// is disable entitlement and changes blocked
-	IsDisableEntitlementAndChangesBlocked *bool `json:"isDisableEntitlementAndChangesBlocked,omitempty"`
+	IsDisableEntitlementAndChangesBlocked bool `json:"isDisableEntitlementAndChangesBlocked,omitempty"`
 
 	// name
 	Name string `json:"name,omitempty"`

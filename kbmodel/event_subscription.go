@@ -40,10 +40,10 @@ type EventSubscription struct {
 	EventType EventSubscriptionEventTypeEnum `json:"eventType,omitempty"`
 
 	// is blocked billing
-	IsBlockedBilling *bool `json:"isBlockedBilling,omitempty"`
+	IsBlockedBilling bool `json:"isBlockedBilling,omitempty"`
 
 	// is blocked entitlement
-	IsBlockedEntitlement *bool `json:"isBlockedEntitlement,omitempty"`
+	IsBlockedEntitlement bool `json:"isBlockedEntitlement,omitempty"`
 
 	// phase
 	Phase string `json:"phase,omitempty"`

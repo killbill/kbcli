@@ -23,7 +23,7 @@ type PluginInfo struct {
 	BundleSymbolicName string `json:"bundleSymbolicName,omitempty"`
 
 	// is selected for start
-	IsSelectedForStart *bool `json:"isSelectedForStart,omitempty"`
+	IsSelectedForStart bool `json:"isSelectedForStart,omitempty"`
 
 	// plugin key
 	PluginKey string `json:"pluginKey,omitempty"`

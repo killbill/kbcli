@@ -16,7 +16,7 @@ import (
 type PluginProperty struct {
 
 	// is updatable
-	IsUpdatable *bool `json:"isUpdatable,omitempty"`
+	IsUpdatable bool `json:"isUpdatable,omitempty"`
 
 	// key
 	Key string `json:"key,omitempty"`

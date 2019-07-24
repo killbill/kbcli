@@ -22,7 +22,7 @@ type PaymentMethodPluginDetail struct {
 	ExternalPaymentMethodID string `json:"externalPaymentMethodId,omitempty"`
 
 	// is default payment method
-	IsDefaultPaymentMethod *bool `json:"isDefaultPaymentMethod,omitempty"`
+	IsDefaultPaymentMethod bool `json:"isDefaultPaymentMethod,omitempty"`
 
 	// properties
 	Properties []*PluginProperty `json:"properties"`

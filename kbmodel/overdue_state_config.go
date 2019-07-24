@@ -29,13 +29,13 @@ type OverdueStateConfig struct {
 	ExternalMessage string `json:"externalMessage,omitempty"`
 
 	// is block changes
-	IsBlockChanges *bool `json:"isBlockChanges,omitempty"`
+	IsBlockChanges bool `json:"isBlockChanges,omitempty"`
 
 	// is clear state
-	IsClearState *bool `json:"isClearState,omitempty"`
+	IsClearState bool `json:"isClearState,omitempty"`
 
 	// is disable entitlement
-	IsDisableEntitlement *bool `json:"isDisableEntitlement,omitempty"`
+	IsDisableEntitlement bool `json:"isDisableEntitlement,omitempty"`
 
 	// name
 	Name string `json:"name,omitempty"`

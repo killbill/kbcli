@@ -62,6 +62,11 @@ type ICustomField interface {
 		SearchCustomFields searches custom fields
 	*/
 	SearchCustomFields(ctx context.Context, params *SearchCustomFieldsParams) (*SearchCustomFieldsOK, error)
+
+	/*
+		SearchCustomFieldsByTypeName searches custom fields by type name and optional value
+	*/
+	SearchCustomFieldsByTypeName(ctx context.Context, params *SearchCustomFieldsByTypeNameParams) (*SearchCustomFieldsByTypeNameOK, error)
 }
 
 /*
@@ -180,6 +185,46 @@ func (a *Client) SearchCustomFields(ctx context.Context, params *SearchCustomFie
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for searchCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+
+}
+
+/*
+SearchCustomFieldsByTypeName searches custom fields by type name and optional value
+*/
+func (a *Client) SearchCustomFieldsByTypeName(ctx context.Context, params *SearchCustomFieldsByTypeNameParams) (*SearchCustomFieldsByTypeNameOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSearchCustomFieldsByTypeNameParams()
+	}
+	params.Context = ctx
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "searchCustomFieldsByTypeName",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/customFields/search",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &SearchCustomFieldsByTypeNameReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SearchCustomFieldsByTypeNameOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for searchCustomFieldsByTypeName: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 
 }

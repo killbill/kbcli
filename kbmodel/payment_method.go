@@ -30,7 +30,7 @@ type PaymentMethod struct {
 	ExternalKey string `json:"externalKey,omitempty"`
 
 	// is default
-	IsDefault *bool `json:"isDefault,omitempty"`
+	IsDefault bool `json:"isDefault,omitempty"`
 
 	// payment method Id
 	// Format: uuid
