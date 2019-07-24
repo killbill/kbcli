@@ -80,13 +80,18 @@ func getAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 }
 
 func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) < 3 {
+	if len(o.Args) < 4 {
 		return cmdlib.ErrorInvalidArgs
 	}
 
 	accKey := o.Args[0]
 	method := o.Args[1]
-	isDefault, err := strconv.ParseBool(o.Args[2])
+	externalKey := o.Args[2]
+	isDefault, err := strconv.ParseBool(o.Args[3])
+	if err != nil {
+		return err
+	}
+	payAllUnpaidInvoices, err := strconv.ParseBool(o.Args[4])
 	if err != nil {
 		return err
 	}
@@ -95,13 +100,14 @@ func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 	if err != nil {
 		return err
 	}
-	pluginProperties, err := args.ParseArgs(o.Args[3:])
+	pluginProperties, err := args.ParseArgs(o.Args[5:])
 	if err != nil {
 		return err
 	}
 	pm := &kbmodel.PaymentMethod{
-		PluginName: method,
-		PluginInfo: &kbmodel.PaymentMethodPluginDetail{},
+		ExternalKey: externalKey,
+		PluginName:  method,
+		PluginInfo:  &kbmodel.PaymentMethodPluginDetail{},
 	}
 	for _, pp := range pluginProperties {
 		pm.PluginInfo.Properties = append(pm.PluginInfo.Properties, &kbmodel.PluginProperty{
@@ -114,6 +120,7 @@ func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 		AccountID:             acc.AccountID,
 		Body:                  pm,
 		IsDefault:             &isDefault,
+		PayAllUnpaidInvoices:  &payAllUnpaidInvoices,
 		ProcessLocationHeader: true,
 	})
 	if err != nil {
@@ -194,10 +201,10 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 	r.Register("accounts.payment-methods", cli.Command{
 		Name:  "add",
 		Usage: "Add new payment method",
-		ArgsUsage: `ACCOUNT METHOD IS_DEFAULT [Property1=Value1] ...
+		ArgsUsage: `ACCOUNT PLUGIN_NAME EXTERNAL_KEY IS_DEFAULT PAY_ALL_UNPAID_INVOICES [Property1=Value1] ...
 
    For ex.,
-      kbcmd accounts payment-methods add johndoe killbill-stripe true token=tok_1CidZ7HGlIo9NLGOy7sPvbsz
+      kbcmd accounts payment-methods add johndoe killbill-stripe visa true false token=tok_1CidZ7HGlIo9NLGOy7sPvbsz
 		`,
 	}, addAccountPaymentMethod)
 

@@ -77,7 +77,7 @@ store the card token in `CARD_TOKEN` variable.
 ### Step 4.3 Set default payment method
 ```bash
 # Add the payment method and set to default
-kbcmd acc payment-methods add johndoe killbill-stripe true token=$CARD_TOKEN
+kbcmd acc payment-methods add johndoe killbill-stripe visa true false token=$CARD_TOKEN
 ```
 
 ## Step 5: Create new subscription

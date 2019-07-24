@@ -21,7 +21,30 @@ import (
 var (
 	getInvoiceProperties          args.Properties
 	listAccountInvoicesProperties args.Properties
+	dryRunInvoiceProperties       args.Properties
+	payInvoiceProperties          args.Properties
 )
+
+var invoicePaymentFormatter = cmdlib.Formatter{
+	Columns: []cmdlib.Column{
+		{
+			Name: "NUMBER",
+			Path: "$.paymentNumber",
+		},
+		{
+			Name: "INVOICE",
+			Path: "$.targetInvoiceId",
+		},
+		{
+			Name: "PURCHASE_AMOUNT",
+			Path: "$.purchasedAmount",
+		},
+		{
+			Name: "REFUND_AMOUNT",
+			Path: "$.refundedAmount",
+		},
+	},
+}
 
 var invoiceItemFormatter = cmdlib.Formatter{
 	Columns: []cmdlib.Column{
@@ -147,7 +170,10 @@ type dryRunInvoiceParams struct {
 	SubscriptionID string
 }
 
-var dryRunInvoiceProperties args.Properties
+type payInvoiceParams struct {
+	Amount          string
+	PaymentMethodID string
+}
 
 func dryRunInvoice(ctx context.Context, o *cmdlib.Options) error {
 	if len(o.Args) < 1 {
@@ -196,12 +222,103 @@ func dryRunInvoice(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
+func payInvoice(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) < 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+	invoiceIDOrNumber := o.Args[0]
+
+	var invoiceId strfmt.UUID
+	var invoiceBalance float64
+	var accountId strfmt.UUID
+	if !strfmt.IsUUID(invoiceIDOrNumber) {
+		invoiceNumber, err := strconv.ParseInt(invoiceIDOrNumber, 10, 64)
+		if err != nil {
+			return err
+		}
+		withItems := true
+		invoiceByNumberParams := &invoice.GetInvoiceByNumberParams{
+			InvoiceNumber: int32(invoiceNumber),
+			WithItems:     &withItems,
+		}
+
+		resp, err := o.Client().Invoice.GetInvoiceByNumber(ctx, invoiceByNumberParams)
+		if err != nil {
+			return err
+		}
+		invoiceId = resp.Payload.InvoiceID
+		invoiceBalance = resp.Payload.Balance
+		accountId = resp.Payload.AccountID
+	} else {
+		invoiceId = strfmt.UUID(invoiceIDOrNumber)
+		invoiceByIdParams := &invoice.GetInvoiceParams{
+			InvoiceID: invoiceId,
+		}
+
+		resp, err := o.Client().Invoice.GetInvoice(ctx, invoiceByIdParams)
+		if err != nil {
+			return err
+		}
+		invoiceBalance = resp.Payload.Balance
+		accountId = resp.Payload.AccountID
+	}
+
+	var inputParams payInvoiceParams
+	if err := args.LoadProperties(&inputParams, payInvoiceProperties, o.Args[1:]); err != nil {
+		return err
+	}
+
+	createInstantPaymentParams := &invoice.CreateInstantPaymentParams{
+		InvoiceID: invoiceId,
+		Body: &kbmodel.InvoicePayment{
+			AccountID:       accountId,
+			TargetInvoiceID: invoiceId,
+		},
+		// TODO Not respected because of https://github.com/killbill/kbcli/issues/12
+		ProcessLocationHeader: true,
+	}
+
+	if inputParams.Amount == "" {
+		if invoiceBalance == 0 {
+			o.Output("Nothing to pay\n")
+			return nil
+		}
+		createInstantPaymentParams.Body.PurchasedAmount = invoiceBalance
+	} else {
+		amount, err := strconv.ParseFloat(inputParams.Amount, 64)
+		if err != nil {
+			return err
+		}
+		createInstantPaymentParams.Body.PurchasedAmount = amount
+	}
+
+	if inputParams.PaymentMethodID != "" {
+		createInstantPaymentParams.Body.PaymentMethodID = strfmt.UUID(inputParams.PaymentMethodID)
+	}
+
+	resp, _, err := o.Client().Invoice.CreateInstantPayment(ctx, createInstantPaymentParams)
+	if err != nil {
+		return err
+	}
+
+	if resp != nil {
+		o.Print(resp.Payload)
+	} else {
+		o.Log.Warningf("Unable to trigger payment (missing payment method?)")
+	}
+
+	return nil
+}
+
 func registerInvoicesCommands(r *cmdlib.App) {
 	// Register formatters
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.Invoice{}), invoiceFormatter)
 
 	// Register formatters
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.InvoiceItem{}), invoiceItemFormatter)
+
+	// Register formatters
+	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.InvoicePayment{}), invoicePaymentFormatter)
 
 	// Register top level command
 	r.Register("", cli.Command{
@@ -252,4 +369,16 @@ kbcmd invoices dry-run account3 TargetDate=2018-05-05
 will generate invoice for the given date. If date is omitted, next upcoming invoice will be generated.
 `, dryRunInvoiceUsage),
 	}, dryRunInvoice)
+
+	// Pay invoice
+	payInvoiceProperties = args.GetProperties(&payInvoiceParams{})
+	payInvoiceUsage := args.GenerateUsageString(&payInvoiceParams{}, payInvoiceProperties)
+	r.Register("invoices", cli.Command{
+		Name:  "pay",
+		Usage: "Trigger a payment for a given invoice",
+		ArgsUsage: fmt.Sprintf(`INVOICE_ID %s
+For ex.,
+kbcmd invoices pay 7fcc7b69-9fdb-4143-98e6-94f3bad4842f Amount=5 PaymentMethodId=d7c14d0e-2368-4214-a522-92ce6e00f535
+`, payInvoiceUsage),
+	}, payInvoice)
 }
