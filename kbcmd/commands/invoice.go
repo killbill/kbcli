@@ -19,7 +19,8 @@ import (
 )
 
 var (
-	getInvoiceProperties args.Properties
+	getInvoiceProperties          args.Properties
+	listAccountInvoicesProperties args.Properties
 )
 
 var invoiceItemFormatter = cmdlib.Formatter{
@@ -71,7 +72,7 @@ var invoiceFormatter = cmdlib.Formatter{
 }
 
 func listAccountInvoices(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) != 1 {
+	if len(o.Args) < 1 {
 		return cmdlib.ErrorInvalidArgs
 	}
 	accIDOrKey := o.Args[0]
@@ -81,9 +82,15 @@ func listAccountInvoices(ctx context.Context, o *cmdlib.Options) error {
 		return err
 	}
 
-	resp, err := o.Client().Account.GetInvoicesForAccount(ctx, &account.GetInvoicesForAccountParams{
+	params := &account.GetInvoicesForAccountParams{
 		AccountID: acc.AccountID,
-	})
+	}
+
+	if err := args.LoadProperties(params, listAccountInvoicesProperties, o.Args[1:]); err != nil {
+		return err
+	}
+
+	resp, err := o.Client().Account.GetInvoicesForAccount(ctx, params)
 	if err != nil {
 		return err
 	}
@@ -204,10 +211,16 @@ func registerInvoicesCommands(r *cmdlib.App) {
 	}, nil)
 
 	// List invoices
+	listAccountInvoicesProperties = args.GetProperties(&account.GetInvoicesForAccountParams{})
+	listAccountInvoicesProperties.Remove("AccountID")
+	getInvoicesForAccountUsage := args.GenerateUsageString(&account.GetInvoicesForAccountParams{}, listAccountInvoicesProperties)
 	r.Register("invoices", cli.Command{
-		Name:      "list",
-		Usage:     "list all invoices for a given account",
-		ArgsUsage: "ACCOUNT",
+		Name:  "list",
+		Usage: "list all invoices for a given account",
+		ArgsUsage: fmt.Sprintf(`ACCOUNT %s
+For ex.,
+kbcmd invoices list account3 UnpaidInvoicesOnly=true
+`, getInvoicesForAccountUsage),
 	}, listAccountInvoices)
 
 	// get invoice (Both getInvoice and getInvoiceByNumber share the same properties)
