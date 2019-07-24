@@ -18,9 +18,11 @@ import (
 type Clock struct {
 
 	// current utc time
+	// Format: date-time
 	CurrentUtcTime strfmt.DateTime `json:"currentUtcTime,omitempty"`
 
 	// local date
+	// Format: date
 	LocalDate strfmt.Date `json:"localDate,omitempty"`
 
 	// time zone
@@ -32,12 +34,10 @@ func (m *Clock) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateCurrentUtcTime(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateLocalDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

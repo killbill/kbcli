@@ -7,6 +7,7 @@ package debug
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 
@@ -87,7 +88,14 @@ func (a *Client) GetClock(ctx context.Context, params *GetClockParams) (*GetCloc
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetClockOK), nil
+	success, ok := result.(*GetClockOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getClock: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -120,7 +128,14 @@ func (a *Client) SetClock(ctx context.Context, params *SetClockParams) (*SetCloc
 	if err != nil {
 		return nil, err
 	}
-	return result.(*SetClockOK), nil
+	success, ok := result.(*SetClockOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for setClock: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
