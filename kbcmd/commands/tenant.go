@@ -95,7 +95,7 @@ func configureStripePlugin(ctx context.Context, o *cmdlib.Options) error {
 
 	_, err = o.Client().Tenant.UploadPluginConfiguration(ctx, &tenant.UploadPluginConfigurationParams{
 		PluginName: "killbill-stripe",
-		Body:       &stripeConfig,
+		Body:       stripeConfig,
 	})
 	if err != nil {
 		return err
