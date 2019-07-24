@@ -62,6 +62,10 @@ func (o *ProcessPaymentCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentCreated  %+v", 201, o.Payload)
 }
 
+func (o *ProcessPaymentCreated) GetPayload() *kbmodel.Payment {
+	return o.Payload
+}
+
 func (o *ProcessPaymentCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Payment)

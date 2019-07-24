@@ -61,6 +61,10 @@ func (o *GetAvailableAddonsOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog/availableAddons][%d] getAvailableAddonsOK  %+v", 200, o.Payload)
 }
 
+func (o *GetAvailableAddonsOK) GetPayload() []*kbmodel.PlanDetail {
+	return o.Payload
+}
+
 func (o *GetAvailableAddonsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

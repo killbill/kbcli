@@ -62,6 +62,10 @@ func (o *GetUsageOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/usages/{subscriptionId}/{unitType}][%d] getUsageOK  %+v", 200, o.Payload)
 }
 
+func (o *GetUsageOK) GetPayload() *kbmodel.RolledUpUsage {
+	return o.Payload
+}
+
 func (o *GetUsageOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.RolledUpUsage)

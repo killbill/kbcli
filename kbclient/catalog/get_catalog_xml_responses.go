@@ -59,6 +59,10 @@ func (o *GetCatalogXMLOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog/xml][%d] getCatalogXmlOK  %+v", 200, o.Payload)
 }
 
+func (o *GetCatalogXMLOK) GetPayload() string {
+	return o.Payload
+}
+
 func (o *GetCatalogXMLOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

@@ -7,6 +7,7 @@ package admin
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 
@@ -117,7 +118,14 @@ func (a *Client) GetQueueEntries(ctx context.Context, params *GetQueueEntriesPar
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetQueueEntriesOK), nil
+	success, ok := result.(*GetQueueEntriesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getQueueEntries: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -150,7 +158,14 @@ func (a *Client) InvalidatesCache(ctx context.Context, params *InvalidatesCacheP
 	if err != nil {
 		return nil, err
 	}
-	return result.(*InvalidatesCacheNoContent), nil
+	success, ok := result.(*InvalidatesCacheNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for invalidatesCache: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -183,7 +198,14 @@ func (a *Client) InvalidatesCacheByAccount(ctx context.Context, params *Invalida
 	if err != nil {
 		return nil, err
 	}
-	return result.(*InvalidatesCacheByAccountNoContent), nil
+	success, ok := result.(*InvalidatesCacheByAccountNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for invalidatesCacheByAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -216,7 +238,14 @@ func (a *Client) InvalidatesCacheByTenant(ctx context.Context, params *Invalidat
 	if err != nil {
 		return nil, err
 	}
-	return result.(*InvalidatesCacheByTenantNoContent), nil
+	success, ok := result.(*InvalidatesCacheByTenantNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for invalidatesCacheByTenant: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -249,7 +278,14 @@ func (a *Client) PutInRotation(ctx context.Context, params *PutInRotationParams)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*PutInRotationNoContent), nil
+	success, ok := result.(*PutInRotationNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for putInRotation: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -282,7 +318,14 @@ func (a *Client) PutOutOfRotation(ctx context.Context, params *PutOutOfRotationP
 	if err != nil {
 		return nil, err
 	}
-	return result.(*PutOutOfRotationNoContent), nil
+	success, ok := result.(*PutOutOfRotationNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for putOutOfRotation: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -327,7 +370,14 @@ func (a *Client) TriggerInvoiceGenerationForParkedAccounts(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
-	return result.(*TriggerInvoiceGenerationForParkedAccountsOK), nil
+	success, ok := result.(*TriggerInvoiceGenerationForParkedAccountsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for triggerInvoiceGenerationForParkedAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -372,7 +422,14 @@ func (a *Client) UpdatePaymentTransactionState(ctx context.Context, params *Upda
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UpdatePaymentTransactionStateNoContent), nil
+	success, ok := result.(*UpdatePaymentTransactionStateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for updatePaymentTransactionState: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

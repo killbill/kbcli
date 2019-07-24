@@ -7,6 +7,7 @@ package security
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 	"github.com/killbill/kbcli/kbcommon"
@@ -268,7 +269,14 @@ func (a *Client) GetCurrentUserPermissions(ctx context.Context, params *GetCurre
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetCurrentUserPermissionsOK), nil
+	success, ok := result.(*GetCurrentUserPermissionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getCurrentUserPermissions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -301,7 +309,14 @@ func (a *Client) GetCurrentUserSubject(ctx context.Context, params *GetCurrentUs
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetCurrentUserSubjectOK), nil
+	success, ok := result.(*GetCurrentUserSubjectOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getCurrentUserSubject: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -334,7 +349,14 @@ func (a *Client) GetRoleDefinition(ctx context.Context, params *GetRoleDefinitio
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetRoleDefinitionOK), nil
+	success, ok := result.(*GetRoleDefinitionOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getRoleDefinition: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -367,7 +389,14 @@ func (a *Client) GetUserRoles(ctx context.Context, params *GetUserRolesParams) (
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetUserRolesOK), nil
+	success, ok := result.(*GetUserRolesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getUserRoles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -412,7 +441,14 @@ func (a *Client) InvalidateUser(ctx context.Context, params *InvalidateUserParam
 	if err != nil {
 		return nil, err
 	}
-	return result.(*InvalidateUserNoContent), nil
+	success, ok := result.(*InvalidateUserNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for invalidateUser: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -457,7 +493,14 @@ func (a *Client) UpdateRoleDefinition(ctx context.Context, params *UpdateRoleDef
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UpdateRoleDefinitionNoContent), nil
+	success, ok := result.(*UpdateRoleDefinitionNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for updateRoleDefinition: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -502,7 +545,14 @@ func (a *Client) UpdateUserPassword(ctx context.Context, params *UpdateUserPassw
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UpdateUserPasswordNoContent), nil
+	success, ok := result.(*UpdateUserPasswordNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for updateUserPassword: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -547,7 +597,14 @@ func (a *Client) UpdateUserRoles(ctx context.Context, params *UpdateUserRolesPar
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UpdateUserRolesNoContent), nil
+	success, ok := result.(*UpdateUserRolesNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for updateUserRoles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

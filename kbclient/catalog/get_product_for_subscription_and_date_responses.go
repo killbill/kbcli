@@ -61,6 +61,10 @@ func (o *GetProductForSubscriptionAndDateOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog/product][%d] getProductForSubscriptionAndDateOK  %+v", 200, o.Payload)
 }
 
+func (o *GetProductForSubscriptionAndDateOK) GetPayload() *kbmodel.Product {
+	return o.Payload
+}
+
 func (o *GetProductForSubscriptionAndDateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Product)

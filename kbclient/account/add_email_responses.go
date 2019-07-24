@@ -62,6 +62,10 @@ func (o *AddEmailCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/emails][%d] addEmailCreated  %+v", 201, o.Payload)
 }
 
+func (o *AddEmailCreated) GetPayload() []*kbmodel.AccountEmail {
+	return o.Payload
+}
+
 func (o *AddEmailCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

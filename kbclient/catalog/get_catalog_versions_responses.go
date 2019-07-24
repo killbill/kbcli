@@ -59,6 +59,10 @@ func (o *GetCatalogVersionsOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog/versions][%d] getCatalogVersionsOK  %+v", 200, o.Payload)
 }
 
+func (o *GetCatalogVersionsOK) GetPayload() []strfmt.DateTime {
+	return o.Payload
+}
+
 func (o *GetCatalogVersionsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

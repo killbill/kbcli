@@ -61,6 +61,10 @@ func (o *GetPlanForSubscriptionAndDateOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog/plan][%d] getPlanForSubscriptionAndDateOK  %+v", 200, o.Payload)
 }
 
+func (o *GetPlanForSubscriptionAndDateOK) GetPayload() *kbmodel.Plan {
+	return o.Payload
+}
+
 func (o *GetPlanForSubscriptionAndDateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Plan)

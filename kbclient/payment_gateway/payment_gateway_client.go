@@ -7,6 +7,7 @@ package payment_gateway
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 
@@ -106,7 +107,14 @@ func (a *Client) BuildComboFormDescriptor(ctx context.Context, params *BuildComb
 	if err != nil {
 		return nil, err
 	}
-	return result.(*BuildComboFormDescriptorOK), nil
+	success, ok := result.(*BuildComboFormDescriptorOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for buildComboFormDescriptor: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -151,7 +159,14 @@ func (a *Client) BuildFormDescriptor(ctx context.Context, params *BuildFormDescr
 	if err != nil {
 		return nil, err
 	}
-	return result.(*BuildFormDescriptorOK), nil
+	success, ok := result.(*BuildFormDescriptorOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for buildFormDescriptor: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -198,7 +213,14 @@ func (a *Client) ProcessNotification(ctx context.Context, params *ProcessNotific
 	if err != nil {
 		return nil, err
 	}
-	return result.(*ProcessNotificationOK), nil
+	success, ok := result.(*ProcessNotificationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for processNotification: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

@@ -62,6 +62,10 @@ func (o *CreateAccountCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts][%d] createAccountCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateAccountCreated) GetPayload() *kbmodel.Account {
+	return o.Payload
+}
+
 func (o *CreateAccountCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Account)

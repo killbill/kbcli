@@ -59,6 +59,10 @@ func (o *AddSimplePlanCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/catalog/simplePlan][%d] addSimplePlanCreated  %+v", 201, o.Payload)
 }
 
+func (o *AddSimplePlanCreated) GetPayload() string {
+	return o.Payload
+}
+
 func (o *AddSimplePlanCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

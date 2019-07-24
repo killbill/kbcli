@@ -59,6 +59,10 @@ func (o *GetCurrentUserPermissionsOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/security/permissions][%d] getCurrentUserPermissionsOK  %+v", 200, o.Payload)
 }
 
+func (o *GetCurrentUserPermissionsOK) GetPayload() []string {
+	return o.Payload
+}
+
 func (o *GetCurrentUserPermissionsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

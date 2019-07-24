@@ -62,6 +62,10 @@ func (o *CreateCreditCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/credits][%d] createCreditCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateCreditCreated) GetPayload() *kbmodel.Credit {
+	return o.Payload
+}
+
 func (o *CreateCreditCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Credit)

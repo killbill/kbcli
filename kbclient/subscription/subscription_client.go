@@ -7,6 +7,7 @@ package subscription
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 	"github.com/killbill/kbcli/kbcommon"
@@ -245,7 +246,14 @@ func (a *Client) CancelSubscriptionPlan(ctx context.Context, params *CancelSubsc
 	if err != nil {
 		return nil, err
 	}
-	return result.(*CancelSubscriptionPlanNoContent), nil
+	success, ok := result.(*CancelSubscriptionPlanNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for cancelSubscriptionPlan: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -290,7 +298,14 @@ func (a *Client) ChangeSubscriptionPlan(ctx context.Context, params *ChangeSubsc
 	if err != nil {
 		return nil, err
 	}
-	return result.(*ChangeSubscriptionPlanNoContent), nil
+	success, ok := result.(*ChangeSubscriptionPlanNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for changeSubscriptionPlan: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -685,7 +700,14 @@ func (a *Client) DeleteSubscriptionCustomFields(ctx context.Context, params *Del
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeleteSubscriptionCustomFieldsNoContent), nil
+	success, ok := result.(*DeleteSubscriptionCustomFieldsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deleteSubscriptionCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -730,7 +752,14 @@ func (a *Client) DeleteSubscriptionTags(ctx context.Context, params *DeleteSubsc
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeleteSubscriptionTagsNoContent), nil
+	success, ok := result.(*DeleteSubscriptionTagsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deleteSubscriptionTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -763,7 +792,14 @@ func (a *Client) GetSubscription(ctx context.Context, params *GetSubscriptionPar
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetSubscriptionOK), nil
+	success, ok := result.(*GetSubscriptionOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getSubscription: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -796,7 +832,14 @@ func (a *Client) GetSubscriptionCustomFields(ctx context.Context, params *GetSub
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetSubscriptionCustomFieldsOK), nil
+	success, ok := result.(*GetSubscriptionCustomFieldsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getSubscriptionCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -829,7 +872,14 @@ func (a *Client) GetSubscriptionTags(ctx context.Context, params *GetSubscriptio
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetSubscriptionTagsOK), nil
+	success, ok := result.(*GetSubscriptionTagsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getSubscriptionTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -874,7 +924,14 @@ func (a *Client) ModifySubscriptionCustomFields(ctx context.Context, params *Mod
 	if err != nil {
 		return nil, err
 	}
-	return result.(*ModifySubscriptionCustomFieldsNoContent), nil
+	success, ok := result.(*ModifySubscriptionCustomFieldsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for modifySubscriptionCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -919,7 +976,14 @@ func (a *Client) UncancelSubscriptionPlan(ctx context.Context, params *UncancelS
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UncancelSubscriptionPlanNoContent), nil
+	success, ok := result.(*UncancelSubscriptionPlanNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for uncancelSubscriptionPlan: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -964,7 +1028,14 @@ func (a *Client) UndoChangeSubscriptionPlan(ctx context.Context, params *UndoCha
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UndoChangeSubscriptionPlanNoContent), nil
+	success, ok := result.(*UndoChangeSubscriptionPlanNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for undoChangeSubscriptionPlan: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1009,7 +1080,14 @@ func (a *Client) UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscr
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UpdateSubscriptionBCDNoContent), nil
+	success, ok := result.(*UpdateSubscriptionBCDNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for updateSubscriptionBCD: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

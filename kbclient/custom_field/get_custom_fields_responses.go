@@ -61,6 +61,10 @@ func (o *GetCustomFieldsOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/customFields/pagination][%d] getCustomFieldsOK  %+v", 200, o.Payload)
 }
 
+func (o *GetCustomFieldsOK) GetPayload() []*kbmodel.CustomField {
+	return o.Payload
+}
+
 func (o *GetCustomFieldsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

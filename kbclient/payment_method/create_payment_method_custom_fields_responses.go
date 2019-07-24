@@ -62,6 +62,10 @@ func (o *CreatePaymentMethodCustomFieldsCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentMethods/{paymentMethodId}/customFields][%d] createPaymentMethodCustomFieldsCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreatePaymentMethodCustomFieldsCreated) GetPayload() []*kbmodel.CustomField {
+	return o.Payload
+}
+
 func (o *CreatePaymentMethodCustomFieldsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

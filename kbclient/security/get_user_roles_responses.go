@@ -62,6 +62,10 @@ func (o *GetUserRolesOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/security/users/{username}/roles][%d] getUserRolesOK  %+v", 200, o.Payload)
 }
 
+func (o *GetUserRolesOK) GetPayload() *kbmodel.UserRoles {
+	return o.Payload
+}
+
 func (o *GetUserRolesOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.UserRoles)

@@ -62,6 +62,10 @@ func (o *GetOverdueAccountOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/overdue][%d] getOverdueAccountOK  %+v", 200, o.Payload)
 }
 
+func (o *GetOverdueAccountOK) GetPayload() *kbmodel.OverdueState {
+	return o.Payload
+}
+
 func (o *GetOverdueAccountOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.OverdueState)

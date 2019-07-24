@@ -61,6 +61,10 @@ func (o *AddRoleDefinitionCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/security/roles][%d] addRoleDefinitionCreated  %+v", 201, o.Payload)
 }
 
+func (o *AddRoleDefinitionCreated) GetPayload() *kbmodel.RoleDefinition {
+	return o.Payload
+}
+
 func (o *AddRoleDefinitionCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.RoleDefinition)

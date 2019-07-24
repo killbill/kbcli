@@ -7,6 +7,7 @@ package custom_field
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 
@@ -92,7 +93,14 @@ func (a *Client) GetCustomFieldAuditLogsWithHistory(ctx context.Context, params 
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetCustomFieldAuditLogsWithHistoryOK), nil
+	success, ok := result.(*GetCustomFieldAuditLogsWithHistoryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getCustomFieldAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -125,7 +133,14 @@ func (a *Client) GetCustomFields(ctx context.Context, params *GetCustomFieldsPar
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetCustomFieldsOK), nil
+	success, ok := result.(*GetCustomFieldsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -158,7 +173,14 @@ func (a *Client) SearchCustomFields(ctx context.Context, params *SearchCustomFie
 	if err != nil {
 		return nil, err
 	}
-	return result.(*SearchCustomFieldsOK), nil
+	success, ok := result.(*SearchCustomFieldsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for searchCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

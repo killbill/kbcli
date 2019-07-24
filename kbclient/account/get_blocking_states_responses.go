@@ -62,6 +62,10 @@ func (o *GetBlockingStatesOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/block][%d] getBlockingStatesOK  %+v", 200, o.Payload)
 }
 
+func (o *GetBlockingStatesOK) GetPayload() []*kbmodel.BlockingState {
+	return o.Payload
+}
+
 func (o *GetBlockingStatesOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

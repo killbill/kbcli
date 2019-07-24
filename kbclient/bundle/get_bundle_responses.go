@@ -62,6 +62,10 @@ func (o *GetBundleOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}][%d] getBundleOK  %+v", 200, o.Payload)
 }
 
+func (o *GetBundleOK) GetPayload() *kbmodel.Bundle {
+	return o.Payload
+}
+
 func (o *GetBundleOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Bundle)

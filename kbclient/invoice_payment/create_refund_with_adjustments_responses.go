@@ -62,6 +62,10 @@ func (o *CreateRefundWithAdjustmentsCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/refunds][%d] createRefundWithAdjustmentsCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateRefundWithAdjustmentsCreated) GetPayload() *kbmodel.InvoicePayment {
+	return o.Payload
+}
+
 func (o *CreateRefundWithAdjustmentsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.InvoicePayment)

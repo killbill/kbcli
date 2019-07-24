@@ -62,6 +62,10 @@ func (o *GetCreditOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/credits/{creditId}][%d] getCreditOK  %+v", 200, o.Payload)
 }
 
+func (o *GetCreditOK) GetPayload() *kbmodel.Credit {
+	return o.Payload
+}
+
 func (o *GetCreditOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Credit)

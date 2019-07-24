@@ -62,6 +62,10 @@ func (o *CaptureAuthorizationCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationCreated  %+v", 201, o.Payload)
 }
 
+func (o *CaptureAuthorizationCreated) GetPayload() *kbmodel.Payment {
+	return o.Payload
+}
+
 func (o *CaptureAuthorizationCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Payment)

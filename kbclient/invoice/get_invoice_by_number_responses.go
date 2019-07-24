@@ -62,6 +62,10 @@ func (o *GetInvoiceByNumberOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/byNumber/{invoiceNumber}][%d] getInvoiceByNumberOK  %+v", 200, o.Payload)
 }
 
+func (o *GetInvoiceByNumberOK) GetPayload() *kbmodel.Invoice {
+	return o.Payload
+}
+
 func (o *GetInvoiceByNumberOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Invoice)

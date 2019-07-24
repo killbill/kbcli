@@ -62,6 +62,10 @@ func (o *AddSubscriptionBlockingStateCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/block][%d] addSubscriptionBlockingStateCreated  %+v", 201, o.Payload)
 }
 
+func (o *AddSubscriptionBlockingStateCreated) GetPayload() []*kbmodel.BlockingState {
+	return o.Payload
+}
+
 func (o *AddSubscriptionBlockingStateCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

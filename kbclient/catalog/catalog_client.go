@@ -7,6 +7,7 @@ package catalog
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 	"github.com/killbill/kbcli/kbcommon"
@@ -220,7 +221,14 @@ func (a *Client) DeleteCatalog(ctx context.Context, params *DeleteCatalogParams)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeleteCatalogNoContent), nil
+	success, ok := result.(*DeleteCatalogNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deleteCatalog: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -253,7 +261,14 @@ func (a *Client) GetAvailableAddons(ctx context.Context, params *GetAvailableAdd
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAvailableAddonsOK), nil
+	success, ok := result.(*GetAvailableAddonsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAvailableAddons: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -286,7 +301,14 @@ func (a *Client) GetAvailableBasePlans(ctx context.Context, params *GetAvailable
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAvailableBasePlansOK), nil
+	success, ok := result.(*GetAvailableBasePlansOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAvailableBasePlans: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -319,7 +341,14 @@ func (a *Client) GetCatalogJSON(ctx context.Context, params *GetCatalogJSONParam
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetCatalogJSONOK), nil
+	success, ok := result.(*GetCatalogJSONOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getCatalogJson: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -352,7 +381,14 @@ func (a *Client) GetCatalogVersions(ctx context.Context, params *GetCatalogVersi
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetCatalogVersionsOK), nil
+	success, ok := result.(*GetCatalogVersionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getCatalogVersions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -385,7 +421,14 @@ func (a *Client) GetCatalogXML(ctx context.Context, params *GetCatalogXMLParams)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetCatalogXMLOK), nil
+	success, ok := result.(*GetCatalogXMLOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getCatalogXml: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -418,7 +461,14 @@ func (a *Client) GetPhaseForSubscriptionAndDate(ctx context.Context, params *Get
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetPhaseForSubscriptionAndDateOK), nil
+	success, ok := result.(*GetPhaseForSubscriptionAndDateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getPhaseForSubscriptionAndDate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -451,7 +501,14 @@ func (a *Client) GetPlanForSubscriptionAndDate(ctx context.Context, params *GetP
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetPlanForSubscriptionAndDateOK), nil
+	success, ok := result.(*GetPlanForSubscriptionAndDateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getPlanForSubscriptionAndDate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -484,7 +541,14 @@ func (a *Client) GetPriceListForSubscriptionAndDate(ctx context.Context, params 
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetPriceListForSubscriptionAndDateOK), nil
+	success, ok := result.(*GetPriceListForSubscriptionAndDateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getPriceListForSubscriptionAndDate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -517,7 +581,14 @@ func (a *Client) GetProductForSubscriptionAndDate(ctx context.Context, params *G
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetProductForSubscriptionAndDateOK), nil
+	success, ok := result.(*GetProductForSubscriptionAndDateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getProductForSubscriptionAndDate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

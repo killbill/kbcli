@@ -61,6 +61,10 @@ func (o *GetCatalogJSONOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog][%d] getCatalogJsonOK  %+v", 200, o.Payload)
 }
 
+func (o *GetCatalogJSONOK) GetPayload() []*kbmodel.Catalog {
+	return o.Payload
+}
+
 func (o *GetCatalogJSONOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

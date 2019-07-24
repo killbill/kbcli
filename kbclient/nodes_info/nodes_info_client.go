@@ -7,6 +7,7 @@ package nodes_info
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 
@@ -87,7 +88,14 @@ func (a *Client) GetNodesInfo(ctx context.Context, params *GetNodesInfoParams) (
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetNodesInfoOK), nil
+	success, ok := result.(*GetNodesInfoOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getNodesInfo: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -132,7 +140,14 @@ func (a *Client) TriggerNodeCommand(ctx context.Context, params *TriggerNodeComm
 	if err != nil {
 		return nil, err
 	}
-	return result.(*TriggerNodeCommandAccepted), nil
+	success, ok := result.(*TriggerNodeCommandAccepted)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for triggerNodeCommand: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
