@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/killbill/kbcli/kbclient/debug"
 	"github.com/killbill/kbcli/kbcommon"
 
 	"github.com/go-openapi/runtime"
@@ -168,6 +169,7 @@ func (r *App) toAction(fn HandlerFn) func(c *cli.Context) error {
 		trp := httptransport.New(o.Host, "", nil)
 		// Add text/xml producer which is not handled by openapi runtime.
 		trp.Producers["text/xml"] = runtime.TextProducer()
+		trp.Consumers["text/xml"] = runtime.TextConsumer()
 		trp.Debug = o.PrintDebug
 		authWriter := runtime.ClientAuthInfoWriterFunc(func(r runtime.ClientRequest, _ strfmt.Registry) error {
 			encoded := base64.StdEncoding.EncodeToString([]byte(o.Username + ":" + o.Password))
@@ -184,6 +186,7 @@ func (r *App) toAction(fn HandlerFn) func(c *cli.Context) error {
 		})
 
 		o.client = kbclient.New(trp, strfmt.Default, authWriter, kbclient.KillbillDefaults{})
+		o.devClient = debug.New(trp, strfmt.Default, authWriter, kbclient.KillbillDefaults{})
 
 		// Set defaults
 
