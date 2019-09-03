@@ -7,6 +7,8 @@ import (
 	"io"
 	"strings"
 
+	"github.com/killbill/kbcli/kbclient/debug"
+
 	"github.com/killbill/kbcli/kbclient"
 )
 
@@ -21,6 +23,7 @@ type Options struct {
 	PrintDebug bool
 	Args       []string
 	client     *kbclient.KillBill
+	devClient  *debug.Client
 	Log        Logger
 	out        io.Writer
 	FO         *FormatOptions
@@ -29,6 +32,11 @@ type Options struct {
 // Client returns killbill client
 func (o *Options) Client() *kbclient.KillBill {
 	return o.client
+}
+
+// DevClient returns dev client
+func (o *Options) DevClient() *debug.Client {
+	return o.devClient
 }
 
 // Output writes the output

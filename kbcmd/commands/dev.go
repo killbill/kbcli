@@ -6,8 +6,6 @@ import (
 
 	"github.com/killbill/kbcli/kbmodel"
 
-	httptransport "github.com/go-openapi/runtime/client"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/kbclient/debug"
 	"github.com/killbill/kbcli/kbcmd/cmdlib"
@@ -36,8 +34,7 @@ func getClock(ctx context.Context, o *cmdlib.Options) error {
 		return cmdlib.ErrorInvalidArgs
 	}
 
-	cl := debug.New(o.Client().Transport, strfmt.Default, httptransport.BasicAuth(o.Username, o.Password), o.Client().Defaults())
-	resp, err := cl.GetClock(ctx, &debug.GetClockParams{})
+	resp, err := o.DevClient().GetClock(ctx, &debug.GetClockParams{})
 	if err != nil {
 		return err
 	}
@@ -62,9 +59,7 @@ func setClock(ctx context.Context, o *cmdlib.Options) error {
 		return err
 	}
 
-	cl := debug.New(o.Client().Transport, strfmt.Default, httptransport.BasicAuth(o.Username, o.Password), o.Client().Defaults())
-
-	resp, err := cl.SetClock(ctx, &debug.SetClockParams{
+	resp, err := o.DevClient().SetClock(ctx, &debug.SetClockParams{
 		RequestedDate: date,
 	})
 	if err != nil {
