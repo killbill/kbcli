@@ -78,10 +78,10 @@ func registerCatalogCommands(r *cmdlib.App) {
 		For ex.,
 		
 		# To write the catalog to a file
-		kbcmd catalog upload /tmp/catalog.json
+		kbcmd catalog get /tmp/catalog.json
 		
 		# To write to stdout
-		kbcmd catalog upload
+		kbcmd catalog get
 `,
 		Description: "Retrieves the catalog and stores in the file",
 	}, getCatalog)
