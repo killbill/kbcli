@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/killbill/kbcli/kbcmd/cmdlib/args"
 	"reflect"
+	"time"
 
 	"github.com/killbill/kbcli/kbclient/account"
 	"github.com/killbill/kbcli/kbcmd/cmdlib"
@@ -63,7 +64,7 @@ func getAccount(ctx context.Context, o *cmdlib.Options) error {
 		return cmdlib.ErrorInvalidArgs
 	}
 
-	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), o.Args[0])
+	acc, err := kblib.GetAccountByKeyOrIDWithBalanceAndCBA(ctx, o.Client(), o.Args[0])
 	if err == nil {
 		o.Print(acc)
 	}
@@ -149,6 +150,7 @@ func RegisterAccountCommands(r *cmdlib.App) {
 
 	// Create account
 	createAccountPropertyList = args.GetProperties(&kbmodel.Account{})
+	createAccountPropertyList.Get("ReferenceTime").Default = time.Now().Format(time.RFC3339)
 	createAccountPropertyList.Get("TimeZone").Default = "UTC"
 	createAccountPropertyList.Get("Currency").Default = string(kbmodel.AccountCurrencyUSD)
 	createAccountPropertyList.Sort(true, true)
