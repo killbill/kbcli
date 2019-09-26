@@ -19,10 +19,11 @@ import (
 )
 
 var (
-	getInvoiceProperties          args.Properties
-	listAccountInvoicesProperties args.Properties
-	dryRunInvoiceProperties       args.Properties
-	payInvoiceProperties          args.Properties
+	getInvoiceProperties           args.Properties
+	listAccountInvoicesProperties  args.Properties
+	dryRunInvoiceProperties        args.Properties
+	payInvoiceProperties           args.Properties
+	createExternalChargeProperties args.Properties
 )
 
 var invoicePaymentFormatter = cmdlib.Formatter{
@@ -48,6 +49,10 @@ var invoicePaymentFormatter = cmdlib.Formatter{
 
 var invoiceItemFormatter = cmdlib.Formatter{
 	Columns: []cmdlib.Column{
+		{
+			Name: "INVOICE_ITEM_ID",
+			Path: "$.invoiceItemId",
+		},
 		{
 			Name: "AMOUNT",
 			Path: "$.amount",
@@ -310,6 +315,45 @@ func payInvoice(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
+type createExternalChargeParams struct {
+	Amount     float64
+	AutoCommit bool
+}
+
+func createExternalCharge(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) < 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+	accIDOrKey := o.Args[0]
+
+	var inputParams createExternalChargeParams
+	if err := args.LoadProperties(&inputParams, createExternalChargeProperties, o.Args[1:]); err != nil {
+		return err
+	}
+
+	p := &invoice.CreateExternalChargesParams{
+		Body: []*kbmodel.InvoiceItem{&kbmodel.InvoiceItem{
+			Amount: inputParams.Amount,
+		}},
+		AutoCommit: &inputParams.AutoCommit,
+	}
+
+	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accIDOrKey)
+	if err != nil {
+		return err
+	}
+	p.AccountID = acc.AccountID
+
+	items, err := o.Client().Invoice.CreateExternalCharges(ctx, p)
+	if err != nil {
+		return err
+	}
+
+	o.Print(items.Payload)
+
+	return nil
+}
+
 func registerInvoicesCommands(r *cmdlib.App) {
 	// Register formatters
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.Invoice{}), invoiceFormatter)
@@ -381,4 +425,18 @@ For ex.,
 kbcmd invoices pay 7fcc7b69-9fdb-4143-98e6-94f3bad4842f Amount=5 PaymentMethodId=d7c14d0e-2368-4214-a522-92ce6e00f535
 `, payInvoiceUsage),
 	}, payInvoice)
+
+	// Create external charge
+	createExternalChargeProperties = args.GetProperties(&createExternalChargeParams{})
+	createExternalChargeUsage := args.GenerateUsageString(&createExternalChargeParams{}, createExternalChargeProperties)
+	r.Register("invoices", cli.Command{
+		Name:  "charge",
+		Usage: "Create an external charge for a given account",
+		ArgsUsage: fmt.Sprintf(`ACCOUNT %s
+For ex.,
+kbcmd invoices charge account3 Amount=10 AutoCommit=false
+
+will generate a DRAFT invoice for $10.
+`, createExternalChargeUsage),
+	}, createExternalCharge)
 }
