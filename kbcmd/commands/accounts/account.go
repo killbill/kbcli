@@ -3,9 +3,8 @@ package accounts
 import (
 	"context"
 	"fmt"
-	"reflect"
-
 	"github.com/killbill/kbcli/kbcmd/cmdlib/args"
+	"reflect"
 
 	"github.com/killbill/kbcli/kbclient/account"
 	"github.com/killbill/kbcli/kbcmd/cmdlib"
@@ -150,9 +149,7 @@ func RegisterAccountCommands(r *cmdlib.App) {
 
 	// Create account
 	createAccountPropertyList = args.GetProperties(&kbmodel.Account{})
-	createAccountPropertyList.Get("ExternalKey").Required = true
-	createAccountPropertyList.Get("Email").Required = true
-	createAccountPropertyList.Get("Name").Required = true
+	createAccountPropertyList.Get("TimeZone").Default = "UTC"
 	createAccountPropertyList.Get("Currency").Default = string(kbmodel.AccountCurrencyUSD)
 	createAccountPropertyList.Sort(true, true)
 
