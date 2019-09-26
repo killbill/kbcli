@@ -2,7 +2,6 @@ package accounts
 
 import (
 	"context"
-	"fmt"
 	"reflect"
 	"strconv"
 
@@ -91,19 +90,32 @@ func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 	if err != nil {
 		return err
 	}
-	payAllUnpaidInvoices, err := strconv.ParseBool(o.Args[4])
-	if err != nil {
-		return err
+
+	var payAllUnpaidInvoices bool
+	if len(o.Args) > 4 {
+		payAllUnpaidInvoices, err = strconv.ParseBool(o.Args[4])
+		if err != nil {
+			return err
+		}
+	} else {
+		payAllUnpaidInvoices = false
 	}
 
 	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accKey)
 	if err != nil {
 		return err
 	}
-	pluginProperties, err := args.ParseArgs(o.Args[5:])
-	if err != nil {
-		return err
+
+	var pluginProperties []args.Input
+	if len(o.Args) > 5 {
+		pluginProperties, err = args.ParseArgs(o.Args[5:])
+		if err != nil {
+			return err
+		} else {
+			pluginProperties = []args.Input{}
+		}
 	}
+
 	pm := &kbmodel.PaymentMethod{
 		ExternalKey: externalKey,
 		PluginName:  method,
@@ -133,37 +145,25 @@ func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 }
 
 func removeAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) != 2 {
+	if len(o.Args) < 1 {
 		return cmdlib.ErrorInvalidArgs
 	}
 
-	accKey := o.Args[0]
-	method := o.Args[1]
-
-	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accKey)
-	if err != nil {
-		return err
-	}
-	resp, err := o.Client().Account.GetPaymentMethodsForAccount(ctx, &account.GetPaymentMethodsForAccountParams{
-		AccountID: acc.AccountID,
-	})
-	if err != nil {
-		return err
-	}
-
-	var pm *kbmodel.PaymentMethod
-	for _, m := range resp.Payload {
-		if m.PluginName == method {
-			pm = m
-			break
+	paymentMethodID := o.Args[0]
+	var force bool
+	if len(o.Args) > 1 {
+		forceBool, err := strconv.ParseBool(o.Args[1])
+		if err != nil {
+			return err
+		} else {
+			force = forceBool
 		}
+	} else {
+		force = false
 	}
-	if pm == nil {
-		return fmt.Errorf("payment method %s not found for account %s", method, accKey)
-	}
-
-	_, err = o.Client().PaymentMethod.DeletePaymentMethod(ctx, &payment_method.DeletePaymentMethodParams{
-		PaymentMethodID: pm.PaymentMethodID,
+	_, err := o.Client().PaymentMethod.DeletePaymentMethod(ctx, &payment_method.DeletePaymentMethodParams{
+		PaymentMethodID:        strfmt.UUID(paymentMethodID),
+		ForceDefaultPmDeletion: &force,
 	})
 
 	return err
@@ -213,6 +213,6 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 		Name:      "remove",
 		Aliases:   []string{"rm"},
 		Usage:     "Remove payment method",
-		ArgsUsage: `ACCOUNT METHOD`,
+		ArgsUsage: `PM_METHOD_ID [FORCE]`,
 	}, removeAccountPaymentMethod)
 }
