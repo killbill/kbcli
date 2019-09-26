@@ -21,6 +21,11 @@ source $GOPATH/src/github.com/killbill/kbcli/kbcmd/bash-autocomplete
 
 ## Running kbcmd
 ```bash
+export KB_API_KEY=bob
+export KB_API_SECRET=lazar
+export KB_API_CREATED_BY=$(whoami)
+export KB_HOST=127.0.0.1:8080
+
 kbcmd -h
 # (or)
 kbcmd <command> -h
