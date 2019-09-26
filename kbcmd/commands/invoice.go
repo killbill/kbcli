@@ -20,6 +20,7 @@ import (
 
 var (
 	getInvoiceProperties           args.Properties
+	getInvoicePaymentsProperties   args.Properties
 	listAccountInvoicesProperties  args.Properties
 	dryRunInvoiceProperties        args.Properties
 	payInvoiceProperties           args.Properties
@@ -170,14 +171,53 @@ func getInvoice(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
+func getInvoicePayments(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) < 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+	invoiceIDOrNumber := o.Args[0]
+
+	var invoiceId strfmt.UUID
+	if strfmt.IsUUID(invoiceIDOrNumber) {
+		invoiceId = strfmt.UUID(invoiceIDOrNumber)
+	} else {
+		invoiceNumber, err := strconv.ParseInt(invoiceIDOrNumber, 10, 64)
+		if err != nil {
+			return err
+		}
+		invoiceByNumberParams := &invoice.GetInvoiceByNumberParams{
+			InvoiceNumber: int32(invoiceNumber),
+		}
+
+		resp, err := o.Client().Invoice.GetInvoiceByNumber(ctx, invoiceByNumberParams)
+		if err != nil {
+			return err
+		}
+		invoiceId = resp.Payload.InvoiceID
+	}
+
+	withAttempts := true
+	params := &invoice.GetPaymentsForInvoiceParams{
+		InvoiceID:    invoiceId,
+		WithAttempts: &withAttempts,
+	}
+	err := args.LoadProperties(params, getInvoicePaymentsProperties, o.Args[1:])
+	if err != nil {
+		return err
+	}
+	resp, err := o.Client().Invoice.GetPaymentsForInvoice(ctx, params)
+	if err != nil {
+		return err
+	}
+
+	o.Print(resp.Payload)
+
+	return nil
+}
+
 type dryRunInvoiceParams struct {
 	TargetDate     string
 	SubscriptionID string
-}
-
-type payInvoiceParams struct {
-	Amount          string
-	PaymentMethodID string
 }
 
 func dryRunInvoice(ctx context.Context, o *cmdlib.Options) error {
@@ -225,6 +265,11 @@ func dryRunInvoice(ctx context.Context, o *cmdlib.Options) error {
 	}
 
 	return nil
+}
+
+type payInvoiceParams struct {
+	Amount          string
+	PaymentMethodID string
 }
 
 func payInvoice(ctx context.Context, o *cmdlib.Options) error {
@@ -399,6 +444,19 @@ kbcmd invoices list account3 UnpaidInvoicesOnly=true
 	   kbcmd invoices get 57f3da8e-6125-43a5-9a38-7b448b15da83
 	   kbcmd invoices get 2`, getInvoiceUsage),
 	}, getInvoice)
+
+	// get invoice payment
+	getInvoicePaymentsProperties = args.GetProperties(&invoice.GetPaymentsForInvoiceParams{})
+	getInvoicePaymentsUsage := args.GenerateUsageString(&invoice.GetPaymentsForInvoiceParams{}, getInvoicePaymentsProperties)
+	r.Register("invoices", cli.Command{
+		Name:  "payments",
+		Usage: "payments invoice",
+		ArgsUsage: fmt.Sprintf(`INVOICE_ID %s
+
+   For e.g.,
+	   kbcmd invoices payments 57f3da8e-6125-43a5-9a38-7b448b15da83
+	   kbcmd invoices payments 2`, getInvoicePaymentsUsage),
+	}, getInvoicePayments)
 
 	// DryRun invoices
 	dryRunInvoiceProperties = args.GetProperties(&dryRunInvoiceParams{})
