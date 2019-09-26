@@ -37,6 +37,31 @@ var paymentMethodFormatter = cmdlib.Formatter{
 
 var addAccountPaymentMethodProperties args.Properties
 
+func listAccountPayments(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) != 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+
+	accIDOrKey := o.Args[0]
+
+	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accIDOrKey)
+	if err != nil {
+		return err
+	}
+
+	withAttempts := true
+	resp, err := o.Client().Account.GetPaymentsForAccount(ctx, &account.GetPaymentsForAccountParams{
+		AccountID:    acc.AccountID,
+		WithAttempts: &withAttempts,
+	})
+	if err != nil {
+		return err
+	}
+
+	o.Print(resp.Payload)
+	return err
+}
+
 func listAccountPaymentMethods(ctx context.Context, o *cmdlib.Options) error {
 	if len(o.Args) != 1 {
 		return cmdlib.ErrorInvalidArgs
@@ -174,6 +199,21 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.PaymentMethod{}), paymentMethodFormatter)
 
 	addAccountPaymentMethodProperties = args.GetProperties(&kbmodel.PaymentMethod{})
+
+	// Payments
+	r.Register("accounts", cli.Command{
+		Name:    "payments",
+		Aliases: []string{},
+		Usage:   "Payments related commands",
+	}, nil)
+
+	// List payments
+	r.Register("accounts.payments", cli.Command{
+		Name:      "list",
+		Aliases:   []string{"ls"},
+		Usage:     "List payments for the given account",
+		ArgsUsage: `ACCOUNT`,
+	}, listAccountPayments)
 
 	// payment methods
 	r.Register("accounts", cli.Command{
