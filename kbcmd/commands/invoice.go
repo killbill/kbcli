@@ -286,10 +286,8 @@ func payInvoice(ctx context.Context, o *cmdlib.Options) error {
 		if err != nil {
 			return err
 		}
-		withItems := true
 		invoiceByNumberParams := &invoice.GetInvoiceByNumberParams{
 			InvoiceNumber: int32(invoiceNumber),
-			WithItems:     &withItems,
 		}
 
 		resp, err := o.Client().Invoice.GetInvoiceByNumber(ctx, invoiceByNumberParams)

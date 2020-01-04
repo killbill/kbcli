@@ -81,6 +81,9 @@ type Invoice struct {
 	// target date
 	// Format: date
 	TargetDate strfmt.Date `json:"targetDate,omitempty"`
+
+	// tracking ids
+	TrackingIds []string `json:"trackingIds"`
 }
 
 // Validate validates this invoice
