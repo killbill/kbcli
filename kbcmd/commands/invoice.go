@@ -430,7 +430,7 @@ kbcmd invoices list account3 UnpaidInvoicesOnly=true
 	// get invoice (Both getInvoice and getInvoiceByNumber share the same properties)
 	getInvoiceProperties = args.GetProperties(&invoice.GetInvoiceParams{})
 	getInvoiceProperties.Remove("InvoiceID")
-	getInvoiceProperties.Get("WithItems").Default = "True"
+
 
 	getInvoiceUsage := args.GenerateUsageString(&invoice.GetInvoiceParams{}, getInvoiceProperties)
 	r.Register("invoices", cli.Command{
