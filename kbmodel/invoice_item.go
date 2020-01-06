@@ -35,6 +35,10 @@ type InvoiceItem struct {
 	// Format: uuid
 	BundleID strfmt.UUID `json:"bundleId,omitempty"`
 
+	// catalog effective date
+	// Format: date-time
+	CatalogEffectiveDate strfmt.DateTime `json:"catalogEffectiveDate,omitempty"`
+
 	// child account Id
 	// Format: uuid
 	ChildAccountID strfmt.UUID `json:"childAccountId,omitempty"`
@@ -125,6 +129,10 @@ func (m *InvoiceItem) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateBundleID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCatalogEffectiveDate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -219,6 +227,19 @@ func (m *InvoiceItem) validateBundleID(formats strfmt.Registry) error {
 	}
 
 	if err := validate.FormatOf("bundleId", "body", "uuid", m.BundleID.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *InvoiceItem) validateCatalogEffectiveDate(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.CatalogEffectiveDate) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("catalogEffectiveDate", "body", "date-time", m.CatalogEffectiveDate.String(), formats); err != nil {
 		return err
 	}
 

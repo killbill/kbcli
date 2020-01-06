@@ -24,12 +24,10 @@ func NewGetInvoiceParams() *GetInvoiceParams {
 	var (
 		auditDefault             = string("NONE")
 		withChildrenItemsDefault = bool(false)
-		withItemsDefault         = bool(false)
 	)
 	return &GetInvoiceParams{
 		Audit:             &auditDefault,
 		WithChildrenItems: &withChildrenItemsDefault,
-		WithItems:         &withItemsDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -41,12 +39,10 @@ func NewGetInvoiceParamsWithTimeout(timeout time.Duration) *GetInvoiceParams {
 	var (
 		auditDefault             = string("NONE")
 		withChildrenItemsDefault = bool(false)
-		withItemsDefault         = bool(false)
 	)
 	return &GetInvoiceParams{
 		Audit:             &auditDefault,
 		WithChildrenItems: &withChildrenItemsDefault,
-		WithItems:         &withItemsDefault,
 
 		timeout: timeout,
 	}
@@ -58,12 +54,10 @@ func NewGetInvoiceParamsWithContext(ctx context.Context) *GetInvoiceParams {
 	var (
 		auditDefault             = string("NONE")
 		withChildrenItemsDefault = bool(false)
-		withItemsDefault         = bool(false)
 	)
 	return &GetInvoiceParams{
 		Audit:             &auditDefault,
 		WithChildrenItems: &withChildrenItemsDefault,
-		WithItems:         &withItemsDefault,
 
 		Context: ctx,
 	}
@@ -75,12 +69,10 @@ func NewGetInvoiceParamsWithHTTPClient(client *http.Client) *GetInvoiceParams {
 	var (
 		auditDefault             = string("NONE")
 		withChildrenItemsDefault = bool(false)
-		withItemsDefault         = bool(false)
 	)
 	return &GetInvoiceParams{
 		Audit:             &auditDefault,
 		WithChildrenItems: &withChildrenItemsDefault,
-		WithItems:         &withItemsDefault,
 		HTTPClient:        client,
 	}
 }
@@ -96,8 +88,6 @@ type GetInvoiceParams struct {
 	InvoiceID strfmt.UUID
 	/*WithChildrenItems*/
 	WithChildrenItems *bool
-	/*WithItems*/
-	WithItems *bool
 
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -172,17 +162,6 @@ func (o *GetInvoiceParams) SetWithChildrenItems(withChildrenItems *bool) {
 	o.WithChildrenItems = withChildrenItems
 }
 
-// WithWithItems adds the withItems to the get invoice params
-func (o *GetInvoiceParams) WithWithItems(withItems *bool) *GetInvoiceParams {
-	o.SetWithItems(withItems)
-	return o
-}
-
-// SetWithItems adds the withItems to the get invoice params
-func (o *GetInvoiceParams) SetWithItems(withItems *bool) {
-	o.WithItems = withItems
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -222,22 +201,6 @@ func (o *GetInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 		qWithChildrenItems := swag.FormatBool(qrWithChildrenItems)
 		if qWithChildrenItems != "" {
 			if err := r.SetQueryParam("withChildrenItems", qWithChildrenItems); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.WithItems != nil {
-
-		// query param withItems
-		var qrWithItems bool
-		if o.WithItems != nil {
-			qrWithItems = *o.WithItems
-		}
-		qWithItems := swag.FormatBool(qrWithItems)
-		if qWithItems != "" {
-			if err := r.SetQueryParam("withItems", qWithItems); err != nil {
 				return err
 			}
 		}

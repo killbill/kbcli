@@ -286,10 +286,8 @@ func payInvoice(ctx context.Context, o *cmdlib.Options) error {
 		if err != nil {
 			return err
 		}
-		withItems := true
 		invoiceByNumberParams := &invoice.GetInvoiceByNumberParams{
 			InvoiceNumber: int32(invoiceNumber),
-			WithItems:     &withItems,
 		}
 
 		resp, err := o.Client().Invoice.GetInvoiceByNumber(ctx, invoiceByNumberParams)
@@ -432,7 +430,7 @@ kbcmd invoices list account3 UnpaidInvoicesOnly=true
 	// get invoice (Both getInvoice and getInvoiceByNumber share the same properties)
 	getInvoiceProperties = args.GetProperties(&invoice.GetInvoiceParams{})
 	getInvoiceProperties.Remove("InvoiceID")
-	getInvoiceProperties.Get("WithItems").Default = "True"
+
 
 	getInvoiceUsage := args.GenerateUsageString(&invoice.GetInvoiceParams{}, getInvoiceProperties)
 	r.Register("invoices", cli.Command{

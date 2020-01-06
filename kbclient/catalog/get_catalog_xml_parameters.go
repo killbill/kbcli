@@ -64,7 +64,7 @@ type GetCatalogXMLParams struct {
 	/*AccountID*/
 	AccountID *strfmt.UUID
 	/*RequestedDate*/
-	RequestedDate *strfmt.Date
+	RequestedDate *strfmt.DateTime
 
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -118,13 +118,13 @@ func (o *GetCatalogXMLParams) SetAccountID(accountID *strfmt.UUID) {
 }
 
 // WithRequestedDate adds the requestedDate to the get catalog Xml params
-func (o *GetCatalogXMLParams) WithRequestedDate(requestedDate *strfmt.Date) *GetCatalogXMLParams {
+func (o *GetCatalogXMLParams) WithRequestedDate(requestedDate *strfmt.DateTime) *GetCatalogXMLParams {
 	o.SetRequestedDate(requestedDate)
 	return o
 }
 
 // SetRequestedDate adds the requestedDate to the get catalog Xml params
-func (o *GetCatalogXMLParams) SetRequestedDate(requestedDate *strfmt.Date) {
+func (o *GetCatalogXMLParams) SetRequestedDate(requestedDate *strfmt.DateTime) {
 	o.RequestedDate = requestedDate
 }
 
@@ -155,7 +155,7 @@ func (o *GetCatalogXMLParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
-		var qrRequestedDate strfmt.Date
+		var qrRequestedDate strfmt.DateTime
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
