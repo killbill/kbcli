@@ -2,6 +2,15 @@
 This repository contains killbill go client library (kbclient)
 and killbill command line tool (kbcmd)
 
+## Versions
+
+| KB Version  | KBCli Version |
+| ----------- | ------------- |
+| 0.20.x      | 1.x.y         |
+| 0.22.x      | 2.x.y         |
+
+
+
 ## Kill bill go client library
 Kill bill go client library is a go package that can be used to connect to
 kill bill.
