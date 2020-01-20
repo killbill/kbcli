@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	"reflect"
-	"strconv"
-	"strings"
 
 	"github.com/killbill/kbcli/kbclient/tenant"
 
@@ -61,39 +59,18 @@ func createTenant(ctx context.Context, o *cmdlib.Options) error {
 }
 
 func configureStripePlugin(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) != 3 {
+	if len(o.Args) != 2 {
 		return cmdlib.ErrorInvalidArgs
 	}
 	publicKey := o.Args[0]
 	privateKey := o.Args[1]
-	feesOrPercent := o.Args[2]
 
-	var isPercent bool
-	if strings.HasSuffix(feesOrPercent, "%") {
-		isPercent = true
-		feesOrPercent = feesOrPercent[0 : len(feesOrPercent)-1]
-	}
-	fees, err := strconv.ParseFloat(feesOrPercent, 64)
-	if err != nil {
-		return fmt.Errorf("unable to parse fees. %v", err)
-	}
-	if isPercent {
-		fees /= 100
-	}
-
-	stripeConfig := fmt.Sprintf(`:stripe:
-  :api_secret_key: "%s"
-  :api_publishable_key: "%s"
+	stripeConfig := fmt.Sprintf(`org.killbill.billing.plugin.stripe.apiKey=%s
+org.killbill.billing.plugin.stripe.publicKey=%s
 `,
 		privateKey, publicKey)
 
-	if isPercent {
-		stripeConfig += fmt.Sprintf("  :fees_percent: %.3f", fees)
-	} else {
-		stripeConfig += fmt.Sprintf("  :fees_amount: %f", fees)
-	}
-
-	_, err = o.Client().Tenant.UploadPluginConfiguration(ctx, &tenant.UploadPluginConfigurationParams{
+	_, err := o.Client().Tenant.UploadPluginConfiguration(ctx, &tenant.UploadPluginConfigurationParams{
 		PluginName: "killbill-stripe",
 		Body:       stripeConfig,
 	})
@@ -145,9 +122,9 @@ func registerTenantCommands(r *cmdlib.App) {
 	r.Register("tenants", cli.Command{
 		Name:  "configure-stripe-plugin",
 		Usage: "Adds stripe plugin configuration",
-		ArgsUsage: `PUBLIC_KEY PRIVATE_KEY FEES 
+		ArgsUsage: `PUBLIC_KEY PRIVATE_KEY
 		
 		For e.g., 
-			tenants configure-stripe-plugin pk_test_WgswzvAG2ssFcB7Xk7tBi0XL sk_test_aM1UY1u411tPNI4LEL2tTFay 3%`,
+			tenants configure-stripe-plugin pk_test_WgswzvAG2ssFcB7Xk7tBi0XL sk_test_aM1UY1u411tPNI4LEL2tTFay`,
 	}, configureStripePlugin)
 }

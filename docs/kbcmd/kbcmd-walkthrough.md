@@ -61,9 +61,7 @@ STRIPE_PRIVATE_KEY=sk_test_YOUR_STRIPE_KEY
 STRIPE_PUBLIC_KEY=pk_test_YOUR_STRIPE_KEY
 
 # Configure stripe plugin with the keys that you got from stripe.com
-# Last parameter (3%) is the connect fee.
-# https://github.com/killbill/killbill-stripe-plugin/tree/work-for-release-0.19.x#connect
-kbcmd ten configure-stripe-plugin $STRIPE_PUBLIC_KEY $STRIPE_PRIVATE_KEY 3% 
+kbcmd ten configure-stripe-plugin $STRIPE_PUBLIC_KEY $STRIPE_PRIVATE_KEY
 ```
 
 ### Step 4.2 Generate stripe card token
