@@ -68,7 +68,7 @@ kbcmd ten configure-stripe-plugin $STRIPE_PUBLIC_KEY $STRIPE_PRIVATE_KEY
 Stripe card token is anonymized credit card information. We will use this instead
 of using credit card directly.
 ```bash
-kbcmd stripe --stripe_key $STRIPE_PRIVATE_KEY new-card-token  Name="John Doe" Number=4242424242424242 ExpMonth=08 ExpYear=2019
+kbcmd stripe --stripe_key $STRIPE_PRIVATE_KEY new-card-token  Name="John Doe" Number=4242424242424242 ExpMonth=08 ExpYear=2025
 ```
 store the card token in `CARD_TOKEN` variable.
 
