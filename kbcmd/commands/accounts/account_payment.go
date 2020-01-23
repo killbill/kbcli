@@ -136,8 +136,6 @@ func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 		pluginProperties, err = args.ParseArgs(o.Args[5:])
 		if err != nil {
 			return err
-		} else {
-			pluginProperties = []args.Input{}
 		}
 	}
 

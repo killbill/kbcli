@@ -61,16 +61,14 @@ STRIPE_PRIVATE_KEY=sk_test_YOUR_STRIPE_KEY
 STRIPE_PUBLIC_KEY=pk_test_YOUR_STRIPE_KEY
 
 # Configure stripe plugin with the keys that you got from stripe.com
-# Last parameter (3%) is the connect fee.
-# https://github.com/killbill/killbill-stripe-plugin/tree/work-for-release-0.19.x#connect
-kbcmd ten configure-stripe-plugin $STRIPE_PUBLIC_KEY $STRIPE_PRIVATE_KEY 3% 
+kbcmd ten configure-stripe-plugin $STRIPE_PUBLIC_KEY $STRIPE_PRIVATE_KEY
 ```
 
 ### Step 4.2 Generate stripe card token
 Stripe card token is anonymized credit card information. We will use this instead
 of using credit card directly.
 ```bash
-kbcmd stripe --stripe_key $STRIPE_PRIVATE_KEY new-card-token  Name="John Doe" Number=4242424242424242 ExpMonth=08 ExpYear=2019
+kbcmd stripe --stripe_key $STRIPE_PRIVATE_KEY new-card-token  Name="John Doe" Number=4242424242424242 ExpMonth=08 ExpYear=2025
 ```
 store the card token in `CARD_TOKEN` variable.
 
