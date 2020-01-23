@@ -62,6 +62,10 @@ func (o *GetSubscriptionTagsOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/tags][%d] getSubscriptionTagsOK  %+v", 200, o.Payload)
 }
 
+func (o *GetSubscriptionTagsOK) GetPayload() []*kbmodel.Tag {
+	return o.Payload
+}
+
 func (o *GetSubscriptionTagsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

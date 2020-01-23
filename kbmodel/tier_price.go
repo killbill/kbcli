@@ -27,7 +27,6 @@ func (m *TierPrice) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBlockPrices(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -44,20 +43,17 @@ func (m *TierPrice) validateBlockPrices(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.BlockPrices); i++ {
-
 		if swag.IsZero(m.BlockPrices[i]) { // not required
 			continue
 		}
 
 		if m.BlockPrices[i] != nil {
-
 			if err := m.BlockPrices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("blockPrices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

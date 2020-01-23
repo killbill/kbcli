@@ -53,7 +53,7 @@ func uploadCatalog(ctx context.Context, o *cmdlib.Options) error {
 	strContents := string(contents)
 
 	_, err = o.Client().Catalog.UploadCatalogXML(ctx, &catalog.UploadCatalogXMLParams{
-		Body: &strContents,
+		Body: strContents,
 	})
 	if err != nil {
 		return err

@@ -59,6 +59,10 @@ func (o *UploadInvoiceTranslationCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/translation/{locale}][%d] uploadInvoiceTranslationCreated  %+v", 201, o.Payload)
 }
 
+func (o *UploadInvoiceTranslationCreated) GetPayload() string {
+	return o.Payload
+}
+
 func (o *UploadInvoiceTranslationCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

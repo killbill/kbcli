@@ -60,6 +60,10 @@ func (o *GetInvoiceTranslationOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/translation/{locale}][%d] getInvoiceTranslationOK  %+v", 200, o.Payload)
 }
 
+func (o *GetInvoiceTranslationOK) GetPayload() string {
+	return o.Payload
+}
+
 func (o *GetInvoiceTranslationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

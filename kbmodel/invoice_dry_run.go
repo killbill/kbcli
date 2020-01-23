@@ -21,24 +21,31 @@ import (
 type InvoiceDryRun struct {
 
 	// billing period
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod InvoiceDryRunBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
 	// billing policy
+	// Enum: [START_OF_TERM END_OF_TERM IMMEDIATE ILLEGAL]
 	BillingPolicy InvoiceDryRunBillingPolicyEnum `json:"billingPolicy,omitempty"`
 
 	// bundle Id
+	// Format: uuid
 	BundleID strfmt.UUID `json:"bundleId,omitempty"`
 
 	// dry run action
+	// Enum: [START_ENTITLEMENT START_BILLING PAUSE_ENTITLEMENT PAUSE_BILLING RESUME_ENTITLEMENT RESUME_BILLING PHASE CHANGE STOP_ENTITLEMENT STOP_BILLING SERVICE_STATE_CHANGE]
 	DryRunAction InvoiceDryRunDryRunActionEnum `json:"dryRunAction,omitempty"`
 
 	// dry run type
+	// Enum: [TARGET_DATE UPCOMING_INVOICE SUBSCRIPTION_ACTION]
 	DryRunType InvoiceDryRunDryRunTypeEnum `json:"dryRunType,omitempty"`
 
 	// effective date
+	// Format: date
 	EffectiveDate strfmt.Date `json:"effectiveDate,omitempty"`
 
 	// phase type
+	// Enum: [TRIAL DISCOUNT FIXEDTERM EVERGREEN]
 	PhaseType InvoiceDryRunPhaseTypeEnum `json:"phaseType,omitempty"`
 
 	// price list name
@@ -48,12 +55,14 @@ type InvoiceDryRun struct {
 	PriceOverrides []*PhasePrice `json:"priceOverrides"`
 
 	// product category
+	// Enum: [BASE ADD_ON STANDALONE]
 	ProductCategory InvoiceDryRunProductCategoryEnum `json:"productCategory,omitempty"`
 
 	// product name
 	ProductName string `json:"productName,omitempty"`
 
 	// subscription Id
+	// Format: uuid
 	SubscriptionID strfmt.UUID `json:"subscriptionId,omitempty"`
 }
 
@@ -62,52 +71,42 @@ func (m *InvoiceDryRun) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBillingPeriod(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBillingPolicy(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBundleID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDryRunAction(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateDryRunType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEffectiveDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePhaseType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePriceOverrides(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateProductCategory(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSubscriptionID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -549,20 +548,17 @@ func (m *InvoiceDryRun) validatePriceOverrides(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.PriceOverrides); i++ {
-
 		if swag.IsZero(m.PriceOverrides[i]) { // not required
 			continue
 		}
 
 		if m.PriceOverrides[i] != nil {
-
 			if err := m.PriceOverrides[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

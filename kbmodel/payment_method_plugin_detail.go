@@ -22,7 +22,7 @@ type PaymentMethodPluginDetail struct {
 	ExternalPaymentMethodID string `json:"externalPaymentMethodId,omitempty"`
 
 	// is default payment method
-	IsDefaultPaymentMethod *bool `json:"isDefaultPaymentMethod,omitempty"`
+	IsDefaultPaymentMethod bool `json:"isDefaultPaymentMethod,omitempty"`
 
 	// properties
 	Properties []*PluginProperty `json:"properties"`
@@ -33,7 +33,6 @@ func (m *PaymentMethodPluginDetail) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateProperties(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -50,20 +49,17 @@ func (m *PaymentMethodPluginDetail) validateProperties(formats strfmt.Registry) 
 	}
 
 	for i := 0; i < len(m.Properties); i++ {
-
 		if swag.IsZero(m.Properties[i]) { // not required
 			continue
 		}
 
 		if m.Properties[i] != nil {
-
 			if err := m.Properties[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("properties" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

@@ -62,6 +62,10 @@ func (o *ChargebackReversalPaymentByExternalKeyCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyCreated  %+v", 201, o.Payload)
 }
 
+func (o *ChargebackReversalPaymentByExternalKeyCreated) GetPayload() *kbmodel.Payment {
+	return o.Payload
+}
+
 func (o *ChargebackReversalPaymentByExternalKeyCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Payment)

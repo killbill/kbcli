@@ -62,6 +62,10 @@ func (o *GetPaymentByTransactionExternalKeyOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions][%d] getPaymentByTransactionExternalKeyOK  %+v", 200, o.Payload)
 }
 
+func (o *GetPaymentByTransactionExternalKeyOK) GetPayload() *kbmodel.Payment {
+	return o.Payload
+}
+
 func (o *GetPaymentByTransactionExternalKeyOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Payment)

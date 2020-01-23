@@ -8,7 +8,6 @@ package kbmodel
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 )
 
@@ -17,7 +16,7 @@ import (
 type PluginProperty struct {
 
 	// is updatable
-	IsUpdatable *bool `json:"isUpdatable,omitempty"`
+	IsUpdatable bool `json:"isUpdatable,omitempty"`
 
 	// key
 	Key string `json:"key,omitempty"`
@@ -28,11 +27,6 @@ type PluginProperty struct {
 
 // Validate validates this plugin property
 func (m *PluginProperty) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
 	return nil
 }
 

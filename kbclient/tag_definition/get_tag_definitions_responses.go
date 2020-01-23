@@ -61,6 +61,10 @@ func (o *GetTagDefinitionsOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/tagDefinitions][%d] getTagDefinitionsOK  %+v", 200, o.Payload)
 }
 
+func (o *GetTagDefinitionsOK) GetPayload() []*kbmodel.TagDefinition {
+	return o.Payload
+}
+
 func (o *GetTagDefinitionsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

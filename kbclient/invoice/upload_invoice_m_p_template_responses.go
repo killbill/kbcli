@@ -59,6 +59,10 @@ func (o *UploadInvoiceMPTemplateOK) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/manualPayTemplate][%d] uploadInvoiceMPTemplateOK  %+v", 200, o.Payload)
 }
 
+func (o *UploadInvoiceMPTemplateOK) GetPayload() string {
+	return o.Payload
+}
+
 func (o *UploadInvoiceMPTemplateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

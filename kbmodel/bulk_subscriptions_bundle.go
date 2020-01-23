@@ -29,7 +29,6 @@ func (m *BulkSubscriptionsBundle) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBaseEntitlementAndAddOns(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -46,20 +45,17 @@ func (m *BulkSubscriptionsBundle) validateBaseEntitlementAndAddOns(formats strfm
 	}
 
 	for i := 0; i < len(m.BaseEntitlementAndAddOns); i++ {
-
 		if swag.IsZero(m.BaseEntitlementAndAddOns[i]) { // not required
 			continue
 		}
 
 		if m.BaseEntitlementAndAddOns[i] != nil {
-
 			if err := m.BaseEntitlementAndAddOns[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("baseEntitlementAndAddOns" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

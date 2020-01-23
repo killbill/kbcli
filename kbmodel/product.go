@@ -41,42 +41,13 @@ type Product struct {
 func (m *Product) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateAvailable(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if err := m.validateIncluded(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
 	if err := m.validatePlans(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *Product) validateAvailable(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Available) { // not required
-		return nil
-	}
-
-	return nil
-}
-
-func (m *Product) validateIncluded(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Included) { // not required
-		return nil
-	}
-
 	return nil
 }
 
@@ -87,20 +58,17 @@ func (m *Product) validatePlans(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Plans); i++ {
-
 		if swag.IsZero(m.Plans[i]) { // not required
 			continue
 		}
 
 		if m.Plans[i] != nil {
-
 			if err := m.Plans[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("plans" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

@@ -30,7 +30,6 @@ func (m *Usage) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateTiers(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -47,20 +46,17 @@ func (m *Usage) validateTiers(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Tiers); i++ {
-
 		if swag.IsZero(m.Tiers[i]) { // not required
 			continue
 		}
 
 		if m.Tiers[i] != nil {
-
 			if err := m.Tiers[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tiers" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

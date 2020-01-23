@@ -21,6 +21,7 @@ import (
 type PlanDetail struct {
 
 	// final phase billing period
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
 	FinalPhaseBillingPeriod PlanDetailFinalPhaseBillingPeriodEnum `json:"finalPhaseBillingPeriod,omitempty"`
 
 	// final phase recurring price
@@ -41,12 +42,10 @@ func (m *PlanDetail) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateFinalPhaseBillingPeriod(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFinalPhaseRecurringPrice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -170,20 +169,17 @@ func (m *PlanDetail) validateFinalPhaseRecurringPrice(formats strfmt.Registry) e
 	}
 
 	for i := 0; i < len(m.FinalPhaseRecurringPrice); i++ {
-
 		if swag.IsZero(m.FinalPhaseRecurringPrice[i]) { // not required
 			continue
 		}
 
 		if m.FinalPhaseRecurringPrice[i] != nil {
-
 			if err := m.FinalPhaseRecurringPrice[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("finalPhaseRecurringPrice" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

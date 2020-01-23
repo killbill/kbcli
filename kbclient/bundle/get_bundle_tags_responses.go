@@ -62,6 +62,10 @@ func (o *GetBundleTagsOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/tags][%d] getBundleTagsOK  %+v", 200, o.Payload)
 }
 
+func (o *GetBundleTagsOK) GetPayload() []*kbmodel.Tag {
+	return o.Payload
+}
+
 func (o *GetBundleTagsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

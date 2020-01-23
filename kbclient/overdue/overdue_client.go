@@ -7,6 +7,7 @@ package overdue
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 	"github.com/killbill/kbcli/kbcommon"
@@ -98,7 +99,14 @@ func (a *Client) GetOverdueConfigJSON(ctx context.Context, params *GetOverdueCon
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetOverdueConfigJSONOK), nil
+	success, ok := result.(*GetOverdueConfigJSONOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getOverdueConfigJson: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -131,7 +139,14 @@ func (a *Client) GetOverdueConfigXML(ctx context.Context, params *GetOverdueConf
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetOverdueConfigXMLOK), nil
+	success, ok := result.(*GetOverdueConfigXMLOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getOverdueConfigXml: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

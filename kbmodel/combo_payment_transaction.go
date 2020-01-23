@@ -42,32 +42,26 @@ func (m *ComboPaymentTransaction) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccount(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePaymentMethod(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePaymentMethodPluginProperties(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTransaction(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTransactionPluginProperties(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -84,14 +78,12 @@ func (m *ComboPaymentTransaction) validateAccount(formats strfmt.Registry) error
 	}
 
 	if m.Account != nil {
-
 		if err := m.Account.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("account")
 			}
 			return err
 		}
-
 	}
 
 	return nil
@@ -104,20 +96,17 @@ func (m *ComboPaymentTransaction) validateAuditLogs(formats strfmt.Registry) err
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -132,14 +121,12 @@ func (m *ComboPaymentTransaction) validatePaymentMethod(formats strfmt.Registry)
 	}
 
 	if m.PaymentMethod != nil {
-
 		if err := m.PaymentMethod.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("paymentMethod")
 			}
 			return err
 		}
-
 	}
 
 	return nil
@@ -152,20 +139,17 @@ func (m *ComboPaymentTransaction) validatePaymentMethodPluginProperties(formats 
 	}
 
 	for i := 0; i < len(m.PaymentMethodPluginProperties); i++ {
-
 		if swag.IsZero(m.PaymentMethodPluginProperties[i]) { // not required
 			continue
 		}
 
 		if m.PaymentMethodPluginProperties[i] != nil {
-
 			if err := m.PaymentMethodPluginProperties[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("paymentMethodPluginProperties" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -180,14 +164,12 @@ func (m *ComboPaymentTransaction) validateTransaction(formats strfmt.Registry) e
 	}
 
 	if m.Transaction != nil {
-
 		if err := m.Transaction.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("transaction")
 			}
 			return err
 		}
-
 	}
 
 	return nil
@@ -200,20 +182,17 @@ func (m *ComboPaymentTransaction) validateTransactionPluginProperties(formats st
 	}
 
 	for i := 0; i < len(m.TransactionPluginProperties); i++ {
-
 		if swag.IsZero(m.TransactionPluginProperties[i]) { // not required
 			continue
 		}
 
 		if m.TransactionPluginProperties[i] != nil {
-
 			if err := m.TransactionPluginProperties[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("transactionPluginProperties" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

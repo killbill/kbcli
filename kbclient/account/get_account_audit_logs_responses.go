@@ -62,6 +62,10 @@ func (o *GetAccountAuditLogsOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/auditLogs][%d] getAccountAuditLogsOK  %+v", 200, o.Payload)
 }
 
+func (o *GetAccountAuditLogsOK) GetPayload() []*kbmodel.AuditLog {
+	return o.Payload
+}
+
 func (o *GetAccountAuditLogsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

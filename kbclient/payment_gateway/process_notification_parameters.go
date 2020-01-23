@@ -6,10 +6,9 @@ package payment_gateway
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -70,7 +69,7 @@ type ProcessNotificationParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 	/*Body*/
-	Body *string
+	Body string
 	/*ControlPluginName*/
 	ControlPluginName []string
 	/*PluginName*/
@@ -152,13 +151,13 @@ func (o *ProcessNotificationParams) SetXKillbillReason(xKillbillReason *string) 
 }
 
 // WithBody adds the body to the process notification params
-func (o *ProcessNotificationParams) WithBody(body *string) *ProcessNotificationParams {
+func (o *ProcessNotificationParams) WithBody(body string) *ProcessNotificationParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the process notification params
-func (o *ProcessNotificationParams) SetBody(body *string) {
+func (o *ProcessNotificationParams) SetBody(body string) {
 	o.Body = body
 }
 
@@ -226,10 +225,8 @@ func (o *ProcessNotificationParams) WriteToRequest(r runtime.ClientRequest, reg 
 
 	}
 
-	if o.Body != nil {
-		if err := r.SetBodyParam(o.Body); err != nil {
-			return err
-		}
+	if err := r.SetBodyParam(o.Body); err != nil {
+		return err
 	}
 
 	valuesControlPluginName := o.ControlPluginName

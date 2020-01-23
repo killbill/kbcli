@@ -62,6 +62,10 @@ func (o *GetPluginConfigurationOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants/uploadPluginConfig/{pluginName}][%d] getPluginConfigurationOK  %+v", 200, o.Payload)
 }
 
+func (o *GetPluginConfigurationOK) GetPayload() *kbmodel.TenantKeyValue {
+	return o.Payload
+}
+
 func (o *GetPluginConfigurationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.TenantKeyValue)

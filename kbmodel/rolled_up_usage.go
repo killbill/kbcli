@@ -20,15 +20,18 @@ import (
 type RolledUpUsage struct {
 
 	// end date
+	// Format: date
 	EndDate strfmt.Date `json:"endDate,omitempty"`
 
 	// rolled up units
 	RolledUpUnits []*RolledUpUnit `json:"rolledUpUnits"`
 
 	// start date
+	// Format: date
 	StartDate strfmt.Date `json:"startDate,omitempty"`
 
 	// subscription Id
+	// Format: uuid
 	SubscriptionID strfmt.UUID `json:"subscriptionId,omitempty"`
 }
 
@@ -37,22 +40,18 @@ func (m *RolledUpUsage) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateEndDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateRolledUpUnits(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateStartDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSubscriptionID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -82,20 +81,17 @@ func (m *RolledUpUsage) validateRolledUpUnits(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.RolledUpUnits); i++ {
-
 		if swag.IsZero(m.RolledUpUnits[i]) { // not required
 			continue
 		}
 
 		if m.RolledUpUnits[i] != nil {
-
 			if err := m.RolledUpUnits[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("rolledUpUnits" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

@@ -6,10 +6,9 @@ package account
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -30,7 +29,7 @@ func NewGetChildrenAccountsParams() *GetChildrenAccountsParams {
 	return &GetChildrenAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -47,7 +46,7 @@ func NewGetChildrenAccountsParamsWithTimeout(timeout time.Duration) *GetChildren
 	return &GetChildrenAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		timeout: timeout,
 	}
@@ -64,7 +63,7 @@ func NewGetChildrenAccountsParamsWithContext(ctx context.Context) *GetChildrenAc
 	return &GetChildrenAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit: &auditDefault,
+		Audit:                    &auditDefault,
 
 		Context: ctx,
 	}
@@ -81,8 +80,8 @@ func NewGetChildrenAccountsParamsWithHTTPClient(client *http.Client) *GetChildre
 	return &GetChildrenAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:      &auditDefault,
-		HTTPClient: client,
+		Audit:                    &auditDefault,
+		HTTPClient:               client,
 	}
 }
 

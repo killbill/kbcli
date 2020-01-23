@@ -62,6 +62,10 @@ func (o *NotifyStateChangedCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentTransactions/{transactionId}][%d] notifyStateChangedCreated  %+v", 201, o.Payload)
 }
 
+func (o *NotifyStateChangedCreated) GetPayload() *kbmodel.Payment {
+	return o.Payload
+}
+
 func (o *NotifyStateChangedCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Payment)

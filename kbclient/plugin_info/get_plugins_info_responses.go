@@ -61,6 +61,10 @@ func (o *GetPluginsInfoOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/pluginsInfo][%d] getPluginsInfoOK  %+v", 200, o.Payload)
 }
 
+func (o *GetPluginsInfoOK) GetPayload() []*kbmodel.PluginInfo {
+	return o.Payload
+}
+
 func (o *GetPluginsInfoOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

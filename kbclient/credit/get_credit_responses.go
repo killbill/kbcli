@@ -53,7 +53,7 @@ func NewGetCreditOK() *GetCreditOK {
 successful operation
 */
 type GetCreditOK struct {
-	Payload *kbmodel.Credit
+	Payload *kbmodel.InvoiceItem
 
 	HttpResponse runtime.ClientResponse
 }
@@ -62,9 +62,13 @@ func (o *GetCreditOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/credits/{creditId}][%d] getCreditOK  %+v", 200, o.Payload)
 }
 
+func (o *GetCreditOK) GetPayload() *kbmodel.InvoiceItem {
+	return o.Payload
+}
+
 func (o *GetCreditOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(kbmodel.Credit)
+	o.Payload = new(kbmodel.InvoiceItem)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

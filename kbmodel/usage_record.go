@@ -21,6 +21,7 @@ type UsageRecord struct {
 	Amount int64 `json:"amount,omitempty"`
 
 	// record date
+	// Format: date
 	RecordDate strfmt.Date `json:"recordDate,omitempty"`
 }
 
@@ -29,7 +30,6 @@ func (m *UsageRecord) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateRecordDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

@@ -62,6 +62,10 @@ func (o *UploadPerTenantConfigurationCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/uploadPerTenantConfig][%d] uploadPerTenantConfigurationCreated  %+v", 201, o.Payload)
 }
 
+func (o *UploadPerTenantConfigurationCreated) GetPayload() *kbmodel.TenantKeyValue {
+	return o.Payload
+}
+
 func (o *UploadPerTenantConfigurationCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.TenantKeyValue)

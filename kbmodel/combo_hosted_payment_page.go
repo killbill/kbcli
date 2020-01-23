@@ -39,27 +39,22 @@ func (m *ComboHostedPaymentPage) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccount(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateHostedPaymentPageFields(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePaymentMethod(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePaymentMethodPluginProperties(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -76,14 +71,12 @@ func (m *ComboHostedPaymentPage) validateAccount(formats strfmt.Registry) error 
 	}
 
 	if m.Account != nil {
-
 		if err := m.Account.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("account")
 			}
 			return err
 		}
-
 	}
 
 	return nil
@@ -96,20 +89,17 @@ func (m *ComboHostedPaymentPage) validateAuditLogs(formats strfmt.Registry) erro
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -124,14 +114,12 @@ func (m *ComboHostedPaymentPage) validateHostedPaymentPageFields(formats strfmt.
 	}
 
 	if m.HostedPaymentPageFields != nil {
-
 		if err := m.HostedPaymentPageFields.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hostedPaymentPageFields")
 			}
 			return err
 		}
-
 	}
 
 	return nil
@@ -144,14 +132,12 @@ func (m *ComboHostedPaymentPage) validatePaymentMethod(formats strfmt.Registry) 
 	}
 
 	if m.PaymentMethod != nil {
-
 		if err := m.PaymentMethod.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("paymentMethod")
 			}
 			return err
 		}
-
 	}
 
 	return nil
@@ -164,20 +150,17 @@ func (m *ComboHostedPaymentPage) validatePaymentMethodPluginProperties(formats s
 	}
 
 	for i := 0; i < len(m.PaymentMethodPluginProperties); i++ {
-
 		if swag.IsZero(m.PaymentMethodPluginProperties[i]) { // not required
 			continue
 		}
 
 		if m.PaymentMethodPluginProperties[i] != nil {
-
 			if err := m.PaymentMethodPluginProperties[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("paymentMethodPluginProperties" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

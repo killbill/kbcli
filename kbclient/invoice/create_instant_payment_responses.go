@@ -70,6 +70,10 @@ func (o *CreateInstantPaymentCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/payments][%d] createInstantPaymentCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateInstantPaymentCreated) GetPayload() *kbmodel.InvoicePayment {
+	return o.Payload
+}
+
 func (o *CreateInstantPaymentCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.InvoicePayment)

@@ -62,6 +62,10 @@ func (o *UploadPluginPaymentStateMachineConfigCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}][%d] uploadPluginPaymentStateMachineConfigCreated  %+v", 201, o.Payload)
 }
 
+func (o *UploadPluginPaymentStateMachineConfigCreated) GetPayload() *kbmodel.TenantKeyValue {
+	return o.Payload
+}
+
 func (o *UploadPluginPaymentStateMachineConfigCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.TenantKeyValue)

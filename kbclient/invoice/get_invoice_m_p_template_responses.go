@@ -60,6 +60,10 @@ func (o *GetInvoiceMPTemplateOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/manualPayTemplate/{locale}][%d] getInvoiceMPTemplateOK  %+v", 200, o.Payload)
 }
 
+func (o *GetInvoiceMPTemplateOK) GetPayload() string {
+	return o.Payload
+}
+
 func (o *GetInvoiceMPTemplateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

@@ -6,10 +6,9 @@ package invoice
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -82,7 +81,7 @@ type UploadInvoiceTemplateParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 	/*Body*/
-	Body *string
+	Body string
 	/*DeleteIfExists*/
 	DeleteIfExists *bool
 
@@ -160,13 +159,13 @@ func (o *UploadInvoiceTemplateParams) SetXKillbillReason(xKillbillReason *string
 }
 
 // WithBody adds the body to the upload invoice template params
-func (o *UploadInvoiceTemplateParams) WithBody(body *string) *UploadInvoiceTemplateParams {
+func (o *UploadInvoiceTemplateParams) WithBody(body string) *UploadInvoiceTemplateParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the upload invoice template params
-func (o *UploadInvoiceTemplateParams) SetBody(body *string) {
+func (o *UploadInvoiceTemplateParams) SetBody(body string) {
 	o.Body = body
 }
 
@@ -212,10 +211,8 @@ func (o *UploadInvoiceTemplateParams) WriteToRequest(r runtime.ClientRequest, re
 
 	}
 
-	if o.Body != nil {
-		if err := r.SetBodyParam(o.Body); err != nil {
-			return err
-		}
+	if err := r.SetBodyParam(o.Body); err != nil {
+		return err
 	}
 
 	if o.DeleteIfExists != nil {

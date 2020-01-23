@@ -30,7 +30,6 @@ func (m *UnitUsageRecord) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateUsageRecords(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -47,20 +46,17 @@ func (m *UnitUsageRecord) validateUsageRecords(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.UsageRecords); i++ {
-
 		if swag.IsZero(m.UsageRecords[i]) { // not required
 			continue
 		}
 
 		if m.UsageRecords[i] != nil {
-
 			if err := m.UsageRecords[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("usageRecords" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

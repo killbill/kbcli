@@ -27,7 +27,6 @@ func (m *HostedPaymentPageFields) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateFormFields(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -44,20 +43,17 @@ func (m *HostedPaymentPageFields) validateFormFields(formats strfmt.Registry) er
 	}
 
 	for i := 0; i < len(m.FormFields); i++ {
-
 		if swag.IsZero(m.FormFields[i]) { // not required
 			continue
 		}
 
 		if m.FormFields[i] != nil {
-
 			if err := m.FormFields[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("formFields" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

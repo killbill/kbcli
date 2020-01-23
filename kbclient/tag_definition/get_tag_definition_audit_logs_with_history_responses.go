@@ -62,6 +62,10 @@ func (o *GetTagDefinitionAuditLogsWithHistoryOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/tagDefinitions/{tagDefinitionId}/auditLogsWithHistory][%d] getTagDefinitionAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
+func (o *GetTagDefinitionAuditLogsWithHistoryOK) GetPayload() []*kbmodel.AuditLog {
+	return o.Payload
+}
+
 func (o *GetTagDefinitionAuditLogsWithHistoryOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

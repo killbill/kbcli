@@ -62,6 +62,10 @@ func (o *CreateTagDefinitionCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/tagDefinitions][%d] createTagDefinitionCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateTagDefinitionCreated) GetPayload() *kbmodel.TagDefinition {
+	return o.Payload
+}
+
 func (o *CreateTagDefinitionCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.TagDefinition)

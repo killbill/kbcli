@@ -36,22 +36,18 @@ func (m *Tier) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBlocks(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateFixedPrice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateLimits(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateRecurringPrice(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -68,20 +64,17 @@ func (m *Tier) validateBlocks(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Blocks); i++ {
-
 		if swag.IsZero(m.Blocks[i]) { // not required
 			continue
 		}
 
 		if m.Blocks[i] != nil {
-
 			if err := m.Blocks[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("blocks" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -96,20 +89,17 @@ func (m *Tier) validateFixedPrice(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.FixedPrice); i++ {
-
 		if swag.IsZero(m.FixedPrice[i]) { // not required
 			continue
 		}
 
 		if m.FixedPrice[i] != nil {
-
 			if err := m.FixedPrice[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("fixedPrice" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -124,20 +114,17 @@ func (m *Tier) validateLimits(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Limits); i++ {
-
 		if swag.IsZero(m.Limits[i]) { // not required
 			continue
 		}
 
 		if m.Limits[i] != nil {
-
 			if err := m.Limits[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("limits" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -152,20 +139,17 @@ func (m *Tier) validateRecurringPrice(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.RecurringPrice); i++ {
-
 		if swag.IsZero(m.RecurringPrice[i]) { // not required
 			continue
 		}
 
 		if m.RecurringPrice[i] != nil {
-
 			if err := m.RecurringPrice[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("recurringPrice" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

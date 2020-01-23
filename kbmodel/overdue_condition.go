@@ -21,9 +21,11 @@ import (
 type OverdueCondition struct {
 
 	// control tag exclusion
+	// Enum: [AUTO_PAY_OFF AUTO_INVOICING_OFF OVERDUE_ENFORCEMENT_OFF WRITTEN_OFF MANUAL_PAY TEST PARTNER AUTO_INVOICING_DRAFT AUTO_INVOICING_REUSE_DRAFT]
 	ControlTagExclusion OverdueConditionControlTagExclusionEnum `json:"controlTagExclusion,omitempty"`
 
 	// control tag inclusion
+	// Enum: [AUTO_PAY_OFF AUTO_INVOICING_OFF OVERDUE_ENFORCEMENT_OFF WRITTEN_OFF MANUAL_PAY TEST PARTNER AUTO_INVOICING_DRAFT AUTO_INVOICING_REUSE_DRAFT]
 	ControlTagInclusion OverdueConditionControlTagInclusionEnum `json:"controlTagInclusion,omitempty"`
 
 	// number of unpaid invoices equals or exceeds
@@ -44,22 +46,18 @@ func (m *OverdueCondition) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateControlTagExclusion(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateControlTagInclusion(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateResponseForLastFailedPayment(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTimeSinceEarliestUnpaidInvoiceEqualsOrExceeds(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -344,14 +342,12 @@ func (m *OverdueCondition) validateTimeSinceEarliestUnpaidInvoiceEqualsOrExceeds
 	}
 
 	if m.TimeSinceEarliestUnpaidInvoiceEqualsOrExceeds != nil {
-
 		if err := m.TimeSinceEarliestUnpaidInvoiceEqualsOrExceeds.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("timeSinceEarliestUnpaidInvoiceEqualsOrExceeds")
 			}
 			return err
 		}
-
 	}
 
 	return nil

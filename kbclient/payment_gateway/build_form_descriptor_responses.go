@@ -62,6 +62,10 @@ func (o *BuildFormDescriptorOK) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentGateways/hosted/form/{accountId}][%d] buildFormDescriptorOK  %+v", 200, o.Payload)
 }
 
+func (o *BuildFormDescriptorOK) GetPayload() *kbmodel.HostedPaymentPageFormDescriptor {
+	return o.Payload
+}
+
 func (o *BuildFormDescriptorOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.HostedPaymentPageFormDescriptor)

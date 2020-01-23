@@ -60,6 +60,10 @@ func (o *UploadOverdueConfigXMLCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/overdue/xml][%d] uploadOverdueConfigXmlCreated  %+v", 201, o.Payload)
 }
 
+func (o *UploadOverdueConfigXMLCreated) GetPayload() string {
+	return o.Payload
+}
+
 func (o *UploadOverdueConfigXMLCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

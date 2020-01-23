@@ -8,7 +8,6 @@ package kbmodel
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 )
 
@@ -16,20 +15,17 @@ import (
 // swagger:model OverdueState
 type OverdueState struct {
 
-	// days between payment retries
-	DaysBetweenPaymentRetries []int32 `json:"daysBetweenPaymentRetries"`
-
 	// external message
 	ExternalMessage string `json:"externalMessage,omitempty"`
 
 	// is block changes
-	IsBlockChanges *bool `json:"isBlockChanges,omitempty"`
+	IsBlockChanges bool `json:"isBlockChanges,omitempty"`
 
 	// is clear state
-	IsClearState *bool `json:"isClearState,omitempty"`
+	IsClearState bool `json:"isClearState,omitempty"`
 
 	// is disable entitlement and changes blocked
-	IsDisableEntitlementAndChangesBlocked *bool `json:"isDisableEntitlementAndChangesBlocked,omitempty"`
+	IsDisableEntitlementAndChangesBlocked bool `json:"isDisableEntitlementAndChangesBlocked,omitempty"`
 
 	// name
 	Name string `json:"name,omitempty"`
@@ -40,25 +36,6 @@ type OverdueState struct {
 
 // Validate validates this overdue state
 func (m *OverdueState) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateDaysBetweenPaymentRetries(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *OverdueState) validateDaysBetweenPaymentRetries(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.DaysBetweenPaymentRetries) { // not required
-		return nil
-	}
-
 	return nil
 }
 

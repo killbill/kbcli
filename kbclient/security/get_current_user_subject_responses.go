@@ -61,6 +61,10 @@ func (o *GetCurrentUserSubjectOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/security/subject][%d] getCurrentUserSubjectOK  %+v", 200, o.Payload)
 }
 
+func (o *GetCurrentUserSubjectOK) GetPayload() *kbmodel.Subject {
+	return o.Payload
+}
+
 func (o *GetCurrentUserSubjectOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Subject)

@@ -62,6 +62,10 @@ func (o *CreateAccountTagsCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/tags][%d] createAccountTagsCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateAccountTagsCreated) GetPayload() []*kbmodel.Tag {
+	return o.Payload
+}
+
 func (o *CreateAccountTagsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

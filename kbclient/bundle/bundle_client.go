@@ -7,6 +7,7 @@ package bundle
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 	"github.com/killbill/kbcli/kbcommon"
@@ -77,6 +78,11 @@ type IBundle interface {
 		GetBundle retrieves a bundle by id
 	*/
 	GetBundle(ctx context.Context, params *GetBundleParams) (*GetBundleOK, error)
+
+	/*
+		GetBundleAuditLogsWithHistory retrieves bundle audit logs with history by id
+	*/
+	GetBundleAuditLogsWithHistory(ctx context.Context, params *GetBundleAuditLogsWithHistoryParams) (*GetBundleAuditLogsWithHistoryOK, error)
 
 	/*
 		GetBundleByKey retrieves a bundle by external key
@@ -380,7 +386,14 @@ func (a *Client) DeleteBundleCustomFields(ctx context.Context, params *DeleteBun
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeleteBundleCustomFieldsNoContent), nil
+	success, ok := result.(*DeleteBundleCustomFieldsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deleteBundleCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -425,7 +438,14 @@ func (a *Client) DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsP
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeleteBundleTagsNoContent), nil
+	success, ok := result.(*DeleteBundleTagsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deleteBundleTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -458,7 +478,54 @@ func (a *Client) GetBundle(ctx context.Context, params *GetBundleParams) (*GetBu
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetBundleOK), nil
+	success, ok := result.(*GetBundleOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getBundle: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+
+}
+
+/*
+GetBundleAuditLogsWithHistory retrieves bundle audit logs with history by id
+*/
+func (a *Client) GetBundleAuditLogsWithHistory(ctx context.Context, params *GetBundleAuditLogsWithHistoryParams) (*GetBundleAuditLogsWithHistoryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetBundleAuditLogsWithHistoryParams()
+	}
+	params.Context = ctx
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getBundleAuditLogsWithHistory",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/bundles/{bundleId}/auditLogsWithHistory",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetBundleAuditLogsWithHistoryReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetBundleAuditLogsWithHistoryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getBundleAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -491,7 +558,14 @@ func (a *Client) GetBundleByKey(ctx context.Context, params *GetBundleByKeyParam
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetBundleByKeyOK), nil
+	success, ok := result.(*GetBundleByKeyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getBundleByKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -524,7 +598,14 @@ func (a *Client) GetBundleCustomFields(ctx context.Context, params *GetBundleCus
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetBundleCustomFieldsOK), nil
+	success, ok := result.(*GetBundleCustomFieldsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getBundleCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -557,7 +638,14 @@ func (a *Client) GetBundleTags(ctx context.Context, params *GetBundleTagsParams)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetBundleTagsOK), nil
+	success, ok := result.(*GetBundleTagsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getBundleTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -590,7 +678,14 @@ func (a *Client) GetBundles(ctx context.Context, params *GetBundlesParams) (*Get
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetBundlesOK), nil
+	success, ok := result.(*GetBundlesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getBundles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -635,7 +730,14 @@ func (a *Client) ModifyBundleCustomFields(ctx context.Context, params *ModifyBun
 	if err != nil {
 		return nil, err
 	}
-	return result.(*ModifyBundleCustomFieldsNoContent), nil
+	success, ok := result.(*ModifyBundleCustomFieldsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for modifyBundleCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -680,7 +782,14 @@ func (a *Client) PauseBundle(ctx context.Context, params *PauseBundleParams) (*P
 	if err != nil {
 		return nil, err
 	}
-	return result.(*PauseBundleNoContent), nil
+	success, ok := result.(*PauseBundleNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for pauseBundle: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -725,7 +834,14 @@ func (a *Client) RenameExternalKey(ctx context.Context, params *RenameExternalKe
 	if err != nil {
 		return nil, err
 	}
-	return result.(*RenameExternalKeyNoContent), nil
+	success, ok := result.(*RenameExternalKeyNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for renameExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -770,7 +886,14 @@ func (a *Client) ResumeBundle(ctx context.Context, params *ResumeBundleParams) (
 	if err != nil {
 		return nil, err
 	}
-	return result.(*ResumeBundleNoContent), nil
+	success, ok := result.(*ResumeBundleNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for resumeBundle: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -803,7 +926,14 @@ func (a *Client) SearchBundles(ctx context.Context, params *SearchBundlesParams)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*SearchBundlesOK), nil
+	success, ok := result.(*SearchBundlesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for searchBundles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

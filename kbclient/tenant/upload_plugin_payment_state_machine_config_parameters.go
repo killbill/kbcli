@@ -6,10 +6,9 @@ package tenant
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -69,7 +68,7 @@ type UploadPluginPaymentStateMachineConfigParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 	/*Body*/
-	Body *string
+	Body string
 	/*PluginName*/
 	PluginName string
 
@@ -147,13 +146,13 @@ func (o *UploadPluginPaymentStateMachineConfigParams) SetXKillbillReason(xKillbi
 }
 
 // WithBody adds the body to the upload plugin payment state machine config params
-func (o *UploadPluginPaymentStateMachineConfigParams) WithBody(body *string) *UploadPluginPaymentStateMachineConfigParams {
+func (o *UploadPluginPaymentStateMachineConfigParams) WithBody(body string) *UploadPluginPaymentStateMachineConfigParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the upload plugin payment state machine config params
-func (o *UploadPluginPaymentStateMachineConfigParams) SetBody(body *string) {
+func (o *UploadPluginPaymentStateMachineConfigParams) SetBody(body string) {
 	o.Body = body
 }
 
@@ -199,10 +198,8 @@ func (o *UploadPluginPaymentStateMachineConfigParams) WriteToRequest(r runtime.C
 
 	}
 
-	if o.Body != nil {
-		if err := r.SetBodyParam(o.Body); err != nil {
-			return err
-		}
+	if err := r.SetBodyParam(o.Body); err != nil {
+		return err
 	}
 
 	// path param pluginName

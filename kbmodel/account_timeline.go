@@ -36,22 +36,18 @@ func (m *AccountTimeline) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccount(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBundles(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateInvoices(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePayments(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -68,14 +64,12 @@ func (m *AccountTimeline) validateAccount(formats strfmt.Registry) error {
 	}
 
 	if m.Account != nil {
-
 		if err := m.Account.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("account")
 			}
 			return err
 		}
-
 	}
 
 	return nil
@@ -88,20 +82,17 @@ func (m *AccountTimeline) validateBundles(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Bundles); i++ {
-
 		if swag.IsZero(m.Bundles[i]) { // not required
 			continue
 		}
 
 		if m.Bundles[i] != nil {
-
 			if err := m.Bundles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("bundles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -116,20 +107,17 @@ func (m *AccountTimeline) validateInvoices(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Invoices); i++ {
-
 		if swag.IsZero(m.Invoices[i]) { // not required
 			continue
 		}
 
 		if m.Invoices[i] != nil {
-
 			if err := m.Invoices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("invoices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -144,20 +132,17 @@ func (m *AccountTimeline) validatePayments(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Payments); i++ {
-
 		if swag.IsZero(m.Payments[i]) { // not required
 			continue
 		}
 
 		if m.Payments[i] != nil {
-
 			if err := m.Payments[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("payments" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

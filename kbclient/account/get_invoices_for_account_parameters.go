@@ -6,10 +6,9 @@ package account
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -26,14 +25,12 @@ func NewGetInvoicesForAccountParams() *GetInvoicesForAccountParams {
 		auditDefault                 = string("NONE")
 		includeVoidedInvoicesDefault = bool(false)
 		unpaidInvoicesOnlyDefault    = bool(false)
-		withItemsDefault             = bool(false)
 		withMigrationInvoicesDefault = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit: &auditDefault,
+		Audit:                 &auditDefault,
 		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
 		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithItems:             &withItemsDefault,
 		WithMigrationInvoices: &withMigrationInvoicesDefault,
 
 		timeout: cr.DefaultTimeout,
@@ -47,14 +44,12 @@ func NewGetInvoicesForAccountParamsWithTimeout(timeout time.Duration) *GetInvoic
 		auditDefault                 = string("NONE")
 		includeVoidedInvoicesDefault = bool(false)
 		unpaidInvoicesOnlyDefault    = bool(false)
-		withItemsDefault             = bool(false)
 		withMigrationInvoicesDefault = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit: &auditDefault,
+		Audit:                 &auditDefault,
 		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
 		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithItems:             &withItemsDefault,
 		WithMigrationInvoices: &withMigrationInvoicesDefault,
 
 		timeout: timeout,
@@ -68,14 +63,12 @@ func NewGetInvoicesForAccountParamsWithContext(ctx context.Context) *GetInvoices
 		auditDefault                 = string("NONE")
 		includeVoidedInvoicesDefault = bool(false)
 		unpaidInvoicesOnlyDefault    = bool(false)
-		withItemsDefault             = bool(false)
 		withMigrationInvoicesDefault = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit: &auditDefault,
+		Audit:                 &auditDefault,
 		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
 		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithItems:             &withItemsDefault,
 		WithMigrationInvoices: &withMigrationInvoicesDefault,
 
 		Context: ctx,
@@ -89,14 +82,12 @@ func NewGetInvoicesForAccountParamsWithHTTPClient(client *http.Client) *GetInvoi
 		auditDefault                 = string("NONE")
 		includeVoidedInvoicesDefault = bool(false)
 		unpaidInvoicesOnlyDefault    = bool(false)
-		withItemsDefault             = bool(false)
 		withMigrationInvoicesDefault = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit: &auditDefault,
+		Audit:                 &auditDefault,
 		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
 		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithItems:             &withItemsDefault,
 		WithMigrationInvoices: &withMigrationInvoicesDefault,
 		HTTPClient:            client,
 	}
@@ -111,14 +102,14 @@ type GetInvoicesForAccountParams struct {
 	AccountID strfmt.UUID
 	/*Audit*/
 	Audit *string
+	/*EndDate*/
+	EndDate *strfmt.Date
 	/*IncludeVoidedInvoices*/
 	IncludeVoidedInvoices *bool
 	/*StartDate*/
 	StartDate *strfmt.Date
 	/*UnpaidInvoicesOnly*/
 	UnpaidInvoicesOnly *bool
-	/*WithItems*/
-	WithItems *bool
 	/*WithMigrationInvoices*/
 	WithMigrationInvoices *bool
 
@@ -184,6 +175,17 @@ func (o *GetInvoicesForAccountParams) SetAudit(audit *string) {
 	o.Audit = audit
 }
 
+// WithEndDate adds the endDate to the get invoices for account params
+func (o *GetInvoicesForAccountParams) WithEndDate(endDate *strfmt.Date) *GetInvoicesForAccountParams {
+	o.SetEndDate(endDate)
+	return o
+}
+
+// SetEndDate adds the endDate to the get invoices for account params
+func (o *GetInvoicesForAccountParams) SetEndDate(endDate *strfmt.Date) {
+	o.EndDate = endDate
+}
+
 // WithIncludeVoidedInvoices adds the includeVoidedInvoices to the get invoices for account params
 func (o *GetInvoicesForAccountParams) WithIncludeVoidedInvoices(includeVoidedInvoices *bool) *GetInvoicesForAccountParams {
 	o.SetIncludeVoidedInvoices(includeVoidedInvoices)
@@ -215,17 +217,6 @@ func (o *GetInvoicesForAccountParams) WithUnpaidInvoicesOnly(unpaidInvoicesOnly 
 // SetUnpaidInvoicesOnly adds the unpaidInvoicesOnly to the get invoices for account params
 func (o *GetInvoicesForAccountParams) SetUnpaidInvoicesOnly(unpaidInvoicesOnly *bool) {
 	o.UnpaidInvoicesOnly = unpaidInvoicesOnly
-}
-
-// WithWithItems adds the withItems to the get invoices for account params
-func (o *GetInvoicesForAccountParams) WithWithItems(withItems *bool) *GetInvoicesForAccountParams {
-	o.SetWithItems(withItems)
-	return o
-}
-
-// SetWithItems adds the withItems to the get invoices for account params
-func (o *GetInvoicesForAccountParams) SetWithItems(withItems *bool) {
-	o.WithItems = withItems
 }
 
 // WithWithMigrationInvoices adds the withMigrationInvoices to the get invoices for account params
@@ -262,6 +253,22 @@ func (o *GetInvoicesForAccountParams) WriteToRequest(r runtime.ClientRequest, re
 		qAudit := qrAudit
 		if qAudit != "" {
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.EndDate != nil {
+
+		// query param endDate
+		var qrEndDate strfmt.Date
+		if o.EndDate != nil {
+			qrEndDate = *o.EndDate
+		}
+		qEndDate := qrEndDate.String()
+		if qEndDate != "" {
+			if err := r.SetQueryParam("endDate", qEndDate); err != nil {
 				return err
 			}
 		}
@@ -310,22 +317,6 @@ func (o *GetInvoicesForAccountParams) WriteToRequest(r runtime.ClientRequest, re
 		qUnpaidInvoicesOnly := swag.FormatBool(qrUnpaidInvoicesOnly)
 		if qUnpaidInvoicesOnly != "" {
 			if err := r.SetQueryParam("unpaidInvoicesOnly", qUnpaidInvoicesOnly); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.WithItems != nil {
-
-		// query param withItems
-		var qrWithItems bool
-		if o.WithItems != nil {
-			qrWithItems = *o.WithItems
-		}
-		qWithItems := swag.FormatBool(qrWithItems)
-		if qWithItems != "" {
-			if err := r.SetQueryParam("withItems", qWithItems); err != nil {
 				return err
 			}
 		}

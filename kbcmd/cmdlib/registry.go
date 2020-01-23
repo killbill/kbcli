@@ -122,12 +122,14 @@ func (r *App) init() {
 		},
 		cli.StringFlag{
 			Name:        "api_key",
+			Value:       "bob",
 			Usage:       "Killbill API key X-Killbill-ApiKey",
 			Destination: &r.o.APIKey,
 			EnvVar:      "KB_API_KEY",
 		},
 		cli.StringFlag{
 			Name:        "api_secret",
+			Value:       "lazar",
 			Usage:       "Killbill API secret X-Killbill-ApiSecret",
 			Destination: &r.o.APISecret,
 			EnvVar:      "KB_API_SECRET",
@@ -190,7 +192,7 @@ func (r *App) toAction(fn HandlerFn) func(c *cli.Context) error {
 
 		// Set defaults
 
-		createdBy := os.Getenv("USER") + "-kbcmd"
+		createdBy := o.CreatedBy
 		comment := "Created by kbcmd tool"
 		reason := ""
 

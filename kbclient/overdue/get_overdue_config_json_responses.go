@@ -61,6 +61,10 @@ func (o *GetOverdueConfigJSONOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/overdue][%d] getOverdueConfigJsonOK  %+v", 200, o.Payload)
 }
 
+func (o *GetOverdueConfigJSONOK) GetPayload() *kbmodel.Overdue {
+	return o.Payload
+}
+
 func (o *GetOverdueConfigJSONOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Overdue)

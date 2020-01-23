@@ -6,10 +6,9 @@ package invoice
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -23,16 +22,14 @@ import (
 // with the default values initialized.
 func NewSearchInvoicesParams() *SearchInvoicesParams {
 	var (
-		auditDefault     = string("NONE")
-		limitDefault     = int64(100)
-		offsetDefault    = int64(0)
-		withItemsDefault = bool(false)
+		auditDefault  = string("NONE")
+		limitDefault  = int64(100)
+		offsetDefault = int64(0)
 	)
 	return &SearchInvoicesParams{
-		Audit:     &auditDefault,
-		Limit:     &limitDefault,
-		Offset:    &offsetDefault,
-		WithItems: &withItemsDefault,
+		Audit:  &auditDefault,
+		Limit:  &limitDefault,
+		Offset: &offsetDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -42,16 +39,14 @@ func NewSearchInvoicesParams() *SearchInvoicesParams {
 // with the default values initialized, and the ability to set a timeout on a request
 func NewSearchInvoicesParamsWithTimeout(timeout time.Duration) *SearchInvoicesParams {
 	var (
-		auditDefault     = string("NONE")
-		limitDefault     = int64(100)
-		offsetDefault    = int64(0)
-		withItemsDefault = bool(false)
+		auditDefault  = string("NONE")
+		limitDefault  = int64(100)
+		offsetDefault = int64(0)
 	)
 	return &SearchInvoicesParams{
-		Audit:     &auditDefault,
-		Limit:     &limitDefault,
-		Offset:    &offsetDefault,
-		WithItems: &withItemsDefault,
+		Audit:  &auditDefault,
+		Limit:  &limitDefault,
+		Offset: &offsetDefault,
 
 		timeout: timeout,
 	}
@@ -61,16 +56,14 @@ func NewSearchInvoicesParamsWithTimeout(timeout time.Duration) *SearchInvoicesPa
 // with the default values initialized, and the ability to set a context for a request
 func NewSearchInvoicesParamsWithContext(ctx context.Context) *SearchInvoicesParams {
 	var (
-		auditDefault     = string("NONE")
-		limitDefault     = int64(100)
-		offsetDefault    = int64(0)
-		withItemsDefault = bool(false)
+		auditDefault  = string("NONE")
+		limitDefault  = int64(100)
+		offsetDefault = int64(0)
 	)
 	return &SearchInvoicesParams{
-		Audit:     &auditDefault,
-		Limit:     &limitDefault,
-		Offset:    &offsetDefault,
-		WithItems: &withItemsDefault,
+		Audit:  &auditDefault,
+		Limit:  &limitDefault,
+		Offset: &offsetDefault,
 
 		Context: ctx,
 	}
@@ -80,16 +73,14 @@ func NewSearchInvoicesParamsWithContext(ctx context.Context) *SearchInvoicesPara
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewSearchInvoicesParamsWithHTTPClient(client *http.Client) *SearchInvoicesParams {
 	var (
-		auditDefault     = string("NONE")
-		limitDefault     = int64(100)
-		offsetDefault    = int64(0)
-		withItemsDefault = bool(false)
+		auditDefault  = string("NONE")
+		limitDefault  = int64(100)
+		offsetDefault = int64(0)
 	)
 	return &SearchInvoicesParams{
 		Audit:      &auditDefault,
 		Limit:      &limitDefault,
 		Offset:     &offsetDefault,
-		WithItems:  &withItemsDefault,
 		HTTPClient: client,
 	}
 }
@@ -107,8 +98,6 @@ type SearchInvoicesParams struct {
 	Offset *int64
 	/*SearchKey*/
 	SearchKey string
-	/*WithItems*/
-	WithItems *bool
 
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -194,17 +183,6 @@ func (o *SearchInvoicesParams) SetSearchKey(searchKey string) {
 	o.SearchKey = searchKey
 }
 
-// WithWithItems adds the withItems to the search invoices params
-func (o *SearchInvoicesParams) WithWithItems(withItems *bool) *SearchInvoicesParams {
-	o.SetWithItems(withItems)
-	return o
-}
-
-// SetWithItems adds the withItems to the search invoices params
-func (o *SearchInvoicesParams) SetWithItems(withItems *bool) {
-	o.WithItems = withItems
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *SearchInvoicesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -264,22 +242,6 @@ func (o *SearchInvoicesParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 	// path param searchKey
 	if err := r.SetPathParam("searchKey", o.SearchKey); err != nil {
 		return err
-	}
-
-	if o.WithItems != nil {
-
-		// query param withItems
-		var qrWithItems bool
-		if o.WithItems != nil {
-			qrWithItems = *o.WithItems
-		}
-		qWithItems := swag.FormatBool(qrWithItems)
-		if qWithItems != "" {
-			if err := r.SetQueryParam("withItems", qWithItems); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	// header param withStackTrace

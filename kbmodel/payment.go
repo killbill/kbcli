@@ -21,6 +21,7 @@ import (
 type Payment struct {
 
 	// account Id
+	// Format: uuid
 	AccountID strfmt.UUID `json:"accountId,omitempty"`
 
 	// audit logs
@@ -36,6 +37,7 @@ type Payment struct {
 	CreditedAmount float64 `json:"creditedAmount,omitempty"`
 
 	// currency
+	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
 	Currency PaymentCurrencyEnum `json:"currency,omitempty"`
 
 	// payment attempts
@@ -45,9 +47,11 @@ type Payment struct {
 	PaymentExternalKey string `json:"paymentExternalKey,omitempty"`
 
 	// payment Id
+	// Format: uuid
 	PaymentID strfmt.UUID `json:"paymentId,omitempty"`
 
 	// payment method Id
+	// Format: uuid
 	PaymentMethodID strfmt.UUID `json:"paymentMethodId,omitempty"`
 
 	// payment number
@@ -68,37 +72,30 @@ func (m *Payment) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccountID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateCurrency(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePaymentAttempts(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePaymentID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePaymentMethodID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTransactions(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -128,20 +125,17 @@ func (m *Payment) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -867,20 +861,17 @@ func (m *Payment) validatePaymentAttempts(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.PaymentAttempts); i++ {
-
 		if swag.IsZero(m.PaymentAttempts[i]) { // not required
 			continue
 		}
 
 		if m.PaymentAttempts[i] != nil {
-
 			if err := m.PaymentAttempts[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("paymentAttempts" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -921,20 +912,17 @@ func (m *Payment) validateTransactions(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Transactions); i++ {
-
 		if swag.IsZero(m.Transactions[i]) { // not required
 			continue
 		}
 
 		if m.Transactions[i] != nil {
-
 			if err := m.Transactions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("transactions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

@@ -20,12 +20,14 @@ import (
 type BundleTimeline struct {
 
 	// account Id
+	// Format: uuid
 	AccountID strfmt.UUID `json:"accountId,omitempty"`
 
 	// audit logs
 	AuditLogs []*AuditLog `json:"auditLogs"`
 
 	// bundle Id
+	// Format: uuid
 	BundleID strfmt.UUID `json:"bundleId,omitempty"`
 
 	// events
@@ -40,22 +42,18 @@ func (m *BundleTimeline) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccountID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBundleID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEvents(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -85,20 +83,17 @@ func (m *BundleTimeline) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -126,20 +121,17 @@ func (m *BundleTimeline) validateEvents(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Events); i++ {
-
 		if swag.IsZero(m.Events[i]) { // not required
 			continue
 		}
 
 		if m.Events[i] != nil {
-
 			if err := m.Events[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("events" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

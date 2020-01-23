@@ -62,6 +62,10 @@ func (o *RegisterPushNotificationCallbackCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/registerNotificationCallback][%d] registerPushNotificationCallbackCreated  %+v", 201, o.Payload)
 }
 
+func (o *RegisterPushNotificationCallbackCreated) GetPayload() *kbmodel.TenantKeyValue {
+	return o.Payload
+}
+
 func (o *RegisterPushNotificationCallbackCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.TenantKeyValue)

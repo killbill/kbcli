@@ -62,6 +62,10 @@ func (o *CreateComboPaymentCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateComboPaymentCreated) GetPayload() *kbmodel.Payment {
+	return o.Payload
+}
+
 func (o *CreateComboPaymentCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Payment)

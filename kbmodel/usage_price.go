@@ -21,9 +21,11 @@ import (
 type UsagePrice struct {
 
 	// billing mode
+	// Enum: [IN_ADVANCE IN_ARREAR]
 	BillingMode UsagePriceBillingModeEnum `json:"billingMode,omitempty"`
 
 	// tier block policy
+	// Enum: [ALL_TIERS TOP_TIER]
 	TierBlockPolicy UsagePriceTierBlockPolicyEnum `json:"tierBlockPolicy,omitempty"`
 
 	// tier prices
@@ -33,6 +35,7 @@ type UsagePrice struct {
 	UsageName string `json:"usageName,omitempty"`
 
 	// usage type
+	// Enum: [CAPACITY CONSUMABLE]
 	UsageType UsagePriceUsageTypeEnum `json:"usageType,omitempty"`
 }
 
@@ -41,22 +44,18 @@ func (m *UsagePrice) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBillingMode(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTierBlockPolicy(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateTierPrices(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUsageType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -191,20 +190,17 @@ func (m *UsagePrice) validateTierPrices(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.TierPrices); i++ {
-
 		if swag.IsZero(m.TierPrices[i]) { // not required
 			continue
 		}
 
 		if m.TierPrices[i] != nil {
-
 			if err := m.TierPrices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tierPrices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

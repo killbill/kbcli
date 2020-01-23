@@ -6,10 +6,9 @@ package invoice
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -25,12 +24,10 @@ func NewGetInvoiceByItemIDParams() *GetInvoiceByItemIDParams {
 	var (
 		auditDefault             = string("NONE")
 		withChildrenItemsDefault = bool(false)
-		withItemsDefault         = bool(false)
 	)
 	return &GetInvoiceByItemIDParams{
 		Audit:             &auditDefault,
 		WithChildrenItems: &withChildrenItemsDefault,
-		WithItems:         &withItemsDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -42,12 +39,10 @@ func NewGetInvoiceByItemIDParamsWithTimeout(timeout time.Duration) *GetInvoiceBy
 	var (
 		auditDefault             = string("NONE")
 		withChildrenItemsDefault = bool(false)
-		withItemsDefault         = bool(false)
 	)
 	return &GetInvoiceByItemIDParams{
 		Audit:             &auditDefault,
 		WithChildrenItems: &withChildrenItemsDefault,
-		WithItems:         &withItemsDefault,
 
 		timeout: timeout,
 	}
@@ -59,12 +54,10 @@ func NewGetInvoiceByItemIDParamsWithContext(ctx context.Context) *GetInvoiceByIt
 	var (
 		auditDefault             = string("NONE")
 		withChildrenItemsDefault = bool(false)
-		withItemsDefault         = bool(false)
 	)
 	return &GetInvoiceByItemIDParams{
 		Audit:             &auditDefault,
 		WithChildrenItems: &withChildrenItemsDefault,
-		WithItems:         &withItemsDefault,
 
 		Context: ctx,
 	}
@@ -76,12 +69,10 @@ func NewGetInvoiceByItemIDParamsWithHTTPClient(client *http.Client) *GetInvoiceB
 	var (
 		auditDefault             = string("NONE")
 		withChildrenItemsDefault = bool(false)
-		withItemsDefault         = bool(false)
 	)
 	return &GetInvoiceByItemIDParams{
 		Audit:             &auditDefault,
 		WithChildrenItems: &withChildrenItemsDefault,
-		WithItems:         &withItemsDefault,
 		HTTPClient:        client,
 	}
 }
@@ -97,8 +88,6 @@ type GetInvoiceByItemIDParams struct {
 	ItemID strfmt.UUID
 	/*WithChildrenItems*/
 	WithChildrenItems *bool
-	/*WithItems*/
-	WithItems *bool
 
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -173,17 +162,6 @@ func (o *GetInvoiceByItemIDParams) SetWithChildrenItems(withChildrenItems *bool)
 	o.WithChildrenItems = withChildrenItems
 }
 
-// WithWithItems adds the withItems to the get invoice by item Id params
-func (o *GetInvoiceByItemIDParams) WithWithItems(withItems *bool) *GetInvoiceByItemIDParams {
-	o.SetWithItems(withItems)
-	return o
-}
-
-// SetWithItems adds the withItems to the get invoice by item Id params
-func (o *GetInvoiceByItemIDParams) SetWithItems(withItems *bool) {
-	o.WithItems = withItems
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetInvoiceByItemIDParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -223,22 +201,6 @@ func (o *GetInvoiceByItemIDParams) WriteToRequest(r runtime.ClientRequest, reg s
 		qWithChildrenItems := swag.FormatBool(qrWithChildrenItems)
 		if qWithChildrenItems != "" {
 			if err := r.SetQueryParam("withChildrenItems", qWithChildrenItems); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.WithItems != nil {
-
-		// query param withItems
-		var qrWithItems bool
-		if o.WithItems != nil {
-			qrWithItems = *o.WithItems
-		}
-		qWithItems := swag.FormatBool(qrWithItems)
-		if qWithItems != "" {
-			if err := r.SetQueryParam("withItems", qWithItems); err != nil {
 				return err
 			}
 		}

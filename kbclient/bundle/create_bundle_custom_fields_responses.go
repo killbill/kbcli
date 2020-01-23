@@ -62,6 +62,10 @@ func (o *CreateBundleCustomFieldsCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/customFields][%d] createBundleCustomFieldsCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateBundleCustomFieldsCreated) GetPayload() []*kbmodel.CustomField {
+	return o.Payload
+}
+
 func (o *CreateBundleCustomFieldsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

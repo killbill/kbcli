@@ -20,6 +20,7 @@ import (
 type AuditLog struct {
 
 	// change date
+	// Format: date-time
 	ChangeDate strfmt.DateTime `json:"changeDate,omitempty"`
 
 	// change type
@@ -35,9 +36,11 @@ type AuditLog struct {
 	History *Entity `json:"history,omitempty"`
 
 	// object Id
+	// Format: uuid
 	ObjectID strfmt.UUID `json:"objectId,omitempty"`
 
 	// object type
+	// Enum: [ACCOUNT ACCOUNT_EMAIL BLOCKING_STATES BUNDLE CUSTOM_FIELD INVOICE PAYMENT TRANSACTION INVOICE_ITEM INVOICE_PAYMENT SUBSCRIPTION SUBSCRIPTION_EVENT SERVICE_BROADCAST PAYMENT_ATTEMPT PAYMENT_METHOD TAG TAG_DEFINITION TENANT TENANT_KVS]
 	ObjectType AuditLogObjectTypeEnum `json:"objectType,omitempty"`
 
 	// reason code
@@ -52,22 +55,18 @@ func (m *AuditLog) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateChangeDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateHistory(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateObjectID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateObjectType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -97,14 +96,12 @@ func (m *AuditLog) validateHistory(formats strfmt.Registry) error {
 	}
 
 	if m.History != nil {
-
 		if err := m.History.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("history")
 			}
 			return err
 		}
-
 	}
 
 	return nil

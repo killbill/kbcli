@@ -21,6 +21,7 @@ import (
 type Subscription struct {
 
 	// account Id
+	// Format: uuid
 	AccountID strfmt.UUID `json:"accountId,omitempty"`
 
 	// audit logs
@@ -30,22 +31,31 @@ type Subscription struct {
 	BillCycleDayLocal int32 `json:"billCycleDayLocal,omitempty"`
 
 	// billing end date
+	// Format: date
 	BillingEndDate strfmt.Date `json:"billingEndDate,omitempty"`
 
 	// billing period
 	// Required: true
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod *SubscriptionBillingPeriodEnum `json:"billingPeriod"`
 
 	// billing start date
+	// Format: date
 	BillingStartDate strfmt.Date `json:"billingStartDate,omitempty"`
 
+	// bundle external key
+	BundleExternalKey string `json:"bundleExternalKey,omitempty"`
+
 	// bundle Id
+	// Format: uuid
 	BundleID strfmt.UUID `json:"bundleId,omitempty"`
 
 	// cancelled date
+	// Format: date
 	CancelledDate strfmt.Date `json:"cancelledDate,omitempty"`
 
 	// charged through date
+	// Format: date
 	ChargedThroughDate strfmt.Date `json:"chargedThroughDate,omitempty"`
 
 	// events
@@ -55,6 +65,7 @@ type Subscription struct {
 	ExternalKey string `json:"externalKey,omitempty"`
 
 	// phase type
+	// Enum: [TRIAL DISCOUNT FIXEDTERM EVERGREEN]
 	PhaseType SubscriptionPhaseTypeEnum `json:"phaseType,omitempty"`
 
 	// plan name
@@ -72,6 +83,7 @@ type Subscription struct {
 	Prices []*PhasePrice `json:"prices"`
 
 	// product category
+	// Enum: [BASE ADD_ON STANDALONE]
 	ProductCategory SubscriptionProductCategoryEnum `json:"productCategory,omitempty"`
 
 	// product name
@@ -79,15 +91,19 @@ type Subscription struct {
 	ProductName *string `json:"productName"`
 
 	// source type
+	// Enum: [NATIVE MIGRATED TRANSFERRED]
 	SourceType SubscriptionSourceTypeEnum `json:"sourceType,omitempty"`
 
 	// start date
+	// Format: date
 	StartDate strfmt.Date `json:"startDate,omitempty"`
 
 	// state
+	// Enum: [PENDING ACTIVE BLOCKED CANCELLED EXPIRED]
 	State SubscriptionStateEnum `json:"state,omitempty"`
 
 	// subscription Id
+	// Format: uuid
 	SubscriptionID strfmt.UUID `json:"subscriptionId,omitempty"`
 }
 
@@ -96,102 +112,82 @@ func (m *Subscription) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAccountID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBillingEndDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBillingPeriod(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBillingStartDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBundleID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateCancelledDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateChargedThroughDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEvents(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePhaseType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePlanName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePriceList(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePriceOverrides(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePrices(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateProductCategory(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateProductName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSourceType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateStartDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateState(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSubscriptionID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -221,20 +217,17 @@ func (m *Subscription) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -421,20 +414,17 @@ func (m *Subscription) validateEvents(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Events); i++ {
-
 		if swag.IsZero(m.Events[i]) { // not required
 			continue
 		}
 
 		if m.Events[i] != nil {
-
 			if err := m.Events[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("events" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -534,20 +524,17 @@ func (m *Subscription) validatePriceOverrides(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.PriceOverrides); i++ {
-
 		if swag.IsZero(m.PriceOverrides[i]) { // not required
 			continue
 		}
 
 		if m.PriceOverrides[i] != nil {
-
 			if err := m.PriceOverrides[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}
@@ -562,20 +549,17 @@ func (m *Subscription) validatePrices(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Prices); i++ {
-
 		if swag.IsZero(m.Prices[i]) { // not required
 			continue
 		}
 
 		if m.Prices[i] != nil {
-
 			if err := m.Prices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

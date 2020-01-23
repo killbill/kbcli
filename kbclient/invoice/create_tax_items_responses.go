@@ -62,6 +62,10 @@ func (o *CreateTaxItemsCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/taxes/{accountId}][%d] createTaxItemsCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateTaxItemsCreated) GetPayload() []*kbmodel.InvoiceItem {
+	return o.Payload
+}
+
 func (o *CreateTaxItemsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

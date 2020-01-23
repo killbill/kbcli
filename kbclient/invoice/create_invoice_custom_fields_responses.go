@@ -62,6 +62,10 @@ func (o *CreateInvoiceCustomFieldsCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/customFields][%d] createInvoiceCustomFieldsCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateInvoiceCustomFieldsCreated) GetPayload() []*kbmodel.CustomField {
+	return o.Payload
+}
+
 func (o *CreateInvoiceCustomFieldsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

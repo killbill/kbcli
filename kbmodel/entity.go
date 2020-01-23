@@ -18,12 +18,15 @@ import (
 type Entity struct {
 
 	// created date
+	// Format: date-time
 	CreatedDate strfmt.DateTime `json:"createdDate,omitempty"`
 
 	// id
+	// Format: uuid
 	ID strfmt.UUID `json:"id,omitempty"`
 
 	// updated date
+	// Format: date-time
 	UpdatedDate strfmt.DateTime `json:"updatedDate,omitempty"`
 }
 
@@ -32,17 +35,14 @@ func (m *Entity) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateCreatedDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateUpdatedDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

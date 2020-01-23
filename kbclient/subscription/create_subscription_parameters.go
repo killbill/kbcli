@@ -6,10 +6,9 @@ package subscription
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -107,8 +106,6 @@ type CreateSubscriptionParams struct {
 	XKillbillCreatedBy string
 	/*XKillbillReason*/
 	XKillbillReason *string
-	/*Bcd*/
-	Bcd *int32
 	/*BillingDate*/
 	BillingDate *strfmt.Date
 	/*Body*/
@@ -197,17 +194,6 @@ func (o *CreateSubscriptionParams) WithXKillbillReason(xKillbillReason *string) 
 // SetXKillbillReason adds the xKillbillReason to the create subscription params
 func (o *CreateSubscriptionParams) SetXKillbillReason(xKillbillReason *string) {
 	o.XKillbillReason = xKillbillReason
-}
-
-// WithBcd adds the bcd to the create subscription params
-func (o *CreateSubscriptionParams) WithBcd(bcd *int32) *CreateSubscriptionParams {
-	o.SetBcd(bcd)
-	return o
-}
-
-// SetBcd adds the bcd to the create subscription params
-func (o *CreateSubscriptionParams) SetBcd(bcd *int32) {
-	o.Bcd = bcd
 }
 
 // WithBillingDate adds the billingDate to the create subscription params
@@ -325,22 +311,6 @@ func (o *CreateSubscriptionParams) WriteToRequest(r runtime.ClientRequest, reg s
 		// header param X-Killbill-Reason
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
-		}
-
-	}
-
-	if o.Bcd != nil {
-
-		// query param bcd
-		var qrBcd int32
-		if o.Bcd != nil {
-			qrBcd = *o.Bcd
-		}
-		qBcd := swag.FormatInt32(qrBcd)
-		if qBcd != "" {
-			if err := r.SetQueryParam("bcd", qBcd); err != nil {
-				return err
-			}
 		}
 
 	}

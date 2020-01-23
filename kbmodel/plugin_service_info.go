@@ -8,7 +8,6 @@ package kbmodel
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 )
 
@@ -25,11 +24,6 @@ type PluginServiceInfo struct {
 
 // Validate validates this plugin service info
 func (m *PluginServiceInfo) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
 	return nil
 }
 

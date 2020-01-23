@@ -24,22 +24,26 @@ type EventSubscription struct {
 	AuditLogs []*AuditLog `json:"auditLogs"`
 
 	// billing period
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod EventSubscriptionBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
 	// effective date
+	// Format: date
 	EffectiveDate strfmt.Date `json:"effectiveDate,omitempty"`
 
 	// event Id
+	// Format: uuid
 	EventID strfmt.UUID `json:"eventId,omitempty"`
 
 	// event type
+	// Enum: [START_ENTITLEMENT START_BILLING PAUSE_ENTITLEMENT PAUSE_BILLING RESUME_ENTITLEMENT RESUME_BILLING PHASE CHANGE STOP_ENTITLEMENT STOP_BILLING SERVICE_STATE_CHANGE]
 	EventType EventSubscriptionEventTypeEnum `json:"eventType,omitempty"`
 
 	// is blocked billing
-	IsBlockedBilling *bool `json:"isBlockedBilling,omitempty"`
+	IsBlockedBilling bool `json:"isBlockedBilling,omitempty"`
 
 	// is blocked entitlement
-	IsBlockedEntitlement *bool `json:"isBlockedEntitlement,omitempty"`
+	IsBlockedEntitlement bool `json:"isBlockedEntitlement,omitempty"`
 
 	// phase
 	Phase string `json:"phase,omitempty"`
@@ -65,27 +69,22 @@ func (m *EventSubscription) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateBillingPeriod(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEffectiveDate(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEventID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateEventType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -102,20 +101,17 @@ func (m *EventSubscription) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

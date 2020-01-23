@@ -24,6 +24,7 @@ type CustomField struct {
 	AuditLogs []*AuditLog `json:"auditLogs"`
 
 	// custom field Id
+	// Format: uuid
 	CustomFieldID strfmt.UUID `json:"customFieldId,omitempty"`
 
 	// name
@@ -31,9 +32,11 @@ type CustomField struct {
 	Name *string `json:"name"`
 
 	// object Id
+	// Format: uuid
 	ObjectID strfmt.UUID `json:"objectId,omitempty"`
 
 	// object type
+	// Enum: [ACCOUNT ACCOUNT_EMAIL BLOCKING_STATES BUNDLE CUSTOM_FIELD INVOICE PAYMENT TRANSACTION INVOICE_ITEM INVOICE_PAYMENT SUBSCRIPTION SUBSCRIPTION_EVENT SERVICE_BROADCAST PAYMENT_ATTEMPT PAYMENT_METHOD TAG TAG_DEFINITION TENANT TENANT_KVS]
 	ObjectType CustomFieldObjectTypeEnum `json:"objectType,omitempty"`
 
 	// value
@@ -46,32 +49,26 @@ func (m *CustomField) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAuditLogs(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateCustomFieldID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateObjectID(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateObjectType(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateValue(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -88,20 +85,17 @@ func (m *CustomField) validateAuditLogs(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.AuditLogs); i++ {
-
 		if swag.IsZero(m.AuditLogs[i]) { // not required
 			continue
 		}
 
 		if m.AuditLogs[i] != nil {
-
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

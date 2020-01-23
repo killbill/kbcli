@@ -62,6 +62,10 @@ func (o *AddBundleBlockingStateCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/block][%d] addBundleBlockingStateCreated  %+v", 201, o.Payload)
 }
 
+func (o *AddBundleBlockingStateCreated) GetPayload() []*kbmodel.BlockingState {
+	return o.Payload
+}
+
 func (o *AddBundleBlockingStateCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

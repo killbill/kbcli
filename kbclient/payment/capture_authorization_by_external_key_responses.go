@@ -62,6 +62,10 @@ func (o *CaptureAuthorizationByExternalKeyCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyCreated  %+v", 201, o.Payload)
 }
 
+func (o *CaptureAuthorizationByExternalKeyCreated) GetPayload() *kbmodel.Payment {
+	return o.Payload
+}
+
 func (o *CaptureAuthorizationByExternalKeyCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Payment)

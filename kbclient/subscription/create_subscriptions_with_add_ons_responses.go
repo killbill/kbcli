@@ -61,6 +61,10 @@ func (o *CreateSubscriptionsWithAddOnsCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/subscriptions/createSubscriptionsWithAddOns][%d] createSubscriptionsWithAddOnsCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateSubscriptionsWithAddOnsCreated) GetPayload() []*kbmodel.Bundle {
+	return o.Payload
+}
+
 func (o *CreateSubscriptionsWithAddOnsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

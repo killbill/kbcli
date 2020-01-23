@@ -29,18 +29,19 @@ type OverdueStateConfig struct {
 	ExternalMessage string `json:"externalMessage,omitempty"`
 
 	// is block changes
-	IsBlockChanges *bool `json:"isBlockChanges,omitempty"`
+	IsBlockChanges bool `json:"isBlockChanges,omitempty"`
 
 	// is clear state
-	IsClearState *bool `json:"isClearState,omitempty"`
+	IsClearState bool `json:"isClearState,omitempty"`
 
 	// is disable entitlement
-	IsDisableEntitlement *bool `json:"isDisableEntitlement,omitempty"`
+	IsDisableEntitlement bool `json:"isDisableEntitlement,omitempty"`
 
 	// name
 	Name string `json:"name,omitempty"`
 
 	// subscription cancellation policy
+	// Enum: [END_OF_TERM IMMEDIATE NONE]
 	SubscriptionCancellationPolicy OverdueStateConfigSubscriptionCancellationPolicyEnum `json:"subscriptionCancellationPolicy,omitempty"`
 }
 
@@ -49,12 +50,10 @@ func (m *OverdueStateConfig) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateCondition(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validateSubscriptionCancellationPolicy(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -71,14 +70,12 @@ func (m *OverdueStateConfig) validateCondition(formats strfmt.Registry) error {
 	}
 
 	if m.Condition != nil {
-
 		if err := m.Condition.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("condition")
 			}
 			return err
 		}
-
 	}
 
 	return nil

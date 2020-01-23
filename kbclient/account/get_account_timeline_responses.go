@@ -62,6 +62,10 @@ func (o *GetAccountTimelineOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/timeline][%d] getAccountTimelineOK  %+v", 200, o.Payload)
 }
 
+func (o *GetAccountTimelineOK) GetPayload() *kbmodel.AccountTimeline {
+	return o.Payload
+}
+
 func (o *GetAccountTimelineOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.AccountTimeline)

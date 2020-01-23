@@ -6,10 +6,9 @@ package tenant
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -69,7 +68,7 @@ type UploadPerTenantConfigurationParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 	/*Body*/
-	Body *string
+	Body string
 
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -145,13 +144,13 @@ func (o *UploadPerTenantConfigurationParams) SetXKillbillReason(xKillbillReason 
 }
 
 // WithBody adds the body to the upload per tenant configuration params
-func (o *UploadPerTenantConfigurationParams) WithBody(body *string) *UploadPerTenantConfigurationParams {
+func (o *UploadPerTenantConfigurationParams) WithBody(body string) *UploadPerTenantConfigurationParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the upload per tenant configuration params
-func (o *UploadPerTenantConfigurationParams) SetBody(body *string) {
+func (o *UploadPerTenantConfigurationParams) SetBody(body string) {
 	o.Body = body
 }
 
@@ -186,10 +185,8 @@ func (o *UploadPerTenantConfigurationParams) WriteToRequest(r runtime.ClientRequ
 
 	}
 
-	if o.Body != nil {
-		if err := r.SetBodyParam(o.Body); err != nil {
-			return err
-		}
+	if err := r.SetBodyParam(o.Body); err != nil {
+		return err
 	}
 
 	// header param withStackTrace

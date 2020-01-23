@@ -62,6 +62,10 @@ func (o *BuildComboFormDescriptorOK) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentGateways/hosted/form][%d] buildComboFormDescriptorOK  %+v", 200, o.Payload)
 }
 
+func (o *BuildComboFormDescriptorOK) GetPayload() *kbmodel.HostedPaymentPageFormDescriptor {
+	return o.Payload
+}
+
 func (o *BuildComboFormDescriptorOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.HostedPaymentPageFormDescriptor)

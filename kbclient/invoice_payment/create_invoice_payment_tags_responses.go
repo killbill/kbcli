@@ -62,6 +62,10 @@ func (o *CreateInvoicePaymentTagsCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/tags][%d] createInvoicePaymentTagsCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateInvoicePaymentTagsCreated) GetPayload() []*kbmodel.Tag {
+	return o.Payload
+}
+
 func (o *CreateInvoicePaymentTagsCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

@@ -23,6 +23,7 @@ type Duration struct {
 	Number int32 `json:"number,omitempty"`
 
 	// unit
+	// Enum: [DAYS WEEKS MONTHS YEARS UNLIMITED]
 	Unit DurationUnitEnum `json:"unit,omitempty"`
 }
 
@@ -31,7 +32,6 @@ func (m *Duration) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateUnit(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 

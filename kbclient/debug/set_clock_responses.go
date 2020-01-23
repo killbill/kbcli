@@ -61,6 +61,10 @@ func (o *SetClockOK) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/test/clock][%d] setClockOK  %+v", 200, o.Payload)
 }
 
+func (o *SetClockOK) GetPayload() *kbmodel.Clock {
+	return o.Payload
+}
+
 func (o *SetClockOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Clock)

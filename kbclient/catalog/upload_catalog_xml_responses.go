@@ -59,6 +59,10 @@ func (o *UploadCatalogXMLCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/catalog/xml][%d] uploadCatalogXmlCreated  %+v", 201, o.Payload)
 }
 
+func (o *UploadCatalogXMLCreated) GetPayload() string {
+	return o.Payload
+}
+
 func (o *UploadCatalogXMLCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

@@ -62,6 +62,10 @@ func (o *GetAccountOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}][%d] getAccountOK  %+v", 200, o.Payload)
 }
 
+func (o *GetAccountOK) GetPayload() *kbmodel.Account {
+	return o.Payload
+}
+
 func (o *GetAccountOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Account)

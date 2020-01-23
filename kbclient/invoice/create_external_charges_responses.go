@@ -62,6 +62,10 @@ func (o *CreateExternalChargesCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/charges/{accountId}][%d] createExternalChargesCreated  %+v", 201, o.Payload)
 }
 
+func (o *CreateExternalChargesCreated) GetPayload() []*kbmodel.InvoiceItem {
+	return o.Payload
+}
+
 func (o *CreateExternalChargesCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

@@ -62,6 +62,10 @@ func (o *GetTenantByAPIKeyOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants][%d] getTenantByApiKeyOK  %+v", 200, o.Payload)
 }
 
+func (o *GetTenantByAPIKeyOK) GetPayload() *kbmodel.Tenant {
+	return o.Payload
+}
+
 func (o *GetTenantByAPIKeyOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.Tenant)

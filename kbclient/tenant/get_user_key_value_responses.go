@@ -62,6 +62,10 @@ func (o *GetUserKeyValueOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants/userKeyValue/{keyName}][%d] getUserKeyValueOK  %+v", 200, o.Payload)
 }
 
+func (o *GetUserKeyValueOK) GetPayload() *kbmodel.TenantKeyValue {
+	return o.Payload
+}
+
 func (o *GetUserKeyValueOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.TenantKeyValue)

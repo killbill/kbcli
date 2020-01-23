@@ -6,10 +6,9 @@ package invoice
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -23,16 +22,14 @@ import (
 // with the default values initialized.
 func NewGetInvoicesParams() *GetInvoicesParams {
 	var (
-		auditDefault     = string("NONE")
-		limitDefault     = int64(100)
-		offsetDefault    = int64(0)
-		withItemsDefault = bool(false)
+		auditDefault  = string("NONE")
+		limitDefault  = int64(100)
+		offsetDefault = int64(0)
 	)
 	return &GetInvoicesParams{
-		Audit:     &auditDefault,
-		Limit:     &limitDefault,
-		Offset:    &offsetDefault,
-		WithItems: &withItemsDefault,
+		Audit:  &auditDefault,
+		Limit:  &limitDefault,
+		Offset: &offsetDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -42,16 +39,14 @@ func NewGetInvoicesParams() *GetInvoicesParams {
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetInvoicesParamsWithTimeout(timeout time.Duration) *GetInvoicesParams {
 	var (
-		auditDefault     = string("NONE")
-		limitDefault     = int64(100)
-		offsetDefault    = int64(0)
-		withItemsDefault = bool(false)
+		auditDefault  = string("NONE")
+		limitDefault  = int64(100)
+		offsetDefault = int64(0)
 	)
 	return &GetInvoicesParams{
-		Audit:     &auditDefault,
-		Limit:     &limitDefault,
-		Offset:    &offsetDefault,
-		WithItems: &withItemsDefault,
+		Audit:  &auditDefault,
+		Limit:  &limitDefault,
+		Offset: &offsetDefault,
 
 		timeout: timeout,
 	}
@@ -61,16 +56,14 @@ func NewGetInvoicesParamsWithTimeout(timeout time.Duration) *GetInvoicesParams {
 // with the default values initialized, and the ability to set a context for a request
 func NewGetInvoicesParamsWithContext(ctx context.Context) *GetInvoicesParams {
 	var (
-		auditDefault     = string("NONE")
-		limitDefault     = int64(100)
-		offsetDefault    = int64(0)
-		withItemsDefault = bool(false)
+		auditDefault  = string("NONE")
+		limitDefault  = int64(100)
+		offsetDefault = int64(0)
 	)
 	return &GetInvoicesParams{
-		Audit:     &auditDefault,
-		Limit:     &limitDefault,
-		Offset:    &offsetDefault,
-		WithItems: &withItemsDefault,
+		Audit:  &auditDefault,
+		Limit:  &limitDefault,
+		Offset: &offsetDefault,
 
 		Context: ctx,
 	}
@@ -80,16 +73,14 @@ func NewGetInvoicesParamsWithContext(ctx context.Context) *GetInvoicesParams {
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetInvoicesParamsWithHTTPClient(client *http.Client) *GetInvoicesParams {
 	var (
-		auditDefault     = string("NONE")
-		limitDefault     = int64(100)
-		offsetDefault    = int64(0)
-		withItemsDefault = bool(false)
+		auditDefault  = string("NONE")
+		limitDefault  = int64(100)
+		offsetDefault = int64(0)
 	)
 	return &GetInvoicesParams{
 		Audit:      &auditDefault,
 		Limit:      &limitDefault,
 		Offset:     &offsetDefault,
-		WithItems:  &withItemsDefault,
 		HTTPClient: client,
 	}
 }
@@ -105,8 +96,6 @@ type GetInvoicesParams struct {
 	Limit *int64
 	/*Offset*/
 	Offset *int64
-	/*WithItems*/
-	WithItems *bool
 
 	WithStackTrace        *bool // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -181,17 +170,6 @@ func (o *GetInvoicesParams) SetOffset(offset *int64) {
 	o.Offset = offset
 }
 
-// WithWithItems adds the withItems to the get invoices params
-func (o *GetInvoicesParams) WithWithItems(withItems *bool) *GetInvoicesParams {
-	o.SetWithItems(withItems)
-	return o
-}
-
-// SetWithItems adds the withItems to the get invoices params
-func (o *GetInvoicesParams) SetWithItems(withItems *bool) {
-	o.WithItems = withItems
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *GetInvoicesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -242,22 +220,6 @@ func (o *GetInvoicesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		qOffset := swag.FormatInt64(qrOffset)
 		if qOffset != "" {
 			if err := r.SetQueryParam("offset", qOffset); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.WithItems != nil {
-
-		// query param withItems
-		var qrWithItems bool
-		if o.WithItems != nil {
-			qrWithItems = *o.WithItems
-		}
-		qWithItems := swag.FormatBool(qrWithItems)
-		if qWithItems != "" {
-			if err := r.SetQueryParam("withItems", qWithItems); err != nil {
 				return err
 			}
 		}

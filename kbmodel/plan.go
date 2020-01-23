@@ -21,6 +21,7 @@ import (
 type Plan struct {
 
 	// billing period
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod PlanBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
 	// name
@@ -38,12 +39,10 @@ func (m *Plan) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBillingPeriod(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
 	if err := m.validatePhases(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -167,20 +166,17 @@ func (m *Plan) validatePhases(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Phases); i++ {
-
 		if swag.IsZero(m.Phases[i]) { // not required
 			continue
 		}
 
 		if m.Phases[i] != nil {
-
 			if err := m.Phases[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("phases" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

@@ -6,10 +6,9 @@ package account
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -32,9 +31,9 @@ func NewGetAccountsParams() *GetAccountsParams {
 	return &GetAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:  &auditDefault,
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
+		Audit:                    &auditDefault,
+		Limit:                    &limitDefault,
+		Offset:                   &offsetDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -53,9 +52,9 @@ func NewGetAccountsParamsWithTimeout(timeout time.Duration) *GetAccountsParams {
 	return &GetAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:  &auditDefault,
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
+		Audit:                    &auditDefault,
+		Limit:                    &limitDefault,
+		Offset:                   &offsetDefault,
 
 		timeout: timeout,
 	}
@@ -74,9 +73,9 @@ func NewGetAccountsParamsWithContext(ctx context.Context) *GetAccountsParams {
 	return &GetAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:  &auditDefault,
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
+		Audit:                    &auditDefault,
+		Limit:                    &limitDefault,
+		Offset:                   &offsetDefault,
 
 		Context: ctx,
 	}
@@ -95,10 +94,10 @@ func NewGetAccountsParamsWithHTTPClient(client *http.Client) *GetAccountsParams 
 	return &GetAccountsParams{
 		AccountWithBalance:       &accountWithBalanceDefault,
 		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:      &auditDefault,
-		Limit:      &limitDefault,
-		Offset:     &offsetDefault,
-		HTTPClient: client,
+		Audit:                    &auditDefault,
+		Limit:                    &limitDefault,
+		Offset:                   &offsetDefault,
+		HTTPClient:               client,
 	}
 }
 

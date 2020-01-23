@@ -36,7 +36,6 @@ func (m *TieredBlock) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validatePrices(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -53,20 +52,17 @@ func (m *TieredBlock) validatePrices(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Prices); i++ {
-
 		if swag.IsZero(m.Prices[i]) { // not required
 			continue
 		}
 
 		if m.Prices[i] != nil {
-
 			if err := m.Prices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

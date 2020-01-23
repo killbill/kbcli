@@ -62,6 +62,10 @@ func (o *InsertUserKeyValueCreated) Error() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/userKeyValue/{keyName}][%d] insertUserKeyValueCreated  %+v", 201, o.Payload)
 }
 
+func (o *InsertUserKeyValueCreated) GetPayload() *kbmodel.TenantKeyValue {
+	return o.Payload
+}
+
 func (o *InsertUserKeyValueCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.TenantKeyValue)

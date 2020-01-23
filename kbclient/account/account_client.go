@@ -7,6 +7,7 @@ package account
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 	"github.com/killbill/kbcli/kbcommon"
@@ -152,6 +153,11 @@ type IAccount interface {
 		GetAllTags retrieves account tags
 	*/
 	GetAllTags(ctx context.Context, params *GetAllTagsParams) (*GetAllTagsOK, error)
+
+	/*
+		GetBlockingStateAuditLogsWithHistory retrieves blocking state audit logs with history by id
+	*/
+	GetBlockingStateAuditLogsWithHistory(ctx context.Context, params *GetBlockingStateAuditLogsWithHistoryParams) (*GetBlockingStateAuditLogsWithHistoryOK, error)
 
 	/*
 		GetBlockingStates retrieves blocking states for account
@@ -430,7 +436,14 @@ func (a *Client) CloseAccount(ctx context.Context, params *CloseAccountParams) (
 	if err != nil {
 		return nil, err
 	}
-	return result.(*CloseAccountNoContent), nil
+	success, ok := result.(*CloseAccountNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for closeAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -755,7 +768,14 @@ func (a *Client) DeleteAccountCustomFields(ctx context.Context, params *DeleteAc
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeleteAccountCustomFieldsNoContent), nil
+	success, ok := result.(*DeleteAccountCustomFieldsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deleteAccountCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -800,7 +820,14 @@ func (a *Client) DeleteAccountTags(ctx context.Context, params *DeleteAccountTag
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeleteAccountTagsNoContent), nil
+	success, ok := result.(*DeleteAccountTagsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deleteAccountTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -833,7 +860,14 @@ func (a *Client) GetAccount(ctx context.Context, params *GetAccountParams) (*Get
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountOK), nil
+	success, ok := result.(*GetAccountOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -866,7 +900,14 @@ func (a *Client) GetAccountAuditLogs(ctx context.Context, params *GetAccountAudi
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountAuditLogsOK), nil
+	success, ok := result.(*GetAccountAuditLogsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccountAuditLogs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -899,7 +940,14 @@ func (a *Client) GetAccountAuditLogsWithHistory(ctx context.Context, params *Get
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountAuditLogsWithHistoryOK), nil
+	success, ok := result.(*GetAccountAuditLogsWithHistoryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccountAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -932,7 +980,14 @@ func (a *Client) GetAccountBundles(ctx context.Context, params *GetAccountBundle
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountBundlesOK), nil
+	success, ok := result.(*GetAccountBundlesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccountBundles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -965,7 +1020,14 @@ func (a *Client) GetAccountByKey(ctx context.Context, params *GetAccountByKeyPar
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountByKeyOK), nil
+	success, ok := result.(*GetAccountByKeyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccountByKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -998,7 +1060,14 @@ func (a *Client) GetAccountCustomFields(ctx context.Context, params *GetAccountC
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountCustomFieldsOK), nil
+	success, ok := result.(*GetAccountCustomFieldsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccountCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1031,7 +1100,14 @@ func (a *Client) GetAccountEmailAuditLogsWithHistory(ctx context.Context, params
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountEmailAuditLogsWithHistoryOK), nil
+	success, ok := result.(*GetAccountEmailAuditLogsWithHistoryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccountEmailAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1064,7 +1140,14 @@ func (a *Client) GetAccountTags(ctx context.Context, params *GetAccountTagsParam
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountTagsOK), nil
+	success, ok := result.(*GetAccountTagsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccountTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1097,7 +1180,14 @@ func (a *Client) GetAccountTimeline(ctx context.Context, params *GetAccountTimel
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountTimelineOK), nil
+	success, ok := result.(*GetAccountTimelineOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccountTimeline: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1130,7 +1220,14 @@ func (a *Client) GetAccounts(ctx context.Context, params *GetAccountsParams) (*G
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAccountsOK), nil
+	success, ok := result.(*GetAccountsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1163,7 +1260,14 @@ func (a *Client) GetAllCustomFields(ctx context.Context, params *GetAllCustomFie
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAllCustomFieldsOK), nil
+	success, ok := result.(*GetAllCustomFieldsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAllCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1196,7 +1300,54 @@ func (a *Client) GetAllTags(ctx context.Context, params *GetAllTagsParams) (*Get
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAllTagsOK), nil
+	success, ok := result.(*GetAllTagsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAllTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+
+}
+
+/*
+GetBlockingStateAuditLogsWithHistory retrieves blocking state audit logs with history by id
+*/
+func (a *Client) GetBlockingStateAuditLogsWithHistory(ctx context.Context, params *GetBlockingStateAuditLogsWithHistoryParams) (*GetBlockingStateAuditLogsWithHistoryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetBlockingStateAuditLogsWithHistoryParams()
+	}
+	params.Context = ctx
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getBlockingStateAuditLogsWithHistory",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/accounts/block/{blockingId}/auditLogsWithHistory",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetBlockingStateAuditLogsWithHistoryReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetBlockingStateAuditLogsWithHistoryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getBlockingStateAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1229,7 +1380,14 @@ func (a *Client) GetBlockingStates(ctx context.Context, params *GetBlockingState
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetBlockingStatesOK), nil
+	success, ok := result.(*GetBlockingStatesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getBlockingStates: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1262,7 +1420,14 @@ func (a *Client) GetChildrenAccounts(ctx context.Context, params *GetChildrenAcc
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetChildrenAccountsOK), nil
+	success, ok := result.(*GetChildrenAccountsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getChildrenAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1295,7 +1460,14 @@ func (a *Client) GetEmails(ctx context.Context, params *GetEmailsParams) (*GetEm
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetEmailsOK), nil
+	success, ok := result.(*GetEmailsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getEmails: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1328,7 +1500,14 @@ func (a *Client) GetInvoicePayments(ctx context.Context, params *GetInvoicePayme
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetInvoicePaymentsOK), nil
+	success, ok := result.(*GetInvoicePaymentsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getInvoicePayments: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1361,7 +1540,14 @@ func (a *Client) GetInvoicesForAccount(ctx context.Context, params *GetInvoicesF
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetInvoicesForAccountOK), nil
+	success, ok := result.(*GetInvoicesForAccountOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getInvoicesForAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1394,7 +1580,14 @@ func (a *Client) GetOverdueAccount(ctx context.Context, params *GetOverdueAccoun
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetOverdueAccountOK), nil
+	success, ok := result.(*GetOverdueAccountOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getOverdueAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1427,7 +1620,14 @@ func (a *Client) GetPaymentMethodsForAccount(ctx context.Context, params *GetPay
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetPaymentMethodsForAccountOK), nil
+	success, ok := result.(*GetPaymentMethodsForAccountOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getPaymentMethodsForAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1460,7 +1660,14 @@ func (a *Client) GetPaymentsForAccount(ctx context.Context, params *GetPaymentsF
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetPaymentsForAccountOK), nil
+	success, ok := result.(*GetPaymentsForAccountOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getPaymentsForAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1505,7 +1712,14 @@ func (a *Client) ModifyAccountCustomFields(ctx context.Context, params *ModifyAc
 	if err != nil {
 		return nil, err
 	}
-	return result.(*ModifyAccountCustomFieldsNoContent), nil
+	success, ok := result.(*ModifyAccountCustomFieldsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for modifyAccountCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1550,7 +1764,14 @@ func (a *Client) PayAllInvoices(ctx context.Context, params *PayAllInvoicesParam
 	if err != nil {
 		return nil, err
 	}
-	return result.(*PayAllInvoicesNoContent), nil
+	success, ok := result.(*PayAllInvoicesNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for payAllInvoices: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1735,7 +1956,14 @@ func (a *Client) RebalanceExistingCBAOnAccount(ctx context.Context, params *Reba
 	if err != nil {
 		return nil, err
 	}
-	return result.(*RebalanceExistingCBAOnAccountNoContent), nil
+	success, ok := result.(*RebalanceExistingCBAOnAccountNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for rebalanceExistingCBAOnAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1780,7 +2008,14 @@ func (a *Client) RefreshPaymentMethods(ctx context.Context, params *RefreshPayme
 	if err != nil {
 		return nil, err
 	}
-	return result.(*RefreshPaymentMethodsNoContent), nil
+	success, ok := result.(*RefreshPaymentMethodsNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for refreshPaymentMethods: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1825,7 +2060,14 @@ func (a *Client) RemoveEmail(ctx context.Context, params *RemoveEmailParams) (*R
 	if err != nil {
 		return nil, err
 	}
-	return result.(*RemoveEmailNoContent), nil
+	success, ok := result.(*RemoveEmailNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for removeEmail: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1858,7 +2100,14 @@ func (a *Client) SearchAccounts(ctx context.Context, params *SearchAccountsParam
 	if err != nil {
 		return nil, err
 	}
-	return result.(*SearchAccountsOK), nil
+	success, ok := result.(*SearchAccountsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for searchAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1903,7 +2152,14 @@ func (a *Client) SetDefaultPaymentMethod(ctx context.Context, params *SetDefault
 	if err != nil {
 		return nil, err
 	}
-	return result.(*SetDefaultPaymentMethodNoContent), nil
+	success, ok := result.(*SetDefaultPaymentMethodNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for setDefaultPaymentMethod: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1948,7 +2204,14 @@ func (a *Client) TransferChildCreditToParent(ctx context.Context, params *Transf
 	if err != nil {
 		return nil, err
 	}
-	return result.(*TransferChildCreditToParentNoContent), nil
+	success, ok := result.(*TransferChildCreditToParentNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for transferChildCreditToParent: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -1993,7 +2256,14 @@ func (a *Client) UpdateAccount(ctx context.Context, params *UpdateAccountParams)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UpdateAccountNoContent), nil
+	success, ok := result.(*UpdateAccountNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for updateAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

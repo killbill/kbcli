@@ -19,11 +19,41 @@ import (
 )
 
 var (
-	getInvoiceProperties args.Properties
+	getInvoiceProperties           args.Properties
+	getInvoicePaymentsProperties   args.Properties
+	listAccountInvoicesProperties  args.Properties
+	dryRunInvoiceProperties        args.Properties
+	payInvoiceProperties           args.Properties
+	createExternalChargeProperties args.Properties
 )
+
+var invoicePaymentFormatter = cmdlib.Formatter{
+	Columns: []cmdlib.Column{
+		{
+			Name: "NUMBER",
+			Path: "$.paymentNumber",
+		},
+		{
+			Name: "INVOICE",
+			Path: "$.targetInvoiceId",
+		},
+		{
+			Name: "PURCHASE_AMOUNT",
+			Path: "$.purchasedAmount",
+		},
+		{
+			Name: "REFUND_AMOUNT",
+			Path: "$.refundedAmount",
+		},
+	},
+}
 
 var invoiceItemFormatter = cmdlib.Formatter{
 	Columns: []cmdlib.Column{
+		{
+			Name: "INVOICE_ITEM_ID",
+			Path: "$.invoiceItemId",
+		},
 		{
 			Name: "AMOUNT",
 			Path: "$.amount",
@@ -71,7 +101,7 @@ var invoiceFormatter = cmdlib.Formatter{
 }
 
 func listAccountInvoices(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) != 1 {
+	if len(o.Args) < 1 {
 		return cmdlib.ErrorInvalidArgs
 	}
 	accIDOrKey := o.Args[0]
@@ -81,9 +111,15 @@ func listAccountInvoices(ctx context.Context, o *cmdlib.Options) error {
 		return err
 	}
 
-	resp, err := o.Client().Account.GetInvoicesForAccount(ctx, &account.GetInvoicesForAccountParams{
+	params := &account.GetInvoicesForAccountParams{
 		AccountID: acc.AccountID,
-	})
+	}
+
+	if err := args.LoadProperties(params, listAccountInvoicesProperties, o.Args[1:]); err != nil {
+		return err
+	}
+
+	resp, err := o.Client().Account.GetInvoicesForAccount(ctx, params)
 	if err != nil {
 		return err
 	}
@@ -135,12 +171,54 @@ func getInvoice(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
+func getInvoicePayments(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) < 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+	invoiceIDOrNumber := o.Args[0]
+
+	var invoiceId strfmt.UUID
+	if strfmt.IsUUID(invoiceIDOrNumber) {
+		invoiceId = strfmt.UUID(invoiceIDOrNumber)
+	} else {
+		invoiceNumber, err := strconv.ParseInt(invoiceIDOrNumber, 10, 64)
+		if err != nil {
+			return err
+		}
+		invoiceByNumberParams := &invoice.GetInvoiceByNumberParams{
+			InvoiceNumber: int32(invoiceNumber),
+		}
+
+		resp, err := o.Client().Invoice.GetInvoiceByNumber(ctx, invoiceByNumberParams)
+		if err != nil {
+			return err
+		}
+		invoiceId = resp.Payload.InvoiceID
+	}
+
+	withAttempts := true
+	params := &invoice.GetPaymentsForInvoiceParams{
+		InvoiceID:    invoiceId,
+		WithAttempts: &withAttempts,
+	}
+	err := args.LoadProperties(params, getInvoicePaymentsProperties, o.Args[1:])
+	if err != nil {
+		return err
+	}
+	resp, err := o.Client().Invoice.GetPaymentsForInvoice(ctx, params)
+	if err != nil {
+		return err
+	}
+
+	o.Print(resp.Payload)
+
+	return nil
+}
+
 type dryRunInvoiceParams struct {
 	TargetDate     string
 	SubscriptionID string
 }
-
-var dryRunInvoiceProperties args.Properties
 
 func dryRunInvoice(ctx context.Context, o *cmdlib.Options) error {
 	if len(o.Args) < 1 {
@@ -189,12 +267,145 @@ func dryRunInvoice(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
+type payInvoiceParams struct {
+	Amount          string
+	PaymentMethodID string
+}
+
+func payInvoice(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) < 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+	invoiceIDOrNumber := o.Args[0]
+
+	var invoiceId strfmt.UUID
+	var invoiceBalance float64
+	var accountId strfmt.UUID
+	if !strfmt.IsUUID(invoiceIDOrNumber) {
+		invoiceNumber, err := strconv.ParseInt(invoiceIDOrNumber, 10, 64)
+		if err != nil {
+			return err
+		}
+		invoiceByNumberParams := &invoice.GetInvoiceByNumberParams{
+			InvoiceNumber: int32(invoiceNumber),
+		}
+
+		resp, err := o.Client().Invoice.GetInvoiceByNumber(ctx, invoiceByNumberParams)
+		if err != nil {
+			return err
+		}
+		invoiceId = resp.Payload.InvoiceID
+		invoiceBalance = resp.Payload.Balance
+		accountId = resp.Payload.AccountID
+	} else {
+		invoiceId = strfmt.UUID(invoiceIDOrNumber)
+		invoiceByIdParams := &invoice.GetInvoiceParams{
+			InvoiceID: invoiceId,
+		}
+
+		resp, err := o.Client().Invoice.GetInvoice(ctx, invoiceByIdParams)
+		if err != nil {
+			return err
+		}
+		invoiceBalance = resp.Payload.Balance
+		accountId = resp.Payload.AccountID
+	}
+
+	var inputParams payInvoiceParams
+	if err := args.LoadProperties(&inputParams, payInvoiceProperties, o.Args[1:]); err != nil {
+		return err
+	}
+
+	createInstantPaymentParams := &invoice.CreateInstantPaymentParams{
+		InvoiceID: invoiceId,
+		Body: &kbmodel.InvoicePayment{
+			AccountID:       accountId,
+			TargetInvoiceID: invoiceId,
+		},
+		// TODO Not respected because of https://github.com/killbill/kbcli/issues/12
+		ProcessLocationHeader: true,
+	}
+
+	if inputParams.Amount == "" {
+		if invoiceBalance == 0 {
+			o.Output("Nothing to pay\n")
+			return nil
+		}
+		createInstantPaymentParams.Body.PurchasedAmount = invoiceBalance
+	} else {
+		amount, err := strconv.ParseFloat(inputParams.Amount, 64)
+		if err != nil {
+			return err
+		}
+		createInstantPaymentParams.Body.PurchasedAmount = amount
+	}
+
+	if inputParams.PaymentMethodID != "" {
+		createInstantPaymentParams.Body.PaymentMethodID = strfmt.UUID(inputParams.PaymentMethodID)
+	}
+
+	resp, _, err := o.Client().Invoice.CreateInstantPayment(ctx, createInstantPaymentParams)
+	if err != nil {
+		return err
+	}
+
+	if resp != nil {
+		o.Print(resp.Payload)
+	} else {
+		o.Log.Warningf("Unable to trigger payment (missing payment method?)")
+	}
+
+	return nil
+}
+
+type createExternalChargeParams struct {
+	Amount     float64
+	AutoCommit bool
+}
+
+func createExternalCharge(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) < 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+	accIDOrKey := o.Args[0]
+
+	var inputParams createExternalChargeParams
+	if err := args.LoadProperties(&inputParams, createExternalChargeProperties, o.Args[1:]); err != nil {
+		return err
+	}
+
+	p := &invoice.CreateExternalChargesParams{
+		Body: []*kbmodel.InvoiceItem{&kbmodel.InvoiceItem{
+			Amount: inputParams.Amount,
+		}},
+		AutoCommit: &inputParams.AutoCommit,
+	}
+
+	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accIDOrKey)
+	if err != nil {
+		return err
+	}
+	p.AccountID = acc.AccountID
+
+	items, err := o.Client().Invoice.CreateExternalCharges(ctx, p)
+	if err != nil {
+		return err
+	}
+
+	o.Print(items.Payload)
+
+	return nil
+}
+
 func registerInvoicesCommands(r *cmdlib.App) {
 	// Register formatters
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.Invoice{}), invoiceFormatter)
 
 	// Register formatters
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.InvoiceItem{}), invoiceItemFormatter)
+
+	// Register formatters
+	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.InvoicePayment{}), invoicePaymentFormatter)
 
 	// Register top level command
 	r.Register("", cli.Command{
@@ -204,16 +415,22 @@ func registerInvoicesCommands(r *cmdlib.App) {
 	}, nil)
 
 	// List invoices
+	listAccountInvoicesProperties = args.GetProperties(&account.GetInvoicesForAccountParams{})
+	listAccountInvoicesProperties.Remove("AccountID")
+	getInvoicesForAccountUsage := args.GenerateUsageString(&account.GetInvoicesForAccountParams{}, listAccountInvoicesProperties)
 	r.Register("invoices", cli.Command{
-		Name:      "list",
-		Usage:     "list all invoices for a given account",
-		ArgsUsage: "ACCOUNT",
+		Name:  "list",
+		Usage: "list all invoices for a given account",
+		ArgsUsage: fmt.Sprintf(`ACCOUNT %s
+For ex.,
+kbcmd invoices list account3 UnpaidInvoicesOnly=true
+`, getInvoicesForAccountUsage),
 	}, listAccountInvoices)
 
 	// get invoice (Both getInvoice and getInvoiceByNumber share the same properties)
 	getInvoiceProperties = args.GetProperties(&invoice.GetInvoiceParams{})
 	getInvoiceProperties.Remove("InvoiceID")
-	getInvoiceProperties.Get("WithItems").Default = "True"
+
 
 	getInvoiceUsage := args.GenerateUsageString(&invoice.GetInvoiceParams{}, getInvoiceProperties)
 	r.Register("invoices", cli.Command{
@@ -225,6 +442,19 @@ func registerInvoicesCommands(r *cmdlib.App) {
 	   kbcmd invoices get 57f3da8e-6125-43a5-9a38-7b448b15da83
 	   kbcmd invoices get 2`, getInvoiceUsage),
 	}, getInvoice)
+
+	// get invoice payment
+	getInvoicePaymentsProperties = args.GetProperties(&invoice.GetPaymentsForInvoiceParams{})
+	getInvoicePaymentsUsage := args.GenerateUsageString(&invoice.GetPaymentsForInvoiceParams{}, getInvoicePaymentsProperties)
+	r.Register("invoices", cli.Command{
+		Name:  "payments",
+		Usage: "payments invoice",
+		ArgsUsage: fmt.Sprintf(`INVOICE_ID %s
+
+   For e.g.,
+	   kbcmd invoices payments 57f3da8e-6125-43a5-9a38-7b448b15da83
+	   kbcmd invoices payments 2`, getInvoicePaymentsUsage),
+	}, getInvoicePayments)
 
 	// DryRun invoices
 	dryRunInvoiceProperties = args.GetProperties(&dryRunInvoiceParams{})
@@ -239,4 +469,30 @@ kbcmd invoices dry-run account3 TargetDate=2018-05-05
 will generate invoice for the given date. If date is omitted, next upcoming invoice will be generated.
 `, dryRunInvoiceUsage),
 	}, dryRunInvoice)
+
+	// Pay invoice
+	payInvoiceProperties = args.GetProperties(&payInvoiceParams{})
+	payInvoiceUsage := args.GenerateUsageString(&payInvoiceParams{}, payInvoiceProperties)
+	r.Register("invoices", cli.Command{
+		Name:  "pay",
+		Usage: "Trigger a payment for a given invoice",
+		ArgsUsage: fmt.Sprintf(`INVOICE_ID %s
+For ex.,
+kbcmd invoices pay 7fcc7b69-9fdb-4143-98e6-94f3bad4842f Amount=5 PaymentMethodId=d7c14d0e-2368-4214-a522-92ce6e00f535
+`, payInvoiceUsage),
+	}, payInvoice)
+
+	// Create external charge
+	createExternalChargeProperties = args.GetProperties(&createExternalChargeParams{})
+	createExternalChargeUsage := args.GenerateUsageString(&createExternalChargeParams{}, createExternalChargeProperties)
+	r.Register("invoices", cli.Command{
+		Name:  "charge",
+		Usage: "Create an external charge for a given account",
+		ArgsUsage: fmt.Sprintf(`ACCOUNT %s
+For ex.,
+kbcmd invoices charge account3 Amount=10 AutoCommit=false
+
+will generate a DRAFT invoice for $10.
+`, createExternalChargeUsage),
+	}, createExternalCharge)
 }

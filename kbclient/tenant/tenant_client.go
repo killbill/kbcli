@@ -7,6 +7,7 @@ package tenant
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 	"github.com/killbill/kbcli/kbcommon"
@@ -255,7 +256,14 @@ func (a *Client) DeletePerTenantConfiguration(ctx context.Context, params *Delet
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeletePerTenantConfigurationNoContent), nil
+	success, ok := result.(*DeletePerTenantConfigurationNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deletePerTenantConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -300,7 +308,14 @@ func (a *Client) DeletePluginConfiguration(ctx context.Context, params *DeletePl
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeletePluginConfigurationNoContent), nil
+	success, ok := result.(*DeletePluginConfigurationNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deletePluginConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -345,7 +360,14 @@ func (a *Client) DeletePluginPaymentStateMachineConfig(ctx context.Context, para
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeletePluginPaymentStateMachineConfigNoContent), nil
+	success, ok := result.(*DeletePluginPaymentStateMachineConfigNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deletePluginPaymentStateMachineConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -390,7 +412,14 @@ func (a *Client) DeletePushNotificationCallbacks(ctx context.Context, params *De
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeletePushNotificationCallbacksNoContent), nil
+	success, ok := result.(*DeletePushNotificationCallbacksNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deletePushNotificationCallbacks: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -435,7 +464,14 @@ func (a *Client) DeleteUserKeyValue(ctx context.Context, params *DeleteUserKeyVa
 	if err != nil {
 		return nil, err
 	}
-	return result.(*DeleteUserKeyValueNoContent), nil
+	success, ok := result.(*DeleteUserKeyValueNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deleteUserKeyValue: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -468,7 +504,14 @@ func (a *Client) GetAllPluginConfiguration(ctx context.Context, params *GetAllPl
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetAllPluginConfigurationOK), nil
+	success, ok := result.(*GetAllPluginConfigurationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAllPluginConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -501,7 +544,14 @@ func (a *Client) GetPerTenantConfiguration(ctx context.Context, params *GetPerTe
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetPerTenantConfigurationOK), nil
+	success, ok := result.(*GetPerTenantConfigurationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getPerTenantConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -534,7 +584,14 @@ func (a *Client) GetPluginConfiguration(ctx context.Context, params *GetPluginCo
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetPluginConfigurationOK), nil
+	success, ok := result.(*GetPluginConfigurationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getPluginConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -567,7 +624,14 @@ func (a *Client) GetPluginPaymentStateMachineConfig(ctx context.Context, params 
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetPluginPaymentStateMachineConfigOK), nil
+	success, ok := result.(*GetPluginPaymentStateMachineConfigOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getPluginPaymentStateMachineConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -600,7 +664,14 @@ func (a *Client) GetPushNotificationCallbacks(ctx context.Context, params *GetPu
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetPushNotificationCallbacksOK), nil
+	success, ok := result.(*GetPushNotificationCallbacksOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getPushNotificationCallbacks: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -633,7 +704,14 @@ func (a *Client) GetTenant(ctx context.Context, params *GetTenantParams) (*GetTe
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetTenantOK), nil
+	success, ok := result.(*GetTenantOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getTenant: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -666,7 +744,14 @@ func (a *Client) GetTenantByAPIKey(ctx context.Context, params *GetTenantByAPIKe
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetTenantByAPIKeyOK), nil
+	success, ok := result.(*GetTenantByAPIKeyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getTenantByApiKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -699,7 +784,14 @@ func (a *Client) GetUserKeyValue(ctx context.Context, params *GetUserKeyValuePar
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetUserKeyValueOK), nil
+	success, ok := result.(*GetUserKeyValueOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getUserKeyValue: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

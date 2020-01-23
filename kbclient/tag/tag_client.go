@@ -7,6 +7,7 @@ package tag
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 
@@ -92,7 +93,14 @@ func (a *Client) GetTagAuditLogsWithHistory(ctx context.Context, params *GetTagA
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetTagAuditLogsWithHistoryOK), nil
+	success, ok := result.(*GetTagAuditLogsWithHistoryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getTagAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -125,7 +133,14 @@ func (a *Client) GetTags(ctx context.Context, params *GetTagsParams) (*GetTagsOK
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetTagsOK), nil
+	success, ok := result.(*GetTagsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
@@ -158,7 +173,14 @@ func (a *Client) SearchTags(ctx context.Context, params *SearchTagsParams) (*Sea
 	if err != nil {
 		return nil, err
 	}
-	return result.(*SearchTagsOK), nil
+	success, ok := result.(*SearchTagsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for searchTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

@@ -6,10 +6,9 @@ package invoice
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -82,7 +81,7 @@ type UploadCatalogTranslationParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 	/*Body*/
-	Body *string
+	Body string
 	/*DeleteIfExists*/
 	DeleteIfExists *bool
 	/*Locale*/
@@ -162,13 +161,13 @@ func (o *UploadCatalogTranslationParams) SetXKillbillReason(xKillbillReason *str
 }
 
 // WithBody adds the body to the upload catalog translation params
-func (o *UploadCatalogTranslationParams) WithBody(body *string) *UploadCatalogTranslationParams {
+func (o *UploadCatalogTranslationParams) WithBody(body string) *UploadCatalogTranslationParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the upload catalog translation params
-func (o *UploadCatalogTranslationParams) SetBody(body *string) {
+func (o *UploadCatalogTranslationParams) SetBody(body string) {
 	o.Body = body
 }
 
@@ -225,10 +224,8 @@ func (o *UploadCatalogTranslationParams) WriteToRequest(r runtime.ClientRequest,
 
 	}
 
-	if o.Body != nil {
-		if err := r.SetBodyParam(o.Body); err != nil {
-			return err
-		}
+	if err := r.SetBodyParam(o.Body); err != nil {
+		return err
 	}
 
 	if o.DeleteIfExists != nil {

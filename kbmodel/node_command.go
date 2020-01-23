@@ -19,7 +19,7 @@ import (
 type NodeCommand struct {
 
 	// is system command type
-	IsSystemCommandType *bool `json:"isSystemCommandType,omitempty"`
+	IsSystemCommandType bool `json:"isSystemCommandType,omitempty"`
 
 	// node command properties
 	NodeCommandProperties []*NodeCommandProperty `json:"nodeCommandProperties"`
@@ -33,7 +33,6 @@ func (m *NodeCommand) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateNodeCommandProperties(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -50,20 +49,17 @@ func (m *NodeCommand) validateNodeCommandProperties(formats strfmt.Registry) err
 	}
 
 	for i := 0; i < len(m.NodeCommandProperties); i++ {
-
 		if swag.IsZero(m.NodeCommandProperties[i]) { // not required
 			continue
 		}
 
 		if m.NodeCommandProperties[i] != nil {
-
 			if err := m.NodeCommandProperties[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("nodeCommandProperties" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

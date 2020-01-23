@@ -60,6 +60,10 @@ func (o *GetInvoiceTemplateOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/template][%d] getInvoiceTemplateOK  %+v", 200, o.Payload)
 }
 
+func (o *GetInvoiceTemplateOK) GetPayload() string {
+	return o.Payload
+}
+
 func (o *GetInvoiceTemplateOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	// response payload

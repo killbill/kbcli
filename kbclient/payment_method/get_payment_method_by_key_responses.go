@@ -62,6 +62,10 @@ func (o *GetPaymentMethodByKeyOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentMethods][%d] getPaymentMethodByKeyOK  %+v", 200, o.Payload)
 }
 
+func (o *GetPaymentMethodByKeyOK) GetPayload() *kbmodel.PaymentMethod {
+	return o.Payload
+}
+
 func (o *GetPaymentMethodByKeyOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(kbmodel.PaymentMethod)

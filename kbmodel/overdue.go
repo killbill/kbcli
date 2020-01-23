@@ -30,7 +30,6 @@ func (m *Overdue) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateOverdueStates(formats); err != nil {
-		// prop
 		res = append(res, err)
 	}
 
@@ -47,20 +46,17 @@ func (m *Overdue) validateOverdueStates(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.OverdueStates); i++ {
-
 		if swag.IsZero(m.OverdueStates[i]) { // not required
 			continue
 		}
 
 		if m.OverdueStates[i] != nil {
-
 			if err := m.OverdueStates[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("overdueStates" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
-
 		}
 
 	}

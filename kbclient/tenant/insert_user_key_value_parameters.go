@@ -6,10 +6,9 @@ package tenant
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"net/http"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -69,7 +68,7 @@ type InsertUserKeyValueParams struct {
 	/*XKillbillReason*/
 	XKillbillReason *string
 	/*Body*/
-	Body *string
+	Body string
 	/*KeyName*/
 	KeyName string
 
@@ -147,13 +146,13 @@ func (o *InsertUserKeyValueParams) SetXKillbillReason(xKillbillReason *string) {
 }
 
 // WithBody adds the body to the insert user key value params
-func (o *InsertUserKeyValueParams) WithBody(body *string) *InsertUserKeyValueParams {
+func (o *InsertUserKeyValueParams) WithBody(body string) *InsertUserKeyValueParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the insert user key value params
-func (o *InsertUserKeyValueParams) SetBody(body *string) {
+func (o *InsertUserKeyValueParams) SetBody(body string) {
 	o.Body = body
 }
 
@@ -199,10 +198,8 @@ func (o *InsertUserKeyValueParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 	}
 
-	if o.Body != nil {
-		if err := r.SetBodyParam(o.Body); err != nil {
-			return err
-		}
+	if err := r.SetBodyParam(o.Body); err != nil {
+		return err
 	}
 
 	// path param keyName

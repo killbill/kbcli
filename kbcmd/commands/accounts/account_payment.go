@@ -2,7 +2,6 @@ package accounts
 
 import (
 	"context"
-	"fmt"
 	"reflect"
 	"strconv"
 
@@ -37,6 +36,31 @@ var paymentMethodFormatter = cmdlib.Formatter{
 }
 
 var addAccountPaymentMethodProperties args.Properties
+
+func listAccountPayments(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) != 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+
+	accIDOrKey := o.Args[0]
+
+	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accIDOrKey)
+	if err != nil {
+		return err
+	}
+
+	withAttempts := true
+	resp, err := o.Client().Account.GetPaymentsForAccount(ctx, &account.GetPaymentsForAccountParams{
+		AccountID:    acc.AccountID,
+		WithAttempts: &withAttempts,
+	})
+	if err != nil {
+		return err
+	}
+
+	o.Print(resp.Payload)
+	return err
+}
 
 func listAccountPaymentMethods(ctx context.Context, o *cmdlib.Options) error {
 	if len(o.Args) != 1 {
@@ -80,28 +104,45 @@ func getAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 }
 
 func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) < 3 {
+	if len(o.Args) < 4 {
 		return cmdlib.ErrorInvalidArgs
 	}
 
 	accKey := o.Args[0]
 	method := o.Args[1]
-	isDefault, err := strconv.ParseBool(o.Args[2])
+	externalKey := o.Args[2]
+	isDefault, err := strconv.ParseBool(o.Args[3])
 	if err != nil {
 		return err
+	}
+
+	var payAllUnpaidInvoices bool
+	if len(o.Args) > 4 {
+		payAllUnpaidInvoices, err = strconv.ParseBool(o.Args[4])
+		if err != nil {
+			return err
+		}
+	} else {
+		payAllUnpaidInvoices = false
 	}
 
 	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accKey)
 	if err != nil {
 		return err
 	}
-	pluginProperties, err := args.ParseArgs(o.Args[3:])
-	if err != nil {
-		return err
+
+	var pluginProperties []args.Input
+	if len(o.Args) > 5 {
+		pluginProperties, err = args.ParseArgs(o.Args[5:])
+		if err != nil {
+			return err
+		}
 	}
+
 	pm := &kbmodel.PaymentMethod{
-		PluginName: method,
-		PluginInfo: &kbmodel.PaymentMethodPluginDetail{},
+		ExternalKey: externalKey,
+		PluginName:  method,
+		PluginInfo:  &kbmodel.PaymentMethodPluginDetail{},
 	}
 	for _, pp := range pluginProperties {
 		pm.PluginInfo.Properties = append(pm.PluginInfo.Properties, &kbmodel.PluginProperty{
@@ -114,6 +155,7 @@ func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 		AccountID:             acc.AccountID,
 		Body:                  pm,
 		IsDefault:             &isDefault,
+		PayAllUnpaidInvoices:  &payAllUnpaidInvoices,
 		ProcessLocationHeader: true,
 	})
 	if err != nil {
@@ -126,37 +168,25 @@ func addAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
 }
 
 func removeAccountPaymentMethod(ctx context.Context, o *cmdlib.Options) error {
-	if len(o.Args) != 2 {
+	if len(o.Args) < 1 {
 		return cmdlib.ErrorInvalidArgs
 	}
 
-	accKey := o.Args[0]
-	method := o.Args[1]
-
-	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accKey)
-	if err != nil {
-		return err
-	}
-	resp, err := o.Client().Account.GetPaymentMethodsForAccount(ctx, &account.GetPaymentMethodsForAccountParams{
-		AccountID: acc.AccountID,
-	})
-	if err != nil {
-		return err
-	}
-
-	var pm *kbmodel.PaymentMethod
-	for _, m := range resp.Payload {
-		if m.PluginName == method {
-			pm = m
-			break
+	paymentMethodID := o.Args[0]
+	var force bool
+	if len(o.Args) > 1 {
+		forceBool, err := strconv.ParseBool(o.Args[1])
+		if err != nil {
+			return err
+		} else {
+			force = forceBool
 		}
+	} else {
+		force = false
 	}
-	if pm == nil {
-		return fmt.Errorf("payment method %s not found for account %s", method, accKey)
-	}
-
-	_, err = o.Client().PaymentMethod.DeletePaymentMethod(ctx, &payment_method.DeletePaymentMethodParams{
-		PaymentMethodID: pm.PaymentMethodID,
+	_, err := o.Client().PaymentMethod.DeletePaymentMethod(ctx, &payment_method.DeletePaymentMethodParams{
+		PaymentMethodID:        strfmt.UUID(paymentMethodID),
+		ForceDefaultPmDeletion: &force,
 	})
 
 	return err
@@ -167,6 +197,21 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 	cmdlib.AddFormatter(reflect.TypeOf(&kbmodel.PaymentMethod{}), paymentMethodFormatter)
 
 	addAccountPaymentMethodProperties = args.GetProperties(&kbmodel.PaymentMethod{})
+
+	// Payments
+	r.Register("accounts", cli.Command{
+		Name:    "payments",
+		Aliases: []string{},
+		Usage:   "Payments related commands",
+	}, nil)
+
+	// List payments
+	r.Register("accounts.payments", cli.Command{
+		Name:      "list",
+		Aliases:   []string{"ls"},
+		Usage:     "List payments for the given account",
+		ArgsUsage: `ACCOUNT`,
+	}, listAccountPayments)
 
 	// payment methods
 	r.Register("accounts", cli.Command{
@@ -194,10 +239,10 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 	r.Register("accounts.payment-methods", cli.Command{
 		Name:  "add",
 		Usage: "Add new payment method",
-		ArgsUsage: `ACCOUNT METHOD IS_DEFAULT [Property1=Value1] ...
+		ArgsUsage: `ACCOUNT PLUGIN_NAME EXTERNAL_KEY IS_DEFAULT PAY_ALL_UNPAID_INVOICES [Property1=Value1] ...
 
    For ex.,
-      kbcmd accounts payment-methods add johndoe killbill-stripe true token=tok_1CidZ7HGlIo9NLGOy7sPvbsz
+      kbcmd accounts payment-methods add johndoe killbill-stripe visa true false token=tok_1CidZ7HGlIo9NLGOy7sPvbsz
 		`,
 	}, addAccountPaymentMethod)
 
@@ -206,6 +251,6 @@ func registerAccountPaymentCommands(r *cmdlib.App) {
 		Name:      "remove",
 		Aliases:   []string{"rm"},
 		Usage:     "Remove payment method",
-		ArgsUsage: `ACCOUNT METHOD`,
+		ArgsUsage: `PM_METHOD_ID [FORCE]`,
 	}, removeAccountPaymentMethod)
 }

@@ -7,6 +7,7 @@ package credit
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 	"github.com/killbill/kbcli/kbcommon"
@@ -49,9 +50,9 @@ type Client struct {
 // ICredit - interface for Credit client.
 type ICredit interface {
 	/*
-		CreateCredit creates a credit
+		CreateCredits creates a credit
 	*/
-	CreateCredit(ctx context.Context, params *CreateCreditParams) (*CreateCreditCreated, error)
+	CreateCredits(ctx context.Context, params *CreateCreditsParams) (*CreateCreditsCreated, error)
 
 	/*
 		GetCredit retrieves a credit by id
@@ -60,14 +61,14 @@ type ICredit interface {
 }
 
 /*
-CreateCredit creates a credit
+CreateCredits creates a credit
 */
-func (a *Client) CreateCredit(ctx context.Context, params *CreateCreditParams) (*CreateCreditCreated, error) {
+func (a *Client) CreateCredits(ctx context.Context, params *CreateCreditsParams) (*CreateCreditsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewCreateCreditParams()
+		params = NewCreateCreditsParams()
 	}
-	getParams := NewCreateCreditParams()
+	getParams := NewCreateCreditsParams()
 	getParams.Context = ctx
 	params.Context = ctx
 	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
@@ -88,14 +89,14 @@ func (a *Client) CreateCredit(ctx context.Context, params *CreateCreditParams) (
 	getParams.WithStackTrace = params.WithStackTrace
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createCredit",
+		ID:                 "createCredits",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/credits",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
-		Reader:             &CreateCreditReader{formats: a.formats},
+		Reader:             &CreateCreditsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -103,21 +104,21 @@ func (a *Client) CreateCredit(ctx context.Context, params *CreateCreditParams) (
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateCreditCreated)
+	createdResult := result.(*CreateCreditsCreated)
 	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
 	if !params.ProcessLocationHeader || location == "" {
 		return createdResult, nil
 	}
 
 	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createCredit",
+		ID:                 "createCredits",
 		Method:             "GET",
 		PathPattern:        location,
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             getParams,
-		Reader:             &CreateCreditReader{formats: a.formats},
+		Reader:             &CreateCreditsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            getParams.Context,
 		Client:             getParams.HTTPClient,
@@ -125,7 +126,7 @@ func (a *Client) CreateCredit(ctx context.Context, params *CreateCreditParams) (
 	if err != nil {
 		return nil, err
 	}
-	return getResult.(*CreateCreditCreated), nil
+	return getResult.(*CreateCreditsCreated), nil
 
 }
 
@@ -158,7 +159,14 @@ func (a *Client) GetCredit(ctx context.Context, params *GetCreditParams) (*GetCr
 	if err != nil {
 		return nil, err
 	}
-	return result.(*GetCreditOK), nil
+	success, ok := result.(*GetCreditOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getCredit: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 
