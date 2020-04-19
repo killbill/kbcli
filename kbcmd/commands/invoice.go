@@ -8,13 +8,13 @@ import (
 	"time"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/kbclient/account"
-	"github.com/killbill/kbcli/kbclient/invoice"
+	"github.com/killbill/kbcli/v2/kbclient/account"
+	"github.com/killbill/kbcli/v2/kbclient/invoice"
 
-	"github.com/killbill/kbcli/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/kbcmd/cmdlib/args"
-	"github.com/killbill/kbcli/kbcmd/kblib"
-	"github.com/killbill/kbcli/kbmodel"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib/args"
+	"github.com/killbill/kbcli/v2/kbcmd/kblib"
+	"github.com/killbill/kbcli/v2/kbmodel"
 	"github.com/urfave/cli"
 )
 
@@ -430,7 +430,6 @@ kbcmd invoices list account3 UnpaidInvoicesOnly=true
 	// get invoice (Both getInvoice and getInvoiceByNumber share the same properties)
 	getInvoiceProperties = args.GetProperties(&invoice.GetInvoiceParams{})
 	getInvoiceProperties.Remove("InvoiceID")
-
 
 	getInvoiceUsage := args.GenerateUsageString(&invoice.GetInvoiceParams{}, getInvoiceProperties)
 	r.Register("invoices", cli.Command{

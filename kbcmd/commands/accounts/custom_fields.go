@@ -5,12 +5,12 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/kbclient"
-	"github.com/killbill/kbcli/kbmodel"
+	"github.com/killbill/kbcli/v2/kbclient"
+	"github.com/killbill/kbcli/v2/kbmodel"
 
-	"github.com/killbill/kbcli/kbclient/account"
-	"github.com/killbill/kbcli/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/kbcmd/kblib"
+	"github.com/killbill/kbcli/v2/kbclient/account"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v2/kbcmd/kblib"
 	"github.com/urfave/cli"
 )
 
@@ -78,8 +78,8 @@ func addCustomField(ctx context.Context, o *cmdlib.Options) error {
 	}
 
 	resp, err := o.Client().Account.CreateAccountCustomFields(ctx, &account.CreateAccountCustomFieldsParams{
-		AccountID: acc.AccountID,
-		Body:      []*kbmodel.CustomField{cf},
+		AccountID:             acc.AccountID,
+		Body:                  []*kbmodel.CustomField{cf},
 		ProcessLocationHeader: true,
 	})
 	if err != nil {

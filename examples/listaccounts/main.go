@@ -8,8 +8,8 @@ import (
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/kbclient"
-	"github.com/killbill/kbcli/kbclient/account"
+	"github.com/killbill/kbcli/v2/kbclient"
+	"github.com/killbill/kbcli/v2/kbclient/account"
 )
 
 // NewClient creates new kill bill client

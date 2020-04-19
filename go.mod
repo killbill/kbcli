@@ -1,4 +1,4 @@
-module github.com/killbill/kbcli
+module github.com/killbill/kbcli/v2
 
 go 1.13
 

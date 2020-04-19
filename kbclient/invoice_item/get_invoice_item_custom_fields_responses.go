@@ -10,11 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/kbcommon"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	kbmodel "github.com/killbill/kbcli/kbmodel"
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetInvoiceItemCustomFieldsReader is a Reader for the GetInvoiceItemCustomFields structure.

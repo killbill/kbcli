@@ -6,11 +6,11 @@ import (
 
 	"github.com/go-openapi/strfmt"
 
-	"github.com/killbill/kbcli/kbclient/account"
-	"github.com/killbill/kbcli/kbclient/bundle"
-	"github.com/killbill/kbcli/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/kbcmd/kblib"
-	"github.com/killbill/kbcli/kbmodel"
+	"github.com/killbill/kbcli/v2/kbclient/account"
+	"github.com/killbill/kbcli/v2/kbclient/bundle"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v2/kbcmd/kblib"
+	"github.com/killbill/kbcli/v2/kbmodel"
 	"github.com/urfave/cli"
 )
 
