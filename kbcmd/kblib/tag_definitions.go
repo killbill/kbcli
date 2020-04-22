@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/kbclient"
-	"github.com/killbill/kbcli/kbclient/tag_definition"
-	"github.com/killbill/kbcli/kbmodel"
+	"github.com/killbill/kbcli/v2/kbclient"
+	"github.com/killbill/kbcli/v2/kbclient/tag_definition"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetTagDefinitions returns list of tag definitions

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/killbill/kbcli/kbcmd/cmdlib/args"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib/args"
 
-	"github.com/killbill/kbcli/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/client"
 	"github.com/urfave/cli"

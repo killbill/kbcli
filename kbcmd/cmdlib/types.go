@@ -7,9 +7,9 @@ import (
 	"io"
 	"strings"
 
-	"github.com/killbill/kbcli/kbclient/debug"
+	"github.com/killbill/kbcli/v2/kbclient/debug"
 
-	"github.com/killbill/kbcli/kbclient"
+	"github.com/killbill/kbcli/v2/kbclient"
 )
 
 // Options for command line

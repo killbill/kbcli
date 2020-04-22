@@ -16,7 +16,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	kbmodel "github.com/killbill/kbcli/kbmodel"
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // NewModifyBundleCustomFieldsParams creates a new ModifyBundleCustomFieldsParams object

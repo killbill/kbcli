@@ -16,7 +16,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	kbmodel "github.com/killbill/kbcli/kbmodel"
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // NewCreateMigrationInvoiceParams creates a new CreateMigrationInvoiceParams object

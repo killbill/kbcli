@@ -1,9 +1,9 @@
 package commands
 
 import (
-	"github.com/killbill/kbcli/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/kbcmd/commands/accounts"
-	"github.com/killbill/kbcli/kbcmd/commands/subscriptions"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v2/kbcmd/commands/accounts"
+	"github.com/killbill/kbcli/v2/kbcmd/commands/subscriptions"
 )
 
 // RegisterAll registers all commands

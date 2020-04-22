@@ -6,13 +6,13 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/killbill/kbcli/kbcmd/kblib"
+	"github.com/killbill/kbcli/v2/kbcmd/kblib"
 
-	"github.com/killbill/kbcli/kbclient/tag_definition"
+	"github.com/killbill/kbcli/v2/kbclient/tag_definition"
 
-	"github.com/killbill/kbcli/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/kbcmd/cmdlib/args"
-	"github.com/killbill/kbcli/kbmodel"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib/args"
+	"github.com/killbill/kbcli/v2/kbmodel"
 	"github.com/urfave/cli"
 )
 
@@ -105,7 +105,7 @@ func createTagDefinition(ctx context.Context, o *cmdlib.Options) error {
 		IsControlTag:          tda.IsControlTag,
 	}
 	resp, err := o.Client().TagDefinition.CreateTagDefinition(ctx, &tag_definition.CreateTagDefinitionParams{
-		Body: t,
+		Body:                  t,
 		ProcessLocationHeader: true,
 	})
 	if err != nil {

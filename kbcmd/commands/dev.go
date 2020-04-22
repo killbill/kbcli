@@ -4,11 +4,11 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/killbill/kbcli/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/kbclient/debug"
-	"github.com/killbill/kbcli/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v2/kbclient/debug"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
 	"github.com/urfave/cli"
 )
 

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/killbill/kbcli/kbclient/tenant"
+	"github.com/killbill/kbcli/v2/kbclient/tenant"
 
-	"github.com/killbill/kbcli/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/kbmodel"
+	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v2/kbmodel"
 	"github.com/urfave/cli"
 )
 
