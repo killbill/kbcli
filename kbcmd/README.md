@@ -12,12 +12,18 @@ For users new to go, you need to have go compiler installed. If not,
 
 ## Installing kbcmd
 ```bash
-go get -u github.com/killbill/kbcli/kbcmd
-go install github.com/killbill/kbcli/kbcmd
+go get -u github.com/killbill/kbcli
+export GOPATH=~/go
+cd $GOPATH/src/github.com/killbill/kbcli/kbcmd
+go build
+```
+Install the kbcmd binary somewhere in the PATH.
 
 # For bash completion
+```bash
 source $GOPATH/src/github.com/killbill/kbcli/kbcmd/bash-autocomplete
 ```
+On Linux the autocomplete file can be copied to /etc/bash_completion.d/kbcmd
 
 ## Running kbcmd
 ```bash
