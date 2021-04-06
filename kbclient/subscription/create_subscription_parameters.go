@@ -28,12 +28,14 @@ func NewCreateSubscriptionParams() *CreateSubscriptionParams {
 		callTimeoutSecDefault             = int64(3)
 		migratedDefault                   = bool(false)
 		renameKeyIfExistsAndUnusedDefault = bool(true)
+		skipResponseDefault               = bool(false)
 	)
 	return &CreateSubscriptionParams{
 		CallCompletion:             &callCompletionDefault,
 		CallTimeoutSec:             &callTimeoutSecDefault,
 		Migrated:                   &migratedDefault,
 		RenameKeyIfExistsAndUnused: &renameKeyIfExistsAndUnusedDefault,
+		SkipResponse:               &skipResponseDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -47,12 +49,14 @@ func NewCreateSubscriptionParamsWithTimeout(timeout time.Duration) *CreateSubscr
 		callTimeoutSecDefault             = int64(3)
 		migratedDefault                   = bool(false)
 		renameKeyIfExistsAndUnusedDefault = bool(true)
+		skipResponseDefault               = bool(false)
 	)
 	return &CreateSubscriptionParams{
 		CallCompletion:             &callCompletionDefault,
 		CallTimeoutSec:             &callTimeoutSecDefault,
 		Migrated:                   &migratedDefault,
 		RenameKeyIfExistsAndUnused: &renameKeyIfExistsAndUnusedDefault,
+		SkipResponse:               &skipResponseDefault,
 
 		timeout: timeout,
 	}
@@ -66,12 +70,14 @@ func NewCreateSubscriptionParamsWithContext(ctx context.Context) *CreateSubscrip
 		callTimeoutSecDefault             = int64(3)
 		migratedDefault                   = bool(false)
 		renameKeyIfExistsAndUnusedDefault = bool(true)
+		skipResponseDefault               = bool(false)
 	)
 	return &CreateSubscriptionParams{
 		CallCompletion:             &callCompletionDefault,
 		CallTimeoutSec:             &callTimeoutSecDefault,
 		Migrated:                   &migratedDefault,
 		RenameKeyIfExistsAndUnused: &renameKeyIfExistsAndUnusedDefault,
+		SkipResponse:               &skipResponseDefault,
 
 		Context: ctx,
 	}
@@ -85,12 +91,14 @@ func NewCreateSubscriptionParamsWithHTTPClient(client *http.Client) *CreateSubsc
 		callTimeoutSecDefault             = int64(3)
 		migratedDefault                   = bool(false)
 		renameKeyIfExistsAndUnusedDefault = bool(true)
+		skipResponseDefault               = bool(false)
 	)
 	return &CreateSubscriptionParams{
 		CallCompletion:             &callCompletionDefault,
 		CallTimeoutSec:             &callTimeoutSecDefault,
 		Migrated:                   &migratedDefault,
 		RenameKeyIfExistsAndUnused: &renameKeyIfExistsAndUnusedDefault,
+		SkipResponse:               &skipResponseDefault,
 		HTTPClient:                 client,
 	}
 }
@@ -122,8 +130,11 @@ type CreateSubscriptionParams struct {
 	PluginProperty []string
 	/*RenameKeyIfExistsAndUnused*/
 	RenameKeyIfExistsAndUnused *bool
+	/*SkipResponse*/
+	SkipResponse *bool
 
-	WithStackTrace        *bool // If set, returns full stack trace with error message
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
 	HTTPClient            *http.Client
@@ -284,6 +295,17 @@ func (o *CreateSubscriptionParams) SetRenameKeyIfExistsAndUnused(renameKeyIfExis
 	o.RenameKeyIfExistsAndUnused = renameKeyIfExistsAndUnused
 }
 
+// WithSkipResponse adds the skipResponse to the create subscription params
+func (o *CreateSubscriptionParams) WithSkipResponse(skipResponse *bool) *CreateSubscriptionParams {
+	o.SetSkipResponse(skipResponse)
+	return o
+}
+
+// SetSkipResponse adds the skipResponse to the create subscription params
+func (o *CreateSubscriptionParams) SetSkipResponse(skipResponse *bool) {
+	o.SkipResponse = skipResponse
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *CreateSubscriptionParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -423,6 +445,29 @@ func (o *CreateSubscriptionParams) WriteToRequest(r runtime.ClientRequest, reg s
 			}
 		}
 
+	}
+
+	if o.SkipResponse != nil {
+
+		// query param skipResponse
+		var qrSkipResponse bool
+		if o.SkipResponse != nil {
+			qrSkipResponse = *o.SkipResponse
+		}
+		qSkipResponse := swag.FormatBool(qrSkipResponse)
+		if qSkipResponse != "" {
+			if err := r.SetQueryParam("skipResponse", qSkipResponse); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
 	}
 
 	// header param withStackTrace

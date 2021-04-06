@@ -89,7 +89,8 @@ type GetAccountTagsParams struct {
 	/*IncludedDeleted*/
 	IncludedDeleted *bool
 
-	WithStackTrace        *bool // If set, returns full stack trace with error message
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
 	HTTPClient            *http.Client
@@ -205,6 +206,13 @@ func (o *GetAccountTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 			}
 		}
 
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
 	}
 
 	// header param withStackTrace

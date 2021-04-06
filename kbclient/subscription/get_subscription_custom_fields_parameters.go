@@ -78,7 +78,8 @@ type GetSubscriptionCustomFieldsParams struct {
 	/*SubscriptionID*/
 	SubscriptionID strfmt.UUID
 
-	WithStackTrace        *bool // If set, returns full stack trace with error message
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
 	HTTPClient            *http.Client
@@ -167,6 +168,13 @@ func (o *GetSubscriptionCustomFieldsParams) WriteToRequest(r runtime.ClientReque
 	// path param subscriptionId
 	if err := r.SetPathParam("subscriptionId", o.SubscriptionID.String()); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
 	}
 
 	// header param withStackTrace

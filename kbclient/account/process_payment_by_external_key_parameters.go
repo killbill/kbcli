@@ -81,7 +81,8 @@ type ProcessPaymentByExternalKeyParams struct {
 	/*PluginProperty*/
 	PluginProperty []string
 
-	WithStackTrace        *bool // If set, returns full stack trace with error message
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
 	HTTPClient            *http.Client
@@ -285,6 +286,13 @@ func (o *ProcessPaymentByExternalKeyParams) WriteToRequest(r runtime.ClientReque
 	// query array param pluginProperty
 	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
 	}
 
 	// header param withStackTrace

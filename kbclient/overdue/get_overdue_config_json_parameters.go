@@ -60,7 +60,8 @@ func NewGetOverdueConfigJSONParamsWithHTTPClient(client *http.Client) *GetOverdu
 for the get overdue config Json operation typically these are written to a http.Request
 */
 type GetOverdueConfigJSONParams struct {
-	WithStackTrace        *bool // If set, returns full stack trace with error message
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
 	HTTPClient            *http.Client
@@ -107,6 +108,13 @@ func (o *GetOverdueConfigJSONParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
 
 	// header param withStackTrace
 	if o.WithStackTrace != nil && *o.WithStackTrace {
