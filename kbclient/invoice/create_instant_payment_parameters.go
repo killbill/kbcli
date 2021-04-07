@@ -84,6 +84,8 @@ type CreateInstantPaymentParams struct {
 	XKillbillReason *string
 	/*Body*/
 	Body *kbmodel.InvoicePayment
+	/*ControlPluginName*/
+	ControlPluginName []string
 	/*ExternalPayment*/
 	ExternalPayment *bool
 	/*InvoiceID*/
@@ -91,7 +93,8 @@ type CreateInstantPaymentParams struct {
 	/*PluginProperty*/
 	PluginProperty []string
 
-	WithStackTrace        *bool // If set, returns full stack trace with error message
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
 	HTTPClient            *http.Client
@@ -175,6 +178,17 @@ func (o *CreateInstantPaymentParams) SetBody(body *kbmodel.InvoicePayment) {
 	o.Body = body
 }
 
+// WithControlPluginName adds the controlPluginName to the create instant payment params
+func (o *CreateInstantPaymentParams) WithControlPluginName(controlPluginName []string) *CreateInstantPaymentParams {
+	o.SetControlPluginName(controlPluginName)
+	return o
+}
+
+// SetControlPluginName adds the controlPluginName to the create instant payment params
+func (o *CreateInstantPaymentParams) SetControlPluginName(controlPluginName []string) {
+	o.ControlPluginName = controlPluginName
+}
+
 // WithExternalPayment adds the externalPayment to the create instant payment params
 func (o *CreateInstantPaymentParams) WithExternalPayment(externalPayment *bool) *CreateInstantPaymentParams {
 	o.SetExternalPayment(externalPayment)
@@ -245,6 +259,14 @@ func (o *CreateInstantPaymentParams) WriteToRequest(r runtime.ClientRequest, reg
 		}
 	}
 
+	valuesControlPluginName := o.ControlPluginName
+
+	joinedControlPluginName := swag.JoinByFormat(valuesControlPluginName, "multi")
+	// query array param controlPluginName
+	if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+		return err
+	}
+
 	if o.ExternalPayment != nil {
 
 		// query param externalPayment
@@ -272,6 +294,13 @@ func (o *CreateInstantPaymentParams) WriteToRequest(r runtime.ClientRequest, reg
 	// query array param pluginProperty
 	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
 	}
 
 	// header param withStackTrace

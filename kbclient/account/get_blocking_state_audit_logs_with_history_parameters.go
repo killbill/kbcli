@@ -64,7 +64,8 @@ type GetBlockingStateAuditLogsWithHistoryParams struct {
 	/*BlockingID*/
 	BlockingID strfmt.UUID
 
-	WithStackTrace        *bool // If set, returns full stack trace with error message
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
 	HTTPClient            *http.Client
@@ -126,6 +127,13 @@ func (o *GetBlockingStateAuditLogsWithHistoryParams) WriteToRequest(r runtime.Cl
 	// path param blockingId
 	if err := r.SetPathParam("blockingId", o.BlockingID.String()); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
 	}
 
 	// header param withStackTrace

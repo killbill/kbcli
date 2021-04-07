@@ -265,6 +265,8 @@ type KillbillDefaults struct {
 	Comment *string
 	// XKillbillReason property
 	Reason *string
+	// withProfilingInfo property
+	WithProfilingInfo *string
 	// withStackTrace property
 	WithStackTrace *bool
 }
@@ -282,6 +284,11 @@ func (d KillbillDefaults) XKillbillComment() *string {
 // Default Reason. If not set explicitly in params, this will be used.
 func (d KillbillDefaults) XKillbillReason() *string {
 	return d.Reason
+}
+
+// Default WithProfilingInfo. If not set explicitly in params, this will be used.
+func (d KillbillDefaults) KillbillWithProfilingInfo() *string {
+	return d.WithProfilingInfo
 }
 
 // Default WithStackTrace. If not set explicitly in params, this will be used.

@@ -72,7 +72,8 @@ type CreateTransactionTagsParams struct {
 	/*TransactionID*/
 	TransactionID strfmt.UUID
 
-	WithStackTrace        *bool // If set, returns full stack trace with error message
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
 	timeout               time.Duration
 	Context               context.Context
 	HTTPClient            *http.Client
@@ -207,6 +208,13 @@ func (o *CreateTransactionTagsParams) WriteToRequest(r runtime.ClientRequest, re
 	// path param transactionId
 	if err := r.SetPathParam("transactionId", o.TransactionID.String()); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
 	}
 
 	// header param withStackTrace
