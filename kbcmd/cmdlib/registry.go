@@ -168,7 +168,7 @@ func (r *App) toAction(fn HandlerFn) func(c *cli.Context) error {
 		o := *r.o
 		o.Args = c.Args()
 
-		trp := httptransport.New(o.Host, "", nil)
+		trp := httptransport.New(o.Host, "", []string{"http", "https"})
 		// Add text/xml producer which is not handled by openapi runtime.
 		trp.Producers["text/xml"] = runtime.TextProducer()
 		trp.Consumers["text/xml"] = runtime.TextConsumer()
