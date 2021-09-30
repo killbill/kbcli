@@ -172,6 +172,11 @@ func (r *App) toAction(fn HandlerFn) func(c *cli.Context) error {
 		// Add text/xml producer which is not handled by openapi runtime.
 		trp.Producers["text/xml"] = runtime.TextProducer()
 		trp.Consumers["text/xml"] = runtime.TextConsumer()
+
+		// In some cases (400/401), Kill Bill might return HTML
+		// See https://github.com/killbill/kbcli/issues/11
+		trp.Consumers["text/html"] = HTMLConsumer()
+
 		trp.Debug = o.PrintDebug
 		authWriter := runtime.ClientAuthInfoWriterFunc(func(r runtime.ClientRequest, _ strfmt.Registry) error {
 			encoded := base64.StdEncoding.EncodeToString([]byte(o.Username + ":" + o.Password))
