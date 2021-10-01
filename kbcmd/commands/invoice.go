@@ -3,6 +3,7 @@ package commands
 import (
 	"context"
 	"fmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 	"reflect"
 	"strconv"
 	"time"
@@ -23,6 +24,7 @@ var (
 	getInvoicePaymentsProperties   args.Properties
 	listAccountInvoicesProperties  args.Properties
 	dryRunInvoiceProperties        args.Properties
+	targetInvoiceProperties        args.Properties
 	payInvoiceProperties           args.Properties
 	createExternalChargeProperties args.Properties
 )
@@ -267,6 +269,57 @@ func dryRunInvoice(ctx context.Context, o *cmdlib.Options) error {
 	return nil
 }
 
+type targetInvoiceParams struct {
+	TargetDate     string
+	SubscriptionID string
+}
+
+func targetInvoice(ctx context.Context, o *cmdlib.Options) error {
+	if len(o.Args) < 1 {
+		return cmdlib.ErrorInvalidArgs
+	}
+	accIDOrKey := o.Args[0]
+
+	var inputParams targetInvoiceParams
+	if err := args.LoadProperties(&inputParams, targetInvoiceProperties, o.Args[1:]); err != nil {
+		return err
+	}
+
+	p := &invoice.CreateFutureInvoiceParams{}
+
+	if inputParams.TargetDate != "" {
+		targetDate, err := time.Parse("2006-01-02", inputParams.TargetDate)
+		if err != nil {
+			return fmt.Errorf("unable to parse date %s. %v", inputParams.TargetDate, err)
+		}
+		p.TargetDate = (*strfmt.Date)(&targetDate)
+	}
+
+	acc, err := kblib.GetAccountByKeyOrID(ctx, o.Client(), accIDOrKey)
+	if err != nil {
+		return err
+	}
+	p.AccountID = acc.AccountID
+	p.ProcessLocationHeader = true
+
+	invoice, err := o.Client().Invoice.CreateFutureInvoice(ctx, p)
+	if err != nil {
+		kberr, ok := err.(*kbcommon.KillbillError)
+		if ok && kberr.HTTPCode == 404 {
+			o.Output("No invoices to generate\n")
+			return nil
+		} else {
+			return err
+		}
+	}
+
+	if invoice != nil {
+		o.Print(invoice.Payload)
+	}
+
+	return nil
+}
+
 type payInvoiceParams struct {
 	Amount          string
 	PaymentMethodID string
@@ -465,9 +518,23 @@ kbcmd invoices list account3 UnpaidInvoicesOnly=true
 For ex.,
 kbcmd invoices dry-run account3 TargetDate=2018-05-05
 
-will generate invoice for the given date. If date is omitted, next upcoming invoice will be generated.
+will generate a dry-run invoice for the given date. If date is omitted, next upcoming invoice will be generated.
 `, dryRunInvoiceUsage),
 	}, dryRunInvoice)
+
+	// Target invoices
+	targetInvoiceProperties = args.GetProperties(&targetInvoiceParams{})
+	targetInvoiceUsage := args.GenerateUsageString(&targetInvoiceParams{}, targetInvoiceProperties)
+	r.Register("invoices", cli.Command{
+		Name:  "target-run",
+		Usage: "Future invoice generation for a given account",
+		ArgsUsage: fmt.Sprintf(`ACCOUNT %s
+For ex.,
+kbcmd invoices target-run account3 TargetDate=2018-05-05
+
+will generate an invoice for the given date.
+`, targetInvoiceUsage),
+	}, targetInvoice)
 
 	// Pay invoice
 	payInvoiceProperties = args.GetProperties(&payInvoiceParams{})
