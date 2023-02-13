@@ -7,12 +7,9 @@ package subscription
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // UndoChangeSubscriptionPlanReader is a Reader for the UndoChangeSubscriptionPlan structure.
@@ -23,21 +20,26 @@ type UndoChangeSubscriptionPlanReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *UndoChangeSubscriptionPlanReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 204:
 		result := NewUndoChangeSubscriptionPlanNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewUndoChangeSubscriptionPlanBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewUndoChangeSubscriptionPlanNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +48,49 @@ func NewUndoChangeSubscriptionPlanNoContent() *UndoChangeSubscriptionPlanNoConte
 	return &UndoChangeSubscriptionPlanNoContent{}
 }
 
-/*UndoChangeSubscriptionPlanNoContent handles this case with default header values.
+/*
+UndoChangeSubscriptionPlanNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
 type UndoChangeSubscriptionPlanNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this undo change subscription plan no content response has a 2xx status code
+func (o *UndoChangeSubscriptionPlanNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this undo change subscription plan no content response has a 3xx status code
+func (o *UndoChangeSubscriptionPlanNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this undo change subscription plan no content response has a 4xx status code
+func (o *UndoChangeSubscriptionPlanNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this undo change subscription plan no content response has a 5xx status code
+func (o *UndoChangeSubscriptionPlanNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this undo change subscription plan no content response a status code equal to that given
+func (o *UndoChangeSubscriptionPlanNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the undo change subscription plan no content response
+func (o *UndoChangeSubscriptionPlanNoContent) Code() int {
+	return 204
 }
 
 func (o *UndoChangeSubscriptionPlanNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/undoChangePlan][%d] undoChangeSubscriptionPlanNoContent ", 204)
+}
+
+func (o *UndoChangeSubscriptionPlanNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/undoChangePlan][%d] undoChangeSubscriptionPlanNoContent ", 204)
 }
 
@@ -68,15 +104,49 @@ func NewUndoChangeSubscriptionPlanBadRequest() *UndoChangeSubscriptionPlanBadReq
 	return &UndoChangeSubscriptionPlanBadRequest{}
 }
 
-/*UndoChangeSubscriptionPlanBadRequest handles this case with default header values.
+/*
+UndoChangeSubscriptionPlanBadRequest describes a response with status code 400, with default header values.
 
 Invalid subscription id supplied
 */
 type UndoChangeSubscriptionPlanBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this undo change subscription plan bad request response has a 2xx status code
+func (o *UndoChangeSubscriptionPlanBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this undo change subscription plan bad request response has a 3xx status code
+func (o *UndoChangeSubscriptionPlanBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this undo change subscription plan bad request response has a 4xx status code
+func (o *UndoChangeSubscriptionPlanBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this undo change subscription plan bad request response has a 5xx status code
+func (o *UndoChangeSubscriptionPlanBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this undo change subscription plan bad request response a status code equal to that given
+func (o *UndoChangeSubscriptionPlanBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the undo change subscription plan bad request response
+func (o *UndoChangeSubscriptionPlanBadRequest) Code() int {
+	return 400
 }
 
 func (o *UndoChangeSubscriptionPlanBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/undoChangePlan][%d] undoChangeSubscriptionPlanBadRequest ", 400)
+}
+
+func (o *UndoChangeSubscriptionPlanBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/undoChangePlan][%d] undoChangeSubscriptionPlanBadRequest ", 400)
 }
 
@@ -90,15 +160,49 @@ func NewUndoChangeSubscriptionPlanNotFound() *UndoChangeSubscriptionPlanNotFound
 	return &UndoChangeSubscriptionPlanNotFound{}
 }
 
-/*UndoChangeSubscriptionPlanNotFound handles this case with default header values.
+/*
+UndoChangeSubscriptionPlanNotFound describes a response with status code 404, with default header values.
 
 Entitlement not found
 */
 type UndoChangeSubscriptionPlanNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this undo change subscription plan not found response has a 2xx status code
+func (o *UndoChangeSubscriptionPlanNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this undo change subscription plan not found response has a 3xx status code
+func (o *UndoChangeSubscriptionPlanNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this undo change subscription plan not found response has a 4xx status code
+func (o *UndoChangeSubscriptionPlanNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this undo change subscription plan not found response has a 5xx status code
+func (o *UndoChangeSubscriptionPlanNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this undo change subscription plan not found response a status code equal to that given
+func (o *UndoChangeSubscriptionPlanNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the undo change subscription plan not found response
+func (o *UndoChangeSubscriptionPlanNotFound) Code() int {
+	return 404
 }
 
 func (o *UndoChangeSubscriptionPlanNotFound) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/undoChangePlan][%d] undoChangeSubscriptionPlanNotFound ", 404)
+}
+
+func (o *UndoChangeSubscriptionPlanNotFound) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/undoChangePlan][%d] undoChangeSubscriptionPlanNotFound ", 404)
 }
 

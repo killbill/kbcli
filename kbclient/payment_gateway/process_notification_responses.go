@@ -7,12 +7,9 @@ package payment_gateway
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // ProcessNotificationReader is a Reader for the ProcessNotification structure.
@@ -23,20 +20,14 @@ type ProcessNotificationReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ProcessNotificationReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewProcessNotificationOK()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
-			return nil, err
-		}
-		return nil, errorResult
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -45,15 +36,49 @@ func NewProcessNotificationOK() *ProcessNotificationOK {
 	return &ProcessNotificationOK{}
 }
 
-/*ProcessNotificationOK handles this case with default header values.
+/*
+ProcessNotificationOK describes a response with status code 200, with default header values.
 
 Successful
 */
 type ProcessNotificationOK struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this process notification o k response has a 2xx status code
+func (o *ProcessNotificationOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this process notification o k response has a 3xx status code
+func (o *ProcessNotificationOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this process notification o k response has a 4xx status code
+func (o *ProcessNotificationOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this process notification o k response has a 5xx status code
+func (o *ProcessNotificationOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this process notification o k response a status code equal to that given
+func (o *ProcessNotificationOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the process notification o k response
+func (o *ProcessNotificationOK) Code() int {
+	return 200
 }
 
 func (o *ProcessNotificationOK) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/paymentGateways/notification/{pluginName}][%d] processNotificationOK ", 200)
+}
+
+func (o *ProcessNotificationOK) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentGateways/notification/{pluginName}][%d] processNotificationOK ", 200)
 }
 

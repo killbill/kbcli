@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetSubscriptionTagsReader is a Reader for the GetSubscriptionTags structure.
@@ -25,21 +23,26 @@ type GetSubscriptionTagsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetSubscriptionTagsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewGetSubscriptionTagsOK()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewGetSubscriptionTagsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewGetSubscriptionTagsNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +51,50 @@ func NewGetSubscriptionTagsOK() *GetSubscriptionTagsOK {
 	return &GetSubscriptionTagsOK{}
 }
 
-/*GetSubscriptionTagsOK handles this case with default header values.
+/*
+GetSubscriptionTagsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetSubscriptionTagsOK struct {
 	Payload []*kbmodel.Tag
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this get subscription tags o k response has a 2xx status code
+func (o *GetSubscriptionTagsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get subscription tags o k response has a 3xx status code
+func (o *GetSubscriptionTagsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get subscription tags o k response has a 4xx status code
+func (o *GetSubscriptionTagsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get subscription tags o k response has a 5xx status code
+func (o *GetSubscriptionTagsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get subscription tags o k response a status code equal to that given
+func (o *GetSubscriptionTagsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get subscription tags o k response
+func (o *GetSubscriptionTagsOK) Code() int {
+	return 200
 }
 
 func (o *GetSubscriptionTagsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/tags][%d] getSubscriptionTagsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetSubscriptionTagsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/tags][%d] getSubscriptionTagsOK  %+v", 200, o.Payload)
 }
 
@@ -81,15 +117,49 @@ func NewGetSubscriptionTagsBadRequest() *GetSubscriptionTagsBadRequest {
 	return &GetSubscriptionTagsBadRequest{}
 }
 
-/*GetSubscriptionTagsBadRequest handles this case with default header values.
+/*
+GetSubscriptionTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid subscription id supplied
 */
 type GetSubscriptionTagsBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this get subscription tags bad request response has a 2xx status code
+func (o *GetSubscriptionTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get subscription tags bad request response has a 3xx status code
+func (o *GetSubscriptionTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get subscription tags bad request response has a 4xx status code
+func (o *GetSubscriptionTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get subscription tags bad request response has a 5xx status code
+func (o *GetSubscriptionTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get subscription tags bad request response a status code equal to that given
+func (o *GetSubscriptionTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the get subscription tags bad request response
+func (o *GetSubscriptionTagsBadRequest) Code() int {
+	return 400
 }
 
 func (o *GetSubscriptionTagsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/tags][%d] getSubscriptionTagsBadRequest ", 400)
+}
+
+func (o *GetSubscriptionTagsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/tags][%d] getSubscriptionTagsBadRequest ", 400)
 }
 
@@ -103,15 +173,49 @@ func NewGetSubscriptionTagsNotFound() *GetSubscriptionTagsNotFound {
 	return &GetSubscriptionTagsNotFound{}
 }
 
-/*GetSubscriptionTagsNotFound handles this case with default header values.
+/*
+GetSubscriptionTagsNotFound describes a response with status code 404, with default header values.
 
 Subscription not found
 */
 type GetSubscriptionTagsNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this get subscription tags not found response has a 2xx status code
+func (o *GetSubscriptionTagsNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get subscription tags not found response has a 3xx status code
+func (o *GetSubscriptionTagsNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get subscription tags not found response has a 4xx status code
+func (o *GetSubscriptionTagsNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get subscription tags not found response has a 5xx status code
+func (o *GetSubscriptionTagsNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get subscription tags not found response a status code equal to that given
+func (o *GetSubscriptionTagsNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the get subscription tags not found response
+func (o *GetSubscriptionTagsNotFound) Code() int {
+	return 404
 }
 
 func (o *GetSubscriptionTagsNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/tags][%d] getSubscriptionTagsNotFound ", 404)
+}
+
+func (o *GetSubscriptionTagsNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/tags][%d] getSubscriptionTagsNotFound ", 404)
 }
 

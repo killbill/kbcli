@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetPaymentReader is a Reader for the GetPayment structure.
@@ -25,21 +23,26 @@ type GetPaymentReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetPaymentReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewGetPaymentOK()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewGetPaymentBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewGetPaymentNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +51,50 @@ func NewGetPaymentOK() *GetPaymentOK {
 	return &GetPaymentOK{}
 }
 
-/*GetPaymentOK handles this case with default header values.
+/*
+GetPaymentOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetPaymentOK struct {
 	Payload *kbmodel.Payment
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this get payment o k response has a 2xx status code
+func (o *GetPaymentOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get payment o k response has a 3xx status code
+func (o *GetPaymentOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payment o k response has a 4xx status code
+func (o *GetPaymentOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get payment o k response has a 5xx status code
+func (o *GetPaymentOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payment o k response a status code equal to that given
+func (o *GetPaymentOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get payment o k response
+func (o *GetPaymentOK) Code() int {
+	return 200
 }
 
 func (o *GetPaymentOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/payments/{paymentId}][%d] getPaymentOK  %+v", 200, o.Payload)
+}
+
+func (o *GetPaymentOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/payments/{paymentId}][%d] getPaymentOK  %+v", 200, o.Payload)
 }
 
@@ -83,15 +119,49 @@ func NewGetPaymentBadRequest() *GetPaymentBadRequest {
 	return &GetPaymentBadRequest{}
 }
 
-/*GetPaymentBadRequest handles this case with default header values.
+/*
+GetPaymentBadRequest describes a response with status code 400, with default header values.
 
 Invalid paymentId supplied
 */
 type GetPaymentBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this get payment bad request response has a 2xx status code
+func (o *GetPaymentBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get payment bad request response has a 3xx status code
+func (o *GetPaymentBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payment bad request response has a 4xx status code
+func (o *GetPaymentBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get payment bad request response has a 5xx status code
+func (o *GetPaymentBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payment bad request response a status code equal to that given
+func (o *GetPaymentBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the get payment bad request response
+func (o *GetPaymentBadRequest) Code() int {
+	return 400
 }
 
 func (o *GetPaymentBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/payments/{paymentId}][%d] getPaymentBadRequest ", 400)
+}
+
+func (o *GetPaymentBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/payments/{paymentId}][%d] getPaymentBadRequest ", 400)
 }
 
@@ -105,15 +175,49 @@ func NewGetPaymentNotFound() *GetPaymentNotFound {
 	return &GetPaymentNotFound{}
 }
 
-/*GetPaymentNotFound handles this case with default header values.
+/*
+GetPaymentNotFound describes a response with status code 404, with default header values.
 
 Payment not found
 */
 type GetPaymentNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this get payment not found response has a 2xx status code
+func (o *GetPaymentNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get payment not found response has a 3xx status code
+func (o *GetPaymentNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payment not found response has a 4xx status code
+func (o *GetPaymentNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get payment not found response has a 5xx status code
+func (o *GetPaymentNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payment not found response a status code equal to that given
+func (o *GetPaymentNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the get payment not found response
+func (o *GetPaymentNotFound) Code() int {
+	return 404
 }
 
 func (o *GetPaymentNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/payments/{paymentId}][%d] getPaymentNotFound ", 404)
+}
+
+func (o *GetPaymentNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/payments/{paymentId}][%d] getPaymentNotFound ", 404)
 }
 

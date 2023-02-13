@@ -6,16 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // OverdueStateConfig overdue state config
+//
 // swagger:model OverdueStateConfig
 type OverdueStateConfig struct {
 
@@ -42,7 +43,7 @@ type OverdueStateConfig struct {
 
 	// subscription cancellation policy
 	// Enum: [END_OF_TERM IMMEDIATE NONE]
-	SubscriptionCancellationPolicy OverdueStateConfigSubscriptionCancellationPolicyEnum `json:"subscriptionCancellationPolicy,omitempty"`
+	SubscriptionCancellationPolicy string `json:"subscriptionCancellationPolicy,omitempty"`
 }
 
 // Validate validates this overdue state config
@@ -64,7 +65,6 @@ func (m *OverdueStateConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *OverdueStateConfig) validateCondition(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Condition) { // not required
 		return nil
 	}
@@ -73,6 +73,8 @@ func (m *OverdueStateConfig) validateCondition(formats strfmt.Registry) error {
 		if err := m.Condition.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("condition")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("condition")
 			}
 			return err
 		}
@@ -84,7 +86,7 @@ func (m *OverdueStateConfig) validateCondition(formats strfmt.Registry) error {
 var overdueStateConfigTypeSubscriptionCancellationPolicyPropEnum []interface{}
 
 func init() {
-	var res []OverdueStateConfigSubscriptionCancellationPolicyEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["END_OF_TERM","IMMEDIATE","NONE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -93,45 +95,27 @@ func init() {
 	}
 }
 
-type OverdueStateConfigSubscriptionCancellationPolicyEnum string
-
 const (
 
 	// OverdueStateConfigSubscriptionCancellationPolicyENDOFTERM captures enum value "END_OF_TERM"
-	OverdueStateConfigSubscriptionCancellationPolicyENDOFTERM OverdueStateConfigSubscriptionCancellationPolicyEnum = "END_OF_TERM"
+	OverdueStateConfigSubscriptionCancellationPolicyENDOFTERM string = "END_OF_TERM"
 
 	// OverdueStateConfigSubscriptionCancellationPolicyIMMEDIATE captures enum value "IMMEDIATE"
-	OverdueStateConfigSubscriptionCancellationPolicyIMMEDIATE OverdueStateConfigSubscriptionCancellationPolicyEnum = "IMMEDIATE"
+	OverdueStateConfigSubscriptionCancellationPolicyIMMEDIATE string = "IMMEDIATE"
 
 	// OverdueStateConfigSubscriptionCancellationPolicyNONE captures enum value "NONE"
-	OverdueStateConfigSubscriptionCancellationPolicyNONE OverdueStateConfigSubscriptionCancellationPolicyEnum = "NONE"
+	OverdueStateConfigSubscriptionCancellationPolicyNONE string = "NONE"
 )
 
-var OverdueStateConfigSubscriptionCancellationPolicyEnumValues = []string{
-	"END_OF_TERM",
-	"IMMEDIATE",
-	"NONE",
-}
-
-func (e OverdueStateConfigSubscriptionCancellationPolicyEnum) IsValid() bool {
-	for _, v := range OverdueStateConfigSubscriptionCancellationPolicyEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *OverdueStateConfig) validateSubscriptionCancellationPolicyEnum(path, location string, value OverdueStateConfigSubscriptionCancellationPolicyEnum) error {
-	if err := validate.Enum(path, location, value, overdueStateConfigTypeSubscriptionCancellationPolicyPropEnum); err != nil {
+func (m *OverdueStateConfig) validateSubscriptionCancellationPolicyEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, overdueStateConfigTypeSubscriptionCancellationPolicyPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *OverdueStateConfig) validateSubscriptionCancellationPolicy(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SubscriptionCancellationPolicy) { // not required
 		return nil
 	}
@@ -139,6 +123,36 @@ func (m *OverdueStateConfig) validateSubscriptionCancellationPolicy(formats strf
 	// value enum
 	if err := m.validateSubscriptionCancellationPolicyEnum("subscriptionCancellationPolicy", "body", m.SubscriptionCancellationPolicy); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this overdue state config based on the context it is used
+func (m *OverdueStateConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCondition(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *OverdueStateConfig) contextValidateCondition(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Condition != nil {
+		if err := m.Condition.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("condition")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("condition")
+			}
+			return err
+		}
 	}
 
 	return nil

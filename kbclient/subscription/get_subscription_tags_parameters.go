@@ -13,88 +13,100 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetSubscriptionTagsParams creates a new GetSubscriptionTagsParams object
-// with the default values initialized.
+// NewGetSubscriptionTagsParams creates a new GetSubscriptionTagsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetSubscriptionTagsParams() *GetSubscriptionTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetSubscriptionTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetSubscriptionTagsParamsWithTimeout creates a new GetSubscriptionTagsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetSubscriptionTagsParamsWithTimeout(timeout time.Duration) *GetSubscriptionTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetSubscriptionTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetSubscriptionTagsParamsWithContext creates a new GetSubscriptionTagsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetSubscriptionTagsParamsWithContext(ctx context.Context) *GetSubscriptionTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetSubscriptionTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetSubscriptionTagsParamsWithHTTPClient creates a new GetSubscriptionTagsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetSubscriptionTagsParamsWithHTTPClient(client *http.Client) *GetSubscriptionTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetSubscriptionTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-		HTTPClient:      client,
+		HTTPClient: client,
 	}
 }
 
-/*GetSubscriptionTagsParams contains all the parameters to send to the API endpoint
-for the get subscription tags operation typically these are written to a http.Request
+/*
+GetSubscriptionTagsParams contains all the parameters to send to the API endpoint
+
+	for the get subscription tags operation.
+
+	Typically these are written to a http.Request.
 */
 type GetSubscriptionTagsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*IncludedDeleted*/
+
+	// IncludedDeleted.
 	IncludedDeleted *bool
-	/*SubscriptionID*/
+
+	// SubscriptionID.
+	//
+	// Format: uuid
 	SubscriptionID strfmt.UUID
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get subscription tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetSubscriptionTagsParams) WithDefaults() *GetSubscriptionTagsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get subscription tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetSubscriptionTagsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		includedDeletedDefault = bool(false)
+	)
+
+	val := GetSubscriptionTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get subscription tags params
@@ -175,51 +187,39 @@ func (o *GetSubscriptionTagsParams) WriteToRequest(r runtime.ClientRequest, reg 
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.IncludedDeleted != nil {
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
+
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
+
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param subscriptionId
 	if err := r.SetPathParam("subscriptionId", o.SubscriptionID.String()); err != nil {
 		return err
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
-		}
 	}
 
 	if len(res) > 0 {

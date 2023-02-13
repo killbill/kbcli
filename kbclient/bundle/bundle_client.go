@@ -6,37 +6,15 @@ package bundle
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new bundle API client.
-func New(transport runtime.ClientTransport,
-	formats strfmt.Registry,
-	authInfo runtime.ClientAuthInfoWriter,
-	defaults KillbillDefaults) *Client {
-
-	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
-}
-
-// killbill default values. When a call is made to an operation, these values are used
-// if params doesn't specify them.
-type KillbillDefaults interface {
-	// Default CreatedBy. If not set explicitly in params, this will be used.
-	XKillbillCreatedBy() *string
-	// Default Comment. If not set explicitly in params, this will be used.
-	XKillbillComment() *string
-	// Default Reason. If not set explicitly in params, this will be used.
-	XKillbillReason() *string
-	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
-	KillbillWithProfilingInfo() *string
-	// Default WithStackTrace. If not set explicitly in params, this will be used.
-	KillbillWithStackTrace() *bool
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+	return &Client{transport: transport, formats: formats}
 }
 
 /*
@@ -45,205 +23,98 @@ Client for bundle API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
-	authInfo  runtime.ClientAuthInfoWriter
-	defaults  KillbillDefaults
 }
 
-// IBundle - interface for Bundle client.
-type IBundle interface {
-	/*
-		AddBundleBlockingState blocks a bundle
-	*/
-	AddBundleBlockingState(ctx context.Context, params *AddBundleBlockingStateParams) (*AddBundleBlockingStateCreated, error)
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
 
-	/*
-		CreateBundleCustomFields adds custom fields to bundle
-	*/
-	CreateBundleCustomFields(ctx context.Context, params *CreateBundleCustomFieldsParams) (*CreateBundleCustomFieldsCreated, error)
+// ClientService is the interface for Client methods
+type ClientService interface {
+	AddBundleBlockingState(params *AddBundleBlockingStateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddBundleBlockingStateCreated, error)
 
-	/*
-		CreateBundleTags adds tags to bundle
-	*/
-	CreateBundleTags(ctx context.Context, params *CreateBundleTagsParams) (*CreateBundleTagsCreated, error)
+	CreateBundleCustomFields(params *CreateBundleCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateBundleCustomFieldsCreated, error)
 
-	/*
-		DeleteBundleCustomFields removes custom fields from bundle
-	*/
-	DeleteBundleCustomFields(ctx context.Context, params *DeleteBundleCustomFieldsParams) (*DeleteBundleCustomFieldsNoContent, error)
+	CreateBundleTags(params *CreateBundleTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateBundleTagsCreated, error)
 
-	/*
-		DeleteBundleTags removes tags from bundle
-	*/
-	DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsParams) (*DeleteBundleTagsNoContent, error)
+	DeleteBundleCustomFields(params *DeleteBundleCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteBundleCustomFieldsNoContent, error)
 
-	/*
-		GetBundle retrieves a bundle by id
-	*/
-	GetBundle(ctx context.Context, params *GetBundleParams) (*GetBundleOK, error)
+	DeleteBundleTags(params *DeleteBundleTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteBundleTagsNoContent, error)
 
-	/*
-		GetBundleAuditLogsWithHistory retrieves bundle audit logs with history by id
-	*/
-	GetBundleAuditLogsWithHistory(ctx context.Context, params *GetBundleAuditLogsWithHistoryParams) (*GetBundleAuditLogsWithHistoryOK, error)
+	GetBundle(params *GetBundleParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleOK, error)
 
-	/*
-		GetBundleByKey retrieves a bundle by external key
-	*/
-	GetBundleByKey(ctx context.Context, params *GetBundleByKeyParams) (*GetBundleByKeyOK, error)
+	GetBundleAuditLogsWithHistory(params *GetBundleAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleAuditLogsWithHistoryOK, error)
 
-	/*
-		GetBundleCustomFields retrieves bundle custom fields
-	*/
-	GetBundleCustomFields(ctx context.Context, params *GetBundleCustomFieldsParams) (*GetBundleCustomFieldsOK, error)
+	GetBundleByKey(params *GetBundleByKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleByKeyOK, error)
 
-	/*
-		GetBundleTags retrieves bundle tags
-	*/
-	GetBundleTags(ctx context.Context, params *GetBundleTagsParams) (*GetBundleTagsOK, error)
+	GetBundleCustomFields(params *GetBundleCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleCustomFieldsOK, error)
 
-	/*
-		GetBundles lists bundles
-	*/
-	GetBundles(ctx context.Context, params *GetBundlesParams) (*GetBundlesOK, error)
+	GetBundleTags(params *GetBundleTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleTagsOK, error)
 
-	/*
-		ModifyBundleCustomFields modifies custom fields to bundle
-	*/
-	ModifyBundleCustomFields(ctx context.Context, params *ModifyBundleCustomFieldsParams) (*ModifyBundleCustomFieldsNoContent, error)
+	GetBundles(params *GetBundlesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundlesOK, error)
 
-	/*
-		PauseBundle pauses a bundle
-	*/
-	PauseBundle(ctx context.Context, params *PauseBundleParams) (*PauseBundleNoContent, error)
+	ModifyBundleCustomFields(params *ModifyBundleCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifyBundleCustomFieldsNoContent, error)
 
-	/*
-		RenameExternalKey updates a bundle external key
-	*/
-	RenameExternalKey(ctx context.Context, params *RenameExternalKeyParams) (*RenameExternalKeyNoContent, error)
+	PauseBundle(params *PauseBundleParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PauseBundleNoContent, error)
 
-	/*
-		ResumeBundle resumes a bundle
-	*/
-	ResumeBundle(ctx context.Context, params *ResumeBundleParams) (*ResumeBundleNoContent, error)
+	RenameExternalKey(params *RenameExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RenameExternalKeyNoContent, error)
 
-	/*
-		SearchBundles searches bundles
-	*/
-	SearchBundles(ctx context.Context, params *SearchBundlesParams) (*SearchBundlesOK, error)
+	ResumeBundle(params *ResumeBundleParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ResumeBundleNoContent, error)
 
-	/*
-		TransferBundle transfers a bundle to another account
-	*/
-	TransferBundle(ctx context.Context, params *TransferBundleParams) (*TransferBundleCreated, error)
+	SearchBundles(params *SearchBundlesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchBundlesOK, error)
+
+	TransferBundle(params *TransferBundleParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TransferBundleCreated, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
 AddBundleBlockingState blocks a bundle
 */
-func (a *Client) AddBundleBlockingState(ctx context.Context, params *AddBundleBlockingStateParams) (*AddBundleBlockingStateCreated, error) {
+func (a *Client) AddBundleBlockingState(params *AddBundleBlockingStateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddBundleBlockingStateCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAddBundleBlockingStateParams()
 	}
-	getParams := NewAddBundleBlockingStateParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addBundleBlockingState",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/block",
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &AddBundleBlockingStateReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*AddBundleBlockingStateCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*AddBundleBlockingStateCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "addBundleBlockingState",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &AddBundleBlockingStateReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*AddBundleBlockingStateCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for addBundleBlockingState: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateBundleCustomFields adds custom fields to bundle
 */
-func (a *Client) CreateBundleCustomFields(ctx context.Context, params *CreateBundleCustomFieldsParams) (*CreateBundleCustomFieldsCreated, error) {
+func (a *Client) CreateBundleCustomFields(params *CreateBundleCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateBundleCustomFieldsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateBundleCustomFieldsParams()
 	}
-	getParams := NewCreateBundleCustomFieldsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createBundleCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/customFields",
@@ -252,72 +123,37 @@ func (a *Client) CreateBundleCustomFields(ctx context.Context, params *CreateBun
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateBundleCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateBundleCustomFieldsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateBundleCustomFieldsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createBundleCustomFields",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateBundleCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateBundleCustomFieldsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createBundleCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateBundleTags adds tags to bundle
 */
-func (a *Client) CreateBundleTags(ctx context.Context, params *CreateBundleTagsParams) (*CreateBundleTagsCreated, error) {
+func (a *Client) CreateBundleTags(params *CreateBundleTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateBundleTagsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateBundleTagsParams()
 	}
-	getParams := NewCreateBundleTagsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createBundleTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/tags",
@@ -326,69 +162,37 @@ func (a *Client) CreateBundleTags(ctx context.Context, params *CreateBundleTagsP
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateBundleTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateBundleTagsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateBundleTagsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createBundleTags",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateBundleTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateBundleTagsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createBundleTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 DeleteBundleCustomFields removes custom fields from bundle
 */
-func (a *Client) DeleteBundleCustomFields(ctx context.Context, params *DeleteBundleCustomFieldsParams) (*DeleteBundleCustomFieldsNoContent, error) {
+func (a *Client) DeleteBundleCustomFields(params *DeleteBundleCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteBundleCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteBundleCustomFieldsParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteBundleCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/customFields",
@@ -397,10 +201,15 @@ func (a *Client) DeleteBundleCustomFields(ctx context.Context, params *DeleteBun
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteBundleCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -412,39 +221,17 @@ func (a *Client) DeleteBundleCustomFields(ctx context.Context, params *DeleteBun
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteBundleCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 DeleteBundleTags removes tags from bundle
 */
-func (a *Client) DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsParams) (*DeleteBundleTagsNoContent, error) {
+func (a *Client) DeleteBundleTags(params *DeleteBundleTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteBundleTagsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteBundleTagsParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteBundleTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/tags",
@@ -453,10 +240,15 @@ func (a *Client) DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsP
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteBundleTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -468,39 +260,34 @@ func (a *Client) DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsP
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteBundleTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetBundle retrieves a bundle by id
 */
-func (a *Client) GetBundle(ctx context.Context, params *GetBundleParams) (*GetBundleOK, error) {
+func (a *Client) GetBundle(params *GetBundleParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetBundleParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundle",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -512,39 +299,34 @@ func (a *Client) GetBundle(ctx context.Context, params *GetBundleParams) (*GetBu
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getBundle: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetBundleAuditLogsWithHistory retrieves bundle audit logs with history by id
 */
-func (a *Client) GetBundleAuditLogsWithHistory(ctx context.Context, params *GetBundleAuditLogsWithHistoryParams) (*GetBundleAuditLogsWithHistoryOK, error) {
+func (a *Client) GetBundleAuditLogsWithHistory(params *GetBundleAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetBundleAuditLogsWithHistoryParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundleAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -556,39 +338,34 @@ func (a *Client) GetBundleAuditLogsWithHistory(ctx context.Context, params *GetB
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getBundleAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetBundleByKey retrieves a bundle by external key
 */
-func (a *Client) GetBundleByKey(ctx context.Context, params *GetBundleByKeyParams) (*GetBundleByKeyOK, error) {
+func (a *Client) GetBundleByKey(params *GetBundleByKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleByKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetBundleByKeyParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundleByKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleByKeyReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -600,39 +377,34 @@ func (a *Client) GetBundleByKey(ctx context.Context, params *GetBundleByKeyParam
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getBundleByKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetBundleCustomFields retrieves bundle custom fields
 */
-func (a *Client) GetBundleCustomFields(ctx context.Context, params *GetBundleCustomFieldsParams) (*GetBundleCustomFieldsOK, error) {
+func (a *Client) GetBundleCustomFields(params *GetBundleCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleCustomFieldsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetBundleCustomFieldsParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundleCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -644,39 +416,34 @@ func (a *Client) GetBundleCustomFields(ctx context.Context, params *GetBundleCus
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getBundleCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetBundleTags retrieves bundle tags
 */
-func (a *Client) GetBundleTags(ctx context.Context, params *GetBundleTagsParams) (*GetBundleTagsOK, error) {
+func (a *Client) GetBundleTags(params *GetBundleTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundleTagsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetBundleTagsParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundleTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -688,39 +455,34 @@ func (a *Client) GetBundleTags(ctx context.Context, params *GetBundleTagsParams)
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getBundleTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetBundles lists bundles
 */
-func (a *Client) GetBundles(ctx context.Context, params *GetBundlesParams) (*GetBundlesOK, error) {
+func (a *Client) GetBundles(params *GetBundlesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBundlesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetBundlesParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundles",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundlesReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -732,39 +494,17 @@ func (a *Client) GetBundles(ctx context.Context, params *GetBundlesParams) (*Get
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getBundles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 ModifyBundleCustomFields modifies custom fields to bundle
 */
-func (a *Client) ModifyBundleCustomFields(ctx context.Context, params *ModifyBundleCustomFieldsParams) (*ModifyBundleCustomFieldsNoContent, error) {
+func (a *Client) ModifyBundleCustomFields(params *ModifyBundleCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifyBundleCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewModifyBundleCustomFieldsParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifyBundleCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/customFields",
@@ -773,10 +513,15 @@ func (a *Client) ModifyBundleCustomFields(ctx context.Context, params *ModifyBun
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ModifyBundleCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -788,39 +533,17 @@ func (a *Client) ModifyBundleCustomFields(ctx context.Context, params *ModifyBun
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for modifyBundleCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 PauseBundle pauses a bundle
 */
-func (a *Client) PauseBundle(ctx context.Context, params *PauseBundleParams) (*PauseBundleNoContent, error) {
+func (a *Client) PauseBundle(params *PauseBundleParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PauseBundleNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewPauseBundleParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "pauseBundle",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/pause",
@@ -829,10 +552,15 @@ func (a *Client) PauseBundle(ctx context.Context, params *PauseBundleParams) (*P
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &PauseBundleReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -844,51 +572,34 @@ func (a *Client) PauseBundle(ctx context.Context, params *PauseBundleParams) (*P
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for pauseBundle: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 RenameExternalKey updates a bundle external key
 */
-func (a *Client) RenameExternalKey(ctx context.Context, params *RenameExternalKeyParams) (*RenameExternalKeyNoContent, error) {
+func (a *Client) RenameExternalKey(params *RenameExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RenameExternalKeyNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRenameExternalKeyParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "renameExternalKey",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/renameKey",
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &RenameExternalKeyReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -900,39 +611,17 @@ func (a *Client) RenameExternalKey(ctx context.Context, params *RenameExternalKe
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for renameExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 ResumeBundle resumes a bundle
 */
-func (a *Client) ResumeBundle(ctx context.Context, params *ResumeBundleParams) (*ResumeBundleNoContent, error) {
+func (a *Client) ResumeBundle(params *ResumeBundleParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ResumeBundleNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewResumeBundleParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "resumeBundle",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/resume",
@@ -941,10 +630,15 @@ func (a *Client) ResumeBundle(ctx context.Context, params *ResumeBundleParams) (
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ResumeBundleReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -956,39 +650,34 @@ func (a *Client) ResumeBundle(ctx context.Context, params *ResumeBundleParams) (
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for resumeBundle: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 SearchBundles searches bundles
 */
-func (a *Client) SearchBundles(ctx context.Context, params *SearchBundlesParams) (*SearchBundlesOK, error) {
+func (a *Client) SearchBundles(params *SearchBundlesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchBundlesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSearchBundlesParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchBundles",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchBundlesReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1000,42 +689,17 @@ func (a *Client) SearchBundles(ctx context.Context, params *SearchBundlesParams)
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for searchBundles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 TransferBundle transfers a bundle to another account
 */
-func (a *Client) TransferBundle(ctx context.Context, params *TransferBundleParams) (*TransferBundleCreated, error) {
+func (a *Client) TransferBundle(params *TransferBundleParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TransferBundleCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewTransferBundleParams()
 	}
-	getParams := NewTransferBundleParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "transferBundle",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}",
@@ -1044,37 +708,26 @@ func (a *Client) TransferBundle(ctx context.Context, params *TransferBundleParam
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &TransferBundleReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*TransferBundleCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*TransferBundleCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "transferBundle",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &TransferBundleReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*TransferBundleCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for transferBundle: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 // SetTransport changes the transport on the client

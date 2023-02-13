@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateCreditsReader is a Reader for the CreateCredits structure.
@@ -25,21 +23,26 @@ type CreateCreditsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CreateCreditsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
-	case 201, 200:
+	case 201:
 		result := NewCreateCreditsCreated()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewCreateCreditsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewCreateCreditsNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +51,50 @@ func NewCreateCreditsCreated() *CreateCreditsCreated {
 	return &CreateCreditsCreated{}
 }
 
-/*CreateCreditsCreated handles this case with default header values.
+/*
+CreateCreditsCreated describes a response with status code 201, with default header values.
 
 Created credit successfully
 */
 type CreateCreditsCreated struct {
 	Payload []*kbmodel.InvoiceItem
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this create credits created response has a 2xx status code
+func (o *CreateCreditsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create credits created response has a 3xx status code
+func (o *CreateCreditsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create credits created response has a 4xx status code
+func (o *CreateCreditsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create credits created response has a 5xx status code
+func (o *CreateCreditsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create credits created response a status code equal to that given
+func (o *CreateCreditsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
+// Code gets the status code for the create credits created response
+func (o *CreateCreditsCreated) Code() int {
+	return 201
 }
 
 func (o *CreateCreditsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/credits][%d] createCreditsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateCreditsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/credits][%d] createCreditsCreated  %+v", 201, o.Payload)
 }
 
@@ -81,15 +117,49 @@ func NewCreateCreditsBadRequest() *CreateCreditsBadRequest {
 	return &CreateCreditsBadRequest{}
 }
 
-/*CreateCreditsBadRequest handles this case with default header values.
+/*
+CreateCreditsBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
 type CreateCreditsBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this create credits bad request response has a 2xx status code
+func (o *CreateCreditsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create credits bad request response has a 3xx status code
+func (o *CreateCreditsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create credits bad request response has a 4xx status code
+func (o *CreateCreditsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create credits bad request response has a 5xx status code
+func (o *CreateCreditsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create credits bad request response a status code equal to that given
+func (o *CreateCreditsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the create credits bad request response
+func (o *CreateCreditsBadRequest) Code() int {
+	return 400
 }
 
 func (o *CreateCreditsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/credits][%d] createCreditsBadRequest ", 400)
+}
+
+func (o *CreateCreditsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/credits][%d] createCreditsBadRequest ", 400)
 }
 
@@ -103,15 +173,49 @@ func NewCreateCreditsNotFound() *CreateCreditsNotFound {
 	return &CreateCreditsNotFound{}
 }
 
-/*CreateCreditsNotFound handles this case with default header values.
+/*
+CreateCreditsNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
 type CreateCreditsNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this create credits not found response has a 2xx status code
+func (o *CreateCreditsNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create credits not found response has a 3xx status code
+func (o *CreateCreditsNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create credits not found response has a 4xx status code
+func (o *CreateCreditsNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create credits not found response has a 5xx status code
+func (o *CreateCreditsNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create credits not found response a status code equal to that given
+func (o *CreateCreditsNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the create credits not found response
+func (o *CreateCreditsNotFound) Code() int {
+	return 404
 }
 
 func (o *CreateCreditsNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/credits][%d] createCreditsNotFound ", 404)
+}
+
+func (o *CreateCreditsNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/credits][%d] createCreditsNotFound ", 404)
 }
 

@@ -13,92 +13,117 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewPayAllInvoicesParams creates a new PayAllInvoicesParams object
-// with the default values initialized.
+// NewPayAllInvoicesParams creates a new PayAllInvoicesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPayAllInvoicesParams() *PayAllInvoicesParams {
-	var (
-		externalPaymentDefault = bool(false)
-	)
 	return &PayAllInvoicesParams{
-		ExternalPayment: &externalPaymentDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPayAllInvoicesParamsWithTimeout creates a new PayAllInvoicesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPayAllInvoicesParamsWithTimeout(timeout time.Duration) *PayAllInvoicesParams {
-	var (
-		externalPaymentDefault = bool(false)
-	)
 	return &PayAllInvoicesParams{
-		ExternalPayment: &externalPaymentDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewPayAllInvoicesParamsWithContext creates a new PayAllInvoicesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPayAllInvoicesParamsWithContext(ctx context.Context) *PayAllInvoicesParams {
-	var (
-		externalPaymentDefault = bool(false)
-	)
 	return &PayAllInvoicesParams{
-		ExternalPayment: &externalPaymentDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewPayAllInvoicesParamsWithHTTPClient creates a new PayAllInvoicesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPayAllInvoicesParamsWithHTTPClient(client *http.Client) *PayAllInvoicesParams {
-	var (
-		externalPaymentDefault = bool(false)
-	)
 	return &PayAllInvoicesParams{
-		ExternalPayment: &externalPaymentDefault,
-		HTTPClient:      client,
+		HTTPClient: client,
 	}
 }
 
-/*PayAllInvoicesParams contains all the parameters to send to the API endpoint
-for the pay all invoices operation typically these are written to a http.Request
+/*
+PayAllInvoicesParams contains all the parameters to send to the API endpoint
+
+	for the pay all invoices operation.
+
+	Typically these are written to a http.Request.
 */
 type PayAllInvoicesParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*ExternalPayment*/
+
+	// ExternalPayment.
 	ExternalPayment *bool
-	/*PaymentAmount*/
+
+	// PaymentAmount.
 	PaymentAmount *float64
-	/*PaymentMethodID*/
+
+	// PaymentMethodID.
+	//
+	// Format: uuid
 	PaymentMethodID *strfmt.UUID
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*TargetDate*/
+
+	// TargetDate.
+	//
+	// Format: date
 	TargetDate *strfmt.Date
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the pay all invoices params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PayAllInvoicesParams) WithDefaults() *PayAllInvoicesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the pay all invoices params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PayAllInvoicesParams) SetDefaults() {
+	var (
+		externalPaymentDefault = bool(false)
+	)
+
+	val := PayAllInvoicesParams{
+		ExternalPayment: &externalPaymentDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the pay all invoices params
@@ -247,7 +272,6 @@ func (o *PayAllInvoicesParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -261,7 +285,6 @@ func (o *PayAllInvoicesParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId
@@ -273,85 +296,78 @@ func (o *PayAllInvoicesParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param externalPayment
 		var qrExternalPayment bool
+
 		if o.ExternalPayment != nil {
 			qrExternalPayment = *o.ExternalPayment
 		}
 		qExternalPayment := swag.FormatBool(qrExternalPayment)
 		if qExternalPayment != "" {
+
 			if err := r.SetQueryParam("externalPayment", qExternalPayment); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.PaymentAmount != nil {
 
 		// query param paymentAmount
 		var qrPaymentAmount float64
+
 		if o.PaymentAmount != nil {
 			qrPaymentAmount = *o.PaymentAmount
 		}
 		qPaymentAmount := swag.FormatFloat64(qrPaymentAmount)
 		if qPaymentAmount != "" {
+
 			if err := r.SetQueryParam("paymentAmount", qPaymentAmount); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.PaymentMethodID != nil {
 
 		// query param paymentMethodId
 		var qrPaymentMethodID strfmt.UUID
+
 		if o.PaymentMethodID != nil {
 			qrPaymentMethodID = *o.PaymentMethodID
 		}
 		qPaymentMethodID := qrPaymentMethodID.String()
 		if qPaymentMethodID != "" {
+
 			if err := r.SetQueryParam("paymentMethodId", qPaymentMethodID); err != nil {
 				return err
 			}
 		}
-
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.TargetDate != nil {
 
 		// query param targetDate
 		var qrTargetDate strfmt.Date
+
 		if o.TargetDate != nil {
 			qrTargetDate = *o.TargetDate
 		}
 		qTargetDate := qrTargetDate.String()
 		if qTargetDate != "" {
+
 			if err := r.SetQueryParam("targetDate", qTargetDate); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 
@@ -359,4 +375,21 @@ func (o *PayAllInvoicesParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamPayAllInvoices binds the parameter pluginProperty
+func (o *PayAllInvoicesParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

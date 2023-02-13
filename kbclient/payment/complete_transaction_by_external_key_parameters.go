@@ -13,76 +13,93 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCompleteTransactionByExternalKeyParams creates a new CompleteTransactionByExternalKeyParams object
-// with the default values initialized.
+// NewCompleteTransactionByExternalKeyParams creates a new CompleteTransactionByExternalKeyParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCompleteTransactionByExternalKeyParams() *CompleteTransactionByExternalKeyParams {
-	var ()
 	return &CompleteTransactionByExternalKeyParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCompleteTransactionByExternalKeyParamsWithTimeout creates a new CompleteTransactionByExternalKeyParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCompleteTransactionByExternalKeyParamsWithTimeout(timeout time.Duration) *CompleteTransactionByExternalKeyParams {
-	var ()
 	return &CompleteTransactionByExternalKeyParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCompleteTransactionByExternalKeyParamsWithContext creates a new CompleteTransactionByExternalKeyParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCompleteTransactionByExternalKeyParamsWithContext(ctx context.Context) *CompleteTransactionByExternalKeyParams {
-	var ()
 	return &CompleteTransactionByExternalKeyParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCompleteTransactionByExternalKeyParamsWithHTTPClient creates a new CompleteTransactionByExternalKeyParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCompleteTransactionByExternalKeyParamsWithHTTPClient(client *http.Client) *CompleteTransactionByExternalKeyParams {
-	var ()
 	return &CompleteTransactionByExternalKeyParams{
 		HTTPClient: client,
 	}
 }
 
-/*CompleteTransactionByExternalKeyParams contains all the parameters to send to the API endpoint
-for the complete transaction by external key operation typically these are written to a http.Request
+/*
+CompleteTransactionByExternalKeyParams contains all the parameters to send to the API endpoint
+
+	for the complete transaction by external key operation.
+
+	Typically these are written to a http.Request.
 */
 type CompleteTransactionByExternalKeyParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.PaymentTransaction
-	/*ControlPluginName*/
+
+	// ControlPluginName.
 	ControlPluginName []string
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the complete transaction by external key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CompleteTransactionByExternalKeyParams) WithDefaults() *CompleteTransactionByExternalKeyParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the complete transaction by external key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CompleteTransactionByExternalKeyParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the complete transaction by external key params
@@ -198,7 +215,6 @@ func (o *CompleteTransactionByExternalKeyParams) WriteToRequest(r runtime.Client
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -212,41 +228,31 @@ func (o *CompleteTransactionByExternalKeyParams) WriteToRequest(r runtime.Client
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	valuesControlPluginName := o.ControlPluginName
+	if o.ControlPluginName != nil {
 
-	joinedControlPluginName := swag.JoinByFormat(valuesControlPluginName, "multi")
-	// query array param controlPluginName
-	if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
-		return err
-	}
+		// binding items for controlPluginName
+		joinedControlPluginName := o.bindParamControlPluginName(reg)
 
-	valuesPluginProperty := o.PluginProperty
-
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+		// query array param controlPluginName
+		if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
 			return err
 		}
 	}
 
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+	if o.PluginProperty != nil {
+
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
 			return err
 		}
 	}
@@ -255,4 +261,38 @@ func (o *CompleteTransactionByExternalKeyParams) WriteToRequest(r runtime.Client
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCompleteTransactionByExternalKey binds the parameter controlPluginName
+func (o *CompleteTransactionByExternalKeyParams) bindParamControlPluginName(formats strfmt.Registry) []string {
+	controlPluginNameIR := o.ControlPluginName
+
+	var controlPluginNameIC []string
+	for _, controlPluginNameIIR := range controlPluginNameIR { // explode []string
+
+		controlPluginNameIIV := controlPluginNameIIR // string as string
+		controlPluginNameIC = append(controlPluginNameIC, controlPluginNameIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	controlPluginNameIS := swag.JoinByFormat(controlPluginNameIC, "multi")
+
+	return controlPluginNameIS
+}
+
+// bindParamCompleteTransactionByExternalKey binds the parameter pluginProperty
+func (o *CompleteTransactionByExternalKeyParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

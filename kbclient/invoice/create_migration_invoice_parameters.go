@@ -13,75 +13,96 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreateMigrationInvoiceParams creates a new CreateMigrationInvoiceParams object
-// with the default values initialized.
+// NewCreateMigrationInvoiceParams creates a new CreateMigrationInvoiceParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateMigrationInvoiceParams() *CreateMigrationInvoiceParams {
-	var ()
 	return &CreateMigrationInvoiceParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateMigrationInvoiceParamsWithTimeout creates a new CreateMigrationInvoiceParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateMigrationInvoiceParamsWithTimeout(timeout time.Duration) *CreateMigrationInvoiceParams {
-	var ()
 	return &CreateMigrationInvoiceParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateMigrationInvoiceParamsWithContext creates a new CreateMigrationInvoiceParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateMigrationInvoiceParamsWithContext(ctx context.Context) *CreateMigrationInvoiceParams {
-	var ()
 	return &CreateMigrationInvoiceParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateMigrationInvoiceParamsWithHTTPClient creates a new CreateMigrationInvoiceParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateMigrationInvoiceParamsWithHTTPClient(client *http.Client) *CreateMigrationInvoiceParams {
-	var ()
 	return &CreateMigrationInvoiceParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateMigrationInvoiceParams contains all the parameters to send to the API endpoint
-for the create migration invoice operation typically these are written to a http.Request
+/*
+CreateMigrationInvoiceParams contains all the parameters to send to the API endpoint
+
+	for the create migration invoice operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateMigrationInvoiceParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*Body*/
+
+	// Body.
 	Body []*kbmodel.InvoiceItem
-	/*TargetDate*/
+
+	// TargetDate.
+	//
+	// Format: date
 	TargetDate *strfmt.Date
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create migration invoice params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateMigrationInvoiceParams) WithDefaults() *CreateMigrationInvoiceParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create migration invoice params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateMigrationInvoiceParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create migration invoice params
@@ -197,7 +218,6 @@ func (o *CreateMigrationInvoiceParams) WriteToRequest(r runtime.ClientRequest, r
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -211,14 +231,12 @@ func (o *CreateMigrationInvoiceParams) WriteToRequest(r runtime.ClientRequest, r
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {
 		return err
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -229,29 +247,16 @@ func (o *CreateMigrationInvoiceParams) WriteToRequest(r runtime.ClientRequest, r
 
 		// query param targetDate
 		var qrTargetDate strfmt.Date
+
 		if o.TargetDate != nil {
 			qrTargetDate = *o.TargetDate
 		}
 		qTargetDate := qrTargetDate.String()
 		if qTargetDate != "" {
+
 			if err := r.SetQueryParam("targetDate", qTargetDate); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 

@@ -6,37 +6,15 @@ package tenant
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new tenant API client.
-func New(transport runtime.ClientTransport,
-	formats strfmt.Registry,
-	authInfo runtime.ClientAuthInfoWriter,
-	defaults KillbillDefaults) *Client {
-
-	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
-}
-
-// killbill default values. When a call is made to an operation, these values are used
-// if params doesn't specify them.
-type KillbillDefaults interface {
-	// Default CreatedBy. If not set explicitly in params, this will be used.
-	XKillbillCreatedBy() *string
-	// Default Comment. If not set explicitly in params, this will be used.
-	XKillbillComment() *string
-	// Default Reason. If not set explicitly in params, this will be used.
-	XKillbillReason() *string
-	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
-	KillbillWithProfilingInfo() *string
-	// Default WithStackTrace. If not set explicitly in params, this will be used.
-	KillbillWithStackTrace() *bool
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+	return &Client{transport: transport, formats: formats}
 }
 
 /*
@@ -45,141 +23,63 @@ Client for tenant API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
-	authInfo  runtime.ClientAuthInfoWriter
-	defaults  KillbillDefaults
 }
 
-// ITenant - interface for Tenant client.
-type ITenant interface {
-	/*
-		CreateTenant creates a tenant
-	*/
-	CreateTenant(ctx context.Context, params *CreateTenantParams) (*CreateTenantCreated, error)
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
 
-	/*
-		DeletePerTenantConfiguration deletes a per tenant configuration system properties
-	*/
-	DeletePerTenantConfiguration(ctx context.Context, params *DeletePerTenantConfigurationParams) (*DeletePerTenantConfigurationNoContent, error)
+// ClientService is the interface for Client methods
+type ClientService interface {
+	CreateTenant(params *CreateTenantParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateTenantCreated, error)
 
-	/*
-		DeletePluginConfiguration deletes a per tenant configuration for a plugin
-	*/
-	DeletePluginConfiguration(ctx context.Context, params *DeletePluginConfigurationParams) (*DeletePluginConfigurationNoContent, error)
+	DeletePerTenantConfiguration(params *DeletePerTenantConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePerTenantConfigurationNoContent, error)
 
-	/*
-		DeletePluginPaymentStateMachineConfig deletes a per tenant payment state machine for a plugin
-	*/
-	DeletePluginPaymentStateMachineConfig(ctx context.Context, params *DeletePluginPaymentStateMachineConfigParams) (*DeletePluginPaymentStateMachineConfigNoContent, error)
+	DeletePluginConfiguration(params *DeletePluginConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePluginConfigurationNoContent, error)
 
-	/*
-		DeletePushNotificationCallbacks deletes a push notification
-	*/
-	DeletePushNotificationCallbacks(ctx context.Context, params *DeletePushNotificationCallbacksParams) (*DeletePushNotificationCallbacksNoContent, error)
+	DeletePluginPaymentStateMachineConfig(params *DeletePluginPaymentStateMachineConfigParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePluginPaymentStateMachineConfigNoContent, error)
 
-	/*
-		DeleteUserKeyValue deletes a per tenant user key value
-	*/
-	DeleteUserKeyValue(ctx context.Context, params *DeleteUserKeyValueParams) (*DeleteUserKeyValueNoContent, error)
+	DeletePushNotificationCallbacks(params *DeletePushNotificationCallbacksParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePushNotificationCallbacksNoContent, error)
 
-	/*
-		GetAllPluginConfiguration retrieves a per tenant key value based on key prefix
-	*/
-	GetAllPluginConfiguration(ctx context.Context, params *GetAllPluginConfigurationParams) (*GetAllPluginConfigurationOK, error)
+	DeleteUserKeyValue(params *DeleteUserKeyValueParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteUserKeyValueNoContent, error)
 
-	/*
-		GetPerTenantConfiguration retrieves a per tenant configuration system properties
-	*/
-	GetPerTenantConfiguration(ctx context.Context, params *GetPerTenantConfigurationParams) (*GetPerTenantConfigurationOK, error)
+	GetAllPluginConfiguration(params *GetAllPluginConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAllPluginConfigurationOK, error)
 
-	/*
-		GetPluginConfiguration retrieves a per tenant configuration for a plugin
-	*/
-	GetPluginConfiguration(ctx context.Context, params *GetPluginConfigurationParams) (*GetPluginConfigurationOK, error)
+	GetPerTenantConfiguration(params *GetPerTenantConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPerTenantConfigurationOK, error)
 
-	/*
-		GetPluginPaymentStateMachineConfig retrieves a per tenant payment state machine for a plugin
-	*/
-	GetPluginPaymentStateMachineConfig(ctx context.Context, params *GetPluginPaymentStateMachineConfigParams) (*GetPluginPaymentStateMachineConfigOK, error)
+	GetPluginConfiguration(params *GetPluginConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPluginConfigurationOK, error)
 
-	/*
-		GetPushNotificationCallbacks retrieves a push notification
-	*/
-	GetPushNotificationCallbacks(ctx context.Context, params *GetPushNotificationCallbacksParams) (*GetPushNotificationCallbacksOK, error)
+	GetPluginPaymentStateMachineConfig(params *GetPluginPaymentStateMachineConfigParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPluginPaymentStateMachineConfigOK, error)
 
-	/*
-		GetTenant retrieves a tenant by id
-	*/
-	GetTenant(ctx context.Context, params *GetTenantParams) (*GetTenantOK, error)
+	GetPushNotificationCallbacks(params *GetPushNotificationCallbacksParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPushNotificationCallbacksOK, error)
 
-	/*
-		GetTenantByAPIKey retrieves a tenant by its API key
-	*/
-	GetTenantByAPIKey(ctx context.Context, params *GetTenantByAPIKeyParams) (*GetTenantByAPIKeyOK, error)
+	GetTenant(params *GetTenantParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetTenantOK, error)
 
-	/*
-		GetUserKeyValue retrieves a per tenant user key value
-	*/
-	GetUserKeyValue(ctx context.Context, params *GetUserKeyValueParams) (*GetUserKeyValueOK, error)
+	GetTenantByAPIKey(params *GetTenantByAPIKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetTenantByAPIKeyOK, error)
 
-	/*
-		InsertUserKeyValue adds a per tenant user key value
-	*/
-	InsertUserKeyValue(ctx context.Context, params *InsertUserKeyValueParams) (*InsertUserKeyValueCreated, error)
+	GetUserKeyValue(params *GetUserKeyValueParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetUserKeyValueOK, error)
 
-	/*
-		RegisterPushNotificationCallback creates a push notification
-	*/
-	RegisterPushNotificationCallback(ctx context.Context, params *RegisterPushNotificationCallbackParams) (*RegisterPushNotificationCallbackCreated, error)
+	InsertUserKeyValue(params *InsertUserKeyValueParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InsertUserKeyValueCreated, error)
 
-	/*
-		UploadPerTenantConfiguration adds a per tenant configuration system properties
-	*/
-	UploadPerTenantConfiguration(ctx context.Context, params *UploadPerTenantConfigurationParams) (*UploadPerTenantConfigurationCreated, error)
+	RegisterPushNotificationCallback(params *RegisterPushNotificationCallbackParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RegisterPushNotificationCallbackCreated, error)
 
-	/*
-		UploadPluginConfiguration adds a per tenant configuration for a plugin
-	*/
-	UploadPluginConfiguration(ctx context.Context, params *UploadPluginConfigurationParams) (*UploadPluginConfigurationCreated, error)
+	UploadPerTenantConfiguration(params *UploadPerTenantConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadPerTenantConfigurationCreated, error)
 
-	/*
-		UploadPluginPaymentStateMachineConfig adds a per tenant payment state machine for a plugin
-	*/
-	UploadPluginPaymentStateMachineConfig(ctx context.Context, params *UploadPluginPaymentStateMachineConfigParams) (*UploadPluginPaymentStateMachineConfigCreated, error)
+	UploadPluginConfiguration(params *UploadPluginConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadPluginConfigurationCreated, error)
+
+	UploadPluginPaymentStateMachineConfig(params *UploadPluginPaymentStateMachineConfigParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadPluginPaymentStateMachineConfigCreated, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
 CreateTenant creates a tenant
 */
-func (a *Client) CreateTenant(ctx context.Context, params *CreateTenantParams) (*CreateTenantCreated, error) {
+func (a *Client) CreateTenant(params *CreateTenantParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateTenantCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateTenantParams()
 	}
-	getParams := NewCreateTenantParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createTenant",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants",
@@ -188,81 +88,54 @@ func (a *Client) CreateTenant(ctx context.Context, params *CreateTenantParams) (
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateTenantReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateTenantCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateTenantCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createTenant",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateTenantReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateTenantCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createTenant: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 DeletePerTenantConfiguration deletes a per tenant configuration system properties
 */
-func (a *Client) DeletePerTenantConfiguration(ctx context.Context, params *DeletePerTenantConfigurationParams) (*DeletePerTenantConfigurationNoContent, error) {
+func (a *Client) DeletePerTenantConfiguration(params *DeletePerTenantConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePerTenantConfigurationNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeletePerTenantConfigurationParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePerTenantConfiguration",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/uploadPerTenantConfig",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePerTenantConfigurationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -274,51 +147,34 @@ func (a *Client) DeletePerTenantConfiguration(ctx context.Context, params *Delet
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deletePerTenantConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 DeletePluginConfiguration deletes a per tenant configuration for a plugin
 */
-func (a *Client) DeletePluginConfiguration(ctx context.Context, params *DeletePluginConfigurationParams) (*DeletePluginConfigurationNoContent, error) {
+func (a *Client) DeletePluginConfiguration(params *DeletePluginConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePluginConfigurationNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeletePluginConfigurationParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePluginConfiguration",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginConfig/{pluginName}",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePluginConfigurationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -330,51 +186,34 @@ func (a *Client) DeletePluginConfiguration(ctx context.Context, params *DeletePl
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deletePluginConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 DeletePluginPaymentStateMachineConfig deletes a per tenant payment state machine for a plugin
 */
-func (a *Client) DeletePluginPaymentStateMachineConfig(ctx context.Context, params *DeletePluginPaymentStateMachineConfigParams) (*DeletePluginPaymentStateMachineConfigNoContent, error) {
+func (a *Client) DeletePluginPaymentStateMachineConfig(params *DeletePluginPaymentStateMachineConfigParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePluginPaymentStateMachineConfigNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeletePluginPaymentStateMachineConfigParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePluginPaymentStateMachineConfig",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePluginPaymentStateMachineConfigReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -386,51 +225,34 @@ func (a *Client) DeletePluginPaymentStateMachineConfig(ctx context.Context, para
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deletePluginPaymentStateMachineConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 DeletePushNotificationCallbacks deletes a push notification
 */
-func (a *Client) DeletePushNotificationCallbacks(ctx context.Context, params *DeletePushNotificationCallbacksParams) (*DeletePushNotificationCallbacksNoContent, error) {
+func (a *Client) DeletePushNotificationCallbacks(params *DeletePushNotificationCallbacksParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePushNotificationCallbacksNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeletePushNotificationCallbacksParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePushNotificationCallbacks",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/registerNotificationCallback",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePushNotificationCallbacksReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -442,51 +264,34 @@ func (a *Client) DeletePushNotificationCallbacks(ctx context.Context, params *De
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deletePushNotificationCallbacks: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 DeleteUserKeyValue deletes a per tenant user key value
 */
-func (a *Client) DeleteUserKeyValue(ctx context.Context, params *DeleteUserKeyValueParams) (*DeleteUserKeyValueNoContent, error) {
+func (a *Client) DeleteUserKeyValue(params *DeleteUserKeyValueParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteUserKeyValueNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteUserKeyValueParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteUserKeyValue",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/userKeyValue/{keyName}",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteUserKeyValueReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -498,39 +303,34 @@ func (a *Client) DeleteUserKeyValue(ctx context.Context, params *DeleteUserKeyVa
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteUserKeyValue: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetAllPluginConfiguration retrieves a per tenant key value based on key prefix
 */
-func (a *Client) GetAllPluginConfiguration(ctx context.Context, params *GetAllPluginConfigurationParams) (*GetAllPluginConfigurationOK, error) {
+func (a *Client) GetAllPluginConfiguration(params *GetAllPluginConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAllPluginConfigurationOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAllPluginConfigurationParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAllPluginConfiguration",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/uploadPerTenantConfig/{keyPrefix}/search",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAllPluginConfigurationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -542,39 +342,34 @@ func (a *Client) GetAllPluginConfiguration(ctx context.Context, params *GetAllPl
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAllPluginConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetPerTenantConfiguration retrieves a per tenant configuration system properties
 */
-func (a *Client) GetPerTenantConfiguration(ctx context.Context, params *GetPerTenantConfigurationParams) (*GetPerTenantConfigurationOK, error) {
+func (a *Client) GetPerTenantConfiguration(params *GetPerTenantConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPerTenantConfigurationOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPerTenantConfigurationParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPerTenantConfiguration",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/uploadPerTenantConfig",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPerTenantConfigurationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -586,39 +381,34 @@ func (a *Client) GetPerTenantConfiguration(ctx context.Context, params *GetPerTe
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPerTenantConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetPluginConfiguration retrieves a per tenant configuration for a plugin
 */
-func (a *Client) GetPluginConfiguration(ctx context.Context, params *GetPluginConfigurationParams) (*GetPluginConfigurationOK, error) {
+func (a *Client) GetPluginConfiguration(params *GetPluginConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPluginConfigurationOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPluginConfigurationParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPluginConfiguration",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginConfig/{pluginName}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPluginConfigurationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -630,39 +420,34 @@ func (a *Client) GetPluginConfiguration(ctx context.Context, params *GetPluginCo
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPluginConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetPluginPaymentStateMachineConfig retrieves a per tenant payment state machine for a plugin
 */
-func (a *Client) GetPluginPaymentStateMachineConfig(ctx context.Context, params *GetPluginPaymentStateMachineConfigParams) (*GetPluginPaymentStateMachineConfigOK, error) {
+func (a *Client) GetPluginPaymentStateMachineConfig(params *GetPluginPaymentStateMachineConfigParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPluginPaymentStateMachineConfigOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPluginPaymentStateMachineConfigParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPluginPaymentStateMachineConfig",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPluginPaymentStateMachineConfigReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -674,39 +459,34 @@ func (a *Client) GetPluginPaymentStateMachineConfig(ctx context.Context, params 
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPluginPaymentStateMachineConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetPushNotificationCallbacks retrieves a push notification
 */
-func (a *Client) GetPushNotificationCallbacks(ctx context.Context, params *GetPushNotificationCallbacksParams) (*GetPushNotificationCallbacksOK, error) {
+func (a *Client) GetPushNotificationCallbacks(params *GetPushNotificationCallbacksParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPushNotificationCallbacksOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPushNotificationCallbacksParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPushNotificationCallbacks",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/registerNotificationCallback",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPushNotificationCallbacksReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -718,39 +498,34 @@ func (a *Client) GetPushNotificationCallbacks(ctx context.Context, params *GetPu
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPushNotificationCallbacks: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetTenant retrieves a tenant by id
 */
-func (a *Client) GetTenant(ctx context.Context, params *GetTenantParams) (*GetTenantOK, error) {
+func (a *Client) GetTenant(params *GetTenantParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetTenantOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetTenantParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTenant",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/{tenantId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTenantReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -762,39 +537,34 @@ func (a *Client) GetTenant(ctx context.Context, params *GetTenantParams) (*GetTe
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getTenant: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetTenantByAPIKey retrieves a tenant by its API key
 */
-func (a *Client) GetTenantByAPIKey(ctx context.Context, params *GetTenantByAPIKeyParams) (*GetTenantByAPIKeyOK, error) {
+func (a *Client) GetTenantByAPIKey(params *GetTenantByAPIKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetTenantByAPIKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetTenantByAPIKeyParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTenantByApiKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTenantByAPIKeyReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -806,39 +576,34 @@ func (a *Client) GetTenantByAPIKey(ctx context.Context, params *GetTenantByAPIKe
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getTenantByApiKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetUserKeyValue retrieves a per tenant user key value
 */
-func (a *Client) GetUserKeyValue(ctx context.Context, params *GetUserKeyValueParams) (*GetUserKeyValueOK, error) {
+func (a *Client) GetUserKeyValue(params *GetUserKeyValueParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetUserKeyValueOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetUserKeyValueParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getUserKeyValue",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/userKeyValue/{keyName}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetUserKeyValueReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -850,42 +615,17 @@ func (a *Client) GetUserKeyValue(ctx context.Context, params *GetUserKeyValuePar
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getUserKeyValue: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 InsertUserKeyValue adds a per tenant user key value
 */
-func (a *Client) InsertUserKeyValue(ctx context.Context, params *InsertUserKeyValueParams) (*InsertUserKeyValueCreated, error) {
+func (a *Client) InsertUserKeyValue(params *InsertUserKeyValueParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InsertUserKeyValueCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewInsertUserKeyValueParams()
 	}
-	getParams := NewInsertUserKeyValueParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "insertUserKeyValue",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/userKeyValue/{keyName}",
@@ -894,72 +634,37 @@ func (a *Client) InsertUserKeyValue(ctx context.Context, params *InsertUserKeyVa
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &InsertUserKeyValueReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*InsertUserKeyValueCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*InsertUserKeyValueCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "insertUserKeyValue",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"text/plain"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &InsertUserKeyValueReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*InsertUserKeyValueCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for insertUserKeyValue: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 RegisterPushNotificationCallback creates a push notification
 */
-func (a *Client) RegisterPushNotificationCallback(ctx context.Context, params *RegisterPushNotificationCallbackParams) (*RegisterPushNotificationCallbackCreated, error) {
+func (a *Client) RegisterPushNotificationCallback(params *RegisterPushNotificationCallbackParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RegisterPushNotificationCallbackCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRegisterPushNotificationCallbackParams()
 	}
-	getParams := NewRegisterPushNotificationCallbackParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "registerPushNotificationCallback",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/registerNotificationCallback",
@@ -968,72 +673,37 @@ func (a *Client) RegisterPushNotificationCallback(ctx context.Context, params *R
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &RegisterPushNotificationCallbackReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*RegisterPushNotificationCallbackCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*RegisterPushNotificationCallbackCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "registerPushNotificationCallback",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &RegisterPushNotificationCallbackReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*RegisterPushNotificationCallbackCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for registerPushNotificationCallback: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 UploadPerTenantConfiguration adds a per tenant configuration system properties
 */
-func (a *Client) UploadPerTenantConfiguration(ctx context.Context, params *UploadPerTenantConfigurationParams) (*UploadPerTenantConfigurationCreated, error) {
+func (a *Client) UploadPerTenantConfiguration(params *UploadPerTenantConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadPerTenantConfigurationCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUploadPerTenantConfigurationParams()
 	}
-	getParams := NewUploadPerTenantConfigurationParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadPerTenantConfiguration",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/uploadPerTenantConfig",
@@ -1042,72 +712,37 @@ func (a *Client) UploadPerTenantConfiguration(ctx context.Context, params *Uploa
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UploadPerTenantConfigurationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*UploadPerTenantConfigurationCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*UploadPerTenantConfigurationCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "uploadPerTenantConfiguration",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"text/plain"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &UploadPerTenantConfigurationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*UploadPerTenantConfigurationCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for uploadPerTenantConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 UploadPluginConfiguration adds a per tenant configuration for a plugin
 */
-func (a *Client) UploadPluginConfiguration(ctx context.Context, params *UploadPluginConfigurationParams) (*UploadPluginConfigurationCreated, error) {
+func (a *Client) UploadPluginConfiguration(params *UploadPluginConfigurationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadPluginConfigurationCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUploadPluginConfigurationParams()
 	}
-	getParams := NewUploadPluginConfigurationParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadPluginConfiguration",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginConfig/{pluginName}",
@@ -1116,72 +751,37 @@ func (a *Client) UploadPluginConfiguration(ctx context.Context, params *UploadPl
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UploadPluginConfigurationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*UploadPluginConfigurationCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*UploadPluginConfigurationCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "uploadPluginConfiguration",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"text/plain"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &UploadPluginConfigurationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*UploadPluginConfigurationCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for uploadPluginConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 UploadPluginPaymentStateMachineConfig adds a per tenant payment state machine for a plugin
 */
-func (a *Client) UploadPluginPaymentStateMachineConfig(ctx context.Context, params *UploadPluginPaymentStateMachineConfigParams) (*UploadPluginPaymentStateMachineConfigCreated, error) {
+func (a *Client) UploadPluginPaymentStateMachineConfig(params *UploadPluginPaymentStateMachineConfigParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadPluginPaymentStateMachineConfigCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUploadPluginPaymentStateMachineConfigParams()
 	}
-	getParams := NewUploadPluginPaymentStateMachineConfigParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadPluginPaymentStateMachineConfig",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}",
@@ -1190,37 +790,26 @@ func (a *Client) UploadPluginPaymentStateMachineConfig(ctx context.Context, para
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UploadPluginPaymentStateMachineConfigReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*UploadPluginPaymentStateMachineConfigCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*UploadPluginPaymentStateMachineConfigCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "uploadPluginPaymentStateMachineConfig",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"text/plain"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &UploadPluginPaymentStateMachineConfigReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*UploadPluginPaymentStateMachineConfigCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for uploadPluginPaymentStateMachineConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 // SetTransport changes the transport on the client

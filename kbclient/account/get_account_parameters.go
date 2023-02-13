@@ -13,98 +13,106 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetAccountParams creates a new GetAccountParams object
-// with the default values initialized.
+// NewGetAccountParams creates a new GetAccountParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAccountParams() *GetAccountParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-	)
 	return &GetAccountParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAccountParamsWithTimeout creates a new GetAccountParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetAccountParamsWithTimeout(timeout time.Duration) *GetAccountParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-	)
 	return &GetAccountParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetAccountParamsWithContext creates a new GetAccountParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetAccountParamsWithContext(ctx context.Context) *GetAccountParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-	)
 	return &GetAccountParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetAccountParamsWithHTTPClient creates a new GetAccountParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetAccountParamsWithHTTPClient(client *http.Client) *GetAccountParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-	)
 	return &GetAccountParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-		HTTPClient:               client,
+		HTTPClient: client,
 	}
 }
 
-/*GetAccountParams contains all the parameters to send to the API endpoint
-for the get account operation typically these are written to a http.Request
+/*
+GetAccountParams contains all the parameters to send to the API endpoint
+
+	for the get account operation.
+
+	Typically these are written to a http.Request.
 */
 type GetAccountParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*AccountWithBalance*/
+
+	// AccountWithBalance.
 	AccountWithBalance *bool
-	/*AccountWithBalanceAndCBA*/
+
+	// AccountWithBalanceAndCBA.
 	AccountWithBalanceAndCBA *bool
-	/*Audit*/
+
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAccountParams) WithDefaults() *GetAccountParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAccountParams) SetDefaults() {
+	var (
+		accountWithBalanceDefault = bool(false)
+
+		accountWithBalanceAndCBADefault = bool(false)
+
+		auditDefault = string("NONE")
+	)
+
+	val := GetAccountParams{
+		AccountWithBalance:       &accountWithBalanceDefault,
+		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
+		Audit:                    &auditDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get account params
@@ -201,61 +209,50 @@ func (o *GetAccountParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 
 		// query param accountWithBalance
 		var qrAccountWithBalance bool
+
 		if o.AccountWithBalance != nil {
 			qrAccountWithBalance = *o.AccountWithBalance
 		}
 		qAccountWithBalance := swag.FormatBool(qrAccountWithBalance)
 		if qAccountWithBalance != "" {
+
 			if err := r.SetQueryParam("accountWithBalance", qAccountWithBalance); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.AccountWithBalanceAndCBA != nil {
 
 		// query param accountWithBalanceAndCBA
 		var qrAccountWithBalanceAndCBA bool
+
 		if o.AccountWithBalanceAndCBA != nil {
 			qrAccountWithBalanceAndCBA = *o.AccountWithBalanceAndCBA
 		}
 		qAccountWithBalanceAndCBA := swag.FormatBool(qrAccountWithBalanceAndCBA)
 		if qAccountWithBalanceAndCBA != "" {
+
 			if err := r.SetQueryParam("accountWithBalanceAndCBA", qAccountWithBalanceAndCBA); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Audit != nil {
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 

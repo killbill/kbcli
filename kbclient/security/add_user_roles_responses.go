@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // AddUserRolesReader is a Reader for the AddUserRoles structure.
@@ -25,20 +23,14 @@ type AddUserRolesReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *AddUserRolesReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
-	case 201, 200:
+	case 201:
 		result := NewAddUserRolesCreated()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
-			return nil, err
-		}
-		return nil, errorResult
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -47,17 +39,50 @@ func NewAddUserRolesCreated() *AddUserRolesCreated {
 	return &AddUserRolesCreated{}
 }
 
-/*AddUserRolesCreated handles this case with default header values.
+/*
+AddUserRolesCreated describes a response with status code 201, with default header values.
 
 User role created successfully
 */
 type AddUserRolesCreated struct {
 	Payload *kbmodel.UserRoles
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this add user roles created response has a 2xx status code
+func (o *AddUserRolesCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add user roles created response has a 3xx status code
+func (o *AddUserRolesCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add user roles created response has a 4xx status code
+func (o *AddUserRolesCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add user roles created response has a 5xx status code
+func (o *AddUserRolesCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add user roles created response a status code equal to that given
+func (o *AddUserRolesCreated) IsCode(code int) bool {
+	return code == 201
+}
+
+// Code gets the status code for the add user roles created response
+func (o *AddUserRolesCreated) Code() int {
+	return 201
 }
 
 func (o *AddUserRolesCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/security/users][%d] addUserRolesCreated  %+v", 201, o.Payload)
+}
+
+func (o *AddUserRolesCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/security/users][%d] addUserRolesCreated  %+v", 201, o.Payload)
 }
 

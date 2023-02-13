@@ -13,74 +13,95 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewPauseBundleParams creates a new PauseBundleParams object
-// with the default values initialized.
+// NewPauseBundleParams creates a new PauseBundleParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPauseBundleParams() *PauseBundleParams {
-	var ()
 	return &PauseBundleParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPauseBundleParamsWithTimeout creates a new PauseBundleParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPauseBundleParamsWithTimeout(timeout time.Duration) *PauseBundleParams {
-	var ()
 	return &PauseBundleParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPauseBundleParamsWithContext creates a new PauseBundleParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPauseBundleParamsWithContext(ctx context.Context) *PauseBundleParams {
-	var ()
 	return &PauseBundleParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPauseBundleParamsWithHTTPClient creates a new PauseBundleParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPauseBundleParamsWithHTTPClient(client *http.Client) *PauseBundleParams {
-	var ()
 	return &PauseBundleParams{
 		HTTPClient: client,
 	}
 }
 
-/*PauseBundleParams contains all the parameters to send to the API endpoint
-for the pause bundle operation typically these are written to a http.Request
+/*
+PauseBundleParams contains all the parameters to send to the API endpoint
+
+	for the pause bundle operation.
+
+	Typically these are written to a http.Request.
 */
 type PauseBundleParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*BundleID*/
+
+	// BundleID.
+	//
+	// Format: uuid
 	BundleID strfmt.UUID
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*RequestedDate*/
+
+	// RequestedDate.
+	//
+	// Format: date
 	RequestedDate *strfmt.Date
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the pause bundle params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PauseBundleParams) WithDefaults() *PauseBundleParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the pause bundle params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PauseBundleParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the pause bundle params
@@ -196,7 +217,6 @@ func (o *PauseBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -210,7 +230,6 @@ func (o *PauseBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param bundleId
@@ -218,41 +237,31 @@ func (o *PauseBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return err
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
+
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
+
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 
@@ -260,4 +269,21 @@ func (o *PauseBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamPauseBundle binds the parameter pluginProperty
+func (o *PauseBundleParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

@@ -7,12 +7,9 @@ package export
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // ExportDataForAccountReader is a Reader for the ExportDataForAccount structure.
@@ -23,21 +20,26 @@ type ExportDataForAccountReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ExportDataForAccountReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewExportDataForAccountOK()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewExportDataForAccountBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewExportDataForAccountNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +48,49 @@ func NewExportDataForAccountOK() *ExportDataForAccountOK {
 	return &ExportDataForAccountOK{}
 }
 
-/*ExportDataForAccountOK handles this case with default header values.
+/*
+ExportDataForAccountOK describes a response with status code 200, with default header values.
 
 Success
 */
 type ExportDataForAccountOK struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this export data for account o k response has a 2xx status code
+func (o *ExportDataForAccountOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this export data for account o k response has a 3xx status code
+func (o *ExportDataForAccountOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this export data for account o k response has a 4xx status code
+func (o *ExportDataForAccountOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this export data for account o k response has a 5xx status code
+func (o *ExportDataForAccountOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this export data for account o k response a status code equal to that given
+func (o *ExportDataForAccountOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the export data for account o k response
+func (o *ExportDataForAccountOK) Code() int {
+	return 200
 }
 
 func (o *ExportDataForAccountOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/export/{accountId}][%d] exportDataForAccountOK ", 200)
+}
+
+func (o *ExportDataForAccountOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/export/{accountId}][%d] exportDataForAccountOK ", 200)
 }
 
@@ -68,15 +104,49 @@ func NewExportDataForAccountBadRequest() *ExportDataForAccountBadRequest {
 	return &ExportDataForAccountBadRequest{}
 }
 
-/*ExportDataForAccountBadRequest handles this case with default header values.
+/*
+ExportDataForAccountBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
 type ExportDataForAccountBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this export data for account bad request response has a 2xx status code
+func (o *ExportDataForAccountBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this export data for account bad request response has a 3xx status code
+func (o *ExportDataForAccountBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this export data for account bad request response has a 4xx status code
+func (o *ExportDataForAccountBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this export data for account bad request response has a 5xx status code
+func (o *ExportDataForAccountBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this export data for account bad request response a status code equal to that given
+func (o *ExportDataForAccountBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the export data for account bad request response
+func (o *ExportDataForAccountBadRequest) Code() int {
+	return 400
 }
 
 func (o *ExportDataForAccountBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/export/{accountId}][%d] exportDataForAccountBadRequest ", 400)
+}
+
+func (o *ExportDataForAccountBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/export/{accountId}][%d] exportDataForAccountBadRequest ", 400)
 }
 
@@ -90,15 +160,49 @@ func NewExportDataForAccountNotFound() *ExportDataForAccountNotFound {
 	return &ExportDataForAccountNotFound{}
 }
 
-/*ExportDataForAccountNotFound handles this case with default header values.
+/*
+ExportDataForAccountNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
 type ExportDataForAccountNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this export data for account not found response has a 2xx status code
+func (o *ExportDataForAccountNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this export data for account not found response has a 3xx status code
+func (o *ExportDataForAccountNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this export data for account not found response has a 4xx status code
+func (o *ExportDataForAccountNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this export data for account not found response has a 5xx status code
+func (o *ExportDataForAccountNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this export data for account not found response a status code equal to that given
+func (o *ExportDataForAccountNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the export data for account not found response
+func (o *ExportDataForAccountNotFound) Code() int {
+	return 404
 }
 
 func (o *ExportDataForAccountNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/export/{accountId}][%d] exportDataForAccountNotFound ", 404)
+}
+
+func (o *ExportDataForAccountNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/export/{accountId}][%d] exportDataForAccountNotFound ", 404)
 }
 

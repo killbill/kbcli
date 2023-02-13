@@ -13,71 +13,89 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewCreateInvoiceTagsParams creates a new CreateInvoiceTagsParams object
-// with the default values initialized.
+// NewCreateInvoiceTagsParams creates a new CreateInvoiceTagsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateInvoiceTagsParams() *CreateInvoiceTagsParams {
-	var ()
 	return &CreateInvoiceTagsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateInvoiceTagsParamsWithTimeout creates a new CreateInvoiceTagsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateInvoiceTagsParamsWithTimeout(timeout time.Duration) *CreateInvoiceTagsParams {
-	var ()
 	return &CreateInvoiceTagsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateInvoiceTagsParamsWithContext creates a new CreateInvoiceTagsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateInvoiceTagsParamsWithContext(ctx context.Context) *CreateInvoiceTagsParams {
-	var ()
 	return &CreateInvoiceTagsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateInvoiceTagsParamsWithHTTPClient creates a new CreateInvoiceTagsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateInvoiceTagsParamsWithHTTPClient(client *http.Client) *CreateInvoiceTagsParams {
-	var ()
 	return &CreateInvoiceTagsParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateInvoiceTagsParams contains all the parameters to send to the API endpoint
-for the create invoice tags operation typically these are written to a http.Request
+/*
+CreateInvoiceTagsParams contains all the parameters to send to the API endpoint
+
+	for the create invoice tags operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateInvoiceTagsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body []strfmt.UUID
-	/*InvoiceID*/
+
+	// InvoiceID.
+	//
+	// Format: uuid
 	InvoiceID strfmt.UUID
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create invoice tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateInvoiceTagsParams) WithDefaults() *CreateInvoiceTagsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create invoice tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateInvoiceTagsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create invoice tags params
@@ -182,7 +200,6 @@ func (o *CreateInvoiceTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -196,9 +213,7 @@ func (o *CreateInvoiceTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -208,20 +223,6 @@ func (o *CreateInvoiceTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 	// path param invoiceId
 	if err := r.SetPathParam("invoiceId", o.InvoiceID.String()); err != nil {
 		return err
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
-		}
 	}
 
 	if len(res) > 0 {

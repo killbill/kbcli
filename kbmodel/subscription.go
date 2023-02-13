@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Subscription subscription
+//
 // swagger:model Subscription
 type Subscription struct {
 
@@ -31,17 +32,17 @@ type Subscription struct {
 	BillCycleDayLocal int32 `json:"billCycleDayLocal,omitempty"`
 
 	// billing end date
-	// Format: date
-	BillingEndDate strfmt.Date `json:"billingEndDate,omitempty"`
+	// Format: date-time
+	BillingEndDate strfmt.DateTime `json:"billingEndDate,omitempty"`
 
 	// billing period
 	// Required: true
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
-	BillingPeriod *SubscriptionBillingPeriodEnum `json:"billingPeriod"`
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
+	BillingPeriod *string `json:"billingPeriod"`
 
 	// billing start date
-	// Format: date
-	BillingStartDate strfmt.Date `json:"billingStartDate,omitempty"`
+	// Format: date-time
+	BillingStartDate strfmt.DateTime `json:"billingStartDate,omitempty"`
 
 	// bundle external key
 	BundleExternalKey string `json:"bundleExternalKey,omitempty"`
@@ -51,8 +52,8 @@ type Subscription struct {
 	BundleID strfmt.UUID `json:"bundleId,omitempty"`
 
 	// cancelled date
-	// Format: date
-	CancelledDate strfmt.Date `json:"cancelledDate,omitempty"`
+	// Format: date-time
+	CancelledDate strfmt.DateTime `json:"cancelledDate,omitempty"`
 
 	// charged through date
 	// Format: date
@@ -66,7 +67,7 @@ type Subscription struct {
 
 	// phase type
 	// Enum: [TRIAL DISCOUNT FIXEDTERM EVERGREEN]
-	PhaseType SubscriptionPhaseTypeEnum `json:"phaseType,omitempty"`
+	PhaseType string `json:"phaseType,omitempty"`
 
 	// plan name
 	// Required: true
@@ -84,23 +85,26 @@ type Subscription struct {
 
 	// product category
 	// Enum: [BASE ADD_ON STANDALONE]
-	ProductCategory SubscriptionProductCategoryEnum `json:"productCategory,omitempty"`
+	ProductCategory string `json:"productCategory,omitempty"`
 
 	// product name
 	// Required: true
 	ProductName *string `json:"productName"`
 
+	// quantity
+	Quantity int32 `json:"quantity,omitempty"`
+
 	// source type
 	// Enum: [NATIVE MIGRATED TRANSFERRED]
-	SourceType SubscriptionSourceTypeEnum `json:"sourceType,omitempty"`
+	SourceType string `json:"sourceType,omitempty"`
 
 	// start date
-	// Format: date
-	StartDate strfmt.Date `json:"startDate,omitempty"`
+	// Format: date-time
+	StartDate strfmt.DateTime `json:"startDate,omitempty"`
 
 	// state
 	// Enum: [PENDING ACTIVE BLOCKED CANCELLED EXPIRED]
-	State SubscriptionStateEnum `json:"state,omitempty"`
+	State string `json:"state,omitempty"`
 
 	// subscription Id
 	// Format: uuid
@@ -198,7 +202,6 @@ func (m *Subscription) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validateAccountID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AccountID) { // not required
 		return nil
 	}
@@ -211,7 +214,6 @@ func (m *Subscription) validateAccountID(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validateAuditLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -225,6 +227,8 @@ func (m *Subscription) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -236,12 +240,11 @@ func (m *Subscription) validateAuditLogs(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validateBillingEndDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingEndDate) { // not required
 		return nil
 	}
 
-	if err := validate.FormatOf("billingEndDate", "body", "date", m.BillingEndDate.String(), formats); err != nil {
+	if err := validate.FormatOf("billingEndDate", "body", "date-time", m.BillingEndDate.String(), formats); err != nil {
 		return err
 	}
 
@@ -251,8 +254,8 @@ func (m *Subscription) validateBillingEndDate(formats strfmt.Registry) error {
 var subscriptionTypeBillingPeriodPropEnum []interface{}
 
 func init() {
-	var res []SubscriptionBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	var res []string
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -260,82 +263,63 @@ func init() {
 	}
 }
 
-type SubscriptionBillingPeriodEnum string
-
 const (
 
 	// SubscriptionBillingPeriodDAILY captures enum value "DAILY"
-	SubscriptionBillingPeriodDAILY SubscriptionBillingPeriodEnum = "DAILY"
+	SubscriptionBillingPeriodDAILY string = "DAILY"
 
 	// SubscriptionBillingPeriodWEEKLY captures enum value "WEEKLY"
-	SubscriptionBillingPeriodWEEKLY SubscriptionBillingPeriodEnum = "WEEKLY"
+	SubscriptionBillingPeriodWEEKLY string = "WEEKLY"
 
 	// SubscriptionBillingPeriodBIWEEKLY captures enum value "BIWEEKLY"
-	SubscriptionBillingPeriodBIWEEKLY SubscriptionBillingPeriodEnum = "BIWEEKLY"
+	SubscriptionBillingPeriodBIWEEKLY string = "BIWEEKLY"
 
 	// SubscriptionBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
-	SubscriptionBillingPeriodTHIRTYDAYS SubscriptionBillingPeriodEnum = "THIRTY_DAYS"
+	SubscriptionBillingPeriodTHIRTYDAYS string = "THIRTY_DAYS"
+
+	// SubscriptionBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	SubscriptionBillingPeriodTHIRTYONEDAYS string = "THIRTY_ONE_DAYS"
 
 	// SubscriptionBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
-	SubscriptionBillingPeriodSIXTYDAYS SubscriptionBillingPeriodEnum = "SIXTY_DAYS"
+	SubscriptionBillingPeriodSIXTYDAYS string = "SIXTY_DAYS"
 
 	// SubscriptionBillingPeriodNINETYDAYS captures enum value "NINETY_DAYS"
-	SubscriptionBillingPeriodNINETYDAYS SubscriptionBillingPeriodEnum = "NINETY_DAYS"
+	SubscriptionBillingPeriodNINETYDAYS string = "NINETY_DAYS"
 
 	// SubscriptionBillingPeriodMONTHLY captures enum value "MONTHLY"
-	SubscriptionBillingPeriodMONTHLY SubscriptionBillingPeriodEnum = "MONTHLY"
+	SubscriptionBillingPeriodMONTHLY string = "MONTHLY"
 
 	// SubscriptionBillingPeriodBIMESTRIAL captures enum value "BIMESTRIAL"
-	SubscriptionBillingPeriodBIMESTRIAL SubscriptionBillingPeriodEnum = "BIMESTRIAL"
+	SubscriptionBillingPeriodBIMESTRIAL string = "BIMESTRIAL"
 
 	// SubscriptionBillingPeriodQUARTERLY captures enum value "QUARTERLY"
-	SubscriptionBillingPeriodQUARTERLY SubscriptionBillingPeriodEnum = "QUARTERLY"
+	SubscriptionBillingPeriodQUARTERLY string = "QUARTERLY"
 
 	// SubscriptionBillingPeriodTRIANNUAL captures enum value "TRIANNUAL"
-	SubscriptionBillingPeriodTRIANNUAL SubscriptionBillingPeriodEnum = "TRIANNUAL"
+	SubscriptionBillingPeriodTRIANNUAL string = "TRIANNUAL"
 
 	// SubscriptionBillingPeriodBIANNUAL captures enum value "BIANNUAL"
-	SubscriptionBillingPeriodBIANNUAL SubscriptionBillingPeriodEnum = "BIANNUAL"
+	SubscriptionBillingPeriodBIANNUAL string = "BIANNUAL"
 
 	// SubscriptionBillingPeriodANNUAL captures enum value "ANNUAL"
-	SubscriptionBillingPeriodANNUAL SubscriptionBillingPeriodEnum = "ANNUAL"
+	SubscriptionBillingPeriodANNUAL string = "ANNUAL"
+
+	// SubscriptionBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	SubscriptionBillingPeriodSESQUIENNIAL string = "SESQUIENNIAL"
 
 	// SubscriptionBillingPeriodBIENNIAL captures enum value "BIENNIAL"
-	SubscriptionBillingPeriodBIENNIAL SubscriptionBillingPeriodEnum = "BIENNIAL"
+	SubscriptionBillingPeriodBIENNIAL string = "BIENNIAL"
+
+	// SubscriptionBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	SubscriptionBillingPeriodTRIENNIAL string = "TRIENNIAL"
 
 	// SubscriptionBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
-	SubscriptionBillingPeriodNOBILLINGPERIOD SubscriptionBillingPeriodEnum = "NO_BILLING_PERIOD"
+	SubscriptionBillingPeriodNOBILLINGPERIOD string = "NO_BILLING_PERIOD"
 )
 
-var SubscriptionBillingPeriodEnumValues = []string{
-	"DAILY",
-	"WEEKLY",
-	"BIWEEKLY",
-	"THIRTY_DAYS",
-	"SIXTY_DAYS",
-	"NINETY_DAYS",
-	"MONTHLY",
-	"BIMESTRIAL",
-	"QUARTERLY",
-	"TRIANNUAL",
-	"BIANNUAL",
-	"ANNUAL",
-	"BIENNIAL",
-	"NO_BILLING_PERIOD",
-}
-
-func (e SubscriptionBillingPeriodEnum) IsValid() bool {
-	for _, v := range SubscriptionBillingPeriodEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *Subscription) validateBillingPeriodEnum(path, location string, value SubscriptionBillingPeriodEnum) error {
-	if err := validate.Enum(path, location, value, subscriptionTypeBillingPeriodPropEnum); err != nil {
+func (m *Subscription) validateBillingPeriodEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, subscriptionTypeBillingPeriodPropEnum, true); err != nil {
 		return err
 	}
 	return nil
@@ -356,12 +340,11 @@ func (m *Subscription) validateBillingPeriod(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validateBillingStartDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingStartDate) { // not required
 		return nil
 	}
 
-	if err := validate.FormatOf("billingStartDate", "body", "date", m.BillingStartDate.String(), formats); err != nil {
+	if err := validate.FormatOf("billingStartDate", "body", "date-time", m.BillingStartDate.String(), formats); err != nil {
 		return err
 	}
 
@@ -369,7 +352,6 @@ func (m *Subscription) validateBillingStartDate(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validateBundleID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BundleID) { // not required
 		return nil
 	}
@@ -382,12 +364,11 @@ func (m *Subscription) validateBundleID(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validateCancelledDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CancelledDate) { // not required
 		return nil
 	}
 
-	if err := validate.FormatOf("cancelledDate", "body", "date", m.CancelledDate.String(), formats); err != nil {
+	if err := validate.FormatOf("cancelledDate", "body", "date-time", m.CancelledDate.String(), formats); err != nil {
 		return err
 	}
 
@@ -395,7 +376,6 @@ func (m *Subscription) validateCancelledDate(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validateChargedThroughDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ChargedThroughDate) { // not required
 		return nil
 	}
@@ -408,7 +388,6 @@ func (m *Subscription) validateChargedThroughDate(formats strfmt.Registry) error
 }
 
 func (m *Subscription) validateEvents(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Events) { // not required
 		return nil
 	}
@@ -422,6 +401,8 @@ func (m *Subscription) validateEvents(formats strfmt.Registry) error {
 			if err := m.Events[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("events" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("events" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -435,7 +416,7 @@ func (m *Subscription) validateEvents(formats strfmt.Registry) error {
 var subscriptionTypePhaseTypePropEnum []interface{}
 
 func init() {
-	var res []SubscriptionPhaseTypeEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["TRIAL","DISCOUNT","FIXEDTERM","EVERGREEN"]`), &res); err != nil {
 		panic(err)
 	}
@@ -444,49 +425,30 @@ func init() {
 	}
 }
 
-type SubscriptionPhaseTypeEnum string
-
 const (
 
 	// SubscriptionPhaseTypeTRIAL captures enum value "TRIAL"
-	SubscriptionPhaseTypeTRIAL SubscriptionPhaseTypeEnum = "TRIAL"
+	SubscriptionPhaseTypeTRIAL string = "TRIAL"
 
 	// SubscriptionPhaseTypeDISCOUNT captures enum value "DISCOUNT"
-	SubscriptionPhaseTypeDISCOUNT SubscriptionPhaseTypeEnum = "DISCOUNT"
+	SubscriptionPhaseTypeDISCOUNT string = "DISCOUNT"
 
 	// SubscriptionPhaseTypeFIXEDTERM captures enum value "FIXEDTERM"
-	SubscriptionPhaseTypeFIXEDTERM SubscriptionPhaseTypeEnum = "FIXEDTERM"
+	SubscriptionPhaseTypeFIXEDTERM string = "FIXEDTERM"
 
 	// SubscriptionPhaseTypeEVERGREEN captures enum value "EVERGREEN"
-	SubscriptionPhaseTypeEVERGREEN SubscriptionPhaseTypeEnum = "EVERGREEN"
+	SubscriptionPhaseTypeEVERGREEN string = "EVERGREEN"
 )
 
-var SubscriptionPhaseTypeEnumValues = []string{
-	"TRIAL",
-	"DISCOUNT",
-	"FIXEDTERM",
-	"EVERGREEN",
-}
-
-func (e SubscriptionPhaseTypeEnum) IsValid() bool {
-	for _, v := range SubscriptionPhaseTypeEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *Subscription) validatePhaseTypeEnum(path, location string, value SubscriptionPhaseTypeEnum) error {
-	if err := validate.Enum(path, location, value, subscriptionTypePhaseTypePropEnum); err != nil {
+func (m *Subscription) validatePhaseTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, subscriptionTypePhaseTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Subscription) validatePhaseType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PhaseType) { // not required
 		return nil
 	}
@@ -518,7 +480,6 @@ func (m *Subscription) validatePriceList(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validatePriceOverrides(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PriceOverrides) { // not required
 		return nil
 	}
@@ -532,6 +493,8 @@ func (m *Subscription) validatePriceOverrides(formats strfmt.Registry) error {
 			if err := m.PriceOverrides[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -543,7 +506,6 @@ func (m *Subscription) validatePriceOverrides(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validatePrices(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Prices) { // not required
 		return nil
 	}
@@ -557,6 +519,8 @@ func (m *Subscription) validatePrices(formats strfmt.Registry) error {
 			if err := m.Prices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("prices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -570,7 +534,7 @@ func (m *Subscription) validatePrices(formats strfmt.Registry) error {
 var subscriptionTypeProductCategoryPropEnum []interface{}
 
 func init() {
-	var res []SubscriptionProductCategoryEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["BASE","ADD_ON","STANDALONE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -579,45 +543,27 @@ func init() {
 	}
 }
 
-type SubscriptionProductCategoryEnum string
-
 const (
 
 	// SubscriptionProductCategoryBASE captures enum value "BASE"
-	SubscriptionProductCategoryBASE SubscriptionProductCategoryEnum = "BASE"
+	SubscriptionProductCategoryBASE string = "BASE"
 
 	// SubscriptionProductCategoryADDON captures enum value "ADD_ON"
-	SubscriptionProductCategoryADDON SubscriptionProductCategoryEnum = "ADD_ON"
+	SubscriptionProductCategoryADDON string = "ADD_ON"
 
 	// SubscriptionProductCategorySTANDALONE captures enum value "STANDALONE"
-	SubscriptionProductCategorySTANDALONE SubscriptionProductCategoryEnum = "STANDALONE"
+	SubscriptionProductCategorySTANDALONE string = "STANDALONE"
 )
 
-var SubscriptionProductCategoryEnumValues = []string{
-	"BASE",
-	"ADD_ON",
-	"STANDALONE",
-}
-
-func (e SubscriptionProductCategoryEnum) IsValid() bool {
-	for _, v := range SubscriptionProductCategoryEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *Subscription) validateProductCategoryEnum(path, location string, value SubscriptionProductCategoryEnum) error {
-	if err := validate.Enum(path, location, value, subscriptionTypeProductCategoryPropEnum); err != nil {
+func (m *Subscription) validateProductCategoryEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, subscriptionTypeProductCategoryPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Subscription) validateProductCategory(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProductCategory) { // not required
 		return nil
 	}
@@ -642,7 +588,7 @@ func (m *Subscription) validateProductName(formats strfmt.Registry) error {
 var subscriptionTypeSourceTypePropEnum []interface{}
 
 func init() {
-	var res []SubscriptionSourceTypeEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["NATIVE","MIGRATED","TRANSFERRED"]`), &res); err != nil {
 		panic(err)
 	}
@@ -651,45 +597,27 @@ func init() {
 	}
 }
 
-type SubscriptionSourceTypeEnum string
-
 const (
 
 	// SubscriptionSourceTypeNATIVE captures enum value "NATIVE"
-	SubscriptionSourceTypeNATIVE SubscriptionSourceTypeEnum = "NATIVE"
+	SubscriptionSourceTypeNATIVE string = "NATIVE"
 
 	// SubscriptionSourceTypeMIGRATED captures enum value "MIGRATED"
-	SubscriptionSourceTypeMIGRATED SubscriptionSourceTypeEnum = "MIGRATED"
+	SubscriptionSourceTypeMIGRATED string = "MIGRATED"
 
 	// SubscriptionSourceTypeTRANSFERRED captures enum value "TRANSFERRED"
-	SubscriptionSourceTypeTRANSFERRED SubscriptionSourceTypeEnum = "TRANSFERRED"
+	SubscriptionSourceTypeTRANSFERRED string = "TRANSFERRED"
 )
 
-var SubscriptionSourceTypeEnumValues = []string{
-	"NATIVE",
-	"MIGRATED",
-	"TRANSFERRED",
-}
-
-func (e SubscriptionSourceTypeEnum) IsValid() bool {
-	for _, v := range SubscriptionSourceTypeEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *Subscription) validateSourceTypeEnum(path, location string, value SubscriptionSourceTypeEnum) error {
-	if err := validate.Enum(path, location, value, subscriptionTypeSourceTypePropEnum); err != nil {
+func (m *Subscription) validateSourceTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, subscriptionTypeSourceTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Subscription) validateSourceType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SourceType) { // not required
 		return nil
 	}
@@ -703,12 +631,11 @@ func (m *Subscription) validateSourceType(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validateStartDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.StartDate) { // not required
 		return nil
 	}
 
-	if err := validate.FormatOf("startDate", "body", "date", m.StartDate.String(), formats); err != nil {
+	if err := validate.FormatOf("startDate", "body", "date-time", m.StartDate.String(), formats); err != nil {
 		return err
 	}
 
@@ -718,7 +645,7 @@ func (m *Subscription) validateStartDate(formats strfmt.Registry) error {
 var subscriptionTypeStatePropEnum []interface{}
 
 func init() {
-	var res []SubscriptionStateEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["PENDING","ACTIVE","BLOCKED","CANCELLED","EXPIRED"]`), &res); err != nil {
 		panic(err)
 	}
@@ -727,53 +654,33 @@ func init() {
 	}
 }
 
-type SubscriptionStateEnum string
-
 const (
 
 	// SubscriptionStatePENDING captures enum value "PENDING"
-	SubscriptionStatePENDING SubscriptionStateEnum = "PENDING"
+	SubscriptionStatePENDING string = "PENDING"
 
 	// SubscriptionStateACTIVE captures enum value "ACTIVE"
-	SubscriptionStateACTIVE SubscriptionStateEnum = "ACTIVE"
+	SubscriptionStateACTIVE string = "ACTIVE"
 
 	// SubscriptionStateBLOCKED captures enum value "BLOCKED"
-	SubscriptionStateBLOCKED SubscriptionStateEnum = "BLOCKED"
+	SubscriptionStateBLOCKED string = "BLOCKED"
 
 	// SubscriptionStateCANCELLED captures enum value "CANCELLED"
-	SubscriptionStateCANCELLED SubscriptionStateEnum = "CANCELLED"
+	SubscriptionStateCANCELLED string = "CANCELLED"
 
 	// SubscriptionStateEXPIRED captures enum value "EXPIRED"
-	SubscriptionStateEXPIRED SubscriptionStateEnum = "EXPIRED"
+	SubscriptionStateEXPIRED string = "EXPIRED"
 )
 
-var SubscriptionStateEnumValues = []string{
-	"PENDING",
-	"ACTIVE",
-	"BLOCKED",
-	"CANCELLED",
-	"EXPIRED",
-}
-
-func (e SubscriptionStateEnum) IsValid() bool {
-	for _, v := range SubscriptionStateEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *Subscription) validateStateEnum(path, location string, value SubscriptionStateEnum) error {
-	if err := validate.Enum(path, location, value, subscriptionTypeStatePropEnum); err != nil {
+func (m *Subscription) validateStateEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, subscriptionTypeStatePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Subscription) validateState(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.State) { // not required
 		return nil
 	}
@@ -787,13 +694,118 @@ func (m *Subscription) validateState(formats strfmt.Registry) error {
 }
 
 func (m *Subscription) validateSubscriptionID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SubscriptionID) { // not required
 		return nil
 	}
 
 	if err := validate.FormatOf("subscriptionId", "body", "uuid", m.SubscriptionID.String(), formats); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this subscription based on the context it is used
+func (m *Subscription) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEvents(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePriceOverrides(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePrices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Subscription) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AuditLogs); i++ {
+
+		if m.AuditLogs[i] != nil {
+			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Subscription) contextValidateEvents(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Events); i++ {
+
+		if m.Events[i] != nil {
+			if err := m.Events[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("events" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("events" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Subscription) contextValidatePriceOverrides(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PriceOverrides); i++ {
+
+		if m.PriceOverrides[i] != nil {
+			if err := m.PriceOverrides[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Subscription) contextValidatePrices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Prices); i++ {
+
+		if m.Prices[i] != nil {
+			if err := m.Prices[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("prices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

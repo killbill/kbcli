@@ -7,12 +7,9 @@ package invoice
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // VoidInvoiceReader is a Reader for the VoidInvoice structure.
@@ -23,21 +20,26 @@ type VoidInvoiceReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *VoidInvoiceReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 204:
 		result := NewVoidInvoiceNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewVoidInvoiceBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewVoidInvoiceNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +48,49 @@ func NewVoidInvoiceNoContent() *VoidInvoiceNoContent {
 	return &VoidInvoiceNoContent{}
 }
 
-/*VoidInvoiceNoContent handles this case with default header values.
+/*
+VoidInvoiceNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
 type VoidInvoiceNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void invoice no content response has a 2xx status code
+func (o *VoidInvoiceNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this void invoice no content response has a 3xx status code
+func (o *VoidInvoiceNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void invoice no content response has a 4xx status code
+func (o *VoidInvoiceNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this void invoice no content response has a 5xx status code
+func (o *VoidInvoiceNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this void invoice no content response a status code equal to that given
+func (o *VoidInvoiceNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the void invoice no content response
+func (o *VoidInvoiceNoContent) Code() int {
+	return 204
 }
 
 func (o *VoidInvoiceNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/voidInvoice][%d] voidInvoiceNoContent ", 204)
+}
+
+func (o *VoidInvoiceNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/voidInvoice][%d] voidInvoiceNoContent ", 204)
 }
 
@@ -68,15 +104,49 @@ func NewVoidInvoiceBadRequest() *VoidInvoiceBadRequest {
 	return &VoidInvoiceBadRequest{}
 }
 
-/*VoidInvoiceBadRequest handles this case with default header values.
+/*
+VoidInvoiceBadRequest describes a response with status code 400, with default header values.
 
 Invalid invoice id supplied
 */
 type VoidInvoiceBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void invoice bad request response has a 2xx status code
+func (o *VoidInvoiceBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this void invoice bad request response has a 3xx status code
+func (o *VoidInvoiceBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void invoice bad request response has a 4xx status code
+func (o *VoidInvoiceBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this void invoice bad request response has a 5xx status code
+func (o *VoidInvoiceBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this void invoice bad request response a status code equal to that given
+func (o *VoidInvoiceBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the void invoice bad request response
+func (o *VoidInvoiceBadRequest) Code() int {
+	return 400
 }
 
 func (o *VoidInvoiceBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/voidInvoice][%d] voidInvoiceBadRequest ", 400)
+}
+
+func (o *VoidInvoiceBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/voidInvoice][%d] voidInvoiceBadRequest ", 400)
 }
 
@@ -90,15 +160,49 @@ func NewVoidInvoiceNotFound() *VoidInvoiceNotFound {
 	return &VoidInvoiceNotFound{}
 }
 
-/*VoidInvoiceNotFound handles this case with default header values.
+/*
+VoidInvoiceNotFound describes a response with status code 404, with default header values.
 
 Invoice not found
 */
 type VoidInvoiceNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void invoice not found response has a 2xx status code
+func (o *VoidInvoiceNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this void invoice not found response has a 3xx status code
+func (o *VoidInvoiceNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void invoice not found response has a 4xx status code
+func (o *VoidInvoiceNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this void invoice not found response has a 5xx status code
+func (o *VoidInvoiceNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this void invoice not found response a status code equal to that given
+func (o *VoidInvoiceNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the void invoice not found response
+func (o *VoidInvoiceNotFound) Code() int {
+	return 404
 }
 
 func (o *VoidInvoiceNotFound) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/voidInvoice][%d] voidInvoiceNotFound ", 404)
+}
+
+func (o *VoidInvoiceNotFound) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/voidInvoice][%d] voidInvoiceNotFound ", 404)
 }
 

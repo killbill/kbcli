@@ -13,71 +13,87 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewUploadPluginPaymentStateMachineConfigParams creates a new UploadPluginPaymentStateMachineConfigParams object
-// with the default values initialized.
+// NewUploadPluginPaymentStateMachineConfigParams creates a new UploadPluginPaymentStateMachineConfigParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUploadPluginPaymentStateMachineConfigParams() *UploadPluginPaymentStateMachineConfigParams {
-	var ()
 	return &UploadPluginPaymentStateMachineConfigParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUploadPluginPaymentStateMachineConfigParamsWithTimeout creates a new UploadPluginPaymentStateMachineConfigParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewUploadPluginPaymentStateMachineConfigParamsWithTimeout(timeout time.Duration) *UploadPluginPaymentStateMachineConfigParams {
-	var ()
 	return &UploadPluginPaymentStateMachineConfigParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewUploadPluginPaymentStateMachineConfigParamsWithContext creates a new UploadPluginPaymentStateMachineConfigParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewUploadPluginPaymentStateMachineConfigParamsWithContext(ctx context.Context) *UploadPluginPaymentStateMachineConfigParams {
-	var ()
 	return &UploadPluginPaymentStateMachineConfigParams{
-
 		Context: ctx,
 	}
 }
 
 // NewUploadPluginPaymentStateMachineConfigParamsWithHTTPClient creates a new UploadPluginPaymentStateMachineConfigParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewUploadPluginPaymentStateMachineConfigParamsWithHTTPClient(client *http.Client) *UploadPluginPaymentStateMachineConfigParams {
-	var ()
 	return &UploadPluginPaymentStateMachineConfigParams{
 		HTTPClient: client,
 	}
 }
 
-/*UploadPluginPaymentStateMachineConfigParams contains all the parameters to send to the API endpoint
-for the upload plugin payment state machine config operation typically these are written to a http.Request
+/*
+UploadPluginPaymentStateMachineConfigParams contains all the parameters to send to the API endpoint
+
+	for the upload plugin payment state machine config operation.
+
+	Typically these are written to a http.Request.
 */
 type UploadPluginPaymentStateMachineConfigParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body string
-	/*PluginName*/
+
+	// PluginName.
 	PluginName string
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the upload plugin payment state machine config params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UploadPluginPaymentStateMachineConfigParams) WithDefaults() *UploadPluginPaymentStateMachineConfigParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the upload plugin payment state machine config params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UploadPluginPaymentStateMachineConfigParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the upload plugin payment state machine config params
@@ -182,7 +198,6 @@ func (o *UploadPluginPaymentStateMachineConfigParams) WriteToRequest(r runtime.C
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -196,9 +211,7 @@ func (o *UploadPluginPaymentStateMachineConfigParams) WriteToRequest(r runtime.C
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if err := r.SetBodyParam(o.Body); err != nil {
 		return err
 	}
@@ -206,20 +219,6 @@ func (o *UploadPluginPaymentStateMachineConfigParams) WriteToRequest(r runtime.C
 	// path param pluginName
 	if err := r.SetPathParam("pluginName", o.PluginName); err != nil {
 		return err
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
-		}
 	}
 
 	if len(res) > 0 {

@@ -13,72 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewDeleteAccountCustomFieldsParams creates a new DeleteAccountCustomFieldsParams object
-// with the default values initialized.
+// NewDeleteAccountCustomFieldsParams creates a new DeleteAccountCustomFieldsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteAccountCustomFieldsParams() *DeleteAccountCustomFieldsParams {
-	var ()
 	return &DeleteAccountCustomFieldsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteAccountCustomFieldsParamsWithTimeout creates a new DeleteAccountCustomFieldsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteAccountCustomFieldsParamsWithTimeout(timeout time.Duration) *DeleteAccountCustomFieldsParams {
-	var ()
 	return &DeleteAccountCustomFieldsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteAccountCustomFieldsParamsWithContext creates a new DeleteAccountCustomFieldsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteAccountCustomFieldsParamsWithContext(ctx context.Context) *DeleteAccountCustomFieldsParams {
-	var ()
 	return &DeleteAccountCustomFieldsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteAccountCustomFieldsParamsWithHTTPClient creates a new DeleteAccountCustomFieldsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteAccountCustomFieldsParamsWithHTTPClient(client *http.Client) *DeleteAccountCustomFieldsParams {
-	var ()
 	return &DeleteAccountCustomFieldsParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteAccountCustomFieldsParams contains all the parameters to send to the API endpoint
-for the delete account custom fields operation typically these are written to a http.Request
+/*
+DeleteAccountCustomFieldsParams contains all the parameters to send to the API endpoint
+
+	for the delete account custom fields operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteAccountCustomFieldsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*CustomField*/
+
+	// CustomField.
 	CustomField []strfmt.UUID
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete account custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteAccountCustomFieldsParams) WithDefaults() *DeleteAccountCustomFieldsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete account custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteAccountCustomFieldsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete account custom fields params
@@ -183,7 +201,6 @@ func (o *DeleteAccountCustomFieldsParams) WriteToRequest(r runtime.ClientRequest
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -197,7 +214,6 @@ func (o *DeleteAccountCustomFieldsParams) WriteToRequest(r runtime.ClientRequest
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId
@@ -205,27 +221,13 @@ func (o *DeleteAccountCustomFieldsParams) WriteToRequest(r runtime.ClientRequest
 		return err
 	}
 
-	var valuesCustomField []string
-	for _, v := range o.CustomField {
-		valuesCustomField = append(valuesCustomField, v.String())
-	}
+	if o.CustomField != nil {
 
-	joinedCustomField := swag.JoinByFormat(valuesCustomField, "multi")
-	// query array param customField
-	if err := r.SetQueryParam("customField", joinedCustomField...); err != nil {
-		return err
-	}
+		// binding items for customField
+		joinedCustomField := o.bindParamCustomField(reg)
 
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+		// query array param customField
+		if err := r.SetQueryParam("customField", joinedCustomField...); err != nil {
 			return err
 		}
 	}
@@ -234,4 +236,21 @@ func (o *DeleteAccountCustomFieldsParams) WriteToRequest(r runtime.ClientRequest
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamDeleteAccountCustomFields binds the parameter customField
+func (o *DeleteAccountCustomFieldsParams) bindParamCustomField(formats strfmt.Registry) []string {
+	customFieldIR := o.CustomField
+
+	var customFieldIC []string
+	for _, customFieldIIR := range customFieldIR { // explode []strfmt.UUID
+
+		customFieldIIV := customFieldIIR.String() // strfmt.UUID as string
+		customFieldIC = append(customFieldIC, customFieldIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	customFieldIS := swag.JoinByFormat(customFieldIC, "multi")
+
+	return customFieldIS
 }

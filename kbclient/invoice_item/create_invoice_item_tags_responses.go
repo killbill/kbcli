@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateInvoiceItemTagsReader is a Reader for the CreateInvoiceItemTags structure.
@@ -25,21 +23,20 @@ type CreateInvoiceItemTagsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CreateInvoiceItemTagsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
-	case 201, 200:
+	case 201:
 		result := NewCreateInvoiceItemTagsCreated()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewCreateInvoiceItemTagsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +45,50 @@ func NewCreateInvoiceItemTagsCreated() *CreateInvoiceItemTagsCreated {
 	return &CreateInvoiceItemTagsCreated{}
 }
 
-/*CreateInvoiceItemTagsCreated handles this case with default header values.
+/*
+CreateInvoiceItemTagsCreated describes a response with status code 201, with default header values.
 
 Tag created successfully
 */
 type CreateInvoiceItemTagsCreated struct {
 	Payload []*kbmodel.Tag
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this create invoice item tags created response has a 2xx status code
+func (o *CreateInvoiceItemTagsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create invoice item tags created response has a 3xx status code
+func (o *CreateInvoiceItemTagsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create invoice item tags created response has a 4xx status code
+func (o *CreateInvoiceItemTagsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create invoice item tags created response has a 5xx status code
+func (o *CreateInvoiceItemTagsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create invoice item tags created response a status code equal to that given
+func (o *CreateInvoiceItemTagsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
+// Code gets the status code for the create invoice item tags created response
+func (o *CreateInvoiceItemTagsCreated) Code() int {
+	return 201
 }
 
 func (o *CreateInvoiceItemTagsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoiceItems/{invoiceItemId}/tags][%d] createInvoiceItemTagsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateInvoiceItemTagsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoiceItems/{invoiceItemId}/tags][%d] createInvoiceItemTagsCreated  %+v", 201, o.Payload)
 }
 
@@ -81,15 +111,49 @@ func NewCreateInvoiceItemTagsBadRequest() *CreateInvoiceItemTagsBadRequest {
 	return &CreateInvoiceItemTagsBadRequest{}
 }
 
-/*CreateInvoiceItemTagsBadRequest handles this case with default header values.
+/*
+CreateInvoiceItemTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid invoice item id supplied
 */
 type CreateInvoiceItemTagsBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this create invoice item tags bad request response has a 2xx status code
+func (o *CreateInvoiceItemTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create invoice item tags bad request response has a 3xx status code
+func (o *CreateInvoiceItemTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create invoice item tags bad request response has a 4xx status code
+func (o *CreateInvoiceItemTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create invoice item tags bad request response has a 5xx status code
+func (o *CreateInvoiceItemTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create invoice item tags bad request response a status code equal to that given
+func (o *CreateInvoiceItemTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the create invoice item tags bad request response
+func (o *CreateInvoiceItemTagsBadRequest) Code() int {
+	return 400
 }
 
 func (o *CreateInvoiceItemTagsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoiceItems/{invoiceItemId}/tags][%d] createInvoiceItemTagsBadRequest ", 400)
+}
+
+func (o *CreateInvoiceItemTagsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoiceItems/{invoiceItemId}/tags][%d] createInvoiceItemTagsBadRequest ", 400)
 }
 

@@ -6,27 +6,28 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // InvoiceDryRun invoice dry run
+//
 // swagger:model InvoiceDryRun
 type InvoiceDryRun struct {
 
 	// billing period
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
-	BillingPeriod InvoiceDryRunBillingPeriodEnum `json:"billingPeriod,omitempty"`
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
+	BillingPeriod string `json:"billingPeriod,omitempty"`
 
 	// billing policy
 	// Enum: [START_OF_TERM END_OF_TERM IMMEDIATE ILLEGAL]
-	BillingPolicy InvoiceDryRunBillingPolicyEnum `json:"billingPolicy,omitempty"`
+	BillingPolicy string `json:"billingPolicy,omitempty"`
 
 	// bundle Id
 	// Format: uuid
@@ -34,11 +35,11 @@ type InvoiceDryRun struct {
 
 	// dry run action
 	// Enum: [START_ENTITLEMENT START_BILLING PAUSE_ENTITLEMENT PAUSE_BILLING RESUME_ENTITLEMENT RESUME_BILLING PHASE CHANGE STOP_ENTITLEMENT STOP_BILLING SERVICE_STATE_CHANGE]
-	DryRunAction InvoiceDryRunDryRunActionEnum `json:"dryRunAction,omitempty"`
+	DryRunAction string `json:"dryRunAction,omitempty"`
 
 	// dry run type
 	// Enum: [TARGET_DATE UPCOMING_INVOICE SUBSCRIPTION_ACTION]
-	DryRunType InvoiceDryRunDryRunTypeEnum `json:"dryRunType,omitempty"`
+	DryRunType string `json:"dryRunType,omitempty"`
 
 	// effective date
 	// Format: date
@@ -46,7 +47,10 @@ type InvoiceDryRun struct {
 
 	// phase type
 	// Enum: [TRIAL DISCOUNT FIXEDTERM EVERGREEN]
-	PhaseType InvoiceDryRunPhaseTypeEnum `json:"phaseType,omitempty"`
+	PhaseType string `json:"phaseType,omitempty"`
+
+	// plan name
+	PlanName string `json:"planName,omitempty"`
 
 	// price list name
 	PriceListName string `json:"priceListName,omitempty"`
@@ -56,7 +60,7 @@ type InvoiceDryRun struct {
 
 	// product category
 	// Enum: [BASE ADD_ON STANDALONE]
-	ProductCategory InvoiceDryRunProductCategoryEnum `json:"productCategory,omitempty"`
+	ProductCategory string `json:"productCategory,omitempty"`
 
 	// product name
 	ProductName string `json:"productName,omitempty"`
@@ -119,8 +123,8 @@ func (m *InvoiceDryRun) Validate(formats strfmt.Registry) error {
 var invoiceDryRunTypeBillingPeriodPropEnum []interface{}
 
 func init() {
-	var res []InvoiceDryRunBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	var res []string
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -128,89 +132,69 @@ func init() {
 	}
 }
 
-type InvoiceDryRunBillingPeriodEnum string
-
 const (
 
 	// InvoiceDryRunBillingPeriodDAILY captures enum value "DAILY"
-	InvoiceDryRunBillingPeriodDAILY InvoiceDryRunBillingPeriodEnum = "DAILY"
+	InvoiceDryRunBillingPeriodDAILY string = "DAILY"
 
 	// InvoiceDryRunBillingPeriodWEEKLY captures enum value "WEEKLY"
-	InvoiceDryRunBillingPeriodWEEKLY InvoiceDryRunBillingPeriodEnum = "WEEKLY"
+	InvoiceDryRunBillingPeriodWEEKLY string = "WEEKLY"
 
 	// InvoiceDryRunBillingPeriodBIWEEKLY captures enum value "BIWEEKLY"
-	InvoiceDryRunBillingPeriodBIWEEKLY InvoiceDryRunBillingPeriodEnum = "BIWEEKLY"
+	InvoiceDryRunBillingPeriodBIWEEKLY string = "BIWEEKLY"
 
 	// InvoiceDryRunBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
-	InvoiceDryRunBillingPeriodTHIRTYDAYS InvoiceDryRunBillingPeriodEnum = "THIRTY_DAYS"
+	InvoiceDryRunBillingPeriodTHIRTYDAYS string = "THIRTY_DAYS"
+
+	// InvoiceDryRunBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	InvoiceDryRunBillingPeriodTHIRTYONEDAYS string = "THIRTY_ONE_DAYS"
 
 	// InvoiceDryRunBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
-	InvoiceDryRunBillingPeriodSIXTYDAYS InvoiceDryRunBillingPeriodEnum = "SIXTY_DAYS"
+	InvoiceDryRunBillingPeriodSIXTYDAYS string = "SIXTY_DAYS"
 
 	// InvoiceDryRunBillingPeriodNINETYDAYS captures enum value "NINETY_DAYS"
-	InvoiceDryRunBillingPeriodNINETYDAYS InvoiceDryRunBillingPeriodEnum = "NINETY_DAYS"
+	InvoiceDryRunBillingPeriodNINETYDAYS string = "NINETY_DAYS"
 
 	// InvoiceDryRunBillingPeriodMONTHLY captures enum value "MONTHLY"
-	InvoiceDryRunBillingPeriodMONTHLY InvoiceDryRunBillingPeriodEnum = "MONTHLY"
+	InvoiceDryRunBillingPeriodMONTHLY string = "MONTHLY"
 
 	// InvoiceDryRunBillingPeriodBIMESTRIAL captures enum value "BIMESTRIAL"
-	InvoiceDryRunBillingPeriodBIMESTRIAL InvoiceDryRunBillingPeriodEnum = "BIMESTRIAL"
+	InvoiceDryRunBillingPeriodBIMESTRIAL string = "BIMESTRIAL"
 
 	// InvoiceDryRunBillingPeriodQUARTERLY captures enum value "QUARTERLY"
-	InvoiceDryRunBillingPeriodQUARTERLY InvoiceDryRunBillingPeriodEnum = "QUARTERLY"
+	InvoiceDryRunBillingPeriodQUARTERLY string = "QUARTERLY"
 
 	// InvoiceDryRunBillingPeriodTRIANNUAL captures enum value "TRIANNUAL"
-	InvoiceDryRunBillingPeriodTRIANNUAL InvoiceDryRunBillingPeriodEnum = "TRIANNUAL"
+	InvoiceDryRunBillingPeriodTRIANNUAL string = "TRIANNUAL"
 
 	// InvoiceDryRunBillingPeriodBIANNUAL captures enum value "BIANNUAL"
-	InvoiceDryRunBillingPeriodBIANNUAL InvoiceDryRunBillingPeriodEnum = "BIANNUAL"
+	InvoiceDryRunBillingPeriodBIANNUAL string = "BIANNUAL"
 
 	// InvoiceDryRunBillingPeriodANNUAL captures enum value "ANNUAL"
-	InvoiceDryRunBillingPeriodANNUAL InvoiceDryRunBillingPeriodEnum = "ANNUAL"
+	InvoiceDryRunBillingPeriodANNUAL string = "ANNUAL"
+
+	// InvoiceDryRunBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	InvoiceDryRunBillingPeriodSESQUIENNIAL string = "SESQUIENNIAL"
 
 	// InvoiceDryRunBillingPeriodBIENNIAL captures enum value "BIENNIAL"
-	InvoiceDryRunBillingPeriodBIENNIAL InvoiceDryRunBillingPeriodEnum = "BIENNIAL"
+	InvoiceDryRunBillingPeriodBIENNIAL string = "BIENNIAL"
+
+	// InvoiceDryRunBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	InvoiceDryRunBillingPeriodTRIENNIAL string = "TRIENNIAL"
 
 	// InvoiceDryRunBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
-	InvoiceDryRunBillingPeriodNOBILLINGPERIOD InvoiceDryRunBillingPeriodEnum = "NO_BILLING_PERIOD"
+	InvoiceDryRunBillingPeriodNOBILLINGPERIOD string = "NO_BILLING_PERIOD"
 )
 
-var InvoiceDryRunBillingPeriodEnumValues = []string{
-	"DAILY",
-	"WEEKLY",
-	"BIWEEKLY",
-	"THIRTY_DAYS",
-	"SIXTY_DAYS",
-	"NINETY_DAYS",
-	"MONTHLY",
-	"BIMESTRIAL",
-	"QUARTERLY",
-	"TRIANNUAL",
-	"BIANNUAL",
-	"ANNUAL",
-	"BIENNIAL",
-	"NO_BILLING_PERIOD",
-}
-
-func (e InvoiceDryRunBillingPeriodEnum) IsValid() bool {
-	for _, v := range InvoiceDryRunBillingPeriodEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *InvoiceDryRun) validateBillingPeriodEnum(path, location string, value InvoiceDryRunBillingPeriodEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeBillingPeriodPropEnum); err != nil {
+func (m *InvoiceDryRun) validateBillingPeriodEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeBillingPeriodPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateBillingPeriod(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingPeriod) { // not required
 		return nil
 	}
@@ -226,7 +210,7 @@ func (m *InvoiceDryRun) validateBillingPeriod(formats strfmt.Registry) error {
 var invoiceDryRunTypeBillingPolicyPropEnum []interface{}
 
 func init() {
-	var res []InvoiceDryRunBillingPolicyEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["START_OF_TERM","END_OF_TERM","IMMEDIATE","ILLEGAL"]`), &res); err != nil {
 		panic(err)
 	}
@@ -235,49 +219,30 @@ func init() {
 	}
 }
 
-type InvoiceDryRunBillingPolicyEnum string
-
 const (
 
 	// InvoiceDryRunBillingPolicySTARTOFTERM captures enum value "START_OF_TERM"
-	InvoiceDryRunBillingPolicySTARTOFTERM InvoiceDryRunBillingPolicyEnum = "START_OF_TERM"
+	InvoiceDryRunBillingPolicySTARTOFTERM string = "START_OF_TERM"
 
 	// InvoiceDryRunBillingPolicyENDOFTERM captures enum value "END_OF_TERM"
-	InvoiceDryRunBillingPolicyENDOFTERM InvoiceDryRunBillingPolicyEnum = "END_OF_TERM"
+	InvoiceDryRunBillingPolicyENDOFTERM string = "END_OF_TERM"
 
 	// InvoiceDryRunBillingPolicyIMMEDIATE captures enum value "IMMEDIATE"
-	InvoiceDryRunBillingPolicyIMMEDIATE InvoiceDryRunBillingPolicyEnum = "IMMEDIATE"
+	InvoiceDryRunBillingPolicyIMMEDIATE string = "IMMEDIATE"
 
 	// InvoiceDryRunBillingPolicyILLEGAL captures enum value "ILLEGAL"
-	InvoiceDryRunBillingPolicyILLEGAL InvoiceDryRunBillingPolicyEnum = "ILLEGAL"
+	InvoiceDryRunBillingPolicyILLEGAL string = "ILLEGAL"
 )
 
-var InvoiceDryRunBillingPolicyEnumValues = []string{
-	"START_OF_TERM",
-	"END_OF_TERM",
-	"IMMEDIATE",
-	"ILLEGAL",
-}
-
-func (e InvoiceDryRunBillingPolicyEnum) IsValid() bool {
-	for _, v := range InvoiceDryRunBillingPolicyEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *InvoiceDryRun) validateBillingPolicyEnum(path, location string, value InvoiceDryRunBillingPolicyEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeBillingPolicyPropEnum); err != nil {
+func (m *InvoiceDryRun) validateBillingPolicyEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeBillingPolicyPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateBillingPolicy(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingPolicy) { // not required
 		return nil
 	}
@@ -291,7 +256,6 @@ func (m *InvoiceDryRun) validateBillingPolicy(formats strfmt.Registry) error {
 }
 
 func (m *InvoiceDryRun) validateBundleID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BundleID) { // not required
 		return nil
 	}
@@ -306,7 +270,7 @@ func (m *InvoiceDryRun) validateBundleID(formats strfmt.Registry) error {
 var invoiceDryRunTypeDryRunActionPropEnum []interface{}
 
 func init() {
-	var res []InvoiceDryRunDryRunActionEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["START_ENTITLEMENT","START_BILLING","PAUSE_ENTITLEMENT","PAUSE_BILLING","RESUME_ENTITLEMENT","RESUME_BILLING","PHASE","CHANGE","STOP_ENTITLEMENT","STOP_BILLING","SERVICE_STATE_CHANGE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -315,77 +279,51 @@ func init() {
 	}
 }
 
-type InvoiceDryRunDryRunActionEnum string
-
 const (
 
 	// InvoiceDryRunDryRunActionSTARTENTITLEMENT captures enum value "START_ENTITLEMENT"
-	InvoiceDryRunDryRunActionSTARTENTITLEMENT InvoiceDryRunDryRunActionEnum = "START_ENTITLEMENT"
+	InvoiceDryRunDryRunActionSTARTENTITLEMENT string = "START_ENTITLEMENT"
 
 	// InvoiceDryRunDryRunActionSTARTBILLING captures enum value "START_BILLING"
-	InvoiceDryRunDryRunActionSTARTBILLING InvoiceDryRunDryRunActionEnum = "START_BILLING"
+	InvoiceDryRunDryRunActionSTARTBILLING string = "START_BILLING"
 
 	// InvoiceDryRunDryRunActionPAUSEENTITLEMENT captures enum value "PAUSE_ENTITLEMENT"
-	InvoiceDryRunDryRunActionPAUSEENTITLEMENT InvoiceDryRunDryRunActionEnum = "PAUSE_ENTITLEMENT"
+	InvoiceDryRunDryRunActionPAUSEENTITLEMENT string = "PAUSE_ENTITLEMENT"
 
 	// InvoiceDryRunDryRunActionPAUSEBILLING captures enum value "PAUSE_BILLING"
-	InvoiceDryRunDryRunActionPAUSEBILLING InvoiceDryRunDryRunActionEnum = "PAUSE_BILLING"
+	InvoiceDryRunDryRunActionPAUSEBILLING string = "PAUSE_BILLING"
 
 	// InvoiceDryRunDryRunActionRESUMEENTITLEMENT captures enum value "RESUME_ENTITLEMENT"
-	InvoiceDryRunDryRunActionRESUMEENTITLEMENT InvoiceDryRunDryRunActionEnum = "RESUME_ENTITLEMENT"
+	InvoiceDryRunDryRunActionRESUMEENTITLEMENT string = "RESUME_ENTITLEMENT"
 
 	// InvoiceDryRunDryRunActionRESUMEBILLING captures enum value "RESUME_BILLING"
-	InvoiceDryRunDryRunActionRESUMEBILLING InvoiceDryRunDryRunActionEnum = "RESUME_BILLING"
+	InvoiceDryRunDryRunActionRESUMEBILLING string = "RESUME_BILLING"
 
 	// InvoiceDryRunDryRunActionPHASE captures enum value "PHASE"
-	InvoiceDryRunDryRunActionPHASE InvoiceDryRunDryRunActionEnum = "PHASE"
+	InvoiceDryRunDryRunActionPHASE string = "PHASE"
 
 	// InvoiceDryRunDryRunActionCHANGE captures enum value "CHANGE"
-	InvoiceDryRunDryRunActionCHANGE InvoiceDryRunDryRunActionEnum = "CHANGE"
+	InvoiceDryRunDryRunActionCHANGE string = "CHANGE"
 
 	// InvoiceDryRunDryRunActionSTOPENTITLEMENT captures enum value "STOP_ENTITLEMENT"
-	InvoiceDryRunDryRunActionSTOPENTITLEMENT InvoiceDryRunDryRunActionEnum = "STOP_ENTITLEMENT"
+	InvoiceDryRunDryRunActionSTOPENTITLEMENT string = "STOP_ENTITLEMENT"
 
 	// InvoiceDryRunDryRunActionSTOPBILLING captures enum value "STOP_BILLING"
-	InvoiceDryRunDryRunActionSTOPBILLING InvoiceDryRunDryRunActionEnum = "STOP_BILLING"
+	InvoiceDryRunDryRunActionSTOPBILLING string = "STOP_BILLING"
 
 	// InvoiceDryRunDryRunActionSERVICESTATECHANGE captures enum value "SERVICE_STATE_CHANGE"
-	InvoiceDryRunDryRunActionSERVICESTATECHANGE InvoiceDryRunDryRunActionEnum = "SERVICE_STATE_CHANGE"
+	InvoiceDryRunDryRunActionSERVICESTATECHANGE string = "SERVICE_STATE_CHANGE"
 )
 
-var InvoiceDryRunDryRunActionEnumValues = []string{
-	"START_ENTITLEMENT",
-	"START_BILLING",
-	"PAUSE_ENTITLEMENT",
-	"PAUSE_BILLING",
-	"RESUME_ENTITLEMENT",
-	"RESUME_BILLING",
-	"PHASE",
-	"CHANGE",
-	"STOP_ENTITLEMENT",
-	"STOP_BILLING",
-	"SERVICE_STATE_CHANGE",
-}
-
-func (e InvoiceDryRunDryRunActionEnum) IsValid() bool {
-	for _, v := range InvoiceDryRunDryRunActionEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *InvoiceDryRun) validateDryRunActionEnum(path, location string, value InvoiceDryRunDryRunActionEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeDryRunActionPropEnum); err != nil {
+func (m *InvoiceDryRun) validateDryRunActionEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeDryRunActionPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateDryRunAction(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DryRunAction) { // not required
 		return nil
 	}
@@ -401,7 +339,7 @@ func (m *InvoiceDryRun) validateDryRunAction(formats strfmt.Registry) error {
 var invoiceDryRunTypeDryRunTypePropEnum []interface{}
 
 func init() {
-	var res []InvoiceDryRunDryRunTypeEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["TARGET_DATE","UPCOMING_INVOICE","SUBSCRIPTION_ACTION"]`), &res); err != nil {
 		panic(err)
 	}
@@ -410,45 +348,27 @@ func init() {
 	}
 }
 
-type InvoiceDryRunDryRunTypeEnum string
-
 const (
 
 	// InvoiceDryRunDryRunTypeTARGETDATE captures enum value "TARGET_DATE"
-	InvoiceDryRunDryRunTypeTARGETDATE InvoiceDryRunDryRunTypeEnum = "TARGET_DATE"
+	InvoiceDryRunDryRunTypeTARGETDATE string = "TARGET_DATE"
 
 	// InvoiceDryRunDryRunTypeUPCOMINGINVOICE captures enum value "UPCOMING_INVOICE"
-	InvoiceDryRunDryRunTypeUPCOMINGINVOICE InvoiceDryRunDryRunTypeEnum = "UPCOMING_INVOICE"
+	InvoiceDryRunDryRunTypeUPCOMINGINVOICE string = "UPCOMING_INVOICE"
 
 	// InvoiceDryRunDryRunTypeSUBSCRIPTIONACTION captures enum value "SUBSCRIPTION_ACTION"
-	InvoiceDryRunDryRunTypeSUBSCRIPTIONACTION InvoiceDryRunDryRunTypeEnum = "SUBSCRIPTION_ACTION"
+	InvoiceDryRunDryRunTypeSUBSCRIPTIONACTION string = "SUBSCRIPTION_ACTION"
 )
 
-var InvoiceDryRunDryRunTypeEnumValues = []string{
-	"TARGET_DATE",
-	"UPCOMING_INVOICE",
-	"SUBSCRIPTION_ACTION",
-}
-
-func (e InvoiceDryRunDryRunTypeEnum) IsValid() bool {
-	for _, v := range InvoiceDryRunDryRunTypeEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *InvoiceDryRun) validateDryRunTypeEnum(path, location string, value InvoiceDryRunDryRunTypeEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeDryRunTypePropEnum); err != nil {
+func (m *InvoiceDryRun) validateDryRunTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeDryRunTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateDryRunType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DryRunType) { // not required
 		return nil
 	}
@@ -462,7 +382,6 @@ func (m *InvoiceDryRun) validateDryRunType(formats strfmt.Registry) error {
 }
 
 func (m *InvoiceDryRun) validateEffectiveDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EffectiveDate) { // not required
 		return nil
 	}
@@ -477,7 +396,7 @@ func (m *InvoiceDryRun) validateEffectiveDate(formats strfmt.Registry) error {
 var invoiceDryRunTypePhaseTypePropEnum []interface{}
 
 func init() {
-	var res []InvoiceDryRunPhaseTypeEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["TRIAL","DISCOUNT","FIXEDTERM","EVERGREEN"]`), &res); err != nil {
 		panic(err)
 	}
@@ -486,49 +405,30 @@ func init() {
 	}
 }
 
-type InvoiceDryRunPhaseTypeEnum string
-
 const (
 
 	// InvoiceDryRunPhaseTypeTRIAL captures enum value "TRIAL"
-	InvoiceDryRunPhaseTypeTRIAL InvoiceDryRunPhaseTypeEnum = "TRIAL"
+	InvoiceDryRunPhaseTypeTRIAL string = "TRIAL"
 
 	// InvoiceDryRunPhaseTypeDISCOUNT captures enum value "DISCOUNT"
-	InvoiceDryRunPhaseTypeDISCOUNT InvoiceDryRunPhaseTypeEnum = "DISCOUNT"
+	InvoiceDryRunPhaseTypeDISCOUNT string = "DISCOUNT"
 
 	// InvoiceDryRunPhaseTypeFIXEDTERM captures enum value "FIXEDTERM"
-	InvoiceDryRunPhaseTypeFIXEDTERM InvoiceDryRunPhaseTypeEnum = "FIXEDTERM"
+	InvoiceDryRunPhaseTypeFIXEDTERM string = "FIXEDTERM"
 
 	// InvoiceDryRunPhaseTypeEVERGREEN captures enum value "EVERGREEN"
-	InvoiceDryRunPhaseTypeEVERGREEN InvoiceDryRunPhaseTypeEnum = "EVERGREEN"
+	InvoiceDryRunPhaseTypeEVERGREEN string = "EVERGREEN"
 )
 
-var InvoiceDryRunPhaseTypeEnumValues = []string{
-	"TRIAL",
-	"DISCOUNT",
-	"FIXEDTERM",
-	"EVERGREEN",
-}
-
-func (e InvoiceDryRunPhaseTypeEnum) IsValid() bool {
-	for _, v := range InvoiceDryRunPhaseTypeEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *InvoiceDryRun) validatePhaseTypeEnum(path, location string, value InvoiceDryRunPhaseTypeEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypePhaseTypePropEnum); err != nil {
+func (m *InvoiceDryRun) validatePhaseTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypePhaseTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validatePhaseType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PhaseType) { // not required
 		return nil
 	}
@@ -542,7 +442,6 @@ func (m *InvoiceDryRun) validatePhaseType(formats strfmt.Registry) error {
 }
 
 func (m *InvoiceDryRun) validatePriceOverrides(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PriceOverrides) { // not required
 		return nil
 	}
@@ -556,6 +455,8 @@ func (m *InvoiceDryRun) validatePriceOverrides(formats strfmt.Registry) error {
 			if err := m.PriceOverrides[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -569,7 +470,7 @@ func (m *InvoiceDryRun) validatePriceOverrides(formats strfmt.Registry) error {
 var invoiceDryRunTypeProductCategoryPropEnum []interface{}
 
 func init() {
-	var res []InvoiceDryRunProductCategoryEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["BASE","ADD_ON","STANDALONE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -578,45 +479,27 @@ func init() {
 	}
 }
 
-type InvoiceDryRunProductCategoryEnum string
-
 const (
 
 	// InvoiceDryRunProductCategoryBASE captures enum value "BASE"
-	InvoiceDryRunProductCategoryBASE InvoiceDryRunProductCategoryEnum = "BASE"
+	InvoiceDryRunProductCategoryBASE string = "BASE"
 
 	// InvoiceDryRunProductCategoryADDON captures enum value "ADD_ON"
-	InvoiceDryRunProductCategoryADDON InvoiceDryRunProductCategoryEnum = "ADD_ON"
+	InvoiceDryRunProductCategoryADDON string = "ADD_ON"
 
 	// InvoiceDryRunProductCategorySTANDALONE captures enum value "STANDALONE"
-	InvoiceDryRunProductCategorySTANDALONE InvoiceDryRunProductCategoryEnum = "STANDALONE"
+	InvoiceDryRunProductCategorySTANDALONE string = "STANDALONE"
 )
 
-var InvoiceDryRunProductCategoryEnumValues = []string{
-	"BASE",
-	"ADD_ON",
-	"STANDALONE",
-}
-
-func (e InvoiceDryRunProductCategoryEnum) IsValid() bool {
-	for _, v := range InvoiceDryRunProductCategoryEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *InvoiceDryRun) validateProductCategoryEnum(path, location string, value InvoiceDryRunProductCategoryEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeProductCategoryPropEnum); err != nil {
+func (m *InvoiceDryRun) validateProductCategoryEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeProductCategoryPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateProductCategory(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProductCategory) { // not required
 		return nil
 	}
@@ -630,13 +513,46 @@ func (m *InvoiceDryRun) validateProductCategory(formats strfmt.Registry) error {
 }
 
 func (m *InvoiceDryRun) validateSubscriptionID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SubscriptionID) { // not required
 		return nil
 	}
 
 	if err := validate.FormatOf("subscriptionId", "body", "uuid", m.SubscriptionID.String(), formats); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this invoice dry run based on the context it is used
+func (m *InvoiceDryRun) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePriceOverrides(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *InvoiceDryRun) contextValidatePriceOverrides(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PriceOverrides); i++ {
+
+		if m.PriceOverrides[i] != nil {
+			if err := m.PriceOverrides[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // ChargebackReversalPaymentByExternalKeyReader is a Reader for the ChargebackReversalPaymentByExternalKey structure.
@@ -25,21 +23,50 @@ type ChargebackReversalPaymentByExternalKeyReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ChargebackReversalPaymentByExternalKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
-	case 201, 200:
+	case 201:
 		result := NewChargebackReversalPaymentByExternalKeyCreated()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 402:
+		result := NewChargebackReversalPaymentByExternalKeyPaymentRequired()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewChargebackReversalPaymentByExternalKeyNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 422:
+		result := NewChargebackReversalPaymentByExternalKeyUnprocessableEntity()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 502:
+		result := NewChargebackReversalPaymentByExternalKeyBadGateway()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 503:
+		result := NewChargebackReversalPaymentByExternalKeyServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 504:
+		result := NewChargebackReversalPaymentByExternalKeyGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +75,50 @@ func NewChargebackReversalPaymentByExternalKeyCreated() *ChargebackReversalPayme
 	return &ChargebackReversalPaymentByExternalKeyCreated{}
 }
 
-/*ChargebackReversalPaymentByExternalKeyCreated handles this case with default header values.
+/*
+ChargebackReversalPaymentByExternalKeyCreated describes a response with status code 201, with default header values.
 
 Payment transaction created successfully
 */
 type ChargebackReversalPaymentByExternalKeyCreated struct {
 	Payload *kbmodel.Payment
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this chargeback reversal payment by external key created response has a 2xx status code
+func (o *ChargebackReversalPaymentByExternalKeyCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this chargeback reversal payment by external key created response has a 3xx status code
+func (o *ChargebackReversalPaymentByExternalKeyCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this chargeback reversal payment by external key created response has a 4xx status code
+func (o *ChargebackReversalPaymentByExternalKeyCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this chargeback reversal payment by external key created response has a 5xx status code
+func (o *ChargebackReversalPaymentByExternalKeyCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this chargeback reversal payment by external key created response a status code equal to that given
+func (o *ChargebackReversalPaymentByExternalKeyCreated) IsCode(code int) bool {
+	return code == 201
+}
+
+// Code gets the status code for the chargeback reversal payment by external key created response
+func (o *ChargebackReversalPaymentByExternalKeyCreated) Code() int {
+	return 201
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyCreated  %+v", 201, o.Payload)
+}
+
+func (o *ChargebackReversalPaymentByExternalKeyCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyCreated  %+v", 201, o.Payload)
 }
 
@@ -83,15 +143,49 @@ func NewChargebackReversalPaymentByExternalKeyPaymentRequired() *ChargebackRever
 	return &ChargebackReversalPaymentByExternalKeyPaymentRequired{}
 }
 
-/*ChargebackReversalPaymentByExternalKeyPaymentRequired handles this case with default header values.
+/*
+ChargebackReversalPaymentByExternalKeyPaymentRequired describes a response with status code 402, with default header values.
 
 Transaction declined by gateway
 */
 type ChargebackReversalPaymentByExternalKeyPaymentRequired struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this chargeback reversal payment by external key payment required response has a 2xx status code
+func (o *ChargebackReversalPaymentByExternalKeyPaymentRequired) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this chargeback reversal payment by external key payment required response has a 3xx status code
+func (o *ChargebackReversalPaymentByExternalKeyPaymentRequired) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this chargeback reversal payment by external key payment required response has a 4xx status code
+func (o *ChargebackReversalPaymentByExternalKeyPaymentRequired) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this chargeback reversal payment by external key payment required response has a 5xx status code
+func (o *ChargebackReversalPaymentByExternalKeyPaymentRequired) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this chargeback reversal payment by external key payment required response a status code equal to that given
+func (o *ChargebackReversalPaymentByExternalKeyPaymentRequired) IsCode(code int) bool {
+	return code == 402
+}
+
+// Code gets the status code for the chargeback reversal payment by external key payment required response
+func (o *ChargebackReversalPaymentByExternalKeyPaymentRequired) Code() int {
+	return 402
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyPaymentRequired) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyPaymentRequired ", 402)
+}
+
+func (o *ChargebackReversalPaymentByExternalKeyPaymentRequired) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyPaymentRequired ", 402)
 }
 
@@ -105,15 +199,49 @@ func NewChargebackReversalPaymentByExternalKeyNotFound() *ChargebackReversalPaym
 	return &ChargebackReversalPaymentByExternalKeyNotFound{}
 }
 
-/*ChargebackReversalPaymentByExternalKeyNotFound handles this case with default header values.
+/*
+ChargebackReversalPaymentByExternalKeyNotFound describes a response with status code 404, with default header values.
 
 Account or payment not found
 */
 type ChargebackReversalPaymentByExternalKeyNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this chargeback reversal payment by external key not found response has a 2xx status code
+func (o *ChargebackReversalPaymentByExternalKeyNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this chargeback reversal payment by external key not found response has a 3xx status code
+func (o *ChargebackReversalPaymentByExternalKeyNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this chargeback reversal payment by external key not found response has a 4xx status code
+func (o *ChargebackReversalPaymentByExternalKeyNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this chargeback reversal payment by external key not found response has a 5xx status code
+func (o *ChargebackReversalPaymentByExternalKeyNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this chargeback reversal payment by external key not found response a status code equal to that given
+func (o *ChargebackReversalPaymentByExternalKeyNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the chargeback reversal payment by external key not found response
+func (o *ChargebackReversalPaymentByExternalKeyNotFound) Code() int {
+	return 404
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyNotFound ", 404)
+}
+
+func (o *ChargebackReversalPaymentByExternalKeyNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyNotFound ", 404)
 }
 
@@ -127,15 +255,49 @@ func NewChargebackReversalPaymentByExternalKeyUnprocessableEntity() *ChargebackR
 	return &ChargebackReversalPaymentByExternalKeyUnprocessableEntity{}
 }
 
-/*ChargebackReversalPaymentByExternalKeyUnprocessableEntity handles this case with default header values.
+/*
+ChargebackReversalPaymentByExternalKeyUnprocessableEntity describes a response with status code 422, with default header values.
 
 Payment is aborted by a control plugin
 */
 type ChargebackReversalPaymentByExternalKeyUnprocessableEntity struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this chargeback reversal payment by external key unprocessable entity response has a 2xx status code
+func (o *ChargebackReversalPaymentByExternalKeyUnprocessableEntity) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this chargeback reversal payment by external key unprocessable entity response has a 3xx status code
+func (o *ChargebackReversalPaymentByExternalKeyUnprocessableEntity) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this chargeback reversal payment by external key unprocessable entity response has a 4xx status code
+func (o *ChargebackReversalPaymentByExternalKeyUnprocessableEntity) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this chargeback reversal payment by external key unprocessable entity response has a 5xx status code
+func (o *ChargebackReversalPaymentByExternalKeyUnprocessableEntity) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this chargeback reversal payment by external key unprocessable entity response a status code equal to that given
+func (o *ChargebackReversalPaymentByExternalKeyUnprocessableEntity) IsCode(code int) bool {
+	return code == 422
+}
+
+// Code gets the status code for the chargeback reversal payment by external key unprocessable entity response
+func (o *ChargebackReversalPaymentByExternalKeyUnprocessableEntity) Code() int {
+	return 422
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyUnprocessableEntity) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyUnprocessableEntity ", 422)
+}
+
+func (o *ChargebackReversalPaymentByExternalKeyUnprocessableEntity) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyUnprocessableEntity ", 422)
 }
 
@@ -149,15 +311,49 @@ func NewChargebackReversalPaymentByExternalKeyBadGateway() *ChargebackReversalPa
 	return &ChargebackReversalPaymentByExternalKeyBadGateway{}
 }
 
-/*ChargebackReversalPaymentByExternalKeyBadGateway handles this case with default header values.
+/*
+ChargebackReversalPaymentByExternalKeyBadGateway describes a response with status code 502, with default header values.
 
 Failed to submit payment transaction
 */
 type ChargebackReversalPaymentByExternalKeyBadGateway struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this chargeback reversal payment by external key bad gateway response has a 2xx status code
+func (o *ChargebackReversalPaymentByExternalKeyBadGateway) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this chargeback reversal payment by external key bad gateway response has a 3xx status code
+func (o *ChargebackReversalPaymentByExternalKeyBadGateway) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this chargeback reversal payment by external key bad gateway response has a 4xx status code
+func (o *ChargebackReversalPaymentByExternalKeyBadGateway) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this chargeback reversal payment by external key bad gateway response has a 5xx status code
+func (o *ChargebackReversalPaymentByExternalKeyBadGateway) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this chargeback reversal payment by external key bad gateway response a status code equal to that given
+func (o *ChargebackReversalPaymentByExternalKeyBadGateway) IsCode(code int) bool {
+	return code == 502
+}
+
+// Code gets the status code for the chargeback reversal payment by external key bad gateway response
+func (o *ChargebackReversalPaymentByExternalKeyBadGateway) Code() int {
+	return 502
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyBadGateway) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyBadGateway ", 502)
+}
+
+func (o *ChargebackReversalPaymentByExternalKeyBadGateway) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyBadGateway ", 502)
 }
 
@@ -171,15 +367,49 @@ func NewChargebackReversalPaymentByExternalKeyServiceUnavailable() *ChargebackRe
 	return &ChargebackReversalPaymentByExternalKeyServiceUnavailable{}
 }
 
-/*ChargebackReversalPaymentByExternalKeyServiceUnavailable handles this case with default header values.
+/*
+ChargebackReversalPaymentByExternalKeyServiceUnavailable describes a response with status code 503, with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
 type ChargebackReversalPaymentByExternalKeyServiceUnavailable struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this chargeback reversal payment by external key service unavailable response has a 2xx status code
+func (o *ChargebackReversalPaymentByExternalKeyServiceUnavailable) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this chargeback reversal payment by external key service unavailable response has a 3xx status code
+func (o *ChargebackReversalPaymentByExternalKeyServiceUnavailable) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this chargeback reversal payment by external key service unavailable response has a 4xx status code
+func (o *ChargebackReversalPaymentByExternalKeyServiceUnavailable) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this chargeback reversal payment by external key service unavailable response has a 5xx status code
+func (o *ChargebackReversalPaymentByExternalKeyServiceUnavailable) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this chargeback reversal payment by external key service unavailable response a status code equal to that given
+func (o *ChargebackReversalPaymentByExternalKeyServiceUnavailable) IsCode(code int) bool {
+	return code == 503
+}
+
+// Code gets the status code for the chargeback reversal payment by external key service unavailable response
+func (o *ChargebackReversalPaymentByExternalKeyServiceUnavailable) Code() int {
+	return 503
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyServiceUnavailable ", 503)
+}
+
+func (o *ChargebackReversalPaymentByExternalKeyServiceUnavailable) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyServiceUnavailable ", 503)
 }
 
@@ -193,15 +423,49 @@ func NewChargebackReversalPaymentByExternalKeyGatewayTimeout() *ChargebackRevers
 	return &ChargebackReversalPaymentByExternalKeyGatewayTimeout{}
 }
 
-/*ChargebackReversalPaymentByExternalKeyGatewayTimeout handles this case with default header values.
+/*
+ChargebackReversalPaymentByExternalKeyGatewayTimeout describes a response with status code 504, with default header values.
 
 Payment operation timeout
 */
 type ChargebackReversalPaymentByExternalKeyGatewayTimeout struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this chargeback reversal payment by external key gateway timeout response has a 2xx status code
+func (o *ChargebackReversalPaymentByExternalKeyGatewayTimeout) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this chargeback reversal payment by external key gateway timeout response has a 3xx status code
+func (o *ChargebackReversalPaymentByExternalKeyGatewayTimeout) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this chargeback reversal payment by external key gateway timeout response has a 4xx status code
+func (o *ChargebackReversalPaymentByExternalKeyGatewayTimeout) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this chargeback reversal payment by external key gateway timeout response has a 5xx status code
+func (o *ChargebackReversalPaymentByExternalKeyGatewayTimeout) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this chargeback reversal payment by external key gateway timeout response a status code equal to that given
+func (o *ChargebackReversalPaymentByExternalKeyGatewayTimeout) IsCode(code int) bool {
+	return code == 504
+}
+
+// Code gets the status code for the chargeback reversal payment by external key gateway timeout response
+func (o *ChargebackReversalPaymentByExternalKeyGatewayTimeout) Code() int {
+	return 504
 }
 
 func (o *ChargebackReversalPaymentByExternalKeyGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyGatewayTimeout ", 504)
+}
+
+func (o *ChargebackReversalPaymentByExternalKeyGatewayTimeout) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebackReversals][%d] chargebackReversalPaymentByExternalKeyGatewayTimeout ", 504)
 }
 

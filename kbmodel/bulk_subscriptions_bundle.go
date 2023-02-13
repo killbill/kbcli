@@ -6,16 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // BulkSubscriptionsBundle bulk subscriptions bundle
+//
 // swagger:model BulkSubscriptionsBundle
 type BulkSubscriptionsBundle struct {
 
@@ -53,6 +54,42 @@ func (m *BulkSubscriptionsBundle) validateBaseEntitlementAndAddOns(formats strfm
 			if err := m.BaseEntitlementAndAddOns[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("baseEntitlementAndAddOns" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("baseEntitlementAndAddOns" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this bulk subscriptions bundle based on the context it is used
+func (m *BulkSubscriptionsBundle) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBaseEntitlementAndAddOns(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *BulkSubscriptionsBundle) contextValidateBaseEntitlementAndAddOns(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.BaseEntitlementAndAddOns); i++ {
+
+		if m.BaseEntitlementAndAddOns[i] != nil {
+			if err := m.BaseEntitlementAndAddOns[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("baseEntitlementAndAddOns" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("baseEntitlementAndAddOns" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

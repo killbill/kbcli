@@ -7,12 +7,9 @@ package payment
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // VoidPaymentByExternalKeyReader is a Reader for the VoidPaymentByExternalKey structure.
@@ -23,21 +20,50 @@ type VoidPaymentByExternalKeyReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *VoidPaymentByExternalKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 204:
 		result := NewVoidPaymentByExternalKeyNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 402:
+		result := NewVoidPaymentByExternalKeyPaymentRequired()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewVoidPaymentByExternalKeyNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 422:
+		result := NewVoidPaymentByExternalKeyUnprocessableEntity()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 502:
+		result := NewVoidPaymentByExternalKeyBadGateway()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 503:
+		result := NewVoidPaymentByExternalKeyServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 504:
+		result := NewVoidPaymentByExternalKeyGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +72,49 @@ func NewVoidPaymentByExternalKeyNoContent() *VoidPaymentByExternalKeyNoContent {
 	return &VoidPaymentByExternalKeyNoContent{}
 }
 
-/*VoidPaymentByExternalKeyNoContent handles this case with default header values.
+/*
+VoidPaymentByExternalKeyNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
 type VoidPaymentByExternalKeyNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void payment by external key no content response has a 2xx status code
+func (o *VoidPaymentByExternalKeyNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this void payment by external key no content response has a 3xx status code
+func (o *VoidPaymentByExternalKeyNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void payment by external key no content response has a 4xx status code
+func (o *VoidPaymentByExternalKeyNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this void payment by external key no content response has a 5xx status code
+func (o *VoidPaymentByExternalKeyNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this void payment by external key no content response a status code equal to that given
+func (o *VoidPaymentByExternalKeyNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the void payment by external key no content response
+func (o *VoidPaymentByExternalKeyNoContent) Code() int {
+	return 204
 }
 
 func (o *VoidPaymentByExternalKeyNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyNoContent ", 204)
+}
+
+func (o *VoidPaymentByExternalKeyNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyNoContent ", 204)
 }
 
@@ -68,15 +128,49 @@ func NewVoidPaymentByExternalKeyPaymentRequired() *VoidPaymentByExternalKeyPayme
 	return &VoidPaymentByExternalKeyPaymentRequired{}
 }
 
-/*VoidPaymentByExternalKeyPaymentRequired handles this case with default header values.
+/*
+VoidPaymentByExternalKeyPaymentRequired describes a response with status code 402, with default header values.
 
 Transaction declined by gateway
 */
 type VoidPaymentByExternalKeyPaymentRequired struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void payment by external key payment required response has a 2xx status code
+func (o *VoidPaymentByExternalKeyPaymentRequired) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this void payment by external key payment required response has a 3xx status code
+func (o *VoidPaymentByExternalKeyPaymentRequired) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void payment by external key payment required response has a 4xx status code
+func (o *VoidPaymentByExternalKeyPaymentRequired) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this void payment by external key payment required response has a 5xx status code
+func (o *VoidPaymentByExternalKeyPaymentRequired) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this void payment by external key payment required response a status code equal to that given
+func (o *VoidPaymentByExternalKeyPaymentRequired) IsCode(code int) bool {
+	return code == 402
+}
+
+// Code gets the status code for the void payment by external key payment required response
+func (o *VoidPaymentByExternalKeyPaymentRequired) Code() int {
+	return 402
 }
 
 func (o *VoidPaymentByExternalKeyPaymentRequired) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyPaymentRequired ", 402)
+}
+
+func (o *VoidPaymentByExternalKeyPaymentRequired) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyPaymentRequired ", 402)
 }
 
@@ -90,15 +184,49 @@ func NewVoidPaymentByExternalKeyNotFound() *VoidPaymentByExternalKeyNotFound {
 	return &VoidPaymentByExternalKeyNotFound{}
 }
 
-/*VoidPaymentByExternalKeyNotFound handles this case with default header values.
+/*
+VoidPaymentByExternalKeyNotFound describes a response with status code 404, with default header values.
 
 Account or payment not found
 */
 type VoidPaymentByExternalKeyNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void payment by external key not found response has a 2xx status code
+func (o *VoidPaymentByExternalKeyNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this void payment by external key not found response has a 3xx status code
+func (o *VoidPaymentByExternalKeyNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void payment by external key not found response has a 4xx status code
+func (o *VoidPaymentByExternalKeyNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this void payment by external key not found response has a 5xx status code
+func (o *VoidPaymentByExternalKeyNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this void payment by external key not found response a status code equal to that given
+func (o *VoidPaymentByExternalKeyNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the void payment by external key not found response
+func (o *VoidPaymentByExternalKeyNotFound) Code() int {
+	return 404
 }
 
 func (o *VoidPaymentByExternalKeyNotFound) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyNotFound ", 404)
+}
+
+func (o *VoidPaymentByExternalKeyNotFound) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyNotFound ", 404)
 }
 
@@ -112,15 +240,49 @@ func NewVoidPaymentByExternalKeyUnprocessableEntity() *VoidPaymentByExternalKeyU
 	return &VoidPaymentByExternalKeyUnprocessableEntity{}
 }
 
-/*VoidPaymentByExternalKeyUnprocessableEntity handles this case with default header values.
+/*
+VoidPaymentByExternalKeyUnprocessableEntity describes a response with status code 422, with default header values.
 
 Payment is aborted by a control plugin
 */
 type VoidPaymentByExternalKeyUnprocessableEntity struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void payment by external key unprocessable entity response has a 2xx status code
+func (o *VoidPaymentByExternalKeyUnprocessableEntity) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this void payment by external key unprocessable entity response has a 3xx status code
+func (o *VoidPaymentByExternalKeyUnprocessableEntity) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void payment by external key unprocessable entity response has a 4xx status code
+func (o *VoidPaymentByExternalKeyUnprocessableEntity) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this void payment by external key unprocessable entity response has a 5xx status code
+func (o *VoidPaymentByExternalKeyUnprocessableEntity) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this void payment by external key unprocessable entity response a status code equal to that given
+func (o *VoidPaymentByExternalKeyUnprocessableEntity) IsCode(code int) bool {
+	return code == 422
+}
+
+// Code gets the status code for the void payment by external key unprocessable entity response
+func (o *VoidPaymentByExternalKeyUnprocessableEntity) Code() int {
+	return 422
 }
 
 func (o *VoidPaymentByExternalKeyUnprocessableEntity) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyUnprocessableEntity ", 422)
+}
+
+func (o *VoidPaymentByExternalKeyUnprocessableEntity) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyUnprocessableEntity ", 422)
 }
 
@@ -134,15 +296,49 @@ func NewVoidPaymentByExternalKeyBadGateway() *VoidPaymentByExternalKeyBadGateway
 	return &VoidPaymentByExternalKeyBadGateway{}
 }
 
-/*VoidPaymentByExternalKeyBadGateway handles this case with default header values.
+/*
+VoidPaymentByExternalKeyBadGateway describes a response with status code 502, with default header values.
 
 Failed to submit payment transaction
 */
 type VoidPaymentByExternalKeyBadGateway struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void payment by external key bad gateway response has a 2xx status code
+func (o *VoidPaymentByExternalKeyBadGateway) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this void payment by external key bad gateway response has a 3xx status code
+func (o *VoidPaymentByExternalKeyBadGateway) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void payment by external key bad gateway response has a 4xx status code
+func (o *VoidPaymentByExternalKeyBadGateway) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this void payment by external key bad gateway response has a 5xx status code
+func (o *VoidPaymentByExternalKeyBadGateway) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this void payment by external key bad gateway response a status code equal to that given
+func (o *VoidPaymentByExternalKeyBadGateway) IsCode(code int) bool {
+	return code == 502
+}
+
+// Code gets the status code for the void payment by external key bad gateway response
+func (o *VoidPaymentByExternalKeyBadGateway) Code() int {
+	return 502
 }
 
 func (o *VoidPaymentByExternalKeyBadGateway) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyBadGateway ", 502)
+}
+
+func (o *VoidPaymentByExternalKeyBadGateway) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyBadGateway ", 502)
 }
 
@@ -156,15 +352,49 @@ func NewVoidPaymentByExternalKeyServiceUnavailable() *VoidPaymentByExternalKeySe
 	return &VoidPaymentByExternalKeyServiceUnavailable{}
 }
 
-/*VoidPaymentByExternalKeyServiceUnavailable handles this case with default header values.
+/*
+VoidPaymentByExternalKeyServiceUnavailable describes a response with status code 503, with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
 type VoidPaymentByExternalKeyServiceUnavailable struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void payment by external key service unavailable response has a 2xx status code
+func (o *VoidPaymentByExternalKeyServiceUnavailable) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this void payment by external key service unavailable response has a 3xx status code
+func (o *VoidPaymentByExternalKeyServiceUnavailable) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void payment by external key service unavailable response has a 4xx status code
+func (o *VoidPaymentByExternalKeyServiceUnavailable) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this void payment by external key service unavailable response has a 5xx status code
+func (o *VoidPaymentByExternalKeyServiceUnavailable) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this void payment by external key service unavailable response a status code equal to that given
+func (o *VoidPaymentByExternalKeyServiceUnavailable) IsCode(code int) bool {
+	return code == 503
+}
+
+// Code gets the status code for the void payment by external key service unavailable response
+func (o *VoidPaymentByExternalKeyServiceUnavailable) Code() int {
+	return 503
 }
 
 func (o *VoidPaymentByExternalKeyServiceUnavailable) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyServiceUnavailable ", 503)
+}
+
+func (o *VoidPaymentByExternalKeyServiceUnavailable) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyServiceUnavailable ", 503)
 }
 
@@ -178,15 +408,49 @@ func NewVoidPaymentByExternalKeyGatewayTimeout() *VoidPaymentByExternalKeyGatewa
 	return &VoidPaymentByExternalKeyGatewayTimeout{}
 }
 
-/*VoidPaymentByExternalKeyGatewayTimeout handles this case with default header values.
+/*
+VoidPaymentByExternalKeyGatewayTimeout describes a response with status code 504, with default header values.
 
 Payment operation timeout
 */
 type VoidPaymentByExternalKeyGatewayTimeout struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this void payment by external key gateway timeout response has a 2xx status code
+func (o *VoidPaymentByExternalKeyGatewayTimeout) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this void payment by external key gateway timeout response has a 3xx status code
+func (o *VoidPaymentByExternalKeyGatewayTimeout) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this void payment by external key gateway timeout response has a 4xx status code
+func (o *VoidPaymentByExternalKeyGatewayTimeout) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this void payment by external key gateway timeout response has a 5xx status code
+func (o *VoidPaymentByExternalKeyGatewayTimeout) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this void payment by external key gateway timeout response a status code equal to that given
+func (o *VoidPaymentByExternalKeyGatewayTimeout) IsCode(code int) bool {
+	return code == 504
+}
+
+// Code gets the status code for the void payment by external key gateway timeout response
+func (o *VoidPaymentByExternalKeyGatewayTimeout) Code() int {
+	return 504
 }
 
 func (o *VoidPaymentByExternalKeyGatewayTimeout) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyGatewayTimeout ", 504)
+}
+
+func (o *VoidPaymentByExternalKeyGatewayTimeout) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments][%d] voidPaymentByExternalKeyGatewayTimeout ", 504)
 }
 

@@ -7,12 +7,9 @@ package tenant
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // DeletePluginConfigurationReader is a Reader for the DeletePluginConfiguration structure.
@@ -23,21 +20,20 @@ type DeletePluginConfigurationReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeletePluginConfigurationReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 204:
 		result := NewDeletePluginConfigurationNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewDeletePluginConfigurationBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +42,49 @@ func NewDeletePluginConfigurationNoContent() *DeletePluginConfigurationNoContent
 	return &DeletePluginConfigurationNoContent{}
 }
 
-/*DeletePluginConfigurationNoContent handles this case with default header values.
+/*
+DeletePluginConfigurationNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
 type DeletePluginConfigurationNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this delete plugin configuration no content response has a 2xx status code
+func (o *DeletePluginConfigurationNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete plugin configuration no content response has a 3xx status code
+func (o *DeletePluginConfigurationNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete plugin configuration no content response has a 4xx status code
+func (o *DeletePluginConfigurationNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete plugin configuration no content response has a 5xx status code
+func (o *DeletePluginConfigurationNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete plugin configuration no content response a status code equal to that given
+func (o *DeletePluginConfigurationNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the delete plugin configuration no content response
+func (o *DeletePluginConfigurationNoContent) Code() int {
+	return 204
 }
 
 func (o *DeletePluginConfigurationNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/tenants/uploadPluginConfig/{pluginName}][%d] deletePluginConfigurationNoContent ", 204)
+}
+
+func (o *DeletePluginConfigurationNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/tenants/uploadPluginConfig/{pluginName}][%d] deletePluginConfigurationNoContent ", 204)
 }
 
@@ -68,15 +98,49 @@ func NewDeletePluginConfigurationBadRequest() *DeletePluginConfigurationBadReque
 	return &DeletePluginConfigurationBadRequest{}
 }
 
-/*DeletePluginConfigurationBadRequest handles this case with default header values.
+/*
+DeletePluginConfigurationBadRequest describes a response with status code 400, with default header values.
 
 Invalid tenantId supplied
 */
 type DeletePluginConfigurationBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this delete plugin configuration bad request response has a 2xx status code
+func (o *DeletePluginConfigurationBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this delete plugin configuration bad request response has a 3xx status code
+func (o *DeletePluginConfigurationBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete plugin configuration bad request response has a 4xx status code
+func (o *DeletePluginConfigurationBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this delete plugin configuration bad request response has a 5xx status code
+func (o *DeletePluginConfigurationBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete plugin configuration bad request response a status code equal to that given
+func (o *DeletePluginConfigurationBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the delete plugin configuration bad request response
+func (o *DeletePluginConfigurationBadRequest) Code() int {
+	return 400
 }
 
 func (o *DeletePluginConfigurationBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/tenants/uploadPluginConfig/{pluginName}][%d] deletePluginConfigurationBadRequest ", 400)
+}
+
+func (o *DeletePluginConfigurationBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/tenants/uploadPluginConfig/{pluginName}][%d] deletePluginConfigurationBadRequest ", 400)
 }
 

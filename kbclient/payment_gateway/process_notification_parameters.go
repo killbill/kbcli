@@ -13,76 +13,94 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewProcessNotificationParams creates a new ProcessNotificationParams object
-// with the default values initialized.
+// NewProcessNotificationParams creates a new ProcessNotificationParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewProcessNotificationParams() *ProcessNotificationParams {
-	var ()
 	return &ProcessNotificationParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewProcessNotificationParamsWithTimeout creates a new ProcessNotificationParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewProcessNotificationParamsWithTimeout(timeout time.Duration) *ProcessNotificationParams {
-	var ()
 	return &ProcessNotificationParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewProcessNotificationParamsWithContext creates a new ProcessNotificationParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewProcessNotificationParamsWithContext(ctx context.Context) *ProcessNotificationParams {
-	var ()
 	return &ProcessNotificationParams{
-
 		Context: ctx,
 	}
 }
 
 // NewProcessNotificationParamsWithHTTPClient creates a new ProcessNotificationParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewProcessNotificationParamsWithHTTPClient(client *http.Client) *ProcessNotificationParams {
-	var ()
 	return &ProcessNotificationParams{
 		HTTPClient: client,
 	}
 }
 
-/*ProcessNotificationParams contains all the parameters to send to the API endpoint
-for the process notification operation typically these are written to a http.Request
+/*
+ProcessNotificationParams contains all the parameters to send to the API endpoint
+
+	for the process notification operation.
+
+	Typically these are written to a http.Request.
 */
 type ProcessNotificationParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body string
-	/*ControlPluginName*/
+
+	// ControlPluginName.
 	ControlPluginName []string
-	/*PluginName*/
+
+	// PluginName.
 	PluginName string
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the process notification params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ProcessNotificationParams) WithDefaults() *ProcessNotificationParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the process notification params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ProcessNotificationParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the process notification params
@@ -209,7 +227,6 @@ func (o *ProcessNotificationParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -223,19 +240,20 @@ func (o *ProcessNotificationParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if err := r.SetBodyParam(o.Body); err != nil {
 		return err
 	}
 
-	valuesControlPluginName := o.ControlPluginName
+	if o.ControlPluginName != nil {
 
-	joinedControlPluginName := swag.JoinByFormat(valuesControlPluginName, "multi")
-	// query array param controlPluginName
-	if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
-		return err
+		// binding items for controlPluginName
+		joinedControlPluginName := o.bindParamControlPluginName(reg)
+
+		// query array param controlPluginName
+		if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+			return err
+		}
 	}
 
 	// path param pluginName
@@ -243,24 +261,13 @@ func (o *ProcessNotificationParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
-	}
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
 
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
 			return err
 		}
 	}
@@ -269,4 +276,38 @@ func (o *ProcessNotificationParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamProcessNotification binds the parameter controlPluginName
+func (o *ProcessNotificationParams) bindParamControlPluginName(formats strfmt.Registry) []string {
+	controlPluginNameIR := o.ControlPluginName
+
+	var controlPluginNameIC []string
+	for _, controlPluginNameIIR := range controlPluginNameIR { // explode []string
+
+		controlPluginNameIIV := controlPluginNameIIR // string as string
+		controlPluginNameIC = append(controlPluginNameIC, controlPluginNameIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	controlPluginNameIS := swag.JoinByFormat(controlPluginNameIC, "multi")
+
+	return controlPluginNameIS
+}
+
+// bindParamProcessNotification binds the parameter pluginProperty
+func (o *ProcessNotificationParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

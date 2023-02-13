@@ -13,71 +13,89 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewCreatePaymentTagsParams creates a new CreatePaymentTagsParams object
-// with the default values initialized.
+// NewCreatePaymentTagsParams creates a new CreatePaymentTagsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreatePaymentTagsParams() *CreatePaymentTagsParams {
-	var ()
 	return &CreatePaymentTagsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreatePaymentTagsParamsWithTimeout creates a new CreatePaymentTagsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreatePaymentTagsParamsWithTimeout(timeout time.Duration) *CreatePaymentTagsParams {
-	var ()
 	return &CreatePaymentTagsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreatePaymentTagsParamsWithContext creates a new CreatePaymentTagsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreatePaymentTagsParamsWithContext(ctx context.Context) *CreatePaymentTagsParams {
-	var ()
 	return &CreatePaymentTagsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreatePaymentTagsParamsWithHTTPClient creates a new CreatePaymentTagsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreatePaymentTagsParamsWithHTTPClient(client *http.Client) *CreatePaymentTagsParams {
-	var ()
 	return &CreatePaymentTagsParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreatePaymentTagsParams contains all the parameters to send to the API endpoint
-for the create payment tags operation typically these are written to a http.Request
+/*
+CreatePaymentTagsParams contains all the parameters to send to the API endpoint
+
+	for the create payment tags operation.
+
+	Typically these are written to a http.Request.
 */
 type CreatePaymentTagsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body []strfmt.UUID
-	/*PaymentID*/
+
+	// PaymentID.
+	//
+	// Format: uuid
 	PaymentID strfmt.UUID
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create payment tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreatePaymentTagsParams) WithDefaults() *CreatePaymentTagsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create payment tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreatePaymentTagsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create payment tags params
@@ -182,7 +200,6 @@ func (o *CreatePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -196,9 +213,7 @@ func (o *CreatePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -208,20 +223,6 @@ func (o *CreatePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 	// path param paymentId
 	if err := r.SetPathParam("paymentId", o.PaymentID.String()); err != nil {
 		return err
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
-		}
 	}
 
 	if len(res) > 0 {

@@ -13,112 +13,130 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewCancelSubscriptionPlanParams creates a new CancelSubscriptionPlanParams object
-// with the default values initialized.
+// NewCancelSubscriptionPlanParams creates a new CancelSubscriptionPlanParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCancelSubscriptionPlanParams() *CancelSubscriptionPlanParams {
-	var (
-		callCompletionDefault             = bool(false)
-		callTimeoutSecDefault             = int64(5)
-		useRequestedDateForBillingDefault = bool(false)
-	)
 	return &CancelSubscriptionPlanParams{
-		CallCompletion:             &callCompletionDefault,
-		CallTimeoutSec:             &callTimeoutSecDefault,
-		UseRequestedDateForBilling: &useRequestedDateForBillingDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCancelSubscriptionPlanParamsWithTimeout creates a new CancelSubscriptionPlanParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCancelSubscriptionPlanParamsWithTimeout(timeout time.Duration) *CancelSubscriptionPlanParams {
-	var (
-		callCompletionDefault             = bool(false)
-		callTimeoutSecDefault             = int64(5)
-		useRequestedDateForBillingDefault = bool(false)
-	)
 	return &CancelSubscriptionPlanParams{
-		CallCompletion:             &callCompletionDefault,
-		CallTimeoutSec:             &callTimeoutSecDefault,
-		UseRequestedDateForBilling: &useRequestedDateForBillingDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewCancelSubscriptionPlanParamsWithContext creates a new CancelSubscriptionPlanParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCancelSubscriptionPlanParamsWithContext(ctx context.Context) *CancelSubscriptionPlanParams {
-	var (
-		callCompletionDefault             = bool(false)
-		callTimeoutSecDefault             = int64(5)
-		useRequestedDateForBillingDefault = bool(false)
-	)
 	return &CancelSubscriptionPlanParams{
-		CallCompletion:             &callCompletionDefault,
-		CallTimeoutSec:             &callTimeoutSecDefault,
-		UseRequestedDateForBilling: &useRequestedDateForBillingDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewCancelSubscriptionPlanParamsWithHTTPClient creates a new CancelSubscriptionPlanParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCancelSubscriptionPlanParamsWithHTTPClient(client *http.Client) *CancelSubscriptionPlanParams {
-	var (
-		callCompletionDefault             = bool(false)
-		callTimeoutSecDefault             = int64(5)
-		useRequestedDateForBillingDefault = bool(false)
-	)
 	return &CancelSubscriptionPlanParams{
-		CallCompletion:             &callCompletionDefault,
-		CallTimeoutSec:             &callTimeoutSecDefault,
-		UseRequestedDateForBilling: &useRequestedDateForBillingDefault,
-		HTTPClient:                 client,
+		HTTPClient: client,
 	}
 }
 
-/*CancelSubscriptionPlanParams contains all the parameters to send to the API endpoint
-for the cancel subscription plan operation typically these are written to a http.Request
+/*
+CancelSubscriptionPlanParams contains all the parameters to send to the API endpoint
+
+	for the cancel subscription plan operation.
+
+	Typically these are written to a http.Request.
 */
 type CancelSubscriptionPlanParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*BillingPolicy*/
+
+	// BillingPolicy.
 	BillingPolicy *string
-	/*CallCompletion*/
+
+	// CallCompletion.
 	CallCompletion *bool
-	/*CallTimeoutSec*/
+
+	// CallTimeoutSec.
+	//
+	// Format: int64
+	// Default: 5
 	CallTimeoutSec *int64
-	/*EntitlementPolicy*/
+
+	// EntitlementPolicy.
 	EntitlementPolicy *string
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*RequestedDate*/
+
+	// RequestedDate.
+	//
+	// Format: date
 	RequestedDate *strfmt.Date
-	/*SubscriptionID*/
+
+	// SubscriptionID.
+	//
+	// Format: uuid
 	SubscriptionID strfmt.UUID
-	/*UseRequestedDateForBilling*/
+
+	// UseRequestedDateForBilling.
 	UseRequestedDateForBilling *bool
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the cancel subscription plan params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CancelSubscriptionPlanParams) WithDefaults() *CancelSubscriptionPlanParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the cancel subscription plan params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CancelSubscriptionPlanParams) SetDefaults() {
+	var (
+		callCompletionDefault = bool(false)
+
+		callTimeoutSecDefault = int64(5)
+
+		useRequestedDateForBillingDefault = bool(false)
+	)
+
+	val := CancelSubscriptionPlanParams{
+		CallCompletion:             &callCompletionDefault,
+		CallTimeoutSec:             &callTimeoutSecDefault,
+		UseRequestedDateForBilling: &useRequestedDateForBillingDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the cancel subscription plan params
@@ -289,7 +307,6 @@ func (o *CancelSubscriptionPlanParams) WriteToRequest(r runtime.ClientRequest, r
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -303,95 +320,102 @@ func (o *CancelSubscriptionPlanParams) WriteToRequest(r runtime.ClientRequest, r
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	if o.BillingPolicy != nil {
 
 		// query param billingPolicy
 		var qrBillingPolicy string
+
 		if o.BillingPolicy != nil {
 			qrBillingPolicy = *o.BillingPolicy
 		}
 		qBillingPolicy := qrBillingPolicy
 		if qBillingPolicy != "" {
+
 			if err := r.SetQueryParam("billingPolicy", qBillingPolicy); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.CallCompletion != nil {
 
 		// query param callCompletion
 		var qrCallCompletion bool
+
 		if o.CallCompletion != nil {
 			qrCallCompletion = *o.CallCompletion
 		}
 		qCallCompletion := swag.FormatBool(qrCallCompletion)
 		if qCallCompletion != "" {
+
 			if err := r.SetQueryParam("callCompletion", qCallCompletion); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.CallTimeoutSec != nil {
 
 		// query param callTimeoutSec
 		var qrCallTimeoutSec int64
+
 		if o.CallTimeoutSec != nil {
 			qrCallTimeoutSec = *o.CallTimeoutSec
 		}
 		qCallTimeoutSec := swag.FormatInt64(qrCallTimeoutSec)
 		if qCallTimeoutSec != "" {
+
 			if err := r.SetQueryParam("callTimeoutSec", qCallTimeoutSec); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.EntitlementPolicy != nil {
 
 		// query param entitlementPolicy
 		var qrEntitlementPolicy string
+
 		if o.EntitlementPolicy != nil {
 			qrEntitlementPolicy = *o.EntitlementPolicy
 		}
 		qEntitlementPolicy := qrEntitlementPolicy
 		if qEntitlementPolicy != "" {
+
 			if err := r.SetQueryParam("entitlementPolicy", qEntitlementPolicy); err != nil {
 				return err
 			}
 		}
-
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
+
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
+
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param subscriptionId
@@ -403,29 +427,16 @@ func (o *CancelSubscriptionPlanParams) WriteToRequest(r runtime.ClientRequest, r
 
 		// query param useRequestedDateForBilling
 		var qrUseRequestedDateForBilling bool
+
 		if o.UseRequestedDateForBilling != nil {
 			qrUseRequestedDateForBilling = *o.UseRequestedDateForBilling
 		}
 		qUseRequestedDateForBilling := swag.FormatBool(qrUseRequestedDateForBilling)
 		if qUseRequestedDateForBilling != "" {
+
 			if err := r.SetQueryParam("useRequestedDateForBilling", qUseRequestedDateForBilling); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 
@@ -433,4 +444,21 @@ func (o *CancelSubscriptionPlanParams) WriteToRequest(r runtime.ClientRequest, r
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCancelSubscriptionPlan binds the parameter pluginProperty
+func (o *CancelSubscriptionPlanParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

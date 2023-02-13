@@ -13,65 +13,82 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetCatalogJSONParams creates a new GetCatalogJSONParams object
-// with the default values initialized.
+// NewGetCatalogJSONParams creates a new GetCatalogJSONParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetCatalogJSONParams() *GetCatalogJSONParams {
-	var ()
 	return &GetCatalogJSONParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetCatalogJSONParamsWithTimeout creates a new GetCatalogJSONParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetCatalogJSONParamsWithTimeout(timeout time.Duration) *GetCatalogJSONParams {
-	var ()
 	return &GetCatalogJSONParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetCatalogJSONParamsWithContext creates a new GetCatalogJSONParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetCatalogJSONParamsWithContext(ctx context.Context) *GetCatalogJSONParams {
-	var ()
 	return &GetCatalogJSONParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetCatalogJSONParamsWithHTTPClient creates a new GetCatalogJSONParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetCatalogJSONParamsWithHTTPClient(client *http.Client) *GetCatalogJSONParams {
-	var ()
 	return &GetCatalogJSONParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetCatalogJSONParams contains all the parameters to send to the API endpoint
-for the get catalog Json operation typically these are written to a http.Request
+/*
+GetCatalogJSONParams contains all the parameters to send to the API endpoint
+
+	for the get catalog Json operation.
+
+	Typically these are written to a http.Request.
 */
 type GetCatalogJSONParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID *strfmt.UUID
-	/*RequestedDate*/
+
+	// RequestedDate.
+	//
+	// Format: date-time
 	RequestedDate *strfmt.DateTime
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get catalog Json params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetCatalogJSONParams) WithDefaults() *GetCatalogJSONParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get catalog Json params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetCatalogJSONParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get catalog Json params
@@ -141,45 +158,33 @@ func (o *GetCatalogJSONParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param accountId
 		var qrAccountID strfmt.UUID
+
 		if o.AccountID != nil {
 			qrAccountID = *o.AccountID
 		}
 		qAccountID := qrAccountID.String()
 		if qAccountID != "" {
+
 			if err := r.SetQueryParam("accountId", qAccountID); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.DateTime
+
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
+
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 

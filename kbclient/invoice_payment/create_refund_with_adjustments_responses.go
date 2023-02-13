@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateRefundWithAdjustmentsReader is a Reader for the CreateRefundWithAdjustments structure.
@@ -25,21 +23,26 @@ type CreateRefundWithAdjustmentsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CreateRefundWithAdjustmentsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
-	case 201, 200:
+	case 201:
 		result := NewCreateRefundWithAdjustmentsCreated()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewCreateRefundWithAdjustmentsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewCreateRefundWithAdjustmentsNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +51,50 @@ func NewCreateRefundWithAdjustmentsCreated() *CreateRefundWithAdjustmentsCreated
 	return &CreateRefundWithAdjustmentsCreated{}
 }
 
-/*CreateRefundWithAdjustmentsCreated handles this case with default header values.
+/*
+CreateRefundWithAdjustmentsCreated describes a response with status code 201, with default header values.
 
 Created refund successfully
 */
 type CreateRefundWithAdjustmentsCreated struct {
 	Payload *kbmodel.InvoicePayment
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this create refund with adjustments created response has a 2xx status code
+func (o *CreateRefundWithAdjustmentsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create refund with adjustments created response has a 3xx status code
+func (o *CreateRefundWithAdjustmentsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create refund with adjustments created response has a 4xx status code
+func (o *CreateRefundWithAdjustmentsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create refund with adjustments created response has a 5xx status code
+func (o *CreateRefundWithAdjustmentsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create refund with adjustments created response a status code equal to that given
+func (o *CreateRefundWithAdjustmentsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
+// Code gets the status code for the create refund with adjustments created response
+func (o *CreateRefundWithAdjustmentsCreated) Code() int {
+	return 201
 }
 
 func (o *CreateRefundWithAdjustmentsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/refunds][%d] createRefundWithAdjustmentsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateRefundWithAdjustmentsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/refunds][%d] createRefundWithAdjustmentsCreated  %+v", 201, o.Payload)
 }
 
@@ -83,15 +119,49 @@ func NewCreateRefundWithAdjustmentsBadRequest() *CreateRefundWithAdjustmentsBadR
 	return &CreateRefundWithAdjustmentsBadRequest{}
 }
 
-/*CreateRefundWithAdjustmentsBadRequest handles this case with default header values.
+/*
+CreateRefundWithAdjustmentsBadRequest describes a response with status code 400, with default header values.
 
 Invalid payment id supplied
 */
 type CreateRefundWithAdjustmentsBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this create refund with adjustments bad request response has a 2xx status code
+func (o *CreateRefundWithAdjustmentsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create refund with adjustments bad request response has a 3xx status code
+func (o *CreateRefundWithAdjustmentsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create refund with adjustments bad request response has a 4xx status code
+func (o *CreateRefundWithAdjustmentsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create refund with adjustments bad request response has a 5xx status code
+func (o *CreateRefundWithAdjustmentsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create refund with adjustments bad request response a status code equal to that given
+func (o *CreateRefundWithAdjustmentsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the create refund with adjustments bad request response
+func (o *CreateRefundWithAdjustmentsBadRequest) Code() int {
+	return 400
 }
 
 func (o *CreateRefundWithAdjustmentsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/refunds][%d] createRefundWithAdjustmentsBadRequest ", 400)
+}
+
+func (o *CreateRefundWithAdjustmentsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/refunds][%d] createRefundWithAdjustmentsBadRequest ", 400)
 }
 
@@ -105,15 +175,49 @@ func NewCreateRefundWithAdjustmentsNotFound() *CreateRefundWithAdjustmentsNotFou
 	return &CreateRefundWithAdjustmentsNotFound{}
 }
 
-/*CreateRefundWithAdjustmentsNotFound handles this case with default header values.
+/*
+CreateRefundWithAdjustmentsNotFound describes a response with status code 404, with default header values.
 
 Account or payment not found
 */
 type CreateRefundWithAdjustmentsNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this create refund with adjustments not found response has a 2xx status code
+func (o *CreateRefundWithAdjustmentsNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create refund with adjustments not found response has a 3xx status code
+func (o *CreateRefundWithAdjustmentsNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create refund with adjustments not found response has a 4xx status code
+func (o *CreateRefundWithAdjustmentsNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create refund with adjustments not found response has a 5xx status code
+func (o *CreateRefundWithAdjustmentsNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create refund with adjustments not found response a status code equal to that given
+func (o *CreateRefundWithAdjustmentsNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the create refund with adjustments not found response
+func (o *CreateRefundWithAdjustmentsNotFound) Code() int {
+	return 404
 }
 
 func (o *CreateRefundWithAdjustmentsNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/refunds][%d] createRefundWithAdjustmentsNotFound ", 404)
+}
+
+func (o *CreateRefundWithAdjustmentsNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/refunds][%d] createRefundWithAdjustmentsNotFound ", 404)
 }
 

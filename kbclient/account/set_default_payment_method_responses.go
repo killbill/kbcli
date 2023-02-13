@@ -7,12 +7,9 @@ package account
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // SetDefaultPaymentMethodReader is a Reader for the SetDefaultPaymentMethod structure.
@@ -23,21 +20,26 @@ type SetDefaultPaymentMethodReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *SetDefaultPaymentMethodReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 204:
 		result := NewSetDefaultPaymentMethodNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewSetDefaultPaymentMethodBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewSetDefaultPaymentMethodNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +48,49 @@ func NewSetDefaultPaymentMethodNoContent() *SetDefaultPaymentMethodNoContent {
 	return &SetDefaultPaymentMethodNoContent{}
 }
 
-/*SetDefaultPaymentMethodNoContent handles this case with default header values.
+/*
+SetDefaultPaymentMethodNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
 type SetDefaultPaymentMethodNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this set default payment method no content response has a 2xx status code
+func (o *SetDefaultPaymentMethodNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this set default payment method no content response has a 3xx status code
+func (o *SetDefaultPaymentMethodNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this set default payment method no content response has a 4xx status code
+func (o *SetDefaultPaymentMethodNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this set default payment method no content response has a 5xx status code
+func (o *SetDefaultPaymentMethodNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this set default payment method no content response a status code equal to that given
+func (o *SetDefaultPaymentMethodNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the set default payment method no content response
+func (o *SetDefaultPaymentMethodNoContent) Code() int {
+	return 204
 }
 
 func (o *SetDefaultPaymentMethodNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/paymentMethods/{paymentMethodId}/setDefault][%d] setDefaultPaymentMethodNoContent ", 204)
+}
+
+func (o *SetDefaultPaymentMethodNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/paymentMethods/{paymentMethodId}/setDefault][%d] setDefaultPaymentMethodNoContent ", 204)
 }
 
@@ -68,15 +104,49 @@ func NewSetDefaultPaymentMethodBadRequest() *SetDefaultPaymentMethodBadRequest {
 	return &SetDefaultPaymentMethodBadRequest{}
 }
 
-/*SetDefaultPaymentMethodBadRequest handles this case with default header values.
+/*
+SetDefaultPaymentMethodBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id or payment method id supplied
 */
 type SetDefaultPaymentMethodBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this set default payment method bad request response has a 2xx status code
+func (o *SetDefaultPaymentMethodBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this set default payment method bad request response has a 3xx status code
+func (o *SetDefaultPaymentMethodBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this set default payment method bad request response has a 4xx status code
+func (o *SetDefaultPaymentMethodBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this set default payment method bad request response has a 5xx status code
+func (o *SetDefaultPaymentMethodBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this set default payment method bad request response a status code equal to that given
+func (o *SetDefaultPaymentMethodBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the set default payment method bad request response
+func (o *SetDefaultPaymentMethodBadRequest) Code() int {
+	return 400
 }
 
 func (o *SetDefaultPaymentMethodBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/paymentMethods/{paymentMethodId}/setDefault][%d] setDefaultPaymentMethodBadRequest ", 400)
+}
+
+func (o *SetDefaultPaymentMethodBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/paymentMethods/{paymentMethodId}/setDefault][%d] setDefaultPaymentMethodBadRequest ", 400)
 }
 
@@ -90,15 +160,49 @@ func NewSetDefaultPaymentMethodNotFound() *SetDefaultPaymentMethodNotFound {
 	return &SetDefaultPaymentMethodNotFound{}
 }
 
-/*SetDefaultPaymentMethodNotFound handles this case with default header values.
+/*
+SetDefaultPaymentMethodNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
 type SetDefaultPaymentMethodNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this set default payment method not found response has a 2xx status code
+func (o *SetDefaultPaymentMethodNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this set default payment method not found response has a 3xx status code
+func (o *SetDefaultPaymentMethodNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this set default payment method not found response has a 4xx status code
+func (o *SetDefaultPaymentMethodNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this set default payment method not found response has a 5xx status code
+func (o *SetDefaultPaymentMethodNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this set default payment method not found response a status code equal to that given
+func (o *SetDefaultPaymentMethodNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the set default payment method not found response
+func (o *SetDefaultPaymentMethodNotFound) Code() int {
+	return 404
 }
 
 func (o *SetDefaultPaymentMethodNotFound) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/paymentMethods/{paymentMethodId}/setDefault][%d] setDefaultPaymentMethodNotFound ", 404)
+}
+
+func (o *SetDefaultPaymentMethodNotFound) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/paymentMethods/{paymentMethodId}/setDefault][%d] setDefaultPaymentMethodNotFound ", 404)
 }
 

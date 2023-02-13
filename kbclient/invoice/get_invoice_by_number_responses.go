@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetInvoiceByNumberReader is a Reader for the GetInvoiceByNumber structure.
@@ -25,21 +23,20 @@ type GetInvoiceByNumberReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetInvoiceByNumberReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewGetInvoiceByNumberOK()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 404:
+		result := NewGetInvoiceByNumberNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +45,50 @@ func NewGetInvoiceByNumberOK() *GetInvoiceByNumberOK {
 	return &GetInvoiceByNumberOK{}
 }
 
-/*GetInvoiceByNumberOK handles this case with default header values.
+/*
+GetInvoiceByNumberOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetInvoiceByNumberOK struct {
 	Payload *kbmodel.Invoice
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this get invoice by number o k response has a 2xx status code
+func (o *GetInvoiceByNumberOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get invoice by number o k response has a 3xx status code
+func (o *GetInvoiceByNumberOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice by number o k response has a 4xx status code
+func (o *GetInvoiceByNumberOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get invoice by number o k response has a 5xx status code
+func (o *GetInvoiceByNumberOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice by number o k response a status code equal to that given
+func (o *GetInvoiceByNumberOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get invoice by number o k response
+func (o *GetInvoiceByNumberOK) Code() int {
+	return 200
 }
 
 func (o *GetInvoiceByNumberOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/byNumber/{invoiceNumber}][%d] getInvoiceByNumberOK  %+v", 200, o.Payload)
+}
+
+func (o *GetInvoiceByNumberOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/byNumber/{invoiceNumber}][%d] getInvoiceByNumberOK  %+v", 200, o.Payload)
 }
 
@@ -83,15 +113,49 @@ func NewGetInvoiceByNumberNotFound() *GetInvoiceByNumberNotFound {
 	return &GetInvoiceByNumberNotFound{}
 }
 
-/*GetInvoiceByNumberNotFound handles this case with default header values.
+/*
+GetInvoiceByNumberNotFound describes a response with status code 404, with default header values.
 
 Invoice not found
 */
 type GetInvoiceByNumberNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this get invoice by number not found response has a 2xx status code
+func (o *GetInvoiceByNumberNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice by number not found response has a 3xx status code
+func (o *GetInvoiceByNumberNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice by number not found response has a 4xx status code
+func (o *GetInvoiceByNumberNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice by number not found response has a 5xx status code
+func (o *GetInvoiceByNumberNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice by number not found response a status code equal to that given
+func (o *GetInvoiceByNumberNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the get invoice by number not found response
+func (o *GetInvoiceByNumberNotFound) Code() int {
+	return 404
 }
 
 func (o *GetInvoiceByNumberNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/byNumber/{invoiceNumber}][%d] getInvoiceByNumberNotFound ", 404)
+}
+
+func (o *GetInvoiceByNumberNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/byNumber/{invoiceNumber}][%d] getInvoiceByNumberNotFound ", 404)
 }
 

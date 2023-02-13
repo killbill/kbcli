@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetPlanForSubscriptionAndDateReader is a Reader for the GetPlanForSubscriptionAndDate structure.
@@ -25,20 +23,14 @@ type GetPlanForSubscriptionAndDateReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetPlanForSubscriptionAndDateReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewGetPlanForSubscriptionAndDateOK()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
-			return nil, err
-		}
-		return nil, errorResult
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -47,17 +39,50 @@ func NewGetPlanForSubscriptionAndDateOK() *GetPlanForSubscriptionAndDateOK {
 	return &GetPlanForSubscriptionAndDateOK{}
 }
 
-/*GetPlanForSubscriptionAndDateOK handles this case with default header values.
+/*
+GetPlanForSubscriptionAndDateOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetPlanForSubscriptionAndDateOK struct {
 	Payload *kbmodel.Plan
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this get plan for subscription and date o k response has a 2xx status code
+func (o *GetPlanForSubscriptionAndDateOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get plan for subscription and date o k response has a 3xx status code
+func (o *GetPlanForSubscriptionAndDateOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get plan for subscription and date o k response has a 4xx status code
+func (o *GetPlanForSubscriptionAndDateOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get plan for subscription and date o k response has a 5xx status code
+func (o *GetPlanForSubscriptionAndDateOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get plan for subscription and date o k response a status code equal to that given
+func (o *GetPlanForSubscriptionAndDateOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get plan for subscription and date o k response
+func (o *GetPlanForSubscriptionAndDateOK) Code() int {
+	return 200
 }
 
 func (o *GetPlanForSubscriptionAndDateOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/catalog/plan][%d] getPlanForSubscriptionAndDateOK  %+v", 200, o.Payload)
+}
+
+func (o *GetPlanForSubscriptionAndDateOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog/plan][%d] getPlanForSubscriptionAndDateOK  %+v", 200, o.Payload)
 }
 

@@ -13,67 +13,91 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
-// NewGetAllUsageParams creates a new GetAllUsageParams object
-// with the default values initialized.
+// NewGetAllUsageParams creates a new GetAllUsageParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAllUsageParams() *GetAllUsageParams {
-	var ()
 	return &GetAllUsageParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAllUsageParamsWithTimeout creates a new GetAllUsageParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetAllUsageParamsWithTimeout(timeout time.Duration) *GetAllUsageParams {
-	var ()
 	return &GetAllUsageParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetAllUsageParamsWithContext creates a new GetAllUsageParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetAllUsageParamsWithContext(ctx context.Context) *GetAllUsageParams {
-	var ()
 	return &GetAllUsageParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetAllUsageParamsWithHTTPClient creates a new GetAllUsageParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetAllUsageParamsWithHTTPClient(client *http.Client) *GetAllUsageParams {
-	var ()
 	return &GetAllUsageParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetAllUsageParams contains all the parameters to send to the API endpoint
-for the get all usage operation typically these are written to a http.Request
+/*
+GetAllUsageParams contains all the parameters to send to the API endpoint
+
+	for the get all usage operation.
+
+	Typically these are written to a http.Request.
 */
 type GetAllUsageParams struct {
 
-	/*EndDate*/
+	// EndDate.
+	//
+	// Format: date
 	EndDate *strfmt.Date
-	/*StartDate*/
+
+	// PluginProperty.
+	PluginProperty []string
+
+	// StartDate.
+	//
+	// Format: date
 	StartDate *strfmt.Date
-	/*SubscriptionID*/
+
+	// SubscriptionID.
+	//
+	// Format: uuid
 	SubscriptionID strfmt.UUID
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get all usage params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAllUsageParams) WithDefaults() *GetAllUsageParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get all usage params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAllUsageParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get all usage params
@@ -120,6 +144,17 @@ func (o *GetAllUsageParams) SetEndDate(endDate *strfmt.Date) {
 	o.EndDate = endDate
 }
 
+// WithPluginProperty adds the pluginProperty to the get all usage params
+func (o *GetAllUsageParams) WithPluginProperty(pluginProperty []string) *GetAllUsageParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the get all usage params
+func (o *GetAllUsageParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WithStartDate adds the startDate to the get all usage params
 func (o *GetAllUsageParams) WithStartDate(startDate *strfmt.Date) *GetAllUsageParams {
 	o.SetStartDate(startDate)
@@ -154,32 +189,45 @@ func (o *GetAllUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 
 		// query param endDate
 		var qrEndDate strfmt.Date
+
 		if o.EndDate != nil {
 			qrEndDate = *o.EndDate
 		}
 		qEndDate := qrEndDate.String()
 		if qEndDate != "" {
+
 			if err := r.SetQueryParam("endDate", qEndDate); err != nil {
 				return err
 			}
 		}
+	}
 
+	if o.PluginProperty != nil {
+
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.StartDate != nil {
 
 		// query param startDate
 		var qrStartDate strfmt.Date
+
 		if o.StartDate != nil {
 			qrStartDate = *o.StartDate
 		}
 		qStartDate := qrStartDate.String()
 		if qStartDate != "" {
+
 			if err := r.SetQueryParam("startDate", qStartDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param subscriptionId
@@ -187,22 +235,25 @@ func (o *GetAllUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return err
 	}
 
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
-		}
-	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamGetAllUsage binds the parameter pluginProperty
+func (o *GetAllUsageParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

@@ -13,88 +13,104 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreateCreditsParams creates a new CreateCreditsParams object
-// with the default values initialized.
+// NewCreateCreditsParams creates a new CreateCreditsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateCreditsParams() *CreateCreditsParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateCreditsParams{
-		AutoCommit: &autoCommitDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateCreditsParamsWithTimeout creates a new CreateCreditsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateCreditsParamsWithTimeout(timeout time.Duration) *CreateCreditsParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateCreditsParams{
-		AutoCommit: &autoCommitDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateCreditsParamsWithContext creates a new CreateCreditsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateCreditsParamsWithContext(ctx context.Context) *CreateCreditsParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateCreditsParams{
-		AutoCommit: &autoCommitDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewCreateCreditsParamsWithHTTPClient creates a new CreateCreditsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateCreditsParamsWithHTTPClient(client *http.Client) *CreateCreditsParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateCreditsParams{
-		AutoCommit: &autoCommitDefault,
 		HTTPClient: client,
 	}
 }
 
-/*CreateCreditsParams contains all the parameters to send to the API endpoint
-for the create credits operation typically these are written to a http.Request
+/*
+CreateCreditsParams contains all the parameters to send to the API endpoint
+
+	for the create credits operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateCreditsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AutoCommit*/
+
+	// AutoCommit.
 	AutoCommit *bool
-	/*Body*/
+
+	// Body.
 	Body []*kbmodel.InvoiceItem
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create credits params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateCreditsParams) WithDefaults() *CreateCreditsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create credits params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateCreditsParams) SetDefaults() {
+	var (
+		autoCommitDefault = bool(false)
+	)
+
+	val := CreateCreditsParams{
+		AutoCommit: &autoCommitDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the create credits params
@@ -210,7 +226,6 @@ func (o *CreateCreditsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -224,49 +239,37 @@ func (o *CreateCreditsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	if o.AutoCommit != nil {
 
 		// query param autoCommit
 		var qrAutoCommit bool
+
 		if o.AutoCommit != nil {
 			qrAutoCommit = *o.AutoCommit
 		}
 		qAutoCommit := swag.FormatBool(qrAutoCommit)
 		if qAutoCommit != "" {
+
 			if err := r.SetQueryParam("autoCommit", qAutoCommit); err != nil {
 				return err
 			}
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
-	}
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
 
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
 			return err
 		}
 	}
@@ -275,4 +278,21 @@ func (o *CreateCreditsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCreateCredits binds the parameter pluginProperty
+func (o *CreateCreditsParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

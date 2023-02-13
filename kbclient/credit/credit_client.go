@@ -6,37 +6,15 @@ package credit
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new credit API client.
-func New(transport runtime.ClientTransport,
-	formats strfmt.Registry,
-	authInfo runtime.ClientAuthInfoWriter,
-	defaults KillbillDefaults) *Client {
-
-	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
-}
-
-// killbill default values. When a call is made to an operation, these values are used
-// if params doesn't specify them.
-type KillbillDefaults interface {
-	// Default CreatedBy. If not set explicitly in params, this will be used.
-	XKillbillCreatedBy() *string
-	// Default Comment. If not set explicitly in params, this will be used.
-	XKillbillComment() *string
-	// Default Reason. If not set explicitly in params, this will be used.
-	XKillbillReason() *string
-	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
-	KillbillWithProfilingInfo() *string
-	// Default WithStackTrace. If not set explicitly in params, this will be used.
-	KillbillWithStackTrace() *bool
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+	return &Client{transport: transport, formats: formats}
 }
 
 /*
@@ -45,56 +23,29 @@ Client for credit API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
-	authInfo  runtime.ClientAuthInfoWriter
-	defaults  KillbillDefaults
 }
 
-// ICredit - interface for Credit client.
-type ICredit interface {
-	/*
-		CreateCredits creates a credit
-	*/
-	CreateCredits(ctx context.Context, params *CreateCreditsParams) (*CreateCreditsCreated, error)
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
 
-	/*
-		GetCredit retrieves a credit by id
-	*/
-	GetCredit(ctx context.Context, params *GetCreditParams) (*GetCreditOK, error)
+// ClientService is the interface for Client methods
+type ClientService interface {
+	CreateCredits(params *CreateCreditsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateCreditsCreated, error)
+
+	GetCredit(params *GetCreditParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCreditOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
 CreateCredits creates a credit
 */
-func (a *Client) CreateCredits(ctx context.Context, params *CreateCreditsParams) (*CreateCreditsCreated, error) {
+func (a *Client) CreateCredits(params *CreateCreditsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateCreditsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateCreditsParams()
 	}
-	getParams := NewCreateCreditsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createCredits",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/credits",
@@ -103,69 +54,54 @@ func (a *Client) CreateCredits(ctx context.Context, params *CreateCreditsParams)
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateCreditsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateCreditsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateCreditsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createCredits",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateCreditsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateCreditsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createCredits: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 GetCredit retrieves a credit by id
 */
-func (a *Client) GetCredit(ctx context.Context, params *GetCreditParams) (*GetCreditOK, error) {
+func (a *Client) GetCredit(params *GetCreditParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCreditOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetCreditParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCredit",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/credits/{creditId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCreditReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -177,7 +113,6 @@ func (a *Client) GetCredit(ctx context.Context, params *GetCreditParams) (*GetCr
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getCredit: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 // SetTransport changes the transport on the client

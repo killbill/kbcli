@@ -7,12 +7,9 @@ package tenant
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // DeletePluginPaymentStateMachineConfigReader is a Reader for the DeletePluginPaymentStateMachineConfig structure.
@@ -23,21 +20,20 @@ type DeletePluginPaymentStateMachineConfigReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeletePluginPaymentStateMachineConfigReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 204:
 		result := NewDeletePluginPaymentStateMachineConfigNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewDeletePluginPaymentStateMachineConfigBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +42,49 @@ func NewDeletePluginPaymentStateMachineConfigNoContent() *DeletePluginPaymentSta
 	return &DeletePluginPaymentStateMachineConfigNoContent{}
 }
 
-/*DeletePluginPaymentStateMachineConfigNoContent handles this case with default header values.
+/*
+DeletePluginPaymentStateMachineConfigNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
 type DeletePluginPaymentStateMachineConfigNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this delete plugin payment state machine config no content response has a 2xx status code
+func (o *DeletePluginPaymentStateMachineConfigNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete plugin payment state machine config no content response has a 3xx status code
+func (o *DeletePluginPaymentStateMachineConfigNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete plugin payment state machine config no content response has a 4xx status code
+func (o *DeletePluginPaymentStateMachineConfigNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete plugin payment state machine config no content response has a 5xx status code
+func (o *DeletePluginPaymentStateMachineConfigNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete plugin payment state machine config no content response a status code equal to that given
+func (o *DeletePluginPaymentStateMachineConfigNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the delete plugin payment state machine config no content response
+func (o *DeletePluginPaymentStateMachineConfigNoContent) Code() int {
+	return 204
 }
 
 func (o *DeletePluginPaymentStateMachineConfigNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}][%d] deletePluginPaymentStateMachineConfigNoContent ", 204)
+}
+
+func (o *DeletePluginPaymentStateMachineConfigNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}][%d] deletePluginPaymentStateMachineConfigNoContent ", 204)
 }
 
@@ -68,15 +98,49 @@ func NewDeletePluginPaymentStateMachineConfigBadRequest() *DeletePluginPaymentSt
 	return &DeletePluginPaymentStateMachineConfigBadRequest{}
 }
 
-/*DeletePluginPaymentStateMachineConfigBadRequest handles this case with default header values.
+/*
+DeletePluginPaymentStateMachineConfigBadRequest describes a response with status code 400, with default header values.
 
 Invalid tenantId supplied
 */
 type DeletePluginPaymentStateMachineConfigBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this delete plugin payment state machine config bad request response has a 2xx status code
+func (o *DeletePluginPaymentStateMachineConfigBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this delete plugin payment state machine config bad request response has a 3xx status code
+func (o *DeletePluginPaymentStateMachineConfigBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete plugin payment state machine config bad request response has a 4xx status code
+func (o *DeletePluginPaymentStateMachineConfigBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this delete plugin payment state machine config bad request response has a 5xx status code
+func (o *DeletePluginPaymentStateMachineConfigBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete plugin payment state machine config bad request response a status code equal to that given
+func (o *DeletePluginPaymentStateMachineConfigBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the delete plugin payment state machine config bad request response
+func (o *DeletePluginPaymentStateMachineConfigBadRequest) Code() int {
+	return 400
 }
 
 func (o *DeletePluginPaymentStateMachineConfigBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}][%d] deletePluginPaymentStateMachineConfigBadRequest ", 400)
+}
+
+func (o *DeletePluginPaymentStateMachineConfigBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}][%d] deletePluginPaymentStateMachineConfigBadRequest ", 400)
 }
 

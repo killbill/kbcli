@@ -7,12 +7,9 @@ package admin
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // InvalidatesCacheByAccountReader is a Reader for the InvalidatesCacheByAccount structure.
@@ -23,21 +20,20 @@ type InvalidatesCacheByAccountReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *InvalidatesCacheByAccountReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 204:
 		result := NewInvalidatesCacheByAccountNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewInvalidatesCacheByAccountBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +42,49 @@ func NewInvalidatesCacheByAccountNoContent() *InvalidatesCacheByAccountNoContent
 	return &InvalidatesCacheByAccountNoContent{}
 }
 
-/*InvalidatesCacheByAccountNoContent handles this case with default header values.
+/*
+InvalidatesCacheByAccountNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
 type InvalidatesCacheByAccountNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this invalidates cache by account no content response has a 2xx status code
+func (o *InvalidatesCacheByAccountNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this invalidates cache by account no content response has a 3xx status code
+func (o *InvalidatesCacheByAccountNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this invalidates cache by account no content response has a 4xx status code
+func (o *InvalidatesCacheByAccountNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this invalidates cache by account no content response has a 5xx status code
+func (o *InvalidatesCacheByAccountNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this invalidates cache by account no content response a status code equal to that given
+func (o *InvalidatesCacheByAccountNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the invalidates cache by account no content response
+func (o *InvalidatesCacheByAccountNoContent) Code() int {
+	return 204
 }
 
 func (o *InvalidatesCacheByAccountNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/accounts/{accountId}][%d] invalidatesCacheByAccountNoContent ", 204)
+}
+
+func (o *InvalidatesCacheByAccountNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/accounts/{accountId}][%d] invalidatesCacheByAccountNoContent ", 204)
 }
 
@@ -68,15 +98,49 @@ func NewInvalidatesCacheByAccountBadRequest() *InvalidatesCacheByAccountBadReque
 	return &InvalidatesCacheByAccountBadRequest{}
 }
 
-/*InvalidatesCacheByAccountBadRequest handles this case with default header values.
+/*
+InvalidatesCacheByAccountBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
 type InvalidatesCacheByAccountBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this invalidates cache by account bad request response has a 2xx status code
+func (o *InvalidatesCacheByAccountBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this invalidates cache by account bad request response has a 3xx status code
+func (o *InvalidatesCacheByAccountBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this invalidates cache by account bad request response has a 4xx status code
+func (o *InvalidatesCacheByAccountBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this invalidates cache by account bad request response has a 5xx status code
+func (o *InvalidatesCacheByAccountBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this invalidates cache by account bad request response a status code equal to that given
+func (o *InvalidatesCacheByAccountBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the invalidates cache by account bad request response
+func (o *InvalidatesCacheByAccountBadRequest) Code() int {
+	return 400
 }
 
 func (o *InvalidatesCacheByAccountBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/accounts/{accountId}][%d] invalidatesCacheByAccountBadRequest ", 400)
+}
+
+func (o *InvalidatesCacheByAccountBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/accounts/{accountId}][%d] invalidatesCacheByAccountBadRequest ", 400)
 }
 

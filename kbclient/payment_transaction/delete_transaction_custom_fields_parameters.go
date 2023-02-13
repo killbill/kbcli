@@ -13,72 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewDeleteTransactionCustomFieldsParams creates a new DeleteTransactionCustomFieldsParams object
-// with the default values initialized.
+// NewDeleteTransactionCustomFieldsParams creates a new DeleteTransactionCustomFieldsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteTransactionCustomFieldsParams() *DeleteTransactionCustomFieldsParams {
-	var ()
 	return &DeleteTransactionCustomFieldsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteTransactionCustomFieldsParamsWithTimeout creates a new DeleteTransactionCustomFieldsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteTransactionCustomFieldsParamsWithTimeout(timeout time.Duration) *DeleteTransactionCustomFieldsParams {
-	var ()
 	return &DeleteTransactionCustomFieldsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteTransactionCustomFieldsParamsWithContext creates a new DeleteTransactionCustomFieldsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteTransactionCustomFieldsParamsWithContext(ctx context.Context) *DeleteTransactionCustomFieldsParams {
-	var ()
 	return &DeleteTransactionCustomFieldsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteTransactionCustomFieldsParamsWithHTTPClient creates a new DeleteTransactionCustomFieldsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteTransactionCustomFieldsParamsWithHTTPClient(client *http.Client) *DeleteTransactionCustomFieldsParams {
-	var ()
 	return &DeleteTransactionCustomFieldsParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteTransactionCustomFieldsParams contains all the parameters to send to the API endpoint
-for the delete transaction custom fields operation typically these are written to a http.Request
+/*
+DeleteTransactionCustomFieldsParams contains all the parameters to send to the API endpoint
+
+	for the delete transaction custom fields operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteTransactionCustomFieldsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*CustomField*/
+
+	// CustomField.
 	CustomField []strfmt.UUID
-	/*TransactionID*/
+
+	// TransactionID.
+	//
+	// Format: uuid
 	TransactionID strfmt.UUID
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete transaction custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteTransactionCustomFieldsParams) WithDefaults() *DeleteTransactionCustomFieldsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete transaction custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteTransactionCustomFieldsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete transaction custom fields params
@@ -183,7 +201,6 @@ func (o *DeleteTransactionCustomFieldsParams) WriteToRequest(r runtime.ClientReq
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -197,18 +214,17 @@ func (o *DeleteTransactionCustomFieldsParams) WriteToRequest(r runtime.ClientReq
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
-	var valuesCustomField []string
-	for _, v := range o.CustomField {
-		valuesCustomField = append(valuesCustomField, v.String())
-	}
+	if o.CustomField != nil {
 
-	joinedCustomField := swag.JoinByFormat(valuesCustomField, "multi")
-	// query array param customField
-	if err := r.SetQueryParam("customField", joinedCustomField...); err != nil {
-		return err
+		// binding items for customField
+		joinedCustomField := o.bindParamCustomField(reg)
+
+		// query array param customField
+		if err := r.SetQueryParam("customField", joinedCustomField...); err != nil {
+			return err
+		}
 	}
 
 	// path param transactionId
@@ -216,22 +232,25 @@ func (o *DeleteTransactionCustomFieldsParams) WriteToRequest(r runtime.ClientReq
 		return err
 	}
 
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
-		}
-	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamDeleteTransactionCustomFields binds the parameter customField
+func (o *DeleteTransactionCustomFieldsParams) bindParamCustomField(formats strfmt.Registry) []string {
+	customFieldIR := o.CustomField
+
+	var customFieldIC []string
+	for _, customFieldIIR := range customFieldIR { // explode []strfmt.UUID
+
+		customFieldIIV := customFieldIIR.String() // strfmt.UUID as string
+		customFieldIC = append(customFieldIC, customFieldIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	customFieldIS := swag.JoinByFormat(customFieldIC, "multi")
+
+	return customFieldIS
 }

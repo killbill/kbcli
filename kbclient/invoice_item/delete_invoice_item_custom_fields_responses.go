@@ -7,12 +7,9 @@ package invoice_item
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // DeleteInvoiceItemCustomFieldsReader is a Reader for the DeleteInvoiceItemCustomFields structure.
@@ -23,21 +20,20 @@ type DeleteInvoiceItemCustomFieldsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteInvoiceItemCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 204:
 		result := NewDeleteInvoiceItemCustomFieldsNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewDeleteInvoiceItemCustomFieldsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +42,49 @@ func NewDeleteInvoiceItemCustomFieldsNoContent() *DeleteInvoiceItemCustomFieldsN
 	return &DeleteInvoiceItemCustomFieldsNoContent{}
 }
 
-/*DeleteInvoiceItemCustomFieldsNoContent handles this case with default header values.
+/*
+DeleteInvoiceItemCustomFieldsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
 type DeleteInvoiceItemCustomFieldsNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this delete invoice item custom fields no content response has a 2xx status code
+func (o *DeleteInvoiceItemCustomFieldsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete invoice item custom fields no content response has a 3xx status code
+func (o *DeleteInvoiceItemCustomFieldsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete invoice item custom fields no content response has a 4xx status code
+func (o *DeleteInvoiceItemCustomFieldsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete invoice item custom fields no content response has a 5xx status code
+func (o *DeleteInvoiceItemCustomFieldsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete invoice item custom fields no content response a status code equal to that given
+func (o *DeleteInvoiceItemCustomFieldsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the delete invoice item custom fields no content response
+func (o *DeleteInvoiceItemCustomFieldsNoContent) Code() int {
+	return 204
 }
 
 func (o *DeleteInvoiceItemCustomFieldsNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/invoiceItems/{invoiceItemId}/customFields][%d] deleteInvoiceItemCustomFieldsNoContent ", 204)
+}
+
+func (o *DeleteInvoiceItemCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/invoiceItems/{invoiceItemId}/customFields][%d] deleteInvoiceItemCustomFieldsNoContent ", 204)
 }
 
@@ -68,15 +98,49 @@ func NewDeleteInvoiceItemCustomFieldsBadRequest() *DeleteInvoiceItemCustomFields
 	return &DeleteInvoiceItemCustomFieldsBadRequest{}
 }
 
-/*DeleteInvoiceItemCustomFieldsBadRequest handles this case with default header values.
+/*
+DeleteInvoiceItemCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid invoice item id supplied
 */
 type DeleteInvoiceItemCustomFieldsBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this delete invoice item custom fields bad request response has a 2xx status code
+func (o *DeleteInvoiceItemCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this delete invoice item custom fields bad request response has a 3xx status code
+func (o *DeleteInvoiceItemCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete invoice item custom fields bad request response has a 4xx status code
+func (o *DeleteInvoiceItemCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this delete invoice item custom fields bad request response has a 5xx status code
+func (o *DeleteInvoiceItemCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete invoice item custom fields bad request response a status code equal to that given
+func (o *DeleteInvoiceItemCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the delete invoice item custom fields bad request response
+func (o *DeleteInvoiceItemCustomFieldsBadRequest) Code() int {
+	return 400
 }
 
 func (o *DeleteInvoiceItemCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/invoiceItems/{invoiceItemId}/customFields][%d] deleteInvoiceItemCustomFieldsBadRequest ", 400)
+}
+
+func (o *DeleteInvoiceItemCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/invoiceItems/{invoiceItemId}/customFields][%d] deleteInvoiceItemCustomFieldsBadRequest ", 400)
 }
 

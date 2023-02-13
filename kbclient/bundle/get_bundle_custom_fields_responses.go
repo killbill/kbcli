@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetBundleCustomFieldsReader is a Reader for the GetBundleCustomFields structure.
@@ -25,21 +23,20 @@ type GetBundleCustomFieldsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetBundleCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewGetBundleCustomFieldsOK()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewGetBundleCustomFieldsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +45,50 @@ func NewGetBundleCustomFieldsOK() *GetBundleCustomFieldsOK {
 	return &GetBundleCustomFieldsOK{}
 }
 
-/*GetBundleCustomFieldsOK handles this case with default header values.
+/*
+GetBundleCustomFieldsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetBundleCustomFieldsOK struct {
 	Payload []*kbmodel.CustomField
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this get bundle custom fields o k response has a 2xx status code
+func (o *GetBundleCustomFieldsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get bundle custom fields o k response has a 3xx status code
+func (o *GetBundleCustomFieldsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle custom fields o k response has a 4xx status code
+func (o *GetBundleCustomFieldsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get bundle custom fields o k response has a 5xx status code
+func (o *GetBundleCustomFieldsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle custom fields o k response a status code equal to that given
+func (o *GetBundleCustomFieldsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get bundle custom fields o k response
+func (o *GetBundleCustomFieldsOK) Code() int {
+	return 200
 }
 
 func (o *GetBundleCustomFieldsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/customFields][%d] getBundleCustomFieldsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetBundleCustomFieldsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/customFields][%d] getBundleCustomFieldsOK  %+v", 200, o.Payload)
 }
 
@@ -81,15 +111,49 @@ func NewGetBundleCustomFieldsBadRequest() *GetBundleCustomFieldsBadRequest {
 	return &GetBundleCustomFieldsBadRequest{}
 }
 
-/*GetBundleCustomFieldsBadRequest handles this case with default header values.
+/*
+GetBundleCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid bundle id supplied
 */
 type GetBundleCustomFieldsBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this get bundle custom fields bad request response has a 2xx status code
+func (o *GetBundleCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get bundle custom fields bad request response has a 3xx status code
+func (o *GetBundleCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle custom fields bad request response has a 4xx status code
+func (o *GetBundleCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get bundle custom fields bad request response has a 5xx status code
+func (o *GetBundleCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle custom fields bad request response a status code equal to that given
+func (o *GetBundleCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the get bundle custom fields bad request response
+func (o *GetBundleCustomFieldsBadRequest) Code() int {
+	return 400
 }
 
 func (o *GetBundleCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/customFields][%d] getBundleCustomFieldsBadRequest ", 400)
+}
+
+func (o *GetBundleCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/customFields][%d] getBundleCustomFieldsBadRequest ", 400)
 }
 

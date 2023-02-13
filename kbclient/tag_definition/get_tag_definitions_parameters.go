@@ -13,75 +13,88 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetTagDefinitionsParams creates a new GetTagDefinitionsParams object
-// with the default values initialized.
+// NewGetTagDefinitionsParams creates a new GetTagDefinitionsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetTagDefinitionsParams() *GetTagDefinitionsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetTagDefinitionsParams{
-		Audit: &auditDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetTagDefinitionsParamsWithTimeout creates a new GetTagDefinitionsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetTagDefinitionsParamsWithTimeout(timeout time.Duration) *GetTagDefinitionsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetTagDefinitionsParams{
-		Audit: &auditDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetTagDefinitionsParamsWithContext creates a new GetTagDefinitionsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetTagDefinitionsParamsWithContext(ctx context.Context) *GetTagDefinitionsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetTagDefinitionsParams{
-		Audit: &auditDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetTagDefinitionsParamsWithHTTPClient creates a new GetTagDefinitionsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetTagDefinitionsParamsWithHTTPClient(client *http.Client) *GetTagDefinitionsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetTagDefinitionsParams{
-		Audit:      &auditDefault,
 		HTTPClient: client,
 	}
 }
 
-/*GetTagDefinitionsParams contains all the parameters to send to the API endpoint
-for the get tag definitions operation typically these are written to a http.Request
+/*
+GetTagDefinitionsParams contains all the parameters to send to the API endpoint
+
+	for the get tag definitions operation.
+
+	Typically these are written to a http.Request.
 */
 type GetTagDefinitionsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get tag definitions params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTagDefinitionsParams) WithDefaults() *GetTagDefinitionsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get tag definitions params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTagDefinitionsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+	)
+
+	val := GetTagDefinitionsParams{
+		Audit: &auditDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get tag definitions params
@@ -140,29 +153,16 @@ func (o *GetTagDefinitionsParams) WriteToRequest(r runtime.ClientRequest, reg st
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 

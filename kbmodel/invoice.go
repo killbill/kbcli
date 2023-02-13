@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Invoice invoice
+//
 // swagger:model Invoice
 type Invoice struct {
 
@@ -44,7 +45,7 @@ type Invoice struct {
 
 	// currency
 	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
-	Currency InvoiceCurrencyEnum `json:"currency,omitempty"`
+	Currency string `json:"currency,omitempty"`
 
 	// invoice date
 	// Format: date
@@ -76,7 +77,7 @@ type Invoice struct {
 
 	// status
 	// Enum: [DRAFT COMMITTED VOID]
-	Status InvoiceStatusEnum `json:"status,omitempty"`
+	Status string `json:"status,omitempty"`
 
 	// target date
 	// Format: date
@@ -141,7 +142,6 @@ func (m *Invoice) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Invoice) validateAccountID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AccountID) { // not required
 		return nil
 	}
@@ -154,7 +154,6 @@ func (m *Invoice) validateAccountID(formats strfmt.Registry) error {
 }
 
 func (m *Invoice) validateAuditLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -168,6 +167,8 @@ func (m *Invoice) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -179,7 +180,6 @@ func (m *Invoice) validateAuditLogs(formats strfmt.Registry) error {
 }
 
 func (m *Invoice) validateCredits(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Credits) { // not required
 		return nil
 	}
@@ -193,6 +193,8 @@ func (m *Invoice) validateCredits(formats strfmt.Registry) error {
 			if err := m.Credits[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("credits" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("credits" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -206,7 +208,7 @@ func (m *Invoice) validateCredits(formats strfmt.Registry) error {
 var invoiceTypeCurrencyPropEnum []interface{}
 
 func init() {
-	var res []InvoiceCurrencyEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CAD","CDF","CHF","CLP","CNY","COP","CRC","CUC","CUP","CVE","CZK","DJF","DKK","DOP","DZD","EGP","ERN","ETB","EUR","FJD","FKP","GBP","GEL","GGP","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","IMP","INR","IQD","IRR","ISK","JEP","JMD","JOD","JPY","KES","KGS","KHR","KMF","KPW","KRW","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SEK","SGD","SHP","SLL","SOS","SPL","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TVD","TWD","TZS","UAH","UGX","USD","UYU","UZS","VEF","VND","VUV","WST","XAF","XCD","XDR","XOF","XPF","YER","ZAR","ZMW","ZWD","BTC"]`), &res); err != nil {
 		panic(err)
 	}
@@ -215,693 +217,513 @@ func init() {
 	}
 }
 
-type InvoiceCurrencyEnum string
-
 const (
 
 	// InvoiceCurrencyAED captures enum value "AED"
-	InvoiceCurrencyAED InvoiceCurrencyEnum = "AED"
+	InvoiceCurrencyAED string = "AED"
 
 	// InvoiceCurrencyAFN captures enum value "AFN"
-	InvoiceCurrencyAFN InvoiceCurrencyEnum = "AFN"
+	InvoiceCurrencyAFN string = "AFN"
 
 	// InvoiceCurrencyALL captures enum value "ALL"
-	InvoiceCurrencyALL InvoiceCurrencyEnum = "ALL"
+	InvoiceCurrencyALL string = "ALL"
 
 	// InvoiceCurrencyAMD captures enum value "AMD"
-	InvoiceCurrencyAMD InvoiceCurrencyEnum = "AMD"
+	InvoiceCurrencyAMD string = "AMD"
 
 	// InvoiceCurrencyANG captures enum value "ANG"
-	InvoiceCurrencyANG InvoiceCurrencyEnum = "ANG"
+	InvoiceCurrencyANG string = "ANG"
 
 	// InvoiceCurrencyAOA captures enum value "AOA"
-	InvoiceCurrencyAOA InvoiceCurrencyEnum = "AOA"
+	InvoiceCurrencyAOA string = "AOA"
 
 	// InvoiceCurrencyARS captures enum value "ARS"
-	InvoiceCurrencyARS InvoiceCurrencyEnum = "ARS"
+	InvoiceCurrencyARS string = "ARS"
 
 	// InvoiceCurrencyAUD captures enum value "AUD"
-	InvoiceCurrencyAUD InvoiceCurrencyEnum = "AUD"
+	InvoiceCurrencyAUD string = "AUD"
 
 	// InvoiceCurrencyAWG captures enum value "AWG"
-	InvoiceCurrencyAWG InvoiceCurrencyEnum = "AWG"
+	InvoiceCurrencyAWG string = "AWG"
 
 	// InvoiceCurrencyAZN captures enum value "AZN"
-	InvoiceCurrencyAZN InvoiceCurrencyEnum = "AZN"
+	InvoiceCurrencyAZN string = "AZN"
 
 	// InvoiceCurrencyBAM captures enum value "BAM"
-	InvoiceCurrencyBAM InvoiceCurrencyEnum = "BAM"
+	InvoiceCurrencyBAM string = "BAM"
 
 	// InvoiceCurrencyBBD captures enum value "BBD"
-	InvoiceCurrencyBBD InvoiceCurrencyEnum = "BBD"
+	InvoiceCurrencyBBD string = "BBD"
 
 	// InvoiceCurrencyBDT captures enum value "BDT"
-	InvoiceCurrencyBDT InvoiceCurrencyEnum = "BDT"
+	InvoiceCurrencyBDT string = "BDT"
 
 	// InvoiceCurrencyBGN captures enum value "BGN"
-	InvoiceCurrencyBGN InvoiceCurrencyEnum = "BGN"
+	InvoiceCurrencyBGN string = "BGN"
 
 	// InvoiceCurrencyBHD captures enum value "BHD"
-	InvoiceCurrencyBHD InvoiceCurrencyEnum = "BHD"
+	InvoiceCurrencyBHD string = "BHD"
 
 	// InvoiceCurrencyBIF captures enum value "BIF"
-	InvoiceCurrencyBIF InvoiceCurrencyEnum = "BIF"
+	InvoiceCurrencyBIF string = "BIF"
 
 	// InvoiceCurrencyBMD captures enum value "BMD"
-	InvoiceCurrencyBMD InvoiceCurrencyEnum = "BMD"
+	InvoiceCurrencyBMD string = "BMD"
 
 	// InvoiceCurrencyBND captures enum value "BND"
-	InvoiceCurrencyBND InvoiceCurrencyEnum = "BND"
+	InvoiceCurrencyBND string = "BND"
 
 	// InvoiceCurrencyBOB captures enum value "BOB"
-	InvoiceCurrencyBOB InvoiceCurrencyEnum = "BOB"
+	InvoiceCurrencyBOB string = "BOB"
 
 	// InvoiceCurrencyBRL captures enum value "BRL"
-	InvoiceCurrencyBRL InvoiceCurrencyEnum = "BRL"
+	InvoiceCurrencyBRL string = "BRL"
 
 	// InvoiceCurrencyBSD captures enum value "BSD"
-	InvoiceCurrencyBSD InvoiceCurrencyEnum = "BSD"
+	InvoiceCurrencyBSD string = "BSD"
 
 	// InvoiceCurrencyBTN captures enum value "BTN"
-	InvoiceCurrencyBTN InvoiceCurrencyEnum = "BTN"
+	InvoiceCurrencyBTN string = "BTN"
 
 	// InvoiceCurrencyBWP captures enum value "BWP"
-	InvoiceCurrencyBWP InvoiceCurrencyEnum = "BWP"
+	InvoiceCurrencyBWP string = "BWP"
 
 	// InvoiceCurrencyBYR captures enum value "BYR"
-	InvoiceCurrencyBYR InvoiceCurrencyEnum = "BYR"
+	InvoiceCurrencyBYR string = "BYR"
 
 	// InvoiceCurrencyBZD captures enum value "BZD"
-	InvoiceCurrencyBZD InvoiceCurrencyEnum = "BZD"
+	InvoiceCurrencyBZD string = "BZD"
 
 	// InvoiceCurrencyCAD captures enum value "CAD"
-	InvoiceCurrencyCAD InvoiceCurrencyEnum = "CAD"
+	InvoiceCurrencyCAD string = "CAD"
 
 	// InvoiceCurrencyCDF captures enum value "CDF"
-	InvoiceCurrencyCDF InvoiceCurrencyEnum = "CDF"
+	InvoiceCurrencyCDF string = "CDF"
 
 	// InvoiceCurrencyCHF captures enum value "CHF"
-	InvoiceCurrencyCHF InvoiceCurrencyEnum = "CHF"
+	InvoiceCurrencyCHF string = "CHF"
 
 	// InvoiceCurrencyCLP captures enum value "CLP"
-	InvoiceCurrencyCLP InvoiceCurrencyEnum = "CLP"
+	InvoiceCurrencyCLP string = "CLP"
 
 	// InvoiceCurrencyCNY captures enum value "CNY"
-	InvoiceCurrencyCNY InvoiceCurrencyEnum = "CNY"
+	InvoiceCurrencyCNY string = "CNY"
 
 	// InvoiceCurrencyCOP captures enum value "COP"
-	InvoiceCurrencyCOP InvoiceCurrencyEnum = "COP"
+	InvoiceCurrencyCOP string = "COP"
 
 	// InvoiceCurrencyCRC captures enum value "CRC"
-	InvoiceCurrencyCRC InvoiceCurrencyEnum = "CRC"
+	InvoiceCurrencyCRC string = "CRC"
 
 	// InvoiceCurrencyCUC captures enum value "CUC"
-	InvoiceCurrencyCUC InvoiceCurrencyEnum = "CUC"
+	InvoiceCurrencyCUC string = "CUC"
 
 	// InvoiceCurrencyCUP captures enum value "CUP"
-	InvoiceCurrencyCUP InvoiceCurrencyEnum = "CUP"
+	InvoiceCurrencyCUP string = "CUP"
 
 	// InvoiceCurrencyCVE captures enum value "CVE"
-	InvoiceCurrencyCVE InvoiceCurrencyEnum = "CVE"
+	InvoiceCurrencyCVE string = "CVE"
 
 	// InvoiceCurrencyCZK captures enum value "CZK"
-	InvoiceCurrencyCZK InvoiceCurrencyEnum = "CZK"
+	InvoiceCurrencyCZK string = "CZK"
 
 	// InvoiceCurrencyDJF captures enum value "DJF"
-	InvoiceCurrencyDJF InvoiceCurrencyEnum = "DJF"
+	InvoiceCurrencyDJF string = "DJF"
 
 	// InvoiceCurrencyDKK captures enum value "DKK"
-	InvoiceCurrencyDKK InvoiceCurrencyEnum = "DKK"
+	InvoiceCurrencyDKK string = "DKK"
 
 	// InvoiceCurrencyDOP captures enum value "DOP"
-	InvoiceCurrencyDOP InvoiceCurrencyEnum = "DOP"
+	InvoiceCurrencyDOP string = "DOP"
 
 	// InvoiceCurrencyDZD captures enum value "DZD"
-	InvoiceCurrencyDZD InvoiceCurrencyEnum = "DZD"
+	InvoiceCurrencyDZD string = "DZD"
 
 	// InvoiceCurrencyEGP captures enum value "EGP"
-	InvoiceCurrencyEGP InvoiceCurrencyEnum = "EGP"
+	InvoiceCurrencyEGP string = "EGP"
 
 	// InvoiceCurrencyERN captures enum value "ERN"
-	InvoiceCurrencyERN InvoiceCurrencyEnum = "ERN"
+	InvoiceCurrencyERN string = "ERN"
 
 	// InvoiceCurrencyETB captures enum value "ETB"
-	InvoiceCurrencyETB InvoiceCurrencyEnum = "ETB"
+	InvoiceCurrencyETB string = "ETB"
 
 	// InvoiceCurrencyEUR captures enum value "EUR"
-	InvoiceCurrencyEUR InvoiceCurrencyEnum = "EUR"
+	InvoiceCurrencyEUR string = "EUR"
 
 	// InvoiceCurrencyFJD captures enum value "FJD"
-	InvoiceCurrencyFJD InvoiceCurrencyEnum = "FJD"
+	InvoiceCurrencyFJD string = "FJD"
 
 	// InvoiceCurrencyFKP captures enum value "FKP"
-	InvoiceCurrencyFKP InvoiceCurrencyEnum = "FKP"
+	InvoiceCurrencyFKP string = "FKP"
 
 	// InvoiceCurrencyGBP captures enum value "GBP"
-	InvoiceCurrencyGBP InvoiceCurrencyEnum = "GBP"
+	InvoiceCurrencyGBP string = "GBP"
 
 	// InvoiceCurrencyGEL captures enum value "GEL"
-	InvoiceCurrencyGEL InvoiceCurrencyEnum = "GEL"
+	InvoiceCurrencyGEL string = "GEL"
 
 	// InvoiceCurrencyGGP captures enum value "GGP"
-	InvoiceCurrencyGGP InvoiceCurrencyEnum = "GGP"
+	InvoiceCurrencyGGP string = "GGP"
 
 	// InvoiceCurrencyGHS captures enum value "GHS"
-	InvoiceCurrencyGHS InvoiceCurrencyEnum = "GHS"
+	InvoiceCurrencyGHS string = "GHS"
 
 	// InvoiceCurrencyGIP captures enum value "GIP"
-	InvoiceCurrencyGIP InvoiceCurrencyEnum = "GIP"
+	InvoiceCurrencyGIP string = "GIP"
 
 	// InvoiceCurrencyGMD captures enum value "GMD"
-	InvoiceCurrencyGMD InvoiceCurrencyEnum = "GMD"
+	InvoiceCurrencyGMD string = "GMD"
 
 	// InvoiceCurrencyGNF captures enum value "GNF"
-	InvoiceCurrencyGNF InvoiceCurrencyEnum = "GNF"
+	InvoiceCurrencyGNF string = "GNF"
 
 	// InvoiceCurrencyGTQ captures enum value "GTQ"
-	InvoiceCurrencyGTQ InvoiceCurrencyEnum = "GTQ"
+	InvoiceCurrencyGTQ string = "GTQ"
 
 	// InvoiceCurrencyGYD captures enum value "GYD"
-	InvoiceCurrencyGYD InvoiceCurrencyEnum = "GYD"
+	InvoiceCurrencyGYD string = "GYD"
 
 	// InvoiceCurrencyHKD captures enum value "HKD"
-	InvoiceCurrencyHKD InvoiceCurrencyEnum = "HKD"
+	InvoiceCurrencyHKD string = "HKD"
 
 	// InvoiceCurrencyHNL captures enum value "HNL"
-	InvoiceCurrencyHNL InvoiceCurrencyEnum = "HNL"
+	InvoiceCurrencyHNL string = "HNL"
 
 	// InvoiceCurrencyHRK captures enum value "HRK"
-	InvoiceCurrencyHRK InvoiceCurrencyEnum = "HRK"
+	InvoiceCurrencyHRK string = "HRK"
 
 	// InvoiceCurrencyHTG captures enum value "HTG"
-	InvoiceCurrencyHTG InvoiceCurrencyEnum = "HTG"
+	InvoiceCurrencyHTG string = "HTG"
 
 	// InvoiceCurrencyHUF captures enum value "HUF"
-	InvoiceCurrencyHUF InvoiceCurrencyEnum = "HUF"
+	InvoiceCurrencyHUF string = "HUF"
 
 	// InvoiceCurrencyIDR captures enum value "IDR"
-	InvoiceCurrencyIDR InvoiceCurrencyEnum = "IDR"
+	InvoiceCurrencyIDR string = "IDR"
 
 	// InvoiceCurrencyILS captures enum value "ILS"
-	InvoiceCurrencyILS InvoiceCurrencyEnum = "ILS"
+	InvoiceCurrencyILS string = "ILS"
 
 	// InvoiceCurrencyIMP captures enum value "IMP"
-	InvoiceCurrencyIMP InvoiceCurrencyEnum = "IMP"
+	InvoiceCurrencyIMP string = "IMP"
 
 	// InvoiceCurrencyINR captures enum value "INR"
-	InvoiceCurrencyINR InvoiceCurrencyEnum = "INR"
+	InvoiceCurrencyINR string = "INR"
 
 	// InvoiceCurrencyIQD captures enum value "IQD"
-	InvoiceCurrencyIQD InvoiceCurrencyEnum = "IQD"
+	InvoiceCurrencyIQD string = "IQD"
 
 	// InvoiceCurrencyIRR captures enum value "IRR"
-	InvoiceCurrencyIRR InvoiceCurrencyEnum = "IRR"
+	InvoiceCurrencyIRR string = "IRR"
 
 	// InvoiceCurrencyISK captures enum value "ISK"
-	InvoiceCurrencyISK InvoiceCurrencyEnum = "ISK"
+	InvoiceCurrencyISK string = "ISK"
 
 	// InvoiceCurrencyJEP captures enum value "JEP"
-	InvoiceCurrencyJEP InvoiceCurrencyEnum = "JEP"
+	InvoiceCurrencyJEP string = "JEP"
 
 	// InvoiceCurrencyJMD captures enum value "JMD"
-	InvoiceCurrencyJMD InvoiceCurrencyEnum = "JMD"
+	InvoiceCurrencyJMD string = "JMD"
 
 	// InvoiceCurrencyJOD captures enum value "JOD"
-	InvoiceCurrencyJOD InvoiceCurrencyEnum = "JOD"
+	InvoiceCurrencyJOD string = "JOD"
 
 	// InvoiceCurrencyJPY captures enum value "JPY"
-	InvoiceCurrencyJPY InvoiceCurrencyEnum = "JPY"
+	InvoiceCurrencyJPY string = "JPY"
 
 	// InvoiceCurrencyKES captures enum value "KES"
-	InvoiceCurrencyKES InvoiceCurrencyEnum = "KES"
+	InvoiceCurrencyKES string = "KES"
 
 	// InvoiceCurrencyKGS captures enum value "KGS"
-	InvoiceCurrencyKGS InvoiceCurrencyEnum = "KGS"
+	InvoiceCurrencyKGS string = "KGS"
 
 	// InvoiceCurrencyKHR captures enum value "KHR"
-	InvoiceCurrencyKHR InvoiceCurrencyEnum = "KHR"
+	InvoiceCurrencyKHR string = "KHR"
 
 	// InvoiceCurrencyKMF captures enum value "KMF"
-	InvoiceCurrencyKMF InvoiceCurrencyEnum = "KMF"
+	InvoiceCurrencyKMF string = "KMF"
 
 	// InvoiceCurrencyKPW captures enum value "KPW"
-	InvoiceCurrencyKPW InvoiceCurrencyEnum = "KPW"
+	InvoiceCurrencyKPW string = "KPW"
 
 	// InvoiceCurrencyKRW captures enum value "KRW"
-	InvoiceCurrencyKRW InvoiceCurrencyEnum = "KRW"
+	InvoiceCurrencyKRW string = "KRW"
 
 	// InvoiceCurrencyKWD captures enum value "KWD"
-	InvoiceCurrencyKWD InvoiceCurrencyEnum = "KWD"
+	InvoiceCurrencyKWD string = "KWD"
 
 	// InvoiceCurrencyKYD captures enum value "KYD"
-	InvoiceCurrencyKYD InvoiceCurrencyEnum = "KYD"
+	InvoiceCurrencyKYD string = "KYD"
 
 	// InvoiceCurrencyKZT captures enum value "KZT"
-	InvoiceCurrencyKZT InvoiceCurrencyEnum = "KZT"
+	InvoiceCurrencyKZT string = "KZT"
 
 	// InvoiceCurrencyLAK captures enum value "LAK"
-	InvoiceCurrencyLAK InvoiceCurrencyEnum = "LAK"
+	InvoiceCurrencyLAK string = "LAK"
 
 	// InvoiceCurrencyLBP captures enum value "LBP"
-	InvoiceCurrencyLBP InvoiceCurrencyEnum = "LBP"
+	InvoiceCurrencyLBP string = "LBP"
 
 	// InvoiceCurrencyLKR captures enum value "LKR"
-	InvoiceCurrencyLKR InvoiceCurrencyEnum = "LKR"
+	InvoiceCurrencyLKR string = "LKR"
 
 	// InvoiceCurrencyLRD captures enum value "LRD"
-	InvoiceCurrencyLRD InvoiceCurrencyEnum = "LRD"
+	InvoiceCurrencyLRD string = "LRD"
 
 	// InvoiceCurrencyLSL captures enum value "LSL"
-	InvoiceCurrencyLSL InvoiceCurrencyEnum = "LSL"
+	InvoiceCurrencyLSL string = "LSL"
 
 	// InvoiceCurrencyLTL captures enum value "LTL"
-	InvoiceCurrencyLTL InvoiceCurrencyEnum = "LTL"
+	InvoiceCurrencyLTL string = "LTL"
 
 	// InvoiceCurrencyLVL captures enum value "LVL"
-	InvoiceCurrencyLVL InvoiceCurrencyEnum = "LVL"
+	InvoiceCurrencyLVL string = "LVL"
 
 	// InvoiceCurrencyLYD captures enum value "LYD"
-	InvoiceCurrencyLYD InvoiceCurrencyEnum = "LYD"
+	InvoiceCurrencyLYD string = "LYD"
 
 	// InvoiceCurrencyMAD captures enum value "MAD"
-	InvoiceCurrencyMAD InvoiceCurrencyEnum = "MAD"
+	InvoiceCurrencyMAD string = "MAD"
 
 	// InvoiceCurrencyMDL captures enum value "MDL"
-	InvoiceCurrencyMDL InvoiceCurrencyEnum = "MDL"
+	InvoiceCurrencyMDL string = "MDL"
 
 	// InvoiceCurrencyMGA captures enum value "MGA"
-	InvoiceCurrencyMGA InvoiceCurrencyEnum = "MGA"
+	InvoiceCurrencyMGA string = "MGA"
 
 	// InvoiceCurrencyMKD captures enum value "MKD"
-	InvoiceCurrencyMKD InvoiceCurrencyEnum = "MKD"
+	InvoiceCurrencyMKD string = "MKD"
 
 	// InvoiceCurrencyMMK captures enum value "MMK"
-	InvoiceCurrencyMMK InvoiceCurrencyEnum = "MMK"
+	InvoiceCurrencyMMK string = "MMK"
 
 	// InvoiceCurrencyMNT captures enum value "MNT"
-	InvoiceCurrencyMNT InvoiceCurrencyEnum = "MNT"
+	InvoiceCurrencyMNT string = "MNT"
 
 	// InvoiceCurrencyMOP captures enum value "MOP"
-	InvoiceCurrencyMOP InvoiceCurrencyEnum = "MOP"
+	InvoiceCurrencyMOP string = "MOP"
 
 	// InvoiceCurrencyMRO captures enum value "MRO"
-	InvoiceCurrencyMRO InvoiceCurrencyEnum = "MRO"
+	InvoiceCurrencyMRO string = "MRO"
 
 	// InvoiceCurrencyMUR captures enum value "MUR"
-	InvoiceCurrencyMUR InvoiceCurrencyEnum = "MUR"
+	InvoiceCurrencyMUR string = "MUR"
 
 	// InvoiceCurrencyMVR captures enum value "MVR"
-	InvoiceCurrencyMVR InvoiceCurrencyEnum = "MVR"
+	InvoiceCurrencyMVR string = "MVR"
 
 	// InvoiceCurrencyMWK captures enum value "MWK"
-	InvoiceCurrencyMWK InvoiceCurrencyEnum = "MWK"
+	InvoiceCurrencyMWK string = "MWK"
 
 	// InvoiceCurrencyMXN captures enum value "MXN"
-	InvoiceCurrencyMXN InvoiceCurrencyEnum = "MXN"
+	InvoiceCurrencyMXN string = "MXN"
 
 	// InvoiceCurrencyMYR captures enum value "MYR"
-	InvoiceCurrencyMYR InvoiceCurrencyEnum = "MYR"
+	InvoiceCurrencyMYR string = "MYR"
 
 	// InvoiceCurrencyMZN captures enum value "MZN"
-	InvoiceCurrencyMZN InvoiceCurrencyEnum = "MZN"
+	InvoiceCurrencyMZN string = "MZN"
 
 	// InvoiceCurrencyNAD captures enum value "NAD"
-	InvoiceCurrencyNAD InvoiceCurrencyEnum = "NAD"
+	InvoiceCurrencyNAD string = "NAD"
 
 	// InvoiceCurrencyNGN captures enum value "NGN"
-	InvoiceCurrencyNGN InvoiceCurrencyEnum = "NGN"
+	InvoiceCurrencyNGN string = "NGN"
 
 	// InvoiceCurrencyNIO captures enum value "NIO"
-	InvoiceCurrencyNIO InvoiceCurrencyEnum = "NIO"
+	InvoiceCurrencyNIO string = "NIO"
 
 	// InvoiceCurrencyNOK captures enum value "NOK"
-	InvoiceCurrencyNOK InvoiceCurrencyEnum = "NOK"
+	InvoiceCurrencyNOK string = "NOK"
 
 	// InvoiceCurrencyNPR captures enum value "NPR"
-	InvoiceCurrencyNPR InvoiceCurrencyEnum = "NPR"
+	InvoiceCurrencyNPR string = "NPR"
 
 	// InvoiceCurrencyNZD captures enum value "NZD"
-	InvoiceCurrencyNZD InvoiceCurrencyEnum = "NZD"
+	InvoiceCurrencyNZD string = "NZD"
 
 	// InvoiceCurrencyOMR captures enum value "OMR"
-	InvoiceCurrencyOMR InvoiceCurrencyEnum = "OMR"
+	InvoiceCurrencyOMR string = "OMR"
 
 	// InvoiceCurrencyPAB captures enum value "PAB"
-	InvoiceCurrencyPAB InvoiceCurrencyEnum = "PAB"
+	InvoiceCurrencyPAB string = "PAB"
 
 	// InvoiceCurrencyPEN captures enum value "PEN"
-	InvoiceCurrencyPEN InvoiceCurrencyEnum = "PEN"
+	InvoiceCurrencyPEN string = "PEN"
 
 	// InvoiceCurrencyPGK captures enum value "PGK"
-	InvoiceCurrencyPGK InvoiceCurrencyEnum = "PGK"
+	InvoiceCurrencyPGK string = "PGK"
 
 	// InvoiceCurrencyPHP captures enum value "PHP"
-	InvoiceCurrencyPHP InvoiceCurrencyEnum = "PHP"
+	InvoiceCurrencyPHP string = "PHP"
 
 	// InvoiceCurrencyPKR captures enum value "PKR"
-	InvoiceCurrencyPKR InvoiceCurrencyEnum = "PKR"
+	InvoiceCurrencyPKR string = "PKR"
 
 	// InvoiceCurrencyPLN captures enum value "PLN"
-	InvoiceCurrencyPLN InvoiceCurrencyEnum = "PLN"
+	InvoiceCurrencyPLN string = "PLN"
 
 	// InvoiceCurrencyPYG captures enum value "PYG"
-	InvoiceCurrencyPYG InvoiceCurrencyEnum = "PYG"
+	InvoiceCurrencyPYG string = "PYG"
 
 	// InvoiceCurrencyQAR captures enum value "QAR"
-	InvoiceCurrencyQAR InvoiceCurrencyEnum = "QAR"
+	InvoiceCurrencyQAR string = "QAR"
 
 	// InvoiceCurrencyRON captures enum value "RON"
-	InvoiceCurrencyRON InvoiceCurrencyEnum = "RON"
+	InvoiceCurrencyRON string = "RON"
 
 	// InvoiceCurrencyRSD captures enum value "RSD"
-	InvoiceCurrencyRSD InvoiceCurrencyEnum = "RSD"
+	InvoiceCurrencyRSD string = "RSD"
 
 	// InvoiceCurrencyRUB captures enum value "RUB"
-	InvoiceCurrencyRUB InvoiceCurrencyEnum = "RUB"
+	InvoiceCurrencyRUB string = "RUB"
 
 	// InvoiceCurrencyRWF captures enum value "RWF"
-	InvoiceCurrencyRWF InvoiceCurrencyEnum = "RWF"
+	InvoiceCurrencyRWF string = "RWF"
 
 	// InvoiceCurrencySAR captures enum value "SAR"
-	InvoiceCurrencySAR InvoiceCurrencyEnum = "SAR"
+	InvoiceCurrencySAR string = "SAR"
 
 	// InvoiceCurrencySBD captures enum value "SBD"
-	InvoiceCurrencySBD InvoiceCurrencyEnum = "SBD"
+	InvoiceCurrencySBD string = "SBD"
 
 	// InvoiceCurrencySCR captures enum value "SCR"
-	InvoiceCurrencySCR InvoiceCurrencyEnum = "SCR"
+	InvoiceCurrencySCR string = "SCR"
 
 	// InvoiceCurrencySDG captures enum value "SDG"
-	InvoiceCurrencySDG InvoiceCurrencyEnum = "SDG"
+	InvoiceCurrencySDG string = "SDG"
 
 	// InvoiceCurrencySEK captures enum value "SEK"
-	InvoiceCurrencySEK InvoiceCurrencyEnum = "SEK"
+	InvoiceCurrencySEK string = "SEK"
 
 	// InvoiceCurrencySGD captures enum value "SGD"
-	InvoiceCurrencySGD InvoiceCurrencyEnum = "SGD"
+	InvoiceCurrencySGD string = "SGD"
 
 	// InvoiceCurrencySHP captures enum value "SHP"
-	InvoiceCurrencySHP InvoiceCurrencyEnum = "SHP"
+	InvoiceCurrencySHP string = "SHP"
 
 	// InvoiceCurrencySLL captures enum value "SLL"
-	InvoiceCurrencySLL InvoiceCurrencyEnum = "SLL"
+	InvoiceCurrencySLL string = "SLL"
 
 	// InvoiceCurrencySOS captures enum value "SOS"
-	InvoiceCurrencySOS InvoiceCurrencyEnum = "SOS"
+	InvoiceCurrencySOS string = "SOS"
 
 	// InvoiceCurrencySPL captures enum value "SPL"
-	InvoiceCurrencySPL InvoiceCurrencyEnum = "SPL"
+	InvoiceCurrencySPL string = "SPL"
 
 	// InvoiceCurrencySRD captures enum value "SRD"
-	InvoiceCurrencySRD InvoiceCurrencyEnum = "SRD"
+	InvoiceCurrencySRD string = "SRD"
 
 	// InvoiceCurrencySTD captures enum value "STD"
-	InvoiceCurrencySTD InvoiceCurrencyEnum = "STD"
+	InvoiceCurrencySTD string = "STD"
 
 	// InvoiceCurrencySVC captures enum value "SVC"
-	InvoiceCurrencySVC InvoiceCurrencyEnum = "SVC"
+	InvoiceCurrencySVC string = "SVC"
 
 	// InvoiceCurrencySYP captures enum value "SYP"
-	InvoiceCurrencySYP InvoiceCurrencyEnum = "SYP"
+	InvoiceCurrencySYP string = "SYP"
 
 	// InvoiceCurrencySZL captures enum value "SZL"
-	InvoiceCurrencySZL InvoiceCurrencyEnum = "SZL"
+	InvoiceCurrencySZL string = "SZL"
 
 	// InvoiceCurrencyTHB captures enum value "THB"
-	InvoiceCurrencyTHB InvoiceCurrencyEnum = "THB"
+	InvoiceCurrencyTHB string = "THB"
 
 	// InvoiceCurrencyTJS captures enum value "TJS"
-	InvoiceCurrencyTJS InvoiceCurrencyEnum = "TJS"
+	InvoiceCurrencyTJS string = "TJS"
 
 	// InvoiceCurrencyTMT captures enum value "TMT"
-	InvoiceCurrencyTMT InvoiceCurrencyEnum = "TMT"
+	InvoiceCurrencyTMT string = "TMT"
 
 	// InvoiceCurrencyTND captures enum value "TND"
-	InvoiceCurrencyTND InvoiceCurrencyEnum = "TND"
+	InvoiceCurrencyTND string = "TND"
 
 	// InvoiceCurrencyTOP captures enum value "TOP"
-	InvoiceCurrencyTOP InvoiceCurrencyEnum = "TOP"
+	InvoiceCurrencyTOP string = "TOP"
 
 	// InvoiceCurrencyTRY captures enum value "TRY"
-	InvoiceCurrencyTRY InvoiceCurrencyEnum = "TRY"
+	InvoiceCurrencyTRY string = "TRY"
 
 	// InvoiceCurrencyTTD captures enum value "TTD"
-	InvoiceCurrencyTTD InvoiceCurrencyEnum = "TTD"
+	InvoiceCurrencyTTD string = "TTD"
 
 	// InvoiceCurrencyTVD captures enum value "TVD"
-	InvoiceCurrencyTVD InvoiceCurrencyEnum = "TVD"
+	InvoiceCurrencyTVD string = "TVD"
 
 	// InvoiceCurrencyTWD captures enum value "TWD"
-	InvoiceCurrencyTWD InvoiceCurrencyEnum = "TWD"
+	InvoiceCurrencyTWD string = "TWD"
 
 	// InvoiceCurrencyTZS captures enum value "TZS"
-	InvoiceCurrencyTZS InvoiceCurrencyEnum = "TZS"
+	InvoiceCurrencyTZS string = "TZS"
 
 	// InvoiceCurrencyUAH captures enum value "UAH"
-	InvoiceCurrencyUAH InvoiceCurrencyEnum = "UAH"
+	InvoiceCurrencyUAH string = "UAH"
 
 	// InvoiceCurrencyUGX captures enum value "UGX"
-	InvoiceCurrencyUGX InvoiceCurrencyEnum = "UGX"
+	InvoiceCurrencyUGX string = "UGX"
 
 	// InvoiceCurrencyUSD captures enum value "USD"
-	InvoiceCurrencyUSD InvoiceCurrencyEnum = "USD"
+	InvoiceCurrencyUSD string = "USD"
 
 	// InvoiceCurrencyUYU captures enum value "UYU"
-	InvoiceCurrencyUYU InvoiceCurrencyEnum = "UYU"
+	InvoiceCurrencyUYU string = "UYU"
 
 	// InvoiceCurrencyUZS captures enum value "UZS"
-	InvoiceCurrencyUZS InvoiceCurrencyEnum = "UZS"
+	InvoiceCurrencyUZS string = "UZS"
 
 	// InvoiceCurrencyVEF captures enum value "VEF"
-	InvoiceCurrencyVEF InvoiceCurrencyEnum = "VEF"
+	InvoiceCurrencyVEF string = "VEF"
 
 	// InvoiceCurrencyVND captures enum value "VND"
-	InvoiceCurrencyVND InvoiceCurrencyEnum = "VND"
+	InvoiceCurrencyVND string = "VND"
 
 	// InvoiceCurrencyVUV captures enum value "VUV"
-	InvoiceCurrencyVUV InvoiceCurrencyEnum = "VUV"
+	InvoiceCurrencyVUV string = "VUV"
 
 	// InvoiceCurrencyWST captures enum value "WST"
-	InvoiceCurrencyWST InvoiceCurrencyEnum = "WST"
+	InvoiceCurrencyWST string = "WST"
 
 	// InvoiceCurrencyXAF captures enum value "XAF"
-	InvoiceCurrencyXAF InvoiceCurrencyEnum = "XAF"
+	InvoiceCurrencyXAF string = "XAF"
 
 	// InvoiceCurrencyXCD captures enum value "XCD"
-	InvoiceCurrencyXCD InvoiceCurrencyEnum = "XCD"
+	InvoiceCurrencyXCD string = "XCD"
 
 	// InvoiceCurrencyXDR captures enum value "XDR"
-	InvoiceCurrencyXDR InvoiceCurrencyEnum = "XDR"
+	InvoiceCurrencyXDR string = "XDR"
 
 	// InvoiceCurrencyXOF captures enum value "XOF"
-	InvoiceCurrencyXOF InvoiceCurrencyEnum = "XOF"
+	InvoiceCurrencyXOF string = "XOF"
 
 	// InvoiceCurrencyXPF captures enum value "XPF"
-	InvoiceCurrencyXPF InvoiceCurrencyEnum = "XPF"
+	InvoiceCurrencyXPF string = "XPF"
 
 	// InvoiceCurrencyYER captures enum value "YER"
-	InvoiceCurrencyYER InvoiceCurrencyEnum = "YER"
+	InvoiceCurrencyYER string = "YER"
 
 	// InvoiceCurrencyZAR captures enum value "ZAR"
-	InvoiceCurrencyZAR InvoiceCurrencyEnum = "ZAR"
+	InvoiceCurrencyZAR string = "ZAR"
 
 	// InvoiceCurrencyZMW captures enum value "ZMW"
-	InvoiceCurrencyZMW InvoiceCurrencyEnum = "ZMW"
+	InvoiceCurrencyZMW string = "ZMW"
 
 	// InvoiceCurrencyZWD captures enum value "ZWD"
-	InvoiceCurrencyZWD InvoiceCurrencyEnum = "ZWD"
+	InvoiceCurrencyZWD string = "ZWD"
 
 	// InvoiceCurrencyBTC captures enum value "BTC"
-	InvoiceCurrencyBTC InvoiceCurrencyEnum = "BTC"
+	InvoiceCurrencyBTC string = "BTC"
 )
 
-var InvoiceCurrencyEnumValues = []string{
-	"AED",
-	"AFN",
-	"ALL",
-	"AMD",
-	"ANG",
-	"AOA",
-	"ARS",
-	"AUD",
-	"AWG",
-	"AZN",
-	"BAM",
-	"BBD",
-	"BDT",
-	"BGN",
-	"BHD",
-	"BIF",
-	"BMD",
-	"BND",
-	"BOB",
-	"BRL",
-	"BSD",
-	"BTN",
-	"BWP",
-	"BYR",
-	"BZD",
-	"CAD",
-	"CDF",
-	"CHF",
-	"CLP",
-	"CNY",
-	"COP",
-	"CRC",
-	"CUC",
-	"CUP",
-	"CVE",
-	"CZK",
-	"DJF",
-	"DKK",
-	"DOP",
-	"DZD",
-	"EGP",
-	"ERN",
-	"ETB",
-	"EUR",
-	"FJD",
-	"FKP",
-	"GBP",
-	"GEL",
-	"GGP",
-	"GHS",
-	"GIP",
-	"GMD",
-	"GNF",
-	"GTQ",
-	"GYD",
-	"HKD",
-	"HNL",
-	"HRK",
-	"HTG",
-	"HUF",
-	"IDR",
-	"ILS",
-	"IMP",
-	"INR",
-	"IQD",
-	"IRR",
-	"ISK",
-	"JEP",
-	"JMD",
-	"JOD",
-	"JPY",
-	"KES",
-	"KGS",
-	"KHR",
-	"KMF",
-	"KPW",
-	"KRW",
-	"KWD",
-	"KYD",
-	"KZT",
-	"LAK",
-	"LBP",
-	"LKR",
-	"LRD",
-	"LSL",
-	"LTL",
-	"LVL",
-	"LYD",
-	"MAD",
-	"MDL",
-	"MGA",
-	"MKD",
-	"MMK",
-	"MNT",
-	"MOP",
-	"MRO",
-	"MUR",
-	"MVR",
-	"MWK",
-	"MXN",
-	"MYR",
-	"MZN",
-	"NAD",
-	"NGN",
-	"NIO",
-	"NOK",
-	"NPR",
-	"NZD",
-	"OMR",
-	"PAB",
-	"PEN",
-	"PGK",
-	"PHP",
-	"PKR",
-	"PLN",
-	"PYG",
-	"QAR",
-	"RON",
-	"RSD",
-	"RUB",
-	"RWF",
-	"SAR",
-	"SBD",
-	"SCR",
-	"SDG",
-	"SEK",
-	"SGD",
-	"SHP",
-	"SLL",
-	"SOS",
-	"SPL",
-	"SRD",
-	"STD",
-	"SVC",
-	"SYP",
-	"SZL",
-	"THB",
-	"TJS",
-	"TMT",
-	"TND",
-	"TOP",
-	"TRY",
-	"TTD",
-	"TVD",
-	"TWD",
-	"TZS",
-	"UAH",
-	"UGX",
-	"USD",
-	"UYU",
-	"UZS",
-	"VEF",
-	"VND",
-	"VUV",
-	"WST",
-	"XAF",
-	"XCD",
-	"XDR",
-	"XOF",
-	"XPF",
-	"YER",
-	"ZAR",
-	"ZMW",
-	"ZWD",
-	"BTC",
-}
-
-func (e InvoiceCurrencyEnum) IsValid() bool {
-	for _, v := range InvoiceCurrencyEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *Invoice) validateCurrencyEnum(path, location string, value InvoiceCurrencyEnum) error {
-	if err := validate.Enum(path, location, value, invoiceTypeCurrencyPropEnum); err != nil {
+func (m *Invoice) validateCurrencyEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, invoiceTypeCurrencyPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Invoice) validateCurrency(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Currency) { // not required
 		return nil
 	}
@@ -915,7 +737,6 @@ func (m *Invoice) validateCurrency(formats strfmt.Registry) error {
 }
 
 func (m *Invoice) validateInvoiceDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.InvoiceDate) { // not required
 		return nil
 	}
@@ -928,7 +749,6 @@ func (m *Invoice) validateInvoiceDate(formats strfmt.Registry) error {
 }
 
 func (m *Invoice) validateInvoiceID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.InvoiceID) { // not required
 		return nil
 	}
@@ -941,7 +761,6 @@ func (m *Invoice) validateInvoiceID(formats strfmt.Registry) error {
 }
 
 func (m *Invoice) validateItems(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Items) { // not required
 		return nil
 	}
@@ -955,6 +774,8 @@ func (m *Invoice) validateItems(formats strfmt.Registry) error {
 			if err := m.Items[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("items" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("items" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -966,7 +787,6 @@ func (m *Invoice) validateItems(formats strfmt.Registry) error {
 }
 
 func (m *Invoice) validateParentAccountID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ParentAccountID) { // not required
 		return nil
 	}
@@ -979,7 +799,6 @@ func (m *Invoice) validateParentAccountID(formats strfmt.Registry) error {
 }
 
 func (m *Invoice) validateParentInvoiceID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ParentInvoiceID) { // not required
 		return nil
 	}
@@ -994,7 +813,7 @@ func (m *Invoice) validateParentInvoiceID(formats strfmt.Registry) error {
 var invoiceTypeStatusPropEnum []interface{}
 
 func init() {
-	var res []InvoiceStatusEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["DRAFT","COMMITTED","VOID"]`), &res); err != nil {
 		panic(err)
 	}
@@ -1003,45 +822,27 @@ func init() {
 	}
 }
 
-type InvoiceStatusEnum string
-
 const (
 
 	// InvoiceStatusDRAFT captures enum value "DRAFT"
-	InvoiceStatusDRAFT InvoiceStatusEnum = "DRAFT"
+	InvoiceStatusDRAFT string = "DRAFT"
 
 	// InvoiceStatusCOMMITTED captures enum value "COMMITTED"
-	InvoiceStatusCOMMITTED InvoiceStatusEnum = "COMMITTED"
+	InvoiceStatusCOMMITTED string = "COMMITTED"
 
 	// InvoiceStatusVOID captures enum value "VOID"
-	InvoiceStatusVOID InvoiceStatusEnum = "VOID"
+	InvoiceStatusVOID string = "VOID"
 )
 
-var InvoiceStatusEnumValues = []string{
-	"DRAFT",
-	"COMMITTED",
-	"VOID",
-}
-
-func (e InvoiceStatusEnum) IsValid() bool {
-	for _, v := range InvoiceStatusEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *Invoice) validateStatusEnum(path, location string, value InvoiceStatusEnum) error {
-	if err := validate.Enum(path, location, value, invoiceTypeStatusPropEnum); err != nil {
+func (m *Invoice) validateStatusEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, invoiceTypeStatusPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Invoice) validateStatus(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -1055,13 +856,94 @@ func (m *Invoice) validateStatus(formats strfmt.Registry) error {
 }
 
 func (m *Invoice) validateTargetDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TargetDate) { // not required
 		return nil
 	}
 
 	if err := validate.FormatOf("targetDate", "body", "date", m.TargetDate.String(), formats); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this invoice based on the context it is used
+func (m *Invoice) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCredits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateItems(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Invoice) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AuditLogs); i++ {
+
+		if m.AuditLogs[i] != nil {
+			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Invoice) contextValidateCredits(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Credits); i++ {
+
+		if m.Credits[i] != nil {
+			if err := m.Credits[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("credits" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("credits" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Invoice) contextValidateItems(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Items); i++ {
+
+		if m.Items[i] != nil {
+			if err := m.Items[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("items" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("items" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

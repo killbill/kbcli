@@ -7,8 +7,8 @@ package kbclient
 
 import (
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	httptransport "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
 	"github.com/killbill/kbcli/v2/kbclient/account"
 	"github.com/killbill/kbcli/v2/kbclient/admin"
@@ -27,7 +27,7 @@ import (
 	"github.com/killbill/kbcli/v2/kbclient/payment_method"
 	"github.com/killbill/kbcli/v2/kbclient/payment_transaction"
 	"github.com/killbill/kbcli/v2/kbclient/plugin_info"
-	"github.com/killbill/kbcli/v2/kbclient/security"
+	securityops "github.com/killbill/kbcli/v2/kbclient/security"
 	"github.com/killbill/kbcli/v2/kbclient/subscription"
 	"github.com/killbill/kbcli/v2/kbclient/tag"
 	"github.com/killbill/kbcli/v2/kbclient/tag_definition"
@@ -35,83 +35,82 @@ import (
 	"github.com/killbill/kbcli/v2/kbclient/usage"
 )
 
-// New creates a new kill bill client
-// The following snippet provides creating killbill client with basic auth.
-//
-//
-// 	   trp := httptransport.New("127.0.0.1:8080" /*host*/, "" /*basePath*/, nil /*schemes*/)
-// 	   // Add missing handler. OpenAPI runtime doesn't have this by default
-// 	   trp.Producers["text/xml"] = runtime.TextProducer()
-// 	   // Set tro true to print http/debug logs
-// 	   trp.Debug = enableDebug
-// 	   // Setup basic auth
-// 	   authWriter := httptransport.BasicAuth("admin", "password")
-// 	   client := kbclient.New(trp, strfmt.Default)
-//     // Use client
-//     client.Accounts.GetAccount(...)
-//
-func New(transport runtime.ClientTransport,
-	formats strfmt.Registry,
-	authInfo runtime.ClientAuthInfoWriter,
-	defaults KillbillDefaults) *KillBill {
+// Default kill bill HTTP client.
+var Default = NewHTTPClient(nil)
 
+const (
+	// DefaultHost is the default Host
+	// found in Meta (info) section of spec file
+	DefaultHost string = "localhost"
+	// DefaultBasePath is the default BasePath
+	// found in Meta (info) section of spec file
+	DefaultBasePath string = "/"
+)
+
+// DefaultSchemes are the default schemes found in Meta (info) section of spec file
+var DefaultSchemes = []string{"http"}
+
+// NewHTTPClient creates a new kill bill HTTP client.
+func NewHTTPClient(formats strfmt.Registry) *KillBill {
+	return NewHTTPClientWithConfig(formats, nil)
+}
+
+// NewHTTPClientWithConfig creates a new kill bill HTTP client,
+// using a customizable transport config.
+func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *KillBill {
+	// ensure nullable parameters have default
+	if cfg == nil {
+		cfg = DefaultTransportConfig()
+	}
+
+	// create transport and client
+	transport := httptransport.New(cfg.Host, cfg.BasePath, cfg.Schemes)
+	return New(transport, formats)
+}
+
+// New creates a new kill bill client
+func New(transport runtime.ClientTransport, formats strfmt.Registry) *KillBill {
 	// ensure nullable parameters have default
 	if formats == nil {
 		formats = strfmt.Default
 	}
 
-	cli := &KillBill{
-		Transport: transport,
-		defaults:  defaults,
-	}
-
-	cli.Account = account.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Admin = admin.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Bundle = bundle.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Catalog = catalog.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Credit = credit.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.CustomField = custom_field.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Export = export.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Invoice = invoice.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.InvoiceItem = invoice_item.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.InvoicePayment = invoice_payment.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.NodesInfo = nodes_info.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Overdue = overdue.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Payment = payment.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.PaymentGateway = payment_gateway.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.PaymentMethod = payment_method.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.PaymentTransaction = payment_transaction.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.PluginInfo = plugin_info.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Security = security.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Subscription = subscription.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Tag = tag.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.TagDefinition = tag_definition.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Tenant = tenant.New(transport, formats, authInfo, &cli.defaults)
-
-	cli.Usage = usage.New(transport, formats, authInfo, &cli.defaults)
-
+	cli := new(KillBill)
+	cli.Transport = transport
+	cli.Account = account.New(transport, formats)
+	cli.Admin = admin.New(transport, formats)
+	cli.Bundle = bundle.New(transport, formats)
+	cli.Catalog = catalog.New(transport, formats)
+	cli.Credit = credit.New(transport, formats)
+	cli.CustomField = custom_field.New(transport, formats)
+	cli.Export = export.New(transport, formats)
+	cli.Invoice = invoice.New(transport, formats)
+	cli.InvoiceItem = invoice_item.New(transport, formats)
+	cli.InvoicePayment = invoice_payment.New(transport, formats)
+	cli.NodesInfo = nodes_info.New(transport, formats)
+	cli.Overdue = overdue.New(transport, formats)
+	cli.Payment = payment.New(transport, formats)
+	cli.PaymentGateway = payment_gateway.New(transport, formats)
+	cli.PaymentMethod = payment_method.New(transport, formats)
+	cli.PaymentTransaction = payment_transaction.New(transport, formats)
+	cli.PluginInfo = plugin_info.New(transport, formats)
+	cli.Security = securityops.New(transport, formats)
+	cli.Subscription = subscription.New(transport, formats)
+	cli.Tag = tag.New(transport, formats)
+	cli.TagDefinition = tag_definition.New(transport, formats)
+	cli.Tenant = tenant.New(transport, formats)
+	cli.Usage = usage.New(transport, formats)
 	return cli
+}
+
+// DefaultTransportConfig creates a TransportConfig with the
+// default settings taken from the meta section of the spec file.
+func DefaultTransportConfig() *TransportConfig {
+	return &TransportConfig{
+		Host:     DefaultHost,
+		BasePath: DefaultBasePath,
+		Schemes:  DefaultSchemes,
+	}
 }
 
 // TransportConfig contains the transport related info,
@@ -145,153 +144,79 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 
 // KillBill is a client for kill bill
 type KillBill struct {
-	Account *account.Client
+	Account account.ClientService
 
-	Admin *admin.Client
+	Admin admin.ClientService
 
-	Bundle *bundle.Client
+	Bundle bundle.ClientService
 
-	Catalog *catalog.Client
+	Catalog catalog.ClientService
 
-	Credit *credit.Client
+	Credit credit.ClientService
 
-	CustomField *custom_field.Client
+	CustomField custom_field.ClientService
 
-	Export *export.Client
+	Export export.ClientService
 
-	Invoice *invoice.Client
+	Invoice invoice.ClientService
 
-	InvoiceItem *invoice_item.Client
+	InvoiceItem invoice_item.ClientService
 
-	InvoicePayment *invoice_payment.Client
+	InvoicePayment invoice_payment.ClientService
 
-	NodesInfo *nodes_info.Client
+	NodesInfo nodes_info.ClientService
 
-	Overdue *overdue.Client
+	Overdue overdue.ClientService
 
-	Payment *payment.Client
+	Payment payment.ClientService
 
-	PaymentGateway *payment_gateway.Client
+	PaymentGateway payment_gateway.ClientService
 
-	PaymentMethod *payment_method.Client
+	PaymentMethod payment_method.ClientService
 
-	PaymentTransaction *payment_transaction.Client
+	PaymentTransaction payment_transaction.ClientService
 
-	PluginInfo *plugin_info.Client
+	PluginInfo plugin_info.ClientService
 
-	Security *security.Client
+	Security securityops.ClientService
 
-	Subscription *subscription.Client
+	Subscription subscription.ClientService
 
-	Tag *tag.Client
+	Tag tag.ClientService
 
-	TagDefinition *tag_definition.Client
+	TagDefinition tag_definition.ClientService
 
-	Tenant *tenant.Client
+	Tenant tenant.ClientService
 
-	Usage *usage.Client
+	Usage usage.ClientService
 
 	Transport runtime.ClientTransport
-	defaults  KillbillDefaults
 }
 
 // SetTransport changes the transport on the client and all its subresources
 func (c *KillBill) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
-
 	c.Account.SetTransport(transport)
-
 	c.Admin.SetTransport(transport)
-
 	c.Bundle.SetTransport(transport)
-
 	c.Catalog.SetTransport(transport)
-
 	c.Credit.SetTransport(transport)
-
 	c.CustomField.SetTransport(transport)
-
 	c.Export.SetTransport(transport)
-
 	c.Invoice.SetTransport(transport)
-
 	c.InvoiceItem.SetTransport(transport)
-
 	c.InvoicePayment.SetTransport(transport)
-
 	c.NodesInfo.SetTransport(transport)
-
 	c.Overdue.SetTransport(transport)
-
 	c.Payment.SetTransport(transport)
-
 	c.PaymentGateway.SetTransport(transport)
-
 	c.PaymentMethod.SetTransport(transport)
-
 	c.PaymentTransaction.SetTransport(transport)
-
 	c.PluginInfo.SetTransport(transport)
-
 	c.Security.SetTransport(transport)
-
 	c.Subscription.SetTransport(transport)
-
 	c.Tag.SetTransport(transport)
-
 	c.TagDefinition.SetTransport(transport)
-
 	c.Tenant.SetTransport(transport)
-
 	c.Usage.SetTransport(transport)
-
-}
-
-// Defaults returns killbill defaults
-func (c *KillBill) Defaults() KillbillDefaults {
-	return c.defaults
-}
-
-// SetDefaults sets killbill defaults
-func (c *KillBill) SetDefaults(defaults KillbillDefaults) {
-	c.defaults = defaults
-}
-
-// Implements killbill default values.
-type KillbillDefaults struct {
-	// XKillbillCreatedBy property
-	CreatedBy *string
-	// XKillbillComment property
-	Comment *string
-	// XKillbillReason property
-	Reason *string
-	// withProfilingInfo property
-	WithProfilingInfo *string
-	// withStackTrace property
-	WithStackTrace *bool
-}
-
-// Default CreatedBy. If not set explicitly in params, this will be used.
-func (d KillbillDefaults) XKillbillCreatedBy() *string {
-	return d.CreatedBy
-}
-
-// Default Comment. If not set explicitly in params, this will be used.
-func (d KillbillDefaults) XKillbillComment() *string {
-	return d.Comment
-}
-
-// Default Reason. If not set explicitly in params, this will be used.
-func (d KillbillDefaults) XKillbillReason() *string {
-	return d.Reason
-}
-
-// Default WithProfilingInfo. If not set explicitly in params, this will be used.
-func (d KillbillDefaults) KillbillWithProfilingInfo() *string {
-	return d.WithProfilingInfo
-}
-
-// Default WithStackTrace. If not set explicitly in params, this will be used.
-func (d KillbillDefaults) KillbillWithStackTrace() *bool {
-	return d.WithStackTrace
 }

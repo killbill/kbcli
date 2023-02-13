@@ -13,72 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewDeletePaymentTagsParams creates a new DeletePaymentTagsParams object
-// with the default values initialized.
+// NewDeletePaymentTagsParams creates a new DeletePaymentTagsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeletePaymentTagsParams() *DeletePaymentTagsParams {
-	var ()
 	return &DeletePaymentTagsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeletePaymentTagsParamsWithTimeout creates a new DeletePaymentTagsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeletePaymentTagsParamsWithTimeout(timeout time.Duration) *DeletePaymentTagsParams {
-	var ()
 	return &DeletePaymentTagsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeletePaymentTagsParamsWithContext creates a new DeletePaymentTagsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeletePaymentTagsParamsWithContext(ctx context.Context) *DeletePaymentTagsParams {
-	var ()
 	return &DeletePaymentTagsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeletePaymentTagsParamsWithHTTPClient creates a new DeletePaymentTagsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeletePaymentTagsParamsWithHTTPClient(client *http.Client) *DeletePaymentTagsParams {
-	var ()
 	return &DeletePaymentTagsParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeletePaymentTagsParams contains all the parameters to send to the API endpoint
-for the delete payment tags operation typically these are written to a http.Request
+/*
+DeletePaymentTagsParams contains all the parameters to send to the API endpoint
+
+	for the delete payment tags operation.
+
+	Typically these are written to a http.Request.
 */
 type DeletePaymentTagsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*PaymentID*/
+
+	// PaymentID.
+	//
+	// Format: uuid
 	PaymentID strfmt.UUID
-	/*TagDef*/
+
+	// TagDef.
 	TagDef []strfmt.UUID
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete payment tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeletePaymentTagsParams) WithDefaults() *DeletePaymentTagsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete payment tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeletePaymentTagsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete payment tags params
@@ -183,7 +201,6 @@ func (o *DeletePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -197,7 +214,6 @@ func (o *DeletePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param paymentId
@@ -205,27 +221,13 @@ func (o *DeletePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 
-	var valuesTagDef []string
-	for _, v := range o.TagDef {
-		valuesTagDef = append(valuesTagDef, v.String())
-	}
+	if o.TagDef != nil {
 
-	joinedTagDef := swag.JoinByFormat(valuesTagDef, "multi")
-	// query array param tagDef
-	if err := r.SetQueryParam("tagDef", joinedTagDef...); err != nil {
-		return err
-	}
+		// binding items for tagDef
+		joinedTagDef := o.bindParamTagDef(reg)
 
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+		// query array param tagDef
+		if err := r.SetQueryParam("tagDef", joinedTagDef...); err != nil {
 			return err
 		}
 	}
@@ -234,4 +236,21 @@ func (o *DeletePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamDeletePaymentTags binds the parameter tagDef
+func (o *DeletePaymentTagsParams) bindParamTagDef(formats strfmt.Registry) []string {
+	tagDefIR := o.TagDef
+
+	var tagDefIC []string
+	for _, tagDefIIR := range tagDefIR { // explode []strfmt.UUID
+
+		tagDefIIV := tagDefIIR.String() // strfmt.UUID as string
+		tagDefIC = append(tagDefIC, tagDefIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	tagDefIS := swag.JoinByFormat(tagDefIC, "multi")
+
+	return tagDefIS
 }

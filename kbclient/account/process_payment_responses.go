@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // ProcessPaymentReader is a Reader for the ProcessPayment structure.
@@ -25,21 +23,56 @@ type ProcessPaymentReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ProcessPaymentReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
-	case 201, 200:
+	case 201:
 		result := NewProcessPaymentCreated()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewProcessPaymentBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 402:
+		result := NewProcessPaymentPaymentRequired()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 404:
+		result := NewProcessPaymentNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 422:
+		result := NewProcessPaymentUnprocessableEntity()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 502:
+		result := NewProcessPaymentBadGateway()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 503:
+		result := NewProcessPaymentServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 504:
+		result := NewProcessPaymentGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +81,50 @@ func NewProcessPaymentCreated() *ProcessPaymentCreated {
 	return &ProcessPaymentCreated{}
 }
 
-/*ProcessPaymentCreated handles this case with default header values.
+/*
+ProcessPaymentCreated describes a response with status code 201, with default header values.
 
 Payment transaction created successfully
 */
 type ProcessPaymentCreated struct {
 	Payload *kbmodel.Payment
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this process payment created response has a 2xx status code
+func (o *ProcessPaymentCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this process payment created response has a 3xx status code
+func (o *ProcessPaymentCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this process payment created response has a 4xx status code
+func (o *ProcessPaymentCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this process payment created response has a 5xx status code
+func (o *ProcessPaymentCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this process payment created response a status code equal to that given
+func (o *ProcessPaymentCreated) IsCode(code int) bool {
+	return code == 201
+}
+
+// Code gets the status code for the process payment created response
+func (o *ProcessPaymentCreated) Code() int {
+	return 201
 }
 
 func (o *ProcessPaymentCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentCreated  %+v", 201, o.Payload)
+}
+
+func (o *ProcessPaymentCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentCreated  %+v", 201, o.Payload)
 }
 
@@ -83,15 +149,49 @@ func NewProcessPaymentBadRequest() *ProcessPaymentBadRequest {
 	return &ProcessPaymentBadRequest{}
 }
 
-/*ProcessPaymentBadRequest handles this case with default header values.
+/*
+ProcessPaymentBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
 type ProcessPaymentBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this process payment bad request response has a 2xx status code
+func (o *ProcessPaymentBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this process payment bad request response has a 3xx status code
+func (o *ProcessPaymentBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this process payment bad request response has a 4xx status code
+func (o *ProcessPaymentBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this process payment bad request response has a 5xx status code
+func (o *ProcessPaymentBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this process payment bad request response a status code equal to that given
+func (o *ProcessPaymentBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the process payment bad request response
+func (o *ProcessPaymentBadRequest) Code() int {
+	return 400
 }
 
 func (o *ProcessPaymentBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentBadRequest ", 400)
+}
+
+func (o *ProcessPaymentBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentBadRequest ", 400)
 }
 
@@ -105,15 +205,49 @@ func NewProcessPaymentPaymentRequired() *ProcessPaymentPaymentRequired {
 	return &ProcessPaymentPaymentRequired{}
 }
 
-/*ProcessPaymentPaymentRequired handles this case with default header values.
+/*
+ProcessPaymentPaymentRequired describes a response with status code 402, with default header values.
 
 Transaction declined by gateway
 */
 type ProcessPaymentPaymentRequired struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this process payment payment required response has a 2xx status code
+func (o *ProcessPaymentPaymentRequired) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this process payment payment required response has a 3xx status code
+func (o *ProcessPaymentPaymentRequired) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this process payment payment required response has a 4xx status code
+func (o *ProcessPaymentPaymentRequired) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this process payment payment required response has a 5xx status code
+func (o *ProcessPaymentPaymentRequired) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this process payment payment required response a status code equal to that given
+func (o *ProcessPaymentPaymentRequired) IsCode(code int) bool {
+	return code == 402
+}
+
+// Code gets the status code for the process payment payment required response
+func (o *ProcessPaymentPaymentRequired) Code() int {
+	return 402
 }
 
 func (o *ProcessPaymentPaymentRequired) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentPaymentRequired ", 402)
+}
+
+func (o *ProcessPaymentPaymentRequired) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentPaymentRequired ", 402)
 }
 
@@ -127,15 +261,49 @@ func NewProcessPaymentNotFound() *ProcessPaymentNotFound {
 	return &ProcessPaymentNotFound{}
 }
 
-/*ProcessPaymentNotFound handles this case with default header values.
+/*
+ProcessPaymentNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
 type ProcessPaymentNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this process payment not found response has a 2xx status code
+func (o *ProcessPaymentNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this process payment not found response has a 3xx status code
+func (o *ProcessPaymentNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this process payment not found response has a 4xx status code
+func (o *ProcessPaymentNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this process payment not found response has a 5xx status code
+func (o *ProcessPaymentNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this process payment not found response a status code equal to that given
+func (o *ProcessPaymentNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the process payment not found response
+func (o *ProcessPaymentNotFound) Code() int {
+	return 404
 }
 
 func (o *ProcessPaymentNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentNotFound ", 404)
+}
+
+func (o *ProcessPaymentNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentNotFound ", 404)
 }
 
@@ -149,15 +317,49 @@ func NewProcessPaymentUnprocessableEntity() *ProcessPaymentUnprocessableEntity {
 	return &ProcessPaymentUnprocessableEntity{}
 }
 
-/*ProcessPaymentUnprocessableEntity handles this case with default header values.
+/*
+ProcessPaymentUnprocessableEntity describes a response with status code 422, with default header values.
 
 Payment is aborted by a control plugin
 */
 type ProcessPaymentUnprocessableEntity struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this process payment unprocessable entity response has a 2xx status code
+func (o *ProcessPaymentUnprocessableEntity) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this process payment unprocessable entity response has a 3xx status code
+func (o *ProcessPaymentUnprocessableEntity) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this process payment unprocessable entity response has a 4xx status code
+func (o *ProcessPaymentUnprocessableEntity) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this process payment unprocessable entity response has a 5xx status code
+func (o *ProcessPaymentUnprocessableEntity) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this process payment unprocessable entity response a status code equal to that given
+func (o *ProcessPaymentUnprocessableEntity) IsCode(code int) bool {
+	return code == 422
+}
+
+// Code gets the status code for the process payment unprocessable entity response
+func (o *ProcessPaymentUnprocessableEntity) Code() int {
+	return 422
 }
 
 func (o *ProcessPaymentUnprocessableEntity) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentUnprocessableEntity ", 422)
+}
+
+func (o *ProcessPaymentUnprocessableEntity) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentUnprocessableEntity ", 422)
 }
 
@@ -171,15 +373,49 @@ func NewProcessPaymentBadGateway() *ProcessPaymentBadGateway {
 	return &ProcessPaymentBadGateway{}
 }
 
-/*ProcessPaymentBadGateway handles this case with default header values.
+/*
+ProcessPaymentBadGateway describes a response with status code 502, with default header values.
 
 Failed to submit payment transaction
 */
 type ProcessPaymentBadGateway struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this process payment bad gateway response has a 2xx status code
+func (o *ProcessPaymentBadGateway) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this process payment bad gateway response has a 3xx status code
+func (o *ProcessPaymentBadGateway) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this process payment bad gateway response has a 4xx status code
+func (o *ProcessPaymentBadGateway) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this process payment bad gateway response has a 5xx status code
+func (o *ProcessPaymentBadGateway) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this process payment bad gateway response a status code equal to that given
+func (o *ProcessPaymentBadGateway) IsCode(code int) bool {
+	return code == 502
+}
+
+// Code gets the status code for the process payment bad gateway response
+func (o *ProcessPaymentBadGateway) Code() int {
+	return 502
 }
 
 func (o *ProcessPaymentBadGateway) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentBadGateway ", 502)
+}
+
+func (o *ProcessPaymentBadGateway) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentBadGateway ", 502)
 }
 
@@ -193,15 +429,49 @@ func NewProcessPaymentServiceUnavailable() *ProcessPaymentServiceUnavailable {
 	return &ProcessPaymentServiceUnavailable{}
 }
 
-/*ProcessPaymentServiceUnavailable handles this case with default header values.
+/*
+ProcessPaymentServiceUnavailable describes a response with status code 503, with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
 type ProcessPaymentServiceUnavailable struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this process payment service unavailable response has a 2xx status code
+func (o *ProcessPaymentServiceUnavailable) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this process payment service unavailable response has a 3xx status code
+func (o *ProcessPaymentServiceUnavailable) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this process payment service unavailable response has a 4xx status code
+func (o *ProcessPaymentServiceUnavailable) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this process payment service unavailable response has a 5xx status code
+func (o *ProcessPaymentServiceUnavailable) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this process payment service unavailable response a status code equal to that given
+func (o *ProcessPaymentServiceUnavailable) IsCode(code int) bool {
+	return code == 503
+}
+
+// Code gets the status code for the process payment service unavailable response
+func (o *ProcessPaymentServiceUnavailable) Code() int {
+	return 503
 }
 
 func (o *ProcessPaymentServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentServiceUnavailable ", 503)
+}
+
+func (o *ProcessPaymentServiceUnavailable) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentServiceUnavailable ", 503)
 }
 
@@ -215,15 +485,49 @@ func NewProcessPaymentGatewayTimeout() *ProcessPaymentGatewayTimeout {
 	return &ProcessPaymentGatewayTimeout{}
 }
 
-/*ProcessPaymentGatewayTimeout handles this case with default header values.
+/*
+ProcessPaymentGatewayTimeout describes a response with status code 504, with default header values.
 
 Payment operation timeout
 */
 type ProcessPaymentGatewayTimeout struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this process payment gateway timeout response has a 2xx status code
+func (o *ProcessPaymentGatewayTimeout) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this process payment gateway timeout response has a 3xx status code
+func (o *ProcessPaymentGatewayTimeout) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this process payment gateway timeout response has a 4xx status code
+func (o *ProcessPaymentGatewayTimeout) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this process payment gateway timeout response has a 5xx status code
+func (o *ProcessPaymentGatewayTimeout) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this process payment gateway timeout response a status code equal to that given
+func (o *ProcessPaymentGatewayTimeout) IsCode(code int) bool {
+	return code == 504
+}
+
+// Code gets the status code for the process payment gateway timeout response
+func (o *ProcessPaymentGatewayTimeout) Code() int {
+	return 504
 }
 
 func (o *ProcessPaymentGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentGatewayTimeout ", 504)
+}
+
+func (o *ProcessPaymentGatewayTimeout) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/payments][%d] processPaymentGatewayTimeout ", 504)
 }
 

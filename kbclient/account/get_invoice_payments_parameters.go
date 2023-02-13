@@ -13,100 +13,109 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetInvoicePaymentsParams creates a new GetInvoicePaymentsParams object
-// with the default values initialized.
+// NewGetInvoicePaymentsParams creates a new GetInvoicePaymentsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetInvoicePaymentsParams() *GetInvoicePaymentsParams {
-	var (
-		auditDefault          = string("NONE")
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetInvoicePaymentsParams{
-		Audit:          &auditDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetInvoicePaymentsParamsWithTimeout creates a new GetInvoicePaymentsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetInvoicePaymentsParamsWithTimeout(timeout time.Duration) *GetInvoicePaymentsParams {
-	var (
-		auditDefault          = string("NONE")
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetInvoicePaymentsParams{
-		Audit:          &auditDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetInvoicePaymentsParamsWithContext creates a new GetInvoicePaymentsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetInvoicePaymentsParamsWithContext(ctx context.Context) *GetInvoicePaymentsParams {
-	var (
-		auditDefault          = string("NONE")
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetInvoicePaymentsParams{
-		Audit:          &auditDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetInvoicePaymentsParamsWithHTTPClient creates a new GetInvoicePaymentsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetInvoicePaymentsParamsWithHTTPClient(client *http.Client) *GetInvoicePaymentsParams {
-	var (
-		auditDefault          = string("NONE")
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetInvoicePaymentsParams{
-		Audit:          &auditDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-		HTTPClient:     client,
+		HTTPClient: client,
 	}
 }
 
-/*GetInvoicePaymentsParams contains all the parameters to send to the API endpoint
-for the get invoice payments operation typically these are written to a http.Request
+/*
+GetInvoicePaymentsParams contains all the parameters to send to the API endpoint
+
+	for the get invoice payments operation.
+
+	Typically these are written to a http.Request.
 */
 type GetInvoicePaymentsParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*Audit*/
+
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*WithAttempts*/
+
+	// WithAttempts.
 	WithAttempts *bool
-	/*WithPluginInfo*/
+
+	// WithPluginInfo.
 	WithPluginInfo *bool
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get invoice payments params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoicePaymentsParams) WithDefaults() *GetInvoicePaymentsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get invoice payments params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoicePaymentsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		withAttemptsDefault = bool(false)
+
+		withPluginInfoDefault = bool(false)
+	)
+
+	val := GetInvoicePaymentsParams{
+		Audit:          &auditDefault,
+		WithAttempts:   &withAttemptsDefault,
+		WithPluginInfo: &withPluginInfoDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get invoice payments params
@@ -214,69 +223,61 @@ func (o *GetInvoicePaymentsParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.WithAttempts != nil {
 
 		// query param withAttempts
 		var qrWithAttempts bool
+
 		if o.WithAttempts != nil {
 			qrWithAttempts = *o.WithAttempts
 		}
 		qWithAttempts := swag.FormatBool(qrWithAttempts)
 		if qWithAttempts != "" {
+
 			if err := r.SetQueryParam("withAttempts", qWithAttempts); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.WithPluginInfo != nil {
 
 		// query param withPluginInfo
 		var qrWithPluginInfo bool
+
 		if o.WithPluginInfo != nil {
 			qrWithPluginInfo = *o.WithPluginInfo
 		}
 		qWithPluginInfo := swag.FormatBool(qrWithPluginInfo)
 		if qWithPluginInfo != "" {
+
 			if err := r.SetQueryParam("withPluginInfo", qWithPluginInfo); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 
@@ -284,4 +285,21 @@ func (o *GetInvoicePaymentsParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamGetInvoicePayments binds the parameter pluginProperty
+func (o *GetInvoicePaymentsParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

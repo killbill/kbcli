@@ -6,16 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // SimplePlan simple plan
+//
 // swagger:model SimplePlan
 type SimplePlan struct {
 
@@ -26,19 +27,19 @@ type SimplePlan struct {
 	AvailableBaseProducts []string `json:"availableBaseProducts"`
 
 	// billing period
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
-	BillingPeriod SimplePlanBillingPeriodEnum `json:"billingPeriod,omitempty"`
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
+	BillingPeriod string `json:"billingPeriod,omitempty"`
 
 	// currency
 	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
-	Currency SimplePlanCurrencyEnum `json:"currency,omitempty"`
+	Currency string `json:"currency,omitempty"`
 
 	// plan Id
 	PlanID string `json:"planId,omitempty"`
 
 	// product category
 	// Enum: [BASE ADD_ON STANDALONE]
-	ProductCategory SimplePlanProductCategoryEnum `json:"productCategory,omitempty"`
+	ProductCategory string `json:"productCategory,omitempty"`
 
 	// product name
 	ProductName string `json:"productName,omitempty"`
@@ -48,7 +49,7 @@ type SimplePlan struct {
 
 	// trial time unit
 	// Enum: [DAYS WEEKS MONTHS YEARS UNLIMITED]
-	TrialTimeUnit SimplePlanTrialTimeUnitEnum `json:"trialTimeUnit,omitempty"`
+	TrialTimeUnit string `json:"trialTimeUnit,omitempty"`
 }
 
 // Validate validates this simple plan
@@ -80,8 +81,8 @@ func (m *SimplePlan) Validate(formats strfmt.Registry) error {
 var simplePlanTypeBillingPeriodPropEnum []interface{}
 
 func init() {
-	var res []SimplePlanBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	var res []string
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -89,89 +90,69 @@ func init() {
 	}
 }
 
-type SimplePlanBillingPeriodEnum string
-
 const (
 
 	// SimplePlanBillingPeriodDAILY captures enum value "DAILY"
-	SimplePlanBillingPeriodDAILY SimplePlanBillingPeriodEnum = "DAILY"
+	SimplePlanBillingPeriodDAILY string = "DAILY"
 
 	// SimplePlanBillingPeriodWEEKLY captures enum value "WEEKLY"
-	SimplePlanBillingPeriodWEEKLY SimplePlanBillingPeriodEnum = "WEEKLY"
+	SimplePlanBillingPeriodWEEKLY string = "WEEKLY"
 
 	// SimplePlanBillingPeriodBIWEEKLY captures enum value "BIWEEKLY"
-	SimplePlanBillingPeriodBIWEEKLY SimplePlanBillingPeriodEnum = "BIWEEKLY"
+	SimplePlanBillingPeriodBIWEEKLY string = "BIWEEKLY"
 
 	// SimplePlanBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
-	SimplePlanBillingPeriodTHIRTYDAYS SimplePlanBillingPeriodEnum = "THIRTY_DAYS"
+	SimplePlanBillingPeriodTHIRTYDAYS string = "THIRTY_DAYS"
+
+	// SimplePlanBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	SimplePlanBillingPeriodTHIRTYONEDAYS string = "THIRTY_ONE_DAYS"
 
 	// SimplePlanBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
-	SimplePlanBillingPeriodSIXTYDAYS SimplePlanBillingPeriodEnum = "SIXTY_DAYS"
+	SimplePlanBillingPeriodSIXTYDAYS string = "SIXTY_DAYS"
 
 	// SimplePlanBillingPeriodNINETYDAYS captures enum value "NINETY_DAYS"
-	SimplePlanBillingPeriodNINETYDAYS SimplePlanBillingPeriodEnum = "NINETY_DAYS"
+	SimplePlanBillingPeriodNINETYDAYS string = "NINETY_DAYS"
 
 	// SimplePlanBillingPeriodMONTHLY captures enum value "MONTHLY"
-	SimplePlanBillingPeriodMONTHLY SimplePlanBillingPeriodEnum = "MONTHLY"
+	SimplePlanBillingPeriodMONTHLY string = "MONTHLY"
 
 	// SimplePlanBillingPeriodBIMESTRIAL captures enum value "BIMESTRIAL"
-	SimplePlanBillingPeriodBIMESTRIAL SimplePlanBillingPeriodEnum = "BIMESTRIAL"
+	SimplePlanBillingPeriodBIMESTRIAL string = "BIMESTRIAL"
 
 	// SimplePlanBillingPeriodQUARTERLY captures enum value "QUARTERLY"
-	SimplePlanBillingPeriodQUARTERLY SimplePlanBillingPeriodEnum = "QUARTERLY"
+	SimplePlanBillingPeriodQUARTERLY string = "QUARTERLY"
 
 	// SimplePlanBillingPeriodTRIANNUAL captures enum value "TRIANNUAL"
-	SimplePlanBillingPeriodTRIANNUAL SimplePlanBillingPeriodEnum = "TRIANNUAL"
+	SimplePlanBillingPeriodTRIANNUAL string = "TRIANNUAL"
 
 	// SimplePlanBillingPeriodBIANNUAL captures enum value "BIANNUAL"
-	SimplePlanBillingPeriodBIANNUAL SimplePlanBillingPeriodEnum = "BIANNUAL"
+	SimplePlanBillingPeriodBIANNUAL string = "BIANNUAL"
 
 	// SimplePlanBillingPeriodANNUAL captures enum value "ANNUAL"
-	SimplePlanBillingPeriodANNUAL SimplePlanBillingPeriodEnum = "ANNUAL"
+	SimplePlanBillingPeriodANNUAL string = "ANNUAL"
+
+	// SimplePlanBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	SimplePlanBillingPeriodSESQUIENNIAL string = "SESQUIENNIAL"
 
 	// SimplePlanBillingPeriodBIENNIAL captures enum value "BIENNIAL"
-	SimplePlanBillingPeriodBIENNIAL SimplePlanBillingPeriodEnum = "BIENNIAL"
+	SimplePlanBillingPeriodBIENNIAL string = "BIENNIAL"
+
+	// SimplePlanBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	SimplePlanBillingPeriodTRIENNIAL string = "TRIENNIAL"
 
 	// SimplePlanBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
-	SimplePlanBillingPeriodNOBILLINGPERIOD SimplePlanBillingPeriodEnum = "NO_BILLING_PERIOD"
+	SimplePlanBillingPeriodNOBILLINGPERIOD string = "NO_BILLING_PERIOD"
 )
 
-var SimplePlanBillingPeriodEnumValues = []string{
-	"DAILY",
-	"WEEKLY",
-	"BIWEEKLY",
-	"THIRTY_DAYS",
-	"SIXTY_DAYS",
-	"NINETY_DAYS",
-	"MONTHLY",
-	"BIMESTRIAL",
-	"QUARTERLY",
-	"TRIANNUAL",
-	"BIANNUAL",
-	"ANNUAL",
-	"BIENNIAL",
-	"NO_BILLING_PERIOD",
-}
-
-func (e SimplePlanBillingPeriodEnum) IsValid() bool {
-	for _, v := range SimplePlanBillingPeriodEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *SimplePlan) validateBillingPeriodEnum(path, location string, value SimplePlanBillingPeriodEnum) error {
-	if err := validate.Enum(path, location, value, simplePlanTypeBillingPeriodPropEnum); err != nil {
+func (m *SimplePlan) validateBillingPeriodEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, simplePlanTypeBillingPeriodPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *SimplePlan) validateBillingPeriod(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingPeriod) { // not required
 		return nil
 	}
@@ -187,7 +168,7 @@ func (m *SimplePlan) validateBillingPeriod(formats strfmt.Registry) error {
 var simplePlanTypeCurrencyPropEnum []interface{}
 
 func init() {
-	var res []SimplePlanCurrencyEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CAD","CDF","CHF","CLP","CNY","COP","CRC","CUC","CUP","CVE","CZK","DJF","DKK","DOP","DZD","EGP","ERN","ETB","EUR","FJD","FKP","GBP","GEL","GGP","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","IMP","INR","IQD","IRR","ISK","JEP","JMD","JOD","JPY","KES","KGS","KHR","KMF","KPW","KRW","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SEK","SGD","SHP","SLL","SOS","SPL","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TVD","TWD","TZS","UAH","UGX","USD","UYU","UZS","VEF","VND","VUV","WST","XAF","XCD","XDR","XOF","XPF","YER","ZAR","ZMW","ZWD","BTC"]`), &res); err != nil {
 		panic(err)
 	}
@@ -196,693 +177,513 @@ func init() {
 	}
 }
 
-type SimplePlanCurrencyEnum string
-
 const (
 
 	// SimplePlanCurrencyAED captures enum value "AED"
-	SimplePlanCurrencyAED SimplePlanCurrencyEnum = "AED"
+	SimplePlanCurrencyAED string = "AED"
 
 	// SimplePlanCurrencyAFN captures enum value "AFN"
-	SimplePlanCurrencyAFN SimplePlanCurrencyEnum = "AFN"
+	SimplePlanCurrencyAFN string = "AFN"
 
 	// SimplePlanCurrencyALL captures enum value "ALL"
-	SimplePlanCurrencyALL SimplePlanCurrencyEnum = "ALL"
+	SimplePlanCurrencyALL string = "ALL"
 
 	// SimplePlanCurrencyAMD captures enum value "AMD"
-	SimplePlanCurrencyAMD SimplePlanCurrencyEnum = "AMD"
+	SimplePlanCurrencyAMD string = "AMD"
 
 	// SimplePlanCurrencyANG captures enum value "ANG"
-	SimplePlanCurrencyANG SimplePlanCurrencyEnum = "ANG"
+	SimplePlanCurrencyANG string = "ANG"
 
 	// SimplePlanCurrencyAOA captures enum value "AOA"
-	SimplePlanCurrencyAOA SimplePlanCurrencyEnum = "AOA"
+	SimplePlanCurrencyAOA string = "AOA"
 
 	// SimplePlanCurrencyARS captures enum value "ARS"
-	SimplePlanCurrencyARS SimplePlanCurrencyEnum = "ARS"
+	SimplePlanCurrencyARS string = "ARS"
 
 	// SimplePlanCurrencyAUD captures enum value "AUD"
-	SimplePlanCurrencyAUD SimplePlanCurrencyEnum = "AUD"
+	SimplePlanCurrencyAUD string = "AUD"
 
 	// SimplePlanCurrencyAWG captures enum value "AWG"
-	SimplePlanCurrencyAWG SimplePlanCurrencyEnum = "AWG"
+	SimplePlanCurrencyAWG string = "AWG"
 
 	// SimplePlanCurrencyAZN captures enum value "AZN"
-	SimplePlanCurrencyAZN SimplePlanCurrencyEnum = "AZN"
+	SimplePlanCurrencyAZN string = "AZN"
 
 	// SimplePlanCurrencyBAM captures enum value "BAM"
-	SimplePlanCurrencyBAM SimplePlanCurrencyEnum = "BAM"
+	SimplePlanCurrencyBAM string = "BAM"
 
 	// SimplePlanCurrencyBBD captures enum value "BBD"
-	SimplePlanCurrencyBBD SimplePlanCurrencyEnum = "BBD"
+	SimplePlanCurrencyBBD string = "BBD"
 
 	// SimplePlanCurrencyBDT captures enum value "BDT"
-	SimplePlanCurrencyBDT SimplePlanCurrencyEnum = "BDT"
+	SimplePlanCurrencyBDT string = "BDT"
 
 	// SimplePlanCurrencyBGN captures enum value "BGN"
-	SimplePlanCurrencyBGN SimplePlanCurrencyEnum = "BGN"
+	SimplePlanCurrencyBGN string = "BGN"
 
 	// SimplePlanCurrencyBHD captures enum value "BHD"
-	SimplePlanCurrencyBHD SimplePlanCurrencyEnum = "BHD"
+	SimplePlanCurrencyBHD string = "BHD"
 
 	// SimplePlanCurrencyBIF captures enum value "BIF"
-	SimplePlanCurrencyBIF SimplePlanCurrencyEnum = "BIF"
+	SimplePlanCurrencyBIF string = "BIF"
 
 	// SimplePlanCurrencyBMD captures enum value "BMD"
-	SimplePlanCurrencyBMD SimplePlanCurrencyEnum = "BMD"
+	SimplePlanCurrencyBMD string = "BMD"
 
 	// SimplePlanCurrencyBND captures enum value "BND"
-	SimplePlanCurrencyBND SimplePlanCurrencyEnum = "BND"
+	SimplePlanCurrencyBND string = "BND"
 
 	// SimplePlanCurrencyBOB captures enum value "BOB"
-	SimplePlanCurrencyBOB SimplePlanCurrencyEnum = "BOB"
+	SimplePlanCurrencyBOB string = "BOB"
 
 	// SimplePlanCurrencyBRL captures enum value "BRL"
-	SimplePlanCurrencyBRL SimplePlanCurrencyEnum = "BRL"
+	SimplePlanCurrencyBRL string = "BRL"
 
 	// SimplePlanCurrencyBSD captures enum value "BSD"
-	SimplePlanCurrencyBSD SimplePlanCurrencyEnum = "BSD"
+	SimplePlanCurrencyBSD string = "BSD"
 
 	// SimplePlanCurrencyBTN captures enum value "BTN"
-	SimplePlanCurrencyBTN SimplePlanCurrencyEnum = "BTN"
+	SimplePlanCurrencyBTN string = "BTN"
 
 	// SimplePlanCurrencyBWP captures enum value "BWP"
-	SimplePlanCurrencyBWP SimplePlanCurrencyEnum = "BWP"
+	SimplePlanCurrencyBWP string = "BWP"
 
 	// SimplePlanCurrencyBYR captures enum value "BYR"
-	SimplePlanCurrencyBYR SimplePlanCurrencyEnum = "BYR"
+	SimplePlanCurrencyBYR string = "BYR"
 
 	// SimplePlanCurrencyBZD captures enum value "BZD"
-	SimplePlanCurrencyBZD SimplePlanCurrencyEnum = "BZD"
+	SimplePlanCurrencyBZD string = "BZD"
 
 	// SimplePlanCurrencyCAD captures enum value "CAD"
-	SimplePlanCurrencyCAD SimplePlanCurrencyEnum = "CAD"
+	SimplePlanCurrencyCAD string = "CAD"
 
 	// SimplePlanCurrencyCDF captures enum value "CDF"
-	SimplePlanCurrencyCDF SimplePlanCurrencyEnum = "CDF"
+	SimplePlanCurrencyCDF string = "CDF"
 
 	// SimplePlanCurrencyCHF captures enum value "CHF"
-	SimplePlanCurrencyCHF SimplePlanCurrencyEnum = "CHF"
+	SimplePlanCurrencyCHF string = "CHF"
 
 	// SimplePlanCurrencyCLP captures enum value "CLP"
-	SimplePlanCurrencyCLP SimplePlanCurrencyEnum = "CLP"
+	SimplePlanCurrencyCLP string = "CLP"
 
 	// SimplePlanCurrencyCNY captures enum value "CNY"
-	SimplePlanCurrencyCNY SimplePlanCurrencyEnum = "CNY"
+	SimplePlanCurrencyCNY string = "CNY"
 
 	// SimplePlanCurrencyCOP captures enum value "COP"
-	SimplePlanCurrencyCOP SimplePlanCurrencyEnum = "COP"
+	SimplePlanCurrencyCOP string = "COP"
 
 	// SimplePlanCurrencyCRC captures enum value "CRC"
-	SimplePlanCurrencyCRC SimplePlanCurrencyEnum = "CRC"
+	SimplePlanCurrencyCRC string = "CRC"
 
 	// SimplePlanCurrencyCUC captures enum value "CUC"
-	SimplePlanCurrencyCUC SimplePlanCurrencyEnum = "CUC"
+	SimplePlanCurrencyCUC string = "CUC"
 
 	// SimplePlanCurrencyCUP captures enum value "CUP"
-	SimplePlanCurrencyCUP SimplePlanCurrencyEnum = "CUP"
+	SimplePlanCurrencyCUP string = "CUP"
 
 	// SimplePlanCurrencyCVE captures enum value "CVE"
-	SimplePlanCurrencyCVE SimplePlanCurrencyEnum = "CVE"
+	SimplePlanCurrencyCVE string = "CVE"
 
 	// SimplePlanCurrencyCZK captures enum value "CZK"
-	SimplePlanCurrencyCZK SimplePlanCurrencyEnum = "CZK"
+	SimplePlanCurrencyCZK string = "CZK"
 
 	// SimplePlanCurrencyDJF captures enum value "DJF"
-	SimplePlanCurrencyDJF SimplePlanCurrencyEnum = "DJF"
+	SimplePlanCurrencyDJF string = "DJF"
 
 	// SimplePlanCurrencyDKK captures enum value "DKK"
-	SimplePlanCurrencyDKK SimplePlanCurrencyEnum = "DKK"
+	SimplePlanCurrencyDKK string = "DKK"
 
 	// SimplePlanCurrencyDOP captures enum value "DOP"
-	SimplePlanCurrencyDOP SimplePlanCurrencyEnum = "DOP"
+	SimplePlanCurrencyDOP string = "DOP"
 
 	// SimplePlanCurrencyDZD captures enum value "DZD"
-	SimplePlanCurrencyDZD SimplePlanCurrencyEnum = "DZD"
+	SimplePlanCurrencyDZD string = "DZD"
 
 	// SimplePlanCurrencyEGP captures enum value "EGP"
-	SimplePlanCurrencyEGP SimplePlanCurrencyEnum = "EGP"
+	SimplePlanCurrencyEGP string = "EGP"
 
 	// SimplePlanCurrencyERN captures enum value "ERN"
-	SimplePlanCurrencyERN SimplePlanCurrencyEnum = "ERN"
+	SimplePlanCurrencyERN string = "ERN"
 
 	// SimplePlanCurrencyETB captures enum value "ETB"
-	SimplePlanCurrencyETB SimplePlanCurrencyEnum = "ETB"
+	SimplePlanCurrencyETB string = "ETB"
 
 	// SimplePlanCurrencyEUR captures enum value "EUR"
-	SimplePlanCurrencyEUR SimplePlanCurrencyEnum = "EUR"
+	SimplePlanCurrencyEUR string = "EUR"
 
 	// SimplePlanCurrencyFJD captures enum value "FJD"
-	SimplePlanCurrencyFJD SimplePlanCurrencyEnum = "FJD"
+	SimplePlanCurrencyFJD string = "FJD"
 
 	// SimplePlanCurrencyFKP captures enum value "FKP"
-	SimplePlanCurrencyFKP SimplePlanCurrencyEnum = "FKP"
+	SimplePlanCurrencyFKP string = "FKP"
 
 	// SimplePlanCurrencyGBP captures enum value "GBP"
-	SimplePlanCurrencyGBP SimplePlanCurrencyEnum = "GBP"
+	SimplePlanCurrencyGBP string = "GBP"
 
 	// SimplePlanCurrencyGEL captures enum value "GEL"
-	SimplePlanCurrencyGEL SimplePlanCurrencyEnum = "GEL"
+	SimplePlanCurrencyGEL string = "GEL"
 
 	// SimplePlanCurrencyGGP captures enum value "GGP"
-	SimplePlanCurrencyGGP SimplePlanCurrencyEnum = "GGP"
+	SimplePlanCurrencyGGP string = "GGP"
 
 	// SimplePlanCurrencyGHS captures enum value "GHS"
-	SimplePlanCurrencyGHS SimplePlanCurrencyEnum = "GHS"
+	SimplePlanCurrencyGHS string = "GHS"
 
 	// SimplePlanCurrencyGIP captures enum value "GIP"
-	SimplePlanCurrencyGIP SimplePlanCurrencyEnum = "GIP"
+	SimplePlanCurrencyGIP string = "GIP"
 
 	// SimplePlanCurrencyGMD captures enum value "GMD"
-	SimplePlanCurrencyGMD SimplePlanCurrencyEnum = "GMD"
+	SimplePlanCurrencyGMD string = "GMD"
 
 	// SimplePlanCurrencyGNF captures enum value "GNF"
-	SimplePlanCurrencyGNF SimplePlanCurrencyEnum = "GNF"
+	SimplePlanCurrencyGNF string = "GNF"
 
 	// SimplePlanCurrencyGTQ captures enum value "GTQ"
-	SimplePlanCurrencyGTQ SimplePlanCurrencyEnum = "GTQ"
+	SimplePlanCurrencyGTQ string = "GTQ"
 
 	// SimplePlanCurrencyGYD captures enum value "GYD"
-	SimplePlanCurrencyGYD SimplePlanCurrencyEnum = "GYD"
+	SimplePlanCurrencyGYD string = "GYD"
 
 	// SimplePlanCurrencyHKD captures enum value "HKD"
-	SimplePlanCurrencyHKD SimplePlanCurrencyEnum = "HKD"
+	SimplePlanCurrencyHKD string = "HKD"
 
 	// SimplePlanCurrencyHNL captures enum value "HNL"
-	SimplePlanCurrencyHNL SimplePlanCurrencyEnum = "HNL"
+	SimplePlanCurrencyHNL string = "HNL"
 
 	// SimplePlanCurrencyHRK captures enum value "HRK"
-	SimplePlanCurrencyHRK SimplePlanCurrencyEnum = "HRK"
+	SimplePlanCurrencyHRK string = "HRK"
 
 	// SimplePlanCurrencyHTG captures enum value "HTG"
-	SimplePlanCurrencyHTG SimplePlanCurrencyEnum = "HTG"
+	SimplePlanCurrencyHTG string = "HTG"
 
 	// SimplePlanCurrencyHUF captures enum value "HUF"
-	SimplePlanCurrencyHUF SimplePlanCurrencyEnum = "HUF"
+	SimplePlanCurrencyHUF string = "HUF"
 
 	// SimplePlanCurrencyIDR captures enum value "IDR"
-	SimplePlanCurrencyIDR SimplePlanCurrencyEnum = "IDR"
+	SimplePlanCurrencyIDR string = "IDR"
 
 	// SimplePlanCurrencyILS captures enum value "ILS"
-	SimplePlanCurrencyILS SimplePlanCurrencyEnum = "ILS"
+	SimplePlanCurrencyILS string = "ILS"
 
 	// SimplePlanCurrencyIMP captures enum value "IMP"
-	SimplePlanCurrencyIMP SimplePlanCurrencyEnum = "IMP"
+	SimplePlanCurrencyIMP string = "IMP"
 
 	// SimplePlanCurrencyINR captures enum value "INR"
-	SimplePlanCurrencyINR SimplePlanCurrencyEnum = "INR"
+	SimplePlanCurrencyINR string = "INR"
 
 	// SimplePlanCurrencyIQD captures enum value "IQD"
-	SimplePlanCurrencyIQD SimplePlanCurrencyEnum = "IQD"
+	SimplePlanCurrencyIQD string = "IQD"
 
 	// SimplePlanCurrencyIRR captures enum value "IRR"
-	SimplePlanCurrencyIRR SimplePlanCurrencyEnum = "IRR"
+	SimplePlanCurrencyIRR string = "IRR"
 
 	// SimplePlanCurrencyISK captures enum value "ISK"
-	SimplePlanCurrencyISK SimplePlanCurrencyEnum = "ISK"
+	SimplePlanCurrencyISK string = "ISK"
 
 	// SimplePlanCurrencyJEP captures enum value "JEP"
-	SimplePlanCurrencyJEP SimplePlanCurrencyEnum = "JEP"
+	SimplePlanCurrencyJEP string = "JEP"
 
 	// SimplePlanCurrencyJMD captures enum value "JMD"
-	SimplePlanCurrencyJMD SimplePlanCurrencyEnum = "JMD"
+	SimplePlanCurrencyJMD string = "JMD"
 
 	// SimplePlanCurrencyJOD captures enum value "JOD"
-	SimplePlanCurrencyJOD SimplePlanCurrencyEnum = "JOD"
+	SimplePlanCurrencyJOD string = "JOD"
 
 	// SimplePlanCurrencyJPY captures enum value "JPY"
-	SimplePlanCurrencyJPY SimplePlanCurrencyEnum = "JPY"
+	SimplePlanCurrencyJPY string = "JPY"
 
 	// SimplePlanCurrencyKES captures enum value "KES"
-	SimplePlanCurrencyKES SimplePlanCurrencyEnum = "KES"
+	SimplePlanCurrencyKES string = "KES"
 
 	// SimplePlanCurrencyKGS captures enum value "KGS"
-	SimplePlanCurrencyKGS SimplePlanCurrencyEnum = "KGS"
+	SimplePlanCurrencyKGS string = "KGS"
 
 	// SimplePlanCurrencyKHR captures enum value "KHR"
-	SimplePlanCurrencyKHR SimplePlanCurrencyEnum = "KHR"
+	SimplePlanCurrencyKHR string = "KHR"
 
 	// SimplePlanCurrencyKMF captures enum value "KMF"
-	SimplePlanCurrencyKMF SimplePlanCurrencyEnum = "KMF"
+	SimplePlanCurrencyKMF string = "KMF"
 
 	// SimplePlanCurrencyKPW captures enum value "KPW"
-	SimplePlanCurrencyKPW SimplePlanCurrencyEnum = "KPW"
+	SimplePlanCurrencyKPW string = "KPW"
 
 	// SimplePlanCurrencyKRW captures enum value "KRW"
-	SimplePlanCurrencyKRW SimplePlanCurrencyEnum = "KRW"
+	SimplePlanCurrencyKRW string = "KRW"
 
 	// SimplePlanCurrencyKWD captures enum value "KWD"
-	SimplePlanCurrencyKWD SimplePlanCurrencyEnum = "KWD"
+	SimplePlanCurrencyKWD string = "KWD"
 
 	// SimplePlanCurrencyKYD captures enum value "KYD"
-	SimplePlanCurrencyKYD SimplePlanCurrencyEnum = "KYD"
+	SimplePlanCurrencyKYD string = "KYD"
 
 	// SimplePlanCurrencyKZT captures enum value "KZT"
-	SimplePlanCurrencyKZT SimplePlanCurrencyEnum = "KZT"
+	SimplePlanCurrencyKZT string = "KZT"
 
 	// SimplePlanCurrencyLAK captures enum value "LAK"
-	SimplePlanCurrencyLAK SimplePlanCurrencyEnum = "LAK"
+	SimplePlanCurrencyLAK string = "LAK"
 
 	// SimplePlanCurrencyLBP captures enum value "LBP"
-	SimplePlanCurrencyLBP SimplePlanCurrencyEnum = "LBP"
+	SimplePlanCurrencyLBP string = "LBP"
 
 	// SimplePlanCurrencyLKR captures enum value "LKR"
-	SimplePlanCurrencyLKR SimplePlanCurrencyEnum = "LKR"
+	SimplePlanCurrencyLKR string = "LKR"
 
 	// SimplePlanCurrencyLRD captures enum value "LRD"
-	SimplePlanCurrencyLRD SimplePlanCurrencyEnum = "LRD"
+	SimplePlanCurrencyLRD string = "LRD"
 
 	// SimplePlanCurrencyLSL captures enum value "LSL"
-	SimplePlanCurrencyLSL SimplePlanCurrencyEnum = "LSL"
+	SimplePlanCurrencyLSL string = "LSL"
 
 	// SimplePlanCurrencyLTL captures enum value "LTL"
-	SimplePlanCurrencyLTL SimplePlanCurrencyEnum = "LTL"
+	SimplePlanCurrencyLTL string = "LTL"
 
 	// SimplePlanCurrencyLVL captures enum value "LVL"
-	SimplePlanCurrencyLVL SimplePlanCurrencyEnum = "LVL"
+	SimplePlanCurrencyLVL string = "LVL"
 
 	// SimplePlanCurrencyLYD captures enum value "LYD"
-	SimplePlanCurrencyLYD SimplePlanCurrencyEnum = "LYD"
+	SimplePlanCurrencyLYD string = "LYD"
 
 	// SimplePlanCurrencyMAD captures enum value "MAD"
-	SimplePlanCurrencyMAD SimplePlanCurrencyEnum = "MAD"
+	SimplePlanCurrencyMAD string = "MAD"
 
 	// SimplePlanCurrencyMDL captures enum value "MDL"
-	SimplePlanCurrencyMDL SimplePlanCurrencyEnum = "MDL"
+	SimplePlanCurrencyMDL string = "MDL"
 
 	// SimplePlanCurrencyMGA captures enum value "MGA"
-	SimplePlanCurrencyMGA SimplePlanCurrencyEnum = "MGA"
+	SimplePlanCurrencyMGA string = "MGA"
 
 	// SimplePlanCurrencyMKD captures enum value "MKD"
-	SimplePlanCurrencyMKD SimplePlanCurrencyEnum = "MKD"
+	SimplePlanCurrencyMKD string = "MKD"
 
 	// SimplePlanCurrencyMMK captures enum value "MMK"
-	SimplePlanCurrencyMMK SimplePlanCurrencyEnum = "MMK"
+	SimplePlanCurrencyMMK string = "MMK"
 
 	// SimplePlanCurrencyMNT captures enum value "MNT"
-	SimplePlanCurrencyMNT SimplePlanCurrencyEnum = "MNT"
+	SimplePlanCurrencyMNT string = "MNT"
 
 	// SimplePlanCurrencyMOP captures enum value "MOP"
-	SimplePlanCurrencyMOP SimplePlanCurrencyEnum = "MOP"
+	SimplePlanCurrencyMOP string = "MOP"
 
 	// SimplePlanCurrencyMRO captures enum value "MRO"
-	SimplePlanCurrencyMRO SimplePlanCurrencyEnum = "MRO"
+	SimplePlanCurrencyMRO string = "MRO"
 
 	// SimplePlanCurrencyMUR captures enum value "MUR"
-	SimplePlanCurrencyMUR SimplePlanCurrencyEnum = "MUR"
+	SimplePlanCurrencyMUR string = "MUR"
 
 	// SimplePlanCurrencyMVR captures enum value "MVR"
-	SimplePlanCurrencyMVR SimplePlanCurrencyEnum = "MVR"
+	SimplePlanCurrencyMVR string = "MVR"
 
 	// SimplePlanCurrencyMWK captures enum value "MWK"
-	SimplePlanCurrencyMWK SimplePlanCurrencyEnum = "MWK"
+	SimplePlanCurrencyMWK string = "MWK"
 
 	// SimplePlanCurrencyMXN captures enum value "MXN"
-	SimplePlanCurrencyMXN SimplePlanCurrencyEnum = "MXN"
+	SimplePlanCurrencyMXN string = "MXN"
 
 	// SimplePlanCurrencyMYR captures enum value "MYR"
-	SimplePlanCurrencyMYR SimplePlanCurrencyEnum = "MYR"
+	SimplePlanCurrencyMYR string = "MYR"
 
 	// SimplePlanCurrencyMZN captures enum value "MZN"
-	SimplePlanCurrencyMZN SimplePlanCurrencyEnum = "MZN"
+	SimplePlanCurrencyMZN string = "MZN"
 
 	// SimplePlanCurrencyNAD captures enum value "NAD"
-	SimplePlanCurrencyNAD SimplePlanCurrencyEnum = "NAD"
+	SimplePlanCurrencyNAD string = "NAD"
 
 	// SimplePlanCurrencyNGN captures enum value "NGN"
-	SimplePlanCurrencyNGN SimplePlanCurrencyEnum = "NGN"
+	SimplePlanCurrencyNGN string = "NGN"
 
 	// SimplePlanCurrencyNIO captures enum value "NIO"
-	SimplePlanCurrencyNIO SimplePlanCurrencyEnum = "NIO"
+	SimplePlanCurrencyNIO string = "NIO"
 
 	// SimplePlanCurrencyNOK captures enum value "NOK"
-	SimplePlanCurrencyNOK SimplePlanCurrencyEnum = "NOK"
+	SimplePlanCurrencyNOK string = "NOK"
 
 	// SimplePlanCurrencyNPR captures enum value "NPR"
-	SimplePlanCurrencyNPR SimplePlanCurrencyEnum = "NPR"
+	SimplePlanCurrencyNPR string = "NPR"
 
 	// SimplePlanCurrencyNZD captures enum value "NZD"
-	SimplePlanCurrencyNZD SimplePlanCurrencyEnum = "NZD"
+	SimplePlanCurrencyNZD string = "NZD"
 
 	// SimplePlanCurrencyOMR captures enum value "OMR"
-	SimplePlanCurrencyOMR SimplePlanCurrencyEnum = "OMR"
+	SimplePlanCurrencyOMR string = "OMR"
 
 	// SimplePlanCurrencyPAB captures enum value "PAB"
-	SimplePlanCurrencyPAB SimplePlanCurrencyEnum = "PAB"
+	SimplePlanCurrencyPAB string = "PAB"
 
 	// SimplePlanCurrencyPEN captures enum value "PEN"
-	SimplePlanCurrencyPEN SimplePlanCurrencyEnum = "PEN"
+	SimplePlanCurrencyPEN string = "PEN"
 
 	// SimplePlanCurrencyPGK captures enum value "PGK"
-	SimplePlanCurrencyPGK SimplePlanCurrencyEnum = "PGK"
+	SimplePlanCurrencyPGK string = "PGK"
 
 	// SimplePlanCurrencyPHP captures enum value "PHP"
-	SimplePlanCurrencyPHP SimplePlanCurrencyEnum = "PHP"
+	SimplePlanCurrencyPHP string = "PHP"
 
 	// SimplePlanCurrencyPKR captures enum value "PKR"
-	SimplePlanCurrencyPKR SimplePlanCurrencyEnum = "PKR"
+	SimplePlanCurrencyPKR string = "PKR"
 
 	// SimplePlanCurrencyPLN captures enum value "PLN"
-	SimplePlanCurrencyPLN SimplePlanCurrencyEnum = "PLN"
+	SimplePlanCurrencyPLN string = "PLN"
 
 	// SimplePlanCurrencyPYG captures enum value "PYG"
-	SimplePlanCurrencyPYG SimplePlanCurrencyEnum = "PYG"
+	SimplePlanCurrencyPYG string = "PYG"
 
 	// SimplePlanCurrencyQAR captures enum value "QAR"
-	SimplePlanCurrencyQAR SimplePlanCurrencyEnum = "QAR"
+	SimplePlanCurrencyQAR string = "QAR"
 
 	// SimplePlanCurrencyRON captures enum value "RON"
-	SimplePlanCurrencyRON SimplePlanCurrencyEnum = "RON"
+	SimplePlanCurrencyRON string = "RON"
 
 	// SimplePlanCurrencyRSD captures enum value "RSD"
-	SimplePlanCurrencyRSD SimplePlanCurrencyEnum = "RSD"
+	SimplePlanCurrencyRSD string = "RSD"
 
 	// SimplePlanCurrencyRUB captures enum value "RUB"
-	SimplePlanCurrencyRUB SimplePlanCurrencyEnum = "RUB"
+	SimplePlanCurrencyRUB string = "RUB"
 
 	// SimplePlanCurrencyRWF captures enum value "RWF"
-	SimplePlanCurrencyRWF SimplePlanCurrencyEnum = "RWF"
+	SimplePlanCurrencyRWF string = "RWF"
 
 	// SimplePlanCurrencySAR captures enum value "SAR"
-	SimplePlanCurrencySAR SimplePlanCurrencyEnum = "SAR"
+	SimplePlanCurrencySAR string = "SAR"
 
 	// SimplePlanCurrencySBD captures enum value "SBD"
-	SimplePlanCurrencySBD SimplePlanCurrencyEnum = "SBD"
+	SimplePlanCurrencySBD string = "SBD"
 
 	// SimplePlanCurrencySCR captures enum value "SCR"
-	SimplePlanCurrencySCR SimplePlanCurrencyEnum = "SCR"
+	SimplePlanCurrencySCR string = "SCR"
 
 	// SimplePlanCurrencySDG captures enum value "SDG"
-	SimplePlanCurrencySDG SimplePlanCurrencyEnum = "SDG"
+	SimplePlanCurrencySDG string = "SDG"
 
 	// SimplePlanCurrencySEK captures enum value "SEK"
-	SimplePlanCurrencySEK SimplePlanCurrencyEnum = "SEK"
+	SimplePlanCurrencySEK string = "SEK"
 
 	// SimplePlanCurrencySGD captures enum value "SGD"
-	SimplePlanCurrencySGD SimplePlanCurrencyEnum = "SGD"
+	SimplePlanCurrencySGD string = "SGD"
 
 	// SimplePlanCurrencySHP captures enum value "SHP"
-	SimplePlanCurrencySHP SimplePlanCurrencyEnum = "SHP"
+	SimplePlanCurrencySHP string = "SHP"
 
 	// SimplePlanCurrencySLL captures enum value "SLL"
-	SimplePlanCurrencySLL SimplePlanCurrencyEnum = "SLL"
+	SimplePlanCurrencySLL string = "SLL"
 
 	// SimplePlanCurrencySOS captures enum value "SOS"
-	SimplePlanCurrencySOS SimplePlanCurrencyEnum = "SOS"
+	SimplePlanCurrencySOS string = "SOS"
 
 	// SimplePlanCurrencySPL captures enum value "SPL"
-	SimplePlanCurrencySPL SimplePlanCurrencyEnum = "SPL"
+	SimplePlanCurrencySPL string = "SPL"
 
 	// SimplePlanCurrencySRD captures enum value "SRD"
-	SimplePlanCurrencySRD SimplePlanCurrencyEnum = "SRD"
+	SimplePlanCurrencySRD string = "SRD"
 
 	// SimplePlanCurrencySTD captures enum value "STD"
-	SimplePlanCurrencySTD SimplePlanCurrencyEnum = "STD"
+	SimplePlanCurrencySTD string = "STD"
 
 	// SimplePlanCurrencySVC captures enum value "SVC"
-	SimplePlanCurrencySVC SimplePlanCurrencyEnum = "SVC"
+	SimplePlanCurrencySVC string = "SVC"
 
 	// SimplePlanCurrencySYP captures enum value "SYP"
-	SimplePlanCurrencySYP SimplePlanCurrencyEnum = "SYP"
+	SimplePlanCurrencySYP string = "SYP"
 
 	// SimplePlanCurrencySZL captures enum value "SZL"
-	SimplePlanCurrencySZL SimplePlanCurrencyEnum = "SZL"
+	SimplePlanCurrencySZL string = "SZL"
 
 	// SimplePlanCurrencyTHB captures enum value "THB"
-	SimplePlanCurrencyTHB SimplePlanCurrencyEnum = "THB"
+	SimplePlanCurrencyTHB string = "THB"
 
 	// SimplePlanCurrencyTJS captures enum value "TJS"
-	SimplePlanCurrencyTJS SimplePlanCurrencyEnum = "TJS"
+	SimplePlanCurrencyTJS string = "TJS"
 
 	// SimplePlanCurrencyTMT captures enum value "TMT"
-	SimplePlanCurrencyTMT SimplePlanCurrencyEnum = "TMT"
+	SimplePlanCurrencyTMT string = "TMT"
 
 	// SimplePlanCurrencyTND captures enum value "TND"
-	SimplePlanCurrencyTND SimplePlanCurrencyEnum = "TND"
+	SimplePlanCurrencyTND string = "TND"
 
 	// SimplePlanCurrencyTOP captures enum value "TOP"
-	SimplePlanCurrencyTOP SimplePlanCurrencyEnum = "TOP"
+	SimplePlanCurrencyTOP string = "TOP"
 
 	// SimplePlanCurrencyTRY captures enum value "TRY"
-	SimplePlanCurrencyTRY SimplePlanCurrencyEnum = "TRY"
+	SimplePlanCurrencyTRY string = "TRY"
 
 	// SimplePlanCurrencyTTD captures enum value "TTD"
-	SimplePlanCurrencyTTD SimplePlanCurrencyEnum = "TTD"
+	SimplePlanCurrencyTTD string = "TTD"
 
 	// SimplePlanCurrencyTVD captures enum value "TVD"
-	SimplePlanCurrencyTVD SimplePlanCurrencyEnum = "TVD"
+	SimplePlanCurrencyTVD string = "TVD"
 
 	// SimplePlanCurrencyTWD captures enum value "TWD"
-	SimplePlanCurrencyTWD SimplePlanCurrencyEnum = "TWD"
+	SimplePlanCurrencyTWD string = "TWD"
 
 	// SimplePlanCurrencyTZS captures enum value "TZS"
-	SimplePlanCurrencyTZS SimplePlanCurrencyEnum = "TZS"
+	SimplePlanCurrencyTZS string = "TZS"
 
 	// SimplePlanCurrencyUAH captures enum value "UAH"
-	SimplePlanCurrencyUAH SimplePlanCurrencyEnum = "UAH"
+	SimplePlanCurrencyUAH string = "UAH"
 
 	// SimplePlanCurrencyUGX captures enum value "UGX"
-	SimplePlanCurrencyUGX SimplePlanCurrencyEnum = "UGX"
+	SimplePlanCurrencyUGX string = "UGX"
 
 	// SimplePlanCurrencyUSD captures enum value "USD"
-	SimplePlanCurrencyUSD SimplePlanCurrencyEnum = "USD"
+	SimplePlanCurrencyUSD string = "USD"
 
 	// SimplePlanCurrencyUYU captures enum value "UYU"
-	SimplePlanCurrencyUYU SimplePlanCurrencyEnum = "UYU"
+	SimplePlanCurrencyUYU string = "UYU"
 
 	// SimplePlanCurrencyUZS captures enum value "UZS"
-	SimplePlanCurrencyUZS SimplePlanCurrencyEnum = "UZS"
+	SimplePlanCurrencyUZS string = "UZS"
 
 	// SimplePlanCurrencyVEF captures enum value "VEF"
-	SimplePlanCurrencyVEF SimplePlanCurrencyEnum = "VEF"
+	SimplePlanCurrencyVEF string = "VEF"
 
 	// SimplePlanCurrencyVND captures enum value "VND"
-	SimplePlanCurrencyVND SimplePlanCurrencyEnum = "VND"
+	SimplePlanCurrencyVND string = "VND"
 
 	// SimplePlanCurrencyVUV captures enum value "VUV"
-	SimplePlanCurrencyVUV SimplePlanCurrencyEnum = "VUV"
+	SimplePlanCurrencyVUV string = "VUV"
 
 	// SimplePlanCurrencyWST captures enum value "WST"
-	SimplePlanCurrencyWST SimplePlanCurrencyEnum = "WST"
+	SimplePlanCurrencyWST string = "WST"
 
 	// SimplePlanCurrencyXAF captures enum value "XAF"
-	SimplePlanCurrencyXAF SimplePlanCurrencyEnum = "XAF"
+	SimplePlanCurrencyXAF string = "XAF"
 
 	// SimplePlanCurrencyXCD captures enum value "XCD"
-	SimplePlanCurrencyXCD SimplePlanCurrencyEnum = "XCD"
+	SimplePlanCurrencyXCD string = "XCD"
 
 	// SimplePlanCurrencyXDR captures enum value "XDR"
-	SimplePlanCurrencyXDR SimplePlanCurrencyEnum = "XDR"
+	SimplePlanCurrencyXDR string = "XDR"
 
 	// SimplePlanCurrencyXOF captures enum value "XOF"
-	SimplePlanCurrencyXOF SimplePlanCurrencyEnum = "XOF"
+	SimplePlanCurrencyXOF string = "XOF"
 
 	// SimplePlanCurrencyXPF captures enum value "XPF"
-	SimplePlanCurrencyXPF SimplePlanCurrencyEnum = "XPF"
+	SimplePlanCurrencyXPF string = "XPF"
 
 	// SimplePlanCurrencyYER captures enum value "YER"
-	SimplePlanCurrencyYER SimplePlanCurrencyEnum = "YER"
+	SimplePlanCurrencyYER string = "YER"
 
 	// SimplePlanCurrencyZAR captures enum value "ZAR"
-	SimplePlanCurrencyZAR SimplePlanCurrencyEnum = "ZAR"
+	SimplePlanCurrencyZAR string = "ZAR"
 
 	// SimplePlanCurrencyZMW captures enum value "ZMW"
-	SimplePlanCurrencyZMW SimplePlanCurrencyEnum = "ZMW"
+	SimplePlanCurrencyZMW string = "ZMW"
 
 	// SimplePlanCurrencyZWD captures enum value "ZWD"
-	SimplePlanCurrencyZWD SimplePlanCurrencyEnum = "ZWD"
+	SimplePlanCurrencyZWD string = "ZWD"
 
 	// SimplePlanCurrencyBTC captures enum value "BTC"
-	SimplePlanCurrencyBTC SimplePlanCurrencyEnum = "BTC"
+	SimplePlanCurrencyBTC string = "BTC"
 )
 
-var SimplePlanCurrencyEnumValues = []string{
-	"AED",
-	"AFN",
-	"ALL",
-	"AMD",
-	"ANG",
-	"AOA",
-	"ARS",
-	"AUD",
-	"AWG",
-	"AZN",
-	"BAM",
-	"BBD",
-	"BDT",
-	"BGN",
-	"BHD",
-	"BIF",
-	"BMD",
-	"BND",
-	"BOB",
-	"BRL",
-	"BSD",
-	"BTN",
-	"BWP",
-	"BYR",
-	"BZD",
-	"CAD",
-	"CDF",
-	"CHF",
-	"CLP",
-	"CNY",
-	"COP",
-	"CRC",
-	"CUC",
-	"CUP",
-	"CVE",
-	"CZK",
-	"DJF",
-	"DKK",
-	"DOP",
-	"DZD",
-	"EGP",
-	"ERN",
-	"ETB",
-	"EUR",
-	"FJD",
-	"FKP",
-	"GBP",
-	"GEL",
-	"GGP",
-	"GHS",
-	"GIP",
-	"GMD",
-	"GNF",
-	"GTQ",
-	"GYD",
-	"HKD",
-	"HNL",
-	"HRK",
-	"HTG",
-	"HUF",
-	"IDR",
-	"ILS",
-	"IMP",
-	"INR",
-	"IQD",
-	"IRR",
-	"ISK",
-	"JEP",
-	"JMD",
-	"JOD",
-	"JPY",
-	"KES",
-	"KGS",
-	"KHR",
-	"KMF",
-	"KPW",
-	"KRW",
-	"KWD",
-	"KYD",
-	"KZT",
-	"LAK",
-	"LBP",
-	"LKR",
-	"LRD",
-	"LSL",
-	"LTL",
-	"LVL",
-	"LYD",
-	"MAD",
-	"MDL",
-	"MGA",
-	"MKD",
-	"MMK",
-	"MNT",
-	"MOP",
-	"MRO",
-	"MUR",
-	"MVR",
-	"MWK",
-	"MXN",
-	"MYR",
-	"MZN",
-	"NAD",
-	"NGN",
-	"NIO",
-	"NOK",
-	"NPR",
-	"NZD",
-	"OMR",
-	"PAB",
-	"PEN",
-	"PGK",
-	"PHP",
-	"PKR",
-	"PLN",
-	"PYG",
-	"QAR",
-	"RON",
-	"RSD",
-	"RUB",
-	"RWF",
-	"SAR",
-	"SBD",
-	"SCR",
-	"SDG",
-	"SEK",
-	"SGD",
-	"SHP",
-	"SLL",
-	"SOS",
-	"SPL",
-	"SRD",
-	"STD",
-	"SVC",
-	"SYP",
-	"SZL",
-	"THB",
-	"TJS",
-	"TMT",
-	"TND",
-	"TOP",
-	"TRY",
-	"TTD",
-	"TVD",
-	"TWD",
-	"TZS",
-	"UAH",
-	"UGX",
-	"USD",
-	"UYU",
-	"UZS",
-	"VEF",
-	"VND",
-	"VUV",
-	"WST",
-	"XAF",
-	"XCD",
-	"XDR",
-	"XOF",
-	"XPF",
-	"YER",
-	"ZAR",
-	"ZMW",
-	"ZWD",
-	"BTC",
-}
-
-func (e SimplePlanCurrencyEnum) IsValid() bool {
-	for _, v := range SimplePlanCurrencyEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *SimplePlan) validateCurrencyEnum(path, location string, value SimplePlanCurrencyEnum) error {
-	if err := validate.Enum(path, location, value, simplePlanTypeCurrencyPropEnum); err != nil {
+func (m *SimplePlan) validateCurrencyEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, simplePlanTypeCurrencyPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *SimplePlan) validateCurrency(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Currency) { // not required
 		return nil
 	}
@@ -898,7 +699,7 @@ func (m *SimplePlan) validateCurrency(formats strfmt.Registry) error {
 var simplePlanTypeProductCategoryPropEnum []interface{}
 
 func init() {
-	var res []SimplePlanProductCategoryEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["BASE","ADD_ON","STANDALONE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -907,45 +708,27 @@ func init() {
 	}
 }
 
-type SimplePlanProductCategoryEnum string
-
 const (
 
 	// SimplePlanProductCategoryBASE captures enum value "BASE"
-	SimplePlanProductCategoryBASE SimplePlanProductCategoryEnum = "BASE"
+	SimplePlanProductCategoryBASE string = "BASE"
 
 	// SimplePlanProductCategoryADDON captures enum value "ADD_ON"
-	SimplePlanProductCategoryADDON SimplePlanProductCategoryEnum = "ADD_ON"
+	SimplePlanProductCategoryADDON string = "ADD_ON"
 
 	// SimplePlanProductCategorySTANDALONE captures enum value "STANDALONE"
-	SimplePlanProductCategorySTANDALONE SimplePlanProductCategoryEnum = "STANDALONE"
+	SimplePlanProductCategorySTANDALONE string = "STANDALONE"
 )
 
-var SimplePlanProductCategoryEnumValues = []string{
-	"BASE",
-	"ADD_ON",
-	"STANDALONE",
-}
-
-func (e SimplePlanProductCategoryEnum) IsValid() bool {
-	for _, v := range SimplePlanProductCategoryEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *SimplePlan) validateProductCategoryEnum(path, location string, value SimplePlanProductCategoryEnum) error {
-	if err := validate.Enum(path, location, value, simplePlanTypeProductCategoryPropEnum); err != nil {
+func (m *SimplePlan) validateProductCategoryEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, simplePlanTypeProductCategoryPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *SimplePlan) validateProductCategory(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProductCategory) { // not required
 		return nil
 	}
@@ -961,7 +744,7 @@ func (m *SimplePlan) validateProductCategory(formats strfmt.Registry) error {
 var simplePlanTypeTrialTimeUnitPropEnum []interface{}
 
 func init() {
-	var res []SimplePlanTrialTimeUnitEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["DAYS","WEEKS","MONTHS","YEARS","UNLIMITED"]`), &res); err != nil {
 		panic(err)
 	}
@@ -970,53 +753,33 @@ func init() {
 	}
 }
 
-type SimplePlanTrialTimeUnitEnum string
-
 const (
 
 	// SimplePlanTrialTimeUnitDAYS captures enum value "DAYS"
-	SimplePlanTrialTimeUnitDAYS SimplePlanTrialTimeUnitEnum = "DAYS"
+	SimplePlanTrialTimeUnitDAYS string = "DAYS"
 
 	// SimplePlanTrialTimeUnitWEEKS captures enum value "WEEKS"
-	SimplePlanTrialTimeUnitWEEKS SimplePlanTrialTimeUnitEnum = "WEEKS"
+	SimplePlanTrialTimeUnitWEEKS string = "WEEKS"
 
 	// SimplePlanTrialTimeUnitMONTHS captures enum value "MONTHS"
-	SimplePlanTrialTimeUnitMONTHS SimplePlanTrialTimeUnitEnum = "MONTHS"
+	SimplePlanTrialTimeUnitMONTHS string = "MONTHS"
 
 	// SimplePlanTrialTimeUnitYEARS captures enum value "YEARS"
-	SimplePlanTrialTimeUnitYEARS SimplePlanTrialTimeUnitEnum = "YEARS"
+	SimplePlanTrialTimeUnitYEARS string = "YEARS"
 
 	// SimplePlanTrialTimeUnitUNLIMITED captures enum value "UNLIMITED"
-	SimplePlanTrialTimeUnitUNLIMITED SimplePlanTrialTimeUnitEnum = "UNLIMITED"
+	SimplePlanTrialTimeUnitUNLIMITED string = "UNLIMITED"
 )
 
-var SimplePlanTrialTimeUnitEnumValues = []string{
-	"DAYS",
-	"WEEKS",
-	"MONTHS",
-	"YEARS",
-	"UNLIMITED",
-}
-
-func (e SimplePlanTrialTimeUnitEnum) IsValid() bool {
-	for _, v := range SimplePlanTrialTimeUnitEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *SimplePlan) validateTrialTimeUnitEnum(path, location string, value SimplePlanTrialTimeUnitEnum) error {
-	if err := validate.Enum(path, location, value, simplePlanTypeTrialTimeUnitPropEnum); err != nil {
+func (m *SimplePlan) validateTrialTimeUnitEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, simplePlanTypeTrialTimeUnitPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *SimplePlan) validateTrialTimeUnit(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TrialTimeUnit) { // not required
 		return nil
 	}
@@ -1026,6 +789,11 @@ func (m *SimplePlan) validateTrialTimeUnit(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this simple plan based on context it is used
+func (m *SimplePlan) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

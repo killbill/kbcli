@@ -13,63 +13,75 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewInvalidatesCacheParams creates a new InvalidatesCacheParams object
-// with the default values initialized.
+// NewInvalidatesCacheParams creates a new InvalidatesCacheParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewInvalidatesCacheParams() *InvalidatesCacheParams {
-	var ()
 	return &InvalidatesCacheParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewInvalidatesCacheParamsWithTimeout creates a new InvalidatesCacheParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewInvalidatesCacheParamsWithTimeout(timeout time.Duration) *InvalidatesCacheParams {
-	var ()
 	return &InvalidatesCacheParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewInvalidatesCacheParamsWithContext creates a new InvalidatesCacheParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewInvalidatesCacheParamsWithContext(ctx context.Context) *InvalidatesCacheParams {
-	var ()
 	return &InvalidatesCacheParams{
-
 		Context: ctx,
 	}
 }
 
 // NewInvalidatesCacheParamsWithHTTPClient creates a new InvalidatesCacheParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewInvalidatesCacheParamsWithHTTPClient(client *http.Client) *InvalidatesCacheParams {
-	var ()
 	return &InvalidatesCacheParams{
 		HTTPClient: client,
 	}
 }
 
-/*InvalidatesCacheParams contains all the parameters to send to the API endpoint
-for the invalidates cache operation typically these are written to a http.Request
+/*
+InvalidatesCacheParams contains all the parameters to send to the API endpoint
+
+	for the invalidates cache operation.
+
+	Typically these are written to a http.Request.
 */
 type InvalidatesCacheParams struct {
 
-	/*CacheName*/
+	// CacheName.
 	CacheName *string
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the invalidates cache params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *InvalidatesCacheParams) WithDefaults() *InvalidatesCacheParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the invalidates cache params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *InvalidatesCacheParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the invalidates cache params
@@ -128,29 +140,16 @@ func (o *InvalidatesCacheParams) WriteToRequest(r runtime.ClientRequest, reg str
 
 		// query param cacheName
 		var qrCacheName string
+
 		if o.CacheName != nil {
 			qrCacheName = *o.CacheName
 		}
 		qCacheName := qrCacheName
 		if qCacheName != "" {
+
 			if err := r.SetQueryParam("cacheName", qCacheName); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 

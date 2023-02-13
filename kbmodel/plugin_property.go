@@ -6,12 +6,14 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"context"
 
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // PluginProperty plugin property
+//
 // swagger:model PluginProperty
 type PluginProperty struct {
 
@@ -27,6 +29,11 @@ type PluginProperty struct {
 
 // Validate validates this plugin property
 func (m *PluginProperty) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this plugin property based on context it is used
+func (m *PluginProperty) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

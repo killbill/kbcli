@@ -13,69 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewDeletePluginPaymentStateMachineConfigParams creates a new DeletePluginPaymentStateMachineConfigParams object
-// with the default values initialized.
+// NewDeletePluginPaymentStateMachineConfigParams creates a new DeletePluginPaymentStateMachineConfigParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeletePluginPaymentStateMachineConfigParams() *DeletePluginPaymentStateMachineConfigParams {
-	var ()
 	return &DeletePluginPaymentStateMachineConfigParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeletePluginPaymentStateMachineConfigParamsWithTimeout creates a new DeletePluginPaymentStateMachineConfigParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeletePluginPaymentStateMachineConfigParamsWithTimeout(timeout time.Duration) *DeletePluginPaymentStateMachineConfigParams {
-	var ()
 	return &DeletePluginPaymentStateMachineConfigParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeletePluginPaymentStateMachineConfigParamsWithContext creates a new DeletePluginPaymentStateMachineConfigParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeletePluginPaymentStateMachineConfigParamsWithContext(ctx context.Context) *DeletePluginPaymentStateMachineConfigParams {
-	var ()
 	return &DeletePluginPaymentStateMachineConfigParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeletePluginPaymentStateMachineConfigParamsWithHTTPClient creates a new DeletePluginPaymentStateMachineConfigParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeletePluginPaymentStateMachineConfigParamsWithHTTPClient(client *http.Client) *DeletePluginPaymentStateMachineConfigParams {
-	var ()
 	return &DeletePluginPaymentStateMachineConfigParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeletePluginPaymentStateMachineConfigParams contains all the parameters to send to the API endpoint
-for the delete plugin payment state machine config operation typically these are written to a http.Request
+/*
+DeletePluginPaymentStateMachineConfigParams contains all the parameters to send to the API endpoint
+
+	for the delete plugin payment state machine config operation.
+
+	Typically these are written to a http.Request.
 */
 type DeletePluginPaymentStateMachineConfigParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*PluginName*/
+
+	// PluginName.
 	PluginName string
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete plugin payment state machine config params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeletePluginPaymentStateMachineConfigParams) WithDefaults() *DeletePluginPaymentStateMachineConfigParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete plugin payment state machine config params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeletePluginPaymentStateMachineConfigParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete plugin payment state machine config params
@@ -169,7 +184,6 @@ func (o *DeletePluginPaymentStateMachineConfigParams) WriteToRequest(r runtime.C
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -183,26 +197,11 @@ func (o *DeletePluginPaymentStateMachineConfigParams) WriteToRequest(r runtime.C
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param pluginName
 	if err := r.SetPathParam("pluginName", o.PluginName); err != nil {
 		return err
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
-		}
 	}
 
 	if len(res) > 0 {

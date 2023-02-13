@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateInstantPaymentReader is a Reader for the CreateInstantPayment structure.
@@ -25,29 +23,32 @@ type CreateInstantPaymentReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CreateInstantPaymentReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
-	case 201, 200:
+	case 201:
 		result := NewCreateInstantPaymentCreated()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 204:
 		result := NewCreateInstantPaymentNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewCreateInstantPaymentBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewCreateInstantPaymentNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -56,17 +57,50 @@ func NewCreateInstantPaymentCreated() *CreateInstantPaymentCreated {
 	return &CreateInstantPaymentCreated{}
 }
 
-/*CreateInstantPaymentCreated handles this case with default header values.
+/*
+CreateInstantPaymentCreated describes a response with status code 201, with default header values.
 
 Created payment Successfully
 */
 type CreateInstantPaymentCreated struct {
 	Payload *kbmodel.InvoicePayment
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this create instant payment created response has a 2xx status code
+func (o *CreateInstantPaymentCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create instant payment created response has a 3xx status code
+func (o *CreateInstantPaymentCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create instant payment created response has a 4xx status code
+func (o *CreateInstantPaymentCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create instant payment created response has a 5xx status code
+func (o *CreateInstantPaymentCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create instant payment created response a status code equal to that given
+func (o *CreateInstantPaymentCreated) IsCode(code int) bool {
+	return code == 201
+}
+
+// Code gets the status code for the create instant payment created response
+func (o *CreateInstantPaymentCreated) Code() int {
+	return 201
 }
 
 func (o *CreateInstantPaymentCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/payments][%d] createInstantPaymentCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateInstantPaymentCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/payments][%d] createInstantPaymentCreated  %+v", 201, o.Payload)
 }
 
@@ -91,15 +125,49 @@ func NewCreateInstantPaymentNoContent() *CreateInstantPaymentNoContent {
 	return &CreateInstantPaymentNoContent{}
 }
 
-/*CreateInstantPaymentNoContent handles this case with default header values.
+/*
+CreateInstantPaymentNoContent describes a response with status code 204, with default header values.
 
 Nothing to pay for
 */
 type CreateInstantPaymentNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this create instant payment no content response has a 2xx status code
+func (o *CreateInstantPaymentNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create instant payment no content response has a 3xx status code
+func (o *CreateInstantPaymentNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create instant payment no content response has a 4xx status code
+func (o *CreateInstantPaymentNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create instant payment no content response has a 5xx status code
+func (o *CreateInstantPaymentNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create instant payment no content response a status code equal to that given
+func (o *CreateInstantPaymentNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the create instant payment no content response
+func (o *CreateInstantPaymentNoContent) Code() int {
+	return 204
 }
 
 func (o *CreateInstantPaymentNoContent) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/payments][%d] createInstantPaymentNoContent ", 204)
+}
+
+func (o *CreateInstantPaymentNoContent) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/payments][%d] createInstantPaymentNoContent ", 204)
 }
 
@@ -113,15 +181,49 @@ func NewCreateInstantPaymentBadRequest() *CreateInstantPaymentBadRequest {
 	return &CreateInstantPaymentBadRequest{}
 }
 
-/*CreateInstantPaymentBadRequest handles this case with default header values.
+/*
+CreateInstantPaymentBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id or invoice id supplied
 */
 type CreateInstantPaymentBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this create instant payment bad request response has a 2xx status code
+func (o *CreateInstantPaymentBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create instant payment bad request response has a 3xx status code
+func (o *CreateInstantPaymentBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create instant payment bad request response has a 4xx status code
+func (o *CreateInstantPaymentBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create instant payment bad request response has a 5xx status code
+func (o *CreateInstantPaymentBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create instant payment bad request response a status code equal to that given
+func (o *CreateInstantPaymentBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the create instant payment bad request response
+func (o *CreateInstantPaymentBadRequest) Code() int {
+	return 400
 }
 
 func (o *CreateInstantPaymentBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/payments][%d] createInstantPaymentBadRequest ", 400)
+}
+
+func (o *CreateInstantPaymentBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/payments][%d] createInstantPaymentBadRequest ", 400)
 }
 
@@ -135,15 +237,49 @@ func NewCreateInstantPaymentNotFound() *CreateInstantPaymentNotFound {
 	return &CreateInstantPaymentNotFound{}
 }
 
-/*CreateInstantPaymentNotFound handles this case with default header values.
+/*
+CreateInstantPaymentNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
 type CreateInstantPaymentNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this create instant payment not found response has a 2xx status code
+func (o *CreateInstantPaymentNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create instant payment not found response has a 3xx status code
+func (o *CreateInstantPaymentNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create instant payment not found response has a 4xx status code
+func (o *CreateInstantPaymentNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create instant payment not found response has a 5xx status code
+func (o *CreateInstantPaymentNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create instant payment not found response a status code equal to that given
+func (o *CreateInstantPaymentNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the create instant payment not found response
+func (o *CreateInstantPaymentNotFound) Code() int {
+	return 404
 }
 
 func (o *CreateInstantPaymentNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/payments][%d] createInstantPaymentNotFound ", 404)
+}
+
+func (o *CreateInstantPaymentNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}/payments][%d] createInstantPaymentNotFound ", 404)
 }
 

@@ -7,12 +7,9 @@ package payment
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // CompleteTransactionByExternalKeyReader is a Reader for the CompleteTransactionByExternalKey structure.
@@ -23,21 +20,50 @@ type CompleteTransactionByExternalKeyReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CompleteTransactionByExternalKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 204:
 		result := NewCompleteTransactionByExternalKeyNoContent()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 402:
+		result := NewCompleteTransactionByExternalKeyPaymentRequired()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewCompleteTransactionByExternalKeyNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 422:
+		result := NewCompleteTransactionByExternalKeyUnprocessableEntity()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 502:
+		result := NewCompleteTransactionByExternalKeyBadGateway()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 503:
+		result := NewCompleteTransactionByExternalKeyServiceUnavailable()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	case 504:
+		result := NewCompleteTransactionByExternalKeyGatewayTimeout()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -46,15 +72,49 @@ func NewCompleteTransactionByExternalKeyNoContent() *CompleteTransactionByExtern
 	return &CompleteTransactionByExternalKeyNoContent{}
 }
 
-/*CompleteTransactionByExternalKeyNoContent handles this case with default header values.
+/*
+CompleteTransactionByExternalKeyNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
 type CompleteTransactionByExternalKeyNoContent struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this complete transaction by external key no content response has a 2xx status code
+func (o *CompleteTransactionByExternalKeyNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this complete transaction by external key no content response has a 3xx status code
+func (o *CompleteTransactionByExternalKeyNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction by external key no content response has a 4xx status code
+func (o *CompleteTransactionByExternalKeyNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this complete transaction by external key no content response has a 5xx status code
+func (o *CompleteTransactionByExternalKeyNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this complete transaction by external key no content response a status code equal to that given
+func (o *CompleteTransactionByExternalKeyNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
+// Code gets the status code for the complete transaction by external key no content response
+func (o *CompleteTransactionByExternalKeyNoContent) Code() int {
+	return 204
 }
 
 func (o *CompleteTransactionByExternalKeyNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyNoContent ", 204)
+}
+
+func (o *CompleteTransactionByExternalKeyNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyNoContent ", 204)
 }
 
@@ -68,15 +128,49 @@ func NewCompleteTransactionByExternalKeyPaymentRequired() *CompleteTransactionBy
 	return &CompleteTransactionByExternalKeyPaymentRequired{}
 }
 
-/*CompleteTransactionByExternalKeyPaymentRequired handles this case with default header values.
+/*
+CompleteTransactionByExternalKeyPaymentRequired describes a response with status code 402, with default header values.
 
 Transaction declined by gateway
 */
 type CompleteTransactionByExternalKeyPaymentRequired struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this complete transaction by external key payment required response has a 2xx status code
+func (o *CompleteTransactionByExternalKeyPaymentRequired) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction by external key payment required response has a 3xx status code
+func (o *CompleteTransactionByExternalKeyPaymentRequired) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction by external key payment required response has a 4xx status code
+func (o *CompleteTransactionByExternalKeyPaymentRequired) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this complete transaction by external key payment required response has a 5xx status code
+func (o *CompleteTransactionByExternalKeyPaymentRequired) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this complete transaction by external key payment required response a status code equal to that given
+func (o *CompleteTransactionByExternalKeyPaymentRequired) IsCode(code int) bool {
+	return code == 402
+}
+
+// Code gets the status code for the complete transaction by external key payment required response
+func (o *CompleteTransactionByExternalKeyPaymentRequired) Code() int {
+	return 402
 }
 
 func (o *CompleteTransactionByExternalKeyPaymentRequired) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyPaymentRequired ", 402)
+}
+
+func (o *CompleteTransactionByExternalKeyPaymentRequired) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyPaymentRequired ", 402)
 }
 
@@ -90,15 +184,49 @@ func NewCompleteTransactionByExternalKeyNotFound() *CompleteTransactionByExterna
 	return &CompleteTransactionByExternalKeyNotFound{}
 }
 
-/*CompleteTransactionByExternalKeyNotFound handles this case with default header values.
+/*
+CompleteTransactionByExternalKeyNotFound describes a response with status code 404, with default header values.
 
 Account or payment not found
 */
 type CompleteTransactionByExternalKeyNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this complete transaction by external key not found response has a 2xx status code
+func (o *CompleteTransactionByExternalKeyNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction by external key not found response has a 3xx status code
+func (o *CompleteTransactionByExternalKeyNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction by external key not found response has a 4xx status code
+func (o *CompleteTransactionByExternalKeyNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this complete transaction by external key not found response has a 5xx status code
+func (o *CompleteTransactionByExternalKeyNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this complete transaction by external key not found response a status code equal to that given
+func (o *CompleteTransactionByExternalKeyNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the complete transaction by external key not found response
+func (o *CompleteTransactionByExternalKeyNotFound) Code() int {
+	return 404
 }
 
 func (o *CompleteTransactionByExternalKeyNotFound) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyNotFound ", 404)
+}
+
+func (o *CompleteTransactionByExternalKeyNotFound) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyNotFound ", 404)
 }
 
@@ -112,15 +240,49 @@ func NewCompleteTransactionByExternalKeyUnprocessableEntity() *CompleteTransacti
 	return &CompleteTransactionByExternalKeyUnprocessableEntity{}
 }
 
-/*CompleteTransactionByExternalKeyUnprocessableEntity handles this case with default header values.
+/*
+CompleteTransactionByExternalKeyUnprocessableEntity describes a response with status code 422, with default header values.
 
 Payment is aborted by a control plugin
 */
 type CompleteTransactionByExternalKeyUnprocessableEntity struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this complete transaction by external key unprocessable entity response has a 2xx status code
+func (o *CompleteTransactionByExternalKeyUnprocessableEntity) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction by external key unprocessable entity response has a 3xx status code
+func (o *CompleteTransactionByExternalKeyUnprocessableEntity) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction by external key unprocessable entity response has a 4xx status code
+func (o *CompleteTransactionByExternalKeyUnprocessableEntity) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this complete transaction by external key unprocessable entity response has a 5xx status code
+func (o *CompleteTransactionByExternalKeyUnprocessableEntity) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this complete transaction by external key unprocessable entity response a status code equal to that given
+func (o *CompleteTransactionByExternalKeyUnprocessableEntity) IsCode(code int) bool {
+	return code == 422
+}
+
+// Code gets the status code for the complete transaction by external key unprocessable entity response
+func (o *CompleteTransactionByExternalKeyUnprocessableEntity) Code() int {
+	return 422
 }
 
 func (o *CompleteTransactionByExternalKeyUnprocessableEntity) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyUnprocessableEntity ", 422)
+}
+
+func (o *CompleteTransactionByExternalKeyUnprocessableEntity) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyUnprocessableEntity ", 422)
 }
 
@@ -134,15 +296,49 @@ func NewCompleteTransactionByExternalKeyBadGateway() *CompleteTransactionByExter
 	return &CompleteTransactionByExternalKeyBadGateway{}
 }
 
-/*CompleteTransactionByExternalKeyBadGateway handles this case with default header values.
+/*
+CompleteTransactionByExternalKeyBadGateway describes a response with status code 502, with default header values.
 
 Failed to submit payment transaction
 */
 type CompleteTransactionByExternalKeyBadGateway struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this complete transaction by external key bad gateway response has a 2xx status code
+func (o *CompleteTransactionByExternalKeyBadGateway) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction by external key bad gateway response has a 3xx status code
+func (o *CompleteTransactionByExternalKeyBadGateway) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction by external key bad gateway response has a 4xx status code
+func (o *CompleteTransactionByExternalKeyBadGateway) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this complete transaction by external key bad gateway response has a 5xx status code
+func (o *CompleteTransactionByExternalKeyBadGateway) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this complete transaction by external key bad gateway response a status code equal to that given
+func (o *CompleteTransactionByExternalKeyBadGateway) IsCode(code int) bool {
+	return code == 502
+}
+
+// Code gets the status code for the complete transaction by external key bad gateway response
+func (o *CompleteTransactionByExternalKeyBadGateway) Code() int {
+	return 502
 }
 
 func (o *CompleteTransactionByExternalKeyBadGateway) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyBadGateway ", 502)
+}
+
+func (o *CompleteTransactionByExternalKeyBadGateway) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyBadGateway ", 502)
 }
 
@@ -156,15 +352,49 @@ func NewCompleteTransactionByExternalKeyServiceUnavailable() *CompleteTransactio
 	return &CompleteTransactionByExternalKeyServiceUnavailable{}
 }
 
-/*CompleteTransactionByExternalKeyServiceUnavailable handles this case with default header values.
+/*
+CompleteTransactionByExternalKeyServiceUnavailable describes a response with status code 503, with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
 type CompleteTransactionByExternalKeyServiceUnavailable struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this complete transaction by external key service unavailable response has a 2xx status code
+func (o *CompleteTransactionByExternalKeyServiceUnavailable) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction by external key service unavailable response has a 3xx status code
+func (o *CompleteTransactionByExternalKeyServiceUnavailable) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction by external key service unavailable response has a 4xx status code
+func (o *CompleteTransactionByExternalKeyServiceUnavailable) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this complete transaction by external key service unavailable response has a 5xx status code
+func (o *CompleteTransactionByExternalKeyServiceUnavailable) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this complete transaction by external key service unavailable response a status code equal to that given
+func (o *CompleteTransactionByExternalKeyServiceUnavailable) IsCode(code int) bool {
+	return code == 503
+}
+
+// Code gets the status code for the complete transaction by external key service unavailable response
+func (o *CompleteTransactionByExternalKeyServiceUnavailable) Code() int {
+	return 503
 }
 
 func (o *CompleteTransactionByExternalKeyServiceUnavailable) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyServiceUnavailable ", 503)
+}
+
+func (o *CompleteTransactionByExternalKeyServiceUnavailable) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyServiceUnavailable ", 503)
 }
 
@@ -178,15 +408,49 @@ func NewCompleteTransactionByExternalKeyGatewayTimeout() *CompleteTransactionByE
 	return &CompleteTransactionByExternalKeyGatewayTimeout{}
 }
 
-/*CompleteTransactionByExternalKeyGatewayTimeout handles this case with default header values.
+/*
+CompleteTransactionByExternalKeyGatewayTimeout describes a response with status code 504, with default header values.
 
 Payment operation timeout
 */
 type CompleteTransactionByExternalKeyGatewayTimeout struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this complete transaction by external key gateway timeout response has a 2xx status code
+func (o *CompleteTransactionByExternalKeyGatewayTimeout) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction by external key gateway timeout response has a 3xx status code
+func (o *CompleteTransactionByExternalKeyGatewayTimeout) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction by external key gateway timeout response has a 4xx status code
+func (o *CompleteTransactionByExternalKeyGatewayTimeout) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this complete transaction by external key gateway timeout response has a 5xx status code
+func (o *CompleteTransactionByExternalKeyGatewayTimeout) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this complete transaction by external key gateway timeout response a status code equal to that given
+func (o *CompleteTransactionByExternalKeyGatewayTimeout) IsCode(code int) bool {
+	return code == 504
+}
+
+// Code gets the status code for the complete transaction by external key gateway timeout response
+func (o *CompleteTransactionByExternalKeyGatewayTimeout) Code() int {
+	return 504
 }
 
 func (o *CompleteTransactionByExternalKeyGatewayTimeout) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyGatewayTimeout ", 504)
+}
+
+func (o *CompleteTransactionByExternalKeyGatewayTimeout) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments][%d] completeTransactionByExternalKeyGatewayTimeout ", 504)
 }
 

@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetTransactionTagsReader is a Reader for the GetTransactionTags structure.
@@ -25,21 +23,26 @@ type GetTransactionTagsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetTransactionTagsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewGetTransactionTagsOK()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewGetTransactionTagsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	case 404:
+		result := NewGetTransactionTagsNotFound()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +51,50 @@ func NewGetTransactionTagsOK() *GetTransactionTagsOK {
 	return &GetTransactionTagsOK{}
 }
 
-/*GetTransactionTagsOK handles this case with default header values.
+/*
+GetTransactionTagsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetTransactionTagsOK struct {
 	Payload []*kbmodel.Tag
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this get transaction tags o k response has a 2xx status code
+func (o *GetTransactionTagsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get transaction tags o k response has a 3xx status code
+func (o *GetTransactionTagsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get transaction tags o k response has a 4xx status code
+func (o *GetTransactionTagsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get transaction tags o k response has a 5xx status code
+func (o *GetTransactionTagsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get transaction tags o k response a status code equal to that given
+func (o *GetTransactionTagsOK) IsCode(code int) bool {
+	return code == 200
+}
+
+// Code gets the status code for the get transaction tags o k response
+func (o *GetTransactionTagsOK) Code() int {
+	return 200
 }
 
 func (o *GetTransactionTagsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/tags][%d] getTransactionTagsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetTransactionTagsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/tags][%d] getTransactionTagsOK  %+v", 200, o.Payload)
 }
 
@@ -81,15 +117,49 @@ func NewGetTransactionTagsBadRequest() *GetTransactionTagsBadRequest {
 	return &GetTransactionTagsBadRequest{}
 }
 
-/*GetTransactionTagsBadRequest handles this case with default header values.
+/*
+GetTransactionTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid transaction id supplied
 */
 type GetTransactionTagsBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this get transaction tags bad request response has a 2xx status code
+func (o *GetTransactionTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get transaction tags bad request response has a 3xx status code
+func (o *GetTransactionTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get transaction tags bad request response has a 4xx status code
+func (o *GetTransactionTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get transaction tags bad request response has a 5xx status code
+func (o *GetTransactionTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get transaction tags bad request response a status code equal to that given
+func (o *GetTransactionTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the get transaction tags bad request response
+func (o *GetTransactionTagsBadRequest) Code() int {
+	return 400
 }
 
 func (o *GetTransactionTagsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/tags][%d] getTransactionTagsBadRequest ", 400)
+}
+
+func (o *GetTransactionTagsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/tags][%d] getTransactionTagsBadRequest ", 400)
 }
 
@@ -103,15 +173,49 @@ func NewGetTransactionTagsNotFound() *GetTransactionTagsNotFound {
 	return &GetTransactionTagsNotFound{}
 }
 
-/*GetTransactionTagsNotFound handles this case with default header values.
+/*
+GetTransactionTagsNotFound describes a response with status code 404, with default header values.
 
 Invoice not found
 */
 type GetTransactionTagsNotFound struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this get transaction tags not found response has a 2xx status code
+func (o *GetTransactionTagsNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get transaction tags not found response has a 3xx status code
+func (o *GetTransactionTagsNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get transaction tags not found response has a 4xx status code
+func (o *GetTransactionTagsNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get transaction tags not found response has a 5xx status code
+func (o *GetTransactionTagsNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get transaction tags not found response a status code equal to that given
+func (o *GetTransactionTagsNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
+// Code gets the status code for the get transaction tags not found response
+func (o *GetTransactionTagsNotFound) Code() int {
+	return 404
 }
 
 func (o *GetTransactionTagsNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/tags][%d] getTransactionTagsNotFound ", 404)
+}
+
+func (o *GetTransactionTagsNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/tags][%d] getTransactionTagsNotFound ", 404)
 }
 

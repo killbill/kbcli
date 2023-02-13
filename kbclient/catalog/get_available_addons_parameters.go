@@ -13,67 +13,83 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetAvailableAddonsParams creates a new GetAvailableAddonsParams object
-// with the default values initialized.
+// NewGetAvailableAddonsParams creates a new GetAvailableAddonsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAvailableAddonsParams() *GetAvailableAddonsParams {
-	var ()
 	return &GetAvailableAddonsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAvailableAddonsParamsWithTimeout creates a new GetAvailableAddonsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetAvailableAddonsParamsWithTimeout(timeout time.Duration) *GetAvailableAddonsParams {
-	var ()
 	return &GetAvailableAddonsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetAvailableAddonsParamsWithContext creates a new GetAvailableAddonsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetAvailableAddonsParamsWithContext(ctx context.Context) *GetAvailableAddonsParams {
-	var ()
 	return &GetAvailableAddonsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetAvailableAddonsParamsWithHTTPClient creates a new GetAvailableAddonsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetAvailableAddonsParamsWithHTTPClient(client *http.Client) *GetAvailableAddonsParams {
-	var ()
 	return &GetAvailableAddonsParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetAvailableAddonsParams contains all the parameters to send to the API endpoint
-for the get available addons operation typically these are written to a http.Request
+/*
+GetAvailableAddonsParams contains all the parameters to send to the API endpoint
+
+	for the get available addons operation.
+
+	Typically these are written to a http.Request.
 */
 type GetAvailableAddonsParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID *strfmt.UUID
-	/*BaseProductName*/
+
+	// BaseProductName.
 	BaseProductName *string
-	/*PriceListName*/
+
+	// PriceListName.
 	PriceListName *string
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get available addons params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAvailableAddonsParams) WithDefaults() *GetAvailableAddonsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get available addons params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAvailableAddonsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get available addons params
@@ -154,61 +170,50 @@ func (o *GetAvailableAddonsParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param accountId
 		var qrAccountID strfmt.UUID
+
 		if o.AccountID != nil {
 			qrAccountID = *o.AccountID
 		}
 		qAccountID := qrAccountID.String()
 		if qAccountID != "" {
+
 			if err := r.SetQueryParam("accountId", qAccountID); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.BaseProductName != nil {
 
 		// query param baseProductName
 		var qrBaseProductName string
+
 		if o.BaseProductName != nil {
 			qrBaseProductName = *o.BaseProductName
 		}
 		qBaseProductName := qrBaseProductName
 		if qBaseProductName != "" {
+
 			if err := r.SetQueryParam("baseProductName", qBaseProductName); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.PriceListName != nil {
 
 		// query param priceListName
 		var qrPriceListName string
+
 		if o.PriceListName != nil {
 			qrPriceListName = *o.PriceListName
 		}
 		qPriceListName := qrPriceListName
 		if qPriceListName != "" {
+
 			if err := r.SetQueryParam("priceListName", qPriceListName); err != nil {
 				return err
 			}
-		}
-
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
 		}
 	}
 

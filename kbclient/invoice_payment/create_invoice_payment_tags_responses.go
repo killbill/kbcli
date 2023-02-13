@@ -10,11 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateInvoicePaymentTagsReader is a Reader for the CreateInvoicePaymentTags structure.
@@ -25,21 +23,20 @@ type CreateInvoicePaymentTagsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CreateInvoicePaymentTagsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
-	case 201, 200:
+	case 201:
 		result := NewCreateInvoicePaymentTagsCreated()
-		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
-	default:
-		errorResult := kbcommon.NewKillbillError(response.Code())
-		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+	case 400:
+		result := NewCreateInvoicePaymentTagsBadRequest()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
-		return nil, errorResult
+		return nil, result
+	default:
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -48,17 +45,50 @@ func NewCreateInvoicePaymentTagsCreated() *CreateInvoicePaymentTagsCreated {
 	return &CreateInvoicePaymentTagsCreated{}
 }
 
-/*CreateInvoicePaymentTagsCreated handles this case with default header values.
+/*
+CreateInvoicePaymentTagsCreated describes a response with status code 201, with default header values.
 
 Tag created successfully
 */
 type CreateInvoicePaymentTagsCreated struct {
 	Payload []*kbmodel.Tag
+}
 
-	HttpResponse runtime.ClientResponse
+// IsSuccess returns true when this create invoice payment tags created response has a 2xx status code
+func (o *CreateInvoicePaymentTagsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create invoice payment tags created response has a 3xx status code
+func (o *CreateInvoicePaymentTagsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create invoice payment tags created response has a 4xx status code
+func (o *CreateInvoicePaymentTagsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create invoice payment tags created response has a 5xx status code
+func (o *CreateInvoicePaymentTagsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create invoice payment tags created response a status code equal to that given
+func (o *CreateInvoicePaymentTagsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
+// Code gets the status code for the create invoice payment tags created response
+func (o *CreateInvoicePaymentTagsCreated) Code() int {
+	return 201
 }
 
 func (o *CreateInvoicePaymentTagsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/tags][%d] createInvoicePaymentTagsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateInvoicePaymentTagsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/tags][%d] createInvoicePaymentTagsCreated  %+v", 201, o.Payload)
 }
 
@@ -81,15 +111,49 @@ func NewCreateInvoicePaymentTagsBadRequest() *CreateInvoicePaymentTagsBadRequest
 	return &CreateInvoicePaymentTagsBadRequest{}
 }
 
-/*CreateInvoicePaymentTagsBadRequest handles this case with default header values.
+/*
+CreateInvoicePaymentTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid payment id supplied
 */
 type CreateInvoicePaymentTagsBadRequest struct {
-	HttpResponse runtime.ClientResponse
+}
+
+// IsSuccess returns true when this create invoice payment tags bad request response has a 2xx status code
+func (o *CreateInvoicePaymentTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create invoice payment tags bad request response has a 3xx status code
+func (o *CreateInvoicePaymentTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create invoice payment tags bad request response has a 4xx status code
+func (o *CreateInvoicePaymentTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create invoice payment tags bad request response has a 5xx status code
+func (o *CreateInvoicePaymentTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create invoice payment tags bad request response a status code equal to that given
+func (o *CreateInvoicePaymentTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
+// Code gets the status code for the create invoice payment tags bad request response
+func (o *CreateInvoicePaymentTagsBadRequest) Code() int {
+	return 400
 }
 
 func (o *CreateInvoicePaymentTagsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/tags][%d] createInvoicePaymentTagsBadRequest ", 400)
+}
+
+func (o *CreateInvoicePaymentTagsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/tags][%d] createInvoicePaymentTagsBadRequest ", 400)
 }
 

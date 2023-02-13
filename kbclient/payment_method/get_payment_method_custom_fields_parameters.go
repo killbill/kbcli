@@ -13,77 +13,93 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetPaymentMethodCustomFieldsParams creates a new GetPaymentMethodCustomFieldsParams object
-// with the default values initialized.
+// NewGetPaymentMethodCustomFieldsParams creates a new GetPaymentMethodCustomFieldsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetPaymentMethodCustomFieldsParams() *GetPaymentMethodCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetPaymentMethodCustomFieldsParams{
-		Audit: &auditDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPaymentMethodCustomFieldsParamsWithTimeout creates a new GetPaymentMethodCustomFieldsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetPaymentMethodCustomFieldsParamsWithTimeout(timeout time.Duration) *GetPaymentMethodCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetPaymentMethodCustomFieldsParams{
-		Audit: &auditDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetPaymentMethodCustomFieldsParamsWithContext creates a new GetPaymentMethodCustomFieldsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetPaymentMethodCustomFieldsParamsWithContext(ctx context.Context) *GetPaymentMethodCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetPaymentMethodCustomFieldsParams{
-		Audit: &auditDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetPaymentMethodCustomFieldsParamsWithHTTPClient creates a new GetPaymentMethodCustomFieldsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetPaymentMethodCustomFieldsParamsWithHTTPClient(client *http.Client) *GetPaymentMethodCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetPaymentMethodCustomFieldsParams{
-		Audit:      &auditDefault,
 		HTTPClient: client,
 	}
 }
 
-/*GetPaymentMethodCustomFieldsParams contains all the parameters to send to the API endpoint
-for the get payment method custom fields operation typically these are written to a http.Request
+/*
+GetPaymentMethodCustomFieldsParams contains all the parameters to send to the API endpoint
+
+	for the get payment method custom fields operation.
+
+	Typically these are written to a http.Request.
 */
 type GetPaymentMethodCustomFieldsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*PaymentMethodID*/
+
+	// PaymentMethodID.
+	//
+	// Format: uuid
 	PaymentMethodID strfmt.UUID
 
-	WithProfilingInfo     *string // If set, return KB hprof headers
-	WithStackTrace        *bool   // If set, returns full stack trace with error message
-	timeout               time.Duration
-	Context               context.Context
-	HTTPClient            *http.Client
-	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+	timeout    time.Duration
+	Context    context.Context
+	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the get payment method custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentMethodCustomFieldsParams) WithDefaults() *GetPaymentMethodCustomFieldsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get payment method custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentMethodCustomFieldsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+	)
+
+	val := GetPaymentMethodCustomFieldsParams{
+		Audit: &auditDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get payment method custom fields params
@@ -153,35 +169,22 @@ func (o *GetPaymentMethodCustomFieldsParams) WriteToRequest(r runtime.ClientRequ
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param paymentMethodId
 	if err := r.SetPathParam("paymentMethodId", o.PaymentMethodID.String()); err != nil {
 		return err
-	}
-
-	// header param WithProfilingInfo
-	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
-		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
-			return err
-		}
-	}
-
-	// header param withStackTrace
-	if o.WithStackTrace != nil && *o.WithStackTrace {
-		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
-			return err
-		}
 	}
 
 	if len(res) > 0 {

@@ -6,27 +6,28 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // UsagePrice usage price
+//
 // swagger:model UsagePrice
 type UsagePrice struct {
 
 	// billing mode
 	// Enum: [IN_ADVANCE IN_ARREAR]
-	BillingMode UsagePriceBillingModeEnum `json:"billingMode,omitempty"`
+	BillingMode string `json:"billingMode,omitempty"`
 
 	// tier block policy
 	// Enum: [ALL_TIERS TOP_TIER]
-	TierBlockPolicy UsagePriceTierBlockPolicyEnum `json:"tierBlockPolicy,omitempty"`
+	TierBlockPolicy string `json:"tierBlockPolicy,omitempty"`
 
 	// tier prices
 	TierPrices []*TierPrice `json:"tierPrices"`
@@ -36,7 +37,7 @@ type UsagePrice struct {
 
 	// usage type
 	// Enum: [CAPACITY CONSUMABLE]
-	UsageType UsagePriceUsageTypeEnum `json:"usageType,omitempty"`
+	UsageType string `json:"usageType,omitempty"`
 }
 
 // Validate validates this usage price
@@ -68,7 +69,7 @@ func (m *UsagePrice) Validate(formats strfmt.Registry) error {
 var usagePriceTypeBillingModePropEnum []interface{}
 
 func init() {
-	var res []UsagePriceBillingModeEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["IN_ADVANCE","IN_ARREAR"]`), &res); err != nil {
 		panic(err)
 	}
@@ -77,41 +78,24 @@ func init() {
 	}
 }
 
-type UsagePriceBillingModeEnum string
-
 const (
 
 	// UsagePriceBillingModeINADVANCE captures enum value "IN_ADVANCE"
-	UsagePriceBillingModeINADVANCE UsagePriceBillingModeEnum = "IN_ADVANCE"
+	UsagePriceBillingModeINADVANCE string = "IN_ADVANCE"
 
 	// UsagePriceBillingModeINARREAR captures enum value "IN_ARREAR"
-	UsagePriceBillingModeINARREAR UsagePriceBillingModeEnum = "IN_ARREAR"
+	UsagePriceBillingModeINARREAR string = "IN_ARREAR"
 )
 
-var UsagePriceBillingModeEnumValues = []string{
-	"IN_ADVANCE",
-	"IN_ARREAR",
-}
-
-func (e UsagePriceBillingModeEnum) IsValid() bool {
-	for _, v := range UsagePriceBillingModeEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *UsagePrice) validateBillingModeEnum(path, location string, value UsagePriceBillingModeEnum) error {
-	if err := validate.Enum(path, location, value, usagePriceTypeBillingModePropEnum); err != nil {
+func (m *UsagePrice) validateBillingModeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, usagePriceTypeBillingModePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *UsagePrice) validateBillingMode(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingMode) { // not required
 		return nil
 	}
@@ -127,7 +111,7 @@ func (m *UsagePrice) validateBillingMode(formats strfmt.Registry) error {
 var usagePriceTypeTierBlockPolicyPropEnum []interface{}
 
 func init() {
-	var res []UsagePriceTierBlockPolicyEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["ALL_TIERS","TOP_TIER"]`), &res); err != nil {
 		panic(err)
 	}
@@ -136,41 +120,24 @@ func init() {
 	}
 }
 
-type UsagePriceTierBlockPolicyEnum string
-
 const (
 
 	// UsagePriceTierBlockPolicyALLTIERS captures enum value "ALL_TIERS"
-	UsagePriceTierBlockPolicyALLTIERS UsagePriceTierBlockPolicyEnum = "ALL_TIERS"
+	UsagePriceTierBlockPolicyALLTIERS string = "ALL_TIERS"
 
 	// UsagePriceTierBlockPolicyTOPTIER captures enum value "TOP_TIER"
-	UsagePriceTierBlockPolicyTOPTIER UsagePriceTierBlockPolicyEnum = "TOP_TIER"
+	UsagePriceTierBlockPolicyTOPTIER string = "TOP_TIER"
 )
 
-var UsagePriceTierBlockPolicyEnumValues = []string{
-	"ALL_TIERS",
-	"TOP_TIER",
-}
-
-func (e UsagePriceTierBlockPolicyEnum) IsValid() bool {
-	for _, v := range UsagePriceTierBlockPolicyEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *UsagePrice) validateTierBlockPolicyEnum(path, location string, value UsagePriceTierBlockPolicyEnum) error {
-	if err := validate.Enum(path, location, value, usagePriceTypeTierBlockPolicyPropEnum); err != nil {
+func (m *UsagePrice) validateTierBlockPolicyEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, usagePriceTypeTierBlockPolicyPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *UsagePrice) validateTierBlockPolicy(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TierBlockPolicy) { // not required
 		return nil
 	}
@@ -184,7 +151,6 @@ func (m *UsagePrice) validateTierBlockPolicy(formats strfmt.Registry) error {
 }
 
 func (m *UsagePrice) validateTierPrices(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TierPrices) { // not required
 		return nil
 	}
@@ -198,6 +164,8 @@ func (m *UsagePrice) validateTierPrices(formats strfmt.Registry) error {
 			if err := m.TierPrices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tierPrices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tierPrices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -211,7 +179,7 @@ func (m *UsagePrice) validateTierPrices(formats strfmt.Registry) error {
 var usagePriceTypeUsageTypePropEnum []interface{}
 
 func init() {
-	var res []UsagePriceUsageTypeEnum
+	var res []string
 	if err := json.Unmarshal([]byte(`["CAPACITY","CONSUMABLE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -220,41 +188,24 @@ func init() {
 	}
 }
 
-type UsagePriceUsageTypeEnum string
-
 const (
 
 	// UsagePriceUsageTypeCAPACITY captures enum value "CAPACITY"
-	UsagePriceUsageTypeCAPACITY UsagePriceUsageTypeEnum = "CAPACITY"
+	UsagePriceUsageTypeCAPACITY string = "CAPACITY"
 
 	// UsagePriceUsageTypeCONSUMABLE captures enum value "CONSUMABLE"
-	UsagePriceUsageTypeCONSUMABLE UsagePriceUsageTypeEnum = "CONSUMABLE"
+	UsagePriceUsageTypeCONSUMABLE string = "CONSUMABLE"
 )
 
-var UsagePriceUsageTypeEnumValues = []string{
-	"CAPACITY",
-	"CONSUMABLE",
-}
-
-func (e UsagePriceUsageTypeEnum) IsValid() bool {
-	for _, v := range UsagePriceUsageTypeEnumValues {
-		if v == string(e) {
-			return true
-		}
-	}
-	return false
-}
-
 // prop value enum
-func (m *UsagePrice) validateUsageTypeEnum(path, location string, value UsagePriceUsageTypeEnum) error {
-	if err := validate.Enum(path, location, value, usagePriceTypeUsageTypePropEnum); err != nil {
+func (m *UsagePrice) validateUsageTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, usagePriceTypeUsageTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *UsagePrice) validateUsageType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.UsageType) { // not required
 		return nil
 	}
@@ -262,6 +213,40 @@ func (m *UsagePrice) validateUsageType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateUsageTypeEnum("usageType", "body", m.UsageType); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this usage price based on the context it is used
+func (m *UsagePrice) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTierPrices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *UsagePrice) contextValidateTierPrices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.TierPrices); i++ {
+
+		if m.TierPrices[i] != nil {
+			if err := m.TierPrices[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("tierPrices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tierPrices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

@@ -6,37 +6,15 @@ package invoice
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new invoice API client.
-func New(transport runtime.ClientTransport,
-	formats strfmt.Registry,
-	authInfo runtime.ClientAuthInfoWriter,
-	defaults KillbillDefaults) *Client {
-
-	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
-}
-
-// killbill default values. When a call is made to an operation, these values are used
-// if params doesn't specify them.
-type KillbillDefaults interface {
-	// Default CreatedBy. If not set explicitly in params, this will be used.
-	XKillbillCreatedBy() *string
-	// Default Comment. If not set explicitly in params, this will be used.
-	XKillbillComment() *string
-	// Default Reason. If not set explicitly in params, this will be used.
-	XKillbillReason() *string
-	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
-	KillbillWithProfilingInfo() *string
-	// Default WithStackTrace. If not set explicitly in params, this will be used.
-	KillbillWithStackTrace() *bool
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+	return &Client{transport: transport, formats: formats}
 }
 
 /*
@@ -45,211 +23,95 @@ Client for invoice API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
-	authInfo  runtime.ClientAuthInfoWriter
-	defaults  KillbillDefaults
 }
 
-// IInvoice - interface for Invoice client.
-type IInvoice interface {
-	/*
-		AdjustInvoiceItem adjusts an invoice item
-	*/
-	AdjustInvoiceItem(ctx context.Context, params *AdjustInvoiceItemParams) (*AdjustInvoiceItemCreated, error)
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
 
-	/*
-		CommitInvoice performs the invoice status transition from d r a f t to c o m m i t t e d
-	*/
-	CommitInvoice(ctx context.Context, params *CommitInvoiceParams) (*CommitInvoiceNoContent, error)
+// ClientService is the interface for Client methods
+type ClientService interface {
+	AdjustInvoiceItem(params *AdjustInvoiceItemParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AdjustInvoiceItemCreated, error)
 
-	/*
-		CreateExternalCharges creates external charge s
-	*/
-	CreateExternalCharges(ctx context.Context, params *CreateExternalChargesParams) (*CreateExternalChargesCreated, error)
+	CommitInvoice(params *CommitInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CommitInvoiceNoContent, error)
 
-	/*
-		CreateFutureInvoice triggers an invoice generation
-	*/
-	CreateFutureInvoice(ctx context.Context, params *CreateFutureInvoiceParams) (*CreateFutureInvoiceCreated, error)
+	CreateExternalCharges(params *CreateExternalChargesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateExternalChargesCreated, error)
 
-	/*
-		CreateInstantPayment triggers a payment for invoice
-	*/
-	CreateInstantPayment(ctx context.Context, params *CreateInstantPaymentParams) (*CreateInstantPaymentCreated, *CreateInstantPaymentNoContent, error)
+	CreateFutureInvoice(params *CreateFutureInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateFutureInvoiceCreated, error)
 
-	/*
-		CreateInvoiceCustomFields adds custom fields to invoice
-	*/
-	CreateInvoiceCustomFields(ctx context.Context, params *CreateInvoiceCustomFieldsParams) (*CreateInvoiceCustomFieldsCreated, error)
+	CreateFutureInvoiceGroup(params *CreateFutureInvoiceGroupParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateFutureInvoiceGroupCreated, error)
 
-	/*
-		CreateInvoiceTags adds tags to invoice
-	*/
-	CreateInvoiceTags(ctx context.Context, params *CreateInvoiceTagsParams) (*CreateInvoiceTagsCreated, error)
+	CreateInstantPayment(params *CreateInstantPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateInstantPaymentCreated, *CreateInstantPaymentNoContent, error)
 
-	/*
-		CreateMigrationInvoice creates a migration invoice
-	*/
-	CreateMigrationInvoice(ctx context.Context, params *CreateMigrationInvoiceParams) (*CreateMigrationInvoiceCreated, error)
+	CreateInvoiceCustomFields(params *CreateInvoiceCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateInvoiceCustomFieldsCreated, error)
 
-	/*
-		CreateTaxItems creates tax items
-	*/
-	CreateTaxItems(ctx context.Context, params *CreateTaxItemsParams) (*CreateTaxItemsCreated, error)
+	CreateInvoiceTags(params *CreateInvoiceTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateInvoiceTagsCreated, error)
 
-	/*
-		DeleteCBA deletes a c b a item
-	*/
-	DeleteCBA(ctx context.Context, params *DeleteCBAParams) (*DeleteCBANoContent, error)
+	CreateMigrationInvoice(params *CreateMigrationInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateMigrationInvoiceCreated, error)
 
-	/*
-		DeleteInvoiceCustomFields removes custom fields from invoice
-	*/
-	DeleteInvoiceCustomFields(ctx context.Context, params *DeleteInvoiceCustomFieldsParams) (*DeleteInvoiceCustomFieldsNoContent, error)
+	CreateTaxItems(params *CreateTaxItemsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateTaxItemsCreated, error)
 
-	/*
-		DeleteInvoiceTags removes tags from invoice
-	*/
-	DeleteInvoiceTags(ctx context.Context, params *DeleteInvoiceTagsParams) (*DeleteInvoiceTagsNoContent, error)
+	DeleteCBA(params *DeleteCBAParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteCBANoContent, error)
 
-	/*
-		GenerateDryRunInvoice generates a dry run invoice
-	*/
-	GenerateDryRunInvoice(ctx context.Context, params *GenerateDryRunInvoiceParams) (*GenerateDryRunInvoiceOK, *GenerateDryRunInvoiceNoContent, error)
+	DeleteInvoiceCustomFields(params *DeleteInvoiceCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteInvoiceCustomFieldsNoContent, error)
 
-	/*
-		GetCatalogTranslation retrieves the catalog translation for the tenant
-	*/
-	GetCatalogTranslation(ctx context.Context, params *GetCatalogTranslationParams) (*GetCatalogTranslationOK, error)
+	DeleteInvoiceTags(params *DeleteInvoiceTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteInvoiceTagsNoContent, error)
 
-	/*
-		GetInvoice retrieves an invoice by id
-	*/
-	GetInvoice(ctx context.Context, params *GetInvoiceParams) (*GetInvoiceOK, error)
+	GenerateDryRunInvoice(params *GenerateDryRunInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GenerateDryRunInvoiceOK, *GenerateDryRunInvoiceNoContent, error)
 
-	/*
-		GetInvoiceAsHTML renders an invoice as HTML
-	*/
-	GetInvoiceAsHTML(ctx context.Context, params *GetInvoiceAsHTMLParams) (*GetInvoiceAsHTMLOK, error)
+	GetCatalogTranslation(params *GetCatalogTranslationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCatalogTranslationOK, error)
 
-	/*
-		GetInvoiceAuditLogsWithHistory retrieves invoice audit logs with history by id
-	*/
-	GetInvoiceAuditLogsWithHistory(ctx context.Context, params *GetInvoiceAuditLogsWithHistoryParams) (*GetInvoiceAuditLogsWithHistoryOK, error)
+	GetInvoice(params *GetInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceOK, error)
 
-	/*
-		GetInvoiceByItemID retrieves an invoice by invoice item id
-	*/
-	GetInvoiceByItemID(ctx context.Context, params *GetInvoiceByItemIDParams) (*GetInvoiceByItemIDOK, error)
+	GetInvoiceAsHTML(params *GetInvoiceAsHTMLParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceAsHTMLOK, error)
 
-	/*
-		GetInvoiceByNumber retrieves an invoice by number
-	*/
-	GetInvoiceByNumber(ctx context.Context, params *GetInvoiceByNumberParams) (*GetInvoiceByNumberOK, error)
+	GetInvoiceAuditLogsWithHistory(params *GetInvoiceAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceAuditLogsWithHistoryOK, error)
 
-	/*
-		GetInvoiceCustomFields retrieves invoice custom fields
-	*/
-	GetInvoiceCustomFields(ctx context.Context, params *GetInvoiceCustomFieldsParams) (*GetInvoiceCustomFieldsOK, error)
+	GetInvoiceByItemID(params *GetInvoiceByItemIDParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceByItemIDOK, error)
 
-	/*
-		GetInvoiceMPTemplate retrieves the manual pay invoice template for the tenant
-	*/
-	GetInvoiceMPTemplate(ctx context.Context, params *GetInvoiceMPTemplateParams) (*GetInvoiceMPTemplateOK, error)
+	GetInvoiceByNumber(params *GetInvoiceByNumberParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceByNumberOK, error)
 
-	/*
-		GetInvoiceTags retrieves invoice tags
-	*/
-	GetInvoiceTags(ctx context.Context, params *GetInvoiceTagsParams) (*GetInvoiceTagsOK, error)
+	GetInvoiceCustomFields(params *GetInvoiceCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceCustomFieldsOK, error)
 
-	/*
-		GetInvoiceTemplate retrieves the invoice template for the tenant
-	*/
-	GetInvoiceTemplate(ctx context.Context, params *GetInvoiceTemplateParams) (*GetInvoiceTemplateOK, error)
+	GetInvoiceMPTemplate(params *GetInvoiceMPTemplateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceMPTemplateOK, error)
 
-	/*
-		GetInvoiceTranslation retrieves the invoice translation for the tenant
-	*/
-	GetInvoiceTranslation(ctx context.Context, params *GetInvoiceTranslationParams) (*GetInvoiceTranslationOK, error)
+	GetInvoiceTags(params *GetInvoiceTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceTagsOK, error)
 
-	/*
-		GetInvoices lists invoices
-	*/
-	GetInvoices(ctx context.Context, params *GetInvoicesParams) (*GetInvoicesOK, error)
+	GetInvoiceTemplate(params *GetInvoiceTemplateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceTemplateOK, error)
 
-	/*
-		GetPaymentsForInvoice retrieves payments associated with an invoice
-	*/
-	GetPaymentsForInvoice(ctx context.Context, params *GetPaymentsForInvoiceParams) (*GetPaymentsForInvoiceOK, error)
+	GetInvoiceTranslation(params *GetInvoiceTranslationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceTranslationOK, error)
 
-	/*
-		ModifyInvoiceCustomFields modifies custom fields to invoice
-	*/
-	ModifyInvoiceCustomFields(ctx context.Context, params *ModifyInvoiceCustomFieldsParams) (*ModifyInvoiceCustomFieldsNoContent, error)
+	GetInvoices(params *GetInvoicesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicesOK, error)
 
-	/*
-		SearchInvoices searches invoices
-	*/
-	SearchInvoices(ctx context.Context, params *SearchInvoicesParams) (*SearchInvoicesOK, error)
+	GetInvoicesGroup(params *GetInvoicesGroupParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicesGroupOK, error)
 
-	/*
-		UploadCatalogTranslation uploads the catalog translation for the tenant
-	*/
-	UploadCatalogTranslation(ctx context.Context, params *UploadCatalogTranslationParams) (*UploadCatalogTranslationCreated, error)
+	GetPaymentsForInvoice(params *GetPaymentsForInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentsForInvoiceOK, error)
 
-	/*
-		UploadInvoiceMPTemplate uploads the manual pay invoice template for the tenant
-	*/
-	UploadInvoiceMPTemplate(ctx context.Context, params *UploadInvoiceMPTemplateParams) (*UploadInvoiceMPTemplateOK, error)
+	ModifyInvoiceCustomFields(params *ModifyInvoiceCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifyInvoiceCustomFieldsNoContent, error)
 
-	/*
-		UploadInvoiceTemplate uploads the invoice template for the tenant
-	*/
-	UploadInvoiceTemplate(ctx context.Context, params *UploadInvoiceTemplateParams) (*UploadInvoiceTemplateCreated, error)
+	SearchInvoices(params *SearchInvoicesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchInvoicesOK, error)
 
-	/*
-		UploadInvoiceTranslation uploads the invoice translation for the tenant
-	*/
-	UploadInvoiceTranslation(ctx context.Context, params *UploadInvoiceTranslationParams) (*UploadInvoiceTranslationCreated, error)
+	UploadCatalogTranslation(params *UploadCatalogTranslationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadCatalogTranslationCreated, error)
 
-	/*
-		VoidInvoice performs the action of voiding an invoice
-	*/
-	VoidInvoice(ctx context.Context, params *VoidInvoiceParams) (*VoidInvoiceNoContent, error)
+	UploadInvoiceMPTemplate(params *UploadInvoiceMPTemplateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadInvoiceMPTemplateOK, error)
+
+	UploadInvoiceTemplate(params *UploadInvoiceTemplateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadInvoiceTemplateCreated, error)
+
+	UploadInvoiceTranslation(params *UploadInvoiceTranslationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadInvoiceTranslationCreated, error)
+
+	VoidInvoice(params *VoidInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*VoidInvoiceNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
 AdjustInvoiceItem adjusts an invoice item
 */
-func (a *Client) AdjustInvoiceItem(ctx context.Context, params *AdjustInvoiceItemParams) (*AdjustInvoiceItemCreated, error) {
+func (a *Client) AdjustInvoiceItem(params *AdjustInvoiceItemParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AdjustInvoiceItemCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAdjustInvoiceItemParams()
 	}
-	getParams := NewAdjustInvoiceItemParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "adjustInvoiceItem",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}",
@@ -258,69 +120,37 @@ func (a *Client) AdjustInvoiceItem(ctx context.Context, params *AdjustInvoiceIte
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &AdjustInvoiceItemReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*AdjustInvoiceItemCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*AdjustInvoiceItemCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "adjustInvoiceItem",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &AdjustInvoiceItemReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*AdjustInvoiceItemCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for adjustInvoiceItem: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CommitInvoice performs the invoice status transition from d r a f t to c o m m i t t e d
 */
-func (a *Client) CommitInvoice(ctx context.Context, params *CommitInvoiceParams) (*CommitInvoiceNoContent, error) {
+func (a *Client) CommitInvoice(params *CommitInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CommitInvoiceNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCommitInvoiceParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "commitInvoice",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/commitInvoice",
@@ -329,10 +159,15 @@ func (a *Client) CommitInvoice(ctx context.Context, params *CommitInvoiceParams)
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CommitInvoiceReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -344,42 +179,17 @@ func (a *Client) CommitInvoice(ctx context.Context, params *CommitInvoiceParams)
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for commitInvoice: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 CreateExternalCharges creates external charge s
 */
-func (a *Client) CreateExternalCharges(ctx context.Context, params *CreateExternalChargesParams) (*CreateExternalChargesCreated, error) {
+func (a *Client) CreateExternalCharges(params *CreateExternalChargesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateExternalChargesCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateExternalChargesParams()
 	}
-	getParams := NewCreateExternalChargesParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createExternalCharges",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/charges/{accountId}",
@@ -388,72 +198,37 @@ func (a *Client) CreateExternalCharges(ctx context.Context, params *CreateExtern
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateExternalChargesReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateExternalChargesCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateExternalChargesCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createExternalCharges",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateExternalChargesReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateExternalChargesCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createExternalCharges: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateFutureInvoice triggers an invoice generation
 */
-func (a *Client) CreateFutureInvoice(ctx context.Context, params *CreateFutureInvoiceParams) (*CreateFutureInvoiceCreated, error) {
+func (a *Client) CreateFutureInvoice(params *CreateFutureInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateFutureInvoiceCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateFutureInvoiceParams()
 	}
-	getParams := NewCreateFutureInvoiceParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createFutureInvoice",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices",
@@ -462,69 +237,76 @@ func (a *Client) CreateFutureInvoice(ctx context.Context, params *CreateFutureIn
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateFutureInvoiceReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateFutureInvoiceCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateFutureInvoiceCreated)
+	if ok {
+		return success, nil
 	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createFutureInvoice: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
 
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createFutureInvoice",
-		Method:             "GET",
-		PathPattern:        location,
+/*
+CreateFutureInvoiceGroup triggers an invoice generation
+*/
+func (a *Client) CreateFutureInvoiceGroup(params *CreateFutureInvoiceGroupParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateFutureInvoiceGroupCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateFutureInvoiceGroupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "createFutureInvoiceGroup",
+		Method:             "POST",
+		PathPattern:        "/1.0/kb/invoices/group",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateFutureInvoiceReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
+		Params:             params,
+		Reader:             &CreateFutureInvoiceGroupReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	return getResult.(*CreateFutureInvoiceCreated), nil
-
+	success, ok := result.(*CreateFutureInvoiceGroupCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createFutureInvoiceGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateInstantPayment triggers a payment for invoice
 */
-func (a *Client) CreateInstantPayment(ctx context.Context, params *CreateInstantPaymentParams) (*CreateInstantPaymentCreated, *CreateInstantPaymentNoContent, error) {
+func (a *Client) CreateInstantPayment(params *CreateInstantPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateInstantPaymentCreated, *CreateInstantPaymentNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateInstantPaymentParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createInstantPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/payments",
@@ -533,10 +315,15 @@ func (a *Client) CreateInstantPayment(ctx context.Context, params *CreateInstant
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateInstantPaymentReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -549,42 +336,17 @@ func (a *Client) CreateInstantPayment(ctx context.Context, params *CreateInstant
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for invoice: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 CreateInvoiceCustomFields adds custom fields to invoice
 */
-func (a *Client) CreateInvoiceCustomFields(ctx context.Context, params *CreateInvoiceCustomFieldsParams) (*CreateInvoiceCustomFieldsCreated, error) {
+func (a *Client) CreateInvoiceCustomFields(params *CreateInvoiceCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateInvoiceCustomFieldsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateInvoiceCustomFieldsParams()
 	}
-	getParams := NewCreateInvoiceCustomFieldsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createInvoiceCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/customFields",
@@ -593,72 +355,37 @@ func (a *Client) CreateInvoiceCustomFields(ctx context.Context, params *CreateIn
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateInvoiceCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateInvoiceCustomFieldsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateInvoiceCustomFieldsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createInvoiceCustomFields",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateInvoiceCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateInvoiceCustomFieldsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createInvoiceCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateInvoiceTags adds tags to invoice
 */
-func (a *Client) CreateInvoiceTags(ctx context.Context, params *CreateInvoiceTagsParams) (*CreateInvoiceTagsCreated, error) {
+func (a *Client) CreateInvoiceTags(params *CreateInvoiceTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateInvoiceTagsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateInvoiceTagsParams()
 	}
-	getParams := NewCreateInvoiceTagsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createInvoiceTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/tags",
@@ -667,72 +394,37 @@ func (a *Client) CreateInvoiceTags(ctx context.Context, params *CreateInvoiceTag
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateInvoiceTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateInvoiceTagsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateInvoiceTagsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createInvoiceTags",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateInvoiceTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateInvoiceTagsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createInvoiceTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateMigrationInvoice creates a migration invoice
 */
-func (a *Client) CreateMigrationInvoice(ctx context.Context, params *CreateMigrationInvoiceParams) (*CreateMigrationInvoiceCreated, error) {
+func (a *Client) CreateMigrationInvoice(params *CreateMigrationInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateMigrationInvoiceCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateMigrationInvoiceParams()
 	}
-	getParams := NewCreateMigrationInvoiceParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createMigrationInvoice",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/migration/{accountId}",
@@ -741,72 +433,37 @@ func (a *Client) CreateMigrationInvoice(ctx context.Context, params *CreateMigra
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateMigrationInvoiceReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateMigrationInvoiceCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateMigrationInvoiceCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createMigrationInvoice",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateMigrationInvoiceReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateMigrationInvoiceCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createMigrationInvoice: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateTaxItems creates tax items
 */
-func (a *Client) CreateTaxItems(ctx context.Context, params *CreateTaxItemsParams) (*CreateTaxItemsCreated, error) {
+func (a *Client) CreateTaxItems(params *CreateTaxItemsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateTaxItemsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateTaxItemsParams()
 	}
-	getParams := NewCreateTaxItemsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createTaxItems",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/taxes/{accountId}",
@@ -815,69 +472,37 @@ func (a *Client) CreateTaxItems(ctx context.Context, params *CreateTaxItemsParam
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateTaxItemsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateTaxItemsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateTaxItemsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createTaxItems",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateTaxItemsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateTaxItemsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createTaxItems: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 DeleteCBA deletes a c b a item
 */
-func (a *Client) DeleteCBA(ctx context.Context, params *DeleteCBAParams) (*DeleteCBANoContent, error) {
+func (a *Client) DeleteCBA(params *DeleteCBAParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteCBANoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteCBAParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteCBA",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/{invoiceItemId}/cba",
@@ -886,10 +511,15 @@ func (a *Client) DeleteCBA(ctx context.Context, params *DeleteCBAParams) (*Delet
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteCBAReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -901,39 +531,17 @@ func (a *Client) DeleteCBA(ctx context.Context, params *DeleteCBAParams) (*Delet
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteCBA: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 DeleteInvoiceCustomFields removes custom fields from invoice
 */
-func (a *Client) DeleteInvoiceCustomFields(ctx context.Context, params *DeleteInvoiceCustomFieldsParams) (*DeleteInvoiceCustomFieldsNoContent, error) {
+func (a *Client) DeleteInvoiceCustomFields(params *DeleteInvoiceCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteInvoiceCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteInvoiceCustomFieldsParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteInvoiceCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/customFields",
@@ -942,10 +550,15 @@ func (a *Client) DeleteInvoiceCustomFields(ctx context.Context, params *DeleteIn
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteInvoiceCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -957,39 +570,17 @@ func (a *Client) DeleteInvoiceCustomFields(ctx context.Context, params *DeleteIn
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteInvoiceCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 DeleteInvoiceTags removes tags from invoice
 */
-func (a *Client) DeleteInvoiceTags(ctx context.Context, params *DeleteInvoiceTagsParams) (*DeleteInvoiceTagsNoContent, error) {
+func (a *Client) DeleteInvoiceTags(params *DeleteInvoiceTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteInvoiceTagsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteInvoiceTagsParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteInvoiceTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/tags",
@@ -998,10 +589,15 @@ func (a *Client) DeleteInvoiceTags(ctx context.Context, params *DeleteInvoiceTag
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteInvoiceTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1013,39 +609,17 @@ func (a *Client) DeleteInvoiceTags(ctx context.Context, params *DeleteInvoiceTag
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteInvoiceTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GenerateDryRunInvoice generates a dry run invoice
 */
-func (a *Client) GenerateDryRunInvoice(ctx context.Context, params *GenerateDryRunInvoiceParams) (*GenerateDryRunInvoiceOK, *GenerateDryRunInvoiceNoContent, error) {
+func (a *Client) GenerateDryRunInvoice(params *GenerateDryRunInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GenerateDryRunInvoiceOK, *GenerateDryRunInvoiceNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGenerateDryRunInvoiceParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "generateDryRunInvoice",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/dryRun",
@@ -1054,10 +628,15 @@ func (a *Client) GenerateDryRunInvoice(ctx context.Context, params *GenerateDryR
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GenerateDryRunInvoiceReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1070,39 +649,34 @@ func (a *Client) GenerateDryRunInvoice(ctx context.Context, params *GenerateDryR
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for invoice: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetCatalogTranslation retrieves the catalog translation for the tenant
 */
-func (a *Client) GetCatalogTranslation(ctx context.Context, params *GetCatalogTranslationParams) (*GetCatalogTranslationOK, error) {
+func (a *Client) GetCatalogTranslation(params *GetCatalogTranslationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCatalogTranslationOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetCatalogTranslationParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCatalogTranslation",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/catalogTranslation/{locale}",
 		ProducesMediaTypes: []string{"text/plain"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCatalogTranslationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1114,39 +688,34 @@ func (a *Client) GetCatalogTranslation(ctx context.Context, params *GetCatalogTr
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getCatalogTranslation: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoice retrieves an invoice by id
 */
-func (a *Client) GetInvoice(ctx context.Context, params *GetInvoiceParams) (*GetInvoiceOK, error) {
+func (a *Client) GetInvoice(params *GetInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoice",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1158,39 +727,34 @@ func (a *Client) GetInvoice(ctx context.Context, params *GetInvoiceParams) (*Get
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoice: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoiceAsHTML renders an invoice as HTML
 */
-func (a *Client) GetInvoiceAsHTML(ctx context.Context, params *GetInvoiceAsHTMLParams) (*GetInvoiceAsHTMLOK, error) {
+func (a *Client) GetInvoiceAsHTML(params *GetInvoiceAsHTMLParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceAsHTMLOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceAsHTMLParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceAsHTML",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/html",
 		ProducesMediaTypes: []string{"text/html"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceAsHTMLReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1202,39 +766,34 @@ func (a *Client) GetInvoiceAsHTML(ctx context.Context, params *GetInvoiceAsHTMLP
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoiceAsHTML: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoiceAuditLogsWithHistory retrieves invoice audit logs with history by id
 */
-func (a *Client) GetInvoiceAuditLogsWithHistory(ctx context.Context, params *GetInvoiceAuditLogsWithHistoryParams) (*GetInvoiceAuditLogsWithHistoryOK, error) {
+func (a *Client) GetInvoiceAuditLogsWithHistory(params *GetInvoiceAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceAuditLogsWithHistoryParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1246,39 +805,34 @@ func (a *Client) GetInvoiceAuditLogsWithHistory(ctx context.Context, params *Get
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoiceAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoiceByItemID retrieves an invoice by invoice item id
 */
-func (a *Client) GetInvoiceByItemID(ctx context.Context, params *GetInvoiceByItemIDParams) (*GetInvoiceByItemIDOK, error) {
+func (a *Client) GetInvoiceByItemID(params *GetInvoiceByItemIDParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceByItemIDOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceByItemIDParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceByItemId",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/byItemId/{itemId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceByItemIDReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1290,39 +844,34 @@ func (a *Client) GetInvoiceByItemID(ctx context.Context, params *GetInvoiceByIte
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoiceByItemId: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoiceByNumber retrieves an invoice by number
 */
-func (a *Client) GetInvoiceByNumber(ctx context.Context, params *GetInvoiceByNumberParams) (*GetInvoiceByNumberOK, error) {
+func (a *Client) GetInvoiceByNumber(params *GetInvoiceByNumberParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceByNumberOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceByNumberParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceByNumber",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/byNumber/{invoiceNumber}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceByNumberReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1334,39 +883,34 @@ func (a *Client) GetInvoiceByNumber(ctx context.Context, params *GetInvoiceByNum
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoiceByNumber: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoiceCustomFields retrieves invoice custom fields
 */
-func (a *Client) GetInvoiceCustomFields(ctx context.Context, params *GetInvoiceCustomFieldsParams) (*GetInvoiceCustomFieldsOK, error) {
+func (a *Client) GetInvoiceCustomFields(params *GetInvoiceCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceCustomFieldsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceCustomFieldsParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1378,39 +922,34 @@ func (a *Client) GetInvoiceCustomFields(ctx context.Context, params *GetInvoiceC
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoiceCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoiceMPTemplate retrieves the manual pay invoice template for the tenant
 */
-func (a *Client) GetInvoiceMPTemplate(ctx context.Context, params *GetInvoiceMPTemplateParams) (*GetInvoiceMPTemplateOK, error) {
+func (a *Client) GetInvoiceMPTemplate(params *GetInvoiceMPTemplateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceMPTemplateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceMPTemplateParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceMPTemplate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/manualPayTemplate/{locale}",
 		ProducesMediaTypes: []string{"text/html"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceMPTemplateReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1422,39 +961,34 @@ func (a *Client) GetInvoiceMPTemplate(ctx context.Context, params *GetInvoiceMPT
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoiceMPTemplate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoiceTags retrieves invoice tags
 */
-func (a *Client) GetInvoiceTags(ctx context.Context, params *GetInvoiceTagsParams) (*GetInvoiceTagsOK, error) {
+func (a *Client) GetInvoiceTags(params *GetInvoiceTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceTagsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceTagsParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1466,39 +1000,34 @@ func (a *Client) GetInvoiceTags(ctx context.Context, params *GetInvoiceTagsParam
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoiceTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoiceTemplate retrieves the invoice template for the tenant
 */
-func (a *Client) GetInvoiceTemplate(ctx context.Context, params *GetInvoiceTemplateParams) (*GetInvoiceTemplateOK, error) {
+func (a *Client) GetInvoiceTemplate(params *GetInvoiceTemplateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceTemplateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceTemplateParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceTemplate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/template",
 		ProducesMediaTypes: []string{"text/html"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceTemplateReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1510,39 +1039,34 @@ func (a *Client) GetInvoiceTemplate(ctx context.Context, params *GetInvoiceTempl
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoiceTemplate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoiceTranslation retrieves the invoice translation for the tenant
 */
-func (a *Client) GetInvoiceTranslation(ctx context.Context, params *GetInvoiceTranslationParams) (*GetInvoiceTranslationOK, error) {
+func (a *Client) GetInvoiceTranslation(params *GetInvoiceTranslationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoiceTranslationOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoiceTranslationParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceTranslation",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/translation/{locale}",
 		ProducesMediaTypes: []string{"text/plain"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceTranslationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1554,39 +1078,34 @@ func (a *Client) GetInvoiceTranslation(ctx context.Context, params *GetInvoiceTr
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoiceTranslation: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetInvoices lists invoices
 */
-func (a *Client) GetInvoices(ctx context.Context, params *GetInvoicesParams) (*GetInvoicesOK, error) {
+func (a *Client) GetInvoices(params *GetInvoicesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoicesParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoices",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoicesReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1598,39 +1117,73 @@ func (a *Client) GetInvoices(ctx context.Context, params *GetInvoicesParams) (*G
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoices: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+}
 
+/*
+GetInvoicesGroup retrieves a set of invoices by group id
+*/
+func (a *Client) GetInvoicesGroup(params *GetInvoicesGroupParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicesGroupOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetInvoicesGroupParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "getInvoicesGroup",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/invoices/{groupId}/group",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetInvoicesGroupReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetInvoicesGroupOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getInvoicesGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 GetPaymentsForInvoice retrieves payments associated with an invoice
 */
-func (a *Client) GetPaymentsForInvoice(ctx context.Context, params *GetPaymentsForInvoiceParams) (*GetPaymentsForInvoiceOK, error) {
+func (a *Client) GetPaymentsForInvoice(params *GetPaymentsForInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentsForInvoiceOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentsForInvoiceParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentsForInvoice",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/payments",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentsForInvoiceReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1642,39 +1195,17 @@ func (a *Client) GetPaymentsForInvoice(ctx context.Context, params *GetPaymentsF
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPaymentsForInvoice: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 ModifyInvoiceCustomFields modifies custom fields to invoice
 */
-func (a *Client) ModifyInvoiceCustomFields(ctx context.Context, params *ModifyInvoiceCustomFieldsParams) (*ModifyInvoiceCustomFieldsNoContent, error) {
+func (a *Client) ModifyInvoiceCustomFields(params *ModifyInvoiceCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifyInvoiceCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewModifyInvoiceCustomFieldsParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifyInvoiceCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/customFields",
@@ -1683,10 +1214,15 @@ func (a *Client) ModifyInvoiceCustomFields(ctx context.Context, params *ModifyIn
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ModifyInvoiceCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1698,39 +1234,34 @@ func (a *Client) ModifyInvoiceCustomFields(ctx context.Context, params *ModifyIn
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for modifyInvoiceCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 SearchInvoices searches invoices
 */
-func (a *Client) SearchInvoices(ctx context.Context, params *SearchInvoicesParams) (*SearchInvoicesOK, error) {
+func (a *Client) SearchInvoices(params *SearchInvoicesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchInvoicesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSearchInvoicesParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchInvoices",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchInvoicesReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1742,42 +1273,17 @@ func (a *Client) SearchInvoices(ctx context.Context, params *SearchInvoicesParam
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for searchInvoices: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 UploadCatalogTranslation uploads the catalog translation for the tenant
 */
-func (a *Client) UploadCatalogTranslation(ctx context.Context, params *UploadCatalogTranslationParams) (*UploadCatalogTranslationCreated, error) {
+func (a *Client) UploadCatalogTranslation(params *UploadCatalogTranslationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadCatalogTranslationCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUploadCatalogTranslationParams()
 	}
-	getParams := NewUploadCatalogTranslationParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadCatalogTranslation",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/catalogTranslation/{locale}",
@@ -1786,69 +1292,37 @@ func (a *Client) UploadCatalogTranslation(ctx context.Context, params *UploadCat
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UploadCatalogTranslationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*UploadCatalogTranslationCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*UploadCatalogTranslationCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "uploadCatalogTranslation",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"text/plain"},
-		ConsumesMediaTypes: []string{"text/plain"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &UploadCatalogTranslationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*UploadCatalogTranslationCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for uploadCatalogTranslation: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 UploadInvoiceMPTemplate uploads the manual pay invoice template for the tenant
 */
-func (a *Client) UploadInvoiceMPTemplate(ctx context.Context, params *UploadInvoiceMPTemplateParams) (*UploadInvoiceMPTemplateOK, error) {
+func (a *Client) UploadInvoiceMPTemplate(params *UploadInvoiceMPTemplateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadInvoiceMPTemplateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUploadInvoiceMPTemplateParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadInvoiceMPTemplate",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/manualPayTemplate",
@@ -1857,10 +1331,15 @@ func (a *Client) UploadInvoiceMPTemplate(ctx context.Context, params *UploadInvo
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UploadInvoiceMPTemplateReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1872,42 +1351,17 @@ func (a *Client) UploadInvoiceMPTemplate(ctx context.Context, params *UploadInvo
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for uploadInvoiceMPTemplate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 UploadInvoiceTemplate uploads the invoice template for the tenant
 */
-func (a *Client) UploadInvoiceTemplate(ctx context.Context, params *UploadInvoiceTemplateParams) (*UploadInvoiceTemplateCreated, error) {
+func (a *Client) UploadInvoiceTemplate(params *UploadInvoiceTemplateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadInvoiceTemplateCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUploadInvoiceTemplateParams()
 	}
-	getParams := NewUploadInvoiceTemplateParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadInvoiceTemplate",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/template",
@@ -1916,72 +1370,37 @@ func (a *Client) UploadInvoiceTemplate(ctx context.Context, params *UploadInvoic
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UploadInvoiceTemplateReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*UploadInvoiceTemplateCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*UploadInvoiceTemplateCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "uploadInvoiceTemplate",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"text/html"},
-		ConsumesMediaTypes: []string{"text/html"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &UploadInvoiceTemplateReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*UploadInvoiceTemplateCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for uploadInvoiceTemplate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 UploadInvoiceTranslation uploads the invoice translation for the tenant
 */
-func (a *Client) UploadInvoiceTranslation(ctx context.Context, params *UploadInvoiceTranslationParams) (*UploadInvoiceTranslationCreated, error) {
+func (a *Client) UploadInvoiceTranslation(params *UploadInvoiceTranslationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadInvoiceTranslationCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUploadInvoiceTranslationParams()
 	}
-	getParams := NewUploadInvoiceTranslationParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadInvoiceTranslation",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/translation/{locale}",
@@ -1990,69 +1409,37 @@ func (a *Client) UploadInvoiceTranslation(ctx context.Context, params *UploadInv
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UploadInvoiceTranslationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*UploadInvoiceTranslationCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*UploadInvoiceTranslationCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "uploadInvoiceTranslation",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"text/plain"},
-		ConsumesMediaTypes: []string{"text/plain"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &UploadInvoiceTranslationReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*UploadInvoiceTranslationCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for uploadInvoiceTranslation: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 VoidInvoice performs the action of voiding an invoice
 */
-func (a *Client) VoidInvoice(ctx context.Context, params *VoidInvoiceParams) (*VoidInvoiceNoContent, error) {
+func (a *Client) VoidInvoice(params *VoidInvoiceParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*VoidInvoiceNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewVoidInvoiceParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "voidInvoice",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/voidInvoice",
@@ -2061,10 +1448,15 @@ func (a *Client) VoidInvoice(ctx context.Context, params *VoidInvoiceParams) (*V
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &VoidInvoiceReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2076,7 +1468,6 @@ func (a *Client) VoidInvoice(ctx context.Context, params *VoidInvoiceParams) (*V
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for voidInvoice: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 // SetTransport changes the transport on the client

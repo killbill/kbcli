@@ -6,37 +6,15 @@ package subscription
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new subscription API client.
-func New(transport runtime.ClientTransport,
-	formats strfmt.Registry,
-	authInfo runtime.ClientAuthInfoWriter,
-	defaults KillbillDefaults) *Client {
-
-	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
-}
-
-// killbill default values. When a call is made to an operation, these values are used
-// if params doesn't specify them.
-type KillbillDefaults interface {
-	// Default CreatedBy. If not set explicitly in params, this will be used.
-	XKillbillCreatedBy() *string
-	// Default Comment. If not set explicitly in params, this will be used.
-	XKillbillComment() *string
-	// Default Reason. If not set explicitly in params, this will be used.
-	XKillbillReason() *string
-	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
-	KillbillWithProfilingInfo() *string
-	// Default WithStackTrace. If not set explicitly in params, this will be used.
-	KillbillWithStackTrace() *bool
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+	return &Client{transport: transport, formats: formats}
 }
 
 /*
@@ -45,229 +23,123 @@ Client for subscription API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
-	authInfo  runtime.ClientAuthInfoWriter
-	defaults  KillbillDefaults
 }
 
-// ISubscription - interface for Subscription client.
-type ISubscription interface {
-	/*
-		AddSubscriptionBlockingState blocks a subscription
-	*/
-	AddSubscriptionBlockingState(ctx context.Context, params *AddSubscriptionBlockingStateParams) (*AddSubscriptionBlockingStateCreated, error)
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
 
-	/*
-		CancelSubscriptionPlan cancels an entitlement plan
-	*/
-	CancelSubscriptionPlan(ctx context.Context, params *CancelSubscriptionPlanParams) (*CancelSubscriptionPlanNoContent, error)
+// ClientService is the interface for Client methods
+type ClientService interface {
+	AddSubscriptionBlockingState(params *AddSubscriptionBlockingStateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddSubscriptionBlockingStateCreated, error)
 
-	/*
-		ChangeSubscriptionPlan changes entitlement plan
-	*/
-	ChangeSubscriptionPlan(ctx context.Context, params *ChangeSubscriptionPlanParams) (*ChangeSubscriptionPlanNoContent, error)
+	CancelSubscriptionPlan(params *CancelSubscriptionPlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CancelSubscriptionPlanNoContent, error)
 
-	/*
-		CreateSubscription creates an subscription
-	*/
-	CreateSubscription(ctx context.Context, params *CreateSubscriptionParams) (*CreateSubscriptionCreated, error)
+	ChangeSubscriptionPlan(params *ChangeSubscriptionPlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChangeSubscriptionPlanNoContent, error)
 
-	/*
-		CreateSubscriptionCustomFields adds custom fields to subscription
-	*/
-	CreateSubscriptionCustomFields(ctx context.Context, params *CreateSubscriptionCustomFieldsParams) (*CreateSubscriptionCustomFieldsCreated, error)
+	CreateSubscription(params *CreateSubscriptionParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionCreated, error)
 
-	/*
-		CreateSubscriptionTags create subscription tags API
-	*/
-	CreateSubscriptionTags(ctx context.Context, params *CreateSubscriptionTagsParams) (*CreateSubscriptionTagsCreated, error)
+	CreateSubscriptionCustomFields(params *CreateSubscriptionCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionCustomFieldsCreated, error)
 
-	/*
-		CreateSubscriptionWithAddOns creates an entitlement with add on products
-	*/
-	CreateSubscriptionWithAddOns(ctx context.Context, params *CreateSubscriptionWithAddOnsParams) (*CreateSubscriptionWithAddOnsCreated, error)
+	CreateSubscriptionTags(params *CreateSubscriptionTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionTagsCreated, error)
 
-	/*
-		CreateSubscriptionsWithAddOns creates multiple entitlements with add on products
-	*/
-	CreateSubscriptionsWithAddOns(ctx context.Context, params *CreateSubscriptionsWithAddOnsParams) (*CreateSubscriptionsWithAddOnsCreated, error)
+	CreateSubscriptionWithAddOns(params *CreateSubscriptionWithAddOnsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionWithAddOnsCreated, error)
 
-	/*
-		DeleteSubscriptionCustomFields removes custom fields from subscription
-	*/
-	DeleteSubscriptionCustomFields(ctx context.Context, params *DeleteSubscriptionCustomFieldsParams) (*DeleteSubscriptionCustomFieldsNoContent, error)
+	CreateSubscriptionsWithAddOns(params *CreateSubscriptionsWithAddOnsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionsWithAddOnsCreated, error)
 
-	/*
-		DeleteSubscriptionTags removes tags from subscription
-	*/
-	DeleteSubscriptionTags(ctx context.Context, params *DeleteSubscriptionTagsParams) (*DeleteSubscriptionTagsNoContent, error)
+	DeleteSubscriptionCustomFields(params *DeleteSubscriptionCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteSubscriptionCustomFieldsNoContent, error)
 
-	/*
-		GetSubscription retrieves a subscription by id
-	*/
-	GetSubscription(ctx context.Context, params *GetSubscriptionParams) (*GetSubscriptionOK, error)
+	DeleteSubscriptionTags(params *DeleteSubscriptionTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteSubscriptionTagsNoContent, error)
 
-	/*
-		GetSubscriptionAuditLogsWithHistory retrieves subscription audit logs with history by id
-	*/
-	GetSubscriptionAuditLogsWithHistory(ctx context.Context, params *GetSubscriptionAuditLogsWithHistoryParams) (*GetSubscriptionAuditLogsWithHistoryOK, error)
+	GetSubscription(params *GetSubscriptionParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionOK, error)
 
-	/*
-		GetSubscriptionByKey retrieves a subscription by external key
-	*/
-	GetSubscriptionByKey(ctx context.Context, params *GetSubscriptionByKeyParams) (*GetSubscriptionByKeyOK, error)
+	GetSubscriptionAuditLogsWithHistory(params *GetSubscriptionAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionAuditLogsWithHistoryOK, error)
 
-	/*
-		GetSubscriptionCustomFields retrieves subscription custom fields
-	*/
-	GetSubscriptionCustomFields(ctx context.Context, params *GetSubscriptionCustomFieldsParams) (*GetSubscriptionCustomFieldsOK, error)
+	GetSubscriptionByKey(params *GetSubscriptionByKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionByKeyOK, error)
 
-	/*
-		GetSubscriptionEventAuditLogsWithHistory retrieves subscription event audit logs with history by id
-	*/
-	GetSubscriptionEventAuditLogsWithHistory(ctx context.Context, params *GetSubscriptionEventAuditLogsWithHistoryParams) (*GetSubscriptionEventAuditLogsWithHistoryOK, error)
+	GetSubscriptionCustomFields(params *GetSubscriptionCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionCustomFieldsOK, error)
 
-	/*
-		GetSubscriptionTags retrieves subscription tags
-	*/
-	GetSubscriptionTags(ctx context.Context, params *GetSubscriptionTagsParams) (*GetSubscriptionTagsOK, error)
+	GetSubscriptionEventAuditLogsWithHistory(params *GetSubscriptionEventAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionEventAuditLogsWithHistoryOK, error)
 
-	/*
-		ModifySubscriptionCustomFields modifies custom fields to subscription
-	*/
-	ModifySubscriptionCustomFields(ctx context.Context, params *ModifySubscriptionCustomFieldsParams) (*ModifySubscriptionCustomFieldsNoContent, error)
+	GetSubscriptionTags(params *GetSubscriptionTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionTagsOK, error)
 
-	/*
-		UncancelSubscriptionPlan uns cancel an entitlement
-	*/
-	UncancelSubscriptionPlan(ctx context.Context, params *UncancelSubscriptionPlanParams) (*UncancelSubscriptionPlanNoContent, error)
+	ModifySubscriptionCustomFields(params *ModifySubscriptionCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifySubscriptionCustomFieldsNoContent, error)
 
-	/*
-		UndoChangeSubscriptionPlan undos a pending change plan on an entitlement
-	*/
-	UndoChangeSubscriptionPlan(ctx context.Context, params *UndoChangeSubscriptionPlanParams) (*UndoChangeSubscriptionPlanNoContent, error)
+	UncancelSubscriptionPlan(params *UncancelSubscriptionPlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UncancelSubscriptionPlanNoContent, error)
 
-	/*
-		UpdateSubscriptionBCD updates the b c d associated to a subscription
-	*/
-	UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscriptionBCDParams) (*UpdateSubscriptionBCDNoContent, error)
+	UndoChangeSubscriptionPlan(params *UndoChangeSubscriptionPlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UndoChangeSubscriptionPlanNoContent, error)
+
+	UpdateSubscriptionBCD(params *UpdateSubscriptionBCDParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UpdateSubscriptionBCDNoContent, error)
+
+	UpdateSubscriptionQuantity(params *UpdateSubscriptionQuantityParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UpdateSubscriptionQuantityNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
 AddSubscriptionBlockingState blocks a subscription
 */
-func (a *Client) AddSubscriptionBlockingState(ctx context.Context, params *AddSubscriptionBlockingStateParams) (*AddSubscriptionBlockingStateCreated, error) {
+func (a *Client) AddSubscriptionBlockingState(params *AddSubscriptionBlockingStateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddSubscriptionBlockingStateCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAddSubscriptionBlockingStateParams()
 	}
-	getParams := NewAddSubscriptionBlockingStateParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addSubscriptionBlockingState",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/block",
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &AddSubscriptionBlockingStateReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*AddSubscriptionBlockingStateCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*AddSubscriptionBlockingStateCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "addSubscriptionBlockingState",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &AddSubscriptionBlockingStateReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*AddSubscriptionBlockingStateCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for addSubscriptionBlockingState: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CancelSubscriptionPlan cancels an entitlement plan
 */
-func (a *Client) CancelSubscriptionPlan(ctx context.Context, params *CancelSubscriptionPlanParams) (*CancelSubscriptionPlanNoContent, error) {
+func (a *Client) CancelSubscriptionPlan(params *CancelSubscriptionPlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CancelSubscriptionPlanNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCancelSubscriptionPlanParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "cancelSubscriptionPlan",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CancelSubscriptionPlanReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -279,39 +151,17 @@ func (a *Client) CancelSubscriptionPlan(ctx context.Context, params *CancelSubsc
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for cancelSubscriptionPlan: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 ChangeSubscriptionPlan changes entitlement plan
 */
-func (a *Client) ChangeSubscriptionPlan(ctx context.Context, params *ChangeSubscriptionPlanParams) (*ChangeSubscriptionPlanNoContent, error) {
+func (a *Client) ChangeSubscriptionPlan(params *ChangeSubscriptionPlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChangeSubscriptionPlanNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewChangeSubscriptionPlanParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "changeSubscriptionPlan",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}",
@@ -320,10 +170,15 @@ func (a *Client) ChangeSubscriptionPlan(ctx context.Context, params *ChangeSubsc
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ChangeSubscriptionPlanReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -335,42 +190,17 @@ func (a *Client) ChangeSubscriptionPlan(ctx context.Context, params *ChangeSubsc
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for changeSubscriptionPlan: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 CreateSubscription creates an subscription
 */
-func (a *Client) CreateSubscription(ctx context.Context, params *CreateSubscriptionParams) (*CreateSubscriptionCreated, error) {
+func (a *Client) CreateSubscription(params *CreateSubscriptionParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateSubscriptionParams()
 	}
-	getParams := NewCreateSubscriptionParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscription",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions",
@@ -379,72 +209,37 @@ func (a *Client) CreateSubscription(ctx context.Context, params *CreateSubscript
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateSubscriptionReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateSubscriptionCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateSubscriptionCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createSubscription",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateSubscriptionReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateSubscriptionCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createSubscription: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateSubscriptionCustomFields adds custom fields to subscription
 */
-func (a *Client) CreateSubscriptionCustomFields(ctx context.Context, params *CreateSubscriptionCustomFieldsParams) (*CreateSubscriptionCustomFieldsCreated, error) {
+func (a *Client) CreateSubscriptionCustomFields(params *CreateSubscriptionCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionCustomFieldsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateSubscriptionCustomFieldsParams()
 	}
-	getParams := NewCreateSubscriptionCustomFieldsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscriptionCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/customFields",
@@ -453,72 +248,37 @@ func (a *Client) CreateSubscriptionCustomFields(ctx context.Context, params *Cre
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateSubscriptionCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateSubscriptionCustomFieldsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateSubscriptionCustomFieldsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createSubscriptionCustomFields",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateSubscriptionCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateSubscriptionCustomFieldsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createSubscriptionCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateSubscriptionTags create subscription tags API
 */
-func (a *Client) CreateSubscriptionTags(ctx context.Context, params *CreateSubscriptionTagsParams) (*CreateSubscriptionTagsCreated, error) {
+func (a *Client) CreateSubscriptionTags(params *CreateSubscriptionTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionTagsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateSubscriptionTagsParams()
 	}
-	getParams := NewCreateSubscriptionTagsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscriptionTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/tags",
@@ -527,72 +287,37 @@ func (a *Client) CreateSubscriptionTags(ctx context.Context, params *CreateSubsc
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateSubscriptionTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateSubscriptionTagsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateSubscriptionTagsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createSubscriptionTags",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateSubscriptionTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateSubscriptionTagsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createSubscriptionTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateSubscriptionWithAddOns creates an entitlement with add on products
 */
-func (a *Client) CreateSubscriptionWithAddOns(ctx context.Context, params *CreateSubscriptionWithAddOnsParams) (*CreateSubscriptionWithAddOnsCreated, error) {
+func (a *Client) CreateSubscriptionWithAddOns(params *CreateSubscriptionWithAddOnsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionWithAddOnsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateSubscriptionWithAddOnsParams()
 	}
-	getParams := NewCreateSubscriptionWithAddOnsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscriptionWithAddOns",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/createSubscriptionWithAddOns",
@@ -601,72 +326,37 @@ func (a *Client) CreateSubscriptionWithAddOns(ctx context.Context, params *Creat
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateSubscriptionWithAddOnsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateSubscriptionWithAddOnsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateSubscriptionWithAddOnsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createSubscriptionWithAddOns",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateSubscriptionWithAddOnsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateSubscriptionWithAddOnsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createSubscriptionWithAddOns: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 CreateSubscriptionsWithAddOns creates multiple entitlements with add on products
 */
-func (a *Client) CreateSubscriptionsWithAddOns(ctx context.Context, params *CreateSubscriptionsWithAddOnsParams) (*CreateSubscriptionsWithAddOnsCreated, error) {
+func (a *Client) CreateSubscriptionsWithAddOns(params *CreateSubscriptionsWithAddOnsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateSubscriptionsWithAddOnsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateSubscriptionsWithAddOnsParams()
 	}
-	getParams := NewCreateSubscriptionsWithAddOnsParams()
-	getParams.Context = ctx
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-	getParams.XKillbillComment = params.XKillbillComment
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-	getParams.XKillbillReason = params.XKillbillReason
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-	getParams.WithStackTrace = params.WithStackTrace
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscriptionsWithAddOns",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/createSubscriptionsWithAddOns",
@@ -675,69 +365,37 @@ func (a *Client) CreateSubscriptionsWithAddOns(ctx context.Context, params *Crea
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateSubscriptionsWithAddOnsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	createdResult := result.(*CreateSubscriptionsWithAddOnsCreated)
-	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
-	if !params.ProcessLocationHeader || location == "" {
-		return createdResult, nil
+	success, ok := result.(*CreateSubscriptionsWithAddOnsCreated)
+	if ok {
+		return success, nil
 	}
-
-	getResult, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "createSubscriptionsWithAddOns",
-		Method:             "GET",
-		PathPattern:        location,
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
-		Params:             getParams,
-		Reader:             &CreateSubscriptionsWithAddOnsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
-		Context:            getParams.Context,
-		Client:             getParams.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return getResult.(*CreateSubscriptionsWithAddOnsCreated), nil
-
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for createSubscriptionsWithAddOns: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
 DeleteSubscriptionCustomFields removes custom fields from subscription
 */
-func (a *Client) DeleteSubscriptionCustomFields(ctx context.Context, params *DeleteSubscriptionCustomFieldsParams) (*DeleteSubscriptionCustomFieldsNoContent, error) {
+func (a *Client) DeleteSubscriptionCustomFields(params *DeleteSubscriptionCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteSubscriptionCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteSubscriptionCustomFieldsParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteSubscriptionCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/customFields",
@@ -746,10 +404,15 @@ func (a *Client) DeleteSubscriptionCustomFields(ctx context.Context, params *Del
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteSubscriptionCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -761,39 +424,17 @@ func (a *Client) DeleteSubscriptionCustomFields(ctx context.Context, params *Del
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteSubscriptionCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 DeleteSubscriptionTags removes tags from subscription
 */
-func (a *Client) DeleteSubscriptionTags(ctx context.Context, params *DeleteSubscriptionTagsParams) (*DeleteSubscriptionTagsNoContent, error) {
+func (a *Client) DeleteSubscriptionTags(params *DeleteSubscriptionTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteSubscriptionTagsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteSubscriptionTagsParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteSubscriptionTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/tags",
@@ -802,10 +443,15 @@ func (a *Client) DeleteSubscriptionTags(ctx context.Context, params *DeleteSubsc
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteSubscriptionTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -817,39 +463,34 @@ func (a *Client) DeleteSubscriptionTags(ctx context.Context, params *DeleteSubsc
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteSubscriptionTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetSubscription retrieves a subscription by id
 */
-func (a *Client) GetSubscription(ctx context.Context, params *GetSubscriptionParams) (*GetSubscriptionOK, error) {
+func (a *Client) GetSubscription(params *GetSubscriptionParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetSubscriptionParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscription",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -861,39 +502,34 @@ func (a *Client) GetSubscription(ctx context.Context, params *GetSubscriptionPar
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getSubscription: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetSubscriptionAuditLogsWithHistory retrieves subscription audit logs with history by id
 */
-func (a *Client) GetSubscriptionAuditLogsWithHistory(ctx context.Context, params *GetSubscriptionAuditLogsWithHistoryParams) (*GetSubscriptionAuditLogsWithHistoryOK, error) {
+func (a *Client) GetSubscriptionAuditLogsWithHistory(params *GetSubscriptionAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetSubscriptionAuditLogsWithHistoryParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -905,39 +541,34 @@ func (a *Client) GetSubscriptionAuditLogsWithHistory(ctx context.Context, params
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getSubscriptionAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetSubscriptionByKey retrieves a subscription by external key
 */
-func (a *Client) GetSubscriptionByKey(ctx context.Context, params *GetSubscriptionByKeyParams) (*GetSubscriptionByKeyOK, error) {
+func (a *Client) GetSubscriptionByKey(params *GetSubscriptionByKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionByKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetSubscriptionByKeyParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionByKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionByKeyReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -949,39 +580,34 @@ func (a *Client) GetSubscriptionByKey(ctx context.Context, params *GetSubscripti
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getSubscriptionByKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetSubscriptionCustomFields retrieves subscription custom fields
 */
-func (a *Client) GetSubscriptionCustomFields(ctx context.Context, params *GetSubscriptionCustomFieldsParams) (*GetSubscriptionCustomFieldsOK, error) {
+func (a *Client) GetSubscriptionCustomFields(params *GetSubscriptionCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionCustomFieldsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetSubscriptionCustomFieldsParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -993,39 +619,34 @@ func (a *Client) GetSubscriptionCustomFields(ctx context.Context, params *GetSub
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getSubscriptionCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetSubscriptionEventAuditLogsWithHistory retrieves subscription event audit logs with history by id
 */
-func (a *Client) GetSubscriptionEventAuditLogsWithHistory(ctx context.Context, params *GetSubscriptionEventAuditLogsWithHistoryParams) (*GetSubscriptionEventAuditLogsWithHistoryOK, error) {
+func (a *Client) GetSubscriptionEventAuditLogsWithHistory(params *GetSubscriptionEventAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionEventAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetSubscriptionEventAuditLogsWithHistoryParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionEventAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionEventAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1037,39 +658,34 @@ func (a *Client) GetSubscriptionEventAuditLogsWithHistory(ctx context.Context, p
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getSubscriptionEventAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 GetSubscriptionTags retrieves subscription tags
 */
-func (a *Client) GetSubscriptionTags(ctx context.Context, params *GetSubscriptionTagsParams) (*GetSubscriptionTagsOK, error) {
+func (a *Client) GetSubscriptionTags(params *GetSubscriptionTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetSubscriptionTagsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetSubscriptionTagsParams()
 	}
-	params.Context = ctx
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionTagsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1081,39 +697,17 @@ func (a *Client) GetSubscriptionTags(ctx context.Context, params *GetSubscriptio
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getSubscriptionTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 ModifySubscriptionCustomFields modifies custom fields to subscription
 */
-func (a *Client) ModifySubscriptionCustomFields(ctx context.Context, params *ModifySubscriptionCustomFieldsParams) (*ModifySubscriptionCustomFieldsNoContent, error) {
+func (a *Client) ModifySubscriptionCustomFields(params *ModifySubscriptionCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifySubscriptionCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewModifySubscriptionCustomFieldsParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifySubscriptionCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/customFields",
@@ -1122,10 +716,15 @@ func (a *Client) ModifySubscriptionCustomFields(ctx context.Context, params *Mod
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ModifySubscriptionCustomFieldsReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1137,51 +736,34 @@ func (a *Client) ModifySubscriptionCustomFields(ctx context.Context, params *Mod
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for modifySubscriptionCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 UncancelSubscriptionPlan uns cancel an entitlement
 */
-func (a *Client) UncancelSubscriptionPlan(ctx context.Context, params *UncancelSubscriptionPlanParams) (*UncancelSubscriptionPlanNoContent, error) {
+func (a *Client) UncancelSubscriptionPlan(params *UncancelSubscriptionPlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UncancelSubscriptionPlanNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUncancelSubscriptionPlanParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uncancelSubscriptionPlan",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/uncancel",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UncancelSubscriptionPlanReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1193,51 +775,34 @@ func (a *Client) UncancelSubscriptionPlan(ctx context.Context, params *UncancelS
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for uncancelSubscriptionPlan: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 UndoChangeSubscriptionPlan undos a pending change plan on an entitlement
 */
-func (a *Client) UndoChangeSubscriptionPlan(ctx context.Context, params *UndoChangeSubscriptionPlanParams) (*UndoChangeSubscriptionPlanNoContent, error) {
+func (a *Client) UndoChangeSubscriptionPlan(params *UndoChangeSubscriptionPlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UndoChangeSubscriptionPlanNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUndoChangeSubscriptionPlanParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "undoChangeSubscriptionPlan",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/undoChangePlan",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UndoChangeSubscriptionPlanReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1249,39 +814,17 @@ func (a *Client) UndoChangeSubscriptionPlan(ctx context.Context, params *UndoCha
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for undoChangeSubscriptionPlan: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
-
 }
 
 /*
 UpdateSubscriptionBCD updates the b c d associated to a subscription
 */
-func (a *Client) UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscriptionBCDParams) (*UpdateSubscriptionBCDNoContent, error) {
+func (a *Client) UpdateSubscriptionBCD(params *UpdateSubscriptionBCDParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UpdateSubscriptionBCDNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateSubscriptionBCDParams()
 	}
-	params.Context = ctx
-	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
-		params.XKillbillComment = a.defaults.XKillbillComment()
-	}
-
-	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
-		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
-	}
-
-	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
-		params.XKillbillReason = a.defaults.XKillbillReason()
-	}
-
-	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
-		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
-	}
-
-	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
-		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateSubscriptionBCD",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/bcd",
@@ -1290,10 +833,15 @@ func (a *Client) UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscr
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UpdateSubscriptionBCDReader{formats: a.formats},
-		AuthInfo:           a.authInfo,
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1305,7 +853,45 @@ func (a *Client) UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscr
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for updateSubscriptionBCD: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+}
 
+/*
+UpdateSubscriptionQuantity updates the quantity associated to a subscription
+*/
+func (a *Client) UpdateSubscriptionQuantity(params *UpdateSubscriptionQuantityParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UpdateSubscriptionQuantityNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSubscriptionQuantityParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "updateSubscriptionQuantity",
+		Method:             "PUT",
+		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/quantity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &UpdateSubscriptionQuantityReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSubscriptionQuantityNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for updateSubscriptionQuantity: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 // SetTransport changes the transport on the client
