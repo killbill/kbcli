@@ -6,15 +6,36 @@ package tag
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new tag API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
-	return &Client{transport: transport, formats: formats}
+func New(transport runtime.ClientTransport,
+	formats strfmt.Registry,
+	authInfo runtime.ClientAuthInfoWriter,
+	defaults KillbillDefaults) *Client {
+
+	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
+}
+
+// killbill default values. When a call is made to an operation, these values are used
+// if params doesn't specify them.
+type KillbillDefaults interface {
+	// Default CreatedBy. If not set explicitly in params, this will be used.
+	XKillbillCreatedBy() *string
+	// Default Comment. If not set explicitly in params, this will be used.
+	XKillbillComment() *string
+	// Default Reason. If not set explicitly in params, this will be used.
+	XKillbillReason() *string
+	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
+	KillbillWithProfilingInfo() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -23,48 +44,58 @@ Client for tag API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
+	authInfo  runtime.ClientAuthInfoWriter
+	defaults  KillbillDefaults
 }
 
-// ClientOption is the option for Client methods
-type ClientOption func(*runtime.ClientOperation)
+// ITag - interface for Tag client.
+type ITag interface {
+	/*
+		GetTagAuditLogsWithHistory retrieves tag audit logs with history by id
+	*/
+	GetTagAuditLogsWithHistory(ctx context.Context, params *GetTagAuditLogsWithHistoryParams) (*GetTagAuditLogsWithHistoryOK, error)
 
-// ClientService is the interface for Client methods
-type ClientService interface {
-	GetTagAuditLogsWithHistory(params *GetTagAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetTagAuditLogsWithHistoryOK, error)
+	/*
+		GetTags lists tags
+	*/
+	GetTags(ctx context.Context, params *GetTagsParams) (*GetTagsOK, error)
 
-	GetTags(params *GetTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetTagsOK, error)
-
-	SearchTags(params *SearchTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchTagsOK, error)
-
-	SetTransport(transport runtime.ClientTransport)
+	/*
+		SearchTags searches tags
+	*/
+	SearchTags(ctx context.Context, params *SearchTagsParams) (*SearchTagsOK, error)
 }
 
 /*
 GetTagAuditLogsWithHistory retrieves tag audit logs with history by id
 */
-func (a *Client) GetTagAuditLogsWithHistory(params *GetTagAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetTagAuditLogsWithHistoryOK, error) {
+func (a *Client) GetTagAuditLogsWithHistory(ctx context.Context, params *GetTagAuditLogsWithHistoryParams) (*GetTagAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetTagAuditLogsWithHistoryParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getTagAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tags/{tagId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTagAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -76,34 +107,39 @@ func (a *Client) GetTagAuditLogsWithHistory(params *GetTagAuditLogsWithHistoryPa
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getTagAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetTags lists tags
 */
-func (a *Client) GetTags(params *GetTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetTagsOK, error) {
+func (a *Client) GetTags(ctx context.Context, params *GetTagsParams) (*GetTagsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetTagsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tags/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTagsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -115,34 +151,39 @@ func (a *Client) GetTags(params *GetTagsParams, authInfo runtime.ClientAuthInfoW
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 SearchTags searches tags
 */
-func (a *Client) SearchTags(params *SearchTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchTagsOK, error) {
+func (a *Client) SearchTags(ctx context.Context, params *SearchTagsParams) (*SearchTagsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSearchTagsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "searchTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tags/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchTagsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -154,6 +195,7 @@ func (a *Client) SearchTags(params *SearchTagsParams, authInfo runtime.ClientAut
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for searchTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 // SetTransport changes the transport on the client

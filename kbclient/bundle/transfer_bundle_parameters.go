@@ -13,124 +13,102 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewTransferBundleParams creates a new TransferBundleParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewTransferBundleParams creates a new TransferBundleParams object
+// with the default values initialized.
 func NewTransferBundleParams() *TransferBundleParams {
+	var (
+		bcdTransferDefault   = string("USE_EXISTING")
+		billingPolicyDefault = string("END_OF_TERM")
+	)
 	return &TransferBundleParams{
+		BcdTransfer:   &bcdTransferDefault,
+		BillingPolicy: &billingPolicyDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewTransferBundleParamsWithTimeout creates a new TransferBundleParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewTransferBundleParamsWithTimeout(timeout time.Duration) *TransferBundleParams {
+	var (
+		bcdTransferDefault   = string("USE_EXISTING")
+		billingPolicyDefault = string("END_OF_TERM")
+	)
 	return &TransferBundleParams{
+		BcdTransfer:   &bcdTransferDefault,
+		BillingPolicy: &billingPolicyDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewTransferBundleParamsWithContext creates a new TransferBundleParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewTransferBundleParamsWithContext(ctx context.Context) *TransferBundleParams {
+	var (
+		bcdTransferDefault   = string("USE_EXISTING")
+		billingPolicyDefault = string("END_OF_TERM")
+	)
 	return &TransferBundleParams{
+		BcdTransfer:   &bcdTransferDefault,
+		BillingPolicy: &billingPolicyDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewTransferBundleParamsWithHTTPClient creates a new TransferBundleParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewTransferBundleParamsWithHTTPClient(client *http.Client) *TransferBundleParams {
+	var (
+		bcdTransferDefault   = string("USE_EXISTING")
+		billingPolicyDefault = string("END_OF_TERM")
+	)
 	return &TransferBundleParams{
-		HTTPClient: client,
+		BcdTransfer:   &bcdTransferDefault,
+		BillingPolicy: &billingPolicyDefault,
+		HTTPClient:    client,
 	}
 }
 
-/*
-TransferBundleParams contains all the parameters to send to the API endpoint
-
-	for the transfer bundle operation.
-
-	Typically these are written to a http.Request.
+/*TransferBundleParams contains all the parameters to send to the API endpoint
+for the transfer bundle operation typically these are written to a http.Request
 */
 type TransferBundleParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// BcdTransfer.
-	//
-	// Default: "USE_EXISTING"
+	/*BcdTransfer*/
 	BcdTransfer *string
-
-	// BillingPolicy.
-	//
-	// Default: "END_OF_TERM"
+	/*BillingPolicy*/
 	BillingPolicy *string
-
-	// Body.
+	/*Body*/
 	Body *kbmodel.Bundle
-
-	// BundleID.
-	//
-	// Format: uuid
+	/*BundleID*/
 	BundleID strfmt.UUID
-
-	// PluginProperty.
+	/*PluginProperty*/
 	PluginProperty []string
-
-	// RequestedDate.
-	//
-	// Format: date
+	/*RequestedDate*/
 	RequestedDate *strfmt.Date
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the transfer bundle params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *TransferBundleParams) WithDefaults() *TransferBundleParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the transfer bundle params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *TransferBundleParams) SetDefaults() {
-	var (
-		bcdTransferDefault = string("USE_EXISTING")
-
-		billingPolicyDefault = string("END_OF_TERM")
-	)
-
-	val := TransferBundleParams{
-		BcdTransfer:   &bcdTransferDefault,
-		BillingPolicy: &billingPolicyDefault,
-	}
-
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the transfer bundle params
@@ -279,6 +257,7 @@ func (o *TransferBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -292,41 +271,41 @@ func (o *TransferBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
 
 	if o.BcdTransfer != nil {
 
 		// query param bcdTransfer
 		var qrBcdTransfer string
-
 		if o.BcdTransfer != nil {
 			qrBcdTransfer = *o.BcdTransfer
 		}
 		qBcdTransfer := qrBcdTransfer
 		if qBcdTransfer != "" {
-
 			if err := r.SetQueryParam("bcdTransfer", qBcdTransfer); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.BillingPolicy != nil {
 
 		// query param billingPolicy
 		var qrBillingPolicy string
-
 		if o.BillingPolicy != nil {
 			qrBillingPolicy = *o.BillingPolicy
 		}
 		qBillingPolicy := qrBillingPolicy
 		if qBillingPolicy != "" {
-
 			if err := r.SetQueryParam("billingPolicy", qBillingPolicy); err != nil {
 				return err
 			}
 		}
+
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -338,31 +317,41 @@ func (o *TransferBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return err
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
-
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-			return err
-		}
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
-
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
-
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 
@@ -370,21 +359,4 @@ func (o *TransferBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamTransferBundle binds the parameter pluginProperty
-func (o *TransferBundleParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

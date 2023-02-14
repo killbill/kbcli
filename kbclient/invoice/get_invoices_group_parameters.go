@@ -13,105 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetInvoicesGroupParams creates a new GetInvoicesGroupParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetInvoicesGroupParams creates a new GetInvoicesGroupParams object
+// with the default values initialized.
 func NewGetInvoicesGroupParams() *GetInvoicesGroupParams {
+	var (
+		auditDefault             = string("NONE")
+		withChildrenItemsDefault = bool(false)
+	)
 	return &GetInvoicesGroupParams{
+		Audit:             &auditDefault,
+		WithChildrenItems: &withChildrenItemsDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetInvoicesGroupParamsWithTimeout creates a new GetInvoicesGroupParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetInvoicesGroupParamsWithTimeout(timeout time.Duration) *GetInvoicesGroupParams {
+	var (
+		auditDefault             = string("NONE")
+		withChildrenItemsDefault = bool(false)
+	)
 	return &GetInvoicesGroupParams{
+		Audit:             &auditDefault,
+		WithChildrenItems: &withChildrenItemsDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetInvoicesGroupParamsWithContext creates a new GetInvoicesGroupParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetInvoicesGroupParamsWithContext(ctx context.Context) *GetInvoicesGroupParams {
+	var (
+		auditDefault             = string("NONE")
+		withChildrenItemsDefault = bool(false)
+	)
 	return &GetInvoicesGroupParams{
+		Audit:             &auditDefault,
+		WithChildrenItems: &withChildrenItemsDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetInvoicesGroupParamsWithHTTPClient creates a new GetInvoicesGroupParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetInvoicesGroupParamsWithHTTPClient(client *http.Client) *GetInvoicesGroupParams {
+	var (
+		auditDefault             = string("NONE")
+		withChildrenItemsDefault = bool(false)
+	)
 	return &GetInvoicesGroupParams{
-		HTTPClient: client,
+		Audit:             &auditDefault,
+		WithChildrenItems: &withChildrenItemsDefault,
+		HTTPClient:        client,
 	}
 }
 
-/*
-GetInvoicesGroupParams contains all the parameters to send to the API endpoint
-
-	for the get invoices group operation.
-
-	Typically these are written to a http.Request.
+/*GetInvoicesGroupParams contains all the parameters to send to the API endpoint
+for the get invoices group operation typically these are written to a http.Request
 */
 type GetInvoicesGroupParams struct {
 
-	// AccountID.
-	//
-	// Format: uuid
+	/*AccountID*/
 	AccountID strfmt.UUID
-
-	// Audit.
-	//
-	// Default: "NONE"
+	/*Audit*/
 	Audit *string
-
-	// GroupID.
-	//
-	// Format: uuid
+	/*GroupID*/
 	GroupID strfmt.UUID
-
-	// WithChildrenItems.
+	/*WithChildrenItems*/
 	WithChildrenItems *bool
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get invoices group params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetInvoicesGroupParams) WithDefaults() *GetInvoicesGroupParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get invoices group params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetInvoicesGroupParams) SetDefaults() {
-	var (
-		auditDefault = string("NONE")
-
-		withChildrenItemsDefault = bool(false)
-	)
-
-	val := GetInvoicesGroupParams{
-		Audit:             &auditDefault,
-		WithChildrenItems: &withChildrenItemsDefault,
-	}
-
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get invoices group params
@@ -203,7 +188,6 @@ func (o *GetInvoicesGroupParams) WriteToRequest(r runtime.ClientRequest, reg str
 	qrAccountID := o.AccountID
 	qAccountID := qrAccountID.String()
 	if qAccountID != "" {
-
 		if err := r.SetQueryParam("accountId", qAccountID); err != nil {
 			return err
 		}
@@ -213,17 +197,16 @@ func (o *GetInvoicesGroupParams) WriteToRequest(r runtime.ClientRequest, reg str
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// path param groupId
@@ -235,16 +218,29 @@ func (o *GetInvoicesGroupParams) WriteToRequest(r runtime.ClientRequest, reg str
 
 		// query param withChildrenItems
 		var qrWithChildrenItems bool
-
 		if o.WithChildrenItems != nil {
 			qrWithChildrenItems = *o.WithChildrenItems
 		}
 		qWithChildrenItems := swag.FormatBool(qrWithChildrenItems)
 		if qWithChildrenItems != "" {
-
 			if err := r.SetQueryParam("withChildrenItems", qWithChildrenItems); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 

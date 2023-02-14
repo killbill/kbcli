@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetAllPluginConfigurationReader is a Reader for the GetAllPluginConfiguration structure.
@@ -23,20 +25,21 @@ type GetAllPluginConfigurationReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetAllPluginConfigurationReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetAllPluginConfigurationOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewGetAllPluginConfigurationBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -45,50 +48,17 @@ func NewGetAllPluginConfigurationOK() *GetAllPluginConfigurationOK {
 	return &GetAllPluginConfigurationOK{}
 }
 
-/*
-GetAllPluginConfigurationOK describes a response with status code 200, with default header values.
+/*GetAllPluginConfigurationOK handles this case with default header values.
 
 successful operation
 */
 type GetAllPluginConfigurationOK struct {
 	Payload []*kbmodel.TenantKeyValue
-}
 
-// IsSuccess returns true when this get all plugin configuration o k response has a 2xx status code
-func (o *GetAllPluginConfigurationOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get all plugin configuration o k response has a 3xx status code
-func (o *GetAllPluginConfigurationOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get all plugin configuration o k response has a 4xx status code
-func (o *GetAllPluginConfigurationOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get all plugin configuration o k response has a 5xx status code
-func (o *GetAllPluginConfigurationOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get all plugin configuration o k response a status code equal to that given
-func (o *GetAllPluginConfigurationOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get all plugin configuration o k response
-func (o *GetAllPluginConfigurationOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllPluginConfigurationOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/tenants/uploadPerTenantConfig/{keyPrefix}/search][%d] getAllPluginConfigurationOK  %+v", 200, o.Payload)
-}
-
-func (o *GetAllPluginConfigurationOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants/uploadPerTenantConfig/{keyPrefix}/search][%d] getAllPluginConfigurationOK  %+v", 200, o.Payload)
 }
 
@@ -111,49 +81,15 @@ func NewGetAllPluginConfigurationBadRequest() *GetAllPluginConfigurationBadReque
 	return &GetAllPluginConfigurationBadRequest{}
 }
 
-/*
-GetAllPluginConfigurationBadRequest describes a response with status code 400, with default header values.
+/*GetAllPluginConfigurationBadRequest handles this case with default header values.
 
 Invalid tenantId supplied
 */
 type GetAllPluginConfigurationBadRequest struct {
-}
-
-// IsSuccess returns true when this get all plugin configuration bad request response has a 2xx status code
-func (o *GetAllPluginConfigurationBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get all plugin configuration bad request response has a 3xx status code
-func (o *GetAllPluginConfigurationBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get all plugin configuration bad request response has a 4xx status code
-func (o *GetAllPluginConfigurationBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get all plugin configuration bad request response has a 5xx status code
-func (o *GetAllPluginConfigurationBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get all plugin configuration bad request response a status code equal to that given
-func (o *GetAllPluginConfigurationBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the get all plugin configuration bad request response
-func (o *GetAllPluginConfigurationBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllPluginConfigurationBadRequest) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/tenants/uploadPerTenantConfig/{keyPrefix}/search][%d] getAllPluginConfigurationBadRequest ", 400)
-}
-
-func (o *GetAllPluginConfigurationBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants/uploadPerTenantConfig/{keyPrefix}/search][%d] getAllPluginConfigurationBadRequest ", 400)
 }
 

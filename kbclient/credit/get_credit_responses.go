@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetCreditReader is a Reader for the GetCredit structure.
@@ -23,26 +25,21 @@ type GetCreditReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetCreditReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetCreditOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewGetCreditBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewGetCreditNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -51,50 +48,17 @@ func NewGetCreditOK() *GetCreditOK {
 	return &GetCreditOK{}
 }
 
-/*
-GetCreditOK describes a response with status code 200, with default header values.
+/*GetCreditOK handles this case with default header values.
 
 successful operation
 */
 type GetCreditOK struct {
 	Payload *kbmodel.InvoiceItem
-}
 
-// IsSuccess returns true when this get credit o k response has a 2xx status code
-func (o *GetCreditOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get credit o k response has a 3xx status code
-func (o *GetCreditOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get credit o k response has a 4xx status code
-func (o *GetCreditOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get credit o k response has a 5xx status code
-func (o *GetCreditOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get credit o k response a status code equal to that given
-func (o *GetCreditOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get credit o k response
-func (o *GetCreditOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCreditOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/credits/{creditId}][%d] getCreditOK  %+v", 200, o.Payload)
-}
-
-func (o *GetCreditOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/credits/{creditId}][%d] getCreditOK  %+v", 200, o.Payload)
 }
 
@@ -119,49 +83,15 @@ func NewGetCreditBadRequest() *GetCreditBadRequest {
 	return &GetCreditBadRequest{}
 }
 
-/*
-GetCreditBadRequest describes a response with status code 400, with default header values.
+/*GetCreditBadRequest handles this case with default header values.
 
 Invalid credit id supplied
 */
 type GetCreditBadRequest struct {
-}
-
-// IsSuccess returns true when this get credit bad request response has a 2xx status code
-func (o *GetCreditBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get credit bad request response has a 3xx status code
-func (o *GetCreditBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get credit bad request response has a 4xx status code
-func (o *GetCreditBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get credit bad request response has a 5xx status code
-func (o *GetCreditBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get credit bad request response a status code equal to that given
-func (o *GetCreditBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the get credit bad request response
-func (o *GetCreditBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCreditBadRequest) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/credits/{creditId}][%d] getCreditBadRequest ", 400)
-}
-
-func (o *GetCreditBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/credits/{creditId}][%d] getCreditBadRequest ", 400)
 }
 
@@ -175,49 +105,15 @@ func NewGetCreditNotFound() *GetCreditNotFound {
 	return &GetCreditNotFound{}
 }
 
-/*
-GetCreditNotFound describes a response with status code 404, with default header values.
+/*GetCreditNotFound handles this case with default header values.
 
 Credit not found
 */
 type GetCreditNotFound struct {
-}
-
-// IsSuccess returns true when this get credit not found response has a 2xx status code
-func (o *GetCreditNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get credit not found response has a 3xx status code
-func (o *GetCreditNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get credit not found response has a 4xx status code
-func (o *GetCreditNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get credit not found response has a 5xx status code
-func (o *GetCreditNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get credit not found response a status code equal to that given
-func (o *GetCreditNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get credit not found response
-func (o *GetCreditNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetCreditNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/credits/{creditId}][%d] getCreditNotFound ", 404)
-}
-
-func (o *GetCreditNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/credits/{creditId}][%d] getCreditNotFound ", 404)
 }
 

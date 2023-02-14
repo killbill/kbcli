@@ -13,109 +13,100 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetPaymentMethodParams creates a new GetPaymentMethodParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetPaymentMethodParams creates a new GetPaymentMethodParams object
+// with the default values initialized.
 func NewGetPaymentMethodParams() *GetPaymentMethodParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+		withPluginInfoDefault  = bool(false)
+	)
 	return &GetPaymentMethodParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		WithPluginInfo:  &withPluginInfoDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPaymentMethodParamsWithTimeout creates a new GetPaymentMethodParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetPaymentMethodParamsWithTimeout(timeout time.Duration) *GetPaymentMethodParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+		withPluginInfoDefault  = bool(false)
+	)
 	return &GetPaymentMethodParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		WithPluginInfo:  &withPluginInfoDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetPaymentMethodParamsWithContext creates a new GetPaymentMethodParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetPaymentMethodParamsWithContext(ctx context.Context) *GetPaymentMethodParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+		withPluginInfoDefault  = bool(false)
+	)
 	return &GetPaymentMethodParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		WithPluginInfo:  &withPluginInfoDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetPaymentMethodParamsWithHTTPClient creates a new GetPaymentMethodParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetPaymentMethodParamsWithHTTPClient(client *http.Client) *GetPaymentMethodParams {
-	return &GetPaymentMethodParams{
-		HTTPClient: client,
-	}
-}
-
-/*
-GetPaymentMethodParams contains all the parameters to send to the API endpoint
-
-	for the get payment method operation.
-
-	Typically these are written to a http.Request.
-*/
-type GetPaymentMethodParams struct {
-
-	// Audit.
-	//
-	// Default: "NONE"
-	Audit *string
-
-	// IncludedDeleted.
-	IncludedDeleted *bool
-
-	// PaymentMethodID.
-	//
-	// Format: uuid
-	PaymentMethodID strfmt.UUID
-
-	// PluginProperty.
-	PluginProperty []string
-
-	// WithPluginInfo.
-	WithPluginInfo *bool
-
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get payment method params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPaymentMethodParams) WithDefaults() *GetPaymentMethodParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get payment method params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPaymentMethodParams) SetDefaults() {
 	var (
-		auditDefault = string("NONE")
-
+		auditDefault           = string("NONE")
 		includedDeletedDefault = bool(false)
-
-		withPluginInfoDefault = bool(false)
+		withPluginInfoDefault  = bool(false)
 	)
-
-	val := GetPaymentMethodParams{
+	return &GetPaymentMethodParams{
 		Audit:           &auditDefault,
 		IncludedDeleted: &includedDeletedDefault,
 		WithPluginInfo:  &withPluginInfoDefault,
+		HTTPClient:      client,
 	}
+}
 
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+/*GetPaymentMethodParams contains all the parameters to send to the API endpoint
+for the get payment method operation typically these are written to a http.Request
+*/
+type GetPaymentMethodParams struct {
+
+	/*Audit*/
+	Audit *string
+	/*IncludedDeleted*/
+	IncludedDeleted *bool
+	/*PaymentMethodID*/
+	PaymentMethodID strfmt.UUID
+	/*PluginProperty*/
+	PluginProperty []string
+	/*WithPluginInfo*/
+	WithPluginInfo *bool
+
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get payment method params
@@ -218,34 +209,32 @@ func (o *GetPaymentMethodParams) WriteToRequest(r runtime.ClientRequest, reg str
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.IncludedDeleted != nil {
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
-
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
-
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// path param paymentMethodId
@@ -253,31 +242,41 @@ func (o *GetPaymentMethodParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
-
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-			return err
-		}
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	if o.WithPluginInfo != nil {
 
 		// query param withPluginInfo
 		var qrWithPluginInfo bool
-
 		if o.WithPluginInfo != nil {
 			qrWithPluginInfo = *o.WithPluginInfo
 		}
 		qWithPluginInfo := swag.FormatBool(qrWithPluginInfo)
 		if qWithPluginInfo != "" {
-
 			if err := r.SetQueryParam("withPluginInfo", qWithPluginInfo); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 
@@ -285,21 +284,4 @@ func (o *GetPaymentMethodParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamGetPaymentMethod binds the parameter pluginProperty
-func (o *GetPaymentMethodParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

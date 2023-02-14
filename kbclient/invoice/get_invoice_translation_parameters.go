@@ -13,75 +13,63 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetInvoiceTranslationParams creates a new GetInvoiceTranslationParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetInvoiceTranslationParams creates a new GetInvoiceTranslationParams object
+// with the default values initialized.
 func NewGetInvoiceTranslationParams() *GetInvoiceTranslationParams {
+	var ()
 	return &GetInvoiceTranslationParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetInvoiceTranslationParamsWithTimeout creates a new GetInvoiceTranslationParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetInvoiceTranslationParamsWithTimeout(timeout time.Duration) *GetInvoiceTranslationParams {
+	var ()
 	return &GetInvoiceTranslationParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewGetInvoiceTranslationParamsWithContext creates a new GetInvoiceTranslationParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetInvoiceTranslationParamsWithContext(ctx context.Context) *GetInvoiceTranslationParams {
+	var ()
 	return &GetInvoiceTranslationParams{
+
 		Context: ctx,
 	}
 }
 
 // NewGetInvoiceTranslationParamsWithHTTPClient creates a new GetInvoiceTranslationParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetInvoiceTranslationParamsWithHTTPClient(client *http.Client) *GetInvoiceTranslationParams {
+	var ()
 	return &GetInvoiceTranslationParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-GetInvoiceTranslationParams contains all the parameters to send to the API endpoint
-
-	for the get invoice translation operation.
-
-	Typically these are written to a http.Request.
+/*GetInvoiceTranslationParams contains all the parameters to send to the API endpoint
+for the get invoice translation operation typically these are written to a http.Request
 */
 type GetInvoiceTranslationParams struct {
 
-	// Locale.
+	/*Locale*/
 	Locale string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get invoice translation params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetInvoiceTranslationParams) WithDefaults() *GetInvoiceTranslationParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get invoice translation params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetInvoiceTranslationParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get invoice translation params
@@ -139,6 +127,20 @@ func (o *GetInvoiceTranslationParams) WriteToRequest(r runtime.ClientRequest, re
 	// path param locale
 	if err := r.SetPathParam("locale", o.Locale); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

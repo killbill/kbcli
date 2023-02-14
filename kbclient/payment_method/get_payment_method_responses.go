@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetPaymentMethodReader is a Reader for the GetPaymentMethod structure.
@@ -23,26 +25,21 @@ type GetPaymentMethodReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetPaymentMethodReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetPaymentMethodOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewGetPaymentMethodBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewGetPaymentMethodNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -51,50 +48,17 @@ func NewGetPaymentMethodOK() *GetPaymentMethodOK {
 	return &GetPaymentMethodOK{}
 }
 
-/*
-GetPaymentMethodOK describes a response with status code 200, with default header values.
+/*GetPaymentMethodOK handles this case with default header values.
 
 successful operation
 */
 type GetPaymentMethodOK struct {
 	Payload *kbmodel.PaymentMethod
-}
 
-// IsSuccess returns true when this get payment method o k response has a 2xx status code
-func (o *GetPaymentMethodOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get payment method o k response has a 3xx status code
-func (o *GetPaymentMethodOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get payment method o k response has a 4xx status code
-func (o *GetPaymentMethodOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get payment method o k response has a 5xx status code
-func (o *GetPaymentMethodOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get payment method o k response a status code equal to that given
-func (o *GetPaymentMethodOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get payment method o k response
-func (o *GetPaymentMethodOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentMethodOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}][%d] getPaymentMethodOK  %+v", 200, o.Payload)
-}
-
-func (o *GetPaymentMethodOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}][%d] getPaymentMethodOK  %+v", 200, o.Payload)
 }
 
@@ -119,49 +83,15 @@ func NewGetPaymentMethodBadRequest() *GetPaymentMethodBadRequest {
 	return &GetPaymentMethodBadRequest{}
 }
 
-/*
-GetPaymentMethodBadRequest describes a response with status code 400, with default header values.
+/*GetPaymentMethodBadRequest handles this case with default header values.
 
 Invalid paymentMethodId supplied
 */
 type GetPaymentMethodBadRequest struct {
-}
-
-// IsSuccess returns true when this get payment method bad request response has a 2xx status code
-func (o *GetPaymentMethodBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get payment method bad request response has a 3xx status code
-func (o *GetPaymentMethodBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get payment method bad request response has a 4xx status code
-func (o *GetPaymentMethodBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get payment method bad request response has a 5xx status code
-func (o *GetPaymentMethodBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get payment method bad request response a status code equal to that given
-func (o *GetPaymentMethodBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the get payment method bad request response
-func (o *GetPaymentMethodBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentMethodBadRequest) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}][%d] getPaymentMethodBadRequest ", 400)
-}
-
-func (o *GetPaymentMethodBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}][%d] getPaymentMethodBadRequest ", 400)
 }
 
@@ -175,49 +105,15 @@ func NewGetPaymentMethodNotFound() *GetPaymentMethodNotFound {
 	return &GetPaymentMethodNotFound{}
 }
 
-/*
-GetPaymentMethodNotFound describes a response with status code 404, with default header values.
+/*GetPaymentMethodNotFound handles this case with default header values.
 
 Account or payment method not found
 */
 type GetPaymentMethodNotFound struct {
-}
-
-// IsSuccess returns true when this get payment method not found response has a 2xx status code
-func (o *GetPaymentMethodNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get payment method not found response has a 3xx status code
-func (o *GetPaymentMethodNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get payment method not found response has a 4xx status code
-func (o *GetPaymentMethodNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get payment method not found response has a 5xx status code
-func (o *GetPaymentMethodNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get payment method not found response a status code equal to that given
-func (o *GetPaymentMethodNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get payment method not found response
-func (o *GetPaymentMethodNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentMethodNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}][%d] getPaymentMethodNotFound ", 404)
-}
-
-func (o *GetPaymentMethodNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}][%d] getPaymentMethodNotFound ", 404)
 }
 

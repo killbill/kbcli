@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetSubscriptionEventAuditLogsWithHistoryReader is a Reader for the GetSubscriptionEventAuditLogsWithHistory structure.
@@ -23,20 +25,21 @@ type GetSubscriptionEventAuditLogsWithHistoryReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetSubscriptionEventAuditLogsWithHistoryReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetSubscriptionEventAuditLogsWithHistoryOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 404:
-		result := NewGetSubscriptionEventAuditLogsWithHistoryNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -45,50 +48,17 @@ func NewGetSubscriptionEventAuditLogsWithHistoryOK() *GetSubscriptionEventAuditL
 	return &GetSubscriptionEventAuditLogsWithHistoryOK{}
 }
 
-/*
-GetSubscriptionEventAuditLogsWithHistoryOK describes a response with status code 200, with default header values.
+/*GetSubscriptionEventAuditLogsWithHistoryOK handles this case with default header values.
 
 successful operation
 */
 type GetSubscriptionEventAuditLogsWithHistoryOK struct {
 	Payload []*kbmodel.AuditLog
-}
 
-// IsSuccess returns true when this get subscription event audit logs with history o k response has a 2xx status code
-func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get subscription event audit logs with history o k response has a 3xx status code
-func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get subscription event audit logs with history o k response has a 4xx status code
-func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get subscription event audit logs with history o k response has a 5xx status code
-func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get subscription event audit logs with history o k response a status code equal to that given
-func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get subscription event audit logs with history o k response
-func (o *GetSubscriptionEventAuditLogsWithHistoryOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionEventAuditLogsWithHistoryOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory][%d] getSubscriptionEventAuditLogsWithHistoryOK  %+v", 200, o.Payload)
-}
-
-func (o *GetSubscriptionEventAuditLogsWithHistoryOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory][%d] getSubscriptionEventAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
@@ -111,49 +81,15 @@ func NewGetSubscriptionEventAuditLogsWithHistoryNotFound() *GetSubscriptionEvent
 	return &GetSubscriptionEventAuditLogsWithHistoryNotFound{}
 }
 
-/*
-GetSubscriptionEventAuditLogsWithHistoryNotFound describes a response with status code 404, with default header values.
+/*GetSubscriptionEventAuditLogsWithHistoryNotFound handles this case with default header values.
 
 Subscription event not found
 */
 type GetSubscriptionEventAuditLogsWithHistoryNotFound struct {
-}
-
-// IsSuccess returns true when this get subscription event audit logs with history not found response has a 2xx status code
-func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get subscription event audit logs with history not found response has a 3xx status code
-func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get subscription event audit logs with history not found response has a 4xx status code
-func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get subscription event audit logs with history not found response has a 5xx status code
-func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get subscription event audit logs with history not found response a status code equal to that given
-func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get subscription event audit logs with history not found response
-func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory][%d] getSubscriptionEventAuditLogsWithHistoryNotFound ", 404)
-}
-
-func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory][%d] getSubscriptionEventAuditLogsWithHistoryNotFound ", 404)
 }
 

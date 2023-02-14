@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreatePaymentCustomFieldsReader is a Reader for the CreatePaymentCustomFields structure.
@@ -23,20 +25,21 @@ type CreatePaymentCustomFieldsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CreatePaymentCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-	case 201:
+
+	case 201, 200:
 		result := NewCreatePaymentCustomFieldsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewCreatePaymentCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -45,50 +48,17 @@ func NewCreatePaymentCustomFieldsCreated() *CreatePaymentCustomFieldsCreated {
 	return &CreatePaymentCustomFieldsCreated{}
 }
 
-/*
-CreatePaymentCustomFieldsCreated describes a response with status code 201, with default header values.
+/*CreatePaymentCustomFieldsCreated handles this case with default header values.
 
 Custom field created successfully
 */
 type CreatePaymentCustomFieldsCreated struct {
 	Payload []*kbmodel.CustomField
-}
 
-// IsSuccess returns true when this create payment custom fields created response has a 2xx status code
-func (o *CreatePaymentCustomFieldsCreated) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this create payment custom fields created response has a 3xx status code
-func (o *CreatePaymentCustomFieldsCreated) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this create payment custom fields created response has a 4xx status code
-func (o *CreatePaymentCustomFieldsCreated) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this create payment custom fields created response has a 5xx status code
-func (o *CreatePaymentCustomFieldsCreated) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this create payment custom fields created response a status code equal to that given
-func (o *CreatePaymentCustomFieldsCreated) IsCode(code int) bool {
-	return code == 201
-}
-
-// Code gets the status code for the create payment custom fields created response
-func (o *CreatePaymentCustomFieldsCreated) Code() int {
-	return 201
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreatePaymentCustomFieldsCreated) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/customFields][%d] createPaymentCustomFieldsCreated  %+v", 201, o.Payload)
-}
-
-func (o *CreatePaymentCustomFieldsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/customFields][%d] createPaymentCustomFieldsCreated  %+v", 201, o.Payload)
 }
 
@@ -111,49 +81,15 @@ func NewCreatePaymentCustomFieldsBadRequest() *CreatePaymentCustomFieldsBadReque
 	return &CreatePaymentCustomFieldsBadRequest{}
 }
 
-/*
-CreatePaymentCustomFieldsBadRequest describes a response with status code 400, with default header values.
+/*CreatePaymentCustomFieldsBadRequest handles this case with default header values.
 
 Invalid payment id supplied
 */
 type CreatePaymentCustomFieldsBadRequest struct {
-}
-
-// IsSuccess returns true when this create payment custom fields bad request response has a 2xx status code
-func (o *CreatePaymentCustomFieldsBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this create payment custom fields bad request response has a 3xx status code
-func (o *CreatePaymentCustomFieldsBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this create payment custom fields bad request response has a 4xx status code
-func (o *CreatePaymentCustomFieldsBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this create payment custom fields bad request response has a 5xx status code
-func (o *CreatePaymentCustomFieldsBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this create payment custom fields bad request response a status code equal to that given
-func (o *CreatePaymentCustomFieldsBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the create payment custom fields bad request response
-func (o *CreatePaymentCustomFieldsBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreatePaymentCustomFieldsBadRequest) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/customFields][%d] createPaymentCustomFieldsBadRequest ", 400)
-}
-
-func (o *CreatePaymentCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/customFields][%d] createPaymentCustomFieldsBadRequest ", 400)
 }
 

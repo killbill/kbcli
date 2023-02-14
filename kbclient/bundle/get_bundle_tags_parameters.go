@@ -13,100 +13,88 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetBundleTagsParams creates a new GetBundleTagsParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetBundleTagsParams creates a new GetBundleTagsParams object
+// with the default values initialized.
 func NewGetBundleTagsParams() *GetBundleTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetBundleTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetBundleTagsParamsWithTimeout creates a new GetBundleTagsParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetBundleTagsParamsWithTimeout(timeout time.Duration) *GetBundleTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetBundleTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetBundleTagsParamsWithContext creates a new GetBundleTagsParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetBundleTagsParamsWithContext(ctx context.Context) *GetBundleTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetBundleTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetBundleTagsParamsWithHTTPClient creates a new GetBundleTagsParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetBundleTagsParamsWithHTTPClient(client *http.Client) *GetBundleTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetBundleTagsParams{
-		HTTPClient: client,
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		HTTPClient:      client,
 	}
 }
 
-/*
-GetBundleTagsParams contains all the parameters to send to the API endpoint
-
-	for the get bundle tags operation.
-
-	Typically these are written to a http.Request.
+/*GetBundleTagsParams contains all the parameters to send to the API endpoint
+for the get bundle tags operation typically these are written to a http.Request
 */
 type GetBundleTagsParams struct {
 
-	// Audit.
-	//
-	// Default: "NONE"
+	/*Audit*/
 	Audit *string
-
-	// BundleID.
-	//
-	// Format: uuid
+	/*BundleID*/
 	BundleID strfmt.UUID
-
-	// IncludedDeleted.
+	/*IncludedDeleted*/
 	IncludedDeleted *bool
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get bundle tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetBundleTagsParams) WithDefaults() *GetBundleTagsParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get bundle tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetBundleTagsParams) SetDefaults() {
-	var (
-		auditDefault = string("NONE")
-
-		includedDeletedDefault = bool(false)
-	)
-
-	val := GetBundleTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-	}
-
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get bundle tags params
@@ -187,17 +175,16 @@ func (o *GetBundleTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// path param bundleId
@@ -209,16 +196,29 @@ func (o *GetBundleTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
-
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
-
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 

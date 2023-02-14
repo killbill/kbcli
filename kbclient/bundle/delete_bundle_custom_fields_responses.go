@@ -7,9 +7,12 @@ package bundle
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // DeleteBundleCustomFieldsReader is a Reader for the DeleteBundleCustomFields structure.
@@ -20,20 +23,21 @@ type DeleteBundleCustomFieldsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteBundleCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewDeleteBundleCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewDeleteBundleCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -42,49 +46,15 @@ func NewDeleteBundleCustomFieldsNoContent() *DeleteBundleCustomFieldsNoContent {
 	return &DeleteBundleCustomFieldsNoContent{}
 }
 
-/*
-DeleteBundleCustomFieldsNoContent describes a response with status code 204, with default header values.
+/*DeleteBundleCustomFieldsNoContent handles this case with default header values.
 
 Successful operation
 */
 type DeleteBundleCustomFieldsNoContent struct {
-}
-
-// IsSuccess returns true when this delete bundle custom fields no content response has a 2xx status code
-func (o *DeleteBundleCustomFieldsNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this delete bundle custom fields no content response has a 3xx status code
-func (o *DeleteBundleCustomFieldsNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete bundle custom fields no content response has a 4xx status code
-func (o *DeleteBundleCustomFieldsNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this delete bundle custom fields no content response has a 5xx status code
-func (o *DeleteBundleCustomFieldsNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete bundle custom fields no content response a status code equal to that given
-func (o *DeleteBundleCustomFieldsNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the delete bundle custom fields no content response
-func (o *DeleteBundleCustomFieldsNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteBundleCustomFieldsNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/bundles/{bundleId}/customFields][%d] deleteBundleCustomFieldsNoContent ", 204)
-}
-
-func (o *DeleteBundleCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/bundles/{bundleId}/customFields][%d] deleteBundleCustomFieldsNoContent ", 204)
 }
 
@@ -98,49 +68,15 @@ func NewDeleteBundleCustomFieldsBadRequest() *DeleteBundleCustomFieldsBadRequest
 	return &DeleteBundleCustomFieldsBadRequest{}
 }
 
-/*
-DeleteBundleCustomFieldsBadRequest describes a response with status code 400, with default header values.
+/*DeleteBundleCustomFieldsBadRequest handles this case with default header values.
 
 Invalid bundle id supplied
 */
 type DeleteBundleCustomFieldsBadRequest struct {
-}
-
-// IsSuccess returns true when this delete bundle custom fields bad request response has a 2xx status code
-func (o *DeleteBundleCustomFieldsBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this delete bundle custom fields bad request response has a 3xx status code
-func (o *DeleteBundleCustomFieldsBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete bundle custom fields bad request response has a 4xx status code
-func (o *DeleteBundleCustomFieldsBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this delete bundle custom fields bad request response has a 5xx status code
-func (o *DeleteBundleCustomFieldsBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete bundle custom fields bad request response a status code equal to that given
-func (o *DeleteBundleCustomFieldsBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the delete bundle custom fields bad request response
-func (o *DeleteBundleCustomFieldsBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteBundleCustomFieldsBadRequest) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/bundles/{bundleId}/customFields][%d] deleteBundleCustomFieldsBadRequest ", 400)
-}
-
-func (o *DeleteBundleCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/bundles/{bundleId}/customFields][%d] deleteBundleCustomFieldsBadRequest ", 400)
 }
 

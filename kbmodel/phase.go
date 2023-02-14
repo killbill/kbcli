@@ -6,16 +6,15 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // Phase phase
-//
 // swagger:model Phase
 type Phase struct {
 
@@ -62,6 +61,7 @@ func (m *Phase) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Phase) validateDuration(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Duration) { // not required
 		return nil
 	}
@@ -70,8 +70,6 @@ func (m *Phase) validateDuration(formats strfmt.Registry) error {
 		if err := m.Duration.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("duration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("duration")
 			}
 			return err
 		}
@@ -81,6 +79,7 @@ func (m *Phase) validateDuration(formats strfmt.Registry) error {
 }
 
 func (m *Phase) validateFixedPrices(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FixedPrices) { // not required
 		return nil
 	}
@@ -94,8 +93,6 @@ func (m *Phase) validateFixedPrices(formats strfmt.Registry) error {
 			if err := m.FixedPrices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("fixedPrices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("fixedPrices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -107,6 +104,7 @@ func (m *Phase) validateFixedPrices(formats strfmt.Registry) error {
 }
 
 func (m *Phase) validatePrices(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Prices) { // not required
 		return nil
 	}
@@ -120,8 +118,6 @@ func (m *Phase) validatePrices(formats strfmt.Registry) error {
 			if err := m.Prices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("prices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -133,6 +129,7 @@ func (m *Phase) validatePrices(formats strfmt.Registry) error {
 }
 
 func (m *Phase) validateUsages(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Usages) { // not required
 		return nil
 	}
@@ -146,110 +143,6 @@ func (m *Phase) validateUsages(formats strfmt.Registry) error {
 			if err := m.Usages[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("usages" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("usages" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this phase based on the context it is used
-func (m *Phase) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateDuration(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateFixedPrices(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePrices(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUsages(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *Phase) contextValidateDuration(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Duration != nil {
-		if err := m.Duration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("duration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("duration")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *Phase) contextValidateFixedPrices(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.FixedPrices); i++ {
-
-		if m.FixedPrices[i] != nil {
-			if err := m.FixedPrices[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("fixedPrices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("fixedPrices" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *Phase) contextValidatePrices(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Prices); i++ {
-
-		if m.Prices[i] != nil {
-			if err := m.Prices[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("prices" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *Phase) contextValidateUsages(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Usages); i++ {
-
-		if m.Usages[i] != nil {
-			if err := m.Usages[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("usages" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("usages" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

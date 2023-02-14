@@ -6,15 +6,37 @@ package payment
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new payment API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
-	return &Client{transport: transport, formats: formats}
+func New(transport runtime.ClientTransport,
+	formats strfmt.Registry,
+	authInfo runtime.ClientAuthInfoWriter,
+	defaults KillbillDefaults) *Client {
+
+	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
+}
+
+// killbill default values. When a call is made to an operation, these values are used
+// if params doesn't specify them.
+type KillbillDefaults interface {
+	// Default CreatedBy. If not set explicitly in params, this will be used.
+	XKillbillCreatedBy() *string
+	// Default Comment. If not set explicitly in params, this will be used.
+	XKillbillComment() *string
+	// Default Reason. If not set explicitly in params, this will be used.
+	XKillbillReason() *string
+	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
+	KillbillWithProfilingInfo() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -23,81 +45,183 @@ Client for payment API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
+	authInfo  runtime.ClientAuthInfoWriter
+	defaults  KillbillDefaults
 }
 
-// ClientOption is the option for Client methods
-type ClientOption func(*runtime.ClientOperation)
+// IPayment - interface for Payment client.
+type IPayment interface {
+	/*
+		CancelScheduledPaymentTransactionByExternalKey cancels a scheduled payment attempt retry
+	*/
+	CancelScheduledPaymentTransactionByExternalKey(ctx context.Context, params *CancelScheduledPaymentTransactionByExternalKeyParams) (*CancelScheduledPaymentTransactionByExternalKeyNoContent, error)
 
-// ClientService is the interface for Client methods
-type ClientService interface {
-	CancelScheduledPaymentTransactionByExternalKey(params *CancelScheduledPaymentTransactionByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CancelScheduledPaymentTransactionByExternalKeyNoContent, error)
+	/*
+		CancelScheduledPaymentTransactionByID cancels a scheduled payment attempt retry
+	*/
+	CancelScheduledPaymentTransactionByID(ctx context.Context, params *CancelScheduledPaymentTransactionByIDParams) (*CancelScheduledPaymentTransactionByIDNoContent, error)
 
-	CancelScheduledPaymentTransactionByID(params *CancelScheduledPaymentTransactionByIDParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CancelScheduledPaymentTransactionByIDNoContent, error)
+	/*
+		CaptureAuthorization captures an existing authorization
+	*/
+	CaptureAuthorization(ctx context.Context, params *CaptureAuthorizationParams) (*CaptureAuthorizationCreated, error)
 
-	CaptureAuthorization(params *CaptureAuthorizationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CaptureAuthorizationCreated, error)
+	/*
+		CaptureAuthorizationByExternalKey captures an existing authorization
+	*/
+	CaptureAuthorizationByExternalKey(ctx context.Context, params *CaptureAuthorizationByExternalKeyParams) (*CaptureAuthorizationByExternalKeyCreated, error)
 
-	CaptureAuthorizationByExternalKey(params *CaptureAuthorizationByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CaptureAuthorizationByExternalKeyCreated, error)
+	/*
+		ChargebackPayment records a chargeback
+	*/
+	ChargebackPayment(ctx context.Context, params *ChargebackPaymentParams) (*ChargebackPaymentCreated, error)
 
-	ChargebackPayment(params *ChargebackPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChargebackPaymentCreated, error)
+	/*
+		ChargebackPaymentByExternalKey records a chargeback
+	*/
+	ChargebackPaymentByExternalKey(ctx context.Context, params *ChargebackPaymentByExternalKeyParams) (*ChargebackPaymentByExternalKeyCreated, error)
 
-	ChargebackPaymentByExternalKey(params *ChargebackPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChargebackPaymentByExternalKeyCreated, error)
+	/*
+		ChargebackReversalPayment records a chargeback reversal
+	*/
+	ChargebackReversalPayment(ctx context.Context, params *ChargebackReversalPaymentParams) (*ChargebackReversalPaymentCreated, error)
 
-	ChargebackReversalPayment(params *ChargebackReversalPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChargebackReversalPaymentCreated, error)
+	/*
+		ChargebackReversalPaymentByExternalKey records a chargeback reversal
+	*/
+	ChargebackReversalPaymentByExternalKey(ctx context.Context, params *ChargebackReversalPaymentByExternalKeyParams) (*ChargebackReversalPaymentByExternalKeyCreated, error)
 
-	ChargebackReversalPaymentByExternalKey(params *ChargebackReversalPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChargebackReversalPaymentByExternalKeyCreated, error)
+	/*
+		CompleteTransaction completes an existing transaction
+	*/
+	CompleteTransaction(ctx context.Context, params *CompleteTransactionParams) (*CompleteTransactionNoContent, error)
 
-	CompleteTransaction(params *CompleteTransactionParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CompleteTransactionNoContent, error)
+	/*
+		CompleteTransactionByExternalKey completes an existing transaction
+	*/
+	CompleteTransactionByExternalKey(ctx context.Context, params *CompleteTransactionByExternalKeyParams) (*CompleteTransactionByExternalKeyNoContent, error)
 
-	CompleteTransactionByExternalKey(params *CompleteTransactionByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CompleteTransactionByExternalKeyNoContent, error)
+	/*
+		CreateComboPayment combos api to create a new payment transaction on a existing or not account
+	*/
+	CreateComboPayment(ctx context.Context, params *CreateComboPaymentParams) (*CreateComboPaymentCreated, error)
 
-	CreateComboPayment(params *CreateComboPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateComboPaymentCreated, error)
+	/*
+		CreatePaymentCustomFields adds custom fields to payment
+	*/
+	CreatePaymentCustomFields(ctx context.Context, params *CreatePaymentCustomFieldsParams) (*CreatePaymentCustomFieldsCreated, error)
 
-	CreatePaymentCustomFields(params *CreatePaymentCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreatePaymentCustomFieldsCreated, error)
+	/*
+		CreatePaymentTags adds tags to payment payment
+	*/
+	CreatePaymentTags(ctx context.Context, params *CreatePaymentTagsParams) (*CreatePaymentTagsCreated, error)
 
-	CreatePaymentTags(params *CreatePaymentTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreatePaymentTagsCreated, error)
+	/*
+		DeletePaymentCustomFields removes custom fields from payment payment
+	*/
+	DeletePaymentCustomFields(ctx context.Context, params *DeletePaymentCustomFieldsParams) (*DeletePaymentCustomFieldsNoContent, error)
 
-	DeletePaymentCustomFields(params *DeletePaymentCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePaymentCustomFieldsNoContent, error)
+	/*
+		DeletePaymentTags removes tags from payment payment
+	*/
+	DeletePaymentTags(ctx context.Context, params *DeletePaymentTagsParams) (*DeletePaymentTagsNoContent, error)
 
-	DeletePaymentTags(params *DeletePaymentTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePaymentTagsNoContent, error)
+	/*
+		GetPayment retrieves a payment by id
+	*/
+	GetPayment(ctx context.Context, params *GetPaymentParams) (*GetPaymentOK, error)
 
-	GetPayment(params *GetPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentOK, error)
+	/*
+		GetPaymentAttemptAuditLogsWithHistory retrieves payment attempt audit logs with history by id
+	*/
+	GetPaymentAttemptAuditLogsWithHistory(ctx context.Context, params *GetPaymentAttemptAuditLogsWithHistoryParams) (*GetPaymentAttemptAuditLogsWithHistoryOK, error)
 
-	GetPaymentAttemptAuditLogsWithHistory(params *GetPaymentAttemptAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentAttemptAuditLogsWithHistoryOK, error)
+	/*
+		GetPaymentAuditLogsWithHistory retrieves payment audit logs with history by id
+	*/
+	GetPaymentAuditLogsWithHistory(ctx context.Context, params *GetPaymentAuditLogsWithHistoryParams) (*GetPaymentAuditLogsWithHistoryOK, error)
 
-	GetPaymentAuditLogsWithHistory(params *GetPaymentAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentAuditLogsWithHistoryOK, error)
+	/*
+		GetPaymentByExternalKey retrieves a payment by external key
+	*/
+	GetPaymentByExternalKey(ctx context.Context, params *GetPaymentByExternalKeyParams) (*GetPaymentByExternalKeyOK, error)
 
-	GetPaymentByExternalKey(params *GetPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentByExternalKeyOK, error)
+	/*
+		GetPaymentCustomFields retrieves payment custom fields
+	*/
+	GetPaymentCustomFields(ctx context.Context, params *GetPaymentCustomFieldsParams) (*GetPaymentCustomFieldsOK, error)
 
-	GetPaymentCustomFields(params *GetPaymentCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentCustomFieldsOK, error)
+	/*
+		GetPaymentTags retrieves payment payment tags
+	*/
+	GetPaymentTags(ctx context.Context, params *GetPaymentTagsParams) (*GetPaymentTagsOK, error)
 
-	GetPaymentTags(params *GetPaymentTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentTagsOK, error)
+	/*
+		GetPayments gets payments
+	*/
+	GetPayments(ctx context.Context, params *GetPaymentsParams) (*GetPaymentsOK, error)
 
-	GetPayments(params *GetPaymentsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentsOK, error)
+	/*
+		ModifyPaymentCustomFields modifies custom fields to payment
+	*/
+	ModifyPaymentCustomFields(ctx context.Context, params *ModifyPaymentCustomFieldsParams) (*ModifyPaymentCustomFieldsNoContent, error)
 
-	ModifyPaymentCustomFields(params *ModifyPaymentCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifyPaymentCustomFieldsNoContent, error)
+	/*
+		RefundPayment refunds an existing payment
+	*/
+	RefundPayment(ctx context.Context, params *RefundPaymentParams) (*RefundPaymentCreated, error)
 
-	RefundPayment(params *RefundPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RefundPaymentCreated, error)
+	/*
+		RefundPaymentByExternalKey refunds an existing payment
+	*/
+	RefundPaymentByExternalKey(ctx context.Context, params *RefundPaymentByExternalKeyParams) (*RefundPaymentByExternalKeyCreated, error)
 
-	RefundPaymentByExternalKey(params *RefundPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RefundPaymentByExternalKeyCreated, error)
+	/*
+		SearchPayments searches payments
+	*/
+	SearchPayments(ctx context.Context, params *SearchPaymentsParams) (*SearchPaymentsOK, error)
 
-	SearchPayments(params *SearchPaymentsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchPaymentsOK, error)
+	/*
+		VoidPayment voids an existing payment
+	*/
+	VoidPayment(ctx context.Context, params *VoidPaymentParams) (*VoidPaymentNoContent, error)
 
-	VoidPayment(params *VoidPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*VoidPaymentNoContent, error)
-
-	VoidPaymentByExternalKey(params *VoidPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*VoidPaymentByExternalKeyNoContent, error)
-
-	SetTransport(transport runtime.ClientTransport)
+	/*
+		VoidPaymentByExternalKey voids an existing payment
+	*/
+	VoidPaymentByExternalKey(ctx context.Context, params *VoidPaymentByExternalKeyParams) (*VoidPaymentByExternalKeyNoContent, error)
 }
 
 /*
 CancelScheduledPaymentTransactionByExternalKey cancels a scheduled payment attempt retry
 */
-func (a *Client) CancelScheduledPaymentTransactionByExternalKey(params *CancelScheduledPaymentTransactionByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CancelScheduledPaymentTransactionByExternalKeyNoContent, error) {
+func (a *Client) CancelScheduledPaymentTransactionByExternalKey(ctx context.Context, params *CancelScheduledPaymentTransactionByExternalKeyParams) (*CancelScheduledPaymentTransactionByExternalKeyNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCancelScheduledPaymentTransactionByExternalKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "cancelScheduledPaymentTransactionByExternalKey",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/cancelScheduledPaymentTransaction",
@@ -106,15 +230,10 @@ func (a *Client) CancelScheduledPaymentTransactionByExternalKey(params *CancelSc
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CancelScheduledPaymentTransactionByExternalKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -126,17 +245,39 @@ func (a *Client) CancelScheduledPaymentTransactionByExternalKey(params *CancelSc
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for cancelScheduledPaymentTransactionByExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 CancelScheduledPaymentTransactionByID cancels a scheduled payment attempt retry
 */
-func (a *Client) CancelScheduledPaymentTransactionByID(params *CancelScheduledPaymentTransactionByIDParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CancelScheduledPaymentTransactionByIDNoContent, error) {
+func (a *Client) CancelScheduledPaymentTransactionByID(ctx context.Context, params *CancelScheduledPaymentTransactionByIDParams) (*CancelScheduledPaymentTransactionByIDNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCancelScheduledPaymentTransactionByIDParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "cancelScheduledPaymentTransactionById",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/{paymentTransactionId}/cancelScheduledPaymentTransaction",
@@ -145,15 +286,10 @@ func (a *Client) CancelScheduledPaymentTransactionByID(params *CancelScheduledPa
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CancelScheduledPaymentTransactionByIDReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -165,17 +301,42 @@ func (a *Client) CancelScheduledPaymentTransactionByID(params *CancelScheduledPa
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for cancelScheduledPaymentTransactionById: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 CaptureAuthorization captures an existing authorization
 */
-func (a *Client) CaptureAuthorization(params *CaptureAuthorizationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CaptureAuthorizationCreated, error) {
+func (a *Client) CaptureAuthorization(ctx context.Context, params *CaptureAuthorizationParams) (*CaptureAuthorizationCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCaptureAuthorizationParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewCaptureAuthorizationParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "captureAuthorization",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}",
@@ -184,37 +345,72 @@ func (a *Client) CaptureAuthorization(params *CaptureAuthorizationParams, authIn
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CaptureAuthorizationReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CaptureAuthorizationCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*CaptureAuthorizationCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for captureAuthorization: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "captureAuthorization",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CaptureAuthorizationReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CaptureAuthorizationCreated), nil
+
 }
 
 /*
 CaptureAuthorizationByExternalKey captures an existing authorization
 */
-func (a *Client) CaptureAuthorizationByExternalKey(params *CaptureAuthorizationByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CaptureAuthorizationByExternalKeyCreated, error) {
+func (a *Client) CaptureAuthorizationByExternalKey(ctx context.Context, params *CaptureAuthorizationByExternalKeyParams) (*CaptureAuthorizationByExternalKeyCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCaptureAuthorizationByExternalKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewCaptureAuthorizationByExternalKeyParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "captureAuthorizationByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments",
@@ -223,37 +419,72 @@ func (a *Client) CaptureAuthorizationByExternalKey(params *CaptureAuthorizationB
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CaptureAuthorizationByExternalKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CaptureAuthorizationByExternalKeyCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*CaptureAuthorizationByExternalKeyCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for captureAuthorizationByExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "captureAuthorizationByExternalKey",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CaptureAuthorizationByExternalKeyReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CaptureAuthorizationByExternalKeyCreated), nil
+
 }
 
 /*
 ChargebackPayment records a chargeback
 */
-func (a *Client) ChargebackPayment(params *ChargebackPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChargebackPaymentCreated, error) {
+func (a *Client) ChargebackPayment(ctx context.Context, params *ChargebackPaymentParams) (*ChargebackPaymentCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewChargebackPaymentParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewChargebackPaymentParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "chargebackPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/chargebacks",
@@ -262,37 +493,72 @@ func (a *Client) ChargebackPayment(params *ChargebackPaymentParams, authInfo run
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ChargebackPaymentReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*ChargebackPaymentCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*ChargebackPaymentCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for chargebackPayment: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "chargebackPayment",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &ChargebackPaymentReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*ChargebackPaymentCreated), nil
+
 }
 
 /*
 ChargebackPaymentByExternalKey records a chargeback
 */
-func (a *Client) ChargebackPaymentByExternalKey(params *ChargebackPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChargebackPaymentByExternalKeyCreated, error) {
+func (a *Client) ChargebackPaymentByExternalKey(ctx context.Context, params *ChargebackPaymentByExternalKeyParams) (*ChargebackPaymentByExternalKeyCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewChargebackPaymentByExternalKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewChargebackPaymentByExternalKeyParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "chargebackPaymentByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/chargebacks",
@@ -301,37 +567,72 @@ func (a *Client) ChargebackPaymentByExternalKey(params *ChargebackPaymentByExter
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ChargebackPaymentByExternalKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*ChargebackPaymentByExternalKeyCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*ChargebackPaymentByExternalKeyCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for chargebackPaymentByExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "chargebackPaymentByExternalKey",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &ChargebackPaymentByExternalKeyReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*ChargebackPaymentByExternalKeyCreated), nil
+
 }
 
 /*
 ChargebackReversalPayment records a chargeback reversal
 */
-func (a *Client) ChargebackReversalPayment(params *ChargebackReversalPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChargebackReversalPaymentCreated, error) {
+func (a *Client) ChargebackReversalPayment(ctx context.Context, params *ChargebackReversalPaymentParams) (*ChargebackReversalPaymentCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewChargebackReversalPaymentParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewChargebackReversalPaymentParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "chargebackReversalPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/chargebackReversals",
@@ -340,37 +641,72 @@ func (a *Client) ChargebackReversalPayment(params *ChargebackReversalPaymentPara
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ChargebackReversalPaymentReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*ChargebackReversalPaymentCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*ChargebackReversalPaymentCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for chargebackReversalPayment: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "chargebackReversalPayment",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &ChargebackReversalPaymentReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*ChargebackReversalPaymentCreated), nil
+
 }
 
 /*
 ChargebackReversalPaymentByExternalKey records a chargeback reversal
 */
-func (a *Client) ChargebackReversalPaymentByExternalKey(params *ChargebackReversalPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ChargebackReversalPaymentByExternalKeyCreated, error) {
+func (a *Client) ChargebackReversalPaymentByExternalKey(ctx context.Context, params *ChargebackReversalPaymentByExternalKeyParams) (*ChargebackReversalPaymentByExternalKeyCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewChargebackReversalPaymentByExternalKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewChargebackReversalPaymentByExternalKeyParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "chargebackReversalPaymentByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/chargebackReversals",
@@ -379,37 +715,69 @@ func (a *Client) ChargebackReversalPaymentByExternalKey(params *ChargebackRevers
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ChargebackReversalPaymentByExternalKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*ChargebackReversalPaymentByExternalKeyCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*ChargebackReversalPaymentByExternalKeyCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for chargebackReversalPaymentByExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "chargebackReversalPaymentByExternalKey",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &ChargebackReversalPaymentByExternalKeyReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*ChargebackReversalPaymentByExternalKeyCreated), nil
+
 }
 
 /*
 CompleteTransaction completes an existing transaction
 */
-func (a *Client) CompleteTransaction(params *CompleteTransactionParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CompleteTransactionNoContent, error) {
+func (a *Client) CompleteTransaction(ctx context.Context, params *CompleteTransactionParams) (*CompleteTransactionNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCompleteTransactionParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "completeTransaction",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/payments/{paymentId}",
@@ -418,15 +786,10 @@ func (a *Client) CompleteTransaction(params *CompleteTransactionParams, authInfo
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CompleteTransactionReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -438,17 +801,39 @@ func (a *Client) CompleteTransaction(params *CompleteTransactionParams, authInfo
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for completeTransaction: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 CompleteTransactionByExternalKey completes an existing transaction
 */
-func (a *Client) CompleteTransactionByExternalKey(params *CompleteTransactionByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CompleteTransactionByExternalKeyNoContent, error) {
+func (a *Client) CompleteTransactionByExternalKey(ctx context.Context, params *CompleteTransactionByExternalKeyParams) (*CompleteTransactionByExternalKeyNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCompleteTransactionByExternalKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "completeTransactionByExternalKey",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/payments",
@@ -457,15 +842,10 @@ func (a *Client) CompleteTransactionByExternalKey(params *CompleteTransactionByE
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CompleteTransactionByExternalKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -477,17 +857,42 @@ func (a *Client) CompleteTransactionByExternalKey(params *CompleteTransactionByE
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for completeTransactionByExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 CreateComboPayment combos api to create a new payment transaction on a existing or not account
 */
-func (a *Client) CreateComboPayment(params *CreateComboPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateComboPaymentCreated, error) {
+func (a *Client) CreateComboPayment(ctx context.Context, params *CreateComboPaymentParams) (*CreateComboPaymentCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateComboPaymentParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewCreateComboPaymentParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createComboPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/combo",
@@ -496,37 +901,72 @@ func (a *Client) CreateComboPayment(params *CreateComboPaymentParams, authInfo r
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateComboPaymentReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CreateComboPaymentCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*CreateComboPaymentCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for createComboPayment: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createComboPayment",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateComboPaymentReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateComboPaymentCreated), nil
+
 }
 
 /*
 CreatePaymentCustomFields adds custom fields to payment
 */
-func (a *Client) CreatePaymentCustomFields(params *CreatePaymentCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreatePaymentCustomFieldsCreated, error) {
+func (a *Client) CreatePaymentCustomFields(ctx context.Context, params *CreatePaymentCustomFieldsParams) (*CreatePaymentCustomFieldsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreatePaymentCustomFieldsParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewCreatePaymentCustomFieldsParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createPaymentCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/customFields",
@@ -535,37 +975,72 @@ func (a *Client) CreatePaymentCustomFields(params *CreatePaymentCustomFieldsPara
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreatePaymentCustomFieldsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CreatePaymentCustomFieldsCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*CreatePaymentCustomFieldsCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for createPaymentCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createPaymentCustomFields",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreatePaymentCustomFieldsReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreatePaymentCustomFieldsCreated), nil
+
 }
 
 /*
 CreatePaymentTags adds tags to payment payment
 */
-func (a *Client) CreatePaymentTags(params *CreatePaymentTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreatePaymentTagsCreated, error) {
+func (a *Client) CreatePaymentTags(ctx context.Context, params *CreatePaymentTagsParams) (*CreatePaymentTagsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreatePaymentTagsParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewCreatePaymentTagsParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createPaymentTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/tags",
@@ -574,37 +1049,69 @@ func (a *Client) CreatePaymentTags(params *CreatePaymentTagsParams, authInfo run
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreatePaymentTagsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CreatePaymentTagsCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*CreatePaymentTagsCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for createPaymentTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createPaymentTags",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreatePaymentTagsReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreatePaymentTagsCreated), nil
+
 }
 
 /*
 DeletePaymentCustomFields removes custom fields from payment payment
 */
-func (a *Client) DeletePaymentCustomFields(params *DeletePaymentCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePaymentCustomFieldsNoContent, error) {
+func (a *Client) DeletePaymentCustomFields(ctx context.Context, params *DeletePaymentCustomFieldsParams) (*DeletePaymentCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeletePaymentCustomFieldsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deletePaymentCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/customFields",
@@ -613,15 +1120,10 @@ func (a *Client) DeletePaymentCustomFields(params *DeletePaymentCustomFieldsPara
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePaymentCustomFieldsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -633,17 +1135,39 @@ func (a *Client) DeletePaymentCustomFields(params *DeletePaymentCustomFieldsPara
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deletePaymentCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 DeletePaymentTags removes tags from payment payment
 */
-func (a *Client) DeletePaymentTags(params *DeletePaymentTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeletePaymentTagsNoContent, error) {
+func (a *Client) DeletePaymentTags(ctx context.Context, params *DeletePaymentTagsParams) (*DeletePaymentTagsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeletePaymentTagsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deletePaymentTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/tags",
@@ -652,15 +1176,10 @@ func (a *Client) DeletePaymentTags(params *DeletePaymentTagsParams, authInfo run
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePaymentTagsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -672,34 +1191,39 @@ func (a *Client) DeletePaymentTags(params *DeletePaymentTagsParams, authInfo run
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deletePaymentTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPayment retrieves a payment by id
 */
-func (a *Client) GetPayment(params *GetPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentOK, error) {
+func (a *Client) GetPayment(ctx context.Context, params *GetPaymentParams) (*GetPaymentOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPayment",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/{paymentId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -711,34 +1235,39 @@ func (a *Client) GetPayment(params *GetPaymentParams, authInfo runtime.ClientAut
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPayment: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPaymentAttemptAuditLogsWithHistory retrieves payment attempt audit logs with history by id
 */
-func (a *Client) GetPaymentAttemptAuditLogsWithHistory(params *GetPaymentAttemptAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentAttemptAuditLogsWithHistoryOK, error) {
+func (a *Client) GetPaymentAttemptAuditLogsWithHistory(ctx context.Context, params *GetPaymentAttemptAuditLogsWithHistoryParams) (*GetPaymentAttemptAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentAttemptAuditLogsWithHistoryParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentAttemptAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/attempts/{paymentAttemptId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentAttemptAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -750,34 +1279,39 @@ func (a *Client) GetPaymentAttemptAuditLogsWithHistory(params *GetPaymentAttempt
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPaymentAttemptAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPaymentAuditLogsWithHistory retrieves payment audit logs with history by id
 */
-func (a *Client) GetPaymentAuditLogsWithHistory(params *GetPaymentAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentAuditLogsWithHistoryOK, error) {
+func (a *Client) GetPaymentAuditLogsWithHistory(ctx context.Context, params *GetPaymentAuditLogsWithHistoryParams) (*GetPaymentAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentAuditLogsWithHistoryParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -789,34 +1323,39 @@ func (a *Client) GetPaymentAuditLogsWithHistory(params *GetPaymentAuditLogsWithH
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPaymentAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPaymentByExternalKey retrieves a payment by external key
 */
-func (a *Client) GetPaymentByExternalKey(params *GetPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentByExternalKeyOK, error) {
+func (a *Client) GetPaymentByExternalKey(ctx context.Context, params *GetPaymentByExternalKeyParams) (*GetPaymentByExternalKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentByExternalKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentByExternalKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentByExternalKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -828,34 +1367,39 @@ func (a *Client) GetPaymentByExternalKey(params *GetPaymentByExternalKeyParams, 
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPaymentByExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPaymentCustomFields retrieves payment custom fields
 */
-func (a *Client) GetPaymentCustomFields(params *GetPaymentCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentCustomFieldsOK, error) {
+func (a *Client) GetPaymentCustomFields(ctx context.Context, params *GetPaymentCustomFieldsParams) (*GetPaymentCustomFieldsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentCustomFieldsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentCustomFieldsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -867,34 +1411,39 @@ func (a *Client) GetPaymentCustomFields(params *GetPaymentCustomFieldsParams, au
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPaymentCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPaymentTags retrieves payment payment tags
 */
-func (a *Client) GetPaymentTags(params *GetPaymentTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentTagsOK, error) {
+func (a *Client) GetPaymentTags(ctx context.Context, params *GetPaymentTagsParams) (*GetPaymentTagsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentTagsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentTagsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -906,34 +1455,39 @@ func (a *Client) GetPaymentTags(params *GetPaymentTagsParams, authInfo runtime.C
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPaymentTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPayments gets payments
 */
-func (a *Client) GetPayments(params *GetPaymentsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentsOK, error) {
+func (a *Client) GetPayments(ctx context.Context, params *GetPaymentsParams) (*GetPaymentsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPayments",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -945,17 +1499,39 @@ func (a *Client) GetPayments(params *GetPaymentsParams, authInfo runtime.ClientA
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPayments: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 ModifyPaymentCustomFields modifies custom fields to payment
 */
-func (a *Client) ModifyPaymentCustomFields(params *ModifyPaymentCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifyPaymentCustomFieldsNoContent, error) {
+func (a *Client) ModifyPaymentCustomFields(ctx context.Context, params *ModifyPaymentCustomFieldsParams) (*ModifyPaymentCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewModifyPaymentCustomFieldsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "modifyPaymentCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/customFields",
@@ -964,15 +1540,10 @@ func (a *Client) ModifyPaymentCustomFields(params *ModifyPaymentCustomFieldsPara
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ModifyPaymentCustomFieldsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -984,17 +1555,42 @@ func (a *Client) ModifyPaymentCustomFields(params *ModifyPaymentCustomFieldsPara
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for modifyPaymentCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 RefundPayment refunds an existing payment
 */
-func (a *Client) RefundPayment(params *RefundPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RefundPaymentCreated, error) {
+func (a *Client) RefundPayment(ctx context.Context, params *RefundPaymentParams) (*RefundPaymentCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRefundPaymentParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewRefundPaymentParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "refundPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/refunds",
@@ -1003,37 +1599,72 @@ func (a *Client) RefundPayment(params *RefundPaymentParams, authInfo runtime.Cli
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &RefundPaymentReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*RefundPaymentCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*RefundPaymentCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for refundPayment: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "refundPayment",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &RefundPaymentReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*RefundPaymentCreated), nil
+
 }
 
 /*
 RefundPaymentByExternalKey refunds an existing payment
 */
-func (a *Client) RefundPaymentByExternalKey(params *RefundPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RefundPaymentByExternalKeyCreated, error) {
+func (a *Client) RefundPaymentByExternalKey(ctx context.Context, params *RefundPaymentByExternalKeyParams) (*RefundPaymentByExternalKeyCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRefundPaymentByExternalKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewRefundPaymentByExternalKeyParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "refundPaymentByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/refunds",
@@ -1042,54 +1673,69 @@ func (a *Client) RefundPaymentByExternalKey(params *RefundPaymentByExternalKeyPa
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &RefundPaymentByExternalKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*RefundPaymentByExternalKeyCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*RefundPaymentByExternalKeyCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for refundPaymentByExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "refundPaymentByExternalKey",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &RefundPaymentByExternalKeyReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*RefundPaymentByExternalKeyCreated), nil
+
 }
 
 /*
 SearchPayments searches payments
 */
-func (a *Client) SearchPayments(params *SearchPaymentsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchPaymentsOK, error) {
+func (a *Client) SearchPayments(ctx context.Context, params *SearchPaymentsParams) (*SearchPaymentsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSearchPaymentsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "searchPayments",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchPaymentsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1101,17 +1747,39 @@ func (a *Client) SearchPayments(params *SearchPaymentsParams, authInfo runtime.C
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for searchPayments: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 VoidPayment voids an existing payment
 */
-func (a *Client) VoidPayment(params *VoidPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*VoidPaymentNoContent, error) {
+func (a *Client) VoidPayment(ctx context.Context, params *VoidPaymentParams) (*VoidPaymentNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewVoidPaymentParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "voidPayment",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/{paymentId}",
@@ -1120,15 +1788,10 @@ func (a *Client) VoidPayment(params *VoidPaymentParams, authInfo runtime.ClientA
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &VoidPaymentReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1140,17 +1803,39 @@ func (a *Client) VoidPayment(params *VoidPaymentParams, authInfo runtime.ClientA
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for voidPayment: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 VoidPaymentByExternalKey voids an existing payment
 */
-func (a *Client) VoidPaymentByExternalKey(params *VoidPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*VoidPaymentByExternalKeyNoContent, error) {
+func (a *Client) VoidPaymentByExternalKey(ctx context.Context, params *VoidPaymentByExternalKeyParams) (*VoidPaymentByExternalKeyNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewVoidPaymentByExternalKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "voidPaymentByExternalKey",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments",
@@ -1159,15 +1844,10 @@ func (a *Client) VoidPaymentByExternalKey(params *VoidPaymentByExternalKeyParams
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &VoidPaymentByExternalKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1179,6 +1859,7 @@ func (a *Client) VoidPaymentByExternalKey(params *VoidPaymentByExternalKeyParams
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for voidPaymentByExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 // SetTransport changes the transport on the client

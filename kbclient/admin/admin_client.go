@@ -6,15 +6,36 @@ package admin
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new admin API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
-	return &Client{transport: transport, formats: formats}
+func New(transport runtime.ClientTransport,
+	formats strfmt.Registry,
+	authInfo runtime.ClientAuthInfoWriter,
+	defaults KillbillDefaults) *Client {
+
+	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
+}
+
+// killbill default values. When a call is made to an operation, these values are used
+// if params doesn't specify them.
+type KillbillDefaults interface {
+	// Default CreatedBy. If not set explicitly in params, this will be used.
+	XKillbillCreatedBy() *string
+	// Default Comment. If not set explicitly in params, this will be used.
+	XKillbillComment() *string
+	// Default Reason. If not set explicitly in params, this will be used.
+	XKillbillReason() *string
+	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
+	KillbillWithProfilingInfo() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -23,58 +44,83 @@ Client for admin API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
+	authInfo  runtime.ClientAuthInfoWriter
+	defaults  KillbillDefaults
 }
 
-// ClientOption is the option for Client methods
-type ClientOption func(*runtime.ClientOperation)
+// IAdmin - interface for Admin client.
+type IAdmin interface {
+	/*
+		GetQueueEntries gets queues entries
+	*/
+	GetQueueEntries(ctx context.Context, params *GetQueueEntriesParams) (*GetQueueEntriesOK, error)
 
-// ClientService is the interface for Client methods
-type ClientService interface {
-	GetQueueEntries(params *GetQueueEntriesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetQueueEntriesOK, error)
+	/*
+		InvalidatesCache invalidates the given cache if specified otherwise invalidates all caches
+	*/
+	InvalidatesCache(ctx context.Context, params *InvalidatesCacheParams) (*InvalidatesCacheNoContent, error)
 
-	InvalidatesCache(params *InvalidatesCacheParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InvalidatesCacheNoContent, error)
+	/*
+		InvalidatesCacheByAccount invalidates caches per account level
+	*/
+	InvalidatesCacheByAccount(ctx context.Context, params *InvalidatesCacheByAccountParams) (*InvalidatesCacheByAccountNoContent, error)
 
-	InvalidatesCacheByAccount(params *InvalidatesCacheByAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InvalidatesCacheByAccountNoContent, error)
+	/*
+		InvalidatesCacheByTenant invalidates caches per tenant level
+	*/
+	InvalidatesCacheByTenant(ctx context.Context, params *InvalidatesCacheByTenantParams) (*InvalidatesCacheByTenantNoContent, error)
 
-	InvalidatesCacheByTenant(params *InvalidatesCacheByTenantParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InvalidatesCacheByTenantNoContent, error)
+	/*
+		PutInRotation puts the host back into rotation
+	*/
+	PutInRotation(ctx context.Context, params *PutInRotationParams) (*PutInRotationNoContent, error)
 
-	PutInRotation(params *PutInRotationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PutInRotationNoContent, error)
+	/*
+		PutOutOfRotation puts the host out of rotation
+	*/
+	PutOutOfRotation(ctx context.Context, params *PutOutOfRotationParams) (*PutOutOfRotationNoContent, error)
 
-	PutOutOfRotation(params *PutOutOfRotationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PutOutOfRotationNoContent, error)
+	/*
+		TriggerInvoiceGenerationForParkedAccounts triggers an invoice generation for all parked accounts
+	*/
+	TriggerInvoiceGenerationForParkedAccounts(ctx context.Context, params *TriggerInvoiceGenerationForParkedAccountsParams) (*TriggerInvoiceGenerationForParkedAccountsOK, error)
 
-	TriggerInvoiceGenerationForParkedAccounts(params *TriggerInvoiceGenerationForParkedAccountsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TriggerInvoiceGenerationForParkedAccountsOK, error)
-
-	UpdatePaymentTransactionState(params *UpdatePaymentTransactionStateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UpdatePaymentTransactionStateNoContent, error)
-
-	SetTransport(transport runtime.ClientTransport)
+	/*
+		UpdatePaymentTransactionState updates existing payment transaction and associated payment state
+	*/
+	UpdatePaymentTransactionState(ctx context.Context, params *UpdatePaymentTransactionStateParams) (*UpdatePaymentTransactionStateNoContent, error)
 }
 
 /*
 GetQueueEntries gets queues entries
 */
-func (a *Client) GetQueueEntries(params *GetQueueEntriesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetQueueEntriesOK, error) {
+func (a *Client) GetQueueEntries(ctx context.Context, params *GetQueueEntriesParams) (*GetQueueEntriesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetQueueEntriesParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getQueueEntries",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/admin/queues",
 		ProducesMediaTypes: []string{"application/octet-stream"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetQueueEntriesReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -86,34 +132,39 @@ func (a *Client) GetQueueEntries(params *GetQueueEntriesParams, authInfo runtime
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getQueueEntries: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 InvalidatesCache invalidates the given cache if specified otherwise invalidates all caches
 */
-func (a *Client) InvalidatesCache(params *InvalidatesCacheParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InvalidatesCacheNoContent, error) {
+func (a *Client) InvalidatesCache(ctx context.Context, params *InvalidatesCacheParams) (*InvalidatesCacheNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewInvalidatesCacheParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "invalidatesCache",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/admin/cache",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &InvalidatesCacheReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -125,34 +176,39 @@ func (a *Client) InvalidatesCache(params *InvalidatesCacheParams, authInfo runti
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for invalidatesCache: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 InvalidatesCacheByAccount invalidates caches per account level
 */
-func (a *Client) InvalidatesCacheByAccount(params *InvalidatesCacheByAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InvalidatesCacheByAccountNoContent, error) {
+func (a *Client) InvalidatesCacheByAccount(ctx context.Context, params *InvalidatesCacheByAccountParams) (*InvalidatesCacheByAccountNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewInvalidatesCacheByAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "invalidatesCacheByAccount",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/admin/cache/accounts/{accountId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &InvalidatesCacheByAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -164,34 +220,39 @@ func (a *Client) InvalidatesCacheByAccount(params *InvalidatesCacheByAccountPara
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for invalidatesCacheByAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 InvalidatesCacheByTenant invalidates caches per tenant level
 */
-func (a *Client) InvalidatesCacheByTenant(params *InvalidatesCacheByTenantParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*InvalidatesCacheByTenantNoContent, error) {
+func (a *Client) InvalidatesCacheByTenant(ctx context.Context, params *InvalidatesCacheByTenantParams) (*InvalidatesCacheByTenantNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewInvalidatesCacheByTenantParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "invalidatesCacheByTenant",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/admin/cache/tenants",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &InvalidatesCacheByTenantReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -203,34 +264,39 @@ func (a *Client) InvalidatesCacheByTenant(params *InvalidatesCacheByTenantParams
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for invalidatesCacheByTenant: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 PutInRotation puts the host back into rotation
 */
-func (a *Client) PutInRotation(params *PutInRotationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PutInRotationNoContent, error) {
+func (a *Client) PutInRotation(ctx context.Context, params *PutInRotationParams) (*PutInRotationNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewPutInRotationParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "putInRotation",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/admin/healthcheck",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &PutInRotationReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -242,34 +308,39 @@ func (a *Client) PutInRotation(params *PutInRotationParams, authInfo runtime.Cli
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for putInRotation: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 PutOutOfRotation puts the host out of rotation
 */
-func (a *Client) PutOutOfRotation(params *PutOutOfRotationParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PutOutOfRotationNoContent, error) {
+func (a *Client) PutOutOfRotation(ctx context.Context, params *PutOutOfRotationParams) (*PutOutOfRotationNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewPutOutOfRotationParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "putOutOfRotation",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/admin/healthcheck",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &PutOutOfRotationReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -281,17 +352,39 @@ func (a *Client) PutOutOfRotation(params *PutOutOfRotationParams, authInfo runti
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for putOutOfRotation: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 TriggerInvoiceGenerationForParkedAccounts triggers an invoice generation for all parked accounts
 */
-func (a *Client) TriggerInvoiceGenerationForParkedAccounts(params *TriggerInvoiceGenerationForParkedAccountsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TriggerInvoiceGenerationForParkedAccountsOK, error) {
+func (a *Client) TriggerInvoiceGenerationForParkedAccounts(ctx context.Context, params *TriggerInvoiceGenerationForParkedAccountsParams) (*TriggerInvoiceGenerationForParkedAccountsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewTriggerInvoiceGenerationForParkedAccountsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "triggerInvoiceGenerationForParkedAccounts",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/admin/invoices",
@@ -300,15 +393,10 @@ func (a *Client) TriggerInvoiceGenerationForParkedAccounts(params *TriggerInvoic
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &TriggerInvoiceGenerationForParkedAccountsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -320,17 +408,39 @@ func (a *Client) TriggerInvoiceGenerationForParkedAccounts(params *TriggerInvoic
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for triggerInvoiceGenerationForParkedAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 UpdatePaymentTransactionState updates existing payment transaction and associated payment state
 */
-func (a *Client) UpdatePaymentTransactionState(params *UpdatePaymentTransactionStateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UpdatePaymentTransactionStateNoContent, error) {
+func (a *Client) UpdatePaymentTransactionState(ctx context.Context, params *UpdatePaymentTransactionStateParams) (*UpdatePaymentTransactionStateNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdatePaymentTransactionStateParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "updatePaymentTransactionState",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/admin/payments/{paymentId}/transactions/{paymentTransactionId}",
@@ -339,15 +449,10 @@ func (a *Client) UpdatePaymentTransactionState(params *UpdatePaymentTransactionS
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UpdatePaymentTransactionStateReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -359,6 +464,7 @@ func (a *Client) UpdatePaymentTransactionState(params *UpdatePaymentTransactionS
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for updatePaymentTransactionState: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 // SetTransport changes the transport on the client

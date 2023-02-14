@@ -13,105 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetInvoiceItemTagsParams creates a new GetInvoiceItemTagsParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetInvoiceItemTagsParams creates a new GetInvoiceItemTagsParams object
+// with the default values initialized.
 func NewGetInvoiceItemTagsParams() *GetInvoiceItemTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetInvoiceItemTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetInvoiceItemTagsParamsWithTimeout creates a new GetInvoiceItemTagsParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetInvoiceItemTagsParamsWithTimeout(timeout time.Duration) *GetInvoiceItemTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetInvoiceItemTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetInvoiceItemTagsParamsWithContext creates a new GetInvoiceItemTagsParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetInvoiceItemTagsParamsWithContext(ctx context.Context) *GetInvoiceItemTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetInvoiceItemTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetInvoiceItemTagsParamsWithHTTPClient creates a new GetInvoiceItemTagsParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetInvoiceItemTagsParamsWithHTTPClient(client *http.Client) *GetInvoiceItemTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetInvoiceItemTagsParams{
-		HTTPClient: client,
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		HTTPClient:      client,
 	}
 }
 
-/*
-GetInvoiceItemTagsParams contains all the parameters to send to the API endpoint
-
-	for the get invoice item tags operation.
-
-	Typically these are written to a http.Request.
+/*GetInvoiceItemTagsParams contains all the parameters to send to the API endpoint
+for the get invoice item tags operation typically these are written to a http.Request
 */
 type GetInvoiceItemTagsParams struct {
 
-	// AccountID.
-	//
-	// Format: uuid
+	/*AccountID*/
 	AccountID strfmt.UUID
-
-	// Audit.
-	//
-	// Default: "NONE"
+	/*Audit*/
 	Audit *string
-
-	// IncludedDeleted.
+	/*IncludedDeleted*/
 	IncludedDeleted *bool
-
-	// InvoiceItemID.
-	//
-	// Format: uuid
+	/*InvoiceItemID*/
 	InvoiceItemID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get invoice item tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetInvoiceItemTagsParams) WithDefaults() *GetInvoiceItemTagsParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get invoice item tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetInvoiceItemTagsParams) SetDefaults() {
-	var (
-		auditDefault = string("NONE")
-
-		includedDeletedDefault = bool(false)
-	)
-
-	val := GetInvoiceItemTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-	}
-
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get invoice item tags params
@@ -203,7 +188,6 @@ func (o *GetInvoiceItemTagsParams) WriteToRequest(r runtime.ClientRequest, reg s
 	qrAccountID := o.AccountID
 	qAccountID := qrAccountID.String()
 	if qAccountID != "" {
-
 		if err := r.SetQueryParam("accountId", qAccountID); err != nil {
 			return err
 		}
@@ -213,39 +197,51 @@ func (o *GetInvoiceItemTagsParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.IncludedDeleted != nil {
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
-
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
-
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// path param invoiceItemId
 	if err := r.SetPathParam("invoiceItemId", o.InvoiceItemID.String()); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

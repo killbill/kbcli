@@ -13,107 +13,100 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetPaymentMethodByKeyParams creates a new GetPaymentMethodByKeyParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetPaymentMethodByKeyParams creates a new GetPaymentMethodByKeyParams object
+// with the default values initialized.
 func NewGetPaymentMethodByKeyParams() *GetPaymentMethodByKeyParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+		withPluginInfoDefault  = bool(false)
+	)
 	return &GetPaymentMethodByKeyParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		WithPluginInfo:  &withPluginInfoDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPaymentMethodByKeyParamsWithTimeout creates a new GetPaymentMethodByKeyParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetPaymentMethodByKeyParamsWithTimeout(timeout time.Duration) *GetPaymentMethodByKeyParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+		withPluginInfoDefault  = bool(false)
+	)
 	return &GetPaymentMethodByKeyParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		WithPluginInfo:  &withPluginInfoDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetPaymentMethodByKeyParamsWithContext creates a new GetPaymentMethodByKeyParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetPaymentMethodByKeyParamsWithContext(ctx context.Context) *GetPaymentMethodByKeyParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+		withPluginInfoDefault  = bool(false)
+	)
 	return &GetPaymentMethodByKeyParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		WithPluginInfo:  &withPluginInfoDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetPaymentMethodByKeyParamsWithHTTPClient creates a new GetPaymentMethodByKeyParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetPaymentMethodByKeyParamsWithHTTPClient(client *http.Client) *GetPaymentMethodByKeyParams {
-	return &GetPaymentMethodByKeyParams{
-		HTTPClient: client,
-	}
-}
-
-/*
-GetPaymentMethodByKeyParams contains all the parameters to send to the API endpoint
-
-	for the get payment method by key operation.
-
-	Typically these are written to a http.Request.
-*/
-type GetPaymentMethodByKeyParams struct {
-
-	// Audit.
-	//
-	// Default: "NONE"
-	Audit *string
-
-	// ExternalKey.
-	ExternalKey string
-
-	// IncludedDeleted.
-	IncludedDeleted *bool
-
-	// PluginProperty.
-	PluginProperty []string
-
-	// WithPluginInfo.
-	WithPluginInfo *bool
-
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get payment method by key params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPaymentMethodByKeyParams) WithDefaults() *GetPaymentMethodByKeyParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get payment method by key params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPaymentMethodByKeyParams) SetDefaults() {
 	var (
-		auditDefault = string("NONE")
-
+		auditDefault           = string("NONE")
 		includedDeletedDefault = bool(false)
-
-		withPluginInfoDefault = bool(false)
+		withPluginInfoDefault  = bool(false)
 	)
-
-	val := GetPaymentMethodByKeyParams{
+	return &GetPaymentMethodByKeyParams{
 		Audit:           &auditDefault,
 		IncludedDeleted: &includedDeletedDefault,
 		WithPluginInfo:  &withPluginInfoDefault,
+		HTTPClient:      client,
 	}
+}
 
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+/*GetPaymentMethodByKeyParams contains all the parameters to send to the API endpoint
+for the get payment method by key operation typically these are written to a http.Request
+*/
+type GetPaymentMethodByKeyParams struct {
+
+	/*Audit*/
+	Audit *string
+	/*ExternalKey*/
+	ExternalKey string
+	/*IncludedDeleted*/
+	IncludedDeleted *bool
+	/*PluginProperty*/
+	PluginProperty []string
+	/*WithPluginInfo*/
+	WithPluginInfo *bool
+
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get payment method by key params
@@ -216,24 +209,22 @@ func (o *GetPaymentMethodByKeyParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// query param externalKey
 	qrExternalKey := o.ExternalKey
 	qExternalKey := qrExternalKey
 	if qExternalKey != "" {
-
 		if err := r.SetQueryParam("externalKey", qExternalKey); err != nil {
 			return err
 		}
@@ -243,44 +234,53 @@ func (o *GetPaymentMethodByKeyParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
-
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
-
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
 		}
+
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
-
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-			return err
-		}
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	if o.WithPluginInfo != nil {
 
 		// query param withPluginInfo
 		var qrWithPluginInfo bool
-
 		if o.WithPluginInfo != nil {
 			qrWithPluginInfo = *o.WithPluginInfo
 		}
 		qWithPluginInfo := swag.FormatBool(qrWithPluginInfo)
 		if qWithPluginInfo != "" {
-
 			if err := r.SetQueryParam("withPluginInfo", qWithPluginInfo); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 
@@ -288,21 +288,4 @@ func (o *GetPaymentMethodByKeyParams) WriteToRequest(r runtime.ClientRequest, re
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamGetPaymentMethodByKey binds the parameter pluginProperty
-func (o *GetPaymentMethodByKeyParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

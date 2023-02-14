@@ -13,106 +13,88 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewUpdateAccountParams creates a new UpdateAccountParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewUpdateAccountParams creates a new UpdateAccountParams object
+// with the default values initialized.
 func NewUpdateAccountParams() *UpdateAccountParams {
+	var (
+		treatNullAsResetDefault = bool(false)
+	)
 	return &UpdateAccountParams{
+		TreatNullAsReset: &treatNullAsResetDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUpdateAccountParamsWithTimeout creates a new UpdateAccountParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewUpdateAccountParamsWithTimeout(timeout time.Duration) *UpdateAccountParams {
+	var (
+		treatNullAsResetDefault = bool(false)
+	)
 	return &UpdateAccountParams{
+		TreatNullAsReset: &treatNullAsResetDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewUpdateAccountParamsWithContext creates a new UpdateAccountParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewUpdateAccountParamsWithContext(ctx context.Context) *UpdateAccountParams {
+	var (
+		treatNullAsResetDefault = bool(false)
+	)
 	return &UpdateAccountParams{
+		TreatNullAsReset: &treatNullAsResetDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewUpdateAccountParamsWithHTTPClient creates a new UpdateAccountParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewUpdateAccountParamsWithHTTPClient(client *http.Client) *UpdateAccountParams {
-	return &UpdateAccountParams{
-		HTTPClient: client,
-	}
-}
-
-/*
-UpdateAccountParams contains all the parameters to send to the API endpoint
-
-	for the update account operation.
-
-	Typically these are written to a http.Request.
-*/
-type UpdateAccountParams struct {
-
-	// XKillbillComment.
-	XKillbillComment *string
-
-	// XKillbillCreatedBy.
-	XKillbillCreatedBy string
-
-	// XKillbillReason.
-	XKillbillReason *string
-
-	// AccountID.
-	//
-	// Format: uuid
-	AccountID strfmt.UUID
-
-	// Body.
-	Body *kbmodel.Account
-
-	// TreatNullAsReset.
-	TreatNullAsReset *bool
-
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the update account params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *UpdateAccountParams) WithDefaults() *UpdateAccountParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the update account params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *UpdateAccountParams) SetDefaults() {
 	var (
 		treatNullAsResetDefault = bool(false)
 	)
-
-	val := UpdateAccountParams{
+	return &UpdateAccountParams{
 		TreatNullAsReset: &treatNullAsResetDefault,
+		HTTPClient:       client,
 	}
+}
 
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+/*UpdateAccountParams contains all the parameters to send to the API endpoint
+for the update account operation typically these are written to a http.Request
+*/
+type UpdateAccountParams struct {
+
+	/*XKillbillComment*/
+	XKillbillComment *string
+	/*XKillbillCreatedBy*/
+	XKillbillCreatedBy string
+	/*XKillbillReason*/
+	XKillbillReason *string
+	/*AccountID*/
+	AccountID strfmt.UUID
+	/*Body*/
+	Body *kbmodel.Account
+	/*TreatNullAsReset*/
+	TreatNullAsReset *bool
+
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the update account params
@@ -228,6 +210,7 @@ func (o *UpdateAccountParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -241,12 +224,14 @@ func (o *UpdateAccountParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {
 		return err
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -257,16 +242,29 @@ func (o *UpdateAccountParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 
 		// query param treatNullAsReset
 		var qrTreatNullAsReset bool
-
 		if o.TreatNullAsReset != nil {
 			qrTreatNullAsReset = *o.TreatNullAsReset
 		}
 		qTreatNullAsReset := swag.FormatBool(qrTreatNullAsReset)
 		if qTreatNullAsReset != "" {
-
 			if err := r.SetQueryParam("treatNullAsReset", qTreatNullAsReset); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 

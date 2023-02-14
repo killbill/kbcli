@@ -7,9 +7,12 @@ package tenant
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // DeleteUserKeyValueReader is a Reader for the DeleteUserKeyValue structure.
@@ -20,20 +23,21 @@ type DeleteUserKeyValueReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteUserKeyValueReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewDeleteUserKeyValueNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewDeleteUserKeyValueBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -42,49 +46,15 @@ func NewDeleteUserKeyValueNoContent() *DeleteUserKeyValueNoContent {
 	return &DeleteUserKeyValueNoContent{}
 }
 
-/*
-DeleteUserKeyValueNoContent describes a response with status code 204, with default header values.
+/*DeleteUserKeyValueNoContent handles this case with default header values.
 
 Successful operation
 */
 type DeleteUserKeyValueNoContent struct {
-}
-
-// IsSuccess returns true when this delete user key value no content response has a 2xx status code
-func (o *DeleteUserKeyValueNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this delete user key value no content response has a 3xx status code
-func (o *DeleteUserKeyValueNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete user key value no content response has a 4xx status code
-func (o *DeleteUserKeyValueNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this delete user key value no content response has a 5xx status code
-func (o *DeleteUserKeyValueNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete user key value no content response a status code equal to that given
-func (o *DeleteUserKeyValueNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the delete user key value no content response
-func (o *DeleteUserKeyValueNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteUserKeyValueNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/tenants/userKeyValue/{keyName}][%d] deleteUserKeyValueNoContent ", 204)
-}
-
-func (o *DeleteUserKeyValueNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/tenants/userKeyValue/{keyName}][%d] deleteUserKeyValueNoContent ", 204)
 }
 
@@ -98,49 +68,15 @@ func NewDeleteUserKeyValueBadRequest() *DeleteUserKeyValueBadRequest {
 	return &DeleteUserKeyValueBadRequest{}
 }
 
-/*
-DeleteUserKeyValueBadRequest describes a response with status code 400, with default header values.
+/*DeleteUserKeyValueBadRequest handles this case with default header values.
 
 Invalid tenantId supplied
 */
 type DeleteUserKeyValueBadRequest struct {
-}
-
-// IsSuccess returns true when this delete user key value bad request response has a 2xx status code
-func (o *DeleteUserKeyValueBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this delete user key value bad request response has a 3xx status code
-func (o *DeleteUserKeyValueBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete user key value bad request response has a 4xx status code
-func (o *DeleteUserKeyValueBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this delete user key value bad request response has a 5xx status code
-func (o *DeleteUserKeyValueBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete user key value bad request response a status code equal to that given
-func (o *DeleteUserKeyValueBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the delete user key value bad request response
-func (o *DeleteUserKeyValueBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteUserKeyValueBadRequest) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/tenants/userKeyValue/{keyName}][%d] deleteUserKeyValueBadRequest ", 400)
-}
-
-func (o *DeleteUserKeyValueBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/tenants/userKeyValue/{keyName}][%d] deleteUserKeyValueBadRequest ", 400)
 }
 

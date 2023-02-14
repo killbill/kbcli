@@ -13,94 +13,72 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetUsageParams creates a new GetUsageParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetUsageParams creates a new GetUsageParams object
+// with the default values initialized.
 func NewGetUsageParams() *GetUsageParams {
+	var ()
 	return &GetUsageParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetUsageParamsWithTimeout creates a new GetUsageParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetUsageParamsWithTimeout(timeout time.Duration) *GetUsageParams {
+	var ()
 	return &GetUsageParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewGetUsageParamsWithContext creates a new GetUsageParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetUsageParamsWithContext(ctx context.Context) *GetUsageParams {
+	var ()
 	return &GetUsageParams{
+
 		Context: ctx,
 	}
 }
 
 // NewGetUsageParamsWithHTTPClient creates a new GetUsageParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetUsageParamsWithHTTPClient(client *http.Client) *GetUsageParams {
+	var ()
 	return &GetUsageParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-GetUsageParams contains all the parameters to send to the API endpoint
-
-	for the get usage operation.
-
-	Typically these are written to a http.Request.
+/*GetUsageParams contains all the parameters to send to the API endpoint
+for the get usage operation typically these are written to a http.Request
 */
 type GetUsageParams struct {
 
-	// EndDate.
-	//
-	// Format: date
+	/*EndDate*/
 	EndDate *strfmt.Date
-
-	// PluginProperty.
+	/*PluginProperty*/
 	PluginProperty []string
-
-	// StartDate.
-	//
-	// Format: date
+	/*StartDate*/
 	StartDate *strfmt.Date
-
-	// SubscriptionID.
-	//
-	// Format: uuid
+	/*SubscriptionID*/
 	SubscriptionID strfmt.UUID
-
-	// UnitType.
+	/*UnitType*/
 	UnitType string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get usage params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetUsageParams) WithDefaults() *GetUsageParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get usage params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetUsageParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get usage params
@@ -203,45 +181,40 @@ func (o *GetUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regi
 
 		// query param endDate
 		var qrEndDate strfmt.Date
-
 		if o.EndDate != nil {
 			qrEndDate = *o.EndDate
 		}
 		qEndDate := qrEndDate.String()
 		if qEndDate != "" {
-
 			if err := r.SetQueryParam("endDate", qEndDate); err != nil {
 				return err
 			}
 		}
+
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
-
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-			return err
-		}
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	if o.StartDate != nil {
 
 		// query param startDate
 		var qrStartDate strfmt.Date
-
 		if o.StartDate != nil {
 			qrStartDate = *o.StartDate
 		}
 		qStartDate := qrStartDate.String()
 		if qStartDate != "" {
-
 			if err := r.SetQueryParam("startDate", qStartDate); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// path param subscriptionId
@@ -254,25 +227,22 @@ func (o *GetUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regi
 		return err
 	}
 
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamGetUsage binds the parameter pluginProperty
-func (o *GetUsageParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // PayAllInvoicesReader is a Reader for the PayAllInvoices structure.
@@ -23,26 +25,29 @@ type PayAllInvoicesReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *PayAllInvoicesReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-	case 201:
+
+	case 201, 200:
 		result := NewPayAllInvoicesCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
+
 	case 204:
 		result := NewPayAllInvoicesNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 404:
-		result := NewPayAllInvoicesNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -51,50 +56,17 @@ func NewPayAllInvoicesCreated() *PayAllInvoicesCreated {
 	return &PayAllInvoicesCreated{}
 }
 
-/*
-PayAllInvoicesCreated describes a response with status code 201, with default header values.
+/*PayAllInvoicesCreated handles this case with default header values.
 
 Successful operation
 */
 type PayAllInvoicesCreated struct {
 	Payload []*kbmodel.Invoice
-}
 
-// IsSuccess returns true when this pay all invoices created response has a 2xx status code
-func (o *PayAllInvoicesCreated) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this pay all invoices created response has a 3xx status code
-func (o *PayAllInvoicesCreated) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this pay all invoices created response has a 4xx status code
-func (o *PayAllInvoicesCreated) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this pay all invoices created response has a 5xx status code
-func (o *PayAllInvoicesCreated) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this pay all invoices created response a status code equal to that given
-func (o *PayAllInvoicesCreated) IsCode(code int) bool {
-	return code == 201
-}
-
-// Code gets the status code for the pay all invoices created response
-func (o *PayAllInvoicesCreated) Code() int {
-	return 201
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *PayAllInvoicesCreated) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/invoicePayments][%d] payAllInvoicesCreated  %+v", 201, o.Payload)
-}
-
-func (o *PayAllInvoicesCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/invoicePayments][%d] payAllInvoicesCreated  %+v", 201, o.Payload)
 }
 
@@ -117,49 +89,15 @@ func NewPayAllInvoicesNoContent() *PayAllInvoicesNoContent {
 	return &PayAllInvoicesNoContent{}
 }
 
-/*
-PayAllInvoicesNoContent describes a response with status code 204, with default header values.
+/*PayAllInvoicesNoContent handles this case with default header values.
 
 Nothing to pay
 */
 type PayAllInvoicesNoContent struct {
-}
-
-// IsSuccess returns true when this pay all invoices no content response has a 2xx status code
-func (o *PayAllInvoicesNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this pay all invoices no content response has a 3xx status code
-func (o *PayAllInvoicesNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this pay all invoices no content response has a 4xx status code
-func (o *PayAllInvoicesNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this pay all invoices no content response has a 5xx status code
-func (o *PayAllInvoicesNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this pay all invoices no content response a status code equal to that given
-func (o *PayAllInvoicesNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the pay all invoices no content response
-func (o *PayAllInvoicesNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *PayAllInvoicesNoContent) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/invoicePayments][%d] payAllInvoicesNoContent ", 204)
-}
-
-func (o *PayAllInvoicesNoContent) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/invoicePayments][%d] payAllInvoicesNoContent ", 204)
 }
 
@@ -173,49 +111,15 @@ func NewPayAllInvoicesNotFound() *PayAllInvoicesNotFound {
 	return &PayAllInvoicesNotFound{}
 }
 
-/*
-PayAllInvoicesNotFound describes a response with status code 404, with default header values.
+/*PayAllInvoicesNotFound handles this case with default header values.
 
 Invalid account id supplied
 */
 type PayAllInvoicesNotFound struct {
-}
-
-// IsSuccess returns true when this pay all invoices not found response has a 2xx status code
-func (o *PayAllInvoicesNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this pay all invoices not found response has a 3xx status code
-func (o *PayAllInvoicesNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this pay all invoices not found response has a 4xx status code
-func (o *PayAllInvoicesNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this pay all invoices not found response has a 5xx status code
-func (o *PayAllInvoicesNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this pay all invoices not found response a status code equal to that given
-func (o *PayAllInvoicesNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the pay all invoices not found response
-func (o *PayAllInvoicesNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *PayAllInvoicesNotFound) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/invoicePayments][%d] payAllInvoicesNotFound ", 404)
-}
-
-func (o *PayAllInvoicesNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/invoicePayments][%d] payAllInvoicesNotFound ", 404)
 }
 

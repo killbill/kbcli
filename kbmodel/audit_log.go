@@ -6,17 +6,16 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // AuditLog audit log
-//
 // swagger:model AuditLog
 type AuditLog struct {
 
@@ -42,7 +41,7 @@ type AuditLog struct {
 
 	// object type
 	// Enum: [ACCOUNT ACCOUNT_EMAIL BLOCKING_STATES BUNDLE CUSTOM_FIELD INVOICE PAYMENT TRANSACTION INVOICE_ITEM INVOICE_PAYMENT SUBSCRIPTION SUBSCRIPTION_EVENT SERVICE_BROADCAST PAYMENT_ATTEMPT PAYMENT_METHOD TAG TAG_DEFINITION TENANT TENANT_KVS]
-	ObjectType string `json:"objectType,omitempty"`
+	ObjectType AuditLogObjectTypeEnum `json:"objectType,omitempty"`
 
 	// reason code
 	ReasonCode string `json:"reasonCode,omitempty"`
@@ -78,6 +77,7 @@ func (m *AuditLog) Validate(formats strfmt.Registry) error {
 }
 
 func (m *AuditLog) validateChangeDate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ChangeDate) { // not required
 		return nil
 	}
@@ -90,6 +90,7 @@ func (m *AuditLog) validateChangeDate(formats strfmt.Registry) error {
 }
 
 func (m *AuditLog) validateHistory(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.History) { // not required
 		return nil
 	}
@@ -98,8 +99,6 @@ func (m *AuditLog) validateHistory(formats strfmt.Registry) error {
 		if err := m.History.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("history")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("history")
 			}
 			return err
 		}
@@ -109,6 +108,7 @@ func (m *AuditLog) validateHistory(formats strfmt.Registry) error {
 }
 
 func (m *AuditLog) validateObjectID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ObjectID) { // not required
 		return nil
 	}
@@ -123,7 +123,7 @@ func (m *AuditLog) validateObjectID(formats strfmt.Registry) error {
 var auditLogTypeObjectTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []AuditLogObjectTypeEnum
 	if err := json.Unmarshal([]byte(`["ACCOUNT","ACCOUNT_EMAIL","BLOCKING_STATES","BUNDLE","CUSTOM_FIELD","INVOICE","PAYMENT","TRANSACTION","INVOICE_ITEM","INVOICE_PAYMENT","SUBSCRIPTION","SUBSCRIPTION_EVENT","SERVICE_BROADCAST","PAYMENT_ATTEMPT","PAYMENT_METHOD","TAG","TAG_DEFINITION","TENANT","TENANT_KVS"]`), &res); err != nil {
 		panic(err)
 	}
@@ -132,75 +132,109 @@ func init() {
 	}
 }
 
+type AuditLogObjectTypeEnum string
+
 const (
 
 	// AuditLogObjectTypeACCOUNT captures enum value "ACCOUNT"
-	AuditLogObjectTypeACCOUNT string = "ACCOUNT"
+	AuditLogObjectTypeACCOUNT AuditLogObjectTypeEnum = "ACCOUNT"
 
 	// AuditLogObjectTypeACCOUNTEMAIL captures enum value "ACCOUNT_EMAIL"
-	AuditLogObjectTypeACCOUNTEMAIL string = "ACCOUNT_EMAIL"
+	AuditLogObjectTypeACCOUNTEMAIL AuditLogObjectTypeEnum = "ACCOUNT_EMAIL"
 
 	// AuditLogObjectTypeBLOCKINGSTATES captures enum value "BLOCKING_STATES"
-	AuditLogObjectTypeBLOCKINGSTATES string = "BLOCKING_STATES"
+	AuditLogObjectTypeBLOCKINGSTATES AuditLogObjectTypeEnum = "BLOCKING_STATES"
 
 	// AuditLogObjectTypeBUNDLE captures enum value "BUNDLE"
-	AuditLogObjectTypeBUNDLE string = "BUNDLE"
+	AuditLogObjectTypeBUNDLE AuditLogObjectTypeEnum = "BUNDLE"
 
 	// AuditLogObjectTypeCUSTOMFIELD captures enum value "CUSTOM_FIELD"
-	AuditLogObjectTypeCUSTOMFIELD string = "CUSTOM_FIELD"
+	AuditLogObjectTypeCUSTOMFIELD AuditLogObjectTypeEnum = "CUSTOM_FIELD"
 
 	// AuditLogObjectTypeINVOICE captures enum value "INVOICE"
-	AuditLogObjectTypeINVOICE string = "INVOICE"
+	AuditLogObjectTypeINVOICE AuditLogObjectTypeEnum = "INVOICE"
 
 	// AuditLogObjectTypePAYMENT captures enum value "PAYMENT"
-	AuditLogObjectTypePAYMENT string = "PAYMENT"
+	AuditLogObjectTypePAYMENT AuditLogObjectTypeEnum = "PAYMENT"
 
 	// AuditLogObjectTypeTRANSACTION captures enum value "TRANSACTION"
-	AuditLogObjectTypeTRANSACTION string = "TRANSACTION"
+	AuditLogObjectTypeTRANSACTION AuditLogObjectTypeEnum = "TRANSACTION"
 
 	// AuditLogObjectTypeINVOICEITEM captures enum value "INVOICE_ITEM"
-	AuditLogObjectTypeINVOICEITEM string = "INVOICE_ITEM"
+	AuditLogObjectTypeINVOICEITEM AuditLogObjectTypeEnum = "INVOICE_ITEM"
 
 	// AuditLogObjectTypeINVOICEPAYMENT captures enum value "INVOICE_PAYMENT"
-	AuditLogObjectTypeINVOICEPAYMENT string = "INVOICE_PAYMENT"
+	AuditLogObjectTypeINVOICEPAYMENT AuditLogObjectTypeEnum = "INVOICE_PAYMENT"
 
 	// AuditLogObjectTypeSUBSCRIPTION captures enum value "SUBSCRIPTION"
-	AuditLogObjectTypeSUBSCRIPTION string = "SUBSCRIPTION"
+	AuditLogObjectTypeSUBSCRIPTION AuditLogObjectTypeEnum = "SUBSCRIPTION"
 
 	// AuditLogObjectTypeSUBSCRIPTIONEVENT captures enum value "SUBSCRIPTION_EVENT"
-	AuditLogObjectTypeSUBSCRIPTIONEVENT string = "SUBSCRIPTION_EVENT"
+	AuditLogObjectTypeSUBSCRIPTIONEVENT AuditLogObjectTypeEnum = "SUBSCRIPTION_EVENT"
 
 	// AuditLogObjectTypeSERVICEBROADCAST captures enum value "SERVICE_BROADCAST"
-	AuditLogObjectTypeSERVICEBROADCAST string = "SERVICE_BROADCAST"
+	AuditLogObjectTypeSERVICEBROADCAST AuditLogObjectTypeEnum = "SERVICE_BROADCAST"
 
 	// AuditLogObjectTypePAYMENTATTEMPT captures enum value "PAYMENT_ATTEMPT"
-	AuditLogObjectTypePAYMENTATTEMPT string = "PAYMENT_ATTEMPT"
+	AuditLogObjectTypePAYMENTATTEMPT AuditLogObjectTypeEnum = "PAYMENT_ATTEMPT"
 
 	// AuditLogObjectTypePAYMENTMETHOD captures enum value "PAYMENT_METHOD"
-	AuditLogObjectTypePAYMENTMETHOD string = "PAYMENT_METHOD"
+	AuditLogObjectTypePAYMENTMETHOD AuditLogObjectTypeEnum = "PAYMENT_METHOD"
 
 	// AuditLogObjectTypeTAG captures enum value "TAG"
-	AuditLogObjectTypeTAG string = "TAG"
+	AuditLogObjectTypeTAG AuditLogObjectTypeEnum = "TAG"
 
 	// AuditLogObjectTypeTAGDEFINITION captures enum value "TAG_DEFINITION"
-	AuditLogObjectTypeTAGDEFINITION string = "TAG_DEFINITION"
+	AuditLogObjectTypeTAGDEFINITION AuditLogObjectTypeEnum = "TAG_DEFINITION"
 
 	// AuditLogObjectTypeTENANT captures enum value "TENANT"
-	AuditLogObjectTypeTENANT string = "TENANT"
+	AuditLogObjectTypeTENANT AuditLogObjectTypeEnum = "TENANT"
 
 	// AuditLogObjectTypeTENANTKVS captures enum value "TENANT_KVS"
-	AuditLogObjectTypeTENANTKVS string = "TENANT_KVS"
+	AuditLogObjectTypeTENANTKVS AuditLogObjectTypeEnum = "TENANT_KVS"
 )
 
+var AuditLogObjectTypeEnumValues = []string{
+	"ACCOUNT",
+	"ACCOUNT_EMAIL",
+	"BLOCKING_STATES",
+	"BUNDLE",
+	"CUSTOM_FIELD",
+	"INVOICE",
+	"PAYMENT",
+	"TRANSACTION",
+	"INVOICE_ITEM",
+	"INVOICE_PAYMENT",
+	"SUBSCRIPTION",
+	"SUBSCRIPTION_EVENT",
+	"SERVICE_BROADCAST",
+	"PAYMENT_ATTEMPT",
+	"PAYMENT_METHOD",
+	"TAG",
+	"TAG_DEFINITION",
+	"TENANT",
+	"TENANT_KVS",
+}
+
+func (e AuditLogObjectTypeEnum) IsValid() bool {
+	for _, v := range AuditLogObjectTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *AuditLog) validateObjectTypeEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, auditLogTypeObjectTypePropEnum, true); err != nil {
+func (m *AuditLog) validateObjectTypeEnum(path, location string, value AuditLogObjectTypeEnum) error {
+	if err := validate.Enum(path, location, value, auditLogTypeObjectTypePropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *AuditLog) validateObjectType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ObjectType) { // not required
 		return nil
 	}
@@ -208,36 +242,6 @@ func (m *AuditLog) validateObjectType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateObjectTypeEnum("objectType", "body", m.ObjectType); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this audit log based on the context it is used
-func (m *AuditLog) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateHistory(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *AuditLog) contextValidateHistory(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.History != nil {
-		if err := m.History.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("history")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("history")
-			}
-			return err
-		}
 	}
 
 	return nil

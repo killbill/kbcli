@@ -7,9 +7,12 @@ package account
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // ModifyAccountCustomFieldsReader is a Reader for the ModifyAccountCustomFields structure.
@@ -20,20 +23,21 @@ type ModifyAccountCustomFieldsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ModifyAccountCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewModifyAccountCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewModifyAccountCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -42,49 +46,15 @@ func NewModifyAccountCustomFieldsNoContent() *ModifyAccountCustomFieldsNoContent
 	return &ModifyAccountCustomFieldsNoContent{}
 }
 
-/*
-ModifyAccountCustomFieldsNoContent describes a response with status code 204, with default header values.
+/*ModifyAccountCustomFieldsNoContent handles this case with default header values.
 
 Successful operation
 */
 type ModifyAccountCustomFieldsNoContent struct {
-}
-
-// IsSuccess returns true when this modify account custom fields no content response has a 2xx status code
-func (o *ModifyAccountCustomFieldsNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this modify account custom fields no content response has a 3xx status code
-func (o *ModifyAccountCustomFieldsNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this modify account custom fields no content response has a 4xx status code
-func (o *ModifyAccountCustomFieldsNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this modify account custom fields no content response has a 5xx status code
-func (o *ModifyAccountCustomFieldsNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this modify account custom fields no content response a status code equal to that given
-func (o *ModifyAccountCustomFieldsNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the modify account custom fields no content response
-func (o *ModifyAccountCustomFieldsNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyAccountCustomFieldsNoContent) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/customFields][%d] modifyAccountCustomFieldsNoContent ", 204)
-}
-
-func (o *ModifyAccountCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/customFields][%d] modifyAccountCustomFieldsNoContent ", 204)
 }
 
@@ -98,49 +68,15 @@ func NewModifyAccountCustomFieldsBadRequest() *ModifyAccountCustomFieldsBadReque
 	return &ModifyAccountCustomFieldsBadRequest{}
 }
 
-/*
-ModifyAccountCustomFieldsBadRequest describes a response with status code 400, with default header values.
+/*ModifyAccountCustomFieldsBadRequest handles this case with default header values.
 
 Invalid account id supplied
 */
 type ModifyAccountCustomFieldsBadRequest struct {
-}
-
-// IsSuccess returns true when this modify account custom fields bad request response has a 2xx status code
-func (o *ModifyAccountCustomFieldsBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this modify account custom fields bad request response has a 3xx status code
-func (o *ModifyAccountCustomFieldsBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this modify account custom fields bad request response has a 4xx status code
-func (o *ModifyAccountCustomFieldsBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this modify account custom fields bad request response has a 5xx status code
-func (o *ModifyAccountCustomFieldsBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this modify account custom fields bad request response a status code equal to that given
-func (o *ModifyAccountCustomFieldsBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the modify account custom fields bad request response
-func (o *ModifyAccountCustomFieldsBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ModifyAccountCustomFieldsBadRequest) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/customFields][%d] modifyAccountCustomFieldsBadRequest ", 400)
-}
-
-func (o *ModifyAccountCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/customFields][%d] modifyAccountCustomFieldsBadRequest ", 400)
 }
 

@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetTenantByAPIKeyReader is a Reader for the GetTenantByAPIKey structure.
@@ -23,20 +25,21 @@ type GetTenantByAPIKeyReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetTenantByAPIKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetTenantByAPIKeyOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 404:
-		result := NewGetTenantByAPIKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -45,50 +48,17 @@ func NewGetTenantByAPIKeyOK() *GetTenantByAPIKeyOK {
 	return &GetTenantByAPIKeyOK{}
 }
 
-/*
-GetTenantByAPIKeyOK describes a response with status code 200, with default header values.
+/*GetTenantByAPIKeyOK handles this case with default header values.
 
 successful operation
 */
 type GetTenantByAPIKeyOK struct {
 	Payload *kbmodel.Tenant
-}
 
-// IsSuccess returns true when this get tenant by Api key o k response has a 2xx status code
-func (o *GetTenantByAPIKeyOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get tenant by Api key o k response has a 3xx status code
-func (o *GetTenantByAPIKeyOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get tenant by Api key o k response has a 4xx status code
-func (o *GetTenantByAPIKeyOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get tenant by Api key o k response has a 5xx status code
-func (o *GetTenantByAPIKeyOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get tenant by Api key o k response a status code equal to that given
-func (o *GetTenantByAPIKeyOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get tenant by Api key o k response
-func (o *GetTenantByAPIKeyOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTenantByAPIKeyOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/tenants][%d] getTenantByApiKeyOK  %+v", 200, o.Payload)
-}
-
-func (o *GetTenantByAPIKeyOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants][%d] getTenantByApiKeyOK  %+v", 200, o.Payload)
 }
 
@@ -113,49 +83,15 @@ func NewGetTenantByAPIKeyNotFound() *GetTenantByAPIKeyNotFound {
 	return &GetTenantByAPIKeyNotFound{}
 }
 
-/*
-GetTenantByAPIKeyNotFound describes a response with status code 404, with default header values.
+/*GetTenantByAPIKeyNotFound handles this case with default header values.
 
 Tenant not found
 */
 type GetTenantByAPIKeyNotFound struct {
-}
-
-// IsSuccess returns true when this get tenant by Api key not found response has a 2xx status code
-func (o *GetTenantByAPIKeyNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get tenant by Api key not found response has a 3xx status code
-func (o *GetTenantByAPIKeyNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get tenant by Api key not found response has a 4xx status code
-func (o *GetTenantByAPIKeyNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get tenant by Api key not found response has a 5xx status code
-func (o *GetTenantByAPIKeyNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get tenant by Api key not found response a status code equal to that given
-func (o *GetTenantByAPIKeyNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get tenant by Api key not found response
-func (o *GetTenantByAPIKeyNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetTenantByAPIKeyNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/tenants][%d] getTenantByApiKeyNotFound ", 404)
-}
-
-func (o *GetTenantByAPIKeyNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants][%d] getTenantByApiKeyNotFound ", 404)
 }
 

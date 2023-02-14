@@ -7,9 +7,12 @@ package invoice_payment
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // CompleteInvoicePaymentTransactionReader is a Reader for the CompleteInvoicePaymentTransaction structure.
@@ -20,56 +23,21 @@ type CompleteInvoicePaymentTransactionReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CompleteInvoicePaymentTransactionReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewCompleteInvoicePaymentTransactionNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewCompleteInvoicePaymentTransactionBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 402:
-		result := NewCompleteInvoicePaymentTransactionPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewCompleteInvoicePaymentTransactionNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 422:
-		result := NewCompleteInvoicePaymentTransactionUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 502:
-		result := NewCompleteInvoicePaymentTransactionBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 503:
-		result := NewCompleteInvoicePaymentTransactionServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 504:
-		result := NewCompleteInvoicePaymentTransactionGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -78,49 +46,15 @@ func NewCompleteInvoicePaymentTransactionNoContent() *CompleteInvoicePaymentTran
 	return &CompleteInvoicePaymentTransactionNoContent{}
 }
 
-/*
-CompleteInvoicePaymentTransactionNoContent describes a response with status code 204, with default header values.
+/*CompleteInvoicePaymentTransactionNoContent handles this case with default header values.
 
 Successful operation
 */
 type CompleteInvoicePaymentTransactionNoContent struct {
-}
-
-// IsSuccess returns true when this complete invoice payment transaction no content response has a 2xx status code
-func (o *CompleteInvoicePaymentTransactionNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this complete invoice payment transaction no content response has a 3xx status code
-func (o *CompleteInvoicePaymentTransactionNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this complete invoice payment transaction no content response has a 4xx status code
-func (o *CompleteInvoicePaymentTransactionNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this complete invoice payment transaction no content response has a 5xx status code
-func (o *CompleteInvoicePaymentTransactionNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this complete invoice payment transaction no content response a status code equal to that given
-func (o *CompleteInvoicePaymentTransactionNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the complete invoice payment transaction no content response
-func (o *CompleteInvoicePaymentTransactionNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionNoContent) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionNoContent ", 204)
-}
-
-func (o *CompleteInvoicePaymentTransactionNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionNoContent ", 204)
 }
 
@@ -134,49 +68,15 @@ func NewCompleteInvoicePaymentTransactionBadRequest() *CompleteInvoicePaymentTra
 	return &CompleteInvoicePaymentTransactionBadRequest{}
 }
 
-/*
-CompleteInvoicePaymentTransactionBadRequest describes a response with status code 400, with default header values.
+/*CompleteInvoicePaymentTransactionBadRequest handles this case with default header values.
 
 Invalid paymentId supplied
 */
 type CompleteInvoicePaymentTransactionBadRequest struct {
-}
-
-// IsSuccess returns true when this complete invoice payment transaction bad request response has a 2xx status code
-func (o *CompleteInvoicePaymentTransactionBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this complete invoice payment transaction bad request response has a 3xx status code
-func (o *CompleteInvoicePaymentTransactionBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this complete invoice payment transaction bad request response has a 4xx status code
-func (o *CompleteInvoicePaymentTransactionBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this complete invoice payment transaction bad request response has a 5xx status code
-func (o *CompleteInvoicePaymentTransactionBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this complete invoice payment transaction bad request response a status code equal to that given
-func (o *CompleteInvoicePaymentTransactionBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the complete invoice payment transaction bad request response
-func (o *CompleteInvoicePaymentTransactionBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionBadRequest) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionBadRequest ", 400)
-}
-
-func (o *CompleteInvoicePaymentTransactionBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionBadRequest ", 400)
 }
 
@@ -190,49 +90,15 @@ func NewCompleteInvoicePaymentTransactionPaymentRequired() *CompleteInvoicePayme
 	return &CompleteInvoicePaymentTransactionPaymentRequired{}
 }
 
-/*
-CompleteInvoicePaymentTransactionPaymentRequired describes a response with status code 402, with default header values.
+/*CompleteInvoicePaymentTransactionPaymentRequired handles this case with default header values.
 
 Transaction declined by gateway
 */
 type CompleteInvoicePaymentTransactionPaymentRequired struct {
-}
-
-// IsSuccess returns true when this complete invoice payment transaction payment required response has a 2xx status code
-func (o *CompleteInvoicePaymentTransactionPaymentRequired) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this complete invoice payment transaction payment required response has a 3xx status code
-func (o *CompleteInvoicePaymentTransactionPaymentRequired) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this complete invoice payment transaction payment required response has a 4xx status code
-func (o *CompleteInvoicePaymentTransactionPaymentRequired) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this complete invoice payment transaction payment required response has a 5xx status code
-func (o *CompleteInvoicePaymentTransactionPaymentRequired) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this complete invoice payment transaction payment required response a status code equal to that given
-func (o *CompleteInvoicePaymentTransactionPaymentRequired) IsCode(code int) bool {
-	return code == 402
-}
-
-// Code gets the status code for the complete invoice payment transaction payment required response
-func (o *CompleteInvoicePaymentTransactionPaymentRequired) Code() int {
-	return 402
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionPaymentRequired) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionPaymentRequired ", 402)
-}
-
-func (o *CompleteInvoicePaymentTransactionPaymentRequired) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionPaymentRequired ", 402)
 }
 
@@ -246,49 +112,15 @@ func NewCompleteInvoicePaymentTransactionNotFound() *CompleteInvoicePaymentTrans
 	return &CompleteInvoicePaymentTransactionNotFound{}
 }
 
-/*
-CompleteInvoicePaymentTransactionNotFound describes a response with status code 404, with default header values.
+/*CompleteInvoicePaymentTransactionNotFound handles this case with default header values.
 
 Account or payment not found
 */
 type CompleteInvoicePaymentTransactionNotFound struct {
-}
-
-// IsSuccess returns true when this complete invoice payment transaction not found response has a 2xx status code
-func (o *CompleteInvoicePaymentTransactionNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this complete invoice payment transaction not found response has a 3xx status code
-func (o *CompleteInvoicePaymentTransactionNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this complete invoice payment transaction not found response has a 4xx status code
-func (o *CompleteInvoicePaymentTransactionNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this complete invoice payment transaction not found response has a 5xx status code
-func (o *CompleteInvoicePaymentTransactionNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this complete invoice payment transaction not found response a status code equal to that given
-func (o *CompleteInvoicePaymentTransactionNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the complete invoice payment transaction not found response
-func (o *CompleteInvoicePaymentTransactionNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionNotFound) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionNotFound ", 404)
-}
-
-func (o *CompleteInvoicePaymentTransactionNotFound) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionNotFound ", 404)
 }
 
@@ -302,49 +134,15 @@ func NewCompleteInvoicePaymentTransactionUnprocessableEntity() *CompleteInvoiceP
 	return &CompleteInvoicePaymentTransactionUnprocessableEntity{}
 }
 
-/*
-CompleteInvoicePaymentTransactionUnprocessableEntity describes a response with status code 422, with default header values.
+/*CompleteInvoicePaymentTransactionUnprocessableEntity handles this case with default header values.
 
 Payment is aborted by a control plugin
 */
 type CompleteInvoicePaymentTransactionUnprocessableEntity struct {
-}
-
-// IsSuccess returns true when this complete invoice payment transaction unprocessable entity response has a 2xx status code
-func (o *CompleteInvoicePaymentTransactionUnprocessableEntity) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this complete invoice payment transaction unprocessable entity response has a 3xx status code
-func (o *CompleteInvoicePaymentTransactionUnprocessableEntity) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this complete invoice payment transaction unprocessable entity response has a 4xx status code
-func (o *CompleteInvoicePaymentTransactionUnprocessableEntity) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this complete invoice payment transaction unprocessable entity response has a 5xx status code
-func (o *CompleteInvoicePaymentTransactionUnprocessableEntity) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this complete invoice payment transaction unprocessable entity response a status code equal to that given
-func (o *CompleteInvoicePaymentTransactionUnprocessableEntity) IsCode(code int) bool {
-	return code == 422
-}
-
-// Code gets the status code for the complete invoice payment transaction unprocessable entity response
-func (o *CompleteInvoicePaymentTransactionUnprocessableEntity) Code() int {
-	return 422
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionUnprocessableEntity) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionUnprocessableEntity ", 422)
-}
-
-func (o *CompleteInvoicePaymentTransactionUnprocessableEntity) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionUnprocessableEntity ", 422)
 }
 
@@ -358,49 +156,15 @@ func NewCompleteInvoicePaymentTransactionBadGateway() *CompleteInvoicePaymentTra
 	return &CompleteInvoicePaymentTransactionBadGateway{}
 }
 
-/*
-CompleteInvoicePaymentTransactionBadGateway describes a response with status code 502, with default header values.
+/*CompleteInvoicePaymentTransactionBadGateway handles this case with default header values.
 
 Failed to submit payment transaction
 */
 type CompleteInvoicePaymentTransactionBadGateway struct {
-}
-
-// IsSuccess returns true when this complete invoice payment transaction bad gateway response has a 2xx status code
-func (o *CompleteInvoicePaymentTransactionBadGateway) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this complete invoice payment transaction bad gateway response has a 3xx status code
-func (o *CompleteInvoicePaymentTransactionBadGateway) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this complete invoice payment transaction bad gateway response has a 4xx status code
-func (o *CompleteInvoicePaymentTransactionBadGateway) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this complete invoice payment transaction bad gateway response has a 5xx status code
-func (o *CompleteInvoicePaymentTransactionBadGateway) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this complete invoice payment transaction bad gateway response a status code equal to that given
-func (o *CompleteInvoicePaymentTransactionBadGateway) IsCode(code int) bool {
-	return code == 502
-}
-
-// Code gets the status code for the complete invoice payment transaction bad gateway response
-func (o *CompleteInvoicePaymentTransactionBadGateway) Code() int {
-	return 502
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionBadGateway) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionBadGateway ", 502)
-}
-
-func (o *CompleteInvoicePaymentTransactionBadGateway) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionBadGateway ", 502)
 }
 
@@ -414,49 +178,15 @@ func NewCompleteInvoicePaymentTransactionServiceUnavailable() *CompleteInvoicePa
 	return &CompleteInvoicePaymentTransactionServiceUnavailable{}
 }
 
-/*
-CompleteInvoicePaymentTransactionServiceUnavailable describes a response with status code 503, with default header values.
+/*CompleteInvoicePaymentTransactionServiceUnavailable handles this case with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
 type CompleteInvoicePaymentTransactionServiceUnavailable struct {
-}
-
-// IsSuccess returns true when this complete invoice payment transaction service unavailable response has a 2xx status code
-func (o *CompleteInvoicePaymentTransactionServiceUnavailable) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this complete invoice payment transaction service unavailable response has a 3xx status code
-func (o *CompleteInvoicePaymentTransactionServiceUnavailable) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this complete invoice payment transaction service unavailable response has a 4xx status code
-func (o *CompleteInvoicePaymentTransactionServiceUnavailable) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this complete invoice payment transaction service unavailable response has a 5xx status code
-func (o *CompleteInvoicePaymentTransactionServiceUnavailable) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this complete invoice payment transaction service unavailable response a status code equal to that given
-func (o *CompleteInvoicePaymentTransactionServiceUnavailable) IsCode(code int) bool {
-	return code == 503
-}
-
-// Code gets the status code for the complete invoice payment transaction service unavailable response
-func (o *CompleteInvoicePaymentTransactionServiceUnavailable) Code() int {
-	return 503
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionServiceUnavailable) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionServiceUnavailable ", 503)
-}
-
-func (o *CompleteInvoicePaymentTransactionServiceUnavailable) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionServiceUnavailable ", 503)
 }
 
@@ -470,49 +200,15 @@ func NewCompleteInvoicePaymentTransactionGatewayTimeout() *CompleteInvoicePaymen
 	return &CompleteInvoicePaymentTransactionGatewayTimeout{}
 }
 
-/*
-CompleteInvoicePaymentTransactionGatewayTimeout describes a response with status code 504, with default header values.
+/*CompleteInvoicePaymentTransactionGatewayTimeout handles this case with default header values.
 
 Payment operation timeout
 */
 type CompleteInvoicePaymentTransactionGatewayTimeout struct {
-}
-
-// IsSuccess returns true when this complete invoice payment transaction gateway timeout response has a 2xx status code
-func (o *CompleteInvoicePaymentTransactionGatewayTimeout) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this complete invoice payment transaction gateway timeout response has a 3xx status code
-func (o *CompleteInvoicePaymentTransactionGatewayTimeout) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this complete invoice payment transaction gateway timeout response has a 4xx status code
-func (o *CompleteInvoicePaymentTransactionGatewayTimeout) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this complete invoice payment transaction gateway timeout response has a 5xx status code
-func (o *CompleteInvoicePaymentTransactionGatewayTimeout) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this complete invoice payment transaction gateway timeout response a status code equal to that given
-func (o *CompleteInvoicePaymentTransactionGatewayTimeout) IsCode(code int) bool {
-	return code == 504
-}
-
-// Code gets the status code for the complete invoice payment transaction gateway timeout response
-func (o *CompleteInvoicePaymentTransactionGatewayTimeout) Code() int {
-	return 504
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CompleteInvoicePaymentTransactionGatewayTimeout) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionGatewayTimeout ", 504)
-}
-
-func (o *CompleteInvoicePaymentTransactionGatewayTimeout) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoicePayments/{paymentId}][%d] completeInvoicePaymentTransactionGatewayTimeout ", 504)
 }
 

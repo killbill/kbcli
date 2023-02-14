@@ -13,95 +13,76 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreateChargebackParams creates a new CreateChargebackParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewCreateChargebackParams creates a new CreateChargebackParams object
+// with the default values initialized.
 func NewCreateChargebackParams() *CreateChargebackParams {
+	var ()
 	return &CreateChargebackParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateChargebackParamsWithTimeout creates a new CreateChargebackParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewCreateChargebackParamsWithTimeout(timeout time.Duration) *CreateChargebackParams {
+	var ()
 	return &CreateChargebackParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewCreateChargebackParamsWithContext creates a new CreateChargebackParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewCreateChargebackParamsWithContext(ctx context.Context) *CreateChargebackParams {
+	var ()
 	return &CreateChargebackParams{
+
 		Context: ctx,
 	}
 }
 
 // NewCreateChargebackParamsWithHTTPClient creates a new CreateChargebackParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewCreateChargebackParamsWithHTTPClient(client *http.Client) *CreateChargebackParams {
+	var ()
 	return &CreateChargebackParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-CreateChargebackParams contains all the parameters to send to the API endpoint
-
-	for the create chargeback operation.
-
-	Typically these are written to a http.Request.
+/*CreateChargebackParams contains all the parameters to send to the API endpoint
+for the create chargeback operation typically these are written to a http.Request
 */
 type CreateChargebackParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// Body.
+	/*Body*/
 	Body *kbmodel.InvoicePaymentTransaction
-
-	// PaymentID.
-	//
-	// Format: uuid
+	/*PaymentID*/
 	PaymentID strfmt.UUID
-
-	// PluginProperty.
+	/*PluginProperty*/
 	PluginProperty []string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the create chargeback params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateChargebackParams) WithDefaults() *CreateChargebackParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the create chargeback params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateChargebackParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the create chargeback params
@@ -217,6 +198,7 @@ func (o *CreateChargebackParams) WriteToRequest(r runtime.ClientRequest, reg str
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -230,7 +212,9 @@ func (o *CreateChargebackParams) WriteToRequest(r runtime.ClientRequest, reg str
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -242,13 +226,24 @@ func (o *CreateChargebackParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
+	}
 
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}
@@ -257,21 +252,4 @@ func (o *CreateChargebackParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamCreateChargeback binds the parameter pluginProperty
-func (o *CreateChargebackParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

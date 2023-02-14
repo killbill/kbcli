@@ -6,15 +6,37 @@ package catalog
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new catalog API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
-	return &Client{transport: transport, formats: formats}
+func New(transport runtime.ClientTransport,
+	formats strfmt.Registry,
+	authInfo runtime.ClientAuthInfoWriter,
+	defaults KillbillDefaults) *Client {
+
+	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
+}
+
+// killbill default values. When a call is made to an operation, these values are used
+// if params doesn't specify them.
+type KillbillDefaults interface {
+	// Default CreatedBy. If not set explicitly in params, this will be used.
+	XKillbillCreatedBy() *string
+	// Default Comment. If not set explicitly in params, this will be used.
+	XKillbillComment() *string
+	// Default Reason. If not set explicitly in params, this will be used.
+	XKillbillReason() *string
+	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
+	KillbillWithProfilingInfo() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -23,51 +45,111 @@ Client for catalog API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
+	authInfo  runtime.ClientAuthInfoWriter
+	defaults  KillbillDefaults
 }
 
-// ClientOption is the option for Client methods
-type ClientOption func(*runtime.ClientOperation)
+// ICatalog - interface for Catalog client.
+type ICatalog interface {
+	/*
+		AddSimplePlan adds a simple plan entry in the current version of the catalog
+	*/
+	AddSimplePlan(ctx context.Context, params *AddSimplePlanParams) (*AddSimplePlanCreated, error)
 
-// ClientService is the interface for Client methods
-type ClientService interface {
-	AddSimplePlan(params *AddSimplePlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddSimplePlanCreated, error)
+	/*
+		DeleteCatalog deletes all versions for a per tenant catalog
+	*/
+	DeleteCatalog(ctx context.Context, params *DeleteCatalogParams) (*DeleteCatalogNoContent, error)
 
-	DeleteCatalog(params *DeleteCatalogParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteCatalogNoContent, error)
+	/*
+		GetAvailableAddons retrieves available add ons for a given product
+	*/
+	GetAvailableAddons(ctx context.Context, params *GetAvailableAddonsParams) (*GetAvailableAddonsOK, error)
 
-	GetAvailableAddons(params *GetAvailableAddonsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAvailableAddonsOK, error)
+	/*
+		GetAvailableBasePlans retrieves available base plans
+	*/
+	GetAvailableBasePlans(ctx context.Context, params *GetAvailableBasePlansParams) (*GetAvailableBasePlansOK, error)
 
-	GetAvailableBasePlans(params *GetAvailableBasePlansParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAvailableBasePlansOK, error)
+	/*
+		GetCatalogJSON retrieves the catalog as JSON
+	*/
+	GetCatalogJSON(ctx context.Context, params *GetCatalogJSONParams) (*GetCatalogJSONOK, error)
 
-	GetCatalogJSON(params *GetCatalogJSONParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCatalogJSONOK, error)
+	/*
+		GetCatalogVersions retrieves a list of catalog versions
+	*/
+	GetCatalogVersions(ctx context.Context, params *GetCatalogVersionsParams) (*GetCatalogVersionsOK, error)
 
-	GetCatalogVersions(params *GetCatalogVersionsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCatalogVersionsOK, error)
+	/*
+		GetCatalogXML retrieves the full catalog as XML
+	*/
+	GetCatalogXML(ctx context.Context, params *GetCatalogXMLParams) (*GetCatalogXMLOK, error)
 
-	GetCatalogXML(params *GetCatalogXMLParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCatalogXMLOK, error)
+	/*
+		GetPhaseForSubscriptionAndDate retrieves phase for a given subscription and date
+	*/
+	GetPhaseForSubscriptionAndDate(ctx context.Context, params *GetPhaseForSubscriptionAndDateParams) (*GetPhaseForSubscriptionAndDateOK, error)
 
-	GetPhaseForSubscriptionAndDate(params *GetPhaseForSubscriptionAndDateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPhaseForSubscriptionAndDateOK, error)
+	/*
+		GetPlanForSubscriptionAndDate retrieves plan for a given subscription and date
+	*/
+	GetPlanForSubscriptionAndDate(ctx context.Context, params *GetPlanForSubscriptionAndDateParams) (*GetPlanForSubscriptionAndDateOK, error)
 
-	GetPlanForSubscriptionAndDate(params *GetPlanForSubscriptionAndDateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPlanForSubscriptionAndDateOK, error)
+	/*
+		GetPriceListForSubscriptionAndDate retrieves price list for a given subscription and date
+	*/
+	GetPriceListForSubscriptionAndDate(ctx context.Context, params *GetPriceListForSubscriptionAndDateParams) (*GetPriceListForSubscriptionAndDateOK, error)
 
-	GetPriceListForSubscriptionAndDate(params *GetPriceListForSubscriptionAndDateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPriceListForSubscriptionAndDateOK, error)
+	/*
+		GetProductForSubscriptionAndDate retrieves product for a given subscription and date
+	*/
+	GetProductForSubscriptionAndDate(ctx context.Context, params *GetProductForSubscriptionAndDateParams) (*GetProductForSubscriptionAndDateOK, error)
 
-	GetProductForSubscriptionAndDate(params *GetProductForSubscriptionAndDateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetProductForSubscriptionAndDateOK, error)
+	/*
+		UploadCatalogXML uploads the full catalog as XML
+	*/
+	UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLParams) (*UploadCatalogXMLCreated, error)
 
-	UploadCatalogXML(params *UploadCatalogXMLParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadCatalogXMLCreated, error)
-
-	ValidateCatalogXML(params *ValidateCatalogXMLParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ValidateCatalogXMLOK, error)
-
-	SetTransport(transport runtime.ClientTransport)
+	/*
+		ValidateCatalogXML validates a XML catalog
+	*/
+	ValidateCatalogXML(ctx context.Context, params *ValidateCatalogXMLParams) (*ValidateCatalogXMLOK, error)
 }
 
 /*
 AddSimplePlan adds a simple plan entry in the current version of the catalog
 */
-func (a *Client) AddSimplePlan(params *AddSimplePlanParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddSimplePlanCreated, error) {
+func (a *Client) AddSimplePlan(ctx context.Context, params *AddSimplePlanParams) (*AddSimplePlanCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAddSimplePlanParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewAddSimplePlanParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addSimplePlan",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/catalog/simplePlan",
@@ -76,54 +158,81 @@ func (a *Client) AddSimplePlan(params *AddSimplePlanParams, authInfo runtime.Cli
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &AddSimplePlanReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*AddSimplePlanCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*AddSimplePlanCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for addSimplePlan: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "addSimplePlan",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &AddSimplePlanReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*AddSimplePlanCreated), nil
+
 }
 
 /*
 DeleteCatalog deletes all versions for a per tenant catalog
 */
-func (a *Client) DeleteCatalog(params *DeleteCatalogParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteCatalogNoContent, error) {
+func (a *Client) DeleteCatalog(ctx context.Context, params *DeleteCatalogParams) (*DeleteCatalogNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteCatalogParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteCatalog",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/catalog",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ProducesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteCatalogReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -135,34 +244,39 @@ func (a *Client) DeleteCatalog(params *DeleteCatalogParams, authInfo runtime.Cli
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteCatalog: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAvailableAddons retrieves available add ons for a given product
 */
-func (a *Client) GetAvailableAddons(params *GetAvailableAddonsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAvailableAddonsOK, error) {
+func (a *Client) GetAvailableAddons(ctx context.Context, params *GetAvailableAddonsParams) (*GetAvailableAddonsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAvailableAddonsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAvailableAddons",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/availableAddons",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAvailableAddonsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -174,34 +288,39 @@ func (a *Client) GetAvailableAddons(params *GetAvailableAddonsParams, authInfo r
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAvailableAddons: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAvailableBasePlans retrieves available base plans
 */
-func (a *Client) GetAvailableBasePlans(params *GetAvailableBasePlansParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAvailableBasePlansOK, error) {
+func (a *Client) GetAvailableBasePlans(ctx context.Context, params *GetAvailableBasePlansParams) (*GetAvailableBasePlansOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAvailableBasePlansParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAvailableBasePlans",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/availableBasePlans",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAvailableBasePlansReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -213,34 +332,39 @@ func (a *Client) GetAvailableBasePlans(params *GetAvailableBasePlansParams, auth
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAvailableBasePlans: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetCatalogJSON retrieves the catalog as JSON
 */
-func (a *Client) GetCatalogJSON(params *GetCatalogJSONParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCatalogJSONOK, error) {
+func (a *Client) GetCatalogJSON(ctx context.Context, params *GetCatalogJSONParams) (*GetCatalogJSONOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetCatalogJSONParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCatalogJson",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCatalogJSONReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -252,34 +376,39 @@ func (a *Client) GetCatalogJSON(params *GetCatalogJSONParams, authInfo runtime.C
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getCatalogJson: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetCatalogVersions retrieves a list of catalog versions
 */
-func (a *Client) GetCatalogVersions(params *GetCatalogVersionsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCatalogVersionsOK, error) {
+func (a *Client) GetCatalogVersions(ctx context.Context, params *GetCatalogVersionsParams) (*GetCatalogVersionsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetCatalogVersionsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCatalogVersions",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/versions",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCatalogVersionsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -291,34 +420,39 @@ func (a *Client) GetCatalogVersions(params *GetCatalogVersionsParams, authInfo r
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getCatalogVersions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetCatalogXML retrieves the full catalog as XML
 */
-func (a *Client) GetCatalogXML(params *GetCatalogXMLParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetCatalogXMLOK, error) {
+func (a *Client) GetCatalogXML(ctx context.Context, params *GetCatalogXMLParams) (*GetCatalogXMLOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetCatalogXMLParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getCatalogXml",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/xml",
 		ProducesMediaTypes: []string{"text/xml"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCatalogXMLReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -330,34 +464,39 @@ func (a *Client) GetCatalogXML(params *GetCatalogXMLParams, authInfo runtime.Cli
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getCatalogXml: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPhaseForSubscriptionAndDate retrieves phase for a given subscription and date
 */
-func (a *Client) GetPhaseForSubscriptionAndDate(params *GetPhaseForSubscriptionAndDateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPhaseForSubscriptionAndDateOK, error) {
+func (a *Client) GetPhaseForSubscriptionAndDate(ctx context.Context, params *GetPhaseForSubscriptionAndDateParams) (*GetPhaseForSubscriptionAndDateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPhaseForSubscriptionAndDateParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPhaseForSubscriptionAndDate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/phase",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPhaseForSubscriptionAndDateReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -369,34 +508,39 @@ func (a *Client) GetPhaseForSubscriptionAndDate(params *GetPhaseForSubscriptionA
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPhaseForSubscriptionAndDate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPlanForSubscriptionAndDate retrieves plan for a given subscription and date
 */
-func (a *Client) GetPlanForSubscriptionAndDate(params *GetPlanForSubscriptionAndDateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPlanForSubscriptionAndDateOK, error) {
+func (a *Client) GetPlanForSubscriptionAndDate(ctx context.Context, params *GetPlanForSubscriptionAndDateParams) (*GetPlanForSubscriptionAndDateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPlanForSubscriptionAndDateParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPlanForSubscriptionAndDate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/plan",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPlanForSubscriptionAndDateReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -408,34 +552,39 @@ func (a *Client) GetPlanForSubscriptionAndDate(params *GetPlanForSubscriptionAnd
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPlanForSubscriptionAndDate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPriceListForSubscriptionAndDate retrieves price list for a given subscription and date
 */
-func (a *Client) GetPriceListForSubscriptionAndDate(params *GetPriceListForSubscriptionAndDateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPriceListForSubscriptionAndDateOK, error) {
+func (a *Client) GetPriceListForSubscriptionAndDate(ctx context.Context, params *GetPriceListForSubscriptionAndDateParams) (*GetPriceListForSubscriptionAndDateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPriceListForSubscriptionAndDateParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPriceListForSubscriptionAndDate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/priceList",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPriceListForSubscriptionAndDateReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -447,34 +596,39 @@ func (a *Client) GetPriceListForSubscriptionAndDate(params *GetPriceListForSubsc
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPriceListForSubscriptionAndDate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetProductForSubscriptionAndDate retrieves product for a given subscription and date
 */
-func (a *Client) GetProductForSubscriptionAndDate(params *GetProductForSubscriptionAndDateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetProductForSubscriptionAndDateOK, error) {
+func (a *Client) GetProductForSubscriptionAndDate(ctx context.Context, params *GetProductForSubscriptionAndDateParams) (*GetProductForSubscriptionAndDateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetProductForSubscriptionAndDateParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getProductForSubscriptionAndDate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/product",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetProductForSubscriptionAndDateReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -486,56 +640,113 @@ func (a *Client) GetProductForSubscriptionAndDate(params *GetProductForSubscript
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getProductForSubscriptionAndDate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 UploadCatalogXML uploads the full catalog as XML
 */
-func (a *Client) UploadCatalogXML(params *UploadCatalogXMLParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UploadCatalogXMLCreated, error) {
+func (a *Client) UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLParams) (*UploadCatalogXMLCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUploadCatalogXMLParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewUploadCatalogXMLParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "uploadCatalogXml",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/catalog/xml",
-		ProducesMediaTypes: []string{"application/json"},
+		ProducesMediaTypes: []string{""},
 		ConsumesMediaTypes: []string{"text/xml"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UploadCatalogXMLReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*UploadCatalogXMLCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*UploadCatalogXMLCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for uploadCatalogXml: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "uploadCatalogXml",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"text/xml"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &UploadCatalogXMLReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*UploadCatalogXMLCreated), nil
+
 }
 
 /*
 ValidateCatalogXML validates a XML catalog
 */
-func (a *Client) ValidateCatalogXML(params *ValidateCatalogXMLParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ValidateCatalogXMLOK, error) {
+func (a *Client) ValidateCatalogXML(ctx context.Context, params *ValidateCatalogXMLParams) (*ValidateCatalogXMLOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewValidateCatalogXMLParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "validateCatalogXml",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/catalog/xml/validate",
@@ -544,15 +755,10 @@ func (a *Client) ValidateCatalogXML(params *ValidateCatalogXMLParams, authInfo r
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ValidateCatalogXMLReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -564,6 +770,7 @@ func (a *Client) ValidateCatalogXML(params *ValidateCatalogXMLParams, authInfo r
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for validateCatalogXml: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 // SetTransport changes the transport on the client

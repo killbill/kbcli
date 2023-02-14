@@ -13,75 +13,63 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetPluginPaymentStateMachineConfigParams creates a new GetPluginPaymentStateMachineConfigParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetPluginPaymentStateMachineConfigParams creates a new GetPluginPaymentStateMachineConfigParams object
+// with the default values initialized.
 func NewGetPluginPaymentStateMachineConfigParams() *GetPluginPaymentStateMachineConfigParams {
+	var ()
 	return &GetPluginPaymentStateMachineConfigParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPluginPaymentStateMachineConfigParamsWithTimeout creates a new GetPluginPaymentStateMachineConfigParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetPluginPaymentStateMachineConfigParamsWithTimeout(timeout time.Duration) *GetPluginPaymentStateMachineConfigParams {
+	var ()
 	return &GetPluginPaymentStateMachineConfigParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewGetPluginPaymentStateMachineConfigParamsWithContext creates a new GetPluginPaymentStateMachineConfigParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetPluginPaymentStateMachineConfigParamsWithContext(ctx context.Context) *GetPluginPaymentStateMachineConfigParams {
+	var ()
 	return &GetPluginPaymentStateMachineConfigParams{
+
 		Context: ctx,
 	}
 }
 
 // NewGetPluginPaymentStateMachineConfigParamsWithHTTPClient creates a new GetPluginPaymentStateMachineConfigParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetPluginPaymentStateMachineConfigParamsWithHTTPClient(client *http.Client) *GetPluginPaymentStateMachineConfigParams {
+	var ()
 	return &GetPluginPaymentStateMachineConfigParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-GetPluginPaymentStateMachineConfigParams contains all the parameters to send to the API endpoint
-
-	for the get plugin payment state machine config operation.
-
-	Typically these are written to a http.Request.
+/*GetPluginPaymentStateMachineConfigParams contains all the parameters to send to the API endpoint
+for the get plugin payment state machine config operation typically these are written to a http.Request
 */
 type GetPluginPaymentStateMachineConfigParams struct {
 
-	// PluginName.
+	/*PluginName*/
 	PluginName string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get plugin payment state machine config params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPluginPaymentStateMachineConfigParams) WithDefaults() *GetPluginPaymentStateMachineConfigParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get plugin payment state machine config params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPluginPaymentStateMachineConfigParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get plugin payment state machine config params
@@ -139,6 +127,20 @@ func (o *GetPluginPaymentStateMachineConfigParams) WriteToRequest(r runtime.Clie
 	// path param pluginName
 	if err := r.SetPathParam("pluginName", o.PluginName); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

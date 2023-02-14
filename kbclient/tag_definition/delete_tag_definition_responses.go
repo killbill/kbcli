@@ -7,9 +7,12 @@ package tag_definition
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // DeleteTagDefinitionReader is a Reader for the DeleteTagDefinition structure.
@@ -20,20 +23,21 @@ type DeleteTagDefinitionReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteTagDefinitionReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewDeleteTagDefinitionNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewDeleteTagDefinitionBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -42,49 +46,15 @@ func NewDeleteTagDefinitionNoContent() *DeleteTagDefinitionNoContent {
 	return &DeleteTagDefinitionNoContent{}
 }
 
-/*
-DeleteTagDefinitionNoContent describes a response with status code 204, with default header values.
+/*DeleteTagDefinitionNoContent handles this case with default header values.
 
 Successful operation
 */
 type DeleteTagDefinitionNoContent struct {
-}
-
-// IsSuccess returns true when this delete tag definition no content response has a 2xx status code
-func (o *DeleteTagDefinitionNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this delete tag definition no content response has a 3xx status code
-func (o *DeleteTagDefinitionNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete tag definition no content response has a 4xx status code
-func (o *DeleteTagDefinitionNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this delete tag definition no content response has a 5xx status code
-func (o *DeleteTagDefinitionNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete tag definition no content response a status code equal to that given
-func (o *DeleteTagDefinitionNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the delete tag definition no content response
-func (o *DeleteTagDefinitionNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteTagDefinitionNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/tagDefinitions/{tagDefinitionId}][%d] deleteTagDefinitionNoContent ", 204)
-}
-
-func (o *DeleteTagDefinitionNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/tagDefinitions/{tagDefinitionId}][%d] deleteTagDefinitionNoContent ", 204)
 }
 
@@ -98,49 +68,15 @@ func NewDeleteTagDefinitionBadRequest() *DeleteTagDefinitionBadRequest {
 	return &DeleteTagDefinitionBadRequest{}
 }
 
-/*
-DeleteTagDefinitionBadRequest describes a response with status code 400, with default header values.
+/*DeleteTagDefinitionBadRequest handles this case with default header values.
 
 Invalid tagDefinitionId supplied
 */
 type DeleteTagDefinitionBadRequest struct {
-}
-
-// IsSuccess returns true when this delete tag definition bad request response has a 2xx status code
-func (o *DeleteTagDefinitionBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this delete tag definition bad request response has a 3xx status code
-func (o *DeleteTagDefinitionBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete tag definition bad request response has a 4xx status code
-func (o *DeleteTagDefinitionBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this delete tag definition bad request response has a 5xx status code
-func (o *DeleteTagDefinitionBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete tag definition bad request response a status code equal to that given
-func (o *DeleteTagDefinitionBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the delete tag definition bad request response
-func (o *DeleteTagDefinitionBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteTagDefinitionBadRequest) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/tagDefinitions/{tagDefinitionId}][%d] deleteTagDefinitionBadRequest ", 400)
-}
-
-func (o *DeleteTagDefinitionBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/tagDefinitions/{tagDefinitionId}][%d] deleteTagDefinitionBadRequest ", 400)
 }
 

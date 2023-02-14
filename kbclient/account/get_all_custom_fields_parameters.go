@@ -13,96 +13,79 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetAllCustomFieldsParams creates a new GetAllCustomFieldsParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetAllCustomFieldsParams creates a new GetAllCustomFieldsParams object
+// with the default values initialized.
 func NewGetAllCustomFieldsParams() *GetAllCustomFieldsParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetAllCustomFieldsParams{
+		Audit: &auditDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAllCustomFieldsParamsWithTimeout creates a new GetAllCustomFieldsParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetAllCustomFieldsParamsWithTimeout(timeout time.Duration) *GetAllCustomFieldsParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetAllCustomFieldsParams{
+		Audit: &auditDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetAllCustomFieldsParamsWithContext creates a new GetAllCustomFieldsParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetAllCustomFieldsParamsWithContext(ctx context.Context) *GetAllCustomFieldsParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetAllCustomFieldsParams{
+		Audit: &auditDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetAllCustomFieldsParamsWithHTTPClient creates a new GetAllCustomFieldsParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetAllCustomFieldsParamsWithHTTPClient(client *http.Client) *GetAllCustomFieldsParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetAllCustomFieldsParams{
+		Audit:      &auditDefault,
 		HTTPClient: client,
 	}
 }
 
-/*
-GetAllCustomFieldsParams contains all the parameters to send to the API endpoint
-
-	for the get all custom fields operation.
-
-	Typically these are written to a http.Request.
+/*GetAllCustomFieldsParams contains all the parameters to send to the API endpoint
+for the get all custom fields operation typically these are written to a http.Request
 */
 type GetAllCustomFieldsParams struct {
 
-	// AccountID.
-	//
-	// Format: uuid
+	/*AccountID*/
 	AccountID strfmt.UUID
-
-	// Audit.
-	//
-	// Default: "NONE"
+	/*Audit*/
 	Audit *string
-
-	// ObjectType.
+	/*ObjectType*/
 	ObjectType *string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get all custom fields params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetAllCustomFieldsParams) WithDefaults() *GetAllCustomFieldsParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get all custom fields params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetAllCustomFieldsParams) SetDefaults() {
-	var (
-		auditDefault = string("NONE")
-	)
-
-	val := GetAllCustomFieldsParams{
-		Audit: &auditDefault,
-	}
-
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get all custom fields params
@@ -188,33 +171,45 @@ func (o *GetAllCustomFieldsParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.ObjectType != nil {
 
 		// query param objectType
 		var qrObjectType string
-
 		if o.ObjectType != nil {
 			qrObjectType = *o.ObjectType
 		}
 		qObjectType := qrObjectType
 		if qObjectType != "" {
-
 			if err := r.SetQueryParam("objectType", qObjectType); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 

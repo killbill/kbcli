@@ -13,102 +13,86 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewUploadCatalogTranslationParams creates a new UploadCatalogTranslationParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewUploadCatalogTranslationParams creates a new UploadCatalogTranslationParams object
+// with the default values initialized.
 func NewUploadCatalogTranslationParams() *UploadCatalogTranslationParams {
+	var (
+		deleteIfExistsDefault = bool(false)
+	)
 	return &UploadCatalogTranslationParams{
+		DeleteIfExists: &deleteIfExistsDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUploadCatalogTranslationParamsWithTimeout creates a new UploadCatalogTranslationParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewUploadCatalogTranslationParamsWithTimeout(timeout time.Duration) *UploadCatalogTranslationParams {
+	var (
+		deleteIfExistsDefault = bool(false)
+	)
 	return &UploadCatalogTranslationParams{
+		DeleteIfExists: &deleteIfExistsDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewUploadCatalogTranslationParamsWithContext creates a new UploadCatalogTranslationParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewUploadCatalogTranslationParamsWithContext(ctx context.Context) *UploadCatalogTranslationParams {
+	var (
+		deleteIfExistsDefault = bool(false)
+	)
 	return &UploadCatalogTranslationParams{
+		DeleteIfExists: &deleteIfExistsDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewUploadCatalogTranslationParamsWithHTTPClient creates a new UploadCatalogTranslationParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewUploadCatalogTranslationParamsWithHTTPClient(client *http.Client) *UploadCatalogTranslationParams {
-	return &UploadCatalogTranslationParams{
-		HTTPClient: client,
-	}
-}
-
-/*
-UploadCatalogTranslationParams contains all the parameters to send to the API endpoint
-
-	for the upload catalog translation operation.
-
-	Typically these are written to a http.Request.
-*/
-type UploadCatalogTranslationParams struct {
-
-	// XKillbillComment.
-	XKillbillComment *string
-
-	// XKillbillCreatedBy.
-	XKillbillCreatedBy string
-
-	// XKillbillReason.
-	XKillbillReason *string
-
-	// Body.
-	Body string
-
-	// DeleteIfExists.
-	DeleteIfExists *bool
-
-	// Locale.
-	Locale string
-
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the upload catalog translation params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *UploadCatalogTranslationParams) WithDefaults() *UploadCatalogTranslationParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the upload catalog translation params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *UploadCatalogTranslationParams) SetDefaults() {
 	var (
 		deleteIfExistsDefault = bool(false)
 	)
-
-	val := UploadCatalogTranslationParams{
+	return &UploadCatalogTranslationParams{
 		DeleteIfExists: &deleteIfExistsDefault,
+		HTTPClient:     client,
 	}
+}
 
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+/*UploadCatalogTranslationParams contains all the parameters to send to the API endpoint
+for the upload catalog translation operation typically these are written to a http.Request
+*/
+type UploadCatalogTranslationParams struct {
+
+	/*XKillbillComment*/
+	XKillbillComment *string
+	/*XKillbillCreatedBy*/
+	XKillbillCreatedBy string
+	/*XKillbillReason*/
+	XKillbillReason *string
+	/*Body*/
+	Body string
+	/*DeleteIfExists*/
+	DeleteIfExists *bool
+	/*Locale*/
+	Locale string
+
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the upload catalog translation params
@@ -224,6 +208,7 @@ func (o *UploadCatalogTranslationParams) WriteToRequest(r runtime.ClientRequest,
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -237,7 +222,9 @@ func (o *UploadCatalogTranslationParams) WriteToRequest(r runtime.ClientRequest,
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if err := r.SetBodyParam(o.Body); err != nil {
 		return err
 	}
@@ -246,22 +233,35 @@ func (o *UploadCatalogTranslationParams) WriteToRequest(r runtime.ClientRequest,
 
 		// query param deleteIfExists
 		var qrDeleteIfExists bool
-
 		if o.DeleteIfExists != nil {
 			qrDeleteIfExists = *o.DeleteIfExists
 		}
 		qDeleteIfExists := swag.FormatBool(qrDeleteIfExists)
 		if qDeleteIfExists != "" {
-
 			if err := r.SetQueryParam("deleteIfExists", qDeleteIfExists); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// path param locale
 	if err := r.SetPathParam("locale", o.Locale); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

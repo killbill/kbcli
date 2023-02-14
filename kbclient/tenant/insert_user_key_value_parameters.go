@@ -13,87 +13,71 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewInsertUserKeyValueParams creates a new InsertUserKeyValueParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewInsertUserKeyValueParams creates a new InsertUserKeyValueParams object
+// with the default values initialized.
 func NewInsertUserKeyValueParams() *InsertUserKeyValueParams {
+	var ()
 	return &InsertUserKeyValueParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewInsertUserKeyValueParamsWithTimeout creates a new InsertUserKeyValueParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewInsertUserKeyValueParamsWithTimeout(timeout time.Duration) *InsertUserKeyValueParams {
+	var ()
 	return &InsertUserKeyValueParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewInsertUserKeyValueParamsWithContext creates a new InsertUserKeyValueParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewInsertUserKeyValueParamsWithContext(ctx context.Context) *InsertUserKeyValueParams {
+	var ()
 	return &InsertUserKeyValueParams{
+
 		Context: ctx,
 	}
 }
 
 // NewInsertUserKeyValueParamsWithHTTPClient creates a new InsertUserKeyValueParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewInsertUserKeyValueParamsWithHTTPClient(client *http.Client) *InsertUserKeyValueParams {
+	var ()
 	return &InsertUserKeyValueParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-InsertUserKeyValueParams contains all the parameters to send to the API endpoint
-
-	for the insert user key value operation.
-
-	Typically these are written to a http.Request.
+/*InsertUserKeyValueParams contains all the parameters to send to the API endpoint
+for the insert user key value operation typically these are written to a http.Request
 */
 type InsertUserKeyValueParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// Body.
+	/*Body*/
 	Body string
-
-	// KeyName.
+	/*KeyName*/
 	KeyName string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the insert user key value params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *InsertUserKeyValueParams) WithDefaults() *InsertUserKeyValueParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the insert user key value params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *InsertUserKeyValueParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the insert user key value params
@@ -198,6 +182,7 @@ func (o *InsertUserKeyValueParams) WriteToRequest(r runtime.ClientRequest, reg s
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -211,7 +196,9 @@ func (o *InsertUserKeyValueParams) WriteToRequest(r runtime.ClientRequest, reg s
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if err := r.SetBodyParam(o.Body); err != nil {
 		return err
 	}
@@ -219,6 +206,20 @@ func (o *InsertUserKeyValueParams) WriteToRequest(r runtime.ClientRequest, reg s
 	// path param keyName
 	if err := r.SetPathParam("keyName", o.KeyName); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

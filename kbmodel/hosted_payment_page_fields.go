@@ -6,16 +6,15 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // HostedPaymentPageFields hosted payment page fields
-//
 // swagger:model HostedPaymentPageFields
 type HostedPaymentPageFields struct {
 
@@ -38,6 +37,7 @@ func (m *HostedPaymentPageFields) Validate(formats strfmt.Registry) error {
 }
 
 func (m *HostedPaymentPageFields) validateFormFields(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FormFields) { // not required
 		return nil
 	}
@@ -51,42 +51,6 @@ func (m *HostedPaymentPageFields) validateFormFields(formats strfmt.Registry) er
 			if err := m.FormFields[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("formFields" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("formFields" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this hosted payment page fields based on the context it is used
-func (m *HostedPaymentPageFields) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFormFields(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *HostedPaymentPageFields) contextValidateFormFields(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.FormFields); i++ {
-
-		if m.FormFields[i] != nil {
-			if err := m.FormFields[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("formFields" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("formFields" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

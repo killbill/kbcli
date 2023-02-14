@@ -6,24 +6,23 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Plan plan
-//
 // swagger:model Plan
 type Plan struct {
 
 	// billing period
 	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
-	BillingPeriod string `json:"billingPeriod,omitempty"`
+	BillingPeriod PlanBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
 	// name
 	Name string `json:"name,omitempty"`
@@ -36,7 +35,7 @@ type Plan struct {
 
 	// recurring billing mode
 	// Enum: [IN_ADVANCE IN_ARREAR]
-	RecurringBillingMode string `json:"recurringBillingMode,omitempty"`
+	RecurringBillingMode PlanRecurringBillingModeEnum `json:"recurringBillingMode,omitempty"`
 }
 
 // Validate validates this plan
@@ -64,7 +63,7 @@ func (m *Plan) Validate(formats strfmt.Registry) error {
 var planTypeBillingPeriodPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []PlanBillingPeriodEnum
 	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
@@ -73,69 +72,101 @@ func init() {
 	}
 }
 
+type PlanBillingPeriodEnum string
+
 const (
 
 	// PlanBillingPeriodDAILY captures enum value "DAILY"
-	PlanBillingPeriodDAILY string = "DAILY"
+	PlanBillingPeriodDAILY PlanBillingPeriodEnum = "DAILY"
 
 	// PlanBillingPeriodWEEKLY captures enum value "WEEKLY"
-	PlanBillingPeriodWEEKLY string = "WEEKLY"
+	PlanBillingPeriodWEEKLY PlanBillingPeriodEnum = "WEEKLY"
 
 	// PlanBillingPeriodBIWEEKLY captures enum value "BIWEEKLY"
-	PlanBillingPeriodBIWEEKLY string = "BIWEEKLY"
+	PlanBillingPeriodBIWEEKLY PlanBillingPeriodEnum = "BIWEEKLY"
 
 	// PlanBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
-	PlanBillingPeriodTHIRTYDAYS string = "THIRTY_DAYS"
+	PlanBillingPeriodTHIRTYDAYS PlanBillingPeriodEnum = "THIRTY_DAYS"
 
 	// PlanBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
-	PlanBillingPeriodTHIRTYONEDAYS string = "THIRTY_ONE_DAYS"
+	PlanBillingPeriodTHIRTYONEDAYS PlanBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// PlanBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
-	PlanBillingPeriodSIXTYDAYS string = "SIXTY_DAYS"
+	PlanBillingPeriodSIXTYDAYS PlanBillingPeriodEnum = "SIXTY_DAYS"
 
 	// PlanBillingPeriodNINETYDAYS captures enum value "NINETY_DAYS"
-	PlanBillingPeriodNINETYDAYS string = "NINETY_DAYS"
+	PlanBillingPeriodNINETYDAYS PlanBillingPeriodEnum = "NINETY_DAYS"
 
 	// PlanBillingPeriodMONTHLY captures enum value "MONTHLY"
-	PlanBillingPeriodMONTHLY string = "MONTHLY"
+	PlanBillingPeriodMONTHLY PlanBillingPeriodEnum = "MONTHLY"
 
 	// PlanBillingPeriodBIMESTRIAL captures enum value "BIMESTRIAL"
-	PlanBillingPeriodBIMESTRIAL string = "BIMESTRIAL"
+	PlanBillingPeriodBIMESTRIAL PlanBillingPeriodEnum = "BIMESTRIAL"
 
 	// PlanBillingPeriodQUARTERLY captures enum value "QUARTERLY"
-	PlanBillingPeriodQUARTERLY string = "QUARTERLY"
+	PlanBillingPeriodQUARTERLY PlanBillingPeriodEnum = "QUARTERLY"
 
 	// PlanBillingPeriodTRIANNUAL captures enum value "TRIANNUAL"
-	PlanBillingPeriodTRIANNUAL string = "TRIANNUAL"
+	PlanBillingPeriodTRIANNUAL PlanBillingPeriodEnum = "TRIANNUAL"
 
 	// PlanBillingPeriodBIANNUAL captures enum value "BIANNUAL"
-	PlanBillingPeriodBIANNUAL string = "BIANNUAL"
+	PlanBillingPeriodBIANNUAL PlanBillingPeriodEnum = "BIANNUAL"
 
 	// PlanBillingPeriodANNUAL captures enum value "ANNUAL"
-	PlanBillingPeriodANNUAL string = "ANNUAL"
+	PlanBillingPeriodANNUAL PlanBillingPeriodEnum = "ANNUAL"
 
 	// PlanBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
-	PlanBillingPeriodSESQUIENNIAL string = "SESQUIENNIAL"
+	PlanBillingPeriodSESQUIENNIAL PlanBillingPeriodEnum = "SESQUIENNIAL"
 
 	// PlanBillingPeriodBIENNIAL captures enum value "BIENNIAL"
-	PlanBillingPeriodBIENNIAL string = "BIENNIAL"
+	PlanBillingPeriodBIENNIAL PlanBillingPeriodEnum = "BIENNIAL"
 
 	// PlanBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
-	PlanBillingPeriodTRIENNIAL string = "TRIENNIAL"
+	PlanBillingPeriodTRIENNIAL PlanBillingPeriodEnum = "TRIENNIAL"
 
 	// PlanBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
-	PlanBillingPeriodNOBILLINGPERIOD string = "NO_BILLING_PERIOD"
+	PlanBillingPeriodNOBILLINGPERIOD PlanBillingPeriodEnum = "NO_BILLING_PERIOD"
 )
 
+var PlanBillingPeriodEnumValues = []string{
+	"DAILY",
+	"WEEKLY",
+	"BIWEEKLY",
+	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
+	"SIXTY_DAYS",
+	"NINETY_DAYS",
+	"MONTHLY",
+	"BIMESTRIAL",
+	"QUARTERLY",
+	"TRIANNUAL",
+	"BIANNUAL",
+	"ANNUAL",
+	"SESQUIENNIAL",
+	"BIENNIAL",
+	"TRIENNIAL",
+	"NO_BILLING_PERIOD",
+}
+
+func (e PlanBillingPeriodEnum) IsValid() bool {
+	for _, v := range PlanBillingPeriodEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Plan) validateBillingPeriodEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, planTypeBillingPeriodPropEnum, true); err != nil {
+func (m *Plan) validateBillingPeriodEnum(path, location string, value PlanBillingPeriodEnum) error {
+	if err := validate.Enum(path, location, value, planTypeBillingPeriodPropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Plan) validateBillingPeriod(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.BillingPeriod) { // not required
 		return nil
 	}
@@ -149,6 +180,7 @@ func (m *Plan) validateBillingPeriod(formats strfmt.Registry) error {
 }
 
 func (m *Plan) validatePhases(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Phases) { // not required
 		return nil
 	}
@@ -162,8 +194,6 @@ func (m *Plan) validatePhases(formats strfmt.Registry) error {
 			if err := m.Phases[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("phases" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("phases" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -177,7 +207,7 @@ func (m *Plan) validatePhases(formats strfmt.Registry) error {
 var planTypeRecurringBillingModePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []PlanRecurringBillingModeEnum
 	if err := json.Unmarshal([]byte(`["IN_ADVANCE","IN_ARREAR"]`), &res); err != nil {
 		panic(err)
 	}
@@ -186,24 +216,41 @@ func init() {
 	}
 }
 
+type PlanRecurringBillingModeEnum string
+
 const (
 
 	// PlanRecurringBillingModeINADVANCE captures enum value "IN_ADVANCE"
-	PlanRecurringBillingModeINADVANCE string = "IN_ADVANCE"
+	PlanRecurringBillingModeINADVANCE PlanRecurringBillingModeEnum = "IN_ADVANCE"
 
 	// PlanRecurringBillingModeINARREAR captures enum value "IN_ARREAR"
-	PlanRecurringBillingModeINARREAR string = "IN_ARREAR"
+	PlanRecurringBillingModeINARREAR PlanRecurringBillingModeEnum = "IN_ARREAR"
 )
 
+var PlanRecurringBillingModeEnumValues = []string{
+	"IN_ADVANCE",
+	"IN_ARREAR",
+}
+
+func (e PlanRecurringBillingModeEnum) IsValid() bool {
+	for _, v := range PlanRecurringBillingModeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Plan) validateRecurringBillingModeEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, planTypeRecurringBillingModePropEnum, true); err != nil {
+func (m *Plan) validateRecurringBillingModeEnum(path, location string, value PlanRecurringBillingModeEnum) error {
+	if err := validate.Enum(path, location, value, planTypeRecurringBillingModePropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Plan) validateRecurringBillingMode(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.RecurringBillingMode) { // not required
 		return nil
 	}
@@ -211,40 +258,6 @@ func (m *Plan) validateRecurringBillingMode(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateRecurringBillingModeEnum("recurringBillingMode", "body", m.RecurringBillingMode); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this plan based on the context it is used
-func (m *Plan) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidatePhases(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *Plan) contextValidatePhases(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Phases); i++ {
-
-		if m.Phases[i] != nil {
-			if err := m.Phases[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("phases" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("phases" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
 	}
 
 	return nil

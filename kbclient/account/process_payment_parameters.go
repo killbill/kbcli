@@ -13,103 +13,80 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewProcessPaymentParams creates a new ProcessPaymentParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewProcessPaymentParams creates a new ProcessPaymentParams object
+// with the default values initialized.
 func NewProcessPaymentParams() *ProcessPaymentParams {
+	var ()
 	return &ProcessPaymentParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewProcessPaymentParamsWithTimeout creates a new ProcessPaymentParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewProcessPaymentParamsWithTimeout(timeout time.Duration) *ProcessPaymentParams {
+	var ()
 	return &ProcessPaymentParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewProcessPaymentParamsWithContext creates a new ProcessPaymentParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewProcessPaymentParamsWithContext(ctx context.Context) *ProcessPaymentParams {
+	var ()
 	return &ProcessPaymentParams{
+
 		Context: ctx,
 	}
 }
 
 // NewProcessPaymentParamsWithHTTPClient creates a new ProcessPaymentParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewProcessPaymentParamsWithHTTPClient(client *http.Client) *ProcessPaymentParams {
+	var ()
 	return &ProcessPaymentParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-ProcessPaymentParams contains all the parameters to send to the API endpoint
-
-	for the process payment operation.
-
-	Typically these are written to a http.Request.
+/*ProcessPaymentParams contains all the parameters to send to the API endpoint
+for the process payment operation typically these are written to a http.Request
 */
 type ProcessPaymentParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// AccountID.
-	//
-	// Format: uuid
+	/*AccountID*/
 	AccountID strfmt.UUID
-
-	// Body.
+	/*Body*/
 	Body *kbmodel.PaymentTransaction
-
-	// ControlPluginName.
+	/*ControlPluginName*/
 	ControlPluginName []string
-
-	// PaymentMethodID.
-	//
-	// Format: uuid
+	/*PaymentMethodID*/
 	PaymentMethodID *strfmt.UUID
-
-	// PluginProperty.
+	/*PluginProperty*/
 	PluginProperty []string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the process payment params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *ProcessPaymentParams) WithDefaults() *ProcessPaymentParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the process payment params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *ProcessPaymentParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the process payment params
@@ -247,6 +224,7 @@ func (o *ProcessPaymentParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -260,53 +238,62 @@ func (o *ProcessPaymentParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {
 		return err
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	if o.ControlPluginName != nil {
+	valuesControlPluginName := o.ControlPluginName
 
-		// binding items for controlPluginName
-		joinedControlPluginName := o.bindParamControlPluginName(reg)
-
-		// query array param controlPluginName
-		if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
-			return err
-		}
+	joinedControlPluginName := swag.JoinByFormat(valuesControlPluginName, "multi")
+	// query array param controlPluginName
+	if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+		return err
 	}
 
 	if o.PaymentMethodID != nil {
 
 		// query param paymentMethodId
 		var qrPaymentMethodID strfmt.UUID
-
 		if o.PaymentMethodID != nil {
 			qrPaymentMethodID = *o.PaymentMethodID
 		}
 		qPaymentMethodID := qrPaymentMethodID.String()
 		if qPaymentMethodID != "" {
-
 			if err := r.SetQueryParam("paymentMethodId", qPaymentMethodID); err != nil {
 				return err
 			}
 		}
+
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
+	}
 
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}
@@ -315,38 +302,4 @@ func (o *ProcessPaymentParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamProcessPayment binds the parameter controlPluginName
-func (o *ProcessPaymentParams) bindParamControlPluginName(formats strfmt.Registry) []string {
-	controlPluginNameIR := o.ControlPluginName
-
-	var controlPluginNameIC []string
-	for _, controlPluginNameIIR := range controlPluginNameIR { // explode []string
-
-		controlPluginNameIIV := controlPluginNameIIR // string as string
-		controlPluginNameIC = append(controlPluginNameIC, controlPluginNameIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	controlPluginNameIS := swag.JoinByFormat(controlPluginNameIC, "multi")
-
-	return controlPluginNameIS
-}
-
-// bindParamProcessPayment binds the parameter pluginProperty
-func (o *ProcessPaymentParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

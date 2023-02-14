@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // InsertUserKeyValueReader is a Reader for the InsertUserKeyValue structure.
@@ -23,20 +25,21 @@ type InsertUserKeyValueReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *InsertUserKeyValueReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-	case 201:
+
+	case 201, 200:
 		result := NewInsertUserKeyValueCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewInsertUserKeyValueBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -45,50 +48,17 @@ func NewInsertUserKeyValueCreated() *InsertUserKeyValueCreated {
 	return &InsertUserKeyValueCreated{}
 }
 
-/*
-InsertUserKeyValueCreated describes a response with status code 201, with default header values.
+/*InsertUserKeyValueCreated handles this case with default header values.
 
 Per tenant config uploaded successfully
 */
 type InsertUserKeyValueCreated struct {
 	Payload *kbmodel.TenantKeyValue
-}
 
-// IsSuccess returns true when this insert user key value created response has a 2xx status code
-func (o *InsertUserKeyValueCreated) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this insert user key value created response has a 3xx status code
-func (o *InsertUserKeyValueCreated) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this insert user key value created response has a 4xx status code
-func (o *InsertUserKeyValueCreated) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this insert user key value created response has a 5xx status code
-func (o *InsertUserKeyValueCreated) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this insert user key value created response a status code equal to that given
-func (o *InsertUserKeyValueCreated) IsCode(code int) bool {
-	return code == 201
-}
-
-// Code gets the status code for the insert user key value created response
-func (o *InsertUserKeyValueCreated) Code() int {
-	return 201
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *InsertUserKeyValueCreated) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/tenants/userKeyValue/{keyName}][%d] insertUserKeyValueCreated  %+v", 201, o.Payload)
-}
-
-func (o *InsertUserKeyValueCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/userKeyValue/{keyName}][%d] insertUserKeyValueCreated  %+v", 201, o.Payload)
 }
 
@@ -113,49 +83,15 @@ func NewInsertUserKeyValueBadRequest() *InsertUserKeyValueBadRequest {
 	return &InsertUserKeyValueBadRequest{}
 }
 
-/*
-InsertUserKeyValueBadRequest describes a response with status code 400, with default header values.
+/*InsertUserKeyValueBadRequest handles this case with default header values.
 
 Invalid tenantId supplied
 */
 type InsertUserKeyValueBadRequest struct {
-}
-
-// IsSuccess returns true when this insert user key value bad request response has a 2xx status code
-func (o *InsertUserKeyValueBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this insert user key value bad request response has a 3xx status code
-func (o *InsertUserKeyValueBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this insert user key value bad request response has a 4xx status code
-func (o *InsertUserKeyValueBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this insert user key value bad request response has a 5xx status code
-func (o *InsertUserKeyValueBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this insert user key value bad request response a status code equal to that given
-func (o *InsertUserKeyValueBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the insert user key value bad request response
-func (o *InsertUserKeyValueBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *InsertUserKeyValueBadRequest) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/tenants/userKeyValue/{keyName}][%d] insertUserKeyValueBadRequest ", 400)
-}
-
-func (o *InsertUserKeyValueBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/userKeyValue/{keyName}][%d] insertUserKeyValueBadRequest ", 400)
 }
 

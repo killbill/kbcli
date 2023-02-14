@@ -6,14 +6,12 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
+	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // CatalogValidationError catalog validation error
-//
 // swagger:model CatalogValidationError
 type CatalogValidationError struct {
 
@@ -23,11 +21,6 @@ type CatalogValidationError struct {
 
 // Validate validates this catalog validation error
 func (m *CatalogValidationError) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this catalog validation error based on context it is used
-func (m *CatalogValidationError) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

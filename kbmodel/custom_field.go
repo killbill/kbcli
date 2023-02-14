@@ -6,18 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // CustomField custom field
-//
 // swagger:model CustomField
 type CustomField struct {
 
@@ -38,7 +37,7 @@ type CustomField struct {
 
 	// object type
 	// Enum: [ACCOUNT ACCOUNT_EMAIL BLOCKING_STATES BUNDLE CUSTOM_FIELD INVOICE PAYMENT TRANSACTION INVOICE_ITEM INVOICE_PAYMENT SUBSCRIPTION SUBSCRIPTION_EVENT SERVICE_BROADCAST PAYMENT_ATTEMPT PAYMENT_METHOD TAG TAG_DEFINITION TENANT TENANT_KVS]
-	ObjectType string `json:"objectType,omitempty"`
+	ObjectType CustomFieldObjectTypeEnum `json:"objectType,omitempty"`
 
 	// value
 	// Required: true
@@ -80,6 +79,7 @@ func (m *CustomField) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CustomField) validateAuditLogs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -93,8 +93,6 @@ func (m *CustomField) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -106,6 +104,7 @@ func (m *CustomField) validateAuditLogs(formats strfmt.Registry) error {
 }
 
 func (m *CustomField) validateCustomFieldID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CustomFieldID) { // not required
 		return nil
 	}
@@ -127,6 +126,7 @@ func (m *CustomField) validateName(formats strfmt.Registry) error {
 }
 
 func (m *CustomField) validateObjectID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ObjectID) { // not required
 		return nil
 	}
@@ -141,7 +141,7 @@ func (m *CustomField) validateObjectID(formats strfmt.Registry) error {
 var customFieldTypeObjectTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []CustomFieldObjectTypeEnum
 	if err := json.Unmarshal([]byte(`["ACCOUNT","ACCOUNT_EMAIL","BLOCKING_STATES","BUNDLE","CUSTOM_FIELD","INVOICE","PAYMENT","TRANSACTION","INVOICE_ITEM","INVOICE_PAYMENT","SUBSCRIPTION","SUBSCRIPTION_EVENT","SERVICE_BROADCAST","PAYMENT_ATTEMPT","PAYMENT_METHOD","TAG","TAG_DEFINITION","TENANT","TENANT_KVS"]`), &res); err != nil {
 		panic(err)
 	}
@@ -150,75 +150,109 @@ func init() {
 	}
 }
 
+type CustomFieldObjectTypeEnum string
+
 const (
 
 	// CustomFieldObjectTypeACCOUNT captures enum value "ACCOUNT"
-	CustomFieldObjectTypeACCOUNT string = "ACCOUNT"
+	CustomFieldObjectTypeACCOUNT CustomFieldObjectTypeEnum = "ACCOUNT"
 
 	// CustomFieldObjectTypeACCOUNTEMAIL captures enum value "ACCOUNT_EMAIL"
-	CustomFieldObjectTypeACCOUNTEMAIL string = "ACCOUNT_EMAIL"
+	CustomFieldObjectTypeACCOUNTEMAIL CustomFieldObjectTypeEnum = "ACCOUNT_EMAIL"
 
 	// CustomFieldObjectTypeBLOCKINGSTATES captures enum value "BLOCKING_STATES"
-	CustomFieldObjectTypeBLOCKINGSTATES string = "BLOCKING_STATES"
+	CustomFieldObjectTypeBLOCKINGSTATES CustomFieldObjectTypeEnum = "BLOCKING_STATES"
 
 	// CustomFieldObjectTypeBUNDLE captures enum value "BUNDLE"
-	CustomFieldObjectTypeBUNDLE string = "BUNDLE"
+	CustomFieldObjectTypeBUNDLE CustomFieldObjectTypeEnum = "BUNDLE"
 
 	// CustomFieldObjectTypeCUSTOMFIELD captures enum value "CUSTOM_FIELD"
-	CustomFieldObjectTypeCUSTOMFIELD string = "CUSTOM_FIELD"
+	CustomFieldObjectTypeCUSTOMFIELD CustomFieldObjectTypeEnum = "CUSTOM_FIELD"
 
 	// CustomFieldObjectTypeINVOICE captures enum value "INVOICE"
-	CustomFieldObjectTypeINVOICE string = "INVOICE"
+	CustomFieldObjectTypeINVOICE CustomFieldObjectTypeEnum = "INVOICE"
 
 	// CustomFieldObjectTypePAYMENT captures enum value "PAYMENT"
-	CustomFieldObjectTypePAYMENT string = "PAYMENT"
+	CustomFieldObjectTypePAYMENT CustomFieldObjectTypeEnum = "PAYMENT"
 
 	// CustomFieldObjectTypeTRANSACTION captures enum value "TRANSACTION"
-	CustomFieldObjectTypeTRANSACTION string = "TRANSACTION"
+	CustomFieldObjectTypeTRANSACTION CustomFieldObjectTypeEnum = "TRANSACTION"
 
 	// CustomFieldObjectTypeINVOICEITEM captures enum value "INVOICE_ITEM"
-	CustomFieldObjectTypeINVOICEITEM string = "INVOICE_ITEM"
+	CustomFieldObjectTypeINVOICEITEM CustomFieldObjectTypeEnum = "INVOICE_ITEM"
 
 	// CustomFieldObjectTypeINVOICEPAYMENT captures enum value "INVOICE_PAYMENT"
-	CustomFieldObjectTypeINVOICEPAYMENT string = "INVOICE_PAYMENT"
+	CustomFieldObjectTypeINVOICEPAYMENT CustomFieldObjectTypeEnum = "INVOICE_PAYMENT"
 
 	// CustomFieldObjectTypeSUBSCRIPTION captures enum value "SUBSCRIPTION"
-	CustomFieldObjectTypeSUBSCRIPTION string = "SUBSCRIPTION"
+	CustomFieldObjectTypeSUBSCRIPTION CustomFieldObjectTypeEnum = "SUBSCRIPTION"
 
 	// CustomFieldObjectTypeSUBSCRIPTIONEVENT captures enum value "SUBSCRIPTION_EVENT"
-	CustomFieldObjectTypeSUBSCRIPTIONEVENT string = "SUBSCRIPTION_EVENT"
+	CustomFieldObjectTypeSUBSCRIPTIONEVENT CustomFieldObjectTypeEnum = "SUBSCRIPTION_EVENT"
 
 	// CustomFieldObjectTypeSERVICEBROADCAST captures enum value "SERVICE_BROADCAST"
-	CustomFieldObjectTypeSERVICEBROADCAST string = "SERVICE_BROADCAST"
+	CustomFieldObjectTypeSERVICEBROADCAST CustomFieldObjectTypeEnum = "SERVICE_BROADCAST"
 
 	// CustomFieldObjectTypePAYMENTATTEMPT captures enum value "PAYMENT_ATTEMPT"
-	CustomFieldObjectTypePAYMENTATTEMPT string = "PAYMENT_ATTEMPT"
+	CustomFieldObjectTypePAYMENTATTEMPT CustomFieldObjectTypeEnum = "PAYMENT_ATTEMPT"
 
 	// CustomFieldObjectTypePAYMENTMETHOD captures enum value "PAYMENT_METHOD"
-	CustomFieldObjectTypePAYMENTMETHOD string = "PAYMENT_METHOD"
+	CustomFieldObjectTypePAYMENTMETHOD CustomFieldObjectTypeEnum = "PAYMENT_METHOD"
 
 	// CustomFieldObjectTypeTAG captures enum value "TAG"
-	CustomFieldObjectTypeTAG string = "TAG"
+	CustomFieldObjectTypeTAG CustomFieldObjectTypeEnum = "TAG"
 
 	// CustomFieldObjectTypeTAGDEFINITION captures enum value "TAG_DEFINITION"
-	CustomFieldObjectTypeTAGDEFINITION string = "TAG_DEFINITION"
+	CustomFieldObjectTypeTAGDEFINITION CustomFieldObjectTypeEnum = "TAG_DEFINITION"
 
 	// CustomFieldObjectTypeTENANT captures enum value "TENANT"
-	CustomFieldObjectTypeTENANT string = "TENANT"
+	CustomFieldObjectTypeTENANT CustomFieldObjectTypeEnum = "TENANT"
 
 	// CustomFieldObjectTypeTENANTKVS captures enum value "TENANT_KVS"
-	CustomFieldObjectTypeTENANTKVS string = "TENANT_KVS"
+	CustomFieldObjectTypeTENANTKVS CustomFieldObjectTypeEnum = "TENANT_KVS"
 )
 
+var CustomFieldObjectTypeEnumValues = []string{
+	"ACCOUNT",
+	"ACCOUNT_EMAIL",
+	"BLOCKING_STATES",
+	"BUNDLE",
+	"CUSTOM_FIELD",
+	"INVOICE",
+	"PAYMENT",
+	"TRANSACTION",
+	"INVOICE_ITEM",
+	"INVOICE_PAYMENT",
+	"SUBSCRIPTION",
+	"SUBSCRIPTION_EVENT",
+	"SERVICE_BROADCAST",
+	"PAYMENT_ATTEMPT",
+	"PAYMENT_METHOD",
+	"TAG",
+	"TAG_DEFINITION",
+	"TENANT",
+	"TENANT_KVS",
+}
+
+func (e CustomFieldObjectTypeEnum) IsValid() bool {
+	for _, v := range CustomFieldObjectTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *CustomField) validateObjectTypeEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, customFieldTypeObjectTypePropEnum, true); err != nil {
+func (m *CustomField) validateObjectTypeEnum(path, location string, value CustomFieldObjectTypeEnum) error {
+	if err := validate.Enum(path, location, value, customFieldTypeObjectTypePropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *CustomField) validateObjectType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ObjectType) { // not required
 		return nil
 	}
@@ -235,40 +269,6 @@ func (m *CustomField) validateValue(formats strfmt.Registry) error {
 
 	if err := validate.Required("value", "body", m.Value); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this custom field based on the context it is used
-func (m *CustomField) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *CustomField) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AuditLogs); i++ {
-
-		if m.AuditLogs[i] != nil {
-			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
 	}
 
 	return nil

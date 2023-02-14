@@ -6,16 +6,15 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // ComboHostedPaymentPage combo hosted payment page
-//
 // swagger:model ComboHostedPaymentPage
 type ComboHostedPaymentPage struct {
 
@@ -66,6 +65,7 @@ func (m *ComboHostedPaymentPage) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ComboHostedPaymentPage) validateAccount(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Account) { // not required
 		return nil
 	}
@@ -74,8 +74,6 @@ func (m *ComboHostedPaymentPage) validateAccount(formats strfmt.Registry) error 
 		if err := m.Account.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("account")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("account")
 			}
 			return err
 		}
@@ -85,6 +83,7 @@ func (m *ComboHostedPaymentPage) validateAccount(formats strfmt.Registry) error 
 }
 
 func (m *ComboHostedPaymentPage) validateAuditLogs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -98,8 +97,6 @@ func (m *ComboHostedPaymentPage) validateAuditLogs(formats strfmt.Registry) erro
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -111,6 +108,7 @@ func (m *ComboHostedPaymentPage) validateAuditLogs(formats strfmt.Registry) erro
 }
 
 func (m *ComboHostedPaymentPage) validateHostedPaymentPageFields(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.HostedPaymentPageFields) { // not required
 		return nil
 	}
@@ -119,8 +117,6 @@ func (m *ComboHostedPaymentPage) validateHostedPaymentPageFields(formats strfmt.
 		if err := m.HostedPaymentPageFields.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hostedPaymentPageFields")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hostedPaymentPageFields")
 			}
 			return err
 		}
@@ -130,6 +126,7 @@ func (m *ComboHostedPaymentPage) validateHostedPaymentPageFields(formats strfmt.
 }
 
 func (m *ComboHostedPaymentPage) validatePaymentMethod(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.PaymentMethod) { // not required
 		return nil
 	}
@@ -138,8 +135,6 @@ func (m *ComboHostedPaymentPage) validatePaymentMethod(formats strfmt.Registry) 
 		if err := m.PaymentMethod.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("paymentMethod")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("paymentMethod")
 			}
 			return err
 		}
@@ -149,6 +144,7 @@ func (m *ComboHostedPaymentPage) validatePaymentMethod(formats strfmt.Registry) 
 }
 
 func (m *ComboHostedPaymentPage) validatePaymentMethodPluginProperties(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.PaymentMethodPluginProperties) { // not required
 		return nil
 	}
@@ -162,126 +158,6 @@ func (m *ComboHostedPaymentPage) validatePaymentMethodPluginProperties(formats s
 			if err := m.PaymentMethodPluginProperties[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("paymentMethodPluginProperties" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("paymentMethodPluginProperties" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this combo hosted payment page based on the context it is used
-func (m *ComboHostedPaymentPage) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAccount(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHostedPaymentPageFields(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePaymentMethod(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePaymentMethodPluginProperties(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *ComboHostedPaymentPage) contextValidateAccount(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Account != nil {
-		if err := m.Account.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("account")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("account")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *ComboHostedPaymentPage) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AuditLogs); i++ {
-
-		if m.AuditLogs[i] != nil {
-			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *ComboHostedPaymentPage) contextValidateHostedPaymentPageFields(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.HostedPaymentPageFields != nil {
-		if err := m.HostedPaymentPageFields.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("hostedPaymentPageFields")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hostedPaymentPageFields")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *ComboHostedPaymentPage) contextValidatePaymentMethod(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.PaymentMethod != nil {
-		if err := m.PaymentMethod.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("paymentMethod")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("paymentMethod")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *ComboHostedPaymentPage) contextValidatePaymentMethodPluginProperties(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.PaymentMethodPluginProperties); i++ {
-
-		if m.PaymentMethodPluginProperties[i] != nil {
-			if err := m.PaymentMethodPluginProperties[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("paymentMethodPluginProperties" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("paymentMethodPluginProperties" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

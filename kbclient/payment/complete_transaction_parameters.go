@@ -13,98 +13,78 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCompleteTransactionParams creates a new CompleteTransactionParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewCompleteTransactionParams creates a new CompleteTransactionParams object
+// with the default values initialized.
 func NewCompleteTransactionParams() *CompleteTransactionParams {
+	var ()
 	return &CompleteTransactionParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCompleteTransactionParamsWithTimeout creates a new CompleteTransactionParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewCompleteTransactionParamsWithTimeout(timeout time.Duration) *CompleteTransactionParams {
+	var ()
 	return &CompleteTransactionParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewCompleteTransactionParamsWithContext creates a new CompleteTransactionParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewCompleteTransactionParamsWithContext(ctx context.Context) *CompleteTransactionParams {
+	var ()
 	return &CompleteTransactionParams{
+
 		Context: ctx,
 	}
 }
 
 // NewCompleteTransactionParamsWithHTTPClient creates a new CompleteTransactionParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewCompleteTransactionParamsWithHTTPClient(client *http.Client) *CompleteTransactionParams {
+	var ()
 	return &CompleteTransactionParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-CompleteTransactionParams contains all the parameters to send to the API endpoint
-
-	for the complete transaction operation.
-
-	Typically these are written to a http.Request.
+/*CompleteTransactionParams contains all the parameters to send to the API endpoint
+for the complete transaction operation typically these are written to a http.Request
 */
 type CompleteTransactionParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// Body.
+	/*Body*/
 	Body *kbmodel.PaymentTransaction
-
-	// ControlPluginName.
+	/*ControlPluginName*/
 	ControlPluginName []string
-
-	// PaymentID.
-	//
-	// Format: uuid
+	/*PaymentID*/
 	PaymentID strfmt.UUID
-
-	// PluginProperty.
+	/*PluginProperty*/
 	PluginProperty []string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the complete transaction params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CompleteTransactionParams) WithDefaults() *CompleteTransactionParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the complete transaction params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CompleteTransactionParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the complete transaction params
@@ -231,6 +211,7 @@ func (o *CompleteTransactionParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -244,22 +225,21 @@ func (o *CompleteTransactionParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	if o.ControlPluginName != nil {
+	valuesControlPluginName := o.ControlPluginName
 
-		// binding items for controlPluginName
-		joinedControlPluginName := o.bindParamControlPluginName(reg)
-
-		// query array param controlPluginName
-		if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
-			return err
-		}
+	joinedControlPluginName := swag.JoinByFormat(valuesControlPluginName, "multi")
+	// query array param controlPluginName
+	if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+		return err
 	}
 
 	// path param paymentId
@@ -267,13 +247,24 @@ func (o *CompleteTransactionParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return err
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
+	}
 
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}
@@ -282,38 +273,4 @@ func (o *CompleteTransactionParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamCompleteTransaction binds the parameter controlPluginName
-func (o *CompleteTransactionParams) bindParamControlPluginName(formats strfmt.Registry) []string {
-	controlPluginNameIR := o.ControlPluginName
-
-	var controlPluginNameIC []string
-	for _, controlPluginNameIIR := range controlPluginNameIR { // explode []string
-
-		controlPluginNameIIV := controlPluginNameIIR // string as string
-		controlPluginNameIC = append(controlPluginNameIC, controlPluginNameIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	controlPluginNameIS := swag.JoinByFormat(controlPluginNameIC, "multi")
-
-	return controlPluginNameIS
-}
-
-// bindParamCompleteTransaction binds the parameter pluginProperty
-func (o *CompleteTransactionParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

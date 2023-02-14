@@ -6,18 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // InvoicePaymentTransaction invoice payment transaction
-//
 // swagger:model InvoicePaymentTransaction
 type InvoicePaymentTransaction struct {
 
@@ -32,7 +31,7 @@ type InvoicePaymentTransaction struct {
 
 	// Amount currency (account currency unless specified)
 	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
-	Currency string `json:"currency,omitempty"`
+	Currency InvoicePaymentTransactionCurrencyEnum `json:"currency,omitempty"`
 
 	// effective date
 	// Format: date-time
@@ -62,7 +61,7 @@ type InvoicePaymentTransaction struct {
 
 	// processed currency
 	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
-	ProcessedCurrency string `json:"processedCurrency,omitempty"`
+	ProcessedCurrency InvoicePaymentTransactionProcessedCurrencyEnum `json:"processedCurrency,omitempty"`
 
 	// properties
 	Properties []*PluginProperty `json:"properties"`
@@ -72,7 +71,7 @@ type InvoicePaymentTransaction struct {
 
 	// Transaction status, required for state change notifications
 	// Enum: [SUCCESS UNKNOWN PENDING PAYMENT_FAILURE PLUGIN_FAILURE PAYMENT_SYSTEM_OFF]
-	Status string `json:"status,omitempty"`
+	Status InvoicePaymentTransactionStatusEnum `json:"status,omitempty"`
 
 	// transaction external key
 	TransactionExternalKey string `json:"transactionExternalKey,omitempty"`
@@ -83,7 +82,7 @@ type InvoicePaymentTransaction struct {
 
 	// transaction type
 	// Enum: [AUTHORIZE CAPTURE CHARGEBACK CREDIT PURCHASE REFUND VOID]
-	TransactionType string `json:"transactionType,omitempty"`
+	TransactionType InvoicePaymentTransactionTransactionTypeEnum `json:"transactionType,omitempty"`
 }
 
 // Validate validates this invoice payment transaction
@@ -137,6 +136,7 @@ func (m *InvoicePaymentTransaction) Validate(formats strfmt.Registry) error {
 }
 
 func (m *InvoicePaymentTransaction) validateAdjustments(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Adjustments) { // not required
 		return nil
 	}
@@ -150,8 +150,6 @@ func (m *InvoicePaymentTransaction) validateAdjustments(formats strfmt.Registry)
 			if err := m.Adjustments[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("adjustments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("adjustments" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -163,6 +161,7 @@ func (m *InvoicePaymentTransaction) validateAdjustments(formats strfmt.Registry)
 }
 
 func (m *InvoicePaymentTransaction) validateAuditLogs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -176,8 +175,6 @@ func (m *InvoicePaymentTransaction) validateAuditLogs(formats strfmt.Registry) e
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -191,7 +188,7 @@ func (m *InvoicePaymentTransaction) validateAuditLogs(formats strfmt.Registry) e
 var invoicePaymentTransactionTypeCurrencyPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []InvoicePaymentTransactionCurrencyEnum
 	if err := json.Unmarshal([]byte(`["AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CAD","CDF","CHF","CLP","CNY","COP","CRC","CUC","CUP","CVE","CZK","DJF","DKK","DOP","DZD","EGP","ERN","ETB","EUR","FJD","FKP","GBP","GEL","GGP","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","IMP","INR","IQD","IRR","ISK","JEP","JMD","JOD","JPY","KES","KGS","KHR","KMF","KPW","KRW","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SEK","SGD","SHP","SLL","SOS","SPL","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TVD","TWD","TZS","UAH","UGX","USD","UYU","UZS","VEF","VND","VUV","WST","XAF","XCD","XDR","XOF","XPF","YER","ZAR","ZMW","ZWD","BTC"]`), &res); err != nil {
 		panic(err)
 	}
@@ -200,513 +197,693 @@ func init() {
 	}
 }
 
+type InvoicePaymentTransactionCurrencyEnum string
+
 const (
 
 	// InvoicePaymentTransactionCurrencyAED captures enum value "AED"
-	InvoicePaymentTransactionCurrencyAED string = "AED"
+	InvoicePaymentTransactionCurrencyAED InvoicePaymentTransactionCurrencyEnum = "AED"
 
 	// InvoicePaymentTransactionCurrencyAFN captures enum value "AFN"
-	InvoicePaymentTransactionCurrencyAFN string = "AFN"
+	InvoicePaymentTransactionCurrencyAFN InvoicePaymentTransactionCurrencyEnum = "AFN"
 
 	// InvoicePaymentTransactionCurrencyALL captures enum value "ALL"
-	InvoicePaymentTransactionCurrencyALL string = "ALL"
+	InvoicePaymentTransactionCurrencyALL InvoicePaymentTransactionCurrencyEnum = "ALL"
 
 	// InvoicePaymentTransactionCurrencyAMD captures enum value "AMD"
-	InvoicePaymentTransactionCurrencyAMD string = "AMD"
+	InvoicePaymentTransactionCurrencyAMD InvoicePaymentTransactionCurrencyEnum = "AMD"
 
 	// InvoicePaymentTransactionCurrencyANG captures enum value "ANG"
-	InvoicePaymentTransactionCurrencyANG string = "ANG"
+	InvoicePaymentTransactionCurrencyANG InvoicePaymentTransactionCurrencyEnum = "ANG"
 
 	// InvoicePaymentTransactionCurrencyAOA captures enum value "AOA"
-	InvoicePaymentTransactionCurrencyAOA string = "AOA"
+	InvoicePaymentTransactionCurrencyAOA InvoicePaymentTransactionCurrencyEnum = "AOA"
 
 	// InvoicePaymentTransactionCurrencyARS captures enum value "ARS"
-	InvoicePaymentTransactionCurrencyARS string = "ARS"
+	InvoicePaymentTransactionCurrencyARS InvoicePaymentTransactionCurrencyEnum = "ARS"
 
 	// InvoicePaymentTransactionCurrencyAUD captures enum value "AUD"
-	InvoicePaymentTransactionCurrencyAUD string = "AUD"
+	InvoicePaymentTransactionCurrencyAUD InvoicePaymentTransactionCurrencyEnum = "AUD"
 
 	// InvoicePaymentTransactionCurrencyAWG captures enum value "AWG"
-	InvoicePaymentTransactionCurrencyAWG string = "AWG"
+	InvoicePaymentTransactionCurrencyAWG InvoicePaymentTransactionCurrencyEnum = "AWG"
 
 	// InvoicePaymentTransactionCurrencyAZN captures enum value "AZN"
-	InvoicePaymentTransactionCurrencyAZN string = "AZN"
+	InvoicePaymentTransactionCurrencyAZN InvoicePaymentTransactionCurrencyEnum = "AZN"
 
 	// InvoicePaymentTransactionCurrencyBAM captures enum value "BAM"
-	InvoicePaymentTransactionCurrencyBAM string = "BAM"
+	InvoicePaymentTransactionCurrencyBAM InvoicePaymentTransactionCurrencyEnum = "BAM"
 
 	// InvoicePaymentTransactionCurrencyBBD captures enum value "BBD"
-	InvoicePaymentTransactionCurrencyBBD string = "BBD"
+	InvoicePaymentTransactionCurrencyBBD InvoicePaymentTransactionCurrencyEnum = "BBD"
 
 	// InvoicePaymentTransactionCurrencyBDT captures enum value "BDT"
-	InvoicePaymentTransactionCurrencyBDT string = "BDT"
+	InvoicePaymentTransactionCurrencyBDT InvoicePaymentTransactionCurrencyEnum = "BDT"
 
 	// InvoicePaymentTransactionCurrencyBGN captures enum value "BGN"
-	InvoicePaymentTransactionCurrencyBGN string = "BGN"
+	InvoicePaymentTransactionCurrencyBGN InvoicePaymentTransactionCurrencyEnum = "BGN"
 
 	// InvoicePaymentTransactionCurrencyBHD captures enum value "BHD"
-	InvoicePaymentTransactionCurrencyBHD string = "BHD"
+	InvoicePaymentTransactionCurrencyBHD InvoicePaymentTransactionCurrencyEnum = "BHD"
 
 	// InvoicePaymentTransactionCurrencyBIF captures enum value "BIF"
-	InvoicePaymentTransactionCurrencyBIF string = "BIF"
+	InvoicePaymentTransactionCurrencyBIF InvoicePaymentTransactionCurrencyEnum = "BIF"
 
 	// InvoicePaymentTransactionCurrencyBMD captures enum value "BMD"
-	InvoicePaymentTransactionCurrencyBMD string = "BMD"
+	InvoicePaymentTransactionCurrencyBMD InvoicePaymentTransactionCurrencyEnum = "BMD"
 
 	// InvoicePaymentTransactionCurrencyBND captures enum value "BND"
-	InvoicePaymentTransactionCurrencyBND string = "BND"
+	InvoicePaymentTransactionCurrencyBND InvoicePaymentTransactionCurrencyEnum = "BND"
 
 	// InvoicePaymentTransactionCurrencyBOB captures enum value "BOB"
-	InvoicePaymentTransactionCurrencyBOB string = "BOB"
+	InvoicePaymentTransactionCurrencyBOB InvoicePaymentTransactionCurrencyEnum = "BOB"
 
 	// InvoicePaymentTransactionCurrencyBRL captures enum value "BRL"
-	InvoicePaymentTransactionCurrencyBRL string = "BRL"
+	InvoicePaymentTransactionCurrencyBRL InvoicePaymentTransactionCurrencyEnum = "BRL"
 
 	// InvoicePaymentTransactionCurrencyBSD captures enum value "BSD"
-	InvoicePaymentTransactionCurrencyBSD string = "BSD"
+	InvoicePaymentTransactionCurrencyBSD InvoicePaymentTransactionCurrencyEnum = "BSD"
 
 	// InvoicePaymentTransactionCurrencyBTN captures enum value "BTN"
-	InvoicePaymentTransactionCurrencyBTN string = "BTN"
+	InvoicePaymentTransactionCurrencyBTN InvoicePaymentTransactionCurrencyEnum = "BTN"
 
 	// InvoicePaymentTransactionCurrencyBWP captures enum value "BWP"
-	InvoicePaymentTransactionCurrencyBWP string = "BWP"
+	InvoicePaymentTransactionCurrencyBWP InvoicePaymentTransactionCurrencyEnum = "BWP"
 
 	// InvoicePaymentTransactionCurrencyBYR captures enum value "BYR"
-	InvoicePaymentTransactionCurrencyBYR string = "BYR"
+	InvoicePaymentTransactionCurrencyBYR InvoicePaymentTransactionCurrencyEnum = "BYR"
 
 	// InvoicePaymentTransactionCurrencyBZD captures enum value "BZD"
-	InvoicePaymentTransactionCurrencyBZD string = "BZD"
+	InvoicePaymentTransactionCurrencyBZD InvoicePaymentTransactionCurrencyEnum = "BZD"
 
 	// InvoicePaymentTransactionCurrencyCAD captures enum value "CAD"
-	InvoicePaymentTransactionCurrencyCAD string = "CAD"
+	InvoicePaymentTransactionCurrencyCAD InvoicePaymentTransactionCurrencyEnum = "CAD"
 
 	// InvoicePaymentTransactionCurrencyCDF captures enum value "CDF"
-	InvoicePaymentTransactionCurrencyCDF string = "CDF"
+	InvoicePaymentTransactionCurrencyCDF InvoicePaymentTransactionCurrencyEnum = "CDF"
 
 	// InvoicePaymentTransactionCurrencyCHF captures enum value "CHF"
-	InvoicePaymentTransactionCurrencyCHF string = "CHF"
+	InvoicePaymentTransactionCurrencyCHF InvoicePaymentTransactionCurrencyEnum = "CHF"
 
 	// InvoicePaymentTransactionCurrencyCLP captures enum value "CLP"
-	InvoicePaymentTransactionCurrencyCLP string = "CLP"
+	InvoicePaymentTransactionCurrencyCLP InvoicePaymentTransactionCurrencyEnum = "CLP"
 
 	// InvoicePaymentTransactionCurrencyCNY captures enum value "CNY"
-	InvoicePaymentTransactionCurrencyCNY string = "CNY"
+	InvoicePaymentTransactionCurrencyCNY InvoicePaymentTransactionCurrencyEnum = "CNY"
 
 	// InvoicePaymentTransactionCurrencyCOP captures enum value "COP"
-	InvoicePaymentTransactionCurrencyCOP string = "COP"
+	InvoicePaymentTransactionCurrencyCOP InvoicePaymentTransactionCurrencyEnum = "COP"
 
 	// InvoicePaymentTransactionCurrencyCRC captures enum value "CRC"
-	InvoicePaymentTransactionCurrencyCRC string = "CRC"
+	InvoicePaymentTransactionCurrencyCRC InvoicePaymentTransactionCurrencyEnum = "CRC"
 
 	// InvoicePaymentTransactionCurrencyCUC captures enum value "CUC"
-	InvoicePaymentTransactionCurrencyCUC string = "CUC"
+	InvoicePaymentTransactionCurrencyCUC InvoicePaymentTransactionCurrencyEnum = "CUC"
 
 	// InvoicePaymentTransactionCurrencyCUP captures enum value "CUP"
-	InvoicePaymentTransactionCurrencyCUP string = "CUP"
+	InvoicePaymentTransactionCurrencyCUP InvoicePaymentTransactionCurrencyEnum = "CUP"
 
 	// InvoicePaymentTransactionCurrencyCVE captures enum value "CVE"
-	InvoicePaymentTransactionCurrencyCVE string = "CVE"
+	InvoicePaymentTransactionCurrencyCVE InvoicePaymentTransactionCurrencyEnum = "CVE"
 
 	// InvoicePaymentTransactionCurrencyCZK captures enum value "CZK"
-	InvoicePaymentTransactionCurrencyCZK string = "CZK"
+	InvoicePaymentTransactionCurrencyCZK InvoicePaymentTransactionCurrencyEnum = "CZK"
 
 	// InvoicePaymentTransactionCurrencyDJF captures enum value "DJF"
-	InvoicePaymentTransactionCurrencyDJF string = "DJF"
+	InvoicePaymentTransactionCurrencyDJF InvoicePaymentTransactionCurrencyEnum = "DJF"
 
 	// InvoicePaymentTransactionCurrencyDKK captures enum value "DKK"
-	InvoicePaymentTransactionCurrencyDKK string = "DKK"
+	InvoicePaymentTransactionCurrencyDKK InvoicePaymentTransactionCurrencyEnum = "DKK"
 
 	// InvoicePaymentTransactionCurrencyDOP captures enum value "DOP"
-	InvoicePaymentTransactionCurrencyDOP string = "DOP"
+	InvoicePaymentTransactionCurrencyDOP InvoicePaymentTransactionCurrencyEnum = "DOP"
 
 	// InvoicePaymentTransactionCurrencyDZD captures enum value "DZD"
-	InvoicePaymentTransactionCurrencyDZD string = "DZD"
+	InvoicePaymentTransactionCurrencyDZD InvoicePaymentTransactionCurrencyEnum = "DZD"
 
 	// InvoicePaymentTransactionCurrencyEGP captures enum value "EGP"
-	InvoicePaymentTransactionCurrencyEGP string = "EGP"
+	InvoicePaymentTransactionCurrencyEGP InvoicePaymentTransactionCurrencyEnum = "EGP"
 
 	// InvoicePaymentTransactionCurrencyERN captures enum value "ERN"
-	InvoicePaymentTransactionCurrencyERN string = "ERN"
+	InvoicePaymentTransactionCurrencyERN InvoicePaymentTransactionCurrencyEnum = "ERN"
 
 	// InvoicePaymentTransactionCurrencyETB captures enum value "ETB"
-	InvoicePaymentTransactionCurrencyETB string = "ETB"
+	InvoicePaymentTransactionCurrencyETB InvoicePaymentTransactionCurrencyEnum = "ETB"
 
 	// InvoicePaymentTransactionCurrencyEUR captures enum value "EUR"
-	InvoicePaymentTransactionCurrencyEUR string = "EUR"
+	InvoicePaymentTransactionCurrencyEUR InvoicePaymentTransactionCurrencyEnum = "EUR"
 
 	// InvoicePaymentTransactionCurrencyFJD captures enum value "FJD"
-	InvoicePaymentTransactionCurrencyFJD string = "FJD"
+	InvoicePaymentTransactionCurrencyFJD InvoicePaymentTransactionCurrencyEnum = "FJD"
 
 	// InvoicePaymentTransactionCurrencyFKP captures enum value "FKP"
-	InvoicePaymentTransactionCurrencyFKP string = "FKP"
+	InvoicePaymentTransactionCurrencyFKP InvoicePaymentTransactionCurrencyEnum = "FKP"
 
 	// InvoicePaymentTransactionCurrencyGBP captures enum value "GBP"
-	InvoicePaymentTransactionCurrencyGBP string = "GBP"
+	InvoicePaymentTransactionCurrencyGBP InvoicePaymentTransactionCurrencyEnum = "GBP"
 
 	// InvoicePaymentTransactionCurrencyGEL captures enum value "GEL"
-	InvoicePaymentTransactionCurrencyGEL string = "GEL"
+	InvoicePaymentTransactionCurrencyGEL InvoicePaymentTransactionCurrencyEnum = "GEL"
 
 	// InvoicePaymentTransactionCurrencyGGP captures enum value "GGP"
-	InvoicePaymentTransactionCurrencyGGP string = "GGP"
+	InvoicePaymentTransactionCurrencyGGP InvoicePaymentTransactionCurrencyEnum = "GGP"
 
 	// InvoicePaymentTransactionCurrencyGHS captures enum value "GHS"
-	InvoicePaymentTransactionCurrencyGHS string = "GHS"
+	InvoicePaymentTransactionCurrencyGHS InvoicePaymentTransactionCurrencyEnum = "GHS"
 
 	// InvoicePaymentTransactionCurrencyGIP captures enum value "GIP"
-	InvoicePaymentTransactionCurrencyGIP string = "GIP"
+	InvoicePaymentTransactionCurrencyGIP InvoicePaymentTransactionCurrencyEnum = "GIP"
 
 	// InvoicePaymentTransactionCurrencyGMD captures enum value "GMD"
-	InvoicePaymentTransactionCurrencyGMD string = "GMD"
+	InvoicePaymentTransactionCurrencyGMD InvoicePaymentTransactionCurrencyEnum = "GMD"
 
 	// InvoicePaymentTransactionCurrencyGNF captures enum value "GNF"
-	InvoicePaymentTransactionCurrencyGNF string = "GNF"
+	InvoicePaymentTransactionCurrencyGNF InvoicePaymentTransactionCurrencyEnum = "GNF"
 
 	// InvoicePaymentTransactionCurrencyGTQ captures enum value "GTQ"
-	InvoicePaymentTransactionCurrencyGTQ string = "GTQ"
+	InvoicePaymentTransactionCurrencyGTQ InvoicePaymentTransactionCurrencyEnum = "GTQ"
 
 	// InvoicePaymentTransactionCurrencyGYD captures enum value "GYD"
-	InvoicePaymentTransactionCurrencyGYD string = "GYD"
+	InvoicePaymentTransactionCurrencyGYD InvoicePaymentTransactionCurrencyEnum = "GYD"
 
 	// InvoicePaymentTransactionCurrencyHKD captures enum value "HKD"
-	InvoicePaymentTransactionCurrencyHKD string = "HKD"
+	InvoicePaymentTransactionCurrencyHKD InvoicePaymentTransactionCurrencyEnum = "HKD"
 
 	// InvoicePaymentTransactionCurrencyHNL captures enum value "HNL"
-	InvoicePaymentTransactionCurrencyHNL string = "HNL"
+	InvoicePaymentTransactionCurrencyHNL InvoicePaymentTransactionCurrencyEnum = "HNL"
 
 	// InvoicePaymentTransactionCurrencyHRK captures enum value "HRK"
-	InvoicePaymentTransactionCurrencyHRK string = "HRK"
+	InvoicePaymentTransactionCurrencyHRK InvoicePaymentTransactionCurrencyEnum = "HRK"
 
 	// InvoicePaymentTransactionCurrencyHTG captures enum value "HTG"
-	InvoicePaymentTransactionCurrencyHTG string = "HTG"
+	InvoicePaymentTransactionCurrencyHTG InvoicePaymentTransactionCurrencyEnum = "HTG"
 
 	// InvoicePaymentTransactionCurrencyHUF captures enum value "HUF"
-	InvoicePaymentTransactionCurrencyHUF string = "HUF"
+	InvoicePaymentTransactionCurrencyHUF InvoicePaymentTransactionCurrencyEnum = "HUF"
 
 	// InvoicePaymentTransactionCurrencyIDR captures enum value "IDR"
-	InvoicePaymentTransactionCurrencyIDR string = "IDR"
+	InvoicePaymentTransactionCurrencyIDR InvoicePaymentTransactionCurrencyEnum = "IDR"
 
 	// InvoicePaymentTransactionCurrencyILS captures enum value "ILS"
-	InvoicePaymentTransactionCurrencyILS string = "ILS"
+	InvoicePaymentTransactionCurrencyILS InvoicePaymentTransactionCurrencyEnum = "ILS"
 
 	// InvoicePaymentTransactionCurrencyIMP captures enum value "IMP"
-	InvoicePaymentTransactionCurrencyIMP string = "IMP"
+	InvoicePaymentTransactionCurrencyIMP InvoicePaymentTransactionCurrencyEnum = "IMP"
 
 	// InvoicePaymentTransactionCurrencyINR captures enum value "INR"
-	InvoicePaymentTransactionCurrencyINR string = "INR"
+	InvoicePaymentTransactionCurrencyINR InvoicePaymentTransactionCurrencyEnum = "INR"
 
 	// InvoicePaymentTransactionCurrencyIQD captures enum value "IQD"
-	InvoicePaymentTransactionCurrencyIQD string = "IQD"
+	InvoicePaymentTransactionCurrencyIQD InvoicePaymentTransactionCurrencyEnum = "IQD"
 
 	// InvoicePaymentTransactionCurrencyIRR captures enum value "IRR"
-	InvoicePaymentTransactionCurrencyIRR string = "IRR"
+	InvoicePaymentTransactionCurrencyIRR InvoicePaymentTransactionCurrencyEnum = "IRR"
 
 	// InvoicePaymentTransactionCurrencyISK captures enum value "ISK"
-	InvoicePaymentTransactionCurrencyISK string = "ISK"
+	InvoicePaymentTransactionCurrencyISK InvoicePaymentTransactionCurrencyEnum = "ISK"
 
 	// InvoicePaymentTransactionCurrencyJEP captures enum value "JEP"
-	InvoicePaymentTransactionCurrencyJEP string = "JEP"
+	InvoicePaymentTransactionCurrencyJEP InvoicePaymentTransactionCurrencyEnum = "JEP"
 
 	// InvoicePaymentTransactionCurrencyJMD captures enum value "JMD"
-	InvoicePaymentTransactionCurrencyJMD string = "JMD"
+	InvoicePaymentTransactionCurrencyJMD InvoicePaymentTransactionCurrencyEnum = "JMD"
 
 	// InvoicePaymentTransactionCurrencyJOD captures enum value "JOD"
-	InvoicePaymentTransactionCurrencyJOD string = "JOD"
+	InvoicePaymentTransactionCurrencyJOD InvoicePaymentTransactionCurrencyEnum = "JOD"
 
 	// InvoicePaymentTransactionCurrencyJPY captures enum value "JPY"
-	InvoicePaymentTransactionCurrencyJPY string = "JPY"
+	InvoicePaymentTransactionCurrencyJPY InvoicePaymentTransactionCurrencyEnum = "JPY"
 
 	// InvoicePaymentTransactionCurrencyKES captures enum value "KES"
-	InvoicePaymentTransactionCurrencyKES string = "KES"
+	InvoicePaymentTransactionCurrencyKES InvoicePaymentTransactionCurrencyEnum = "KES"
 
 	// InvoicePaymentTransactionCurrencyKGS captures enum value "KGS"
-	InvoicePaymentTransactionCurrencyKGS string = "KGS"
+	InvoicePaymentTransactionCurrencyKGS InvoicePaymentTransactionCurrencyEnum = "KGS"
 
 	// InvoicePaymentTransactionCurrencyKHR captures enum value "KHR"
-	InvoicePaymentTransactionCurrencyKHR string = "KHR"
+	InvoicePaymentTransactionCurrencyKHR InvoicePaymentTransactionCurrencyEnum = "KHR"
 
 	// InvoicePaymentTransactionCurrencyKMF captures enum value "KMF"
-	InvoicePaymentTransactionCurrencyKMF string = "KMF"
+	InvoicePaymentTransactionCurrencyKMF InvoicePaymentTransactionCurrencyEnum = "KMF"
 
 	// InvoicePaymentTransactionCurrencyKPW captures enum value "KPW"
-	InvoicePaymentTransactionCurrencyKPW string = "KPW"
+	InvoicePaymentTransactionCurrencyKPW InvoicePaymentTransactionCurrencyEnum = "KPW"
 
 	// InvoicePaymentTransactionCurrencyKRW captures enum value "KRW"
-	InvoicePaymentTransactionCurrencyKRW string = "KRW"
+	InvoicePaymentTransactionCurrencyKRW InvoicePaymentTransactionCurrencyEnum = "KRW"
 
 	// InvoicePaymentTransactionCurrencyKWD captures enum value "KWD"
-	InvoicePaymentTransactionCurrencyKWD string = "KWD"
+	InvoicePaymentTransactionCurrencyKWD InvoicePaymentTransactionCurrencyEnum = "KWD"
 
 	// InvoicePaymentTransactionCurrencyKYD captures enum value "KYD"
-	InvoicePaymentTransactionCurrencyKYD string = "KYD"
+	InvoicePaymentTransactionCurrencyKYD InvoicePaymentTransactionCurrencyEnum = "KYD"
 
 	// InvoicePaymentTransactionCurrencyKZT captures enum value "KZT"
-	InvoicePaymentTransactionCurrencyKZT string = "KZT"
+	InvoicePaymentTransactionCurrencyKZT InvoicePaymentTransactionCurrencyEnum = "KZT"
 
 	// InvoicePaymentTransactionCurrencyLAK captures enum value "LAK"
-	InvoicePaymentTransactionCurrencyLAK string = "LAK"
+	InvoicePaymentTransactionCurrencyLAK InvoicePaymentTransactionCurrencyEnum = "LAK"
 
 	// InvoicePaymentTransactionCurrencyLBP captures enum value "LBP"
-	InvoicePaymentTransactionCurrencyLBP string = "LBP"
+	InvoicePaymentTransactionCurrencyLBP InvoicePaymentTransactionCurrencyEnum = "LBP"
 
 	// InvoicePaymentTransactionCurrencyLKR captures enum value "LKR"
-	InvoicePaymentTransactionCurrencyLKR string = "LKR"
+	InvoicePaymentTransactionCurrencyLKR InvoicePaymentTransactionCurrencyEnum = "LKR"
 
 	// InvoicePaymentTransactionCurrencyLRD captures enum value "LRD"
-	InvoicePaymentTransactionCurrencyLRD string = "LRD"
+	InvoicePaymentTransactionCurrencyLRD InvoicePaymentTransactionCurrencyEnum = "LRD"
 
 	// InvoicePaymentTransactionCurrencyLSL captures enum value "LSL"
-	InvoicePaymentTransactionCurrencyLSL string = "LSL"
+	InvoicePaymentTransactionCurrencyLSL InvoicePaymentTransactionCurrencyEnum = "LSL"
 
 	// InvoicePaymentTransactionCurrencyLTL captures enum value "LTL"
-	InvoicePaymentTransactionCurrencyLTL string = "LTL"
+	InvoicePaymentTransactionCurrencyLTL InvoicePaymentTransactionCurrencyEnum = "LTL"
 
 	// InvoicePaymentTransactionCurrencyLVL captures enum value "LVL"
-	InvoicePaymentTransactionCurrencyLVL string = "LVL"
+	InvoicePaymentTransactionCurrencyLVL InvoicePaymentTransactionCurrencyEnum = "LVL"
 
 	// InvoicePaymentTransactionCurrencyLYD captures enum value "LYD"
-	InvoicePaymentTransactionCurrencyLYD string = "LYD"
+	InvoicePaymentTransactionCurrencyLYD InvoicePaymentTransactionCurrencyEnum = "LYD"
 
 	// InvoicePaymentTransactionCurrencyMAD captures enum value "MAD"
-	InvoicePaymentTransactionCurrencyMAD string = "MAD"
+	InvoicePaymentTransactionCurrencyMAD InvoicePaymentTransactionCurrencyEnum = "MAD"
 
 	// InvoicePaymentTransactionCurrencyMDL captures enum value "MDL"
-	InvoicePaymentTransactionCurrencyMDL string = "MDL"
+	InvoicePaymentTransactionCurrencyMDL InvoicePaymentTransactionCurrencyEnum = "MDL"
 
 	// InvoicePaymentTransactionCurrencyMGA captures enum value "MGA"
-	InvoicePaymentTransactionCurrencyMGA string = "MGA"
+	InvoicePaymentTransactionCurrencyMGA InvoicePaymentTransactionCurrencyEnum = "MGA"
 
 	// InvoicePaymentTransactionCurrencyMKD captures enum value "MKD"
-	InvoicePaymentTransactionCurrencyMKD string = "MKD"
+	InvoicePaymentTransactionCurrencyMKD InvoicePaymentTransactionCurrencyEnum = "MKD"
 
 	// InvoicePaymentTransactionCurrencyMMK captures enum value "MMK"
-	InvoicePaymentTransactionCurrencyMMK string = "MMK"
+	InvoicePaymentTransactionCurrencyMMK InvoicePaymentTransactionCurrencyEnum = "MMK"
 
 	// InvoicePaymentTransactionCurrencyMNT captures enum value "MNT"
-	InvoicePaymentTransactionCurrencyMNT string = "MNT"
+	InvoicePaymentTransactionCurrencyMNT InvoicePaymentTransactionCurrencyEnum = "MNT"
 
 	// InvoicePaymentTransactionCurrencyMOP captures enum value "MOP"
-	InvoicePaymentTransactionCurrencyMOP string = "MOP"
+	InvoicePaymentTransactionCurrencyMOP InvoicePaymentTransactionCurrencyEnum = "MOP"
 
 	// InvoicePaymentTransactionCurrencyMRO captures enum value "MRO"
-	InvoicePaymentTransactionCurrencyMRO string = "MRO"
+	InvoicePaymentTransactionCurrencyMRO InvoicePaymentTransactionCurrencyEnum = "MRO"
 
 	// InvoicePaymentTransactionCurrencyMUR captures enum value "MUR"
-	InvoicePaymentTransactionCurrencyMUR string = "MUR"
+	InvoicePaymentTransactionCurrencyMUR InvoicePaymentTransactionCurrencyEnum = "MUR"
 
 	// InvoicePaymentTransactionCurrencyMVR captures enum value "MVR"
-	InvoicePaymentTransactionCurrencyMVR string = "MVR"
+	InvoicePaymentTransactionCurrencyMVR InvoicePaymentTransactionCurrencyEnum = "MVR"
 
 	// InvoicePaymentTransactionCurrencyMWK captures enum value "MWK"
-	InvoicePaymentTransactionCurrencyMWK string = "MWK"
+	InvoicePaymentTransactionCurrencyMWK InvoicePaymentTransactionCurrencyEnum = "MWK"
 
 	// InvoicePaymentTransactionCurrencyMXN captures enum value "MXN"
-	InvoicePaymentTransactionCurrencyMXN string = "MXN"
+	InvoicePaymentTransactionCurrencyMXN InvoicePaymentTransactionCurrencyEnum = "MXN"
 
 	// InvoicePaymentTransactionCurrencyMYR captures enum value "MYR"
-	InvoicePaymentTransactionCurrencyMYR string = "MYR"
+	InvoicePaymentTransactionCurrencyMYR InvoicePaymentTransactionCurrencyEnum = "MYR"
 
 	// InvoicePaymentTransactionCurrencyMZN captures enum value "MZN"
-	InvoicePaymentTransactionCurrencyMZN string = "MZN"
+	InvoicePaymentTransactionCurrencyMZN InvoicePaymentTransactionCurrencyEnum = "MZN"
 
 	// InvoicePaymentTransactionCurrencyNAD captures enum value "NAD"
-	InvoicePaymentTransactionCurrencyNAD string = "NAD"
+	InvoicePaymentTransactionCurrencyNAD InvoicePaymentTransactionCurrencyEnum = "NAD"
 
 	// InvoicePaymentTransactionCurrencyNGN captures enum value "NGN"
-	InvoicePaymentTransactionCurrencyNGN string = "NGN"
+	InvoicePaymentTransactionCurrencyNGN InvoicePaymentTransactionCurrencyEnum = "NGN"
 
 	// InvoicePaymentTransactionCurrencyNIO captures enum value "NIO"
-	InvoicePaymentTransactionCurrencyNIO string = "NIO"
+	InvoicePaymentTransactionCurrencyNIO InvoicePaymentTransactionCurrencyEnum = "NIO"
 
 	// InvoicePaymentTransactionCurrencyNOK captures enum value "NOK"
-	InvoicePaymentTransactionCurrencyNOK string = "NOK"
+	InvoicePaymentTransactionCurrencyNOK InvoicePaymentTransactionCurrencyEnum = "NOK"
 
 	// InvoicePaymentTransactionCurrencyNPR captures enum value "NPR"
-	InvoicePaymentTransactionCurrencyNPR string = "NPR"
+	InvoicePaymentTransactionCurrencyNPR InvoicePaymentTransactionCurrencyEnum = "NPR"
 
 	// InvoicePaymentTransactionCurrencyNZD captures enum value "NZD"
-	InvoicePaymentTransactionCurrencyNZD string = "NZD"
+	InvoicePaymentTransactionCurrencyNZD InvoicePaymentTransactionCurrencyEnum = "NZD"
 
 	// InvoicePaymentTransactionCurrencyOMR captures enum value "OMR"
-	InvoicePaymentTransactionCurrencyOMR string = "OMR"
+	InvoicePaymentTransactionCurrencyOMR InvoicePaymentTransactionCurrencyEnum = "OMR"
 
 	// InvoicePaymentTransactionCurrencyPAB captures enum value "PAB"
-	InvoicePaymentTransactionCurrencyPAB string = "PAB"
+	InvoicePaymentTransactionCurrencyPAB InvoicePaymentTransactionCurrencyEnum = "PAB"
 
 	// InvoicePaymentTransactionCurrencyPEN captures enum value "PEN"
-	InvoicePaymentTransactionCurrencyPEN string = "PEN"
+	InvoicePaymentTransactionCurrencyPEN InvoicePaymentTransactionCurrencyEnum = "PEN"
 
 	// InvoicePaymentTransactionCurrencyPGK captures enum value "PGK"
-	InvoicePaymentTransactionCurrencyPGK string = "PGK"
+	InvoicePaymentTransactionCurrencyPGK InvoicePaymentTransactionCurrencyEnum = "PGK"
 
 	// InvoicePaymentTransactionCurrencyPHP captures enum value "PHP"
-	InvoicePaymentTransactionCurrencyPHP string = "PHP"
+	InvoicePaymentTransactionCurrencyPHP InvoicePaymentTransactionCurrencyEnum = "PHP"
 
 	// InvoicePaymentTransactionCurrencyPKR captures enum value "PKR"
-	InvoicePaymentTransactionCurrencyPKR string = "PKR"
+	InvoicePaymentTransactionCurrencyPKR InvoicePaymentTransactionCurrencyEnum = "PKR"
 
 	// InvoicePaymentTransactionCurrencyPLN captures enum value "PLN"
-	InvoicePaymentTransactionCurrencyPLN string = "PLN"
+	InvoicePaymentTransactionCurrencyPLN InvoicePaymentTransactionCurrencyEnum = "PLN"
 
 	// InvoicePaymentTransactionCurrencyPYG captures enum value "PYG"
-	InvoicePaymentTransactionCurrencyPYG string = "PYG"
+	InvoicePaymentTransactionCurrencyPYG InvoicePaymentTransactionCurrencyEnum = "PYG"
 
 	// InvoicePaymentTransactionCurrencyQAR captures enum value "QAR"
-	InvoicePaymentTransactionCurrencyQAR string = "QAR"
+	InvoicePaymentTransactionCurrencyQAR InvoicePaymentTransactionCurrencyEnum = "QAR"
 
 	// InvoicePaymentTransactionCurrencyRON captures enum value "RON"
-	InvoicePaymentTransactionCurrencyRON string = "RON"
+	InvoicePaymentTransactionCurrencyRON InvoicePaymentTransactionCurrencyEnum = "RON"
 
 	// InvoicePaymentTransactionCurrencyRSD captures enum value "RSD"
-	InvoicePaymentTransactionCurrencyRSD string = "RSD"
+	InvoicePaymentTransactionCurrencyRSD InvoicePaymentTransactionCurrencyEnum = "RSD"
 
 	// InvoicePaymentTransactionCurrencyRUB captures enum value "RUB"
-	InvoicePaymentTransactionCurrencyRUB string = "RUB"
+	InvoicePaymentTransactionCurrencyRUB InvoicePaymentTransactionCurrencyEnum = "RUB"
 
 	// InvoicePaymentTransactionCurrencyRWF captures enum value "RWF"
-	InvoicePaymentTransactionCurrencyRWF string = "RWF"
+	InvoicePaymentTransactionCurrencyRWF InvoicePaymentTransactionCurrencyEnum = "RWF"
 
 	// InvoicePaymentTransactionCurrencySAR captures enum value "SAR"
-	InvoicePaymentTransactionCurrencySAR string = "SAR"
+	InvoicePaymentTransactionCurrencySAR InvoicePaymentTransactionCurrencyEnum = "SAR"
 
 	// InvoicePaymentTransactionCurrencySBD captures enum value "SBD"
-	InvoicePaymentTransactionCurrencySBD string = "SBD"
+	InvoicePaymentTransactionCurrencySBD InvoicePaymentTransactionCurrencyEnum = "SBD"
 
 	// InvoicePaymentTransactionCurrencySCR captures enum value "SCR"
-	InvoicePaymentTransactionCurrencySCR string = "SCR"
+	InvoicePaymentTransactionCurrencySCR InvoicePaymentTransactionCurrencyEnum = "SCR"
 
 	// InvoicePaymentTransactionCurrencySDG captures enum value "SDG"
-	InvoicePaymentTransactionCurrencySDG string = "SDG"
+	InvoicePaymentTransactionCurrencySDG InvoicePaymentTransactionCurrencyEnum = "SDG"
 
 	// InvoicePaymentTransactionCurrencySEK captures enum value "SEK"
-	InvoicePaymentTransactionCurrencySEK string = "SEK"
+	InvoicePaymentTransactionCurrencySEK InvoicePaymentTransactionCurrencyEnum = "SEK"
 
 	// InvoicePaymentTransactionCurrencySGD captures enum value "SGD"
-	InvoicePaymentTransactionCurrencySGD string = "SGD"
+	InvoicePaymentTransactionCurrencySGD InvoicePaymentTransactionCurrencyEnum = "SGD"
 
 	// InvoicePaymentTransactionCurrencySHP captures enum value "SHP"
-	InvoicePaymentTransactionCurrencySHP string = "SHP"
+	InvoicePaymentTransactionCurrencySHP InvoicePaymentTransactionCurrencyEnum = "SHP"
 
 	// InvoicePaymentTransactionCurrencySLL captures enum value "SLL"
-	InvoicePaymentTransactionCurrencySLL string = "SLL"
+	InvoicePaymentTransactionCurrencySLL InvoicePaymentTransactionCurrencyEnum = "SLL"
 
 	// InvoicePaymentTransactionCurrencySOS captures enum value "SOS"
-	InvoicePaymentTransactionCurrencySOS string = "SOS"
+	InvoicePaymentTransactionCurrencySOS InvoicePaymentTransactionCurrencyEnum = "SOS"
 
 	// InvoicePaymentTransactionCurrencySPL captures enum value "SPL"
-	InvoicePaymentTransactionCurrencySPL string = "SPL"
+	InvoicePaymentTransactionCurrencySPL InvoicePaymentTransactionCurrencyEnum = "SPL"
 
 	// InvoicePaymentTransactionCurrencySRD captures enum value "SRD"
-	InvoicePaymentTransactionCurrencySRD string = "SRD"
+	InvoicePaymentTransactionCurrencySRD InvoicePaymentTransactionCurrencyEnum = "SRD"
 
 	// InvoicePaymentTransactionCurrencySTD captures enum value "STD"
-	InvoicePaymentTransactionCurrencySTD string = "STD"
+	InvoicePaymentTransactionCurrencySTD InvoicePaymentTransactionCurrencyEnum = "STD"
 
 	// InvoicePaymentTransactionCurrencySVC captures enum value "SVC"
-	InvoicePaymentTransactionCurrencySVC string = "SVC"
+	InvoicePaymentTransactionCurrencySVC InvoicePaymentTransactionCurrencyEnum = "SVC"
 
 	// InvoicePaymentTransactionCurrencySYP captures enum value "SYP"
-	InvoicePaymentTransactionCurrencySYP string = "SYP"
+	InvoicePaymentTransactionCurrencySYP InvoicePaymentTransactionCurrencyEnum = "SYP"
 
 	// InvoicePaymentTransactionCurrencySZL captures enum value "SZL"
-	InvoicePaymentTransactionCurrencySZL string = "SZL"
+	InvoicePaymentTransactionCurrencySZL InvoicePaymentTransactionCurrencyEnum = "SZL"
 
 	// InvoicePaymentTransactionCurrencyTHB captures enum value "THB"
-	InvoicePaymentTransactionCurrencyTHB string = "THB"
+	InvoicePaymentTransactionCurrencyTHB InvoicePaymentTransactionCurrencyEnum = "THB"
 
 	// InvoicePaymentTransactionCurrencyTJS captures enum value "TJS"
-	InvoicePaymentTransactionCurrencyTJS string = "TJS"
+	InvoicePaymentTransactionCurrencyTJS InvoicePaymentTransactionCurrencyEnum = "TJS"
 
 	// InvoicePaymentTransactionCurrencyTMT captures enum value "TMT"
-	InvoicePaymentTransactionCurrencyTMT string = "TMT"
+	InvoicePaymentTransactionCurrencyTMT InvoicePaymentTransactionCurrencyEnum = "TMT"
 
 	// InvoicePaymentTransactionCurrencyTND captures enum value "TND"
-	InvoicePaymentTransactionCurrencyTND string = "TND"
+	InvoicePaymentTransactionCurrencyTND InvoicePaymentTransactionCurrencyEnum = "TND"
 
 	// InvoicePaymentTransactionCurrencyTOP captures enum value "TOP"
-	InvoicePaymentTransactionCurrencyTOP string = "TOP"
+	InvoicePaymentTransactionCurrencyTOP InvoicePaymentTransactionCurrencyEnum = "TOP"
 
 	// InvoicePaymentTransactionCurrencyTRY captures enum value "TRY"
-	InvoicePaymentTransactionCurrencyTRY string = "TRY"
+	InvoicePaymentTransactionCurrencyTRY InvoicePaymentTransactionCurrencyEnum = "TRY"
 
 	// InvoicePaymentTransactionCurrencyTTD captures enum value "TTD"
-	InvoicePaymentTransactionCurrencyTTD string = "TTD"
+	InvoicePaymentTransactionCurrencyTTD InvoicePaymentTransactionCurrencyEnum = "TTD"
 
 	// InvoicePaymentTransactionCurrencyTVD captures enum value "TVD"
-	InvoicePaymentTransactionCurrencyTVD string = "TVD"
+	InvoicePaymentTransactionCurrencyTVD InvoicePaymentTransactionCurrencyEnum = "TVD"
 
 	// InvoicePaymentTransactionCurrencyTWD captures enum value "TWD"
-	InvoicePaymentTransactionCurrencyTWD string = "TWD"
+	InvoicePaymentTransactionCurrencyTWD InvoicePaymentTransactionCurrencyEnum = "TWD"
 
 	// InvoicePaymentTransactionCurrencyTZS captures enum value "TZS"
-	InvoicePaymentTransactionCurrencyTZS string = "TZS"
+	InvoicePaymentTransactionCurrencyTZS InvoicePaymentTransactionCurrencyEnum = "TZS"
 
 	// InvoicePaymentTransactionCurrencyUAH captures enum value "UAH"
-	InvoicePaymentTransactionCurrencyUAH string = "UAH"
+	InvoicePaymentTransactionCurrencyUAH InvoicePaymentTransactionCurrencyEnum = "UAH"
 
 	// InvoicePaymentTransactionCurrencyUGX captures enum value "UGX"
-	InvoicePaymentTransactionCurrencyUGX string = "UGX"
+	InvoicePaymentTransactionCurrencyUGX InvoicePaymentTransactionCurrencyEnum = "UGX"
 
 	// InvoicePaymentTransactionCurrencyUSD captures enum value "USD"
-	InvoicePaymentTransactionCurrencyUSD string = "USD"
+	InvoicePaymentTransactionCurrencyUSD InvoicePaymentTransactionCurrencyEnum = "USD"
 
 	// InvoicePaymentTransactionCurrencyUYU captures enum value "UYU"
-	InvoicePaymentTransactionCurrencyUYU string = "UYU"
+	InvoicePaymentTransactionCurrencyUYU InvoicePaymentTransactionCurrencyEnum = "UYU"
 
 	// InvoicePaymentTransactionCurrencyUZS captures enum value "UZS"
-	InvoicePaymentTransactionCurrencyUZS string = "UZS"
+	InvoicePaymentTransactionCurrencyUZS InvoicePaymentTransactionCurrencyEnum = "UZS"
 
 	// InvoicePaymentTransactionCurrencyVEF captures enum value "VEF"
-	InvoicePaymentTransactionCurrencyVEF string = "VEF"
+	InvoicePaymentTransactionCurrencyVEF InvoicePaymentTransactionCurrencyEnum = "VEF"
 
 	// InvoicePaymentTransactionCurrencyVND captures enum value "VND"
-	InvoicePaymentTransactionCurrencyVND string = "VND"
+	InvoicePaymentTransactionCurrencyVND InvoicePaymentTransactionCurrencyEnum = "VND"
 
 	// InvoicePaymentTransactionCurrencyVUV captures enum value "VUV"
-	InvoicePaymentTransactionCurrencyVUV string = "VUV"
+	InvoicePaymentTransactionCurrencyVUV InvoicePaymentTransactionCurrencyEnum = "VUV"
 
 	// InvoicePaymentTransactionCurrencyWST captures enum value "WST"
-	InvoicePaymentTransactionCurrencyWST string = "WST"
+	InvoicePaymentTransactionCurrencyWST InvoicePaymentTransactionCurrencyEnum = "WST"
 
 	// InvoicePaymentTransactionCurrencyXAF captures enum value "XAF"
-	InvoicePaymentTransactionCurrencyXAF string = "XAF"
+	InvoicePaymentTransactionCurrencyXAF InvoicePaymentTransactionCurrencyEnum = "XAF"
 
 	// InvoicePaymentTransactionCurrencyXCD captures enum value "XCD"
-	InvoicePaymentTransactionCurrencyXCD string = "XCD"
+	InvoicePaymentTransactionCurrencyXCD InvoicePaymentTransactionCurrencyEnum = "XCD"
 
 	// InvoicePaymentTransactionCurrencyXDR captures enum value "XDR"
-	InvoicePaymentTransactionCurrencyXDR string = "XDR"
+	InvoicePaymentTransactionCurrencyXDR InvoicePaymentTransactionCurrencyEnum = "XDR"
 
 	// InvoicePaymentTransactionCurrencyXOF captures enum value "XOF"
-	InvoicePaymentTransactionCurrencyXOF string = "XOF"
+	InvoicePaymentTransactionCurrencyXOF InvoicePaymentTransactionCurrencyEnum = "XOF"
 
 	// InvoicePaymentTransactionCurrencyXPF captures enum value "XPF"
-	InvoicePaymentTransactionCurrencyXPF string = "XPF"
+	InvoicePaymentTransactionCurrencyXPF InvoicePaymentTransactionCurrencyEnum = "XPF"
 
 	// InvoicePaymentTransactionCurrencyYER captures enum value "YER"
-	InvoicePaymentTransactionCurrencyYER string = "YER"
+	InvoicePaymentTransactionCurrencyYER InvoicePaymentTransactionCurrencyEnum = "YER"
 
 	// InvoicePaymentTransactionCurrencyZAR captures enum value "ZAR"
-	InvoicePaymentTransactionCurrencyZAR string = "ZAR"
+	InvoicePaymentTransactionCurrencyZAR InvoicePaymentTransactionCurrencyEnum = "ZAR"
 
 	// InvoicePaymentTransactionCurrencyZMW captures enum value "ZMW"
-	InvoicePaymentTransactionCurrencyZMW string = "ZMW"
+	InvoicePaymentTransactionCurrencyZMW InvoicePaymentTransactionCurrencyEnum = "ZMW"
 
 	// InvoicePaymentTransactionCurrencyZWD captures enum value "ZWD"
-	InvoicePaymentTransactionCurrencyZWD string = "ZWD"
+	InvoicePaymentTransactionCurrencyZWD InvoicePaymentTransactionCurrencyEnum = "ZWD"
 
 	// InvoicePaymentTransactionCurrencyBTC captures enum value "BTC"
-	InvoicePaymentTransactionCurrencyBTC string = "BTC"
+	InvoicePaymentTransactionCurrencyBTC InvoicePaymentTransactionCurrencyEnum = "BTC"
 )
 
+var InvoicePaymentTransactionCurrencyEnumValues = []string{
+	"AED",
+	"AFN",
+	"ALL",
+	"AMD",
+	"ANG",
+	"AOA",
+	"ARS",
+	"AUD",
+	"AWG",
+	"AZN",
+	"BAM",
+	"BBD",
+	"BDT",
+	"BGN",
+	"BHD",
+	"BIF",
+	"BMD",
+	"BND",
+	"BOB",
+	"BRL",
+	"BSD",
+	"BTN",
+	"BWP",
+	"BYR",
+	"BZD",
+	"CAD",
+	"CDF",
+	"CHF",
+	"CLP",
+	"CNY",
+	"COP",
+	"CRC",
+	"CUC",
+	"CUP",
+	"CVE",
+	"CZK",
+	"DJF",
+	"DKK",
+	"DOP",
+	"DZD",
+	"EGP",
+	"ERN",
+	"ETB",
+	"EUR",
+	"FJD",
+	"FKP",
+	"GBP",
+	"GEL",
+	"GGP",
+	"GHS",
+	"GIP",
+	"GMD",
+	"GNF",
+	"GTQ",
+	"GYD",
+	"HKD",
+	"HNL",
+	"HRK",
+	"HTG",
+	"HUF",
+	"IDR",
+	"ILS",
+	"IMP",
+	"INR",
+	"IQD",
+	"IRR",
+	"ISK",
+	"JEP",
+	"JMD",
+	"JOD",
+	"JPY",
+	"KES",
+	"KGS",
+	"KHR",
+	"KMF",
+	"KPW",
+	"KRW",
+	"KWD",
+	"KYD",
+	"KZT",
+	"LAK",
+	"LBP",
+	"LKR",
+	"LRD",
+	"LSL",
+	"LTL",
+	"LVL",
+	"LYD",
+	"MAD",
+	"MDL",
+	"MGA",
+	"MKD",
+	"MMK",
+	"MNT",
+	"MOP",
+	"MRO",
+	"MUR",
+	"MVR",
+	"MWK",
+	"MXN",
+	"MYR",
+	"MZN",
+	"NAD",
+	"NGN",
+	"NIO",
+	"NOK",
+	"NPR",
+	"NZD",
+	"OMR",
+	"PAB",
+	"PEN",
+	"PGK",
+	"PHP",
+	"PKR",
+	"PLN",
+	"PYG",
+	"QAR",
+	"RON",
+	"RSD",
+	"RUB",
+	"RWF",
+	"SAR",
+	"SBD",
+	"SCR",
+	"SDG",
+	"SEK",
+	"SGD",
+	"SHP",
+	"SLL",
+	"SOS",
+	"SPL",
+	"SRD",
+	"STD",
+	"SVC",
+	"SYP",
+	"SZL",
+	"THB",
+	"TJS",
+	"TMT",
+	"TND",
+	"TOP",
+	"TRY",
+	"TTD",
+	"TVD",
+	"TWD",
+	"TZS",
+	"UAH",
+	"UGX",
+	"USD",
+	"UYU",
+	"UZS",
+	"VEF",
+	"VND",
+	"VUV",
+	"WST",
+	"XAF",
+	"XCD",
+	"XDR",
+	"XOF",
+	"XPF",
+	"YER",
+	"ZAR",
+	"ZMW",
+	"ZWD",
+	"BTC",
+}
+
+func (e InvoicePaymentTransactionCurrencyEnum) IsValid() bool {
+	for _, v := range InvoicePaymentTransactionCurrencyEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *InvoicePaymentTransaction) validateCurrencyEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, invoicePaymentTransactionTypeCurrencyPropEnum, true); err != nil {
+func (m *InvoicePaymentTransaction) validateCurrencyEnum(path, location string, value InvoicePaymentTransactionCurrencyEnum) error {
+	if err := validate.Enum(path, location, value, invoicePaymentTransactionTypeCurrencyPropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoicePaymentTransaction) validateCurrency(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Currency) { // not required
 		return nil
 	}
@@ -720,6 +897,7 @@ func (m *InvoicePaymentTransaction) validateCurrency(formats strfmt.Registry) er
 }
 
 func (m *InvoicePaymentTransaction) validateEffectiveDate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EffectiveDate) { // not required
 		return nil
 	}
@@ -732,6 +910,7 @@ func (m *InvoicePaymentTransaction) validateEffectiveDate(formats strfmt.Registr
 }
 
 func (m *InvoicePaymentTransaction) validatePaymentID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.PaymentID) { // not required
 		return nil
 	}
@@ -746,7 +925,7 @@ func (m *InvoicePaymentTransaction) validatePaymentID(formats strfmt.Registry) e
 var invoicePaymentTransactionTypeProcessedCurrencyPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []InvoicePaymentTransactionProcessedCurrencyEnum
 	if err := json.Unmarshal([]byte(`["AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CAD","CDF","CHF","CLP","CNY","COP","CRC","CUC","CUP","CVE","CZK","DJF","DKK","DOP","DZD","EGP","ERN","ETB","EUR","FJD","FKP","GBP","GEL","GGP","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","IMP","INR","IQD","IRR","ISK","JEP","JMD","JOD","JPY","KES","KGS","KHR","KMF","KPW","KRW","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SEK","SGD","SHP","SLL","SOS","SPL","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TVD","TWD","TZS","UAH","UGX","USD","UYU","UZS","VEF","VND","VUV","WST","XAF","XCD","XDR","XOF","XPF","YER","ZAR","ZMW","ZWD","BTC"]`), &res); err != nil {
 		panic(err)
 	}
@@ -755,513 +934,693 @@ func init() {
 	}
 }
 
+type InvoicePaymentTransactionProcessedCurrencyEnum string
+
 const (
 
 	// InvoicePaymentTransactionProcessedCurrencyAED captures enum value "AED"
-	InvoicePaymentTransactionProcessedCurrencyAED string = "AED"
+	InvoicePaymentTransactionProcessedCurrencyAED InvoicePaymentTransactionProcessedCurrencyEnum = "AED"
 
 	// InvoicePaymentTransactionProcessedCurrencyAFN captures enum value "AFN"
-	InvoicePaymentTransactionProcessedCurrencyAFN string = "AFN"
+	InvoicePaymentTransactionProcessedCurrencyAFN InvoicePaymentTransactionProcessedCurrencyEnum = "AFN"
 
 	// InvoicePaymentTransactionProcessedCurrencyALL captures enum value "ALL"
-	InvoicePaymentTransactionProcessedCurrencyALL string = "ALL"
+	InvoicePaymentTransactionProcessedCurrencyALL InvoicePaymentTransactionProcessedCurrencyEnum = "ALL"
 
 	// InvoicePaymentTransactionProcessedCurrencyAMD captures enum value "AMD"
-	InvoicePaymentTransactionProcessedCurrencyAMD string = "AMD"
+	InvoicePaymentTransactionProcessedCurrencyAMD InvoicePaymentTransactionProcessedCurrencyEnum = "AMD"
 
 	// InvoicePaymentTransactionProcessedCurrencyANG captures enum value "ANG"
-	InvoicePaymentTransactionProcessedCurrencyANG string = "ANG"
+	InvoicePaymentTransactionProcessedCurrencyANG InvoicePaymentTransactionProcessedCurrencyEnum = "ANG"
 
 	// InvoicePaymentTransactionProcessedCurrencyAOA captures enum value "AOA"
-	InvoicePaymentTransactionProcessedCurrencyAOA string = "AOA"
+	InvoicePaymentTransactionProcessedCurrencyAOA InvoicePaymentTransactionProcessedCurrencyEnum = "AOA"
 
 	// InvoicePaymentTransactionProcessedCurrencyARS captures enum value "ARS"
-	InvoicePaymentTransactionProcessedCurrencyARS string = "ARS"
+	InvoicePaymentTransactionProcessedCurrencyARS InvoicePaymentTransactionProcessedCurrencyEnum = "ARS"
 
 	// InvoicePaymentTransactionProcessedCurrencyAUD captures enum value "AUD"
-	InvoicePaymentTransactionProcessedCurrencyAUD string = "AUD"
+	InvoicePaymentTransactionProcessedCurrencyAUD InvoicePaymentTransactionProcessedCurrencyEnum = "AUD"
 
 	// InvoicePaymentTransactionProcessedCurrencyAWG captures enum value "AWG"
-	InvoicePaymentTransactionProcessedCurrencyAWG string = "AWG"
+	InvoicePaymentTransactionProcessedCurrencyAWG InvoicePaymentTransactionProcessedCurrencyEnum = "AWG"
 
 	// InvoicePaymentTransactionProcessedCurrencyAZN captures enum value "AZN"
-	InvoicePaymentTransactionProcessedCurrencyAZN string = "AZN"
+	InvoicePaymentTransactionProcessedCurrencyAZN InvoicePaymentTransactionProcessedCurrencyEnum = "AZN"
 
 	// InvoicePaymentTransactionProcessedCurrencyBAM captures enum value "BAM"
-	InvoicePaymentTransactionProcessedCurrencyBAM string = "BAM"
+	InvoicePaymentTransactionProcessedCurrencyBAM InvoicePaymentTransactionProcessedCurrencyEnum = "BAM"
 
 	// InvoicePaymentTransactionProcessedCurrencyBBD captures enum value "BBD"
-	InvoicePaymentTransactionProcessedCurrencyBBD string = "BBD"
+	InvoicePaymentTransactionProcessedCurrencyBBD InvoicePaymentTransactionProcessedCurrencyEnum = "BBD"
 
 	// InvoicePaymentTransactionProcessedCurrencyBDT captures enum value "BDT"
-	InvoicePaymentTransactionProcessedCurrencyBDT string = "BDT"
+	InvoicePaymentTransactionProcessedCurrencyBDT InvoicePaymentTransactionProcessedCurrencyEnum = "BDT"
 
 	// InvoicePaymentTransactionProcessedCurrencyBGN captures enum value "BGN"
-	InvoicePaymentTransactionProcessedCurrencyBGN string = "BGN"
+	InvoicePaymentTransactionProcessedCurrencyBGN InvoicePaymentTransactionProcessedCurrencyEnum = "BGN"
 
 	// InvoicePaymentTransactionProcessedCurrencyBHD captures enum value "BHD"
-	InvoicePaymentTransactionProcessedCurrencyBHD string = "BHD"
+	InvoicePaymentTransactionProcessedCurrencyBHD InvoicePaymentTransactionProcessedCurrencyEnum = "BHD"
 
 	// InvoicePaymentTransactionProcessedCurrencyBIF captures enum value "BIF"
-	InvoicePaymentTransactionProcessedCurrencyBIF string = "BIF"
+	InvoicePaymentTransactionProcessedCurrencyBIF InvoicePaymentTransactionProcessedCurrencyEnum = "BIF"
 
 	// InvoicePaymentTransactionProcessedCurrencyBMD captures enum value "BMD"
-	InvoicePaymentTransactionProcessedCurrencyBMD string = "BMD"
+	InvoicePaymentTransactionProcessedCurrencyBMD InvoicePaymentTransactionProcessedCurrencyEnum = "BMD"
 
 	// InvoicePaymentTransactionProcessedCurrencyBND captures enum value "BND"
-	InvoicePaymentTransactionProcessedCurrencyBND string = "BND"
+	InvoicePaymentTransactionProcessedCurrencyBND InvoicePaymentTransactionProcessedCurrencyEnum = "BND"
 
 	// InvoicePaymentTransactionProcessedCurrencyBOB captures enum value "BOB"
-	InvoicePaymentTransactionProcessedCurrencyBOB string = "BOB"
+	InvoicePaymentTransactionProcessedCurrencyBOB InvoicePaymentTransactionProcessedCurrencyEnum = "BOB"
 
 	// InvoicePaymentTransactionProcessedCurrencyBRL captures enum value "BRL"
-	InvoicePaymentTransactionProcessedCurrencyBRL string = "BRL"
+	InvoicePaymentTransactionProcessedCurrencyBRL InvoicePaymentTransactionProcessedCurrencyEnum = "BRL"
 
 	// InvoicePaymentTransactionProcessedCurrencyBSD captures enum value "BSD"
-	InvoicePaymentTransactionProcessedCurrencyBSD string = "BSD"
+	InvoicePaymentTransactionProcessedCurrencyBSD InvoicePaymentTransactionProcessedCurrencyEnum = "BSD"
 
 	// InvoicePaymentTransactionProcessedCurrencyBTN captures enum value "BTN"
-	InvoicePaymentTransactionProcessedCurrencyBTN string = "BTN"
+	InvoicePaymentTransactionProcessedCurrencyBTN InvoicePaymentTransactionProcessedCurrencyEnum = "BTN"
 
 	// InvoicePaymentTransactionProcessedCurrencyBWP captures enum value "BWP"
-	InvoicePaymentTransactionProcessedCurrencyBWP string = "BWP"
+	InvoicePaymentTransactionProcessedCurrencyBWP InvoicePaymentTransactionProcessedCurrencyEnum = "BWP"
 
 	// InvoicePaymentTransactionProcessedCurrencyBYR captures enum value "BYR"
-	InvoicePaymentTransactionProcessedCurrencyBYR string = "BYR"
+	InvoicePaymentTransactionProcessedCurrencyBYR InvoicePaymentTransactionProcessedCurrencyEnum = "BYR"
 
 	// InvoicePaymentTransactionProcessedCurrencyBZD captures enum value "BZD"
-	InvoicePaymentTransactionProcessedCurrencyBZD string = "BZD"
+	InvoicePaymentTransactionProcessedCurrencyBZD InvoicePaymentTransactionProcessedCurrencyEnum = "BZD"
 
 	// InvoicePaymentTransactionProcessedCurrencyCAD captures enum value "CAD"
-	InvoicePaymentTransactionProcessedCurrencyCAD string = "CAD"
+	InvoicePaymentTransactionProcessedCurrencyCAD InvoicePaymentTransactionProcessedCurrencyEnum = "CAD"
 
 	// InvoicePaymentTransactionProcessedCurrencyCDF captures enum value "CDF"
-	InvoicePaymentTransactionProcessedCurrencyCDF string = "CDF"
+	InvoicePaymentTransactionProcessedCurrencyCDF InvoicePaymentTransactionProcessedCurrencyEnum = "CDF"
 
 	// InvoicePaymentTransactionProcessedCurrencyCHF captures enum value "CHF"
-	InvoicePaymentTransactionProcessedCurrencyCHF string = "CHF"
+	InvoicePaymentTransactionProcessedCurrencyCHF InvoicePaymentTransactionProcessedCurrencyEnum = "CHF"
 
 	// InvoicePaymentTransactionProcessedCurrencyCLP captures enum value "CLP"
-	InvoicePaymentTransactionProcessedCurrencyCLP string = "CLP"
+	InvoicePaymentTransactionProcessedCurrencyCLP InvoicePaymentTransactionProcessedCurrencyEnum = "CLP"
 
 	// InvoicePaymentTransactionProcessedCurrencyCNY captures enum value "CNY"
-	InvoicePaymentTransactionProcessedCurrencyCNY string = "CNY"
+	InvoicePaymentTransactionProcessedCurrencyCNY InvoicePaymentTransactionProcessedCurrencyEnum = "CNY"
 
 	// InvoicePaymentTransactionProcessedCurrencyCOP captures enum value "COP"
-	InvoicePaymentTransactionProcessedCurrencyCOP string = "COP"
+	InvoicePaymentTransactionProcessedCurrencyCOP InvoicePaymentTransactionProcessedCurrencyEnum = "COP"
 
 	// InvoicePaymentTransactionProcessedCurrencyCRC captures enum value "CRC"
-	InvoicePaymentTransactionProcessedCurrencyCRC string = "CRC"
+	InvoicePaymentTransactionProcessedCurrencyCRC InvoicePaymentTransactionProcessedCurrencyEnum = "CRC"
 
 	// InvoicePaymentTransactionProcessedCurrencyCUC captures enum value "CUC"
-	InvoicePaymentTransactionProcessedCurrencyCUC string = "CUC"
+	InvoicePaymentTransactionProcessedCurrencyCUC InvoicePaymentTransactionProcessedCurrencyEnum = "CUC"
 
 	// InvoicePaymentTransactionProcessedCurrencyCUP captures enum value "CUP"
-	InvoicePaymentTransactionProcessedCurrencyCUP string = "CUP"
+	InvoicePaymentTransactionProcessedCurrencyCUP InvoicePaymentTransactionProcessedCurrencyEnum = "CUP"
 
 	// InvoicePaymentTransactionProcessedCurrencyCVE captures enum value "CVE"
-	InvoicePaymentTransactionProcessedCurrencyCVE string = "CVE"
+	InvoicePaymentTransactionProcessedCurrencyCVE InvoicePaymentTransactionProcessedCurrencyEnum = "CVE"
 
 	// InvoicePaymentTransactionProcessedCurrencyCZK captures enum value "CZK"
-	InvoicePaymentTransactionProcessedCurrencyCZK string = "CZK"
+	InvoicePaymentTransactionProcessedCurrencyCZK InvoicePaymentTransactionProcessedCurrencyEnum = "CZK"
 
 	// InvoicePaymentTransactionProcessedCurrencyDJF captures enum value "DJF"
-	InvoicePaymentTransactionProcessedCurrencyDJF string = "DJF"
+	InvoicePaymentTransactionProcessedCurrencyDJF InvoicePaymentTransactionProcessedCurrencyEnum = "DJF"
 
 	// InvoicePaymentTransactionProcessedCurrencyDKK captures enum value "DKK"
-	InvoicePaymentTransactionProcessedCurrencyDKK string = "DKK"
+	InvoicePaymentTransactionProcessedCurrencyDKK InvoicePaymentTransactionProcessedCurrencyEnum = "DKK"
 
 	// InvoicePaymentTransactionProcessedCurrencyDOP captures enum value "DOP"
-	InvoicePaymentTransactionProcessedCurrencyDOP string = "DOP"
+	InvoicePaymentTransactionProcessedCurrencyDOP InvoicePaymentTransactionProcessedCurrencyEnum = "DOP"
 
 	// InvoicePaymentTransactionProcessedCurrencyDZD captures enum value "DZD"
-	InvoicePaymentTransactionProcessedCurrencyDZD string = "DZD"
+	InvoicePaymentTransactionProcessedCurrencyDZD InvoicePaymentTransactionProcessedCurrencyEnum = "DZD"
 
 	// InvoicePaymentTransactionProcessedCurrencyEGP captures enum value "EGP"
-	InvoicePaymentTransactionProcessedCurrencyEGP string = "EGP"
+	InvoicePaymentTransactionProcessedCurrencyEGP InvoicePaymentTransactionProcessedCurrencyEnum = "EGP"
 
 	// InvoicePaymentTransactionProcessedCurrencyERN captures enum value "ERN"
-	InvoicePaymentTransactionProcessedCurrencyERN string = "ERN"
+	InvoicePaymentTransactionProcessedCurrencyERN InvoicePaymentTransactionProcessedCurrencyEnum = "ERN"
 
 	// InvoicePaymentTransactionProcessedCurrencyETB captures enum value "ETB"
-	InvoicePaymentTransactionProcessedCurrencyETB string = "ETB"
+	InvoicePaymentTransactionProcessedCurrencyETB InvoicePaymentTransactionProcessedCurrencyEnum = "ETB"
 
 	// InvoicePaymentTransactionProcessedCurrencyEUR captures enum value "EUR"
-	InvoicePaymentTransactionProcessedCurrencyEUR string = "EUR"
+	InvoicePaymentTransactionProcessedCurrencyEUR InvoicePaymentTransactionProcessedCurrencyEnum = "EUR"
 
 	// InvoicePaymentTransactionProcessedCurrencyFJD captures enum value "FJD"
-	InvoicePaymentTransactionProcessedCurrencyFJD string = "FJD"
+	InvoicePaymentTransactionProcessedCurrencyFJD InvoicePaymentTransactionProcessedCurrencyEnum = "FJD"
 
 	// InvoicePaymentTransactionProcessedCurrencyFKP captures enum value "FKP"
-	InvoicePaymentTransactionProcessedCurrencyFKP string = "FKP"
+	InvoicePaymentTransactionProcessedCurrencyFKP InvoicePaymentTransactionProcessedCurrencyEnum = "FKP"
 
 	// InvoicePaymentTransactionProcessedCurrencyGBP captures enum value "GBP"
-	InvoicePaymentTransactionProcessedCurrencyGBP string = "GBP"
+	InvoicePaymentTransactionProcessedCurrencyGBP InvoicePaymentTransactionProcessedCurrencyEnum = "GBP"
 
 	// InvoicePaymentTransactionProcessedCurrencyGEL captures enum value "GEL"
-	InvoicePaymentTransactionProcessedCurrencyGEL string = "GEL"
+	InvoicePaymentTransactionProcessedCurrencyGEL InvoicePaymentTransactionProcessedCurrencyEnum = "GEL"
 
 	// InvoicePaymentTransactionProcessedCurrencyGGP captures enum value "GGP"
-	InvoicePaymentTransactionProcessedCurrencyGGP string = "GGP"
+	InvoicePaymentTransactionProcessedCurrencyGGP InvoicePaymentTransactionProcessedCurrencyEnum = "GGP"
 
 	// InvoicePaymentTransactionProcessedCurrencyGHS captures enum value "GHS"
-	InvoicePaymentTransactionProcessedCurrencyGHS string = "GHS"
+	InvoicePaymentTransactionProcessedCurrencyGHS InvoicePaymentTransactionProcessedCurrencyEnum = "GHS"
 
 	// InvoicePaymentTransactionProcessedCurrencyGIP captures enum value "GIP"
-	InvoicePaymentTransactionProcessedCurrencyGIP string = "GIP"
+	InvoicePaymentTransactionProcessedCurrencyGIP InvoicePaymentTransactionProcessedCurrencyEnum = "GIP"
 
 	// InvoicePaymentTransactionProcessedCurrencyGMD captures enum value "GMD"
-	InvoicePaymentTransactionProcessedCurrencyGMD string = "GMD"
+	InvoicePaymentTransactionProcessedCurrencyGMD InvoicePaymentTransactionProcessedCurrencyEnum = "GMD"
 
 	// InvoicePaymentTransactionProcessedCurrencyGNF captures enum value "GNF"
-	InvoicePaymentTransactionProcessedCurrencyGNF string = "GNF"
+	InvoicePaymentTransactionProcessedCurrencyGNF InvoicePaymentTransactionProcessedCurrencyEnum = "GNF"
 
 	// InvoicePaymentTransactionProcessedCurrencyGTQ captures enum value "GTQ"
-	InvoicePaymentTransactionProcessedCurrencyGTQ string = "GTQ"
+	InvoicePaymentTransactionProcessedCurrencyGTQ InvoicePaymentTransactionProcessedCurrencyEnum = "GTQ"
 
 	// InvoicePaymentTransactionProcessedCurrencyGYD captures enum value "GYD"
-	InvoicePaymentTransactionProcessedCurrencyGYD string = "GYD"
+	InvoicePaymentTransactionProcessedCurrencyGYD InvoicePaymentTransactionProcessedCurrencyEnum = "GYD"
 
 	// InvoicePaymentTransactionProcessedCurrencyHKD captures enum value "HKD"
-	InvoicePaymentTransactionProcessedCurrencyHKD string = "HKD"
+	InvoicePaymentTransactionProcessedCurrencyHKD InvoicePaymentTransactionProcessedCurrencyEnum = "HKD"
 
 	// InvoicePaymentTransactionProcessedCurrencyHNL captures enum value "HNL"
-	InvoicePaymentTransactionProcessedCurrencyHNL string = "HNL"
+	InvoicePaymentTransactionProcessedCurrencyHNL InvoicePaymentTransactionProcessedCurrencyEnum = "HNL"
 
 	// InvoicePaymentTransactionProcessedCurrencyHRK captures enum value "HRK"
-	InvoicePaymentTransactionProcessedCurrencyHRK string = "HRK"
+	InvoicePaymentTransactionProcessedCurrencyHRK InvoicePaymentTransactionProcessedCurrencyEnum = "HRK"
 
 	// InvoicePaymentTransactionProcessedCurrencyHTG captures enum value "HTG"
-	InvoicePaymentTransactionProcessedCurrencyHTG string = "HTG"
+	InvoicePaymentTransactionProcessedCurrencyHTG InvoicePaymentTransactionProcessedCurrencyEnum = "HTG"
 
 	// InvoicePaymentTransactionProcessedCurrencyHUF captures enum value "HUF"
-	InvoicePaymentTransactionProcessedCurrencyHUF string = "HUF"
+	InvoicePaymentTransactionProcessedCurrencyHUF InvoicePaymentTransactionProcessedCurrencyEnum = "HUF"
 
 	// InvoicePaymentTransactionProcessedCurrencyIDR captures enum value "IDR"
-	InvoicePaymentTransactionProcessedCurrencyIDR string = "IDR"
+	InvoicePaymentTransactionProcessedCurrencyIDR InvoicePaymentTransactionProcessedCurrencyEnum = "IDR"
 
 	// InvoicePaymentTransactionProcessedCurrencyILS captures enum value "ILS"
-	InvoicePaymentTransactionProcessedCurrencyILS string = "ILS"
+	InvoicePaymentTransactionProcessedCurrencyILS InvoicePaymentTransactionProcessedCurrencyEnum = "ILS"
 
 	// InvoicePaymentTransactionProcessedCurrencyIMP captures enum value "IMP"
-	InvoicePaymentTransactionProcessedCurrencyIMP string = "IMP"
+	InvoicePaymentTransactionProcessedCurrencyIMP InvoicePaymentTransactionProcessedCurrencyEnum = "IMP"
 
 	// InvoicePaymentTransactionProcessedCurrencyINR captures enum value "INR"
-	InvoicePaymentTransactionProcessedCurrencyINR string = "INR"
+	InvoicePaymentTransactionProcessedCurrencyINR InvoicePaymentTransactionProcessedCurrencyEnum = "INR"
 
 	// InvoicePaymentTransactionProcessedCurrencyIQD captures enum value "IQD"
-	InvoicePaymentTransactionProcessedCurrencyIQD string = "IQD"
+	InvoicePaymentTransactionProcessedCurrencyIQD InvoicePaymentTransactionProcessedCurrencyEnum = "IQD"
 
 	// InvoicePaymentTransactionProcessedCurrencyIRR captures enum value "IRR"
-	InvoicePaymentTransactionProcessedCurrencyIRR string = "IRR"
+	InvoicePaymentTransactionProcessedCurrencyIRR InvoicePaymentTransactionProcessedCurrencyEnum = "IRR"
 
 	// InvoicePaymentTransactionProcessedCurrencyISK captures enum value "ISK"
-	InvoicePaymentTransactionProcessedCurrencyISK string = "ISK"
+	InvoicePaymentTransactionProcessedCurrencyISK InvoicePaymentTransactionProcessedCurrencyEnum = "ISK"
 
 	// InvoicePaymentTransactionProcessedCurrencyJEP captures enum value "JEP"
-	InvoicePaymentTransactionProcessedCurrencyJEP string = "JEP"
+	InvoicePaymentTransactionProcessedCurrencyJEP InvoicePaymentTransactionProcessedCurrencyEnum = "JEP"
 
 	// InvoicePaymentTransactionProcessedCurrencyJMD captures enum value "JMD"
-	InvoicePaymentTransactionProcessedCurrencyJMD string = "JMD"
+	InvoicePaymentTransactionProcessedCurrencyJMD InvoicePaymentTransactionProcessedCurrencyEnum = "JMD"
 
 	// InvoicePaymentTransactionProcessedCurrencyJOD captures enum value "JOD"
-	InvoicePaymentTransactionProcessedCurrencyJOD string = "JOD"
+	InvoicePaymentTransactionProcessedCurrencyJOD InvoicePaymentTransactionProcessedCurrencyEnum = "JOD"
 
 	// InvoicePaymentTransactionProcessedCurrencyJPY captures enum value "JPY"
-	InvoicePaymentTransactionProcessedCurrencyJPY string = "JPY"
+	InvoicePaymentTransactionProcessedCurrencyJPY InvoicePaymentTransactionProcessedCurrencyEnum = "JPY"
 
 	// InvoicePaymentTransactionProcessedCurrencyKES captures enum value "KES"
-	InvoicePaymentTransactionProcessedCurrencyKES string = "KES"
+	InvoicePaymentTransactionProcessedCurrencyKES InvoicePaymentTransactionProcessedCurrencyEnum = "KES"
 
 	// InvoicePaymentTransactionProcessedCurrencyKGS captures enum value "KGS"
-	InvoicePaymentTransactionProcessedCurrencyKGS string = "KGS"
+	InvoicePaymentTransactionProcessedCurrencyKGS InvoicePaymentTransactionProcessedCurrencyEnum = "KGS"
 
 	// InvoicePaymentTransactionProcessedCurrencyKHR captures enum value "KHR"
-	InvoicePaymentTransactionProcessedCurrencyKHR string = "KHR"
+	InvoicePaymentTransactionProcessedCurrencyKHR InvoicePaymentTransactionProcessedCurrencyEnum = "KHR"
 
 	// InvoicePaymentTransactionProcessedCurrencyKMF captures enum value "KMF"
-	InvoicePaymentTransactionProcessedCurrencyKMF string = "KMF"
+	InvoicePaymentTransactionProcessedCurrencyKMF InvoicePaymentTransactionProcessedCurrencyEnum = "KMF"
 
 	// InvoicePaymentTransactionProcessedCurrencyKPW captures enum value "KPW"
-	InvoicePaymentTransactionProcessedCurrencyKPW string = "KPW"
+	InvoicePaymentTransactionProcessedCurrencyKPW InvoicePaymentTransactionProcessedCurrencyEnum = "KPW"
 
 	// InvoicePaymentTransactionProcessedCurrencyKRW captures enum value "KRW"
-	InvoicePaymentTransactionProcessedCurrencyKRW string = "KRW"
+	InvoicePaymentTransactionProcessedCurrencyKRW InvoicePaymentTransactionProcessedCurrencyEnum = "KRW"
 
 	// InvoicePaymentTransactionProcessedCurrencyKWD captures enum value "KWD"
-	InvoicePaymentTransactionProcessedCurrencyKWD string = "KWD"
+	InvoicePaymentTransactionProcessedCurrencyKWD InvoicePaymentTransactionProcessedCurrencyEnum = "KWD"
 
 	// InvoicePaymentTransactionProcessedCurrencyKYD captures enum value "KYD"
-	InvoicePaymentTransactionProcessedCurrencyKYD string = "KYD"
+	InvoicePaymentTransactionProcessedCurrencyKYD InvoicePaymentTransactionProcessedCurrencyEnum = "KYD"
 
 	// InvoicePaymentTransactionProcessedCurrencyKZT captures enum value "KZT"
-	InvoicePaymentTransactionProcessedCurrencyKZT string = "KZT"
+	InvoicePaymentTransactionProcessedCurrencyKZT InvoicePaymentTransactionProcessedCurrencyEnum = "KZT"
 
 	// InvoicePaymentTransactionProcessedCurrencyLAK captures enum value "LAK"
-	InvoicePaymentTransactionProcessedCurrencyLAK string = "LAK"
+	InvoicePaymentTransactionProcessedCurrencyLAK InvoicePaymentTransactionProcessedCurrencyEnum = "LAK"
 
 	// InvoicePaymentTransactionProcessedCurrencyLBP captures enum value "LBP"
-	InvoicePaymentTransactionProcessedCurrencyLBP string = "LBP"
+	InvoicePaymentTransactionProcessedCurrencyLBP InvoicePaymentTransactionProcessedCurrencyEnum = "LBP"
 
 	// InvoicePaymentTransactionProcessedCurrencyLKR captures enum value "LKR"
-	InvoicePaymentTransactionProcessedCurrencyLKR string = "LKR"
+	InvoicePaymentTransactionProcessedCurrencyLKR InvoicePaymentTransactionProcessedCurrencyEnum = "LKR"
 
 	// InvoicePaymentTransactionProcessedCurrencyLRD captures enum value "LRD"
-	InvoicePaymentTransactionProcessedCurrencyLRD string = "LRD"
+	InvoicePaymentTransactionProcessedCurrencyLRD InvoicePaymentTransactionProcessedCurrencyEnum = "LRD"
 
 	// InvoicePaymentTransactionProcessedCurrencyLSL captures enum value "LSL"
-	InvoicePaymentTransactionProcessedCurrencyLSL string = "LSL"
+	InvoicePaymentTransactionProcessedCurrencyLSL InvoicePaymentTransactionProcessedCurrencyEnum = "LSL"
 
 	// InvoicePaymentTransactionProcessedCurrencyLTL captures enum value "LTL"
-	InvoicePaymentTransactionProcessedCurrencyLTL string = "LTL"
+	InvoicePaymentTransactionProcessedCurrencyLTL InvoicePaymentTransactionProcessedCurrencyEnum = "LTL"
 
 	// InvoicePaymentTransactionProcessedCurrencyLVL captures enum value "LVL"
-	InvoicePaymentTransactionProcessedCurrencyLVL string = "LVL"
+	InvoicePaymentTransactionProcessedCurrencyLVL InvoicePaymentTransactionProcessedCurrencyEnum = "LVL"
 
 	// InvoicePaymentTransactionProcessedCurrencyLYD captures enum value "LYD"
-	InvoicePaymentTransactionProcessedCurrencyLYD string = "LYD"
+	InvoicePaymentTransactionProcessedCurrencyLYD InvoicePaymentTransactionProcessedCurrencyEnum = "LYD"
 
 	// InvoicePaymentTransactionProcessedCurrencyMAD captures enum value "MAD"
-	InvoicePaymentTransactionProcessedCurrencyMAD string = "MAD"
+	InvoicePaymentTransactionProcessedCurrencyMAD InvoicePaymentTransactionProcessedCurrencyEnum = "MAD"
 
 	// InvoicePaymentTransactionProcessedCurrencyMDL captures enum value "MDL"
-	InvoicePaymentTransactionProcessedCurrencyMDL string = "MDL"
+	InvoicePaymentTransactionProcessedCurrencyMDL InvoicePaymentTransactionProcessedCurrencyEnum = "MDL"
 
 	// InvoicePaymentTransactionProcessedCurrencyMGA captures enum value "MGA"
-	InvoicePaymentTransactionProcessedCurrencyMGA string = "MGA"
+	InvoicePaymentTransactionProcessedCurrencyMGA InvoicePaymentTransactionProcessedCurrencyEnum = "MGA"
 
 	// InvoicePaymentTransactionProcessedCurrencyMKD captures enum value "MKD"
-	InvoicePaymentTransactionProcessedCurrencyMKD string = "MKD"
+	InvoicePaymentTransactionProcessedCurrencyMKD InvoicePaymentTransactionProcessedCurrencyEnum = "MKD"
 
 	// InvoicePaymentTransactionProcessedCurrencyMMK captures enum value "MMK"
-	InvoicePaymentTransactionProcessedCurrencyMMK string = "MMK"
+	InvoicePaymentTransactionProcessedCurrencyMMK InvoicePaymentTransactionProcessedCurrencyEnum = "MMK"
 
 	// InvoicePaymentTransactionProcessedCurrencyMNT captures enum value "MNT"
-	InvoicePaymentTransactionProcessedCurrencyMNT string = "MNT"
+	InvoicePaymentTransactionProcessedCurrencyMNT InvoicePaymentTransactionProcessedCurrencyEnum = "MNT"
 
 	// InvoicePaymentTransactionProcessedCurrencyMOP captures enum value "MOP"
-	InvoicePaymentTransactionProcessedCurrencyMOP string = "MOP"
+	InvoicePaymentTransactionProcessedCurrencyMOP InvoicePaymentTransactionProcessedCurrencyEnum = "MOP"
 
 	// InvoicePaymentTransactionProcessedCurrencyMRO captures enum value "MRO"
-	InvoicePaymentTransactionProcessedCurrencyMRO string = "MRO"
+	InvoicePaymentTransactionProcessedCurrencyMRO InvoicePaymentTransactionProcessedCurrencyEnum = "MRO"
 
 	// InvoicePaymentTransactionProcessedCurrencyMUR captures enum value "MUR"
-	InvoicePaymentTransactionProcessedCurrencyMUR string = "MUR"
+	InvoicePaymentTransactionProcessedCurrencyMUR InvoicePaymentTransactionProcessedCurrencyEnum = "MUR"
 
 	// InvoicePaymentTransactionProcessedCurrencyMVR captures enum value "MVR"
-	InvoicePaymentTransactionProcessedCurrencyMVR string = "MVR"
+	InvoicePaymentTransactionProcessedCurrencyMVR InvoicePaymentTransactionProcessedCurrencyEnum = "MVR"
 
 	// InvoicePaymentTransactionProcessedCurrencyMWK captures enum value "MWK"
-	InvoicePaymentTransactionProcessedCurrencyMWK string = "MWK"
+	InvoicePaymentTransactionProcessedCurrencyMWK InvoicePaymentTransactionProcessedCurrencyEnum = "MWK"
 
 	// InvoicePaymentTransactionProcessedCurrencyMXN captures enum value "MXN"
-	InvoicePaymentTransactionProcessedCurrencyMXN string = "MXN"
+	InvoicePaymentTransactionProcessedCurrencyMXN InvoicePaymentTransactionProcessedCurrencyEnum = "MXN"
 
 	// InvoicePaymentTransactionProcessedCurrencyMYR captures enum value "MYR"
-	InvoicePaymentTransactionProcessedCurrencyMYR string = "MYR"
+	InvoicePaymentTransactionProcessedCurrencyMYR InvoicePaymentTransactionProcessedCurrencyEnum = "MYR"
 
 	// InvoicePaymentTransactionProcessedCurrencyMZN captures enum value "MZN"
-	InvoicePaymentTransactionProcessedCurrencyMZN string = "MZN"
+	InvoicePaymentTransactionProcessedCurrencyMZN InvoicePaymentTransactionProcessedCurrencyEnum = "MZN"
 
 	// InvoicePaymentTransactionProcessedCurrencyNAD captures enum value "NAD"
-	InvoicePaymentTransactionProcessedCurrencyNAD string = "NAD"
+	InvoicePaymentTransactionProcessedCurrencyNAD InvoicePaymentTransactionProcessedCurrencyEnum = "NAD"
 
 	// InvoicePaymentTransactionProcessedCurrencyNGN captures enum value "NGN"
-	InvoicePaymentTransactionProcessedCurrencyNGN string = "NGN"
+	InvoicePaymentTransactionProcessedCurrencyNGN InvoicePaymentTransactionProcessedCurrencyEnum = "NGN"
 
 	// InvoicePaymentTransactionProcessedCurrencyNIO captures enum value "NIO"
-	InvoicePaymentTransactionProcessedCurrencyNIO string = "NIO"
+	InvoicePaymentTransactionProcessedCurrencyNIO InvoicePaymentTransactionProcessedCurrencyEnum = "NIO"
 
 	// InvoicePaymentTransactionProcessedCurrencyNOK captures enum value "NOK"
-	InvoicePaymentTransactionProcessedCurrencyNOK string = "NOK"
+	InvoicePaymentTransactionProcessedCurrencyNOK InvoicePaymentTransactionProcessedCurrencyEnum = "NOK"
 
 	// InvoicePaymentTransactionProcessedCurrencyNPR captures enum value "NPR"
-	InvoicePaymentTransactionProcessedCurrencyNPR string = "NPR"
+	InvoicePaymentTransactionProcessedCurrencyNPR InvoicePaymentTransactionProcessedCurrencyEnum = "NPR"
 
 	// InvoicePaymentTransactionProcessedCurrencyNZD captures enum value "NZD"
-	InvoicePaymentTransactionProcessedCurrencyNZD string = "NZD"
+	InvoicePaymentTransactionProcessedCurrencyNZD InvoicePaymentTransactionProcessedCurrencyEnum = "NZD"
 
 	// InvoicePaymentTransactionProcessedCurrencyOMR captures enum value "OMR"
-	InvoicePaymentTransactionProcessedCurrencyOMR string = "OMR"
+	InvoicePaymentTransactionProcessedCurrencyOMR InvoicePaymentTransactionProcessedCurrencyEnum = "OMR"
 
 	// InvoicePaymentTransactionProcessedCurrencyPAB captures enum value "PAB"
-	InvoicePaymentTransactionProcessedCurrencyPAB string = "PAB"
+	InvoicePaymentTransactionProcessedCurrencyPAB InvoicePaymentTransactionProcessedCurrencyEnum = "PAB"
 
 	// InvoicePaymentTransactionProcessedCurrencyPEN captures enum value "PEN"
-	InvoicePaymentTransactionProcessedCurrencyPEN string = "PEN"
+	InvoicePaymentTransactionProcessedCurrencyPEN InvoicePaymentTransactionProcessedCurrencyEnum = "PEN"
 
 	// InvoicePaymentTransactionProcessedCurrencyPGK captures enum value "PGK"
-	InvoicePaymentTransactionProcessedCurrencyPGK string = "PGK"
+	InvoicePaymentTransactionProcessedCurrencyPGK InvoicePaymentTransactionProcessedCurrencyEnum = "PGK"
 
 	// InvoicePaymentTransactionProcessedCurrencyPHP captures enum value "PHP"
-	InvoicePaymentTransactionProcessedCurrencyPHP string = "PHP"
+	InvoicePaymentTransactionProcessedCurrencyPHP InvoicePaymentTransactionProcessedCurrencyEnum = "PHP"
 
 	// InvoicePaymentTransactionProcessedCurrencyPKR captures enum value "PKR"
-	InvoicePaymentTransactionProcessedCurrencyPKR string = "PKR"
+	InvoicePaymentTransactionProcessedCurrencyPKR InvoicePaymentTransactionProcessedCurrencyEnum = "PKR"
 
 	// InvoicePaymentTransactionProcessedCurrencyPLN captures enum value "PLN"
-	InvoicePaymentTransactionProcessedCurrencyPLN string = "PLN"
+	InvoicePaymentTransactionProcessedCurrencyPLN InvoicePaymentTransactionProcessedCurrencyEnum = "PLN"
 
 	// InvoicePaymentTransactionProcessedCurrencyPYG captures enum value "PYG"
-	InvoicePaymentTransactionProcessedCurrencyPYG string = "PYG"
+	InvoicePaymentTransactionProcessedCurrencyPYG InvoicePaymentTransactionProcessedCurrencyEnum = "PYG"
 
 	// InvoicePaymentTransactionProcessedCurrencyQAR captures enum value "QAR"
-	InvoicePaymentTransactionProcessedCurrencyQAR string = "QAR"
+	InvoicePaymentTransactionProcessedCurrencyQAR InvoicePaymentTransactionProcessedCurrencyEnum = "QAR"
 
 	// InvoicePaymentTransactionProcessedCurrencyRON captures enum value "RON"
-	InvoicePaymentTransactionProcessedCurrencyRON string = "RON"
+	InvoicePaymentTransactionProcessedCurrencyRON InvoicePaymentTransactionProcessedCurrencyEnum = "RON"
 
 	// InvoicePaymentTransactionProcessedCurrencyRSD captures enum value "RSD"
-	InvoicePaymentTransactionProcessedCurrencyRSD string = "RSD"
+	InvoicePaymentTransactionProcessedCurrencyRSD InvoicePaymentTransactionProcessedCurrencyEnum = "RSD"
 
 	// InvoicePaymentTransactionProcessedCurrencyRUB captures enum value "RUB"
-	InvoicePaymentTransactionProcessedCurrencyRUB string = "RUB"
+	InvoicePaymentTransactionProcessedCurrencyRUB InvoicePaymentTransactionProcessedCurrencyEnum = "RUB"
 
 	// InvoicePaymentTransactionProcessedCurrencyRWF captures enum value "RWF"
-	InvoicePaymentTransactionProcessedCurrencyRWF string = "RWF"
+	InvoicePaymentTransactionProcessedCurrencyRWF InvoicePaymentTransactionProcessedCurrencyEnum = "RWF"
 
 	// InvoicePaymentTransactionProcessedCurrencySAR captures enum value "SAR"
-	InvoicePaymentTransactionProcessedCurrencySAR string = "SAR"
+	InvoicePaymentTransactionProcessedCurrencySAR InvoicePaymentTransactionProcessedCurrencyEnum = "SAR"
 
 	// InvoicePaymentTransactionProcessedCurrencySBD captures enum value "SBD"
-	InvoicePaymentTransactionProcessedCurrencySBD string = "SBD"
+	InvoicePaymentTransactionProcessedCurrencySBD InvoicePaymentTransactionProcessedCurrencyEnum = "SBD"
 
 	// InvoicePaymentTransactionProcessedCurrencySCR captures enum value "SCR"
-	InvoicePaymentTransactionProcessedCurrencySCR string = "SCR"
+	InvoicePaymentTransactionProcessedCurrencySCR InvoicePaymentTransactionProcessedCurrencyEnum = "SCR"
 
 	// InvoicePaymentTransactionProcessedCurrencySDG captures enum value "SDG"
-	InvoicePaymentTransactionProcessedCurrencySDG string = "SDG"
+	InvoicePaymentTransactionProcessedCurrencySDG InvoicePaymentTransactionProcessedCurrencyEnum = "SDG"
 
 	// InvoicePaymentTransactionProcessedCurrencySEK captures enum value "SEK"
-	InvoicePaymentTransactionProcessedCurrencySEK string = "SEK"
+	InvoicePaymentTransactionProcessedCurrencySEK InvoicePaymentTransactionProcessedCurrencyEnum = "SEK"
 
 	// InvoicePaymentTransactionProcessedCurrencySGD captures enum value "SGD"
-	InvoicePaymentTransactionProcessedCurrencySGD string = "SGD"
+	InvoicePaymentTransactionProcessedCurrencySGD InvoicePaymentTransactionProcessedCurrencyEnum = "SGD"
 
 	// InvoicePaymentTransactionProcessedCurrencySHP captures enum value "SHP"
-	InvoicePaymentTransactionProcessedCurrencySHP string = "SHP"
+	InvoicePaymentTransactionProcessedCurrencySHP InvoicePaymentTransactionProcessedCurrencyEnum = "SHP"
 
 	// InvoicePaymentTransactionProcessedCurrencySLL captures enum value "SLL"
-	InvoicePaymentTransactionProcessedCurrencySLL string = "SLL"
+	InvoicePaymentTransactionProcessedCurrencySLL InvoicePaymentTransactionProcessedCurrencyEnum = "SLL"
 
 	// InvoicePaymentTransactionProcessedCurrencySOS captures enum value "SOS"
-	InvoicePaymentTransactionProcessedCurrencySOS string = "SOS"
+	InvoicePaymentTransactionProcessedCurrencySOS InvoicePaymentTransactionProcessedCurrencyEnum = "SOS"
 
 	// InvoicePaymentTransactionProcessedCurrencySPL captures enum value "SPL"
-	InvoicePaymentTransactionProcessedCurrencySPL string = "SPL"
+	InvoicePaymentTransactionProcessedCurrencySPL InvoicePaymentTransactionProcessedCurrencyEnum = "SPL"
 
 	// InvoicePaymentTransactionProcessedCurrencySRD captures enum value "SRD"
-	InvoicePaymentTransactionProcessedCurrencySRD string = "SRD"
+	InvoicePaymentTransactionProcessedCurrencySRD InvoicePaymentTransactionProcessedCurrencyEnum = "SRD"
 
 	// InvoicePaymentTransactionProcessedCurrencySTD captures enum value "STD"
-	InvoicePaymentTransactionProcessedCurrencySTD string = "STD"
+	InvoicePaymentTransactionProcessedCurrencySTD InvoicePaymentTransactionProcessedCurrencyEnum = "STD"
 
 	// InvoicePaymentTransactionProcessedCurrencySVC captures enum value "SVC"
-	InvoicePaymentTransactionProcessedCurrencySVC string = "SVC"
+	InvoicePaymentTransactionProcessedCurrencySVC InvoicePaymentTransactionProcessedCurrencyEnum = "SVC"
 
 	// InvoicePaymentTransactionProcessedCurrencySYP captures enum value "SYP"
-	InvoicePaymentTransactionProcessedCurrencySYP string = "SYP"
+	InvoicePaymentTransactionProcessedCurrencySYP InvoicePaymentTransactionProcessedCurrencyEnum = "SYP"
 
 	// InvoicePaymentTransactionProcessedCurrencySZL captures enum value "SZL"
-	InvoicePaymentTransactionProcessedCurrencySZL string = "SZL"
+	InvoicePaymentTransactionProcessedCurrencySZL InvoicePaymentTransactionProcessedCurrencyEnum = "SZL"
 
 	// InvoicePaymentTransactionProcessedCurrencyTHB captures enum value "THB"
-	InvoicePaymentTransactionProcessedCurrencyTHB string = "THB"
+	InvoicePaymentTransactionProcessedCurrencyTHB InvoicePaymentTransactionProcessedCurrencyEnum = "THB"
 
 	// InvoicePaymentTransactionProcessedCurrencyTJS captures enum value "TJS"
-	InvoicePaymentTransactionProcessedCurrencyTJS string = "TJS"
+	InvoicePaymentTransactionProcessedCurrencyTJS InvoicePaymentTransactionProcessedCurrencyEnum = "TJS"
 
 	// InvoicePaymentTransactionProcessedCurrencyTMT captures enum value "TMT"
-	InvoicePaymentTransactionProcessedCurrencyTMT string = "TMT"
+	InvoicePaymentTransactionProcessedCurrencyTMT InvoicePaymentTransactionProcessedCurrencyEnum = "TMT"
 
 	// InvoicePaymentTransactionProcessedCurrencyTND captures enum value "TND"
-	InvoicePaymentTransactionProcessedCurrencyTND string = "TND"
+	InvoicePaymentTransactionProcessedCurrencyTND InvoicePaymentTransactionProcessedCurrencyEnum = "TND"
 
 	// InvoicePaymentTransactionProcessedCurrencyTOP captures enum value "TOP"
-	InvoicePaymentTransactionProcessedCurrencyTOP string = "TOP"
+	InvoicePaymentTransactionProcessedCurrencyTOP InvoicePaymentTransactionProcessedCurrencyEnum = "TOP"
 
 	// InvoicePaymentTransactionProcessedCurrencyTRY captures enum value "TRY"
-	InvoicePaymentTransactionProcessedCurrencyTRY string = "TRY"
+	InvoicePaymentTransactionProcessedCurrencyTRY InvoicePaymentTransactionProcessedCurrencyEnum = "TRY"
 
 	// InvoicePaymentTransactionProcessedCurrencyTTD captures enum value "TTD"
-	InvoicePaymentTransactionProcessedCurrencyTTD string = "TTD"
+	InvoicePaymentTransactionProcessedCurrencyTTD InvoicePaymentTransactionProcessedCurrencyEnum = "TTD"
 
 	// InvoicePaymentTransactionProcessedCurrencyTVD captures enum value "TVD"
-	InvoicePaymentTransactionProcessedCurrencyTVD string = "TVD"
+	InvoicePaymentTransactionProcessedCurrencyTVD InvoicePaymentTransactionProcessedCurrencyEnum = "TVD"
 
 	// InvoicePaymentTransactionProcessedCurrencyTWD captures enum value "TWD"
-	InvoicePaymentTransactionProcessedCurrencyTWD string = "TWD"
+	InvoicePaymentTransactionProcessedCurrencyTWD InvoicePaymentTransactionProcessedCurrencyEnum = "TWD"
 
 	// InvoicePaymentTransactionProcessedCurrencyTZS captures enum value "TZS"
-	InvoicePaymentTransactionProcessedCurrencyTZS string = "TZS"
+	InvoicePaymentTransactionProcessedCurrencyTZS InvoicePaymentTransactionProcessedCurrencyEnum = "TZS"
 
 	// InvoicePaymentTransactionProcessedCurrencyUAH captures enum value "UAH"
-	InvoicePaymentTransactionProcessedCurrencyUAH string = "UAH"
+	InvoicePaymentTransactionProcessedCurrencyUAH InvoicePaymentTransactionProcessedCurrencyEnum = "UAH"
 
 	// InvoicePaymentTransactionProcessedCurrencyUGX captures enum value "UGX"
-	InvoicePaymentTransactionProcessedCurrencyUGX string = "UGX"
+	InvoicePaymentTransactionProcessedCurrencyUGX InvoicePaymentTransactionProcessedCurrencyEnum = "UGX"
 
 	// InvoicePaymentTransactionProcessedCurrencyUSD captures enum value "USD"
-	InvoicePaymentTransactionProcessedCurrencyUSD string = "USD"
+	InvoicePaymentTransactionProcessedCurrencyUSD InvoicePaymentTransactionProcessedCurrencyEnum = "USD"
 
 	// InvoicePaymentTransactionProcessedCurrencyUYU captures enum value "UYU"
-	InvoicePaymentTransactionProcessedCurrencyUYU string = "UYU"
+	InvoicePaymentTransactionProcessedCurrencyUYU InvoicePaymentTransactionProcessedCurrencyEnum = "UYU"
 
 	// InvoicePaymentTransactionProcessedCurrencyUZS captures enum value "UZS"
-	InvoicePaymentTransactionProcessedCurrencyUZS string = "UZS"
+	InvoicePaymentTransactionProcessedCurrencyUZS InvoicePaymentTransactionProcessedCurrencyEnum = "UZS"
 
 	// InvoicePaymentTransactionProcessedCurrencyVEF captures enum value "VEF"
-	InvoicePaymentTransactionProcessedCurrencyVEF string = "VEF"
+	InvoicePaymentTransactionProcessedCurrencyVEF InvoicePaymentTransactionProcessedCurrencyEnum = "VEF"
 
 	// InvoicePaymentTransactionProcessedCurrencyVND captures enum value "VND"
-	InvoicePaymentTransactionProcessedCurrencyVND string = "VND"
+	InvoicePaymentTransactionProcessedCurrencyVND InvoicePaymentTransactionProcessedCurrencyEnum = "VND"
 
 	// InvoicePaymentTransactionProcessedCurrencyVUV captures enum value "VUV"
-	InvoicePaymentTransactionProcessedCurrencyVUV string = "VUV"
+	InvoicePaymentTransactionProcessedCurrencyVUV InvoicePaymentTransactionProcessedCurrencyEnum = "VUV"
 
 	// InvoicePaymentTransactionProcessedCurrencyWST captures enum value "WST"
-	InvoicePaymentTransactionProcessedCurrencyWST string = "WST"
+	InvoicePaymentTransactionProcessedCurrencyWST InvoicePaymentTransactionProcessedCurrencyEnum = "WST"
 
 	// InvoicePaymentTransactionProcessedCurrencyXAF captures enum value "XAF"
-	InvoicePaymentTransactionProcessedCurrencyXAF string = "XAF"
+	InvoicePaymentTransactionProcessedCurrencyXAF InvoicePaymentTransactionProcessedCurrencyEnum = "XAF"
 
 	// InvoicePaymentTransactionProcessedCurrencyXCD captures enum value "XCD"
-	InvoicePaymentTransactionProcessedCurrencyXCD string = "XCD"
+	InvoicePaymentTransactionProcessedCurrencyXCD InvoicePaymentTransactionProcessedCurrencyEnum = "XCD"
 
 	// InvoicePaymentTransactionProcessedCurrencyXDR captures enum value "XDR"
-	InvoicePaymentTransactionProcessedCurrencyXDR string = "XDR"
+	InvoicePaymentTransactionProcessedCurrencyXDR InvoicePaymentTransactionProcessedCurrencyEnum = "XDR"
 
 	// InvoicePaymentTransactionProcessedCurrencyXOF captures enum value "XOF"
-	InvoicePaymentTransactionProcessedCurrencyXOF string = "XOF"
+	InvoicePaymentTransactionProcessedCurrencyXOF InvoicePaymentTransactionProcessedCurrencyEnum = "XOF"
 
 	// InvoicePaymentTransactionProcessedCurrencyXPF captures enum value "XPF"
-	InvoicePaymentTransactionProcessedCurrencyXPF string = "XPF"
+	InvoicePaymentTransactionProcessedCurrencyXPF InvoicePaymentTransactionProcessedCurrencyEnum = "XPF"
 
 	// InvoicePaymentTransactionProcessedCurrencyYER captures enum value "YER"
-	InvoicePaymentTransactionProcessedCurrencyYER string = "YER"
+	InvoicePaymentTransactionProcessedCurrencyYER InvoicePaymentTransactionProcessedCurrencyEnum = "YER"
 
 	// InvoicePaymentTransactionProcessedCurrencyZAR captures enum value "ZAR"
-	InvoicePaymentTransactionProcessedCurrencyZAR string = "ZAR"
+	InvoicePaymentTransactionProcessedCurrencyZAR InvoicePaymentTransactionProcessedCurrencyEnum = "ZAR"
 
 	// InvoicePaymentTransactionProcessedCurrencyZMW captures enum value "ZMW"
-	InvoicePaymentTransactionProcessedCurrencyZMW string = "ZMW"
+	InvoicePaymentTransactionProcessedCurrencyZMW InvoicePaymentTransactionProcessedCurrencyEnum = "ZMW"
 
 	// InvoicePaymentTransactionProcessedCurrencyZWD captures enum value "ZWD"
-	InvoicePaymentTransactionProcessedCurrencyZWD string = "ZWD"
+	InvoicePaymentTransactionProcessedCurrencyZWD InvoicePaymentTransactionProcessedCurrencyEnum = "ZWD"
 
 	// InvoicePaymentTransactionProcessedCurrencyBTC captures enum value "BTC"
-	InvoicePaymentTransactionProcessedCurrencyBTC string = "BTC"
+	InvoicePaymentTransactionProcessedCurrencyBTC InvoicePaymentTransactionProcessedCurrencyEnum = "BTC"
 )
 
+var InvoicePaymentTransactionProcessedCurrencyEnumValues = []string{
+	"AED",
+	"AFN",
+	"ALL",
+	"AMD",
+	"ANG",
+	"AOA",
+	"ARS",
+	"AUD",
+	"AWG",
+	"AZN",
+	"BAM",
+	"BBD",
+	"BDT",
+	"BGN",
+	"BHD",
+	"BIF",
+	"BMD",
+	"BND",
+	"BOB",
+	"BRL",
+	"BSD",
+	"BTN",
+	"BWP",
+	"BYR",
+	"BZD",
+	"CAD",
+	"CDF",
+	"CHF",
+	"CLP",
+	"CNY",
+	"COP",
+	"CRC",
+	"CUC",
+	"CUP",
+	"CVE",
+	"CZK",
+	"DJF",
+	"DKK",
+	"DOP",
+	"DZD",
+	"EGP",
+	"ERN",
+	"ETB",
+	"EUR",
+	"FJD",
+	"FKP",
+	"GBP",
+	"GEL",
+	"GGP",
+	"GHS",
+	"GIP",
+	"GMD",
+	"GNF",
+	"GTQ",
+	"GYD",
+	"HKD",
+	"HNL",
+	"HRK",
+	"HTG",
+	"HUF",
+	"IDR",
+	"ILS",
+	"IMP",
+	"INR",
+	"IQD",
+	"IRR",
+	"ISK",
+	"JEP",
+	"JMD",
+	"JOD",
+	"JPY",
+	"KES",
+	"KGS",
+	"KHR",
+	"KMF",
+	"KPW",
+	"KRW",
+	"KWD",
+	"KYD",
+	"KZT",
+	"LAK",
+	"LBP",
+	"LKR",
+	"LRD",
+	"LSL",
+	"LTL",
+	"LVL",
+	"LYD",
+	"MAD",
+	"MDL",
+	"MGA",
+	"MKD",
+	"MMK",
+	"MNT",
+	"MOP",
+	"MRO",
+	"MUR",
+	"MVR",
+	"MWK",
+	"MXN",
+	"MYR",
+	"MZN",
+	"NAD",
+	"NGN",
+	"NIO",
+	"NOK",
+	"NPR",
+	"NZD",
+	"OMR",
+	"PAB",
+	"PEN",
+	"PGK",
+	"PHP",
+	"PKR",
+	"PLN",
+	"PYG",
+	"QAR",
+	"RON",
+	"RSD",
+	"RUB",
+	"RWF",
+	"SAR",
+	"SBD",
+	"SCR",
+	"SDG",
+	"SEK",
+	"SGD",
+	"SHP",
+	"SLL",
+	"SOS",
+	"SPL",
+	"SRD",
+	"STD",
+	"SVC",
+	"SYP",
+	"SZL",
+	"THB",
+	"TJS",
+	"TMT",
+	"TND",
+	"TOP",
+	"TRY",
+	"TTD",
+	"TVD",
+	"TWD",
+	"TZS",
+	"UAH",
+	"UGX",
+	"USD",
+	"UYU",
+	"UZS",
+	"VEF",
+	"VND",
+	"VUV",
+	"WST",
+	"XAF",
+	"XCD",
+	"XDR",
+	"XOF",
+	"XPF",
+	"YER",
+	"ZAR",
+	"ZMW",
+	"ZWD",
+	"BTC",
+}
+
+func (e InvoicePaymentTransactionProcessedCurrencyEnum) IsValid() bool {
+	for _, v := range InvoicePaymentTransactionProcessedCurrencyEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *InvoicePaymentTransaction) validateProcessedCurrencyEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, invoicePaymentTransactionTypeProcessedCurrencyPropEnum, true); err != nil {
+func (m *InvoicePaymentTransaction) validateProcessedCurrencyEnum(path, location string, value InvoicePaymentTransactionProcessedCurrencyEnum) error {
+	if err := validate.Enum(path, location, value, invoicePaymentTransactionTypeProcessedCurrencyPropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoicePaymentTransaction) validateProcessedCurrency(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ProcessedCurrency) { // not required
 		return nil
 	}
@@ -1275,6 +1634,7 @@ func (m *InvoicePaymentTransaction) validateProcessedCurrency(formats strfmt.Reg
 }
 
 func (m *InvoicePaymentTransaction) validateProperties(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Properties) { // not required
 		return nil
 	}
@@ -1288,8 +1648,6 @@ func (m *InvoicePaymentTransaction) validateProperties(formats strfmt.Registry) 
 			if err := m.Properties[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("properties" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("properties" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -1303,7 +1661,7 @@ func (m *InvoicePaymentTransaction) validateProperties(formats strfmt.Registry) 
 var invoicePaymentTransactionTypeStatusPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []InvoicePaymentTransactionStatusEnum
 	if err := json.Unmarshal([]byte(`["SUCCESS","UNKNOWN","PENDING","PAYMENT_FAILURE","PLUGIN_FAILURE","PAYMENT_SYSTEM_OFF"]`), &res); err != nil {
 		panic(err)
 	}
@@ -1312,36 +1670,57 @@ func init() {
 	}
 }
 
+type InvoicePaymentTransactionStatusEnum string
+
 const (
 
 	// InvoicePaymentTransactionStatusSUCCESS captures enum value "SUCCESS"
-	InvoicePaymentTransactionStatusSUCCESS string = "SUCCESS"
+	InvoicePaymentTransactionStatusSUCCESS InvoicePaymentTransactionStatusEnum = "SUCCESS"
 
 	// InvoicePaymentTransactionStatusUNKNOWN captures enum value "UNKNOWN"
-	InvoicePaymentTransactionStatusUNKNOWN string = "UNKNOWN"
+	InvoicePaymentTransactionStatusUNKNOWN InvoicePaymentTransactionStatusEnum = "UNKNOWN"
 
 	// InvoicePaymentTransactionStatusPENDING captures enum value "PENDING"
-	InvoicePaymentTransactionStatusPENDING string = "PENDING"
+	InvoicePaymentTransactionStatusPENDING InvoicePaymentTransactionStatusEnum = "PENDING"
 
 	// InvoicePaymentTransactionStatusPAYMENTFAILURE captures enum value "PAYMENT_FAILURE"
-	InvoicePaymentTransactionStatusPAYMENTFAILURE string = "PAYMENT_FAILURE"
+	InvoicePaymentTransactionStatusPAYMENTFAILURE InvoicePaymentTransactionStatusEnum = "PAYMENT_FAILURE"
 
 	// InvoicePaymentTransactionStatusPLUGINFAILURE captures enum value "PLUGIN_FAILURE"
-	InvoicePaymentTransactionStatusPLUGINFAILURE string = "PLUGIN_FAILURE"
+	InvoicePaymentTransactionStatusPLUGINFAILURE InvoicePaymentTransactionStatusEnum = "PLUGIN_FAILURE"
 
 	// InvoicePaymentTransactionStatusPAYMENTSYSTEMOFF captures enum value "PAYMENT_SYSTEM_OFF"
-	InvoicePaymentTransactionStatusPAYMENTSYSTEMOFF string = "PAYMENT_SYSTEM_OFF"
+	InvoicePaymentTransactionStatusPAYMENTSYSTEMOFF InvoicePaymentTransactionStatusEnum = "PAYMENT_SYSTEM_OFF"
 )
 
+var InvoicePaymentTransactionStatusEnumValues = []string{
+	"SUCCESS",
+	"UNKNOWN",
+	"PENDING",
+	"PAYMENT_FAILURE",
+	"PLUGIN_FAILURE",
+	"PAYMENT_SYSTEM_OFF",
+}
+
+func (e InvoicePaymentTransactionStatusEnum) IsValid() bool {
+	for _, v := range InvoicePaymentTransactionStatusEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *InvoicePaymentTransaction) validateStatusEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, invoicePaymentTransactionTypeStatusPropEnum, true); err != nil {
+func (m *InvoicePaymentTransaction) validateStatusEnum(path, location string, value InvoicePaymentTransactionStatusEnum) error {
+	if err := validate.Enum(path, location, value, invoicePaymentTransactionTypeStatusPropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoicePaymentTransaction) validateStatus(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -1355,6 +1734,7 @@ func (m *InvoicePaymentTransaction) validateStatus(formats strfmt.Registry) erro
 }
 
 func (m *InvoicePaymentTransaction) validateTransactionID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.TransactionID) { // not required
 		return nil
 	}
@@ -1369,7 +1749,7 @@ func (m *InvoicePaymentTransaction) validateTransactionID(formats strfmt.Registr
 var invoicePaymentTransactionTypeTransactionTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []InvoicePaymentTransactionTransactionTypeEnum
 	if err := json.Unmarshal([]byte(`["AUTHORIZE","CAPTURE","CHARGEBACK","CREDIT","PURCHASE","REFUND","VOID"]`), &res); err != nil {
 		panic(err)
 	}
@@ -1378,39 +1758,61 @@ func init() {
 	}
 }
 
+type InvoicePaymentTransactionTransactionTypeEnum string
+
 const (
 
 	// InvoicePaymentTransactionTransactionTypeAUTHORIZE captures enum value "AUTHORIZE"
-	InvoicePaymentTransactionTransactionTypeAUTHORIZE string = "AUTHORIZE"
+	InvoicePaymentTransactionTransactionTypeAUTHORIZE InvoicePaymentTransactionTransactionTypeEnum = "AUTHORIZE"
 
 	// InvoicePaymentTransactionTransactionTypeCAPTURE captures enum value "CAPTURE"
-	InvoicePaymentTransactionTransactionTypeCAPTURE string = "CAPTURE"
+	InvoicePaymentTransactionTransactionTypeCAPTURE InvoicePaymentTransactionTransactionTypeEnum = "CAPTURE"
 
 	// InvoicePaymentTransactionTransactionTypeCHARGEBACK captures enum value "CHARGEBACK"
-	InvoicePaymentTransactionTransactionTypeCHARGEBACK string = "CHARGEBACK"
+	InvoicePaymentTransactionTransactionTypeCHARGEBACK InvoicePaymentTransactionTransactionTypeEnum = "CHARGEBACK"
 
 	// InvoicePaymentTransactionTransactionTypeCREDIT captures enum value "CREDIT"
-	InvoicePaymentTransactionTransactionTypeCREDIT string = "CREDIT"
+	InvoicePaymentTransactionTransactionTypeCREDIT InvoicePaymentTransactionTransactionTypeEnum = "CREDIT"
 
 	// InvoicePaymentTransactionTransactionTypePURCHASE captures enum value "PURCHASE"
-	InvoicePaymentTransactionTransactionTypePURCHASE string = "PURCHASE"
+	InvoicePaymentTransactionTransactionTypePURCHASE InvoicePaymentTransactionTransactionTypeEnum = "PURCHASE"
 
 	// InvoicePaymentTransactionTransactionTypeREFUND captures enum value "REFUND"
-	InvoicePaymentTransactionTransactionTypeREFUND string = "REFUND"
+	InvoicePaymentTransactionTransactionTypeREFUND InvoicePaymentTransactionTransactionTypeEnum = "REFUND"
 
 	// InvoicePaymentTransactionTransactionTypeVOID captures enum value "VOID"
-	InvoicePaymentTransactionTransactionTypeVOID string = "VOID"
+	InvoicePaymentTransactionTransactionTypeVOID InvoicePaymentTransactionTransactionTypeEnum = "VOID"
 )
 
+var InvoicePaymentTransactionTransactionTypeEnumValues = []string{
+	"AUTHORIZE",
+	"CAPTURE",
+	"CHARGEBACK",
+	"CREDIT",
+	"PURCHASE",
+	"REFUND",
+	"VOID",
+}
+
+func (e InvoicePaymentTransactionTransactionTypeEnum) IsValid() bool {
+	for _, v := range InvoicePaymentTransactionTransactionTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *InvoicePaymentTransaction) validateTransactionTypeEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, invoicePaymentTransactionTypeTransactionTypePropEnum, true); err != nil {
+func (m *InvoicePaymentTransaction) validateTransactionTypeEnum(path, location string, value InvoicePaymentTransactionTransactionTypeEnum) error {
+	if err := validate.Enum(path, location, value, invoicePaymentTransactionTypeTransactionTypePropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoicePaymentTransaction) validateTransactionType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.TransactionType) { // not required
 		return nil
 	}
@@ -1418,88 +1820,6 @@ func (m *InvoicePaymentTransaction) validateTransactionType(formats strfmt.Regis
 	// value enum
 	if err := m.validateTransactionTypeEnum("transactionType", "body", m.TransactionType); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this invoice payment transaction based on the context it is used
-func (m *InvoicePaymentTransaction) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAdjustments(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateProperties(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *InvoicePaymentTransaction) contextValidateAdjustments(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Adjustments); i++ {
-
-		if m.Adjustments[i] != nil {
-			if err := m.Adjustments[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("adjustments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("adjustments" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *InvoicePaymentTransaction) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AuditLogs); i++ {
-
-		if m.AuditLogs[i] != nil {
-			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *InvoicePaymentTransaction) contextValidateProperties(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Properties); i++ {
-
-		if m.Properties[i] != nil {
-			if err := m.Properties[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("properties" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("properties" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
 	}
 
 	return nil

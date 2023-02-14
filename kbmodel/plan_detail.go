@@ -6,24 +6,23 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // PlanDetail plan detail
-//
 // swagger:model PlanDetail
 type PlanDetail struct {
 
 	// final phase billing period
 	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
-	FinalPhaseBillingPeriod string `json:"finalPhaseBillingPeriod,omitempty"`
+	FinalPhaseBillingPeriod PlanDetailFinalPhaseBillingPeriodEnum `json:"finalPhaseBillingPeriod,omitempty"`
 
 	// final phase recurring price
 	FinalPhaseRecurringPrice []*Price `json:"finalPhaseRecurringPrice"`
@@ -59,7 +58,7 @@ func (m *PlanDetail) Validate(formats strfmt.Registry) error {
 var planDetailTypeFinalPhaseBillingPeriodPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []PlanDetailFinalPhaseBillingPeriodEnum
 	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
@@ -68,69 +67,101 @@ func init() {
 	}
 }
 
+type PlanDetailFinalPhaseBillingPeriodEnum string
+
 const (
 
 	// PlanDetailFinalPhaseBillingPeriodDAILY captures enum value "DAILY"
-	PlanDetailFinalPhaseBillingPeriodDAILY string = "DAILY"
+	PlanDetailFinalPhaseBillingPeriodDAILY PlanDetailFinalPhaseBillingPeriodEnum = "DAILY"
 
 	// PlanDetailFinalPhaseBillingPeriodWEEKLY captures enum value "WEEKLY"
-	PlanDetailFinalPhaseBillingPeriodWEEKLY string = "WEEKLY"
+	PlanDetailFinalPhaseBillingPeriodWEEKLY PlanDetailFinalPhaseBillingPeriodEnum = "WEEKLY"
 
 	// PlanDetailFinalPhaseBillingPeriodBIWEEKLY captures enum value "BIWEEKLY"
-	PlanDetailFinalPhaseBillingPeriodBIWEEKLY string = "BIWEEKLY"
+	PlanDetailFinalPhaseBillingPeriodBIWEEKLY PlanDetailFinalPhaseBillingPeriodEnum = "BIWEEKLY"
 
 	// PlanDetailFinalPhaseBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
-	PlanDetailFinalPhaseBillingPeriodTHIRTYDAYS string = "THIRTY_DAYS"
+	PlanDetailFinalPhaseBillingPeriodTHIRTYDAYS PlanDetailFinalPhaseBillingPeriodEnum = "THIRTY_DAYS"
 
 	// PlanDetailFinalPhaseBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
-	PlanDetailFinalPhaseBillingPeriodTHIRTYONEDAYS string = "THIRTY_ONE_DAYS"
+	PlanDetailFinalPhaseBillingPeriodTHIRTYONEDAYS PlanDetailFinalPhaseBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// PlanDetailFinalPhaseBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
-	PlanDetailFinalPhaseBillingPeriodSIXTYDAYS string = "SIXTY_DAYS"
+	PlanDetailFinalPhaseBillingPeriodSIXTYDAYS PlanDetailFinalPhaseBillingPeriodEnum = "SIXTY_DAYS"
 
 	// PlanDetailFinalPhaseBillingPeriodNINETYDAYS captures enum value "NINETY_DAYS"
-	PlanDetailFinalPhaseBillingPeriodNINETYDAYS string = "NINETY_DAYS"
+	PlanDetailFinalPhaseBillingPeriodNINETYDAYS PlanDetailFinalPhaseBillingPeriodEnum = "NINETY_DAYS"
 
 	// PlanDetailFinalPhaseBillingPeriodMONTHLY captures enum value "MONTHLY"
-	PlanDetailFinalPhaseBillingPeriodMONTHLY string = "MONTHLY"
+	PlanDetailFinalPhaseBillingPeriodMONTHLY PlanDetailFinalPhaseBillingPeriodEnum = "MONTHLY"
 
 	// PlanDetailFinalPhaseBillingPeriodBIMESTRIAL captures enum value "BIMESTRIAL"
-	PlanDetailFinalPhaseBillingPeriodBIMESTRIAL string = "BIMESTRIAL"
+	PlanDetailFinalPhaseBillingPeriodBIMESTRIAL PlanDetailFinalPhaseBillingPeriodEnum = "BIMESTRIAL"
 
 	// PlanDetailFinalPhaseBillingPeriodQUARTERLY captures enum value "QUARTERLY"
-	PlanDetailFinalPhaseBillingPeriodQUARTERLY string = "QUARTERLY"
+	PlanDetailFinalPhaseBillingPeriodQUARTERLY PlanDetailFinalPhaseBillingPeriodEnum = "QUARTERLY"
 
 	// PlanDetailFinalPhaseBillingPeriodTRIANNUAL captures enum value "TRIANNUAL"
-	PlanDetailFinalPhaseBillingPeriodTRIANNUAL string = "TRIANNUAL"
+	PlanDetailFinalPhaseBillingPeriodTRIANNUAL PlanDetailFinalPhaseBillingPeriodEnum = "TRIANNUAL"
 
 	// PlanDetailFinalPhaseBillingPeriodBIANNUAL captures enum value "BIANNUAL"
-	PlanDetailFinalPhaseBillingPeriodBIANNUAL string = "BIANNUAL"
+	PlanDetailFinalPhaseBillingPeriodBIANNUAL PlanDetailFinalPhaseBillingPeriodEnum = "BIANNUAL"
 
 	// PlanDetailFinalPhaseBillingPeriodANNUAL captures enum value "ANNUAL"
-	PlanDetailFinalPhaseBillingPeriodANNUAL string = "ANNUAL"
+	PlanDetailFinalPhaseBillingPeriodANNUAL PlanDetailFinalPhaseBillingPeriodEnum = "ANNUAL"
 
 	// PlanDetailFinalPhaseBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
-	PlanDetailFinalPhaseBillingPeriodSESQUIENNIAL string = "SESQUIENNIAL"
+	PlanDetailFinalPhaseBillingPeriodSESQUIENNIAL PlanDetailFinalPhaseBillingPeriodEnum = "SESQUIENNIAL"
 
 	// PlanDetailFinalPhaseBillingPeriodBIENNIAL captures enum value "BIENNIAL"
-	PlanDetailFinalPhaseBillingPeriodBIENNIAL string = "BIENNIAL"
+	PlanDetailFinalPhaseBillingPeriodBIENNIAL PlanDetailFinalPhaseBillingPeriodEnum = "BIENNIAL"
 
 	// PlanDetailFinalPhaseBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
-	PlanDetailFinalPhaseBillingPeriodTRIENNIAL string = "TRIENNIAL"
+	PlanDetailFinalPhaseBillingPeriodTRIENNIAL PlanDetailFinalPhaseBillingPeriodEnum = "TRIENNIAL"
 
 	// PlanDetailFinalPhaseBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
-	PlanDetailFinalPhaseBillingPeriodNOBILLINGPERIOD string = "NO_BILLING_PERIOD"
+	PlanDetailFinalPhaseBillingPeriodNOBILLINGPERIOD PlanDetailFinalPhaseBillingPeriodEnum = "NO_BILLING_PERIOD"
 )
 
+var PlanDetailFinalPhaseBillingPeriodEnumValues = []string{
+	"DAILY",
+	"WEEKLY",
+	"BIWEEKLY",
+	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
+	"SIXTY_DAYS",
+	"NINETY_DAYS",
+	"MONTHLY",
+	"BIMESTRIAL",
+	"QUARTERLY",
+	"TRIANNUAL",
+	"BIANNUAL",
+	"ANNUAL",
+	"SESQUIENNIAL",
+	"BIENNIAL",
+	"TRIENNIAL",
+	"NO_BILLING_PERIOD",
+}
+
+func (e PlanDetailFinalPhaseBillingPeriodEnum) IsValid() bool {
+	for _, v := range PlanDetailFinalPhaseBillingPeriodEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *PlanDetail) validateFinalPhaseBillingPeriodEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, planDetailTypeFinalPhaseBillingPeriodPropEnum, true); err != nil {
+func (m *PlanDetail) validateFinalPhaseBillingPeriodEnum(path, location string, value PlanDetailFinalPhaseBillingPeriodEnum) error {
+	if err := validate.Enum(path, location, value, planDetailTypeFinalPhaseBillingPeriodPropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *PlanDetail) validateFinalPhaseBillingPeriod(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FinalPhaseBillingPeriod) { // not required
 		return nil
 	}
@@ -144,6 +175,7 @@ func (m *PlanDetail) validateFinalPhaseBillingPeriod(formats strfmt.Registry) er
 }
 
 func (m *PlanDetail) validateFinalPhaseRecurringPrice(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FinalPhaseRecurringPrice) { // not required
 		return nil
 	}
@@ -157,42 +189,6 @@ func (m *PlanDetail) validateFinalPhaseRecurringPrice(formats strfmt.Registry) e
 			if err := m.FinalPhaseRecurringPrice[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("finalPhaseRecurringPrice" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("finalPhaseRecurringPrice" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this plan detail based on the context it is used
-func (m *PlanDetail) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFinalPhaseRecurringPrice(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *PlanDetail) contextValidateFinalPhaseRecurringPrice(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.FinalPhaseRecurringPrice); i++ {
-
-		if m.FinalPhaseRecurringPrice[i] != nil {
-			if err := m.FinalPhaseRecurringPrice[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("finalPhaseRecurringPrice" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("finalPhaseRecurringPrice" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

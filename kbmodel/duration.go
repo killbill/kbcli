@@ -6,17 +6,16 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Duration duration
-//
 // swagger:model Duration
 type Duration struct {
 
@@ -25,7 +24,7 @@ type Duration struct {
 
 	// unit
 	// Enum: [DAYS WEEKS MONTHS YEARS UNLIMITED]
-	Unit string `json:"unit,omitempty"`
+	Unit DurationUnitEnum `json:"unit,omitempty"`
 }
 
 // Validate validates this duration
@@ -45,7 +44,7 @@ func (m *Duration) Validate(formats strfmt.Registry) error {
 var durationTypeUnitPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []DurationUnitEnum
 	if err := json.Unmarshal([]byte(`["DAYS","WEEKS","MONTHS","YEARS","UNLIMITED"]`), &res); err != nil {
 		panic(err)
 	}
@@ -54,33 +53,53 @@ func init() {
 	}
 }
 
+type DurationUnitEnum string
+
 const (
 
 	// DurationUnitDAYS captures enum value "DAYS"
-	DurationUnitDAYS string = "DAYS"
+	DurationUnitDAYS DurationUnitEnum = "DAYS"
 
 	// DurationUnitWEEKS captures enum value "WEEKS"
-	DurationUnitWEEKS string = "WEEKS"
+	DurationUnitWEEKS DurationUnitEnum = "WEEKS"
 
 	// DurationUnitMONTHS captures enum value "MONTHS"
-	DurationUnitMONTHS string = "MONTHS"
+	DurationUnitMONTHS DurationUnitEnum = "MONTHS"
 
 	// DurationUnitYEARS captures enum value "YEARS"
-	DurationUnitYEARS string = "YEARS"
+	DurationUnitYEARS DurationUnitEnum = "YEARS"
 
 	// DurationUnitUNLIMITED captures enum value "UNLIMITED"
-	DurationUnitUNLIMITED string = "UNLIMITED"
+	DurationUnitUNLIMITED DurationUnitEnum = "UNLIMITED"
 )
 
+var DurationUnitEnumValues = []string{
+	"DAYS",
+	"WEEKS",
+	"MONTHS",
+	"YEARS",
+	"UNLIMITED",
+}
+
+func (e DurationUnitEnum) IsValid() bool {
+	for _, v := range DurationUnitEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Duration) validateUnitEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, durationTypeUnitPropEnum, true); err != nil {
+func (m *Duration) validateUnitEnum(path, location string, value DurationUnitEnum) error {
+	if err := validate.Enum(path, location, value, durationTypeUnitPropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Duration) validateUnit(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Unit) { // not required
 		return nil
 	}
@@ -90,11 +109,6 @@ func (m *Duration) validateUnit(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this duration based on context it is used
-func (m *Duration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

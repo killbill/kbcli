@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetInvoicePaymentAuditLogsWithHistoryReader is a Reader for the GetInvoicePaymentAuditLogsWithHistory structure.
@@ -23,20 +25,21 @@ type GetInvoicePaymentAuditLogsWithHistoryReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetInvoicePaymentAuditLogsWithHistoryReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetInvoicePaymentAuditLogsWithHistoryOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 404:
-		result := NewGetInvoicePaymentAuditLogsWithHistoryNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -45,50 +48,17 @@ func NewGetInvoicePaymentAuditLogsWithHistoryOK() *GetInvoicePaymentAuditLogsWit
 	return &GetInvoicePaymentAuditLogsWithHistoryOK{}
 }
 
-/*
-GetInvoicePaymentAuditLogsWithHistoryOK describes a response with status code 200, with default header values.
+/*GetInvoicePaymentAuditLogsWithHistoryOK handles this case with default header values.
 
 successful operation
 */
 type GetInvoicePaymentAuditLogsWithHistoryOK struct {
 	Payload []*kbmodel.AuditLog
-}
 
-// IsSuccess returns true when this get invoice payment audit logs with history o k response has a 2xx status code
-func (o *GetInvoicePaymentAuditLogsWithHistoryOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get invoice payment audit logs with history o k response has a 3xx status code
-func (o *GetInvoicePaymentAuditLogsWithHistoryOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get invoice payment audit logs with history o k response has a 4xx status code
-func (o *GetInvoicePaymentAuditLogsWithHistoryOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get invoice payment audit logs with history o k response has a 5xx status code
-func (o *GetInvoicePaymentAuditLogsWithHistoryOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get invoice payment audit logs with history o k response a status code equal to that given
-func (o *GetInvoicePaymentAuditLogsWithHistoryOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get invoice payment audit logs with history o k response
-func (o *GetInvoicePaymentAuditLogsWithHistoryOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoicePaymentAuditLogsWithHistoryOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{invoicePaymentId}/auditLogsWithHistory][%d] getInvoicePaymentAuditLogsWithHistoryOK  %+v", 200, o.Payload)
-}
-
-func (o *GetInvoicePaymentAuditLogsWithHistoryOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{invoicePaymentId}/auditLogsWithHistory][%d] getInvoicePaymentAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
@@ -111,49 +81,15 @@ func NewGetInvoicePaymentAuditLogsWithHistoryNotFound() *GetInvoicePaymentAuditL
 	return &GetInvoicePaymentAuditLogsWithHistoryNotFound{}
 }
 
-/*
-GetInvoicePaymentAuditLogsWithHistoryNotFound describes a response with status code 404, with default header values.
+/*GetInvoicePaymentAuditLogsWithHistoryNotFound handles this case with default header values.
 
 Invoice payment not found
 */
 type GetInvoicePaymentAuditLogsWithHistoryNotFound struct {
-}
-
-// IsSuccess returns true when this get invoice payment audit logs with history not found response has a 2xx status code
-func (o *GetInvoicePaymentAuditLogsWithHistoryNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get invoice payment audit logs with history not found response has a 3xx status code
-func (o *GetInvoicePaymentAuditLogsWithHistoryNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get invoice payment audit logs with history not found response has a 4xx status code
-func (o *GetInvoicePaymentAuditLogsWithHistoryNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get invoice payment audit logs with history not found response has a 5xx status code
-func (o *GetInvoicePaymentAuditLogsWithHistoryNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get invoice payment audit logs with history not found response a status code equal to that given
-func (o *GetInvoicePaymentAuditLogsWithHistoryNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get invoice payment audit logs with history not found response
-func (o *GetInvoicePaymentAuditLogsWithHistoryNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetInvoicePaymentAuditLogsWithHistoryNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{invoicePaymentId}/auditLogsWithHistory][%d] getInvoicePaymentAuditLogsWithHistoryNotFound ", 404)
-}
-
-func (o *GetInvoicePaymentAuditLogsWithHistoryNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{invoicePaymentId}/auditLogsWithHistory][%d] getInvoicePaymentAuditLogsWithHistoryNotFound ", 404)
 }
 

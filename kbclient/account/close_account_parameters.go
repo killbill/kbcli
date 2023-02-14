@@ -13,121 +13,114 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewCloseAccountParams creates a new CloseAccountParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewCloseAccountParams creates a new CloseAccountParams object
+// with the default values initialized.
 func NewCloseAccountParams() *CloseAccountParams {
+	var (
+		cancelAllSubscriptionsDefault    = bool(false)
+		itemAdjustUnpaidInvoicesDefault  = bool(false)
+		removeFutureNotificationsDefault = bool(true)
+		writeOffUnpaidInvoicesDefault    = bool(false)
+	)
 	return &CloseAccountParams{
+		CancelAllSubscriptions:    &cancelAllSubscriptionsDefault,
+		ItemAdjustUnpaidInvoices:  &itemAdjustUnpaidInvoicesDefault,
+		RemoveFutureNotifications: &removeFutureNotificationsDefault,
+		WriteOffUnpaidInvoices:    &writeOffUnpaidInvoicesDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCloseAccountParamsWithTimeout creates a new CloseAccountParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewCloseAccountParamsWithTimeout(timeout time.Duration) *CloseAccountParams {
+	var (
+		cancelAllSubscriptionsDefault    = bool(false)
+		itemAdjustUnpaidInvoicesDefault  = bool(false)
+		removeFutureNotificationsDefault = bool(true)
+		writeOffUnpaidInvoicesDefault    = bool(false)
+	)
 	return &CloseAccountParams{
+		CancelAllSubscriptions:    &cancelAllSubscriptionsDefault,
+		ItemAdjustUnpaidInvoices:  &itemAdjustUnpaidInvoicesDefault,
+		RemoveFutureNotifications: &removeFutureNotificationsDefault,
+		WriteOffUnpaidInvoices:    &writeOffUnpaidInvoicesDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewCloseAccountParamsWithContext creates a new CloseAccountParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewCloseAccountParamsWithContext(ctx context.Context) *CloseAccountParams {
+	var (
+		cancelAllSubscriptionsDefault    = bool(false)
+		itemAdjustUnpaidInvoicesDefault  = bool(false)
+		removeFutureNotificationsDefault = bool(true)
+		writeOffUnpaidInvoicesDefault    = bool(false)
+	)
 	return &CloseAccountParams{
+		CancelAllSubscriptions:    &cancelAllSubscriptionsDefault,
+		ItemAdjustUnpaidInvoices:  &itemAdjustUnpaidInvoicesDefault,
+		RemoveFutureNotifications: &removeFutureNotificationsDefault,
+		WriteOffUnpaidInvoices:    &writeOffUnpaidInvoicesDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewCloseAccountParamsWithHTTPClient creates a new CloseAccountParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewCloseAccountParamsWithHTTPClient(client *http.Client) *CloseAccountParams {
-	return &CloseAccountParams{
-		HTTPClient: client,
-	}
-}
-
-/*
-CloseAccountParams contains all the parameters to send to the API endpoint
-
-	for the close account operation.
-
-	Typically these are written to a http.Request.
-*/
-type CloseAccountParams struct {
-
-	// XKillbillComment.
-	XKillbillComment *string
-
-	// XKillbillCreatedBy.
-	XKillbillCreatedBy string
-
-	// XKillbillReason.
-	XKillbillReason *string
-
-	// AccountID.
-	//
-	// Format: uuid
-	AccountID strfmt.UUID
-
-	// CancelAllSubscriptions.
-	CancelAllSubscriptions *bool
-
-	// ItemAdjustUnpaidInvoices.
-	ItemAdjustUnpaidInvoices *bool
-
-	// RemoveFutureNotifications.
-	//
-	// Default: true
-	RemoveFutureNotifications *bool
-
-	// WriteOffUnpaidInvoices.
-	WriteOffUnpaidInvoices *bool
-
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the close account params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CloseAccountParams) WithDefaults() *CloseAccountParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the close account params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CloseAccountParams) SetDefaults() {
 	var (
-		cancelAllSubscriptionsDefault = bool(false)
-
-		itemAdjustUnpaidInvoicesDefault = bool(false)
-
+		cancelAllSubscriptionsDefault    = bool(false)
+		itemAdjustUnpaidInvoicesDefault  = bool(false)
 		removeFutureNotificationsDefault = bool(true)
-
-		writeOffUnpaidInvoicesDefault = bool(false)
+		writeOffUnpaidInvoicesDefault    = bool(false)
 	)
-
-	val := CloseAccountParams{
+	return &CloseAccountParams{
 		CancelAllSubscriptions:    &cancelAllSubscriptionsDefault,
 		ItemAdjustUnpaidInvoices:  &itemAdjustUnpaidInvoicesDefault,
 		RemoveFutureNotifications: &removeFutureNotificationsDefault,
 		WriteOffUnpaidInvoices:    &writeOffUnpaidInvoicesDefault,
+		HTTPClient:                client,
 	}
+}
 
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+/*CloseAccountParams contains all the parameters to send to the API endpoint
+for the close account operation typically these are written to a http.Request
+*/
+type CloseAccountParams struct {
+
+	/*XKillbillComment*/
+	XKillbillComment *string
+	/*XKillbillCreatedBy*/
+	XKillbillCreatedBy string
+	/*XKillbillReason*/
+	XKillbillReason *string
+	/*AccountID*/
+	AccountID strfmt.UUID
+	/*CancelAllSubscriptions*/
+	CancelAllSubscriptions *bool
+	/*ItemAdjustUnpaidInvoices*/
+	ItemAdjustUnpaidInvoices *bool
+	/*RemoveFutureNotifications*/
+	RemoveFutureNotifications *bool
+	/*WriteOffUnpaidInvoices*/
+	WriteOffUnpaidInvoices *bool
+
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the close account params
@@ -265,6 +258,7 @@ func (o *CloseAccountParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -278,6 +272,7 @@ func (o *CloseAccountParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
 
 	// path param accountId
@@ -289,67 +284,77 @@ func (o *CloseAccountParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 
 		// query param cancelAllSubscriptions
 		var qrCancelAllSubscriptions bool
-
 		if o.CancelAllSubscriptions != nil {
 			qrCancelAllSubscriptions = *o.CancelAllSubscriptions
 		}
 		qCancelAllSubscriptions := swag.FormatBool(qrCancelAllSubscriptions)
 		if qCancelAllSubscriptions != "" {
-
 			if err := r.SetQueryParam("cancelAllSubscriptions", qCancelAllSubscriptions); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.ItemAdjustUnpaidInvoices != nil {
 
 		// query param itemAdjustUnpaidInvoices
 		var qrItemAdjustUnpaidInvoices bool
-
 		if o.ItemAdjustUnpaidInvoices != nil {
 			qrItemAdjustUnpaidInvoices = *o.ItemAdjustUnpaidInvoices
 		}
 		qItemAdjustUnpaidInvoices := swag.FormatBool(qrItemAdjustUnpaidInvoices)
 		if qItemAdjustUnpaidInvoices != "" {
-
 			if err := r.SetQueryParam("itemAdjustUnpaidInvoices", qItemAdjustUnpaidInvoices); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.RemoveFutureNotifications != nil {
 
 		// query param removeFutureNotifications
 		var qrRemoveFutureNotifications bool
-
 		if o.RemoveFutureNotifications != nil {
 			qrRemoveFutureNotifications = *o.RemoveFutureNotifications
 		}
 		qRemoveFutureNotifications := swag.FormatBool(qrRemoveFutureNotifications)
 		if qRemoveFutureNotifications != "" {
-
 			if err := r.SetQueryParam("removeFutureNotifications", qRemoveFutureNotifications); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.WriteOffUnpaidInvoices != nil {
 
 		// query param writeOffUnpaidInvoices
 		var qrWriteOffUnpaidInvoices bool
-
 		if o.WriteOffUnpaidInvoices != nil {
 			qrWriteOffUnpaidInvoices = *o.WriteOffUnpaidInvoices
 		}
 		qWriteOffUnpaidInvoices := swag.FormatBool(qrWriteOffUnpaidInvoices)
 		if qWriteOffUnpaidInvoices != "" {
-
 			if err := r.SetQueryParam("writeOffUnpaidInvoices", qWriteOffUnpaidInvoices); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 

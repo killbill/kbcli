@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetPaymentMethodAuditLogsWithHistoryReader is a Reader for the GetPaymentMethodAuditLogsWithHistory structure.
@@ -23,20 +25,21 @@ type GetPaymentMethodAuditLogsWithHistoryReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetPaymentMethodAuditLogsWithHistoryReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetPaymentMethodAuditLogsWithHistoryOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 404:
-		result := NewGetPaymentMethodAuditLogsWithHistoryNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -45,50 +48,17 @@ func NewGetPaymentMethodAuditLogsWithHistoryOK() *GetPaymentMethodAuditLogsWithH
 	return &GetPaymentMethodAuditLogsWithHistoryOK{}
 }
 
-/*
-GetPaymentMethodAuditLogsWithHistoryOK describes a response with status code 200, with default header values.
+/*GetPaymentMethodAuditLogsWithHistoryOK handles this case with default header values.
 
 successful operation
 */
 type GetPaymentMethodAuditLogsWithHistoryOK struct {
 	Payload []*kbmodel.AuditLog
-}
 
-// IsSuccess returns true when this get payment method audit logs with history o k response has a 2xx status code
-func (o *GetPaymentMethodAuditLogsWithHistoryOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get payment method audit logs with history o k response has a 3xx status code
-func (o *GetPaymentMethodAuditLogsWithHistoryOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get payment method audit logs with history o k response has a 4xx status code
-func (o *GetPaymentMethodAuditLogsWithHistoryOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get payment method audit logs with history o k response has a 5xx status code
-func (o *GetPaymentMethodAuditLogsWithHistoryOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get payment method audit logs with history o k response a status code equal to that given
-func (o *GetPaymentMethodAuditLogsWithHistoryOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get payment method audit logs with history o k response
-func (o *GetPaymentMethodAuditLogsWithHistoryOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentMethodAuditLogsWithHistoryOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}/auditLogsWithHistory][%d] getPaymentMethodAuditLogsWithHistoryOK  %+v", 200, o.Payload)
-}
-
-func (o *GetPaymentMethodAuditLogsWithHistoryOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}/auditLogsWithHistory][%d] getPaymentMethodAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
@@ -111,49 +81,15 @@ func NewGetPaymentMethodAuditLogsWithHistoryNotFound() *GetPaymentMethodAuditLog
 	return &GetPaymentMethodAuditLogsWithHistoryNotFound{}
 }
 
-/*
-GetPaymentMethodAuditLogsWithHistoryNotFound describes a response with status code 404, with default header values.
+/*GetPaymentMethodAuditLogsWithHistoryNotFound handles this case with default header values.
 
 Account not found
 */
 type GetPaymentMethodAuditLogsWithHistoryNotFound struct {
-}
-
-// IsSuccess returns true when this get payment method audit logs with history not found response has a 2xx status code
-func (o *GetPaymentMethodAuditLogsWithHistoryNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get payment method audit logs with history not found response has a 3xx status code
-func (o *GetPaymentMethodAuditLogsWithHistoryNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get payment method audit logs with history not found response has a 4xx status code
-func (o *GetPaymentMethodAuditLogsWithHistoryNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get payment method audit logs with history not found response has a 5xx status code
-func (o *GetPaymentMethodAuditLogsWithHistoryNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get payment method audit logs with history not found response a status code equal to that given
-func (o *GetPaymentMethodAuditLogsWithHistoryNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get payment method audit logs with history not found response
-func (o *GetPaymentMethodAuditLogsWithHistoryNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetPaymentMethodAuditLogsWithHistoryNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}/auditLogsWithHistory][%d] getPaymentMethodAuditLogsWithHistoryNotFound ", 404)
-}
-
-func (o *GetPaymentMethodAuditLogsWithHistoryNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}/auditLogsWithHistory][%d] getPaymentMethodAuditLogsWithHistoryNotFound ", 404)
 }
 

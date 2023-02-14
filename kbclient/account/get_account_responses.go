@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetAccountReader is a Reader for the GetAccount structure.
@@ -23,26 +25,21 @@ type GetAccountReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetAccountReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetAccountOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewGetAccountBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewGetAccountNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -51,50 +48,17 @@ func NewGetAccountOK() *GetAccountOK {
 	return &GetAccountOK{}
 }
 
-/*
-GetAccountOK describes a response with status code 200, with default header values.
+/*GetAccountOK handles this case with default header values.
 
 successful operation
 */
 type GetAccountOK struct {
 	Payload *kbmodel.Account
-}
 
-// IsSuccess returns true when this get account o k response has a 2xx status code
-func (o *GetAccountOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get account o k response has a 3xx status code
-func (o *GetAccountOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get account o k response has a 4xx status code
-func (o *GetAccountOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get account o k response has a 5xx status code
-func (o *GetAccountOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get account o k response a status code equal to that given
-func (o *GetAccountOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get account o k response
-func (o *GetAccountOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}][%d] getAccountOK  %+v", 200, o.Payload)
-}
-
-func (o *GetAccountOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}][%d] getAccountOK  %+v", 200, o.Payload)
 }
 
@@ -119,49 +83,15 @@ func NewGetAccountBadRequest() *GetAccountBadRequest {
 	return &GetAccountBadRequest{}
 }
 
-/*
-GetAccountBadRequest describes a response with status code 400, with default header values.
+/*GetAccountBadRequest handles this case with default header values.
 
 Invalid account id supplied
 */
 type GetAccountBadRequest struct {
-}
-
-// IsSuccess returns true when this get account bad request response has a 2xx status code
-func (o *GetAccountBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get account bad request response has a 3xx status code
-func (o *GetAccountBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get account bad request response has a 4xx status code
-func (o *GetAccountBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get account bad request response has a 5xx status code
-func (o *GetAccountBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get account bad request response a status code equal to that given
-func (o *GetAccountBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the get account bad request response
-func (o *GetAccountBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountBadRequest) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}][%d] getAccountBadRequest ", 400)
-}
-
-func (o *GetAccountBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}][%d] getAccountBadRequest ", 400)
 }
 
@@ -175,49 +105,15 @@ func NewGetAccountNotFound() *GetAccountNotFound {
 	return &GetAccountNotFound{}
 }
 
-/*
-GetAccountNotFound describes a response with status code 404, with default header values.
+/*GetAccountNotFound handles this case with default header values.
 
 Account not found
 */
 type GetAccountNotFound struct {
-}
-
-// IsSuccess returns true when this get account not found response has a 2xx status code
-func (o *GetAccountNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get account not found response has a 3xx status code
-func (o *GetAccountNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get account not found response has a 4xx status code
-func (o *GetAccountNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get account not found response has a 5xx status code
-func (o *GetAccountNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get account not found response a status code equal to that given
-func (o *GetAccountNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get account not found response
-func (o *GetAccountNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}][%d] getAccountNotFound ", 404)
-}
-
-func (o *GetAccountNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}][%d] getAccountNotFound ", 404)
 }
 

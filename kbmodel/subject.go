@@ -6,15 +6,13 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
+	strfmt "github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // Subject subject
-//
 // swagger:model Subject
 type Subject struct {
 
@@ -46,6 +44,7 @@ func (m *Subject) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Subject) validateSession(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Session) { // not required
 		return nil
 	}
@@ -54,38 +53,6 @@ func (m *Subject) validateSession(formats strfmt.Registry) error {
 		if err := m.Session.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("session")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("session")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this subject based on the context it is used
-func (m *Subject) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateSession(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *Subject) contextValidateSession(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Session != nil {
-		if err := m.Session.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("session")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("session")
 			}
 			return err
 		}

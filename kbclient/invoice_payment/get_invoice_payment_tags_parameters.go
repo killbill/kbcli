@@ -13,103 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetInvoicePaymentTagsParams creates a new GetInvoicePaymentTagsParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetInvoicePaymentTagsParams creates a new GetInvoicePaymentTagsParams object
+// with the default values initialized.
 func NewGetInvoicePaymentTagsParams() *GetInvoicePaymentTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetInvoicePaymentTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetInvoicePaymentTagsParamsWithTimeout creates a new GetInvoicePaymentTagsParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetInvoicePaymentTagsParamsWithTimeout(timeout time.Duration) *GetInvoicePaymentTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetInvoicePaymentTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetInvoicePaymentTagsParamsWithContext creates a new GetInvoicePaymentTagsParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetInvoicePaymentTagsParamsWithContext(ctx context.Context) *GetInvoicePaymentTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetInvoicePaymentTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetInvoicePaymentTagsParamsWithHTTPClient creates a new GetInvoicePaymentTagsParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetInvoicePaymentTagsParamsWithHTTPClient(client *http.Client) *GetInvoicePaymentTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetInvoicePaymentTagsParams{
-		HTTPClient: client,
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		HTTPClient:      client,
 	}
 }
 
-/*
-GetInvoicePaymentTagsParams contains all the parameters to send to the API endpoint
-
-	for the get invoice payment tags operation.
-
-	Typically these are written to a http.Request.
+/*GetInvoicePaymentTagsParams contains all the parameters to send to the API endpoint
+for the get invoice payment tags operation typically these are written to a http.Request
 */
 type GetInvoicePaymentTagsParams struct {
 
-	// Audit.
-	//
-	// Default: "NONE"
+	/*Audit*/
 	Audit *string
-
-	// IncludedDeleted.
+	/*IncludedDeleted*/
 	IncludedDeleted *bool
-
-	// PaymentID.
-	//
-	// Format: uuid
+	/*PaymentID*/
 	PaymentID strfmt.UUID
-
-	// PluginProperty.
+	/*PluginProperty*/
 	PluginProperty []string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get invoice payment tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetInvoicePaymentTagsParams) WithDefaults() *GetInvoicePaymentTagsParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get invoice payment tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetInvoicePaymentTagsParams) SetDefaults() {
-	var (
-		auditDefault = string("NONE")
-
-		includedDeletedDefault = bool(false)
-	)
-
-	val := GetInvoicePaymentTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-	}
-
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get invoice payment tags params
@@ -201,34 +188,32 @@ func (o *GetInvoicePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.IncludedDeleted != nil {
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
-
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
-
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// path param paymentId
@@ -236,13 +221,24 @@ func (o *GetInvoicePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, re
 		return err
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
+	}
 
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}
@@ -251,21 +247,4 @@ func (o *GetInvoicePaymentTagsParams) WriteToRequest(r runtime.ClientRequest, re
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamGetInvoicePaymentTags binds the parameter pluginProperty
-func (o *GetInvoicePaymentTagsParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CaptureAuthorizationByExternalKeyReader is a Reader for the CaptureAuthorizationByExternalKey structure.
@@ -23,50 +25,21 @@ type CaptureAuthorizationByExternalKeyReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CaptureAuthorizationByExternalKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-	case 201:
+
+	case 201, 200:
 		result := NewCaptureAuthorizationByExternalKeyCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 402:
-		result := NewCaptureAuthorizationByExternalKeyPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewCaptureAuthorizationByExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 422:
-		result := NewCaptureAuthorizationByExternalKeyUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 502:
-		result := NewCaptureAuthorizationByExternalKeyBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 503:
-		result := NewCaptureAuthorizationByExternalKeyServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 504:
-		result := NewCaptureAuthorizationByExternalKeyGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -75,50 +48,17 @@ func NewCaptureAuthorizationByExternalKeyCreated() *CaptureAuthorizationByExtern
 	return &CaptureAuthorizationByExternalKeyCreated{}
 }
 
-/*
-CaptureAuthorizationByExternalKeyCreated describes a response with status code 201, with default header values.
+/*CaptureAuthorizationByExternalKeyCreated handles this case with default header values.
 
 Payment transaction created successfully
 */
 type CaptureAuthorizationByExternalKeyCreated struct {
 	Payload *kbmodel.Payment
-}
 
-// IsSuccess returns true when this capture authorization by external key created response has a 2xx status code
-func (o *CaptureAuthorizationByExternalKeyCreated) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this capture authorization by external key created response has a 3xx status code
-func (o *CaptureAuthorizationByExternalKeyCreated) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization by external key created response has a 4xx status code
-func (o *CaptureAuthorizationByExternalKeyCreated) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this capture authorization by external key created response has a 5xx status code
-func (o *CaptureAuthorizationByExternalKeyCreated) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this capture authorization by external key created response a status code equal to that given
-func (o *CaptureAuthorizationByExternalKeyCreated) IsCode(code int) bool {
-	return code == 201
-}
-
-// Code gets the status code for the capture authorization by external key created response
-func (o *CaptureAuthorizationByExternalKeyCreated) Code() int {
-	return 201
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyCreated) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyCreated  %+v", 201, o.Payload)
-}
-
-func (o *CaptureAuthorizationByExternalKeyCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyCreated  %+v", 201, o.Payload)
 }
 
@@ -143,49 +83,15 @@ func NewCaptureAuthorizationByExternalKeyPaymentRequired() *CaptureAuthorization
 	return &CaptureAuthorizationByExternalKeyPaymentRequired{}
 }
 
-/*
-CaptureAuthorizationByExternalKeyPaymentRequired describes a response with status code 402, with default header values.
+/*CaptureAuthorizationByExternalKeyPaymentRequired handles this case with default header values.
 
 Transaction declined by gateway
 */
 type CaptureAuthorizationByExternalKeyPaymentRequired struct {
-}
-
-// IsSuccess returns true when this capture authorization by external key payment required response has a 2xx status code
-func (o *CaptureAuthorizationByExternalKeyPaymentRequired) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization by external key payment required response has a 3xx status code
-func (o *CaptureAuthorizationByExternalKeyPaymentRequired) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization by external key payment required response has a 4xx status code
-func (o *CaptureAuthorizationByExternalKeyPaymentRequired) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this capture authorization by external key payment required response has a 5xx status code
-func (o *CaptureAuthorizationByExternalKeyPaymentRequired) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this capture authorization by external key payment required response a status code equal to that given
-func (o *CaptureAuthorizationByExternalKeyPaymentRequired) IsCode(code int) bool {
-	return code == 402
-}
-
-// Code gets the status code for the capture authorization by external key payment required response
-func (o *CaptureAuthorizationByExternalKeyPaymentRequired) Code() int {
-	return 402
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyPaymentRequired) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyPaymentRequired ", 402)
-}
-
-func (o *CaptureAuthorizationByExternalKeyPaymentRequired) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyPaymentRequired ", 402)
 }
 
@@ -199,49 +105,15 @@ func NewCaptureAuthorizationByExternalKeyNotFound() *CaptureAuthorizationByExter
 	return &CaptureAuthorizationByExternalKeyNotFound{}
 }
 
-/*
-CaptureAuthorizationByExternalKeyNotFound describes a response with status code 404, with default header values.
+/*CaptureAuthorizationByExternalKeyNotFound handles this case with default header values.
 
 Account or payment not found
 */
 type CaptureAuthorizationByExternalKeyNotFound struct {
-}
-
-// IsSuccess returns true when this capture authorization by external key not found response has a 2xx status code
-func (o *CaptureAuthorizationByExternalKeyNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization by external key not found response has a 3xx status code
-func (o *CaptureAuthorizationByExternalKeyNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization by external key not found response has a 4xx status code
-func (o *CaptureAuthorizationByExternalKeyNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this capture authorization by external key not found response has a 5xx status code
-func (o *CaptureAuthorizationByExternalKeyNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this capture authorization by external key not found response a status code equal to that given
-func (o *CaptureAuthorizationByExternalKeyNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the capture authorization by external key not found response
-func (o *CaptureAuthorizationByExternalKeyNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyNotFound) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyNotFound ", 404)
-}
-
-func (o *CaptureAuthorizationByExternalKeyNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyNotFound ", 404)
 }
 
@@ -255,49 +127,15 @@ func NewCaptureAuthorizationByExternalKeyUnprocessableEntity() *CaptureAuthoriza
 	return &CaptureAuthorizationByExternalKeyUnprocessableEntity{}
 }
 
-/*
-CaptureAuthorizationByExternalKeyUnprocessableEntity describes a response with status code 422, with default header values.
+/*CaptureAuthorizationByExternalKeyUnprocessableEntity handles this case with default header values.
 
 Payment is aborted by a control plugin
 */
 type CaptureAuthorizationByExternalKeyUnprocessableEntity struct {
-}
-
-// IsSuccess returns true when this capture authorization by external key unprocessable entity response has a 2xx status code
-func (o *CaptureAuthorizationByExternalKeyUnprocessableEntity) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization by external key unprocessable entity response has a 3xx status code
-func (o *CaptureAuthorizationByExternalKeyUnprocessableEntity) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization by external key unprocessable entity response has a 4xx status code
-func (o *CaptureAuthorizationByExternalKeyUnprocessableEntity) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this capture authorization by external key unprocessable entity response has a 5xx status code
-func (o *CaptureAuthorizationByExternalKeyUnprocessableEntity) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this capture authorization by external key unprocessable entity response a status code equal to that given
-func (o *CaptureAuthorizationByExternalKeyUnprocessableEntity) IsCode(code int) bool {
-	return code == 422
-}
-
-// Code gets the status code for the capture authorization by external key unprocessable entity response
-func (o *CaptureAuthorizationByExternalKeyUnprocessableEntity) Code() int {
-	return 422
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyUnprocessableEntity) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyUnprocessableEntity ", 422)
-}
-
-func (o *CaptureAuthorizationByExternalKeyUnprocessableEntity) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyUnprocessableEntity ", 422)
 }
 
@@ -311,49 +149,15 @@ func NewCaptureAuthorizationByExternalKeyBadGateway() *CaptureAuthorizationByExt
 	return &CaptureAuthorizationByExternalKeyBadGateway{}
 }
 
-/*
-CaptureAuthorizationByExternalKeyBadGateway describes a response with status code 502, with default header values.
+/*CaptureAuthorizationByExternalKeyBadGateway handles this case with default header values.
 
 Failed to submit payment transaction
 */
 type CaptureAuthorizationByExternalKeyBadGateway struct {
-}
-
-// IsSuccess returns true when this capture authorization by external key bad gateway response has a 2xx status code
-func (o *CaptureAuthorizationByExternalKeyBadGateway) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization by external key bad gateway response has a 3xx status code
-func (o *CaptureAuthorizationByExternalKeyBadGateway) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization by external key bad gateway response has a 4xx status code
-func (o *CaptureAuthorizationByExternalKeyBadGateway) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this capture authorization by external key bad gateway response has a 5xx status code
-func (o *CaptureAuthorizationByExternalKeyBadGateway) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this capture authorization by external key bad gateway response a status code equal to that given
-func (o *CaptureAuthorizationByExternalKeyBadGateway) IsCode(code int) bool {
-	return code == 502
-}
-
-// Code gets the status code for the capture authorization by external key bad gateway response
-func (o *CaptureAuthorizationByExternalKeyBadGateway) Code() int {
-	return 502
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyBadGateway) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyBadGateway ", 502)
-}
-
-func (o *CaptureAuthorizationByExternalKeyBadGateway) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyBadGateway ", 502)
 }
 
@@ -367,49 +171,15 @@ func NewCaptureAuthorizationByExternalKeyServiceUnavailable() *CaptureAuthorizat
 	return &CaptureAuthorizationByExternalKeyServiceUnavailable{}
 }
 
-/*
-CaptureAuthorizationByExternalKeyServiceUnavailable describes a response with status code 503, with default header values.
+/*CaptureAuthorizationByExternalKeyServiceUnavailable handles this case with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
 type CaptureAuthorizationByExternalKeyServiceUnavailable struct {
-}
-
-// IsSuccess returns true when this capture authorization by external key service unavailable response has a 2xx status code
-func (o *CaptureAuthorizationByExternalKeyServiceUnavailable) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization by external key service unavailable response has a 3xx status code
-func (o *CaptureAuthorizationByExternalKeyServiceUnavailable) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization by external key service unavailable response has a 4xx status code
-func (o *CaptureAuthorizationByExternalKeyServiceUnavailable) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this capture authorization by external key service unavailable response has a 5xx status code
-func (o *CaptureAuthorizationByExternalKeyServiceUnavailable) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this capture authorization by external key service unavailable response a status code equal to that given
-func (o *CaptureAuthorizationByExternalKeyServiceUnavailable) IsCode(code int) bool {
-	return code == 503
-}
-
-// Code gets the status code for the capture authorization by external key service unavailable response
-func (o *CaptureAuthorizationByExternalKeyServiceUnavailable) Code() int {
-	return 503
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyServiceUnavailable) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyServiceUnavailable ", 503)
-}
-
-func (o *CaptureAuthorizationByExternalKeyServiceUnavailable) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyServiceUnavailable ", 503)
 }
 
@@ -423,49 +193,15 @@ func NewCaptureAuthorizationByExternalKeyGatewayTimeout() *CaptureAuthorizationB
 	return &CaptureAuthorizationByExternalKeyGatewayTimeout{}
 }
 
-/*
-CaptureAuthorizationByExternalKeyGatewayTimeout describes a response with status code 504, with default header values.
+/*CaptureAuthorizationByExternalKeyGatewayTimeout handles this case with default header values.
 
 Payment operation timeout
 */
 type CaptureAuthorizationByExternalKeyGatewayTimeout struct {
-}
-
-// IsSuccess returns true when this capture authorization by external key gateway timeout response has a 2xx status code
-func (o *CaptureAuthorizationByExternalKeyGatewayTimeout) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization by external key gateway timeout response has a 3xx status code
-func (o *CaptureAuthorizationByExternalKeyGatewayTimeout) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization by external key gateway timeout response has a 4xx status code
-func (o *CaptureAuthorizationByExternalKeyGatewayTimeout) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this capture authorization by external key gateway timeout response has a 5xx status code
-func (o *CaptureAuthorizationByExternalKeyGatewayTimeout) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this capture authorization by external key gateway timeout response a status code equal to that given
-func (o *CaptureAuthorizationByExternalKeyGatewayTimeout) IsCode(code int) bool {
-	return code == 504
-}
-
-// Code gets the status code for the capture authorization by external key gateway timeout response
-func (o *CaptureAuthorizationByExternalKeyGatewayTimeout) Code() int {
-	return 504
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationByExternalKeyGatewayTimeout) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyGatewayTimeout ", 504)
-}
-
-func (o *CaptureAuthorizationByExternalKeyGatewayTimeout) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments][%d] captureAuthorizationByExternalKeyGatewayTimeout ", 504)
 }
 

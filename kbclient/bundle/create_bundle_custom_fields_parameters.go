@@ -13,91 +13,73 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreateBundleCustomFieldsParams creates a new CreateBundleCustomFieldsParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewCreateBundleCustomFieldsParams creates a new CreateBundleCustomFieldsParams object
+// with the default values initialized.
 func NewCreateBundleCustomFieldsParams() *CreateBundleCustomFieldsParams {
+	var ()
 	return &CreateBundleCustomFieldsParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateBundleCustomFieldsParamsWithTimeout creates a new CreateBundleCustomFieldsParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewCreateBundleCustomFieldsParamsWithTimeout(timeout time.Duration) *CreateBundleCustomFieldsParams {
+	var ()
 	return &CreateBundleCustomFieldsParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewCreateBundleCustomFieldsParamsWithContext creates a new CreateBundleCustomFieldsParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewCreateBundleCustomFieldsParamsWithContext(ctx context.Context) *CreateBundleCustomFieldsParams {
+	var ()
 	return &CreateBundleCustomFieldsParams{
+
 		Context: ctx,
 	}
 }
 
 // NewCreateBundleCustomFieldsParamsWithHTTPClient creates a new CreateBundleCustomFieldsParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewCreateBundleCustomFieldsParamsWithHTTPClient(client *http.Client) *CreateBundleCustomFieldsParams {
+	var ()
 	return &CreateBundleCustomFieldsParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-CreateBundleCustomFieldsParams contains all the parameters to send to the API endpoint
-
-	for the create bundle custom fields operation.
-
-	Typically these are written to a http.Request.
+/*CreateBundleCustomFieldsParams contains all the parameters to send to the API endpoint
+for the create bundle custom fields operation typically these are written to a http.Request
 */
 type CreateBundleCustomFieldsParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// Body.
+	/*Body*/
 	Body []*kbmodel.CustomField
-
-	// BundleID.
-	//
-	// Format: uuid
+	/*BundleID*/
 	BundleID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the create bundle custom fields params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateBundleCustomFieldsParams) WithDefaults() *CreateBundleCustomFieldsParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the create bundle custom fields params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateBundleCustomFieldsParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the create bundle custom fields params
@@ -202,6 +184,7 @@ func (o *CreateBundleCustomFieldsParams) WriteToRequest(r runtime.ClientRequest,
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -215,7 +198,9 @@ func (o *CreateBundleCustomFieldsParams) WriteToRequest(r runtime.ClientRequest,
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -225,6 +210,20 @@ func (o *CreateBundleCustomFieldsParams) WriteToRequest(r runtime.ClientRequest,
 	// path param bundleId
 	if err := r.SetPathParam("bundleId", o.BundleID.String()); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

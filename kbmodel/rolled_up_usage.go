@@ -6,17 +6,16 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // RolledUpUsage rolled up usage
-//
 // swagger:model RolledUpUsage
 type RolledUpUsage struct {
 
@@ -63,6 +62,7 @@ func (m *RolledUpUsage) Validate(formats strfmt.Registry) error {
 }
 
 func (m *RolledUpUsage) validateEndDate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EndDate) { // not required
 		return nil
 	}
@@ -75,6 +75,7 @@ func (m *RolledUpUsage) validateEndDate(formats strfmt.Registry) error {
 }
 
 func (m *RolledUpUsage) validateRolledUpUnits(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.RolledUpUnits) { // not required
 		return nil
 	}
@@ -88,8 +89,6 @@ func (m *RolledUpUsage) validateRolledUpUnits(formats strfmt.Registry) error {
 			if err := m.RolledUpUnits[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("rolledUpUnits" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("rolledUpUnits" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -101,6 +100,7 @@ func (m *RolledUpUsage) validateRolledUpUnits(formats strfmt.Registry) error {
 }
 
 func (m *RolledUpUsage) validateStartDate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.StartDate) { // not required
 		return nil
 	}
@@ -113,46 +113,13 @@ func (m *RolledUpUsage) validateStartDate(formats strfmt.Registry) error {
 }
 
 func (m *RolledUpUsage) validateSubscriptionID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.SubscriptionID) { // not required
 		return nil
 	}
 
 	if err := validate.FormatOf("subscriptionId", "body", "uuid", m.SubscriptionID.String(), formats); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this rolled up usage based on the context it is used
-func (m *RolledUpUsage) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateRolledUpUnits(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *RolledUpUsage) contextValidateRolledUpUnits(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.RolledUpUnits); i++ {
-
-		if m.RolledUpUnits[i] != nil {
-			if err := m.RolledUpUnits[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("rolledUpUnits" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("rolledUpUnits" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
 	}
 
 	return nil

@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetAllCustomFieldsReader is a Reader for the GetAllCustomFields structure.
@@ -23,26 +25,21 @@ type GetAllCustomFieldsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetAllCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetAllCustomFieldsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewGetAllCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewGetAllCustomFieldsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -51,50 +48,17 @@ func NewGetAllCustomFieldsOK() *GetAllCustomFieldsOK {
 	return &GetAllCustomFieldsOK{}
 }
 
-/*
-GetAllCustomFieldsOK describes a response with status code 200, with default header values.
+/*GetAllCustomFieldsOK handles this case with default header values.
 
 successful operation
 */
 type GetAllCustomFieldsOK struct {
 	Payload []*kbmodel.CustomField
-}
 
-// IsSuccess returns true when this get all custom fields o k response has a 2xx status code
-func (o *GetAllCustomFieldsOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get all custom fields o k response has a 3xx status code
-func (o *GetAllCustomFieldsOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get all custom fields o k response has a 4xx status code
-func (o *GetAllCustomFieldsOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get all custom fields o k response has a 5xx status code
-func (o *GetAllCustomFieldsOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get all custom fields o k response a status code equal to that given
-func (o *GetAllCustomFieldsOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get all custom fields o k response
-func (o *GetAllCustomFieldsOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllCustomFieldsOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/allCustomFields][%d] getAllCustomFieldsOK  %+v", 200, o.Payload)
-}
-
-func (o *GetAllCustomFieldsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/allCustomFields][%d] getAllCustomFieldsOK  %+v", 200, o.Payload)
 }
 
@@ -117,49 +81,15 @@ func NewGetAllCustomFieldsBadRequest() *GetAllCustomFieldsBadRequest {
 	return &GetAllCustomFieldsBadRequest{}
 }
 
-/*
-GetAllCustomFieldsBadRequest describes a response with status code 400, with default header values.
+/*GetAllCustomFieldsBadRequest handles this case with default header values.
 
 Invalid account id supplied
 */
 type GetAllCustomFieldsBadRequest struct {
-}
-
-// IsSuccess returns true when this get all custom fields bad request response has a 2xx status code
-func (o *GetAllCustomFieldsBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get all custom fields bad request response has a 3xx status code
-func (o *GetAllCustomFieldsBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get all custom fields bad request response has a 4xx status code
-func (o *GetAllCustomFieldsBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get all custom fields bad request response has a 5xx status code
-func (o *GetAllCustomFieldsBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get all custom fields bad request response a status code equal to that given
-func (o *GetAllCustomFieldsBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the get all custom fields bad request response
-func (o *GetAllCustomFieldsBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllCustomFieldsBadRequest) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/allCustomFields][%d] getAllCustomFieldsBadRequest ", 400)
-}
-
-func (o *GetAllCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/allCustomFields][%d] getAllCustomFieldsBadRequest ", 400)
 }
 
@@ -173,49 +103,15 @@ func NewGetAllCustomFieldsNotFound() *GetAllCustomFieldsNotFound {
 	return &GetAllCustomFieldsNotFound{}
 }
 
-/*
-GetAllCustomFieldsNotFound describes a response with status code 404, with default header values.
+/*GetAllCustomFieldsNotFound handles this case with default header values.
 
 Account not found
 */
 type GetAllCustomFieldsNotFound struct {
-}
-
-// IsSuccess returns true when this get all custom fields not found response has a 2xx status code
-func (o *GetAllCustomFieldsNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get all custom fields not found response has a 3xx status code
-func (o *GetAllCustomFieldsNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get all custom fields not found response has a 4xx status code
-func (o *GetAllCustomFieldsNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get all custom fields not found response has a 5xx status code
-func (o *GetAllCustomFieldsNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get all custom fields not found response a status code equal to that given
-func (o *GetAllCustomFieldsNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get all custom fields not found response
-func (o *GetAllCustomFieldsNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAllCustomFieldsNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/allCustomFields][%d] getAllCustomFieldsNotFound ", 404)
-}
-
-func (o *GetAllCustomFieldsNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/allCustomFields][%d] getAllCustomFieldsNotFound ", 404)
 }
 

@@ -13,90 +13,74 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreateComboPaymentParams creates a new CreateComboPaymentParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewCreateComboPaymentParams creates a new CreateComboPaymentParams object
+// with the default values initialized.
 func NewCreateComboPaymentParams() *CreateComboPaymentParams {
+	var ()
 	return &CreateComboPaymentParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateComboPaymentParamsWithTimeout creates a new CreateComboPaymentParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewCreateComboPaymentParamsWithTimeout(timeout time.Duration) *CreateComboPaymentParams {
+	var ()
 	return &CreateComboPaymentParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewCreateComboPaymentParamsWithContext creates a new CreateComboPaymentParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewCreateComboPaymentParamsWithContext(ctx context.Context) *CreateComboPaymentParams {
+	var ()
 	return &CreateComboPaymentParams{
+
 		Context: ctx,
 	}
 }
 
 // NewCreateComboPaymentParamsWithHTTPClient creates a new CreateComboPaymentParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewCreateComboPaymentParamsWithHTTPClient(client *http.Client) *CreateComboPaymentParams {
+	var ()
 	return &CreateComboPaymentParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-CreateComboPaymentParams contains all the parameters to send to the API endpoint
-
-	for the create combo payment operation.
-
-	Typically these are written to a http.Request.
+/*CreateComboPaymentParams contains all the parameters to send to the API endpoint
+for the create combo payment operation typically these are written to a http.Request
 */
 type CreateComboPaymentParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// Body.
+	/*Body*/
 	Body *kbmodel.ComboPaymentTransaction
-
-	// ControlPluginName.
+	/*ControlPluginName*/
 	ControlPluginName []string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the create combo payment params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateComboPaymentParams) WithDefaults() *CreateComboPaymentParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the create combo payment params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateComboPaymentParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the create combo payment params
@@ -201,6 +185,7 @@ func (o *CreateComboPaymentParams) WriteToRequest(r runtime.ClientRequest, reg s
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -214,20 +199,33 @@ func (o *CreateComboPaymentParams) WriteToRequest(r runtime.ClientRequest, reg s
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	if o.ControlPluginName != nil {
+	valuesControlPluginName := o.ControlPluginName
 
-		// binding items for controlPluginName
-		joinedControlPluginName := o.bindParamControlPluginName(reg)
+	joinedControlPluginName := swag.JoinByFormat(valuesControlPluginName, "multi")
+	// query array param controlPluginName
+	if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+		return err
+	}
 
-		// query array param controlPluginName
-		if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}
@@ -236,21 +234,4 @@ func (o *CreateComboPaymentParams) WriteToRequest(r runtime.ClientRequest, reg s
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamCreateComboPayment binds the parameter controlPluginName
-func (o *CreateComboPaymentParams) bindParamControlPluginName(formats strfmt.Registry) []string {
-	controlPluginNameIR := o.ControlPluginName
-
-	var controlPluginNameIC []string
-	for _, controlPluginNameIIR := range controlPluginNameIR { // explode []string
-
-		controlPluginNameIIV := controlPluginNameIIR // string as string
-		controlPluginNameIC = append(controlPluginNameIC, controlPluginNameIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	controlPluginNameIS := swag.JoinByFormat(controlPluginNameIC, "multi")
-
-	return controlPluginNameIS
 }

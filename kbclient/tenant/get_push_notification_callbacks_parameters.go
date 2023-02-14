@@ -13,71 +13,59 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetPushNotificationCallbacksParams creates a new GetPushNotificationCallbacksParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetPushNotificationCallbacksParams creates a new GetPushNotificationCallbacksParams object
+// with the default values initialized.
 func NewGetPushNotificationCallbacksParams() *GetPushNotificationCallbacksParams {
+
 	return &GetPushNotificationCallbacksParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPushNotificationCallbacksParamsWithTimeout creates a new GetPushNotificationCallbacksParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetPushNotificationCallbacksParamsWithTimeout(timeout time.Duration) *GetPushNotificationCallbacksParams {
+
 	return &GetPushNotificationCallbacksParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewGetPushNotificationCallbacksParamsWithContext creates a new GetPushNotificationCallbacksParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetPushNotificationCallbacksParamsWithContext(ctx context.Context) *GetPushNotificationCallbacksParams {
+
 	return &GetPushNotificationCallbacksParams{
+
 		Context: ctx,
 	}
 }
 
 // NewGetPushNotificationCallbacksParamsWithHTTPClient creates a new GetPushNotificationCallbacksParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetPushNotificationCallbacksParamsWithHTTPClient(client *http.Client) *GetPushNotificationCallbacksParams {
+
 	return &GetPushNotificationCallbacksParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-GetPushNotificationCallbacksParams contains all the parameters to send to the API endpoint
-
-	for the get push notification callbacks operation.
-
-	Typically these are written to a http.Request.
+/*GetPushNotificationCallbacksParams contains all the parameters to send to the API endpoint
+for the get push notification callbacks operation typically these are written to a http.Request
 */
 type GetPushNotificationCallbacksParams struct {
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get push notification callbacks params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPushNotificationCallbacksParams) WithDefaults() *GetPushNotificationCallbacksParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get push notification callbacks params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPushNotificationCallbacksParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get push notification callbacks params
@@ -120,6 +108,20 @@ func (o *GetPushNotificationCallbacksParams) WriteToRequest(r runtime.ClientRequ
 		return err
 	}
 	var res []error
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
+	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

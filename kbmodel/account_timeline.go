@@ -6,16 +6,15 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // AccountTimeline account timeline
-//
 // swagger:model AccountTimeline
 type AccountTimeline struct {
 
@@ -59,6 +58,7 @@ func (m *AccountTimeline) Validate(formats strfmt.Registry) error {
 }
 
 func (m *AccountTimeline) validateAccount(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Account) { // not required
 		return nil
 	}
@@ -67,8 +67,6 @@ func (m *AccountTimeline) validateAccount(formats strfmt.Registry) error {
 		if err := m.Account.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("account")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("account")
 			}
 			return err
 		}
@@ -78,6 +76,7 @@ func (m *AccountTimeline) validateAccount(formats strfmt.Registry) error {
 }
 
 func (m *AccountTimeline) validateBundles(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Bundles) { // not required
 		return nil
 	}
@@ -91,8 +90,6 @@ func (m *AccountTimeline) validateBundles(formats strfmt.Registry) error {
 			if err := m.Bundles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("bundles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("bundles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -104,6 +101,7 @@ func (m *AccountTimeline) validateBundles(formats strfmt.Registry) error {
 }
 
 func (m *AccountTimeline) validateInvoices(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Invoices) { // not required
 		return nil
 	}
@@ -117,8 +115,6 @@ func (m *AccountTimeline) validateInvoices(formats strfmt.Registry) error {
 			if err := m.Invoices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("invoices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("invoices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -130,6 +126,7 @@ func (m *AccountTimeline) validateInvoices(formats strfmt.Registry) error {
 }
 
 func (m *AccountTimeline) validatePayments(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Payments) { // not required
 		return nil
 	}
@@ -143,110 +140,6 @@ func (m *AccountTimeline) validatePayments(formats strfmt.Registry) error {
 			if err := m.Payments[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("payments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("payments" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this account timeline based on the context it is used
-func (m *AccountTimeline) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAccount(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateBundles(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateInvoices(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePayments(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *AccountTimeline) contextValidateAccount(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Account != nil {
-		if err := m.Account.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("account")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("account")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *AccountTimeline) contextValidateBundles(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Bundles); i++ {
-
-		if m.Bundles[i] != nil {
-			if err := m.Bundles[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("bundles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("bundles" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *AccountTimeline) contextValidateInvoices(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Invoices); i++ {
-
-		if m.Invoices[i] != nil {
-			if err := m.Invoices[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("invoices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("invoices" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *AccountTimeline) contextValidatePayments(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Payments); i++ {
-
-		if m.Payments[i] != nil {
-			if err := m.Payments[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("payments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("payments" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

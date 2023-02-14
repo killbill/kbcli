@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // ChargebackPaymentByExternalKeyReader is a Reader for the ChargebackPaymentByExternalKey structure.
@@ -23,50 +25,21 @@ type ChargebackPaymentByExternalKeyReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ChargebackPaymentByExternalKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-	case 201:
+
+	case 201, 200:
 		result := NewChargebackPaymentByExternalKeyCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 402:
-		result := NewChargebackPaymentByExternalKeyPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewChargebackPaymentByExternalKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 422:
-		result := NewChargebackPaymentByExternalKeyUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 502:
-		result := NewChargebackPaymentByExternalKeyBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 503:
-		result := NewChargebackPaymentByExternalKeyServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 504:
-		result := NewChargebackPaymentByExternalKeyGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -75,50 +48,17 @@ func NewChargebackPaymentByExternalKeyCreated() *ChargebackPaymentByExternalKeyC
 	return &ChargebackPaymentByExternalKeyCreated{}
 }
 
-/*
-ChargebackPaymentByExternalKeyCreated describes a response with status code 201, with default header values.
+/*ChargebackPaymentByExternalKeyCreated handles this case with default header values.
 
 Payment transaction created successfully
 */
 type ChargebackPaymentByExternalKeyCreated struct {
 	Payload *kbmodel.Payment
-}
 
-// IsSuccess returns true when this chargeback payment by external key created response has a 2xx status code
-func (o *ChargebackPaymentByExternalKeyCreated) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this chargeback payment by external key created response has a 3xx status code
-func (o *ChargebackPaymentByExternalKeyCreated) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this chargeback payment by external key created response has a 4xx status code
-func (o *ChargebackPaymentByExternalKeyCreated) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this chargeback payment by external key created response has a 5xx status code
-func (o *ChargebackPaymentByExternalKeyCreated) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this chargeback payment by external key created response a status code equal to that given
-func (o *ChargebackPaymentByExternalKeyCreated) IsCode(code int) bool {
-	return code == 201
-}
-
-// Code gets the status code for the chargeback payment by external key created response
-func (o *ChargebackPaymentByExternalKeyCreated) Code() int {
-	return 201
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentByExternalKeyCreated) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyCreated  %+v", 201, o.Payload)
-}
-
-func (o *ChargebackPaymentByExternalKeyCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyCreated  %+v", 201, o.Payload)
 }
 
@@ -143,49 +83,15 @@ func NewChargebackPaymentByExternalKeyPaymentRequired() *ChargebackPaymentByExte
 	return &ChargebackPaymentByExternalKeyPaymentRequired{}
 }
 
-/*
-ChargebackPaymentByExternalKeyPaymentRequired describes a response with status code 402, with default header values.
+/*ChargebackPaymentByExternalKeyPaymentRequired handles this case with default header values.
 
 Transaction declined by gateway
 */
 type ChargebackPaymentByExternalKeyPaymentRequired struct {
-}
-
-// IsSuccess returns true when this chargeback payment by external key payment required response has a 2xx status code
-func (o *ChargebackPaymentByExternalKeyPaymentRequired) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this chargeback payment by external key payment required response has a 3xx status code
-func (o *ChargebackPaymentByExternalKeyPaymentRequired) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this chargeback payment by external key payment required response has a 4xx status code
-func (o *ChargebackPaymentByExternalKeyPaymentRequired) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this chargeback payment by external key payment required response has a 5xx status code
-func (o *ChargebackPaymentByExternalKeyPaymentRequired) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this chargeback payment by external key payment required response a status code equal to that given
-func (o *ChargebackPaymentByExternalKeyPaymentRequired) IsCode(code int) bool {
-	return code == 402
-}
-
-// Code gets the status code for the chargeback payment by external key payment required response
-func (o *ChargebackPaymentByExternalKeyPaymentRequired) Code() int {
-	return 402
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentByExternalKeyPaymentRequired) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyPaymentRequired ", 402)
-}
-
-func (o *ChargebackPaymentByExternalKeyPaymentRequired) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyPaymentRequired ", 402)
 }
 
@@ -199,49 +105,15 @@ func NewChargebackPaymentByExternalKeyNotFound() *ChargebackPaymentByExternalKey
 	return &ChargebackPaymentByExternalKeyNotFound{}
 }
 
-/*
-ChargebackPaymentByExternalKeyNotFound describes a response with status code 404, with default header values.
+/*ChargebackPaymentByExternalKeyNotFound handles this case with default header values.
 
 Account or payment not found
 */
 type ChargebackPaymentByExternalKeyNotFound struct {
-}
-
-// IsSuccess returns true when this chargeback payment by external key not found response has a 2xx status code
-func (o *ChargebackPaymentByExternalKeyNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this chargeback payment by external key not found response has a 3xx status code
-func (o *ChargebackPaymentByExternalKeyNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this chargeback payment by external key not found response has a 4xx status code
-func (o *ChargebackPaymentByExternalKeyNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this chargeback payment by external key not found response has a 5xx status code
-func (o *ChargebackPaymentByExternalKeyNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this chargeback payment by external key not found response a status code equal to that given
-func (o *ChargebackPaymentByExternalKeyNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the chargeback payment by external key not found response
-func (o *ChargebackPaymentByExternalKeyNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentByExternalKeyNotFound) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyNotFound ", 404)
-}
-
-func (o *ChargebackPaymentByExternalKeyNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyNotFound ", 404)
 }
 
@@ -255,49 +127,15 @@ func NewChargebackPaymentByExternalKeyUnprocessableEntity() *ChargebackPaymentBy
 	return &ChargebackPaymentByExternalKeyUnprocessableEntity{}
 }
 
-/*
-ChargebackPaymentByExternalKeyUnprocessableEntity describes a response with status code 422, with default header values.
+/*ChargebackPaymentByExternalKeyUnprocessableEntity handles this case with default header values.
 
 Payment is aborted by a control plugin
 */
 type ChargebackPaymentByExternalKeyUnprocessableEntity struct {
-}
-
-// IsSuccess returns true when this chargeback payment by external key unprocessable entity response has a 2xx status code
-func (o *ChargebackPaymentByExternalKeyUnprocessableEntity) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this chargeback payment by external key unprocessable entity response has a 3xx status code
-func (o *ChargebackPaymentByExternalKeyUnprocessableEntity) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this chargeback payment by external key unprocessable entity response has a 4xx status code
-func (o *ChargebackPaymentByExternalKeyUnprocessableEntity) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this chargeback payment by external key unprocessable entity response has a 5xx status code
-func (o *ChargebackPaymentByExternalKeyUnprocessableEntity) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this chargeback payment by external key unprocessable entity response a status code equal to that given
-func (o *ChargebackPaymentByExternalKeyUnprocessableEntity) IsCode(code int) bool {
-	return code == 422
-}
-
-// Code gets the status code for the chargeback payment by external key unprocessable entity response
-func (o *ChargebackPaymentByExternalKeyUnprocessableEntity) Code() int {
-	return 422
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentByExternalKeyUnprocessableEntity) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyUnprocessableEntity ", 422)
-}
-
-func (o *ChargebackPaymentByExternalKeyUnprocessableEntity) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyUnprocessableEntity ", 422)
 }
 
@@ -311,49 +149,15 @@ func NewChargebackPaymentByExternalKeyBadGateway() *ChargebackPaymentByExternalK
 	return &ChargebackPaymentByExternalKeyBadGateway{}
 }
 
-/*
-ChargebackPaymentByExternalKeyBadGateway describes a response with status code 502, with default header values.
+/*ChargebackPaymentByExternalKeyBadGateway handles this case with default header values.
 
 Failed to submit payment transaction
 */
 type ChargebackPaymentByExternalKeyBadGateway struct {
-}
-
-// IsSuccess returns true when this chargeback payment by external key bad gateway response has a 2xx status code
-func (o *ChargebackPaymentByExternalKeyBadGateway) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this chargeback payment by external key bad gateway response has a 3xx status code
-func (o *ChargebackPaymentByExternalKeyBadGateway) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this chargeback payment by external key bad gateway response has a 4xx status code
-func (o *ChargebackPaymentByExternalKeyBadGateway) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this chargeback payment by external key bad gateway response has a 5xx status code
-func (o *ChargebackPaymentByExternalKeyBadGateway) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this chargeback payment by external key bad gateway response a status code equal to that given
-func (o *ChargebackPaymentByExternalKeyBadGateway) IsCode(code int) bool {
-	return code == 502
-}
-
-// Code gets the status code for the chargeback payment by external key bad gateway response
-func (o *ChargebackPaymentByExternalKeyBadGateway) Code() int {
-	return 502
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentByExternalKeyBadGateway) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyBadGateway ", 502)
-}
-
-func (o *ChargebackPaymentByExternalKeyBadGateway) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyBadGateway ", 502)
 }
 
@@ -367,49 +171,15 @@ func NewChargebackPaymentByExternalKeyServiceUnavailable() *ChargebackPaymentByE
 	return &ChargebackPaymentByExternalKeyServiceUnavailable{}
 }
 
-/*
-ChargebackPaymentByExternalKeyServiceUnavailable describes a response with status code 503, with default header values.
+/*ChargebackPaymentByExternalKeyServiceUnavailable handles this case with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
 type ChargebackPaymentByExternalKeyServiceUnavailable struct {
-}
-
-// IsSuccess returns true when this chargeback payment by external key service unavailable response has a 2xx status code
-func (o *ChargebackPaymentByExternalKeyServiceUnavailable) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this chargeback payment by external key service unavailable response has a 3xx status code
-func (o *ChargebackPaymentByExternalKeyServiceUnavailable) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this chargeback payment by external key service unavailable response has a 4xx status code
-func (o *ChargebackPaymentByExternalKeyServiceUnavailable) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this chargeback payment by external key service unavailable response has a 5xx status code
-func (o *ChargebackPaymentByExternalKeyServiceUnavailable) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this chargeback payment by external key service unavailable response a status code equal to that given
-func (o *ChargebackPaymentByExternalKeyServiceUnavailable) IsCode(code int) bool {
-	return code == 503
-}
-
-// Code gets the status code for the chargeback payment by external key service unavailable response
-func (o *ChargebackPaymentByExternalKeyServiceUnavailable) Code() int {
-	return 503
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentByExternalKeyServiceUnavailable) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyServiceUnavailable ", 503)
-}
-
-func (o *ChargebackPaymentByExternalKeyServiceUnavailable) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyServiceUnavailable ", 503)
 }
 
@@ -423,49 +193,15 @@ func NewChargebackPaymentByExternalKeyGatewayTimeout() *ChargebackPaymentByExter
 	return &ChargebackPaymentByExternalKeyGatewayTimeout{}
 }
 
-/*
-ChargebackPaymentByExternalKeyGatewayTimeout describes a response with status code 504, with default header values.
+/*ChargebackPaymentByExternalKeyGatewayTimeout handles this case with default header values.
 
 Payment operation timeout
 */
 type ChargebackPaymentByExternalKeyGatewayTimeout struct {
-}
-
-// IsSuccess returns true when this chargeback payment by external key gateway timeout response has a 2xx status code
-func (o *ChargebackPaymentByExternalKeyGatewayTimeout) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this chargeback payment by external key gateway timeout response has a 3xx status code
-func (o *ChargebackPaymentByExternalKeyGatewayTimeout) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this chargeback payment by external key gateway timeout response has a 4xx status code
-func (o *ChargebackPaymentByExternalKeyGatewayTimeout) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this chargeback payment by external key gateway timeout response has a 5xx status code
-func (o *ChargebackPaymentByExternalKeyGatewayTimeout) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this chargeback payment by external key gateway timeout response a status code equal to that given
-func (o *ChargebackPaymentByExternalKeyGatewayTimeout) IsCode(code int) bool {
-	return code == 504
-}
-
-// Code gets the status code for the chargeback payment by external key gateway timeout response
-func (o *ChargebackPaymentByExternalKeyGatewayTimeout) Code() int {
-	return 504
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *ChargebackPaymentByExternalKeyGatewayTimeout) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyGatewayTimeout ", 504)
-}
-
-func (o *ChargebackPaymentByExternalKeyGatewayTimeout) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/chargebacks][%d] chargebackPaymentByExternalKeyGatewayTimeout ", 504)
 }
 

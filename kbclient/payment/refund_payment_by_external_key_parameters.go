@@ -13,93 +13,76 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewRefundPaymentByExternalKeyParams creates a new RefundPaymentByExternalKeyParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewRefundPaymentByExternalKeyParams creates a new RefundPaymentByExternalKeyParams object
+// with the default values initialized.
 func NewRefundPaymentByExternalKeyParams() *RefundPaymentByExternalKeyParams {
+	var ()
 	return &RefundPaymentByExternalKeyParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRefundPaymentByExternalKeyParamsWithTimeout creates a new RefundPaymentByExternalKeyParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewRefundPaymentByExternalKeyParamsWithTimeout(timeout time.Duration) *RefundPaymentByExternalKeyParams {
+	var ()
 	return &RefundPaymentByExternalKeyParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewRefundPaymentByExternalKeyParamsWithContext creates a new RefundPaymentByExternalKeyParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewRefundPaymentByExternalKeyParamsWithContext(ctx context.Context) *RefundPaymentByExternalKeyParams {
+	var ()
 	return &RefundPaymentByExternalKeyParams{
+
 		Context: ctx,
 	}
 }
 
 // NewRefundPaymentByExternalKeyParamsWithHTTPClient creates a new RefundPaymentByExternalKeyParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewRefundPaymentByExternalKeyParamsWithHTTPClient(client *http.Client) *RefundPaymentByExternalKeyParams {
+	var ()
 	return &RefundPaymentByExternalKeyParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-RefundPaymentByExternalKeyParams contains all the parameters to send to the API endpoint
-
-	for the refund payment by external key operation.
-
-	Typically these are written to a http.Request.
+/*RefundPaymentByExternalKeyParams contains all the parameters to send to the API endpoint
+for the refund payment by external key operation typically these are written to a http.Request
 */
 type RefundPaymentByExternalKeyParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// Body.
+	/*Body*/
 	Body *kbmodel.PaymentTransaction
-
-	// ControlPluginName.
+	/*ControlPluginName*/
 	ControlPluginName []string
-
-	// PluginProperty.
+	/*PluginProperty*/
 	PluginProperty []string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the refund payment by external key params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *RefundPaymentByExternalKeyParams) WithDefaults() *RefundPaymentByExternalKeyParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the refund payment by external key params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *RefundPaymentByExternalKeyParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the refund payment by external key params
@@ -215,6 +198,7 @@ func (o *RefundPaymentByExternalKeyParams) WriteToRequest(r runtime.ClientReques
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -228,31 +212,41 @@ func (o *RefundPaymentByExternalKeyParams) WriteToRequest(r runtime.ClientReques
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	if o.ControlPluginName != nil {
+	valuesControlPluginName := o.ControlPluginName
 
-		// binding items for controlPluginName
-		joinedControlPluginName := o.bindParamControlPluginName(reg)
+	joinedControlPluginName := swag.JoinByFormat(valuesControlPluginName, "multi")
+	// query array param controlPluginName
+	if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+		return err
+	}
 
-		// query array param controlPluginName
-		if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+	valuesPluginProperty := o.PluginProperty
+
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
 			return err
 		}
 	}
 
-	if o.PluginProperty != nil {
-
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
-
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}
@@ -261,38 +255,4 @@ func (o *RefundPaymentByExternalKeyParams) WriteToRequest(r runtime.ClientReques
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamRefundPaymentByExternalKey binds the parameter controlPluginName
-func (o *RefundPaymentByExternalKeyParams) bindParamControlPluginName(formats strfmt.Registry) []string {
-	controlPluginNameIR := o.ControlPluginName
-
-	var controlPluginNameIC []string
-	for _, controlPluginNameIIR := range controlPluginNameIR { // explode []string
-
-		controlPluginNameIIV := controlPluginNameIIR // string as string
-		controlPluginNameIC = append(controlPluginNameIC, controlPluginNameIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	controlPluginNameIS := swag.JoinByFormat(controlPluginNameIC, "multi")
-
-	return controlPluginNameIS
-}
-
-// bindParamRefundPaymentByExternalKey binds the parameter pluginProperty
-func (o *RefundPaymentByExternalKeyParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

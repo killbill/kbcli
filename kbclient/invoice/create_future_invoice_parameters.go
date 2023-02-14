@@ -13,95 +13,74 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewCreateFutureInvoiceParams creates a new CreateFutureInvoiceParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewCreateFutureInvoiceParams creates a new CreateFutureInvoiceParams object
+// with the default values initialized.
 func NewCreateFutureInvoiceParams() *CreateFutureInvoiceParams {
+	var ()
 	return &CreateFutureInvoiceParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateFutureInvoiceParamsWithTimeout creates a new CreateFutureInvoiceParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewCreateFutureInvoiceParamsWithTimeout(timeout time.Duration) *CreateFutureInvoiceParams {
+	var ()
 	return &CreateFutureInvoiceParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewCreateFutureInvoiceParamsWithContext creates a new CreateFutureInvoiceParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewCreateFutureInvoiceParamsWithContext(ctx context.Context) *CreateFutureInvoiceParams {
+	var ()
 	return &CreateFutureInvoiceParams{
+
 		Context: ctx,
 	}
 }
 
 // NewCreateFutureInvoiceParamsWithHTTPClient creates a new CreateFutureInvoiceParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewCreateFutureInvoiceParamsWithHTTPClient(client *http.Client) *CreateFutureInvoiceParams {
+	var ()
 	return &CreateFutureInvoiceParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-CreateFutureInvoiceParams contains all the parameters to send to the API endpoint
-
-	for the create future invoice operation.
-
-	Typically these are written to a http.Request.
+/*CreateFutureInvoiceParams contains all the parameters to send to the API endpoint
+for the create future invoice operation typically these are written to a http.Request
 */
 type CreateFutureInvoiceParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// AccountID.
-	//
-	// Format: uuid
+	/*AccountID*/
 	AccountID strfmt.UUID
-
-	// PluginProperty.
+	/*PluginProperty*/
 	PluginProperty []string
-
-	// TargetDate.
-	//
-	// Format: date
+	/*TargetDate*/
 	TargetDate *strfmt.Date
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the create future invoice params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateFutureInvoiceParams) WithDefaults() *CreateFutureInvoiceParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the create future invoice params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateFutureInvoiceParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the create future invoice params
@@ -217,6 +196,7 @@ func (o *CreateFutureInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -230,43 +210,53 @@ func (o *CreateFutureInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
 
 	// query param accountId
 	qrAccountID := o.AccountID
 	qAccountID := qrAccountID.String()
 	if qAccountID != "" {
-
 		if err := r.SetQueryParam("accountId", qAccountID); err != nil {
 			return err
 		}
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
-
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-			return err
-		}
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	if o.TargetDate != nil {
 
 		// query param targetDate
 		var qrTargetDate strfmt.Date
-
 		if o.TargetDate != nil {
 			qrTargetDate = *o.TargetDate
 		}
 		qTargetDate := qrTargetDate.String()
 		if qTargetDate != "" {
-
 			if err := r.SetQueryParam("targetDate", qTargetDate); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 
@@ -274,21 +264,4 @@ func (o *CreateFutureInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamCreateFutureInvoice binds the parameter pluginProperty
-func (o *CreateFutureInvoiceParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

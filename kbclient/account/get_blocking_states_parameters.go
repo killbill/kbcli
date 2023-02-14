@@ -13,100 +13,82 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetBlockingStatesParams creates a new GetBlockingStatesParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetBlockingStatesParams creates a new GetBlockingStatesParams object
+// with the default values initialized.
 func NewGetBlockingStatesParams() *GetBlockingStatesParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetBlockingStatesParams{
+		Audit: &auditDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetBlockingStatesParamsWithTimeout creates a new GetBlockingStatesParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetBlockingStatesParamsWithTimeout(timeout time.Duration) *GetBlockingStatesParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetBlockingStatesParams{
+		Audit: &auditDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetBlockingStatesParamsWithContext creates a new GetBlockingStatesParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetBlockingStatesParamsWithContext(ctx context.Context) *GetBlockingStatesParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetBlockingStatesParams{
+		Audit: &auditDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetBlockingStatesParamsWithHTTPClient creates a new GetBlockingStatesParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetBlockingStatesParamsWithHTTPClient(client *http.Client) *GetBlockingStatesParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetBlockingStatesParams{
+		Audit:      &auditDefault,
 		HTTPClient: client,
 	}
 }
 
-/*
-GetBlockingStatesParams contains all the parameters to send to the API endpoint
-
-	for the get blocking states operation.
-
-	Typically these are written to a http.Request.
+/*GetBlockingStatesParams contains all the parameters to send to the API endpoint
+for the get blocking states operation typically these are written to a http.Request
 */
 type GetBlockingStatesParams struct {
 
-	// AccountID.
-	//
-	// Format: uuid
+	/*AccountID*/
 	AccountID strfmt.UUID
-
-	// Audit.
-	//
-	// Default: "NONE"
+	/*Audit*/
 	Audit *string
-
-	// BlockingStateSvcs.
+	/*BlockingStateSvcs*/
 	BlockingStateSvcs []string
-
-	// BlockingStateTypes.
+	/*BlockingStateTypes*/
 	BlockingStateTypes []string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get blocking states params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetBlockingStatesParams) WithDefaults() *GetBlockingStatesParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get blocking states params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetBlockingStatesParams) SetDefaults() {
-	var (
-		auditDefault = string("NONE")
-	)
-
-	val := GetBlockingStatesParams{
-		Audit: &auditDefault,
-	}
-
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get blocking states params
@@ -203,37 +185,44 @@ func (o *GetBlockingStatesParams) WriteToRequest(r runtime.ClientRequest, reg st
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
-	if o.BlockingStateSvcs != nil {
+	valuesBlockingStateSvcs := o.BlockingStateSvcs
 
-		// binding items for blockingStateSvcs
-		joinedBlockingStateSvcs := o.bindParamBlockingStateSvcs(reg)
+	joinedBlockingStateSvcs := swag.JoinByFormat(valuesBlockingStateSvcs, "multi")
+	// query array param blockingStateSvcs
+	if err := r.SetQueryParam("blockingStateSvcs", joinedBlockingStateSvcs...); err != nil {
+		return err
+	}
 
-		// query array param blockingStateSvcs
-		if err := r.SetQueryParam("blockingStateSvcs", joinedBlockingStateSvcs...); err != nil {
+	valuesBlockingStateTypes := o.BlockingStateTypes
+
+	joinedBlockingStateTypes := swag.JoinByFormat(valuesBlockingStateTypes, "multi")
+	// query array param blockingStateTypes
+	if err := r.SetQueryParam("blockingStateTypes", joinedBlockingStateTypes...); err != nil {
+		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
 			return err
 		}
 	}
 
-	if o.BlockingStateTypes != nil {
-
-		// binding items for blockingStateTypes
-		joinedBlockingStateTypes := o.bindParamBlockingStateTypes(reg)
-
-		// query array param blockingStateTypes
-		if err := r.SetQueryParam("blockingStateTypes", joinedBlockingStateTypes...); err != nil {
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}
@@ -242,38 +231,4 @@ func (o *GetBlockingStatesParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamGetBlockingStates binds the parameter blockingStateSvcs
-func (o *GetBlockingStatesParams) bindParamBlockingStateSvcs(formats strfmt.Registry) []string {
-	blockingStateSvcsIR := o.BlockingStateSvcs
-
-	var blockingStateSvcsIC []string
-	for _, blockingStateSvcsIIR := range blockingStateSvcsIR { // explode []string
-
-		blockingStateSvcsIIV := blockingStateSvcsIIR // string as string
-		blockingStateSvcsIC = append(blockingStateSvcsIC, blockingStateSvcsIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	blockingStateSvcsIS := swag.JoinByFormat(blockingStateSvcsIC, "multi")
-
-	return blockingStateSvcsIS
-}
-
-// bindParamGetBlockingStates binds the parameter blockingStateTypes
-func (o *GetBlockingStatesParams) bindParamBlockingStateTypes(formats strfmt.Registry) []string {
-	blockingStateTypesIR := o.BlockingStateTypes
-
-	var blockingStateTypesIC []string
-	for _, blockingStateTypesIIR := range blockingStateTypesIR { // explode []string
-
-		blockingStateTypesIIV := blockingStateTypesIIR // string as string
-		blockingStateTypesIC = append(blockingStateTypesIC, blockingStateTypesIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	blockingStateTypesIS := swag.JoinByFormat(blockingStateTypesIC, "multi")
-
-	return blockingStateTypesIS
 }

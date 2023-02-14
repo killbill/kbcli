@@ -13,99 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewUploadInvoiceMPTemplateParams creates a new UploadInvoiceMPTemplateParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewUploadInvoiceMPTemplateParams creates a new UploadInvoiceMPTemplateParams object
+// with the default values initialized.
 func NewUploadInvoiceMPTemplateParams() *UploadInvoiceMPTemplateParams {
+	var (
+		deleteIfExistsDefault = bool(false)
+	)
 	return &UploadInvoiceMPTemplateParams{
+		DeleteIfExists: &deleteIfExistsDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUploadInvoiceMPTemplateParamsWithTimeout creates a new UploadInvoiceMPTemplateParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewUploadInvoiceMPTemplateParamsWithTimeout(timeout time.Duration) *UploadInvoiceMPTemplateParams {
+	var (
+		deleteIfExistsDefault = bool(false)
+	)
 	return &UploadInvoiceMPTemplateParams{
+		DeleteIfExists: &deleteIfExistsDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewUploadInvoiceMPTemplateParamsWithContext creates a new UploadInvoiceMPTemplateParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewUploadInvoiceMPTemplateParamsWithContext(ctx context.Context) *UploadInvoiceMPTemplateParams {
+	var (
+		deleteIfExistsDefault = bool(false)
+	)
 	return &UploadInvoiceMPTemplateParams{
+		DeleteIfExists: &deleteIfExistsDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewUploadInvoiceMPTemplateParamsWithHTTPClient creates a new UploadInvoiceMPTemplateParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewUploadInvoiceMPTemplateParamsWithHTTPClient(client *http.Client) *UploadInvoiceMPTemplateParams {
-	return &UploadInvoiceMPTemplateParams{
-		HTTPClient: client,
-	}
-}
-
-/*
-UploadInvoiceMPTemplateParams contains all the parameters to send to the API endpoint
-
-	for the upload invoice m p template operation.
-
-	Typically these are written to a http.Request.
-*/
-type UploadInvoiceMPTemplateParams struct {
-
-	// XKillbillComment.
-	XKillbillComment *string
-
-	// XKillbillCreatedBy.
-	XKillbillCreatedBy string
-
-	// XKillbillReason.
-	XKillbillReason *string
-
-	// Body.
-	Body string
-
-	// DeleteIfExists.
-	DeleteIfExists *bool
-
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the upload invoice m p template params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *UploadInvoiceMPTemplateParams) WithDefaults() *UploadInvoiceMPTemplateParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the upload invoice m p template params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *UploadInvoiceMPTemplateParams) SetDefaults() {
 	var (
 		deleteIfExistsDefault = bool(false)
 	)
-
-	val := UploadInvoiceMPTemplateParams{
+	return &UploadInvoiceMPTemplateParams{
 		DeleteIfExists: &deleteIfExistsDefault,
+		HTTPClient:     client,
 	}
+}
 
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+/*UploadInvoiceMPTemplateParams contains all the parameters to send to the API endpoint
+for the upload invoice m p template operation typically these are written to a http.Request
+*/
+type UploadInvoiceMPTemplateParams struct {
+
+	/*XKillbillComment*/
+	XKillbillComment *string
+	/*XKillbillCreatedBy*/
+	XKillbillCreatedBy string
+	/*XKillbillReason*/
+	XKillbillReason *string
+	/*Body*/
+	Body string
+	/*DeleteIfExists*/
+	DeleteIfExists *bool
+
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the upload invoice m p template params
@@ -210,6 +195,7 @@ func (o *UploadInvoiceMPTemplateParams) WriteToRequest(r runtime.ClientRequest, 
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -223,7 +209,9 @@ func (o *UploadInvoiceMPTemplateParams) WriteToRequest(r runtime.ClientRequest, 
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if err := r.SetBodyParam(o.Body); err != nil {
 		return err
 	}
@@ -232,16 +220,29 @@ func (o *UploadInvoiceMPTemplateParams) WriteToRequest(r runtime.ClientRequest, 
 
 		// query param deleteIfExists
 		var qrDeleteIfExists bool
-
 		if o.DeleteIfExists != nil {
 			qrDeleteIfExists = *o.DeleteIfExists
 		}
 		qDeleteIfExists := swag.FormatBool(qrDeleteIfExists)
 		if qDeleteIfExists != "" {
-
 			if err := r.SetQueryParam("deleteIfExists", qDeleteIfExists); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 

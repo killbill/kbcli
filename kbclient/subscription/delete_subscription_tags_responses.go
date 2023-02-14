@@ -7,9 +7,12 @@ package subscription
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // DeleteSubscriptionTagsReader is a Reader for the DeleteSubscriptionTags structure.
@@ -20,20 +23,21 @@ type DeleteSubscriptionTagsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteSubscriptionTagsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewDeleteSubscriptionTagsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewDeleteSubscriptionTagsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -42,49 +46,15 @@ func NewDeleteSubscriptionTagsNoContent() *DeleteSubscriptionTagsNoContent {
 	return &DeleteSubscriptionTagsNoContent{}
 }
 
-/*
-DeleteSubscriptionTagsNoContent describes a response with status code 204, with default header values.
+/*DeleteSubscriptionTagsNoContent handles this case with default header values.
 
 Successful operation
 */
 type DeleteSubscriptionTagsNoContent struct {
-}
-
-// IsSuccess returns true when this delete subscription tags no content response has a 2xx status code
-func (o *DeleteSubscriptionTagsNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this delete subscription tags no content response has a 3xx status code
-func (o *DeleteSubscriptionTagsNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete subscription tags no content response has a 4xx status code
-func (o *DeleteSubscriptionTagsNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this delete subscription tags no content response has a 5xx status code
-func (o *DeleteSubscriptionTagsNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete subscription tags no content response a status code equal to that given
-func (o *DeleteSubscriptionTagsNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the delete subscription tags no content response
-func (o *DeleteSubscriptionTagsNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteSubscriptionTagsNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}/tags][%d] deleteSubscriptionTagsNoContent ", 204)
-}
-
-func (o *DeleteSubscriptionTagsNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}/tags][%d] deleteSubscriptionTagsNoContent ", 204)
 }
 
@@ -98,49 +68,15 @@ func NewDeleteSubscriptionTagsBadRequest() *DeleteSubscriptionTagsBadRequest {
 	return &DeleteSubscriptionTagsBadRequest{}
 }
 
-/*
-DeleteSubscriptionTagsBadRequest describes a response with status code 400, with default header values.
+/*DeleteSubscriptionTagsBadRequest handles this case with default header values.
 
 Invalid subscription id supplied
 */
 type DeleteSubscriptionTagsBadRequest struct {
-}
-
-// IsSuccess returns true when this delete subscription tags bad request response has a 2xx status code
-func (o *DeleteSubscriptionTagsBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this delete subscription tags bad request response has a 3xx status code
-func (o *DeleteSubscriptionTagsBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete subscription tags bad request response has a 4xx status code
-func (o *DeleteSubscriptionTagsBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this delete subscription tags bad request response has a 5xx status code
-func (o *DeleteSubscriptionTagsBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete subscription tags bad request response a status code equal to that given
-func (o *DeleteSubscriptionTagsBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the delete subscription tags bad request response
-func (o *DeleteSubscriptionTagsBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteSubscriptionTagsBadRequest) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}/tags][%d] deleteSubscriptionTagsBadRequest ", 400)
-}
-
-func (o *DeleteSubscriptionTagsBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}/tags][%d] deleteSubscriptionTagsBadRequest ", 400)
 }
 

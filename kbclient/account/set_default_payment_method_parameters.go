@@ -13,109 +13,88 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewSetDefaultPaymentMethodParams creates a new SetDefaultPaymentMethodParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewSetDefaultPaymentMethodParams creates a new SetDefaultPaymentMethodParams object
+// with the default values initialized.
 func NewSetDefaultPaymentMethodParams() *SetDefaultPaymentMethodParams {
+	var (
+		payAllUnpaidInvoicesDefault = bool(false)
+	)
 	return &SetDefaultPaymentMethodParams{
+		PayAllUnpaidInvoices: &payAllUnpaidInvoicesDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSetDefaultPaymentMethodParamsWithTimeout creates a new SetDefaultPaymentMethodParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewSetDefaultPaymentMethodParamsWithTimeout(timeout time.Duration) *SetDefaultPaymentMethodParams {
+	var (
+		payAllUnpaidInvoicesDefault = bool(false)
+	)
 	return &SetDefaultPaymentMethodParams{
+		PayAllUnpaidInvoices: &payAllUnpaidInvoicesDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewSetDefaultPaymentMethodParamsWithContext creates a new SetDefaultPaymentMethodParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewSetDefaultPaymentMethodParamsWithContext(ctx context.Context) *SetDefaultPaymentMethodParams {
+	var (
+		payAllUnpaidInvoicesDefault = bool(false)
+	)
 	return &SetDefaultPaymentMethodParams{
+		PayAllUnpaidInvoices: &payAllUnpaidInvoicesDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewSetDefaultPaymentMethodParamsWithHTTPClient creates a new SetDefaultPaymentMethodParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewSetDefaultPaymentMethodParamsWithHTTPClient(client *http.Client) *SetDefaultPaymentMethodParams {
-	return &SetDefaultPaymentMethodParams{
-		HTTPClient: client,
-	}
-}
-
-/*
-SetDefaultPaymentMethodParams contains all the parameters to send to the API endpoint
-
-	for the set default payment method operation.
-
-	Typically these are written to a http.Request.
-*/
-type SetDefaultPaymentMethodParams struct {
-
-	// XKillbillComment.
-	XKillbillComment *string
-
-	// XKillbillCreatedBy.
-	XKillbillCreatedBy string
-
-	// XKillbillReason.
-	XKillbillReason *string
-
-	// AccountID.
-	//
-	// Format: uuid
-	AccountID strfmt.UUID
-
-	// PayAllUnpaidInvoices.
-	PayAllUnpaidInvoices *bool
-
-	// PaymentMethodID.
-	//
-	// Format: uuid
-	PaymentMethodID strfmt.UUID
-
-	// PluginProperty.
-	PluginProperty []string
-
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the set default payment method params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *SetDefaultPaymentMethodParams) WithDefaults() *SetDefaultPaymentMethodParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the set default payment method params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *SetDefaultPaymentMethodParams) SetDefaults() {
 	var (
 		payAllUnpaidInvoicesDefault = bool(false)
 	)
-
-	val := SetDefaultPaymentMethodParams{
+	return &SetDefaultPaymentMethodParams{
 		PayAllUnpaidInvoices: &payAllUnpaidInvoicesDefault,
+		HTTPClient:           client,
 	}
+}
 
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+/*SetDefaultPaymentMethodParams contains all the parameters to send to the API endpoint
+for the set default payment method operation typically these are written to a http.Request
+*/
+type SetDefaultPaymentMethodParams struct {
+
+	/*XKillbillComment*/
+	XKillbillComment *string
+	/*XKillbillCreatedBy*/
+	XKillbillCreatedBy string
+	/*XKillbillReason*/
+	XKillbillReason *string
+	/*AccountID*/
+	AccountID strfmt.UUID
+	/*PayAllUnpaidInvoices*/
+	PayAllUnpaidInvoices *bool
+	/*PaymentMethodID*/
+	PaymentMethodID strfmt.UUID
+	/*PluginProperty*/
+	PluginProperty []string
+
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the set default payment method params
@@ -242,6 +221,7 @@ func (o *SetDefaultPaymentMethodParams) WriteToRequest(r runtime.ClientRequest, 
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -255,6 +235,7 @@ func (o *SetDefaultPaymentMethodParams) WriteToRequest(r runtime.ClientRequest, 
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
 
 	// path param accountId
@@ -266,17 +247,16 @@ func (o *SetDefaultPaymentMethodParams) WriteToRequest(r runtime.ClientRequest, 
 
 		// query param payAllUnpaidInvoices
 		var qrPayAllUnpaidInvoices bool
-
 		if o.PayAllUnpaidInvoices != nil {
 			qrPayAllUnpaidInvoices = *o.PayAllUnpaidInvoices
 		}
 		qPayAllUnpaidInvoices := swag.FormatBool(qrPayAllUnpaidInvoices)
 		if qPayAllUnpaidInvoices != "" {
-
 			if err := r.SetQueryParam("payAllUnpaidInvoices", qPayAllUnpaidInvoices); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// path param paymentMethodId
@@ -284,13 +264,24 @@ func (o *SetDefaultPaymentMethodParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
+	}
 
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
 			return err
 		}
 	}
@@ -299,21 +290,4 @@ func (o *SetDefaultPaymentMethodParams) WriteToRequest(r runtime.ClientRequest, 
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamSetDefaultPaymentMethod binds the parameter pluginProperty
-func (o *SetDefaultPaymentMethodParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

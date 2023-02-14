@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetAccountAuditLogsReader is a Reader for the GetAccountAuditLogs structure.
@@ -23,20 +25,21 @@ type GetAccountAuditLogsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetAccountAuditLogsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetAccountAuditLogsOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 404:
-		result := NewGetAccountAuditLogsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -45,50 +48,17 @@ func NewGetAccountAuditLogsOK() *GetAccountAuditLogsOK {
 	return &GetAccountAuditLogsOK{}
 }
 
-/*
-GetAccountAuditLogsOK describes a response with status code 200, with default header values.
+/*GetAccountAuditLogsOK handles this case with default header values.
 
 successful operation
 */
 type GetAccountAuditLogsOK struct {
 	Payload []*kbmodel.AuditLog
-}
 
-// IsSuccess returns true when this get account audit logs o k response has a 2xx status code
-func (o *GetAccountAuditLogsOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get account audit logs o k response has a 3xx status code
-func (o *GetAccountAuditLogsOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get account audit logs o k response has a 4xx status code
-func (o *GetAccountAuditLogsOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get account audit logs o k response has a 5xx status code
-func (o *GetAccountAuditLogsOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get account audit logs o k response a status code equal to that given
-func (o *GetAccountAuditLogsOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get account audit logs o k response
-func (o *GetAccountAuditLogsOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountAuditLogsOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/auditLogs][%d] getAccountAuditLogsOK  %+v", 200, o.Payload)
-}
-
-func (o *GetAccountAuditLogsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/auditLogs][%d] getAccountAuditLogsOK  %+v", 200, o.Payload)
 }
 
@@ -111,49 +81,15 @@ func NewGetAccountAuditLogsNotFound() *GetAccountAuditLogsNotFound {
 	return &GetAccountAuditLogsNotFound{}
 }
 
-/*
-GetAccountAuditLogsNotFound describes a response with status code 404, with default header values.
+/*GetAccountAuditLogsNotFound handles this case with default header values.
 
 Account not found
 */
 type GetAccountAuditLogsNotFound struct {
-}
-
-// IsSuccess returns true when this get account audit logs not found response has a 2xx status code
-func (o *GetAccountAuditLogsNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get account audit logs not found response has a 3xx status code
-func (o *GetAccountAuditLogsNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get account audit logs not found response has a 4xx status code
-func (o *GetAccountAuditLogsNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get account audit logs not found response has a 5xx status code
-func (o *GetAccountAuditLogsNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get account audit logs not found response a status code equal to that given
-func (o *GetAccountAuditLogsNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get account audit logs not found response
-func (o *GetAccountAuditLogsNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetAccountAuditLogsNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/auditLogs][%d] getAccountAuditLogsNotFound ", 404)
-}
-
-func (o *GetAccountAuditLogsNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/auditLogs][%d] getAccountAuditLogsNotFound ", 404)
 }
 

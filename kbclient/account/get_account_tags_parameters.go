@@ -13,100 +13,88 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetAccountTagsParams creates a new GetAccountTagsParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetAccountTagsParams creates a new GetAccountTagsParams object
+// with the default values initialized.
 func NewGetAccountTagsParams() *GetAccountTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetAccountTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAccountTagsParamsWithTimeout creates a new GetAccountTagsParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetAccountTagsParamsWithTimeout(timeout time.Duration) *GetAccountTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetAccountTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetAccountTagsParamsWithContext creates a new GetAccountTagsParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetAccountTagsParamsWithContext(ctx context.Context) *GetAccountTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetAccountTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetAccountTagsParamsWithHTTPClient creates a new GetAccountTagsParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetAccountTagsParamsWithHTTPClient(client *http.Client) *GetAccountTagsParams {
+	var (
+		auditDefault           = string("NONE")
+		includedDeletedDefault = bool(false)
+	)
 	return &GetAccountTagsParams{
-		HTTPClient: client,
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+		HTTPClient:      client,
 	}
 }
 
-/*
-GetAccountTagsParams contains all the parameters to send to the API endpoint
-
-	for the get account tags operation.
-
-	Typically these are written to a http.Request.
+/*GetAccountTagsParams contains all the parameters to send to the API endpoint
+for the get account tags operation typically these are written to a http.Request
 */
 type GetAccountTagsParams struct {
 
-	// AccountID.
-	//
-	// Format: uuid
+	/*AccountID*/
 	AccountID strfmt.UUID
-
-	// Audit.
-	//
-	// Default: "NONE"
+	/*Audit*/
 	Audit *string
-
-	// IncludedDeleted.
+	/*IncludedDeleted*/
 	IncludedDeleted *bool
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get account tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetAccountTagsParams) WithDefaults() *GetAccountTagsParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get account tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetAccountTagsParams) SetDefaults() {
-	var (
-		auditDefault = string("NONE")
-
-		includedDeletedDefault = bool(false)
-	)
-
-	val := GetAccountTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-	}
-
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get account tags params
@@ -192,33 +180,45 @@ func (o *GetAccountTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.IncludedDeleted != nil {
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
-
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
-
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 

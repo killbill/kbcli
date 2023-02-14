@@ -13,90 +13,72 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewDeleteSubscriptionCustomFieldsParams creates a new DeleteSubscriptionCustomFieldsParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewDeleteSubscriptionCustomFieldsParams creates a new DeleteSubscriptionCustomFieldsParams object
+// with the default values initialized.
 func NewDeleteSubscriptionCustomFieldsParams() *DeleteSubscriptionCustomFieldsParams {
+	var ()
 	return &DeleteSubscriptionCustomFieldsParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteSubscriptionCustomFieldsParamsWithTimeout creates a new DeleteSubscriptionCustomFieldsParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewDeleteSubscriptionCustomFieldsParamsWithTimeout(timeout time.Duration) *DeleteSubscriptionCustomFieldsParams {
+	var ()
 	return &DeleteSubscriptionCustomFieldsParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewDeleteSubscriptionCustomFieldsParamsWithContext creates a new DeleteSubscriptionCustomFieldsParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewDeleteSubscriptionCustomFieldsParamsWithContext(ctx context.Context) *DeleteSubscriptionCustomFieldsParams {
+	var ()
 	return &DeleteSubscriptionCustomFieldsParams{
+
 		Context: ctx,
 	}
 }
 
 // NewDeleteSubscriptionCustomFieldsParamsWithHTTPClient creates a new DeleteSubscriptionCustomFieldsParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewDeleteSubscriptionCustomFieldsParamsWithHTTPClient(client *http.Client) *DeleteSubscriptionCustomFieldsParams {
+	var ()
 	return &DeleteSubscriptionCustomFieldsParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-DeleteSubscriptionCustomFieldsParams contains all the parameters to send to the API endpoint
-
-	for the delete subscription custom fields operation.
-
-	Typically these are written to a http.Request.
+/*DeleteSubscriptionCustomFieldsParams contains all the parameters to send to the API endpoint
+for the delete subscription custom fields operation typically these are written to a http.Request
 */
 type DeleteSubscriptionCustomFieldsParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// CustomField.
+	/*CustomField*/
 	CustomField []strfmt.UUID
-
-	// SubscriptionID.
-	//
-	// Format: uuid
+	/*SubscriptionID*/
 	SubscriptionID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the delete subscription custom fields params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *DeleteSubscriptionCustomFieldsParams) WithDefaults() *DeleteSubscriptionCustomFieldsParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the delete subscription custom fields params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *DeleteSubscriptionCustomFieldsParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the delete subscription custom fields params
@@ -201,6 +183,7 @@ func (o *DeleteSubscriptionCustomFieldsParams) WriteToRequest(r runtime.ClientRe
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -214,17 +197,18 @@ func (o *DeleteSubscriptionCustomFieldsParams) WriteToRequest(r runtime.ClientRe
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
 
-	if o.CustomField != nil {
+	var valuesCustomField []string
+	for _, v := range o.CustomField {
+		valuesCustomField = append(valuesCustomField, v.String())
+	}
 
-		// binding items for customField
-		joinedCustomField := o.bindParamCustomField(reg)
-
-		// query array param customField
-		if err := r.SetQueryParam("customField", joinedCustomField...); err != nil {
-			return err
-		}
+	joinedCustomField := swag.JoinByFormat(valuesCustomField, "multi")
+	// query array param customField
+	if err := r.SetQueryParam("customField", joinedCustomField...); err != nil {
+		return err
 	}
 
 	// path param subscriptionId
@@ -232,25 +216,22 @@ func (o *DeleteSubscriptionCustomFieldsParams) WriteToRequest(r runtime.ClientRe
 		return err
 	}
 
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamDeleteSubscriptionCustomFields binds the parameter customField
-func (o *DeleteSubscriptionCustomFieldsParams) bindParamCustomField(formats strfmt.Registry) []string {
-	customFieldIR := o.CustomField
-
-	var customFieldIC []string
-	for _, customFieldIIR := range customFieldIR { // explode []strfmt.UUID
-
-		customFieldIIV := customFieldIIR.String() // strfmt.UUID as string
-		customFieldIC = append(customFieldIC, customFieldIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	customFieldIS := swag.JoinByFormat(customFieldIC, "multi")
-
-	return customFieldIS
 }

@@ -13,82 +13,65 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetPlanForSubscriptionAndDateParams creates a new GetPlanForSubscriptionAndDateParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetPlanForSubscriptionAndDateParams creates a new GetPlanForSubscriptionAndDateParams object
+// with the default values initialized.
 func NewGetPlanForSubscriptionAndDateParams() *GetPlanForSubscriptionAndDateParams {
+	var ()
 	return &GetPlanForSubscriptionAndDateParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPlanForSubscriptionAndDateParamsWithTimeout creates a new GetPlanForSubscriptionAndDateParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetPlanForSubscriptionAndDateParamsWithTimeout(timeout time.Duration) *GetPlanForSubscriptionAndDateParams {
+	var ()
 	return &GetPlanForSubscriptionAndDateParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewGetPlanForSubscriptionAndDateParamsWithContext creates a new GetPlanForSubscriptionAndDateParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetPlanForSubscriptionAndDateParamsWithContext(ctx context.Context) *GetPlanForSubscriptionAndDateParams {
+	var ()
 	return &GetPlanForSubscriptionAndDateParams{
+
 		Context: ctx,
 	}
 }
 
 // NewGetPlanForSubscriptionAndDateParamsWithHTTPClient creates a new GetPlanForSubscriptionAndDateParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetPlanForSubscriptionAndDateParamsWithHTTPClient(client *http.Client) *GetPlanForSubscriptionAndDateParams {
+	var ()
 	return &GetPlanForSubscriptionAndDateParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-GetPlanForSubscriptionAndDateParams contains all the parameters to send to the API endpoint
-
-	for the get plan for subscription and date operation.
-
-	Typically these are written to a http.Request.
+/*GetPlanForSubscriptionAndDateParams contains all the parameters to send to the API endpoint
+for the get plan for subscription and date operation typically these are written to a http.Request
 */
 type GetPlanForSubscriptionAndDateParams struct {
 
-	// RequestedDate.
-	//
-	// Format: date
+	/*RequestedDate*/
 	RequestedDate *strfmt.Date
-
-	// SubscriptionID.
-	//
-	// Format: uuid
+	/*SubscriptionID*/
 	SubscriptionID *strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get plan for subscription and date params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPlanForSubscriptionAndDateParams) WithDefaults() *GetPlanForSubscriptionAndDateParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get plan for subscription and date params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPlanForSubscriptionAndDateParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get plan for subscription and date params
@@ -158,33 +141,45 @@ func (o *GetPlanForSubscriptionAndDateParams) WriteToRequest(r runtime.ClientReq
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
-
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
-
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.SubscriptionID != nil {
 
 		// query param subscriptionId
 		var qrSubscriptionID strfmt.UUID
-
 		if o.SubscriptionID != nil {
 			qrSubscriptionID = *o.SubscriptionID
 		}
 		qSubscriptionID := qrSubscriptionID.String()
 		if qSubscriptionID != "" {
-
 			if err := r.SetQueryParam("subscriptionId", qSubscriptionID); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 

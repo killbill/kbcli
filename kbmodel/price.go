@@ -6,23 +6,22 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Price price
-//
 // swagger:model Price
 type Price struct {
 
 	// currency
 	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
-	Currency string `json:"currency,omitempty"`
+	Currency PriceCurrencyEnum `json:"currency,omitempty"`
 
 	// value
 	Value float64 `json:"value,omitempty"`
@@ -45,7 +44,7 @@ func (m *Price) Validate(formats strfmt.Registry) error {
 var priceTypeCurrencyPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []PriceCurrencyEnum
 	if err := json.Unmarshal([]byte(`["AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CAD","CDF","CHF","CLP","CNY","COP","CRC","CUC","CUP","CVE","CZK","DJF","DKK","DOP","DZD","EGP","ERN","ETB","EUR","FJD","FKP","GBP","GEL","GGP","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","IMP","INR","IQD","IRR","ISK","JEP","JMD","JOD","JPY","KES","KGS","KHR","KMF","KPW","KRW","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SEK","SGD","SHP","SLL","SOS","SPL","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TVD","TWD","TZS","UAH","UGX","USD","UYU","UZS","VEF","VND","VUV","WST","XAF","XCD","XDR","XOF","XPF","YER","ZAR","ZMW","ZWD","BTC"]`), &res); err != nil {
 		panic(err)
 	}
@@ -54,513 +53,693 @@ func init() {
 	}
 }
 
+type PriceCurrencyEnum string
+
 const (
 
 	// PriceCurrencyAED captures enum value "AED"
-	PriceCurrencyAED string = "AED"
+	PriceCurrencyAED PriceCurrencyEnum = "AED"
 
 	// PriceCurrencyAFN captures enum value "AFN"
-	PriceCurrencyAFN string = "AFN"
+	PriceCurrencyAFN PriceCurrencyEnum = "AFN"
 
 	// PriceCurrencyALL captures enum value "ALL"
-	PriceCurrencyALL string = "ALL"
+	PriceCurrencyALL PriceCurrencyEnum = "ALL"
 
 	// PriceCurrencyAMD captures enum value "AMD"
-	PriceCurrencyAMD string = "AMD"
+	PriceCurrencyAMD PriceCurrencyEnum = "AMD"
 
 	// PriceCurrencyANG captures enum value "ANG"
-	PriceCurrencyANG string = "ANG"
+	PriceCurrencyANG PriceCurrencyEnum = "ANG"
 
 	// PriceCurrencyAOA captures enum value "AOA"
-	PriceCurrencyAOA string = "AOA"
+	PriceCurrencyAOA PriceCurrencyEnum = "AOA"
 
 	// PriceCurrencyARS captures enum value "ARS"
-	PriceCurrencyARS string = "ARS"
+	PriceCurrencyARS PriceCurrencyEnum = "ARS"
 
 	// PriceCurrencyAUD captures enum value "AUD"
-	PriceCurrencyAUD string = "AUD"
+	PriceCurrencyAUD PriceCurrencyEnum = "AUD"
 
 	// PriceCurrencyAWG captures enum value "AWG"
-	PriceCurrencyAWG string = "AWG"
+	PriceCurrencyAWG PriceCurrencyEnum = "AWG"
 
 	// PriceCurrencyAZN captures enum value "AZN"
-	PriceCurrencyAZN string = "AZN"
+	PriceCurrencyAZN PriceCurrencyEnum = "AZN"
 
 	// PriceCurrencyBAM captures enum value "BAM"
-	PriceCurrencyBAM string = "BAM"
+	PriceCurrencyBAM PriceCurrencyEnum = "BAM"
 
 	// PriceCurrencyBBD captures enum value "BBD"
-	PriceCurrencyBBD string = "BBD"
+	PriceCurrencyBBD PriceCurrencyEnum = "BBD"
 
 	// PriceCurrencyBDT captures enum value "BDT"
-	PriceCurrencyBDT string = "BDT"
+	PriceCurrencyBDT PriceCurrencyEnum = "BDT"
 
 	// PriceCurrencyBGN captures enum value "BGN"
-	PriceCurrencyBGN string = "BGN"
+	PriceCurrencyBGN PriceCurrencyEnum = "BGN"
 
 	// PriceCurrencyBHD captures enum value "BHD"
-	PriceCurrencyBHD string = "BHD"
+	PriceCurrencyBHD PriceCurrencyEnum = "BHD"
 
 	// PriceCurrencyBIF captures enum value "BIF"
-	PriceCurrencyBIF string = "BIF"
+	PriceCurrencyBIF PriceCurrencyEnum = "BIF"
 
 	// PriceCurrencyBMD captures enum value "BMD"
-	PriceCurrencyBMD string = "BMD"
+	PriceCurrencyBMD PriceCurrencyEnum = "BMD"
 
 	// PriceCurrencyBND captures enum value "BND"
-	PriceCurrencyBND string = "BND"
+	PriceCurrencyBND PriceCurrencyEnum = "BND"
 
 	// PriceCurrencyBOB captures enum value "BOB"
-	PriceCurrencyBOB string = "BOB"
+	PriceCurrencyBOB PriceCurrencyEnum = "BOB"
 
 	// PriceCurrencyBRL captures enum value "BRL"
-	PriceCurrencyBRL string = "BRL"
+	PriceCurrencyBRL PriceCurrencyEnum = "BRL"
 
 	// PriceCurrencyBSD captures enum value "BSD"
-	PriceCurrencyBSD string = "BSD"
+	PriceCurrencyBSD PriceCurrencyEnum = "BSD"
 
 	// PriceCurrencyBTN captures enum value "BTN"
-	PriceCurrencyBTN string = "BTN"
+	PriceCurrencyBTN PriceCurrencyEnum = "BTN"
 
 	// PriceCurrencyBWP captures enum value "BWP"
-	PriceCurrencyBWP string = "BWP"
+	PriceCurrencyBWP PriceCurrencyEnum = "BWP"
 
 	// PriceCurrencyBYR captures enum value "BYR"
-	PriceCurrencyBYR string = "BYR"
+	PriceCurrencyBYR PriceCurrencyEnum = "BYR"
 
 	// PriceCurrencyBZD captures enum value "BZD"
-	PriceCurrencyBZD string = "BZD"
+	PriceCurrencyBZD PriceCurrencyEnum = "BZD"
 
 	// PriceCurrencyCAD captures enum value "CAD"
-	PriceCurrencyCAD string = "CAD"
+	PriceCurrencyCAD PriceCurrencyEnum = "CAD"
 
 	// PriceCurrencyCDF captures enum value "CDF"
-	PriceCurrencyCDF string = "CDF"
+	PriceCurrencyCDF PriceCurrencyEnum = "CDF"
 
 	// PriceCurrencyCHF captures enum value "CHF"
-	PriceCurrencyCHF string = "CHF"
+	PriceCurrencyCHF PriceCurrencyEnum = "CHF"
 
 	// PriceCurrencyCLP captures enum value "CLP"
-	PriceCurrencyCLP string = "CLP"
+	PriceCurrencyCLP PriceCurrencyEnum = "CLP"
 
 	// PriceCurrencyCNY captures enum value "CNY"
-	PriceCurrencyCNY string = "CNY"
+	PriceCurrencyCNY PriceCurrencyEnum = "CNY"
 
 	// PriceCurrencyCOP captures enum value "COP"
-	PriceCurrencyCOP string = "COP"
+	PriceCurrencyCOP PriceCurrencyEnum = "COP"
 
 	// PriceCurrencyCRC captures enum value "CRC"
-	PriceCurrencyCRC string = "CRC"
+	PriceCurrencyCRC PriceCurrencyEnum = "CRC"
 
 	// PriceCurrencyCUC captures enum value "CUC"
-	PriceCurrencyCUC string = "CUC"
+	PriceCurrencyCUC PriceCurrencyEnum = "CUC"
 
 	// PriceCurrencyCUP captures enum value "CUP"
-	PriceCurrencyCUP string = "CUP"
+	PriceCurrencyCUP PriceCurrencyEnum = "CUP"
 
 	// PriceCurrencyCVE captures enum value "CVE"
-	PriceCurrencyCVE string = "CVE"
+	PriceCurrencyCVE PriceCurrencyEnum = "CVE"
 
 	// PriceCurrencyCZK captures enum value "CZK"
-	PriceCurrencyCZK string = "CZK"
+	PriceCurrencyCZK PriceCurrencyEnum = "CZK"
 
 	// PriceCurrencyDJF captures enum value "DJF"
-	PriceCurrencyDJF string = "DJF"
+	PriceCurrencyDJF PriceCurrencyEnum = "DJF"
 
 	// PriceCurrencyDKK captures enum value "DKK"
-	PriceCurrencyDKK string = "DKK"
+	PriceCurrencyDKK PriceCurrencyEnum = "DKK"
 
 	// PriceCurrencyDOP captures enum value "DOP"
-	PriceCurrencyDOP string = "DOP"
+	PriceCurrencyDOP PriceCurrencyEnum = "DOP"
 
 	// PriceCurrencyDZD captures enum value "DZD"
-	PriceCurrencyDZD string = "DZD"
+	PriceCurrencyDZD PriceCurrencyEnum = "DZD"
 
 	// PriceCurrencyEGP captures enum value "EGP"
-	PriceCurrencyEGP string = "EGP"
+	PriceCurrencyEGP PriceCurrencyEnum = "EGP"
 
 	// PriceCurrencyERN captures enum value "ERN"
-	PriceCurrencyERN string = "ERN"
+	PriceCurrencyERN PriceCurrencyEnum = "ERN"
 
 	// PriceCurrencyETB captures enum value "ETB"
-	PriceCurrencyETB string = "ETB"
+	PriceCurrencyETB PriceCurrencyEnum = "ETB"
 
 	// PriceCurrencyEUR captures enum value "EUR"
-	PriceCurrencyEUR string = "EUR"
+	PriceCurrencyEUR PriceCurrencyEnum = "EUR"
 
 	// PriceCurrencyFJD captures enum value "FJD"
-	PriceCurrencyFJD string = "FJD"
+	PriceCurrencyFJD PriceCurrencyEnum = "FJD"
 
 	// PriceCurrencyFKP captures enum value "FKP"
-	PriceCurrencyFKP string = "FKP"
+	PriceCurrencyFKP PriceCurrencyEnum = "FKP"
 
 	// PriceCurrencyGBP captures enum value "GBP"
-	PriceCurrencyGBP string = "GBP"
+	PriceCurrencyGBP PriceCurrencyEnum = "GBP"
 
 	// PriceCurrencyGEL captures enum value "GEL"
-	PriceCurrencyGEL string = "GEL"
+	PriceCurrencyGEL PriceCurrencyEnum = "GEL"
 
 	// PriceCurrencyGGP captures enum value "GGP"
-	PriceCurrencyGGP string = "GGP"
+	PriceCurrencyGGP PriceCurrencyEnum = "GGP"
 
 	// PriceCurrencyGHS captures enum value "GHS"
-	PriceCurrencyGHS string = "GHS"
+	PriceCurrencyGHS PriceCurrencyEnum = "GHS"
 
 	// PriceCurrencyGIP captures enum value "GIP"
-	PriceCurrencyGIP string = "GIP"
+	PriceCurrencyGIP PriceCurrencyEnum = "GIP"
 
 	// PriceCurrencyGMD captures enum value "GMD"
-	PriceCurrencyGMD string = "GMD"
+	PriceCurrencyGMD PriceCurrencyEnum = "GMD"
 
 	// PriceCurrencyGNF captures enum value "GNF"
-	PriceCurrencyGNF string = "GNF"
+	PriceCurrencyGNF PriceCurrencyEnum = "GNF"
 
 	// PriceCurrencyGTQ captures enum value "GTQ"
-	PriceCurrencyGTQ string = "GTQ"
+	PriceCurrencyGTQ PriceCurrencyEnum = "GTQ"
 
 	// PriceCurrencyGYD captures enum value "GYD"
-	PriceCurrencyGYD string = "GYD"
+	PriceCurrencyGYD PriceCurrencyEnum = "GYD"
 
 	// PriceCurrencyHKD captures enum value "HKD"
-	PriceCurrencyHKD string = "HKD"
+	PriceCurrencyHKD PriceCurrencyEnum = "HKD"
 
 	// PriceCurrencyHNL captures enum value "HNL"
-	PriceCurrencyHNL string = "HNL"
+	PriceCurrencyHNL PriceCurrencyEnum = "HNL"
 
 	// PriceCurrencyHRK captures enum value "HRK"
-	PriceCurrencyHRK string = "HRK"
+	PriceCurrencyHRK PriceCurrencyEnum = "HRK"
 
 	// PriceCurrencyHTG captures enum value "HTG"
-	PriceCurrencyHTG string = "HTG"
+	PriceCurrencyHTG PriceCurrencyEnum = "HTG"
 
 	// PriceCurrencyHUF captures enum value "HUF"
-	PriceCurrencyHUF string = "HUF"
+	PriceCurrencyHUF PriceCurrencyEnum = "HUF"
 
 	// PriceCurrencyIDR captures enum value "IDR"
-	PriceCurrencyIDR string = "IDR"
+	PriceCurrencyIDR PriceCurrencyEnum = "IDR"
 
 	// PriceCurrencyILS captures enum value "ILS"
-	PriceCurrencyILS string = "ILS"
+	PriceCurrencyILS PriceCurrencyEnum = "ILS"
 
 	// PriceCurrencyIMP captures enum value "IMP"
-	PriceCurrencyIMP string = "IMP"
+	PriceCurrencyIMP PriceCurrencyEnum = "IMP"
 
 	// PriceCurrencyINR captures enum value "INR"
-	PriceCurrencyINR string = "INR"
+	PriceCurrencyINR PriceCurrencyEnum = "INR"
 
 	// PriceCurrencyIQD captures enum value "IQD"
-	PriceCurrencyIQD string = "IQD"
+	PriceCurrencyIQD PriceCurrencyEnum = "IQD"
 
 	// PriceCurrencyIRR captures enum value "IRR"
-	PriceCurrencyIRR string = "IRR"
+	PriceCurrencyIRR PriceCurrencyEnum = "IRR"
 
 	// PriceCurrencyISK captures enum value "ISK"
-	PriceCurrencyISK string = "ISK"
+	PriceCurrencyISK PriceCurrencyEnum = "ISK"
 
 	// PriceCurrencyJEP captures enum value "JEP"
-	PriceCurrencyJEP string = "JEP"
+	PriceCurrencyJEP PriceCurrencyEnum = "JEP"
 
 	// PriceCurrencyJMD captures enum value "JMD"
-	PriceCurrencyJMD string = "JMD"
+	PriceCurrencyJMD PriceCurrencyEnum = "JMD"
 
 	// PriceCurrencyJOD captures enum value "JOD"
-	PriceCurrencyJOD string = "JOD"
+	PriceCurrencyJOD PriceCurrencyEnum = "JOD"
 
 	// PriceCurrencyJPY captures enum value "JPY"
-	PriceCurrencyJPY string = "JPY"
+	PriceCurrencyJPY PriceCurrencyEnum = "JPY"
 
 	// PriceCurrencyKES captures enum value "KES"
-	PriceCurrencyKES string = "KES"
+	PriceCurrencyKES PriceCurrencyEnum = "KES"
 
 	// PriceCurrencyKGS captures enum value "KGS"
-	PriceCurrencyKGS string = "KGS"
+	PriceCurrencyKGS PriceCurrencyEnum = "KGS"
 
 	// PriceCurrencyKHR captures enum value "KHR"
-	PriceCurrencyKHR string = "KHR"
+	PriceCurrencyKHR PriceCurrencyEnum = "KHR"
 
 	// PriceCurrencyKMF captures enum value "KMF"
-	PriceCurrencyKMF string = "KMF"
+	PriceCurrencyKMF PriceCurrencyEnum = "KMF"
 
 	// PriceCurrencyKPW captures enum value "KPW"
-	PriceCurrencyKPW string = "KPW"
+	PriceCurrencyKPW PriceCurrencyEnum = "KPW"
 
 	// PriceCurrencyKRW captures enum value "KRW"
-	PriceCurrencyKRW string = "KRW"
+	PriceCurrencyKRW PriceCurrencyEnum = "KRW"
 
 	// PriceCurrencyKWD captures enum value "KWD"
-	PriceCurrencyKWD string = "KWD"
+	PriceCurrencyKWD PriceCurrencyEnum = "KWD"
 
 	// PriceCurrencyKYD captures enum value "KYD"
-	PriceCurrencyKYD string = "KYD"
+	PriceCurrencyKYD PriceCurrencyEnum = "KYD"
 
 	// PriceCurrencyKZT captures enum value "KZT"
-	PriceCurrencyKZT string = "KZT"
+	PriceCurrencyKZT PriceCurrencyEnum = "KZT"
 
 	// PriceCurrencyLAK captures enum value "LAK"
-	PriceCurrencyLAK string = "LAK"
+	PriceCurrencyLAK PriceCurrencyEnum = "LAK"
 
 	// PriceCurrencyLBP captures enum value "LBP"
-	PriceCurrencyLBP string = "LBP"
+	PriceCurrencyLBP PriceCurrencyEnum = "LBP"
 
 	// PriceCurrencyLKR captures enum value "LKR"
-	PriceCurrencyLKR string = "LKR"
+	PriceCurrencyLKR PriceCurrencyEnum = "LKR"
 
 	// PriceCurrencyLRD captures enum value "LRD"
-	PriceCurrencyLRD string = "LRD"
+	PriceCurrencyLRD PriceCurrencyEnum = "LRD"
 
 	// PriceCurrencyLSL captures enum value "LSL"
-	PriceCurrencyLSL string = "LSL"
+	PriceCurrencyLSL PriceCurrencyEnum = "LSL"
 
 	// PriceCurrencyLTL captures enum value "LTL"
-	PriceCurrencyLTL string = "LTL"
+	PriceCurrencyLTL PriceCurrencyEnum = "LTL"
 
 	// PriceCurrencyLVL captures enum value "LVL"
-	PriceCurrencyLVL string = "LVL"
+	PriceCurrencyLVL PriceCurrencyEnum = "LVL"
 
 	// PriceCurrencyLYD captures enum value "LYD"
-	PriceCurrencyLYD string = "LYD"
+	PriceCurrencyLYD PriceCurrencyEnum = "LYD"
 
 	// PriceCurrencyMAD captures enum value "MAD"
-	PriceCurrencyMAD string = "MAD"
+	PriceCurrencyMAD PriceCurrencyEnum = "MAD"
 
 	// PriceCurrencyMDL captures enum value "MDL"
-	PriceCurrencyMDL string = "MDL"
+	PriceCurrencyMDL PriceCurrencyEnum = "MDL"
 
 	// PriceCurrencyMGA captures enum value "MGA"
-	PriceCurrencyMGA string = "MGA"
+	PriceCurrencyMGA PriceCurrencyEnum = "MGA"
 
 	// PriceCurrencyMKD captures enum value "MKD"
-	PriceCurrencyMKD string = "MKD"
+	PriceCurrencyMKD PriceCurrencyEnum = "MKD"
 
 	// PriceCurrencyMMK captures enum value "MMK"
-	PriceCurrencyMMK string = "MMK"
+	PriceCurrencyMMK PriceCurrencyEnum = "MMK"
 
 	// PriceCurrencyMNT captures enum value "MNT"
-	PriceCurrencyMNT string = "MNT"
+	PriceCurrencyMNT PriceCurrencyEnum = "MNT"
 
 	// PriceCurrencyMOP captures enum value "MOP"
-	PriceCurrencyMOP string = "MOP"
+	PriceCurrencyMOP PriceCurrencyEnum = "MOP"
 
 	// PriceCurrencyMRO captures enum value "MRO"
-	PriceCurrencyMRO string = "MRO"
+	PriceCurrencyMRO PriceCurrencyEnum = "MRO"
 
 	// PriceCurrencyMUR captures enum value "MUR"
-	PriceCurrencyMUR string = "MUR"
+	PriceCurrencyMUR PriceCurrencyEnum = "MUR"
 
 	// PriceCurrencyMVR captures enum value "MVR"
-	PriceCurrencyMVR string = "MVR"
+	PriceCurrencyMVR PriceCurrencyEnum = "MVR"
 
 	// PriceCurrencyMWK captures enum value "MWK"
-	PriceCurrencyMWK string = "MWK"
+	PriceCurrencyMWK PriceCurrencyEnum = "MWK"
 
 	// PriceCurrencyMXN captures enum value "MXN"
-	PriceCurrencyMXN string = "MXN"
+	PriceCurrencyMXN PriceCurrencyEnum = "MXN"
 
 	// PriceCurrencyMYR captures enum value "MYR"
-	PriceCurrencyMYR string = "MYR"
+	PriceCurrencyMYR PriceCurrencyEnum = "MYR"
 
 	// PriceCurrencyMZN captures enum value "MZN"
-	PriceCurrencyMZN string = "MZN"
+	PriceCurrencyMZN PriceCurrencyEnum = "MZN"
 
 	// PriceCurrencyNAD captures enum value "NAD"
-	PriceCurrencyNAD string = "NAD"
+	PriceCurrencyNAD PriceCurrencyEnum = "NAD"
 
 	// PriceCurrencyNGN captures enum value "NGN"
-	PriceCurrencyNGN string = "NGN"
+	PriceCurrencyNGN PriceCurrencyEnum = "NGN"
 
 	// PriceCurrencyNIO captures enum value "NIO"
-	PriceCurrencyNIO string = "NIO"
+	PriceCurrencyNIO PriceCurrencyEnum = "NIO"
 
 	// PriceCurrencyNOK captures enum value "NOK"
-	PriceCurrencyNOK string = "NOK"
+	PriceCurrencyNOK PriceCurrencyEnum = "NOK"
 
 	// PriceCurrencyNPR captures enum value "NPR"
-	PriceCurrencyNPR string = "NPR"
+	PriceCurrencyNPR PriceCurrencyEnum = "NPR"
 
 	// PriceCurrencyNZD captures enum value "NZD"
-	PriceCurrencyNZD string = "NZD"
+	PriceCurrencyNZD PriceCurrencyEnum = "NZD"
 
 	// PriceCurrencyOMR captures enum value "OMR"
-	PriceCurrencyOMR string = "OMR"
+	PriceCurrencyOMR PriceCurrencyEnum = "OMR"
 
 	// PriceCurrencyPAB captures enum value "PAB"
-	PriceCurrencyPAB string = "PAB"
+	PriceCurrencyPAB PriceCurrencyEnum = "PAB"
 
 	// PriceCurrencyPEN captures enum value "PEN"
-	PriceCurrencyPEN string = "PEN"
+	PriceCurrencyPEN PriceCurrencyEnum = "PEN"
 
 	// PriceCurrencyPGK captures enum value "PGK"
-	PriceCurrencyPGK string = "PGK"
+	PriceCurrencyPGK PriceCurrencyEnum = "PGK"
 
 	// PriceCurrencyPHP captures enum value "PHP"
-	PriceCurrencyPHP string = "PHP"
+	PriceCurrencyPHP PriceCurrencyEnum = "PHP"
 
 	// PriceCurrencyPKR captures enum value "PKR"
-	PriceCurrencyPKR string = "PKR"
+	PriceCurrencyPKR PriceCurrencyEnum = "PKR"
 
 	// PriceCurrencyPLN captures enum value "PLN"
-	PriceCurrencyPLN string = "PLN"
+	PriceCurrencyPLN PriceCurrencyEnum = "PLN"
 
 	// PriceCurrencyPYG captures enum value "PYG"
-	PriceCurrencyPYG string = "PYG"
+	PriceCurrencyPYG PriceCurrencyEnum = "PYG"
 
 	// PriceCurrencyQAR captures enum value "QAR"
-	PriceCurrencyQAR string = "QAR"
+	PriceCurrencyQAR PriceCurrencyEnum = "QAR"
 
 	// PriceCurrencyRON captures enum value "RON"
-	PriceCurrencyRON string = "RON"
+	PriceCurrencyRON PriceCurrencyEnum = "RON"
 
 	// PriceCurrencyRSD captures enum value "RSD"
-	PriceCurrencyRSD string = "RSD"
+	PriceCurrencyRSD PriceCurrencyEnum = "RSD"
 
 	// PriceCurrencyRUB captures enum value "RUB"
-	PriceCurrencyRUB string = "RUB"
+	PriceCurrencyRUB PriceCurrencyEnum = "RUB"
 
 	// PriceCurrencyRWF captures enum value "RWF"
-	PriceCurrencyRWF string = "RWF"
+	PriceCurrencyRWF PriceCurrencyEnum = "RWF"
 
 	// PriceCurrencySAR captures enum value "SAR"
-	PriceCurrencySAR string = "SAR"
+	PriceCurrencySAR PriceCurrencyEnum = "SAR"
 
 	// PriceCurrencySBD captures enum value "SBD"
-	PriceCurrencySBD string = "SBD"
+	PriceCurrencySBD PriceCurrencyEnum = "SBD"
 
 	// PriceCurrencySCR captures enum value "SCR"
-	PriceCurrencySCR string = "SCR"
+	PriceCurrencySCR PriceCurrencyEnum = "SCR"
 
 	// PriceCurrencySDG captures enum value "SDG"
-	PriceCurrencySDG string = "SDG"
+	PriceCurrencySDG PriceCurrencyEnum = "SDG"
 
 	// PriceCurrencySEK captures enum value "SEK"
-	PriceCurrencySEK string = "SEK"
+	PriceCurrencySEK PriceCurrencyEnum = "SEK"
 
 	// PriceCurrencySGD captures enum value "SGD"
-	PriceCurrencySGD string = "SGD"
+	PriceCurrencySGD PriceCurrencyEnum = "SGD"
 
 	// PriceCurrencySHP captures enum value "SHP"
-	PriceCurrencySHP string = "SHP"
+	PriceCurrencySHP PriceCurrencyEnum = "SHP"
 
 	// PriceCurrencySLL captures enum value "SLL"
-	PriceCurrencySLL string = "SLL"
+	PriceCurrencySLL PriceCurrencyEnum = "SLL"
 
 	// PriceCurrencySOS captures enum value "SOS"
-	PriceCurrencySOS string = "SOS"
+	PriceCurrencySOS PriceCurrencyEnum = "SOS"
 
 	// PriceCurrencySPL captures enum value "SPL"
-	PriceCurrencySPL string = "SPL"
+	PriceCurrencySPL PriceCurrencyEnum = "SPL"
 
 	// PriceCurrencySRD captures enum value "SRD"
-	PriceCurrencySRD string = "SRD"
+	PriceCurrencySRD PriceCurrencyEnum = "SRD"
 
 	// PriceCurrencySTD captures enum value "STD"
-	PriceCurrencySTD string = "STD"
+	PriceCurrencySTD PriceCurrencyEnum = "STD"
 
 	// PriceCurrencySVC captures enum value "SVC"
-	PriceCurrencySVC string = "SVC"
+	PriceCurrencySVC PriceCurrencyEnum = "SVC"
 
 	// PriceCurrencySYP captures enum value "SYP"
-	PriceCurrencySYP string = "SYP"
+	PriceCurrencySYP PriceCurrencyEnum = "SYP"
 
 	// PriceCurrencySZL captures enum value "SZL"
-	PriceCurrencySZL string = "SZL"
+	PriceCurrencySZL PriceCurrencyEnum = "SZL"
 
 	// PriceCurrencyTHB captures enum value "THB"
-	PriceCurrencyTHB string = "THB"
+	PriceCurrencyTHB PriceCurrencyEnum = "THB"
 
 	// PriceCurrencyTJS captures enum value "TJS"
-	PriceCurrencyTJS string = "TJS"
+	PriceCurrencyTJS PriceCurrencyEnum = "TJS"
 
 	// PriceCurrencyTMT captures enum value "TMT"
-	PriceCurrencyTMT string = "TMT"
+	PriceCurrencyTMT PriceCurrencyEnum = "TMT"
 
 	// PriceCurrencyTND captures enum value "TND"
-	PriceCurrencyTND string = "TND"
+	PriceCurrencyTND PriceCurrencyEnum = "TND"
 
 	// PriceCurrencyTOP captures enum value "TOP"
-	PriceCurrencyTOP string = "TOP"
+	PriceCurrencyTOP PriceCurrencyEnum = "TOP"
 
 	// PriceCurrencyTRY captures enum value "TRY"
-	PriceCurrencyTRY string = "TRY"
+	PriceCurrencyTRY PriceCurrencyEnum = "TRY"
 
 	// PriceCurrencyTTD captures enum value "TTD"
-	PriceCurrencyTTD string = "TTD"
+	PriceCurrencyTTD PriceCurrencyEnum = "TTD"
 
 	// PriceCurrencyTVD captures enum value "TVD"
-	PriceCurrencyTVD string = "TVD"
+	PriceCurrencyTVD PriceCurrencyEnum = "TVD"
 
 	// PriceCurrencyTWD captures enum value "TWD"
-	PriceCurrencyTWD string = "TWD"
+	PriceCurrencyTWD PriceCurrencyEnum = "TWD"
 
 	// PriceCurrencyTZS captures enum value "TZS"
-	PriceCurrencyTZS string = "TZS"
+	PriceCurrencyTZS PriceCurrencyEnum = "TZS"
 
 	// PriceCurrencyUAH captures enum value "UAH"
-	PriceCurrencyUAH string = "UAH"
+	PriceCurrencyUAH PriceCurrencyEnum = "UAH"
 
 	// PriceCurrencyUGX captures enum value "UGX"
-	PriceCurrencyUGX string = "UGX"
+	PriceCurrencyUGX PriceCurrencyEnum = "UGX"
 
 	// PriceCurrencyUSD captures enum value "USD"
-	PriceCurrencyUSD string = "USD"
+	PriceCurrencyUSD PriceCurrencyEnum = "USD"
 
 	// PriceCurrencyUYU captures enum value "UYU"
-	PriceCurrencyUYU string = "UYU"
+	PriceCurrencyUYU PriceCurrencyEnum = "UYU"
 
 	// PriceCurrencyUZS captures enum value "UZS"
-	PriceCurrencyUZS string = "UZS"
+	PriceCurrencyUZS PriceCurrencyEnum = "UZS"
 
 	// PriceCurrencyVEF captures enum value "VEF"
-	PriceCurrencyVEF string = "VEF"
+	PriceCurrencyVEF PriceCurrencyEnum = "VEF"
 
 	// PriceCurrencyVND captures enum value "VND"
-	PriceCurrencyVND string = "VND"
+	PriceCurrencyVND PriceCurrencyEnum = "VND"
 
 	// PriceCurrencyVUV captures enum value "VUV"
-	PriceCurrencyVUV string = "VUV"
+	PriceCurrencyVUV PriceCurrencyEnum = "VUV"
 
 	// PriceCurrencyWST captures enum value "WST"
-	PriceCurrencyWST string = "WST"
+	PriceCurrencyWST PriceCurrencyEnum = "WST"
 
 	// PriceCurrencyXAF captures enum value "XAF"
-	PriceCurrencyXAF string = "XAF"
+	PriceCurrencyXAF PriceCurrencyEnum = "XAF"
 
 	// PriceCurrencyXCD captures enum value "XCD"
-	PriceCurrencyXCD string = "XCD"
+	PriceCurrencyXCD PriceCurrencyEnum = "XCD"
 
 	// PriceCurrencyXDR captures enum value "XDR"
-	PriceCurrencyXDR string = "XDR"
+	PriceCurrencyXDR PriceCurrencyEnum = "XDR"
 
 	// PriceCurrencyXOF captures enum value "XOF"
-	PriceCurrencyXOF string = "XOF"
+	PriceCurrencyXOF PriceCurrencyEnum = "XOF"
 
 	// PriceCurrencyXPF captures enum value "XPF"
-	PriceCurrencyXPF string = "XPF"
+	PriceCurrencyXPF PriceCurrencyEnum = "XPF"
 
 	// PriceCurrencyYER captures enum value "YER"
-	PriceCurrencyYER string = "YER"
+	PriceCurrencyYER PriceCurrencyEnum = "YER"
 
 	// PriceCurrencyZAR captures enum value "ZAR"
-	PriceCurrencyZAR string = "ZAR"
+	PriceCurrencyZAR PriceCurrencyEnum = "ZAR"
 
 	// PriceCurrencyZMW captures enum value "ZMW"
-	PriceCurrencyZMW string = "ZMW"
+	PriceCurrencyZMW PriceCurrencyEnum = "ZMW"
 
 	// PriceCurrencyZWD captures enum value "ZWD"
-	PriceCurrencyZWD string = "ZWD"
+	PriceCurrencyZWD PriceCurrencyEnum = "ZWD"
 
 	// PriceCurrencyBTC captures enum value "BTC"
-	PriceCurrencyBTC string = "BTC"
+	PriceCurrencyBTC PriceCurrencyEnum = "BTC"
 )
 
+var PriceCurrencyEnumValues = []string{
+	"AED",
+	"AFN",
+	"ALL",
+	"AMD",
+	"ANG",
+	"AOA",
+	"ARS",
+	"AUD",
+	"AWG",
+	"AZN",
+	"BAM",
+	"BBD",
+	"BDT",
+	"BGN",
+	"BHD",
+	"BIF",
+	"BMD",
+	"BND",
+	"BOB",
+	"BRL",
+	"BSD",
+	"BTN",
+	"BWP",
+	"BYR",
+	"BZD",
+	"CAD",
+	"CDF",
+	"CHF",
+	"CLP",
+	"CNY",
+	"COP",
+	"CRC",
+	"CUC",
+	"CUP",
+	"CVE",
+	"CZK",
+	"DJF",
+	"DKK",
+	"DOP",
+	"DZD",
+	"EGP",
+	"ERN",
+	"ETB",
+	"EUR",
+	"FJD",
+	"FKP",
+	"GBP",
+	"GEL",
+	"GGP",
+	"GHS",
+	"GIP",
+	"GMD",
+	"GNF",
+	"GTQ",
+	"GYD",
+	"HKD",
+	"HNL",
+	"HRK",
+	"HTG",
+	"HUF",
+	"IDR",
+	"ILS",
+	"IMP",
+	"INR",
+	"IQD",
+	"IRR",
+	"ISK",
+	"JEP",
+	"JMD",
+	"JOD",
+	"JPY",
+	"KES",
+	"KGS",
+	"KHR",
+	"KMF",
+	"KPW",
+	"KRW",
+	"KWD",
+	"KYD",
+	"KZT",
+	"LAK",
+	"LBP",
+	"LKR",
+	"LRD",
+	"LSL",
+	"LTL",
+	"LVL",
+	"LYD",
+	"MAD",
+	"MDL",
+	"MGA",
+	"MKD",
+	"MMK",
+	"MNT",
+	"MOP",
+	"MRO",
+	"MUR",
+	"MVR",
+	"MWK",
+	"MXN",
+	"MYR",
+	"MZN",
+	"NAD",
+	"NGN",
+	"NIO",
+	"NOK",
+	"NPR",
+	"NZD",
+	"OMR",
+	"PAB",
+	"PEN",
+	"PGK",
+	"PHP",
+	"PKR",
+	"PLN",
+	"PYG",
+	"QAR",
+	"RON",
+	"RSD",
+	"RUB",
+	"RWF",
+	"SAR",
+	"SBD",
+	"SCR",
+	"SDG",
+	"SEK",
+	"SGD",
+	"SHP",
+	"SLL",
+	"SOS",
+	"SPL",
+	"SRD",
+	"STD",
+	"SVC",
+	"SYP",
+	"SZL",
+	"THB",
+	"TJS",
+	"TMT",
+	"TND",
+	"TOP",
+	"TRY",
+	"TTD",
+	"TVD",
+	"TWD",
+	"TZS",
+	"UAH",
+	"UGX",
+	"USD",
+	"UYU",
+	"UZS",
+	"VEF",
+	"VND",
+	"VUV",
+	"WST",
+	"XAF",
+	"XCD",
+	"XDR",
+	"XOF",
+	"XPF",
+	"YER",
+	"ZAR",
+	"ZMW",
+	"ZWD",
+	"BTC",
+}
+
+func (e PriceCurrencyEnum) IsValid() bool {
+	for _, v := range PriceCurrencyEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Price) validateCurrencyEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, priceTypeCurrencyPropEnum, true); err != nil {
+func (m *Price) validateCurrencyEnum(path, location string, value PriceCurrencyEnum) error {
+	if err := validate.Enum(path, location, value, priceTypeCurrencyPropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Price) validateCurrency(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Currency) { // not required
 		return nil
 	}
@@ -570,11 +749,6 @@ func (m *Price) validateCurrency(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this price based on context it is used
-func (m *Price) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

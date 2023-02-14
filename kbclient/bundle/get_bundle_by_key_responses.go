@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetBundleByKeyReader is a Reader for the GetBundleByKey structure.
@@ -23,20 +25,21 @@ type GetBundleByKeyReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *GetBundleByKeyReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 200:
 		result := NewGetBundleByKeyOK()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 404:
-		result := NewGetBundleByKeyNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -45,50 +48,17 @@ func NewGetBundleByKeyOK() *GetBundleByKeyOK {
 	return &GetBundleByKeyOK{}
 }
 
-/*
-GetBundleByKeyOK describes a response with status code 200, with default header values.
+/*GetBundleByKeyOK handles this case with default header values.
 
 successful operation
 */
 type GetBundleByKeyOK struct {
 	Payload []*kbmodel.Bundle
-}
 
-// IsSuccess returns true when this get bundle by key o k response has a 2xx status code
-func (o *GetBundleByKeyOK) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this get bundle by key o k response has a 3xx status code
-func (o *GetBundleByKeyOK) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get bundle by key o k response has a 4xx status code
-func (o *GetBundleByKeyOK) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this get bundle by key o k response has a 5xx status code
-func (o *GetBundleByKeyOK) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get bundle by key o k response a status code equal to that given
-func (o *GetBundleByKeyOK) IsCode(code int) bool {
-	return code == 200
-}
-
-// Code gets the status code for the get bundle by key o k response
-func (o *GetBundleByKeyOK) Code() int {
-	return 200
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleByKeyOK) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/bundles][%d] getBundleByKeyOK  %+v", 200, o.Payload)
-}
-
-func (o *GetBundleByKeyOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles][%d] getBundleByKeyOK  %+v", 200, o.Payload)
 }
 
@@ -111,49 +81,15 @@ func NewGetBundleByKeyNotFound() *GetBundleByKeyNotFound {
 	return &GetBundleByKeyNotFound{}
 }
 
-/*
-GetBundleByKeyNotFound describes a response with status code 404, with default header values.
+/*GetBundleByKeyNotFound handles this case with default header values.
 
 Bundle not found
 */
 type GetBundleByKeyNotFound struct {
-}
-
-// IsSuccess returns true when this get bundle by key not found response has a 2xx status code
-func (o *GetBundleByKeyNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this get bundle by key not found response has a 3xx status code
-func (o *GetBundleByKeyNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this get bundle by key not found response has a 4xx status code
-func (o *GetBundleByKeyNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this get bundle by key not found response has a 5xx status code
-func (o *GetBundleByKeyNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this get bundle by key not found response a status code equal to that given
-func (o *GetBundleByKeyNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the get bundle by key not found response
-func (o *GetBundleByKeyNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *GetBundleByKeyNotFound) Error() string {
-	return fmt.Sprintf("[GET /1.0/kb/bundles][%d] getBundleByKeyNotFound ", 404)
-}
-
-func (o *GetBundleByKeyNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles][%d] getBundleByKeyNotFound ", 404)
 }
 

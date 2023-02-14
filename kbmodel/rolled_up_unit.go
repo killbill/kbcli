@@ -6,14 +6,12 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
+	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // RolledUpUnit rolled up unit
-//
 // swagger:model RolledUpUnit
 type RolledUpUnit struct {
 
@@ -26,11 +24,6 @@ type RolledUpUnit struct {
 
 // Validate validates this rolled up unit
 func (m *RolledUpUnit) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this rolled up unit based on context it is used
-func (m *RolledUpUnit) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

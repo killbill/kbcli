@@ -6,18 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // EventSubscription event subscription
-//
 // swagger:model EventSubscription
 type EventSubscription struct {
 
@@ -26,7 +25,7 @@ type EventSubscription struct {
 
 	// billing period
 	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
-	BillingPeriod string `json:"billingPeriod,omitempty"`
+	BillingPeriod EventSubscriptionBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
 	// catalog effective date
 	// Format: date-time
@@ -42,7 +41,7 @@ type EventSubscription struct {
 
 	// event type
 	// Enum: [START_ENTITLEMENT START_BILLING PAUSE_ENTITLEMENT PAUSE_BILLING RESUME_ENTITLEMENT RESUME_BILLING PHASE CHANGE STOP_ENTITLEMENT STOP_BILLING SERVICE_STATE_CHANGE]
-	EventType string `json:"eventType,omitempty"`
+	EventType EventSubscriptionEventTypeEnum `json:"eventType,omitempty"`
 
 	// is blocked billing
 	IsBlockedBilling bool `json:"isBlockedBilling,omitempty"`
@@ -104,6 +103,7 @@ func (m *EventSubscription) Validate(formats strfmt.Registry) error {
 }
 
 func (m *EventSubscription) validateAuditLogs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -117,8 +117,6 @@ func (m *EventSubscription) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -132,7 +130,7 @@ func (m *EventSubscription) validateAuditLogs(formats strfmt.Registry) error {
 var eventSubscriptionTypeBillingPeriodPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []EventSubscriptionBillingPeriodEnum
 	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
@@ -141,69 +139,101 @@ func init() {
 	}
 }
 
+type EventSubscriptionBillingPeriodEnum string
+
 const (
 
 	// EventSubscriptionBillingPeriodDAILY captures enum value "DAILY"
-	EventSubscriptionBillingPeriodDAILY string = "DAILY"
+	EventSubscriptionBillingPeriodDAILY EventSubscriptionBillingPeriodEnum = "DAILY"
 
 	// EventSubscriptionBillingPeriodWEEKLY captures enum value "WEEKLY"
-	EventSubscriptionBillingPeriodWEEKLY string = "WEEKLY"
+	EventSubscriptionBillingPeriodWEEKLY EventSubscriptionBillingPeriodEnum = "WEEKLY"
 
 	// EventSubscriptionBillingPeriodBIWEEKLY captures enum value "BIWEEKLY"
-	EventSubscriptionBillingPeriodBIWEEKLY string = "BIWEEKLY"
+	EventSubscriptionBillingPeriodBIWEEKLY EventSubscriptionBillingPeriodEnum = "BIWEEKLY"
 
 	// EventSubscriptionBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
-	EventSubscriptionBillingPeriodTHIRTYDAYS string = "THIRTY_DAYS"
+	EventSubscriptionBillingPeriodTHIRTYDAYS EventSubscriptionBillingPeriodEnum = "THIRTY_DAYS"
 
 	// EventSubscriptionBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
-	EventSubscriptionBillingPeriodTHIRTYONEDAYS string = "THIRTY_ONE_DAYS"
+	EventSubscriptionBillingPeriodTHIRTYONEDAYS EventSubscriptionBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// EventSubscriptionBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
-	EventSubscriptionBillingPeriodSIXTYDAYS string = "SIXTY_DAYS"
+	EventSubscriptionBillingPeriodSIXTYDAYS EventSubscriptionBillingPeriodEnum = "SIXTY_DAYS"
 
 	// EventSubscriptionBillingPeriodNINETYDAYS captures enum value "NINETY_DAYS"
-	EventSubscriptionBillingPeriodNINETYDAYS string = "NINETY_DAYS"
+	EventSubscriptionBillingPeriodNINETYDAYS EventSubscriptionBillingPeriodEnum = "NINETY_DAYS"
 
 	// EventSubscriptionBillingPeriodMONTHLY captures enum value "MONTHLY"
-	EventSubscriptionBillingPeriodMONTHLY string = "MONTHLY"
+	EventSubscriptionBillingPeriodMONTHLY EventSubscriptionBillingPeriodEnum = "MONTHLY"
 
 	// EventSubscriptionBillingPeriodBIMESTRIAL captures enum value "BIMESTRIAL"
-	EventSubscriptionBillingPeriodBIMESTRIAL string = "BIMESTRIAL"
+	EventSubscriptionBillingPeriodBIMESTRIAL EventSubscriptionBillingPeriodEnum = "BIMESTRIAL"
 
 	// EventSubscriptionBillingPeriodQUARTERLY captures enum value "QUARTERLY"
-	EventSubscriptionBillingPeriodQUARTERLY string = "QUARTERLY"
+	EventSubscriptionBillingPeriodQUARTERLY EventSubscriptionBillingPeriodEnum = "QUARTERLY"
 
 	// EventSubscriptionBillingPeriodTRIANNUAL captures enum value "TRIANNUAL"
-	EventSubscriptionBillingPeriodTRIANNUAL string = "TRIANNUAL"
+	EventSubscriptionBillingPeriodTRIANNUAL EventSubscriptionBillingPeriodEnum = "TRIANNUAL"
 
 	// EventSubscriptionBillingPeriodBIANNUAL captures enum value "BIANNUAL"
-	EventSubscriptionBillingPeriodBIANNUAL string = "BIANNUAL"
+	EventSubscriptionBillingPeriodBIANNUAL EventSubscriptionBillingPeriodEnum = "BIANNUAL"
 
 	// EventSubscriptionBillingPeriodANNUAL captures enum value "ANNUAL"
-	EventSubscriptionBillingPeriodANNUAL string = "ANNUAL"
+	EventSubscriptionBillingPeriodANNUAL EventSubscriptionBillingPeriodEnum = "ANNUAL"
 
 	// EventSubscriptionBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
-	EventSubscriptionBillingPeriodSESQUIENNIAL string = "SESQUIENNIAL"
+	EventSubscriptionBillingPeriodSESQUIENNIAL EventSubscriptionBillingPeriodEnum = "SESQUIENNIAL"
 
 	// EventSubscriptionBillingPeriodBIENNIAL captures enum value "BIENNIAL"
-	EventSubscriptionBillingPeriodBIENNIAL string = "BIENNIAL"
+	EventSubscriptionBillingPeriodBIENNIAL EventSubscriptionBillingPeriodEnum = "BIENNIAL"
 
 	// EventSubscriptionBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
-	EventSubscriptionBillingPeriodTRIENNIAL string = "TRIENNIAL"
+	EventSubscriptionBillingPeriodTRIENNIAL EventSubscriptionBillingPeriodEnum = "TRIENNIAL"
 
 	// EventSubscriptionBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
-	EventSubscriptionBillingPeriodNOBILLINGPERIOD string = "NO_BILLING_PERIOD"
+	EventSubscriptionBillingPeriodNOBILLINGPERIOD EventSubscriptionBillingPeriodEnum = "NO_BILLING_PERIOD"
 )
 
+var EventSubscriptionBillingPeriodEnumValues = []string{
+	"DAILY",
+	"WEEKLY",
+	"BIWEEKLY",
+	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
+	"SIXTY_DAYS",
+	"NINETY_DAYS",
+	"MONTHLY",
+	"BIMESTRIAL",
+	"QUARTERLY",
+	"TRIANNUAL",
+	"BIANNUAL",
+	"ANNUAL",
+	"SESQUIENNIAL",
+	"BIENNIAL",
+	"TRIENNIAL",
+	"NO_BILLING_PERIOD",
+}
+
+func (e EventSubscriptionBillingPeriodEnum) IsValid() bool {
+	for _, v := range EventSubscriptionBillingPeriodEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *EventSubscription) validateBillingPeriodEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, eventSubscriptionTypeBillingPeriodPropEnum, true); err != nil {
+func (m *EventSubscription) validateBillingPeriodEnum(path, location string, value EventSubscriptionBillingPeriodEnum) error {
+	if err := validate.Enum(path, location, value, eventSubscriptionTypeBillingPeriodPropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *EventSubscription) validateBillingPeriod(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.BillingPeriod) { // not required
 		return nil
 	}
@@ -217,6 +247,7 @@ func (m *EventSubscription) validateBillingPeriod(formats strfmt.Registry) error
 }
 
 func (m *EventSubscription) validateCatalogEffectiveDate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CatalogEffectiveDate) { // not required
 		return nil
 	}
@@ -229,6 +260,7 @@ func (m *EventSubscription) validateCatalogEffectiveDate(formats strfmt.Registry
 }
 
 func (m *EventSubscription) validateEffectiveDate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EffectiveDate) { // not required
 		return nil
 	}
@@ -241,6 +273,7 @@ func (m *EventSubscription) validateEffectiveDate(formats strfmt.Registry) error
 }
 
 func (m *EventSubscription) validateEventID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EventID) { // not required
 		return nil
 	}
@@ -255,7 +288,7 @@ func (m *EventSubscription) validateEventID(formats strfmt.Registry) error {
 var eventSubscriptionTypeEventTypePropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []EventSubscriptionEventTypeEnum
 	if err := json.Unmarshal([]byte(`["START_ENTITLEMENT","START_BILLING","PAUSE_ENTITLEMENT","PAUSE_BILLING","RESUME_ENTITLEMENT","RESUME_BILLING","PHASE","CHANGE","STOP_ENTITLEMENT","STOP_BILLING","SERVICE_STATE_CHANGE"]`), &res); err != nil {
 		panic(err)
 	}
@@ -264,51 +297,77 @@ func init() {
 	}
 }
 
+type EventSubscriptionEventTypeEnum string
+
 const (
 
 	// EventSubscriptionEventTypeSTARTENTITLEMENT captures enum value "START_ENTITLEMENT"
-	EventSubscriptionEventTypeSTARTENTITLEMENT string = "START_ENTITLEMENT"
+	EventSubscriptionEventTypeSTARTENTITLEMENT EventSubscriptionEventTypeEnum = "START_ENTITLEMENT"
 
 	// EventSubscriptionEventTypeSTARTBILLING captures enum value "START_BILLING"
-	EventSubscriptionEventTypeSTARTBILLING string = "START_BILLING"
+	EventSubscriptionEventTypeSTARTBILLING EventSubscriptionEventTypeEnum = "START_BILLING"
 
 	// EventSubscriptionEventTypePAUSEENTITLEMENT captures enum value "PAUSE_ENTITLEMENT"
-	EventSubscriptionEventTypePAUSEENTITLEMENT string = "PAUSE_ENTITLEMENT"
+	EventSubscriptionEventTypePAUSEENTITLEMENT EventSubscriptionEventTypeEnum = "PAUSE_ENTITLEMENT"
 
 	// EventSubscriptionEventTypePAUSEBILLING captures enum value "PAUSE_BILLING"
-	EventSubscriptionEventTypePAUSEBILLING string = "PAUSE_BILLING"
+	EventSubscriptionEventTypePAUSEBILLING EventSubscriptionEventTypeEnum = "PAUSE_BILLING"
 
 	// EventSubscriptionEventTypeRESUMEENTITLEMENT captures enum value "RESUME_ENTITLEMENT"
-	EventSubscriptionEventTypeRESUMEENTITLEMENT string = "RESUME_ENTITLEMENT"
+	EventSubscriptionEventTypeRESUMEENTITLEMENT EventSubscriptionEventTypeEnum = "RESUME_ENTITLEMENT"
 
 	// EventSubscriptionEventTypeRESUMEBILLING captures enum value "RESUME_BILLING"
-	EventSubscriptionEventTypeRESUMEBILLING string = "RESUME_BILLING"
+	EventSubscriptionEventTypeRESUMEBILLING EventSubscriptionEventTypeEnum = "RESUME_BILLING"
 
 	// EventSubscriptionEventTypePHASE captures enum value "PHASE"
-	EventSubscriptionEventTypePHASE string = "PHASE"
+	EventSubscriptionEventTypePHASE EventSubscriptionEventTypeEnum = "PHASE"
 
 	// EventSubscriptionEventTypeCHANGE captures enum value "CHANGE"
-	EventSubscriptionEventTypeCHANGE string = "CHANGE"
+	EventSubscriptionEventTypeCHANGE EventSubscriptionEventTypeEnum = "CHANGE"
 
 	// EventSubscriptionEventTypeSTOPENTITLEMENT captures enum value "STOP_ENTITLEMENT"
-	EventSubscriptionEventTypeSTOPENTITLEMENT string = "STOP_ENTITLEMENT"
+	EventSubscriptionEventTypeSTOPENTITLEMENT EventSubscriptionEventTypeEnum = "STOP_ENTITLEMENT"
 
 	// EventSubscriptionEventTypeSTOPBILLING captures enum value "STOP_BILLING"
-	EventSubscriptionEventTypeSTOPBILLING string = "STOP_BILLING"
+	EventSubscriptionEventTypeSTOPBILLING EventSubscriptionEventTypeEnum = "STOP_BILLING"
 
 	// EventSubscriptionEventTypeSERVICESTATECHANGE captures enum value "SERVICE_STATE_CHANGE"
-	EventSubscriptionEventTypeSERVICESTATECHANGE string = "SERVICE_STATE_CHANGE"
+	EventSubscriptionEventTypeSERVICESTATECHANGE EventSubscriptionEventTypeEnum = "SERVICE_STATE_CHANGE"
 )
 
+var EventSubscriptionEventTypeEnumValues = []string{
+	"START_ENTITLEMENT",
+	"START_BILLING",
+	"PAUSE_ENTITLEMENT",
+	"PAUSE_BILLING",
+	"RESUME_ENTITLEMENT",
+	"RESUME_BILLING",
+	"PHASE",
+	"CHANGE",
+	"STOP_ENTITLEMENT",
+	"STOP_BILLING",
+	"SERVICE_STATE_CHANGE",
+}
+
+func (e EventSubscriptionEventTypeEnum) IsValid() bool {
+	for _, v := range EventSubscriptionEventTypeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *EventSubscription) validateEventTypeEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, eventSubscriptionTypeEventTypePropEnum, true); err != nil {
+func (m *EventSubscription) validateEventTypeEnum(path, location string, value EventSubscriptionEventTypeEnum) error {
+	if err := validate.Enum(path, location, value, eventSubscriptionTypeEventTypePropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *EventSubscription) validateEventType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EventType) { // not required
 		return nil
 	}
@@ -316,40 +375,6 @@ func (m *EventSubscription) validateEventType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateEventTypeEnum("eventType", "body", m.EventType); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this event subscription based on the context it is used
-func (m *EventSubscription) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *EventSubscription) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AuditLogs); i++ {
-
-		if m.AuditLogs[i] != nil {
-			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
 	}
 
 	return nil

@@ -7,9 +7,12 @@ package payment
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // VoidPaymentReader is a Reader for the VoidPayment structure.
@@ -20,56 +23,21 @@ type VoidPaymentReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *VoidPaymentReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewVoidPaymentNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewVoidPaymentBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 402:
-		result := NewVoidPaymentPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewVoidPaymentNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 422:
-		result := NewVoidPaymentUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 502:
-		result := NewVoidPaymentBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 503:
-		result := NewVoidPaymentServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 504:
-		result := NewVoidPaymentGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -78,49 +46,15 @@ func NewVoidPaymentNoContent() *VoidPaymentNoContent {
 	return &VoidPaymentNoContent{}
 }
 
-/*
-VoidPaymentNoContent describes a response with status code 204, with default header values.
+/*VoidPaymentNoContent handles this case with default header values.
 
 Successful operation
 */
 type VoidPaymentNoContent struct {
-}
-
-// IsSuccess returns true when this void payment no content response has a 2xx status code
-func (o *VoidPaymentNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this void payment no content response has a 3xx status code
-func (o *VoidPaymentNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this void payment no content response has a 4xx status code
-func (o *VoidPaymentNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this void payment no content response has a 5xx status code
-func (o *VoidPaymentNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this void payment no content response a status code equal to that given
-func (o *VoidPaymentNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the void payment no content response
-func (o *VoidPaymentNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentNoContent ", 204)
-}
-
-func (o *VoidPaymentNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentNoContent ", 204)
 }
 
@@ -134,49 +68,15 @@ func NewVoidPaymentBadRequest() *VoidPaymentBadRequest {
 	return &VoidPaymentBadRequest{}
 }
 
-/*
-VoidPaymentBadRequest describes a response with status code 400, with default header values.
+/*VoidPaymentBadRequest handles this case with default header values.
 
 Invalid paymentId supplied
 */
 type VoidPaymentBadRequest struct {
-}
-
-// IsSuccess returns true when this void payment bad request response has a 2xx status code
-func (o *VoidPaymentBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this void payment bad request response has a 3xx status code
-func (o *VoidPaymentBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this void payment bad request response has a 4xx status code
-func (o *VoidPaymentBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this void payment bad request response has a 5xx status code
-func (o *VoidPaymentBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this void payment bad request response a status code equal to that given
-func (o *VoidPaymentBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the void payment bad request response
-func (o *VoidPaymentBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentBadRequest) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentBadRequest ", 400)
-}
-
-func (o *VoidPaymentBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentBadRequest ", 400)
 }
 
@@ -190,49 +90,15 @@ func NewVoidPaymentPaymentRequired() *VoidPaymentPaymentRequired {
 	return &VoidPaymentPaymentRequired{}
 }
 
-/*
-VoidPaymentPaymentRequired describes a response with status code 402, with default header values.
+/*VoidPaymentPaymentRequired handles this case with default header values.
 
 Transaction declined by gateway
 */
 type VoidPaymentPaymentRequired struct {
-}
-
-// IsSuccess returns true when this void payment payment required response has a 2xx status code
-func (o *VoidPaymentPaymentRequired) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this void payment payment required response has a 3xx status code
-func (o *VoidPaymentPaymentRequired) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this void payment payment required response has a 4xx status code
-func (o *VoidPaymentPaymentRequired) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this void payment payment required response has a 5xx status code
-func (o *VoidPaymentPaymentRequired) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this void payment payment required response a status code equal to that given
-func (o *VoidPaymentPaymentRequired) IsCode(code int) bool {
-	return code == 402
-}
-
-// Code gets the status code for the void payment payment required response
-func (o *VoidPaymentPaymentRequired) Code() int {
-	return 402
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentPaymentRequired) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentPaymentRequired ", 402)
-}
-
-func (o *VoidPaymentPaymentRequired) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentPaymentRequired ", 402)
 }
 
@@ -246,49 +112,15 @@ func NewVoidPaymentNotFound() *VoidPaymentNotFound {
 	return &VoidPaymentNotFound{}
 }
 
-/*
-VoidPaymentNotFound describes a response with status code 404, with default header values.
+/*VoidPaymentNotFound handles this case with default header values.
 
 Account or payment not found
 */
 type VoidPaymentNotFound struct {
-}
-
-// IsSuccess returns true when this void payment not found response has a 2xx status code
-func (o *VoidPaymentNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this void payment not found response has a 3xx status code
-func (o *VoidPaymentNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this void payment not found response has a 4xx status code
-func (o *VoidPaymentNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this void payment not found response has a 5xx status code
-func (o *VoidPaymentNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this void payment not found response a status code equal to that given
-func (o *VoidPaymentNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the void payment not found response
-func (o *VoidPaymentNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentNotFound) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentNotFound ", 404)
-}
-
-func (o *VoidPaymentNotFound) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentNotFound ", 404)
 }
 
@@ -302,49 +134,15 @@ func NewVoidPaymentUnprocessableEntity() *VoidPaymentUnprocessableEntity {
 	return &VoidPaymentUnprocessableEntity{}
 }
 
-/*
-VoidPaymentUnprocessableEntity describes a response with status code 422, with default header values.
+/*VoidPaymentUnprocessableEntity handles this case with default header values.
 
 Payment is aborted by a control plugin
 */
 type VoidPaymentUnprocessableEntity struct {
-}
-
-// IsSuccess returns true when this void payment unprocessable entity response has a 2xx status code
-func (o *VoidPaymentUnprocessableEntity) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this void payment unprocessable entity response has a 3xx status code
-func (o *VoidPaymentUnprocessableEntity) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this void payment unprocessable entity response has a 4xx status code
-func (o *VoidPaymentUnprocessableEntity) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this void payment unprocessable entity response has a 5xx status code
-func (o *VoidPaymentUnprocessableEntity) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this void payment unprocessable entity response a status code equal to that given
-func (o *VoidPaymentUnprocessableEntity) IsCode(code int) bool {
-	return code == 422
-}
-
-// Code gets the status code for the void payment unprocessable entity response
-func (o *VoidPaymentUnprocessableEntity) Code() int {
-	return 422
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentUnprocessableEntity) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentUnprocessableEntity ", 422)
-}
-
-func (o *VoidPaymentUnprocessableEntity) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentUnprocessableEntity ", 422)
 }
 
@@ -358,49 +156,15 @@ func NewVoidPaymentBadGateway() *VoidPaymentBadGateway {
 	return &VoidPaymentBadGateway{}
 }
 
-/*
-VoidPaymentBadGateway describes a response with status code 502, with default header values.
+/*VoidPaymentBadGateway handles this case with default header values.
 
 Failed to submit payment transaction
 */
 type VoidPaymentBadGateway struct {
-}
-
-// IsSuccess returns true when this void payment bad gateway response has a 2xx status code
-func (o *VoidPaymentBadGateway) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this void payment bad gateway response has a 3xx status code
-func (o *VoidPaymentBadGateway) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this void payment bad gateway response has a 4xx status code
-func (o *VoidPaymentBadGateway) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this void payment bad gateway response has a 5xx status code
-func (o *VoidPaymentBadGateway) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this void payment bad gateway response a status code equal to that given
-func (o *VoidPaymentBadGateway) IsCode(code int) bool {
-	return code == 502
-}
-
-// Code gets the status code for the void payment bad gateway response
-func (o *VoidPaymentBadGateway) Code() int {
-	return 502
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentBadGateway) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentBadGateway ", 502)
-}
-
-func (o *VoidPaymentBadGateway) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentBadGateway ", 502)
 }
 
@@ -414,49 +178,15 @@ func NewVoidPaymentServiceUnavailable() *VoidPaymentServiceUnavailable {
 	return &VoidPaymentServiceUnavailable{}
 }
 
-/*
-VoidPaymentServiceUnavailable describes a response with status code 503, with default header values.
+/*VoidPaymentServiceUnavailable handles this case with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
 type VoidPaymentServiceUnavailable struct {
-}
-
-// IsSuccess returns true when this void payment service unavailable response has a 2xx status code
-func (o *VoidPaymentServiceUnavailable) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this void payment service unavailable response has a 3xx status code
-func (o *VoidPaymentServiceUnavailable) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this void payment service unavailable response has a 4xx status code
-func (o *VoidPaymentServiceUnavailable) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this void payment service unavailable response has a 5xx status code
-func (o *VoidPaymentServiceUnavailable) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this void payment service unavailable response a status code equal to that given
-func (o *VoidPaymentServiceUnavailable) IsCode(code int) bool {
-	return code == 503
-}
-
-// Code gets the status code for the void payment service unavailable response
-func (o *VoidPaymentServiceUnavailable) Code() int {
-	return 503
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentServiceUnavailable) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentServiceUnavailable ", 503)
-}
-
-func (o *VoidPaymentServiceUnavailable) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentServiceUnavailable ", 503)
 }
 
@@ -470,49 +200,15 @@ func NewVoidPaymentGatewayTimeout() *VoidPaymentGatewayTimeout {
 	return &VoidPaymentGatewayTimeout{}
 }
 
-/*
-VoidPaymentGatewayTimeout describes a response with status code 504, with default header values.
+/*VoidPaymentGatewayTimeout handles this case with default header values.
 
 Payment operation timeout
 */
 type VoidPaymentGatewayTimeout struct {
-}
-
-// IsSuccess returns true when this void payment gateway timeout response has a 2xx status code
-func (o *VoidPaymentGatewayTimeout) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this void payment gateway timeout response has a 3xx status code
-func (o *VoidPaymentGatewayTimeout) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this void payment gateway timeout response has a 4xx status code
-func (o *VoidPaymentGatewayTimeout) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this void payment gateway timeout response has a 5xx status code
-func (o *VoidPaymentGatewayTimeout) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this void payment gateway timeout response a status code equal to that given
-func (o *VoidPaymentGatewayTimeout) IsCode(code int) bool {
-	return code == 504
-}
-
-// Code gets the status code for the void payment gateway timeout response
-func (o *VoidPaymentGatewayTimeout) Code() int {
-	return 504
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *VoidPaymentGatewayTimeout) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentGatewayTimeout ", 504)
-}
-
-func (o *VoidPaymentGatewayTimeout) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}][%d] voidPaymentGatewayTimeout ", 504)
 }
 

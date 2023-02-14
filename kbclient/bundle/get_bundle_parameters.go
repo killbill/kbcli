@@ -13,93 +13,77 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetBundleParams creates a new GetBundleParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetBundleParams creates a new GetBundleParams object
+// with the default values initialized.
 func NewGetBundleParams() *GetBundleParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetBundleParams{
+		Audit: &auditDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetBundleParamsWithTimeout creates a new GetBundleParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetBundleParamsWithTimeout(timeout time.Duration) *GetBundleParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetBundleParams{
+		Audit: &auditDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetBundleParamsWithContext creates a new GetBundleParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetBundleParamsWithContext(ctx context.Context) *GetBundleParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetBundleParams{
+		Audit: &auditDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetBundleParamsWithHTTPClient creates a new GetBundleParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetBundleParamsWithHTTPClient(client *http.Client) *GetBundleParams {
+	var (
+		auditDefault = string("NONE")
+	)
 	return &GetBundleParams{
+		Audit:      &auditDefault,
 		HTTPClient: client,
 	}
 }
 
-/*
-GetBundleParams contains all the parameters to send to the API endpoint
-
-	for the get bundle operation.
-
-	Typically these are written to a http.Request.
+/*GetBundleParams contains all the parameters to send to the API endpoint
+for the get bundle operation typically these are written to a http.Request
 */
 type GetBundleParams struct {
 
-	// Audit.
-	//
-	// Default: "NONE"
+	/*Audit*/
 	Audit *string
-
-	// BundleID.
-	//
-	// Format: uuid
+	/*BundleID*/
 	BundleID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get bundle params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetBundleParams) WithDefaults() *GetBundleParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get bundle params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetBundleParams) SetDefaults() {
-	var (
-		auditDefault = string("NONE")
-	)
-
-	val := GetBundleParams{
-		Audit: &auditDefault,
-	}
-
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get bundle params
@@ -169,22 +153,35 @@ func (o *GetBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	// path param bundleId
 	if err := r.SetPathParam("bundleId", o.BundleID.String()); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

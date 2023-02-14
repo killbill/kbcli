@@ -6,15 +6,37 @@ package account
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new account API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
-	return &Client{transport: transport, formats: formats}
+func New(transport runtime.ClientTransport,
+	formats strfmt.Registry,
+	authInfo runtime.ClientAuthInfoWriter,
+	defaults KillbillDefaults) *Client {
+
+	return &Client{transport: transport, formats: formats, authInfo: authInfo, defaults: defaults}
+}
+
+// killbill default values. When a call is made to an operation, these values are used
+// if params doesn't specify them.
+type KillbillDefaults interface {
+	// Default CreatedBy. If not set explicitly in params, this will be used.
+	XKillbillCreatedBy() *string
+	// Default Comment. If not set explicitly in params, this will be used.
+	XKillbillComment() *string
+	// Default Reason. If not set explicitly in params, this will be used.
+	XKillbillReason() *string
+	// Default WithWithProfilingInfo. If not set explicitly in params, this will be used.
+	KillbillWithProfilingInfo() *string
+	// Default WithStackTrace. If not set explicitly in params, this will be used.
+	KillbillWithStackTrace() *bool
 }
 
 /*
@@ -23,150 +45,335 @@ Client for account API
 type Client struct {
 	transport runtime.ClientTransport
 	formats   strfmt.Registry
+	authInfo  runtime.ClientAuthInfoWriter
+	defaults  KillbillDefaults
 }
 
-// ClientOption is the option for Client methods
-type ClientOption func(*runtime.ClientOperation)
+// IAccount - interface for Account client.
+type IAccount interface {
+	/*
+		AddAccountBlockingState blocks an account
+	*/
+	AddAccountBlockingState(ctx context.Context, params *AddAccountBlockingStateParams) (*AddAccountBlockingStateCreated, error)
 
-// ClientService is the interface for Client methods
-type ClientService interface {
-	AddAccountBlockingState(params *AddAccountBlockingStateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddAccountBlockingStateCreated, error)
+	/*
+		AddEmail adds account email
+	*/
+	AddEmail(ctx context.Context, params *AddEmailParams) (*AddEmailCreated, error)
 
-	AddEmail(params *AddEmailParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddEmailCreated, error)
+	/*
+		CloseAccount closes account
+	*/
+	CloseAccount(ctx context.Context, params *CloseAccountParams) (*CloseAccountNoContent, error)
 
-	CloseAccount(params *CloseAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CloseAccountNoContent, error)
+	/*
+		CreateAccount creates account
+	*/
+	CreateAccount(ctx context.Context, params *CreateAccountParams) (*CreateAccountCreated, error)
 
-	CreateAccount(params *CreateAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateAccountCreated, error)
+	/*
+		CreateAccountCustomFields adds custom fields to account
+	*/
+	CreateAccountCustomFields(ctx context.Context, params *CreateAccountCustomFieldsParams) (*CreateAccountCustomFieldsCreated, error)
 
-	CreateAccountCustomFields(params *CreateAccountCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateAccountCustomFieldsCreated, error)
+	/*
+		CreateAccountTags adds tags to account
+	*/
+	CreateAccountTags(ctx context.Context, params *CreateAccountTagsParams) (*CreateAccountTagsCreated, error)
 
-	CreateAccountTags(params *CreateAccountTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateAccountTagsCreated, error)
+	/*
+		CreatePaymentMethod adds a payment method
+	*/
+	CreatePaymentMethod(ctx context.Context, params *CreatePaymentMethodParams) (*CreatePaymentMethodCreated, error)
 
-	CreatePaymentMethod(params *CreatePaymentMethodParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreatePaymentMethodCreated, error)
+	/*
+		DeleteAccountCustomFields removes custom fields from account
+	*/
+	DeleteAccountCustomFields(ctx context.Context, params *DeleteAccountCustomFieldsParams) (*DeleteAccountCustomFieldsNoContent, error)
 
-	DeleteAccountCustomFields(params *DeleteAccountCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteAccountCustomFieldsNoContent, error)
+	/*
+		DeleteAccountTags removes tags from account
+	*/
+	DeleteAccountTags(ctx context.Context, params *DeleteAccountTagsParams) (*DeleteAccountTagsNoContent, error)
 
-	DeleteAccountTags(params *DeleteAccountTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteAccountTagsNoContent, error)
+	/*
+		GetAccount retrieves an account by id
+	*/
+	GetAccount(ctx context.Context, params *GetAccountParams) (*GetAccountOK, error)
 
-	GetAccount(params *GetAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountOK, error)
+	/*
+		GetAccountAuditLogs retrieves audit logs by account id
+	*/
+	GetAccountAuditLogs(ctx context.Context, params *GetAccountAuditLogsParams) (*GetAccountAuditLogsOK, error)
 
-	GetAccountAuditLogs(params *GetAccountAuditLogsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountAuditLogsOK, error)
+	/*
+		GetAccountAuditLogsWithHistory retrieves account audit logs with history by account id
+	*/
+	GetAccountAuditLogsWithHistory(ctx context.Context, params *GetAccountAuditLogsWithHistoryParams) (*GetAccountAuditLogsWithHistoryOK, error)
 
-	GetAccountAuditLogsWithHistory(params *GetAccountAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountAuditLogsWithHistoryOK, error)
+	/*
+		GetAccountBundles retrieves bundles for account
+	*/
+	GetAccountBundles(ctx context.Context, params *GetAccountBundlesParams) (*GetAccountBundlesOK, error)
 
-	GetAccountBundles(params *GetAccountBundlesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountBundlesOK, error)
+	/*
+		GetAccountBundlesPaginated retrieves paginated bundles for account
+	*/
+	GetAccountBundlesPaginated(ctx context.Context, params *GetAccountBundlesPaginatedParams) (*GetAccountBundlesPaginatedOK, error)
 
-	GetAccountBundlesPaginated(params *GetAccountBundlesPaginatedParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountBundlesPaginatedOK, error)
+	/*
+		GetAccountByKey retrieves an account by external key
+	*/
+	GetAccountByKey(ctx context.Context, params *GetAccountByKeyParams) (*GetAccountByKeyOK, error)
 
-	GetAccountByKey(params *GetAccountByKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountByKeyOK, error)
+	/*
+		GetAccountCustomFields retrieves account custom fields
+	*/
+	GetAccountCustomFields(ctx context.Context, params *GetAccountCustomFieldsParams) (*GetAccountCustomFieldsOK, error)
 
-	GetAccountCustomFields(params *GetAccountCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountCustomFieldsOK, error)
+	/*
+		GetAccountEmailAuditLogsWithHistory retrieves account email audit logs with history by id
+	*/
+	GetAccountEmailAuditLogsWithHistory(ctx context.Context, params *GetAccountEmailAuditLogsWithHistoryParams) (*GetAccountEmailAuditLogsWithHistoryOK, error)
 
-	GetAccountEmailAuditLogsWithHistory(params *GetAccountEmailAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountEmailAuditLogsWithHistoryOK, error)
+	/*
+		GetAccountTags retrieves account tags
+	*/
+	GetAccountTags(ctx context.Context, params *GetAccountTagsParams) (*GetAccountTagsOK, error)
 
-	GetAccountTags(params *GetAccountTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountTagsOK, error)
+	/*
+		GetAccountTimeline retrieves account timeline
+	*/
+	GetAccountTimeline(ctx context.Context, params *GetAccountTimelineParams) (*GetAccountTimelineOK, error)
 
-	GetAccountTimeline(params *GetAccountTimelineParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountTimelineOK, error)
+	/*
+		GetAccounts lists accounts
+	*/
+	GetAccounts(ctx context.Context, params *GetAccountsParams) (*GetAccountsOK, error)
 
-	GetAccounts(params *GetAccountsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountsOK, error)
+	/*
+		GetAllCustomFields retrieves account custom fields
+	*/
+	GetAllCustomFields(ctx context.Context, params *GetAllCustomFieldsParams) (*GetAllCustomFieldsOK, error)
 
-	GetAllCustomFields(params *GetAllCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAllCustomFieldsOK, error)
+	/*
+		GetAllTags retrieves account tags
+	*/
+	GetAllTags(ctx context.Context, params *GetAllTagsParams) (*GetAllTagsOK, error)
 
-	GetAllTags(params *GetAllTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAllTagsOK, error)
+	/*
+		GetBlockingStateAuditLogsWithHistory retrieves blocking state audit logs with history by id
+	*/
+	GetBlockingStateAuditLogsWithHistory(ctx context.Context, params *GetBlockingStateAuditLogsWithHistoryParams) (*GetBlockingStateAuditLogsWithHistoryOK, error)
 
-	GetBlockingStateAuditLogsWithHistory(params *GetBlockingStateAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBlockingStateAuditLogsWithHistoryOK, error)
+	/*
+		GetBlockingStates retrieves blocking states for account
+	*/
+	GetBlockingStates(ctx context.Context, params *GetBlockingStatesParams) (*GetBlockingStatesOK, error)
 
-	GetBlockingStates(params *GetBlockingStatesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBlockingStatesOK, error)
+	/*
+		GetChildrenAccounts lists children accounts
+	*/
+	GetChildrenAccounts(ctx context.Context, params *GetChildrenAccountsParams) (*GetChildrenAccountsOK, error)
 
-	GetChildrenAccounts(params *GetChildrenAccountsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetChildrenAccountsOK, error)
+	/*
+		GetEmails retrieves an account emails
+	*/
+	GetEmails(ctx context.Context, params *GetEmailsParams) (*GetEmailsOK, error)
 
-	GetEmails(params *GetEmailsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetEmailsOK, error)
+	/*
+		GetInvoicePayments retrieves account invoice payments
+	*/
+	GetInvoicePayments(ctx context.Context, params *GetInvoicePaymentsParams) (*GetInvoicePaymentsOK, error)
 
-	GetInvoicePayments(params *GetInvoicePaymentsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicePaymentsOK, error)
+	/*
+		GetInvoicesForAccount retrieves account invoices
+	*/
+	GetInvoicesForAccount(ctx context.Context, params *GetInvoicesForAccountParams) (*GetInvoicesForAccountOK, error)
 
-	GetInvoicesForAccount(params *GetInvoicesForAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicesForAccountOK, error)
+	/*
+		GetInvoicesForAccountPaginated retrieves paginated invoices for account
+	*/
+	GetInvoicesForAccountPaginated(ctx context.Context, params *GetInvoicesForAccountPaginatedParams) (*GetInvoicesForAccountPaginatedOK, error)
 
-	GetInvoicesForAccountPaginated(params *GetInvoicesForAccountPaginatedParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicesForAccountPaginatedOK, error)
+	/*
+		GetOverdueAccount retrieves overdue state for account
+	*/
+	GetOverdueAccount(ctx context.Context, params *GetOverdueAccountParams) (*GetOverdueAccountOK, error)
 
-	GetOverdueAccount(params *GetOverdueAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetOverdueAccountOK, error)
+	/*
+		GetPaymentMethodsForAccount retrieves account payment methods
+	*/
+	GetPaymentMethodsForAccount(ctx context.Context, params *GetPaymentMethodsForAccountParams) (*GetPaymentMethodsForAccountOK, error)
 
-	GetPaymentMethodsForAccount(params *GetPaymentMethodsForAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentMethodsForAccountOK, error)
+	/*
+		GetPaymentsForAccount retrieves account payments
+	*/
+	GetPaymentsForAccount(ctx context.Context, params *GetPaymentsForAccountParams) (*GetPaymentsForAccountOK, error)
 
-	GetPaymentsForAccount(params *GetPaymentsForAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentsForAccountOK, error)
+	/*
+		ModifyAccountCustomFields modifies custom fields to account
+	*/
+	ModifyAccountCustomFields(ctx context.Context, params *ModifyAccountCustomFieldsParams) (*ModifyAccountCustomFieldsNoContent, error)
 
-	ModifyAccountCustomFields(params *ModifyAccountCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifyAccountCustomFieldsNoContent, error)
+	/*
+		PayAllInvoices triggers a payment for all unpaid invoices
+	*/
+	PayAllInvoices(ctx context.Context, params *PayAllInvoicesParams) (*PayAllInvoicesCreated, *PayAllInvoicesNoContent, error)
 
-	PayAllInvoices(params *PayAllInvoicesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PayAllInvoicesCreated, *PayAllInvoicesNoContent, error)
+	/*
+		ProcessPayment triggers a payment authorization purchase or credit
+	*/
+	ProcessPayment(ctx context.Context, params *ProcessPaymentParams) (*ProcessPaymentCreated, error)
 
-	ProcessPayment(params *ProcessPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ProcessPaymentCreated, error)
+	/*
+		ProcessPaymentByExternalKey triggers a payment using the account external key authorization purchase or credit
+	*/
+	ProcessPaymentByExternalKey(ctx context.Context, params *ProcessPaymentByExternalKeyParams) (*ProcessPaymentByExternalKeyCreated, error)
 
-	ProcessPaymentByExternalKey(params *ProcessPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ProcessPaymentByExternalKeyCreated, error)
+	/*
+		RebalanceExistingCBAOnAccount rebalances account c b a
+	*/
+	RebalanceExistingCBAOnAccount(ctx context.Context, params *RebalanceExistingCBAOnAccountParams) (*RebalanceExistingCBAOnAccountNoContent, error)
 
-	RebalanceExistingCBAOnAccount(params *RebalanceExistingCBAOnAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RebalanceExistingCBAOnAccountNoContent, error)
+	/*
+		RefreshPaymentMethods refreshes account payment methods
+	*/
+	RefreshPaymentMethods(ctx context.Context, params *RefreshPaymentMethodsParams) (*RefreshPaymentMethodsNoContent, error)
 
-	RefreshPaymentMethods(params *RefreshPaymentMethodsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RefreshPaymentMethodsNoContent, error)
+	/*
+		RemoveEmail deletes email from account
+	*/
+	RemoveEmail(ctx context.Context, params *RemoveEmailParams) (*RemoveEmailNoContent, error)
 
-	RemoveEmail(params *RemoveEmailParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RemoveEmailNoContent, error)
+	/*
+		SearchAccounts searches accounts
+	*/
+	SearchAccounts(ctx context.Context, params *SearchAccountsParams) (*SearchAccountsOK, error)
 
-	SearchAccounts(params *SearchAccountsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchAccountsOK, error)
+	/*
+		SetDefaultPaymentMethod sets the default payment method
+	*/
+	SetDefaultPaymentMethod(ctx context.Context, params *SetDefaultPaymentMethodParams) (*SetDefaultPaymentMethodNoContent, error)
 
-	SetDefaultPaymentMethod(params *SetDefaultPaymentMethodParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SetDefaultPaymentMethodNoContent, error)
+	/*
+		TransferChildCreditToParent moves a given child credit to the parent level
+	*/
+	TransferChildCreditToParent(ctx context.Context, params *TransferChildCreditToParentParams) (*TransferChildCreditToParentNoContent, error)
 
-	TransferChildCreditToParent(params *TransferChildCreditToParentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TransferChildCreditToParentNoContent, error)
-
-	UpdateAccount(params *UpdateAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UpdateAccountNoContent, error)
-
-	SetTransport(transport runtime.ClientTransport)
+	/*
+		UpdateAccount updates account
+	*/
+	UpdateAccount(ctx context.Context, params *UpdateAccountParams) (*UpdateAccountNoContent, error)
 }
 
 /*
 AddAccountBlockingState blocks an account
 */
-func (a *Client) AddAccountBlockingState(params *AddAccountBlockingStateParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddAccountBlockingStateCreated, error) {
+func (a *Client) AddAccountBlockingState(ctx context.Context, params *AddAccountBlockingStateParams) (*AddAccountBlockingStateCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAddAccountBlockingStateParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewAddAccountBlockingStateParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addAccountBlockingState",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/block",
-		ProducesMediaTypes: []string{"application/json"},
+		ProducesMediaTypes: []string{""},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &AddAccountBlockingStateReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*AddAccountBlockingStateCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*AddAccountBlockingStateCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for addAccountBlockingState: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "addAccountBlockingState",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &AddAccountBlockingStateReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*AddAccountBlockingStateCreated), nil
+
 }
 
 /*
 AddEmail adds account email
 */
-func (a *Client) AddEmail(params *AddEmailParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*AddEmailCreated, error) {
+func (a *Client) AddEmail(ctx context.Context, params *AddEmailParams) (*AddEmailCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAddEmailParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewAddEmailParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addEmail",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/emails",
@@ -175,54 +382,81 @@ func (a *Client) AddEmail(params *AddEmailParams, authInfo runtime.ClientAuthInf
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &AddEmailReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*AddEmailCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*AddEmailCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for addEmail: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "addEmail",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &AddEmailReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*AddEmailCreated), nil
+
 }
 
 /*
 CloseAccount closes account
 */
-func (a *Client) CloseAccount(params *CloseAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CloseAccountNoContent, error) {
+func (a *Client) CloseAccount(ctx context.Context, params *CloseAccountParams) (*CloseAccountNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCloseAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "closeAccount",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/accounts/{accountId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CloseAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -234,17 +468,42 @@ func (a *Client) CloseAccount(params *CloseAccountParams, authInfo runtime.Clien
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for closeAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 CreateAccount creates account
 */
-func (a *Client) CreateAccount(params *CreateAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateAccountCreated, error) {
+func (a *Client) CreateAccount(ctx context.Context, params *CreateAccountParams) (*CreateAccountCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewCreateAccountParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createAccount",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts",
@@ -253,37 +512,72 @@ func (a *Client) CreateAccount(params *CreateAccountParams, authInfo runtime.Cli
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CreateAccountCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*CreateAccountCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for createAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createAccount",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateAccountReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateAccountCreated), nil
+
 }
 
 /*
 CreateAccountCustomFields adds custom fields to account
 */
-func (a *Client) CreateAccountCustomFields(params *CreateAccountCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateAccountCustomFieldsCreated, error) {
+func (a *Client) CreateAccountCustomFields(ctx context.Context, params *CreateAccountCustomFieldsParams) (*CreateAccountCustomFieldsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAccountCustomFieldsParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewCreateAccountCustomFieldsParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createAccountCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/customFields",
@@ -292,37 +586,72 @@ func (a *Client) CreateAccountCustomFields(params *CreateAccountCustomFieldsPara
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateAccountCustomFieldsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CreateAccountCustomFieldsCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*CreateAccountCustomFieldsCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for createAccountCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createAccountCustomFields",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateAccountCustomFieldsReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateAccountCustomFieldsCreated), nil
+
 }
 
 /*
 CreateAccountTags adds tags to account
 */
-func (a *Client) CreateAccountTags(params *CreateAccountTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreateAccountTagsCreated, error) {
+func (a *Client) CreateAccountTags(ctx context.Context, params *CreateAccountTagsParams) (*CreateAccountTagsCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateAccountTagsParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewCreateAccountTagsParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createAccountTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/tags",
@@ -331,37 +660,72 @@ func (a *Client) CreateAccountTags(params *CreateAccountTagsParams, authInfo run
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreateAccountTagsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CreateAccountTagsCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*CreateAccountTagsCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for createAccountTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createAccountTags",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreateAccountTagsReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreateAccountTagsCreated), nil
+
 }
 
 /*
 CreatePaymentMethod adds a payment method
 */
-func (a *Client) CreatePaymentMethod(params *CreatePaymentMethodParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*CreatePaymentMethodCreated, error) {
+func (a *Client) CreatePaymentMethod(ctx context.Context, params *CreatePaymentMethodParams) (*CreatePaymentMethodCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreatePaymentMethodParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewCreatePaymentMethodParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "createPaymentMethod",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/paymentMethods",
@@ -370,37 +734,69 @@ func (a *Client) CreatePaymentMethod(params *CreatePaymentMethodParams, authInfo
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CreatePaymentMethodReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CreatePaymentMethodCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*CreatePaymentMethodCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for createPaymentMethod: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createPaymentMethod",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &CreatePaymentMethodReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*CreatePaymentMethodCreated), nil
+
 }
 
 /*
 DeleteAccountCustomFields removes custom fields from account
 */
-func (a *Client) DeleteAccountCustomFields(params *DeleteAccountCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteAccountCustomFieldsNoContent, error) {
+func (a *Client) DeleteAccountCustomFields(ctx context.Context, params *DeleteAccountCustomFieldsParams) (*DeleteAccountCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteAccountCustomFieldsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteAccountCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/customFields",
@@ -409,15 +805,10 @@ func (a *Client) DeleteAccountCustomFields(params *DeleteAccountCustomFieldsPara
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteAccountCustomFieldsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -429,17 +820,39 @@ func (a *Client) DeleteAccountCustomFields(params *DeleteAccountCustomFieldsPara
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteAccountCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 DeleteAccountTags removes tags from account
 */
-func (a *Client) DeleteAccountTags(params *DeleteAccountTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*DeleteAccountTagsNoContent, error) {
+func (a *Client) DeleteAccountTags(ctx context.Context, params *DeleteAccountTagsParams) (*DeleteAccountTagsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteAccountTagsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deleteAccountTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/tags",
@@ -448,15 +861,10 @@ func (a *Client) DeleteAccountTags(params *DeleteAccountTagsParams, authInfo run
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteAccountTagsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -468,34 +876,39 @@ func (a *Client) DeleteAccountTags(params *DeleteAccountTagsParams, authInfo run
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for deleteAccountTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccount retrieves an account by id
 */
-func (a *Client) GetAccount(params *GetAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountOK, error) {
+func (a *Client) GetAccount(ctx context.Context, params *GetAccountParams) (*GetAccountOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -507,34 +920,39 @@ func (a *Client) GetAccount(params *GetAccountParams, authInfo runtime.ClientAut
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccountAuditLogs retrieves audit logs by account id
 */
-func (a *Client) GetAccountAuditLogs(params *GetAccountAuditLogsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountAuditLogsOK, error) {
+func (a *Client) GetAccountAuditLogs(ctx context.Context, params *GetAccountAuditLogsParams) (*GetAccountAuditLogsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountAuditLogsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccountAuditLogs",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/auditLogs",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountAuditLogsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -546,34 +964,39 @@ func (a *Client) GetAccountAuditLogs(params *GetAccountAuditLogsParams, authInfo
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccountAuditLogs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccountAuditLogsWithHistory retrieves account audit logs with history by account id
 */
-func (a *Client) GetAccountAuditLogsWithHistory(params *GetAccountAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountAuditLogsWithHistoryOK, error) {
+func (a *Client) GetAccountAuditLogsWithHistory(ctx context.Context, params *GetAccountAuditLogsWithHistoryParams) (*GetAccountAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountAuditLogsWithHistoryParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccountAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -585,34 +1008,39 @@ func (a *Client) GetAccountAuditLogsWithHistory(params *GetAccountAuditLogsWithH
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccountAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccountBundles retrieves bundles for account
 */
-func (a *Client) GetAccountBundles(params *GetAccountBundlesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountBundlesOK, error) {
+func (a *Client) GetAccountBundles(ctx context.Context, params *GetAccountBundlesParams) (*GetAccountBundlesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountBundlesParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccountBundles",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/bundles",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountBundlesReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -624,34 +1052,39 @@ func (a *Client) GetAccountBundles(params *GetAccountBundlesParams, authInfo run
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccountBundles: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccountBundlesPaginated retrieves paginated bundles for account
 */
-func (a *Client) GetAccountBundlesPaginated(params *GetAccountBundlesPaginatedParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountBundlesPaginatedOK, error) {
+func (a *Client) GetAccountBundlesPaginated(ctx context.Context, params *GetAccountBundlesPaginatedParams) (*GetAccountBundlesPaginatedOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountBundlesPaginatedParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccountBundlesPaginated",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/bundles/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountBundlesPaginatedReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -663,34 +1096,39 @@ func (a *Client) GetAccountBundlesPaginated(params *GetAccountBundlesPaginatedPa
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccountBundlesPaginated: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccountByKey retrieves an account by external key
 */
-func (a *Client) GetAccountByKey(params *GetAccountByKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountByKeyOK, error) {
+func (a *Client) GetAccountByKey(ctx context.Context, params *GetAccountByKeyParams) (*GetAccountByKeyOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountByKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccountByKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountByKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -702,34 +1140,39 @@ func (a *Client) GetAccountByKey(params *GetAccountByKeyParams, authInfo runtime
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccountByKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccountCustomFields retrieves account custom fields
 */
-func (a *Client) GetAccountCustomFields(params *GetAccountCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountCustomFieldsOK, error) {
+func (a *Client) GetAccountCustomFields(ctx context.Context, params *GetAccountCustomFieldsParams) (*GetAccountCustomFieldsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountCustomFieldsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccountCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountCustomFieldsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -741,34 +1184,39 @@ func (a *Client) GetAccountCustomFields(params *GetAccountCustomFieldsParams, au
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccountCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccountEmailAuditLogsWithHistory retrieves account email audit logs with history by id
 */
-func (a *Client) GetAccountEmailAuditLogsWithHistory(params *GetAccountEmailAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountEmailAuditLogsWithHistoryOK, error) {
+func (a *Client) GetAccountEmailAuditLogsWithHistory(ctx context.Context, params *GetAccountEmailAuditLogsWithHistoryParams) (*GetAccountEmailAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountEmailAuditLogsWithHistoryParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccountEmailAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/emails/{accountEmailId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountEmailAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -780,34 +1228,39 @@ func (a *Client) GetAccountEmailAuditLogsWithHistory(params *GetAccountEmailAudi
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccountEmailAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccountTags retrieves account tags
 */
-func (a *Client) GetAccountTags(params *GetAccountTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountTagsOK, error) {
+func (a *Client) GetAccountTags(ctx context.Context, params *GetAccountTagsParams) (*GetAccountTagsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountTagsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccountTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountTagsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -819,34 +1272,39 @@ func (a *Client) GetAccountTags(params *GetAccountTagsParams, authInfo runtime.C
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccountTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccountTimeline retrieves account timeline
 */
-func (a *Client) GetAccountTimeline(params *GetAccountTimelineParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountTimelineOK, error) {
+func (a *Client) GetAccountTimeline(ctx context.Context, params *GetAccountTimelineParams) (*GetAccountTimelineOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountTimelineParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccountTimeline",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/timeline",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountTimelineReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -858,34 +1316,39 @@ func (a *Client) GetAccountTimeline(params *GetAccountTimelineParams, authInfo r
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccountTimeline: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAccounts lists accounts
 */
-func (a *Client) GetAccounts(params *GetAccountsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAccountsOK, error) {
+func (a *Client) GetAccounts(ctx context.Context, params *GetAccountsParams) (*GetAccountsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAccountsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAccounts",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -897,34 +1360,39 @@ func (a *Client) GetAccounts(params *GetAccountsParams, authInfo runtime.ClientA
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAllCustomFields retrieves account custom fields
 */
-func (a *Client) GetAllCustomFields(params *GetAllCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAllCustomFieldsOK, error) {
+func (a *Client) GetAllCustomFields(ctx context.Context, params *GetAllCustomFieldsParams) (*GetAllCustomFieldsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAllCustomFieldsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAllCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/allCustomFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAllCustomFieldsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -936,34 +1404,39 @@ func (a *Client) GetAllCustomFields(params *GetAllCustomFieldsParams, authInfo r
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAllCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetAllTags retrieves account tags
 */
-func (a *Client) GetAllTags(params *GetAllTagsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetAllTagsOK, error) {
+func (a *Client) GetAllTags(ctx context.Context, params *GetAllTagsParams) (*GetAllTagsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetAllTagsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getAllTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/allTags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAllTagsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -975,34 +1448,39 @@ func (a *Client) GetAllTags(params *GetAllTagsParams, authInfo runtime.ClientAut
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getAllTags: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetBlockingStateAuditLogsWithHistory retrieves blocking state audit logs with history by id
 */
-func (a *Client) GetBlockingStateAuditLogsWithHistory(params *GetBlockingStateAuditLogsWithHistoryParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBlockingStateAuditLogsWithHistoryOK, error) {
+func (a *Client) GetBlockingStateAuditLogsWithHistory(ctx context.Context, params *GetBlockingStateAuditLogsWithHistoryParams) (*GetBlockingStateAuditLogsWithHistoryOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetBlockingStateAuditLogsWithHistoryParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getBlockingStateAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/block/{blockingId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBlockingStateAuditLogsWithHistoryReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1014,34 +1492,39 @@ func (a *Client) GetBlockingStateAuditLogsWithHistory(params *GetBlockingStateAu
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getBlockingStateAuditLogsWithHistory: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetBlockingStates retrieves blocking states for account
 */
-func (a *Client) GetBlockingStates(params *GetBlockingStatesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetBlockingStatesOK, error) {
+func (a *Client) GetBlockingStates(ctx context.Context, params *GetBlockingStatesParams) (*GetBlockingStatesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetBlockingStatesParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getBlockingStates",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/block",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBlockingStatesReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1053,34 +1536,39 @@ func (a *Client) GetBlockingStates(params *GetBlockingStatesParams, authInfo run
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getBlockingStates: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetChildrenAccounts lists children accounts
 */
-func (a *Client) GetChildrenAccounts(params *GetChildrenAccountsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetChildrenAccountsOK, error) {
+func (a *Client) GetChildrenAccounts(ctx context.Context, params *GetChildrenAccountsParams) (*GetChildrenAccountsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetChildrenAccountsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getChildrenAccounts",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/children",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetChildrenAccountsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1092,34 +1580,39 @@ func (a *Client) GetChildrenAccounts(params *GetChildrenAccountsParams, authInfo
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getChildrenAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetEmails retrieves an account emails
 */
-func (a *Client) GetEmails(params *GetEmailsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetEmailsOK, error) {
+func (a *Client) GetEmails(ctx context.Context, params *GetEmailsParams) (*GetEmailsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetEmailsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getEmails",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/emails",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetEmailsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1131,34 +1624,39 @@ func (a *Client) GetEmails(params *GetEmailsParams, authInfo runtime.ClientAuthI
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getEmails: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetInvoicePayments retrieves account invoice payments
 */
-func (a *Client) GetInvoicePayments(params *GetInvoicePaymentsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicePaymentsOK, error) {
+func (a *Client) GetInvoicePayments(ctx context.Context, params *GetInvoicePaymentsParams) (*GetInvoicePaymentsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoicePaymentsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoicePayments",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/invoicePayments",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoicePaymentsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1170,34 +1668,39 @@ func (a *Client) GetInvoicePayments(params *GetInvoicePaymentsParams, authInfo r
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoicePayments: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetInvoicesForAccount retrieves account invoices
 */
-func (a *Client) GetInvoicesForAccount(params *GetInvoicesForAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicesForAccountOK, error) {
+func (a *Client) GetInvoicesForAccount(ctx context.Context, params *GetInvoicesForAccountParams) (*GetInvoicesForAccountOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoicesForAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoicesForAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/invoices",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoicesForAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1209,34 +1712,39 @@ func (a *Client) GetInvoicesForAccount(params *GetInvoicesForAccountParams, auth
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoicesForAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetInvoicesForAccountPaginated retrieves paginated invoices for account
 */
-func (a *Client) GetInvoicesForAccountPaginated(params *GetInvoicesForAccountPaginatedParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetInvoicesForAccountPaginatedOK, error) {
+func (a *Client) GetInvoicesForAccountPaginated(ctx context.Context, params *GetInvoicesForAccountPaginatedParams) (*GetInvoicesForAccountPaginatedOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetInvoicesForAccountPaginatedParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getInvoicesForAccountPaginated",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/invoices/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoicesForAccountPaginatedReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1248,34 +1756,39 @@ func (a *Client) GetInvoicesForAccountPaginated(params *GetInvoicesForAccountPag
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getInvoicesForAccountPaginated: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetOverdueAccount retrieves overdue state for account
 */
-func (a *Client) GetOverdueAccount(params *GetOverdueAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetOverdueAccountOK, error) {
+func (a *Client) GetOverdueAccount(ctx context.Context, params *GetOverdueAccountParams) (*GetOverdueAccountOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetOverdueAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getOverdueAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/overdue",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetOverdueAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1287,34 +1800,39 @@ func (a *Client) GetOverdueAccount(params *GetOverdueAccountParams, authInfo run
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getOverdueAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPaymentMethodsForAccount retrieves account payment methods
 */
-func (a *Client) GetPaymentMethodsForAccount(params *GetPaymentMethodsForAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentMethodsForAccountOK, error) {
+func (a *Client) GetPaymentMethodsForAccount(ctx context.Context, params *GetPaymentMethodsForAccountParams) (*GetPaymentMethodsForAccountOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentMethodsForAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentMethodsForAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/paymentMethods",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentMethodsForAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1326,34 +1844,39 @@ func (a *Client) GetPaymentMethodsForAccount(params *GetPaymentMethodsForAccount
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPaymentMethodsForAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 GetPaymentsForAccount retrieves account payments
 */
-func (a *Client) GetPaymentsForAccount(params *GetPaymentsForAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*GetPaymentsForAccountOK, error) {
+func (a *Client) GetPaymentsForAccount(ctx context.Context, params *GetPaymentsForAccountParams) (*GetPaymentsForAccountOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewGetPaymentsForAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "getPaymentsForAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/payments",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentsForAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1365,17 +1888,39 @@ func (a *Client) GetPaymentsForAccount(params *GetPaymentsForAccountParams, auth
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for getPaymentsForAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 ModifyAccountCustomFields modifies custom fields to account
 */
-func (a *Client) ModifyAccountCustomFields(params *ModifyAccountCustomFieldsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ModifyAccountCustomFieldsNoContent, error) {
+func (a *Client) ModifyAccountCustomFields(ctx context.Context, params *ModifyAccountCustomFieldsParams) (*ModifyAccountCustomFieldsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewModifyAccountCustomFieldsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "modifyAccountCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/customFields",
@@ -1384,15 +1929,10 @@ func (a *Client) ModifyAccountCustomFields(params *ModifyAccountCustomFieldsPara
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ModifyAccountCustomFieldsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1404,17 +1944,39 @@ func (a *Client) ModifyAccountCustomFields(params *ModifyAccountCustomFieldsPara
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for modifyAccountCustomFields: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 PayAllInvoices triggers a payment for all unpaid invoices
 */
-func (a *Client) PayAllInvoices(params *PayAllInvoicesParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PayAllInvoicesCreated, *PayAllInvoicesNoContent, error) {
+func (a *Client) PayAllInvoices(ctx context.Context, params *PayAllInvoicesParams) (*PayAllInvoicesCreated, *PayAllInvoicesNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewPayAllInvoicesParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "payAllInvoices",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/invoicePayments",
@@ -1423,15 +1985,10 @@ func (a *Client) PayAllInvoices(params *PayAllInvoicesParams, authInfo runtime.C
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &PayAllInvoicesReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1444,17 +2001,42 @@ func (a *Client) PayAllInvoices(params *PayAllInvoicesParams, authInfo runtime.C
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for account: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 ProcessPayment triggers a payment authorization purchase or credit
 */
-func (a *Client) ProcessPayment(params *ProcessPaymentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ProcessPaymentCreated, error) {
+func (a *Client) ProcessPayment(ctx context.Context, params *ProcessPaymentParams) (*ProcessPaymentCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewProcessPaymentParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewProcessPaymentParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "processPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/payments",
@@ -1463,37 +2045,72 @@ func (a *Client) ProcessPayment(params *ProcessPaymentParams, authInfo runtime.C
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ProcessPaymentReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*ProcessPaymentCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*ProcessPaymentCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for processPayment: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "processPayment",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &ProcessPaymentReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*ProcessPaymentCreated), nil
+
 }
 
 /*
 ProcessPaymentByExternalKey triggers a payment using the account external key authorization purchase or credit
 */
-func (a *Client) ProcessPaymentByExternalKey(params *ProcessPaymentByExternalKeyParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ProcessPaymentByExternalKeyCreated, error) {
+func (a *Client) ProcessPaymentByExternalKey(ctx context.Context, params *ProcessPaymentByExternalKeyParams) (*ProcessPaymentByExternalKeyCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewProcessPaymentByExternalKeyParams()
 	}
-	op := &runtime.ClientOperation{
+	getParams := NewProcessPaymentByExternalKeyParams()
+	getParams.Context = ctx
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+	getParams.XKillbillComment = params.XKillbillComment
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+	getParams.XKillbillCreatedBy = params.XKillbillCreatedBy
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+	getParams.XKillbillReason = params.XKillbillReason
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+	getParams.WithStackTrace = params.WithStackTrace
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "processPaymentByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/payments",
@@ -1502,37 +2119,69 @@ func (a *Client) ProcessPaymentByExternalKey(params *ProcessPaymentByExternalKey
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ProcessPaymentByExternalKeyReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*ProcessPaymentByExternalKeyCreated)
-	if ok {
-		return success, nil
+	createdResult := result.(*ProcessPaymentByExternalKeyCreated)
+	location := kbcommon.ParseLocationHeader(createdResult.HttpResponse.GetHeader("Location"))
+	if !params.ProcessLocationHeader || location == "" {
+		return createdResult, nil
 	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for processPaymentByExternalKey: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
+
+	getResult, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "processPaymentByExternalKey",
+		Method:             "GET",
+		PathPattern:        location,
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             getParams,
+		Reader:             &ProcessPaymentByExternalKeyReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            getParams.Context,
+		Client:             getParams.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return getResult.(*ProcessPaymentByExternalKeyCreated), nil
+
 }
 
 /*
 RebalanceExistingCBAOnAccount rebalances account c b a
 */
-func (a *Client) RebalanceExistingCBAOnAccount(params *RebalanceExistingCBAOnAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RebalanceExistingCBAOnAccountNoContent, error) {
+func (a *Client) RebalanceExistingCBAOnAccount(ctx context.Context, params *RebalanceExistingCBAOnAccountParams) (*RebalanceExistingCBAOnAccountNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRebalanceExistingCBAOnAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "rebalanceExistingCBAOnAccount",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/cbaRebalancing",
@@ -1541,15 +2190,10 @@ func (a *Client) RebalanceExistingCBAOnAccount(params *RebalanceExistingCBAOnAcc
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &RebalanceExistingCBAOnAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1561,34 +2205,51 @@ func (a *Client) RebalanceExistingCBAOnAccount(params *RebalanceExistingCBAOnAcc
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for rebalanceExistingCBAOnAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 RefreshPaymentMethods refreshes account payment methods
 */
-func (a *Client) RefreshPaymentMethods(params *RefreshPaymentMethodsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RefreshPaymentMethodsNoContent, error) {
+func (a *Client) RefreshPaymentMethods(ctx context.Context, params *RefreshPaymentMethodsParams) (*RefreshPaymentMethodsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRefreshPaymentMethodsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "refreshPaymentMethods",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/paymentMethods/refresh",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &RefreshPaymentMethodsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1600,34 +2261,51 @@ func (a *Client) RefreshPaymentMethods(params *RefreshPaymentMethodsParams, auth
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for refreshPaymentMethods: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 RemoveEmail deletes email from account
 */
-func (a *Client) RemoveEmail(params *RemoveEmailParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*RemoveEmailNoContent, error) {
+func (a *Client) RemoveEmail(ctx context.Context, params *RemoveEmailParams) (*RemoveEmailNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRemoveEmailParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "removeEmail",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/emails/{email}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &RemoveEmailReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1639,34 +2317,39 @@ func (a *Client) RemoveEmail(params *RemoveEmailParams, authInfo runtime.ClientA
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for removeEmail: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 SearchAccounts searches accounts
 */
-func (a *Client) SearchAccounts(params *SearchAccountsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SearchAccountsOK, error) {
+func (a *Client) SearchAccounts(ctx context.Context, params *SearchAccountsParams) (*SearchAccountsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSearchAccountsParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "searchAccounts",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchAccountsReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1678,17 +2361,39 @@ func (a *Client) SearchAccounts(params *SearchAccountsParams, authInfo runtime.C
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for searchAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 SetDefaultPaymentMethod sets the default payment method
 */
-func (a *Client) SetDefaultPaymentMethod(params *SetDefaultPaymentMethodParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*SetDefaultPaymentMethodNoContent, error) {
+func (a *Client) SetDefaultPaymentMethod(ctx context.Context, params *SetDefaultPaymentMethodParams) (*SetDefaultPaymentMethodNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSetDefaultPaymentMethodParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "setDefaultPaymentMethod",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/paymentMethods/{paymentMethodId}/setDefault",
@@ -1697,15 +2402,10 @@ func (a *Client) SetDefaultPaymentMethod(params *SetDefaultPaymentMethodParams, 
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SetDefaultPaymentMethodReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1717,17 +2417,39 @@ func (a *Client) SetDefaultPaymentMethod(params *SetDefaultPaymentMethodParams, 
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for setDefaultPaymentMethod: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 TransferChildCreditToParent moves a given child credit to the parent level
 */
-func (a *Client) TransferChildCreditToParent(params *TransferChildCreditToParentParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*TransferChildCreditToParentNoContent, error) {
+func (a *Client) TransferChildCreditToParent(ctx context.Context, params *TransferChildCreditToParentParams) (*TransferChildCreditToParentNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewTransferChildCreditToParentParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "transferChildCreditToParent",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{childAccountId}/transferCredit",
@@ -1736,15 +2458,10 @@ func (a *Client) TransferChildCreditToParent(params *TransferChildCreditToParent
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &TransferChildCreditToParentReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1756,17 +2473,39 @@ func (a *Client) TransferChildCreditToParent(params *TransferChildCreditToParent
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for transferChildCreditToParent: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 /*
 UpdateAccount updates account
 */
-func (a *Client) UpdateAccount(params *UpdateAccountParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*UpdateAccountNoContent, error) {
+func (a *Client) UpdateAccount(ctx context.Context, params *UpdateAccountParams) (*UpdateAccountNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateAccountParams()
 	}
-	op := &runtime.ClientOperation{
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "updateAccount",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}",
@@ -1775,15 +2514,10 @@ func (a *Client) UpdateAccount(params *UpdateAccountParams, authInfo runtime.Cli
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UpdateAccountReader{formats: a.formats},
-		AuthInfo:           authInfo,
+		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	}
-	for _, opt := range opts {
-		opt(op)
-	}
-
-	result, err := a.transport.Submit(op)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -1795,6 +2529,7 @@ func (a *Client) UpdateAccount(params *UpdateAccountParams, authInfo runtime.Cli
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for updateAccount: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
+
 }
 
 // SetTransport changes the transport on the client

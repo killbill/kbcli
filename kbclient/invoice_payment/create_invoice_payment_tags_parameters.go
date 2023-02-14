@@ -13,89 +13,71 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewCreateInvoicePaymentTagsParams creates a new CreateInvoicePaymentTagsParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewCreateInvoicePaymentTagsParams creates a new CreateInvoicePaymentTagsParams object
+// with the default values initialized.
 func NewCreateInvoicePaymentTagsParams() *CreateInvoicePaymentTagsParams {
+	var ()
 	return &CreateInvoicePaymentTagsParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateInvoicePaymentTagsParamsWithTimeout creates a new CreateInvoicePaymentTagsParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewCreateInvoicePaymentTagsParamsWithTimeout(timeout time.Duration) *CreateInvoicePaymentTagsParams {
+	var ()
 	return &CreateInvoicePaymentTagsParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewCreateInvoicePaymentTagsParamsWithContext creates a new CreateInvoicePaymentTagsParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewCreateInvoicePaymentTagsParamsWithContext(ctx context.Context) *CreateInvoicePaymentTagsParams {
+	var ()
 	return &CreateInvoicePaymentTagsParams{
+
 		Context: ctx,
 	}
 }
 
 // NewCreateInvoicePaymentTagsParamsWithHTTPClient creates a new CreateInvoicePaymentTagsParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewCreateInvoicePaymentTagsParamsWithHTTPClient(client *http.Client) *CreateInvoicePaymentTagsParams {
+	var ()
 	return &CreateInvoicePaymentTagsParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-CreateInvoicePaymentTagsParams contains all the parameters to send to the API endpoint
-
-	for the create invoice payment tags operation.
-
-	Typically these are written to a http.Request.
+/*CreateInvoicePaymentTagsParams contains all the parameters to send to the API endpoint
+for the create invoice payment tags operation typically these are written to a http.Request
 */
 type CreateInvoicePaymentTagsParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// Body.
+	/*Body*/
 	Body []strfmt.UUID
-
-	// PaymentID.
-	//
-	// Format: uuid
+	/*PaymentID*/
 	PaymentID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the create invoice payment tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateInvoicePaymentTagsParams) WithDefaults() *CreateInvoicePaymentTagsParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the create invoice payment tags params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateInvoicePaymentTagsParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the create invoice payment tags params
@@ -200,6 +182,7 @@ func (o *CreateInvoicePaymentTagsParams) WriteToRequest(r runtime.ClientRequest,
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -213,7 +196,9 @@ func (o *CreateInvoicePaymentTagsParams) WriteToRequest(r runtime.ClientRequest,
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -223,6 +208,20 @@ func (o *CreateInvoicePaymentTagsParams) WriteToRequest(r runtime.ClientRequest,
 	// path param paymentId
 	if err := r.SetPathParam("paymentId", o.PaymentID.String()); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

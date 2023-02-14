@@ -6,18 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Account account
-//
 // swagger:model Account
 type Account struct {
 
@@ -54,7 +53,7 @@ type Account struct {
 
 	// currency
 	// Enum: [AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYR BZD CAD CDF CHF CLP CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GGP GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS IMP INR IQD IRR ISK JEP JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LTL LVL LYD MAD MDL MGA MKD MMK MNT MOP MRO MUR MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLL SOS SPL SRD STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TVD TWD TZS UAH UGX USD UYU UZS VEF VND VUV WST XAF XCD XDR XOF XPF YER ZAR ZMW ZWD BTC]
-	Currency string `json:"currency,omitempty"`
+	Currency AccountCurrencyEnum `json:"currency,omitempty"`
 
 	// email
 	Email string `json:"email,omitempty"`
@@ -140,6 +139,7 @@ func (m *Account) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Account) validateAccountID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AccountID) { // not required
 		return nil
 	}
@@ -152,6 +152,7 @@ func (m *Account) validateAccountID(formats strfmt.Registry) error {
 }
 
 func (m *Account) validateAuditLogs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -165,8 +166,6 @@ func (m *Account) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -180,7 +179,7 @@ func (m *Account) validateAuditLogs(formats strfmt.Registry) error {
 var accountTypeCurrencyPropEnum []interface{}
 
 func init() {
-	var res []string
+	var res []AccountCurrencyEnum
 	if err := json.Unmarshal([]byte(`["AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CAD","CDF","CHF","CLP","CNY","COP","CRC","CUC","CUP","CVE","CZK","DJF","DKK","DOP","DZD","EGP","ERN","ETB","EUR","FJD","FKP","GBP","GEL","GGP","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","IMP","INR","IQD","IRR","ISK","JEP","JMD","JOD","JPY","KES","KGS","KHR","KMF","KPW","KRW","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SEK","SGD","SHP","SLL","SOS","SPL","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TVD","TWD","TZS","UAH","UGX","USD","UYU","UZS","VEF","VND","VUV","WST","XAF","XCD","XDR","XOF","XPF","YER","ZAR","ZMW","ZWD","BTC"]`), &res); err != nil {
 		panic(err)
 	}
@@ -189,513 +188,693 @@ func init() {
 	}
 }
 
+type AccountCurrencyEnum string
+
 const (
 
 	// AccountCurrencyAED captures enum value "AED"
-	AccountCurrencyAED string = "AED"
+	AccountCurrencyAED AccountCurrencyEnum = "AED"
 
 	// AccountCurrencyAFN captures enum value "AFN"
-	AccountCurrencyAFN string = "AFN"
+	AccountCurrencyAFN AccountCurrencyEnum = "AFN"
 
 	// AccountCurrencyALL captures enum value "ALL"
-	AccountCurrencyALL string = "ALL"
+	AccountCurrencyALL AccountCurrencyEnum = "ALL"
 
 	// AccountCurrencyAMD captures enum value "AMD"
-	AccountCurrencyAMD string = "AMD"
+	AccountCurrencyAMD AccountCurrencyEnum = "AMD"
 
 	// AccountCurrencyANG captures enum value "ANG"
-	AccountCurrencyANG string = "ANG"
+	AccountCurrencyANG AccountCurrencyEnum = "ANG"
 
 	// AccountCurrencyAOA captures enum value "AOA"
-	AccountCurrencyAOA string = "AOA"
+	AccountCurrencyAOA AccountCurrencyEnum = "AOA"
 
 	// AccountCurrencyARS captures enum value "ARS"
-	AccountCurrencyARS string = "ARS"
+	AccountCurrencyARS AccountCurrencyEnum = "ARS"
 
 	// AccountCurrencyAUD captures enum value "AUD"
-	AccountCurrencyAUD string = "AUD"
+	AccountCurrencyAUD AccountCurrencyEnum = "AUD"
 
 	// AccountCurrencyAWG captures enum value "AWG"
-	AccountCurrencyAWG string = "AWG"
+	AccountCurrencyAWG AccountCurrencyEnum = "AWG"
 
 	// AccountCurrencyAZN captures enum value "AZN"
-	AccountCurrencyAZN string = "AZN"
+	AccountCurrencyAZN AccountCurrencyEnum = "AZN"
 
 	// AccountCurrencyBAM captures enum value "BAM"
-	AccountCurrencyBAM string = "BAM"
+	AccountCurrencyBAM AccountCurrencyEnum = "BAM"
 
 	// AccountCurrencyBBD captures enum value "BBD"
-	AccountCurrencyBBD string = "BBD"
+	AccountCurrencyBBD AccountCurrencyEnum = "BBD"
 
 	// AccountCurrencyBDT captures enum value "BDT"
-	AccountCurrencyBDT string = "BDT"
+	AccountCurrencyBDT AccountCurrencyEnum = "BDT"
 
 	// AccountCurrencyBGN captures enum value "BGN"
-	AccountCurrencyBGN string = "BGN"
+	AccountCurrencyBGN AccountCurrencyEnum = "BGN"
 
 	// AccountCurrencyBHD captures enum value "BHD"
-	AccountCurrencyBHD string = "BHD"
+	AccountCurrencyBHD AccountCurrencyEnum = "BHD"
 
 	// AccountCurrencyBIF captures enum value "BIF"
-	AccountCurrencyBIF string = "BIF"
+	AccountCurrencyBIF AccountCurrencyEnum = "BIF"
 
 	// AccountCurrencyBMD captures enum value "BMD"
-	AccountCurrencyBMD string = "BMD"
+	AccountCurrencyBMD AccountCurrencyEnum = "BMD"
 
 	// AccountCurrencyBND captures enum value "BND"
-	AccountCurrencyBND string = "BND"
+	AccountCurrencyBND AccountCurrencyEnum = "BND"
 
 	// AccountCurrencyBOB captures enum value "BOB"
-	AccountCurrencyBOB string = "BOB"
+	AccountCurrencyBOB AccountCurrencyEnum = "BOB"
 
 	// AccountCurrencyBRL captures enum value "BRL"
-	AccountCurrencyBRL string = "BRL"
+	AccountCurrencyBRL AccountCurrencyEnum = "BRL"
 
 	// AccountCurrencyBSD captures enum value "BSD"
-	AccountCurrencyBSD string = "BSD"
+	AccountCurrencyBSD AccountCurrencyEnum = "BSD"
 
 	// AccountCurrencyBTN captures enum value "BTN"
-	AccountCurrencyBTN string = "BTN"
+	AccountCurrencyBTN AccountCurrencyEnum = "BTN"
 
 	// AccountCurrencyBWP captures enum value "BWP"
-	AccountCurrencyBWP string = "BWP"
+	AccountCurrencyBWP AccountCurrencyEnum = "BWP"
 
 	// AccountCurrencyBYR captures enum value "BYR"
-	AccountCurrencyBYR string = "BYR"
+	AccountCurrencyBYR AccountCurrencyEnum = "BYR"
 
 	// AccountCurrencyBZD captures enum value "BZD"
-	AccountCurrencyBZD string = "BZD"
+	AccountCurrencyBZD AccountCurrencyEnum = "BZD"
 
 	// AccountCurrencyCAD captures enum value "CAD"
-	AccountCurrencyCAD string = "CAD"
+	AccountCurrencyCAD AccountCurrencyEnum = "CAD"
 
 	// AccountCurrencyCDF captures enum value "CDF"
-	AccountCurrencyCDF string = "CDF"
+	AccountCurrencyCDF AccountCurrencyEnum = "CDF"
 
 	// AccountCurrencyCHF captures enum value "CHF"
-	AccountCurrencyCHF string = "CHF"
+	AccountCurrencyCHF AccountCurrencyEnum = "CHF"
 
 	// AccountCurrencyCLP captures enum value "CLP"
-	AccountCurrencyCLP string = "CLP"
+	AccountCurrencyCLP AccountCurrencyEnum = "CLP"
 
 	// AccountCurrencyCNY captures enum value "CNY"
-	AccountCurrencyCNY string = "CNY"
+	AccountCurrencyCNY AccountCurrencyEnum = "CNY"
 
 	// AccountCurrencyCOP captures enum value "COP"
-	AccountCurrencyCOP string = "COP"
+	AccountCurrencyCOP AccountCurrencyEnum = "COP"
 
 	// AccountCurrencyCRC captures enum value "CRC"
-	AccountCurrencyCRC string = "CRC"
+	AccountCurrencyCRC AccountCurrencyEnum = "CRC"
 
 	// AccountCurrencyCUC captures enum value "CUC"
-	AccountCurrencyCUC string = "CUC"
+	AccountCurrencyCUC AccountCurrencyEnum = "CUC"
 
 	// AccountCurrencyCUP captures enum value "CUP"
-	AccountCurrencyCUP string = "CUP"
+	AccountCurrencyCUP AccountCurrencyEnum = "CUP"
 
 	// AccountCurrencyCVE captures enum value "CVE"
-	AccountCurrencyCVE string = "CVE"
+	AccountCurrencyCVE AccountCurrencyEnum = "CVE"
 
 	// AccountCurrencyCZK captures enum value "CZK"
-	AccountCurrencyCZK string = "CZK"
+	AccountCurrencyCZK AccountCurrencyEnum = "CZK"
 
 	// AccountCurrencyDJF captures enum value "DJF"
-	AccountCurrencyDJF string = "DJF"
+	AccountCurrencyDJF AccountCurrencyEnum = "DJF"
 
 	// AccountCurrencyDKK captures enum value "DKK"
-	AccountCurrencyDKK string = "DKK"
+	AccountCurrencyDKK AccountCurrencyEnum = "DKK"
 
 	// AccountCurrencyDOP captures enum value "DOP"
-	AccountCurrencyDOP string = "DOP"
+	AccountCurrencyDOP AccountCurrencyEnum = "DOP"
 
 	// AccountCurrencyDZD captures enum value "DZD"
-	AccountCurrencyDZD string = "DZD"
+	AccountCurrencyDZD AccountCurrencyEnum = "DZD"
 
 	// AccountCurrencyEGP captures enum value "EGP"
-	AccountCurrencyEGP string = "EGP"
+	AccountCurrencyEGP AccountCurrencyEnum = "EGP"
 
 	// AccountCurrencyERN captures enum value "ERN"
-	AccountCurrencyERN string = "ERN"
+	AccountCurrencyERN AccountCurrencyEnum = "ERN"
 
 	// AccountCurrencyETB captures enum value "ETB"
-	AccountCurrencyETB string = "ETB"
+	AccountCurrencyETB AccountCurrencyEnum = "ETB"
 
 	// AccountCurrencyEUR captures enum value "EUR"
-	AccountCurrencyEUR string = "EUR"
+	AccountCurrencyEUR AccountCurrencyEnum = "EUR"
 
 	// AccountCurrencyFJD captures enum value "FJD"
-	AccountCurrencyFJD string = "FJD"
+	AccountCurrencyFJD AccountCurrencyEnum = "FJD"
 
 	// AccountCurrencyFKP captures enum value "FKP"
-	AccountCurrencyFKP string = "FKP"
+	AccountCurrencyFKP AccountCurrencyEnum = "FKP"
 
 	// AccountCurrencyGBP captures enum value "GBP"
-	AccountCurrencyGBP string = "GBP"
+	AccountCurrencyGBP AccountCurrencyEnum = "GBP"
 
 	// AccountCurrencyGEL captures enum value "GEL"
-	AccountCurrencyGEL string = "GEL"
+	AccountCurrencyGEL AccountCurrencyEnum = "GEL"
 
 	// AccountCurrencyGGP captures enum value "GGP"
-	AccountCurrencyGGP string = "GGP"
+	AccountCurrencyGGP AccountCurrencyEnum = "GGP"
 
 	// AccountCurrencyGHS captures enum value "GHS"
-	AccountCurrencyGHS string = "GHS"
+	AccountCurrencyGHS AccountCurrencyEnum = "GHS"
 
 	// AccountCurrencyGIP captures enum value "GIP"
-	AccountCurrencyGIP string = "GIP"
+	AccountCurrencyGIP AccountCurrencyEnum = "GIP"
 
 	// AccountCurrencyGMD captures enum value "GMD"
-	AccountCurrencyGMD string = "GMD"
+	AccountCurrencyGMD AccountCurrencyEnum = "GMD"
 
 	// AccountCurrencyGNF captures enum value "GNF"
-	AccountCurrencyGNF string = "GNF"
+	AccountCurrencyGNF AccountCurrencyEnum = "GNF"
 
 	// AccountCurrencyGTQ captures enum value "GTQ"
-	AccountCurrencyGTQ string = "GTQ"
+	AccountCurrencyGTQ AccountCurrencyEnum = "GTQ"
 
 	// AccountCurrencyGYD captures enum value "GYD"
-	AccountCurrencyGYD string = "GYD"
+	AccountCurrencyGYD AccountCurrencyEnum = "GYD"
 
 	// AccountCurrencyHKD captures enum value "HKD"
-	AccountCurrencyHKD string = "HKD"
+	AccountCurrencyHKD AccountCurrencyEnum = "HKD"
 
 	// AccountCurrencyHNL captures enum value "HNL"
-	AccountCurrencyHNL string = "HNL"
+	AccountCurrencyHNL AccountCurrencyEnum = "HNL"
 
 	// AccountCurrencyHRK captures enum value "HRK"
-	AccountCurrencyHRK string = "HRK"
+	AccountCurrencyHRK AccountCurrencyEnum = "HRK"
 
 	// AccountCurrencyHTG captures enum value "HTG"
-	AccountCurrencyHTG string = "HTG"
+	AccountCurrencyHTG AccountCurrencyEnum = "HTG"
 
 	// AccountCurrencyHUF captures enum value "HUF"
-	AccountCurrencyHUF string = "HUF"
+	AccountCurrencyHUF AccountCurrencyEnum = "HUF"
 
 	// AccountCurrencyIDR captures enum value "IDR"
-	AccountCurrencyIDR string = "IDR"
+	AccountCurrencyIDR AccountCurrencyEnum = "IDR"
 
 	// AccountCurrencyILS captures enum value "ILS"
-	AccountCurrencyILS string = "ILS"
+	AccountCurrencyILS AccountCurrencyEnum = "ILS"
 
 	// AccountCurrencyIMP captures enum value "IMP"
-	AccountCurrencyIMP string = "IMP"
+	AccountCurrencyIMP AccountCurrencyEnum = "IMP"
 
 	// AccountCurrencyINR captures enum value "INR"
-	AccountCurrencyINR string = "INR"
+	AccountCurrencyINR AccountCurrencyEnum = "INR"
 
 	// AccountCurrencyIQD captures enum value "IQD"
-	AccountCurrencyIQD string = "IQD"
+	AccountCurrencyIQD AccountCurrencyEnum = "IQD"
 
 	// AccountCurrencyIRR captures enum value "IRR"
-	AccountCurrencyIRR string = "IRR"
+	AccountCurrencyIRR AccountCurrencyEnum = "IRR"
 
 	// AccountCurrencyISK captures enum value "ISK"
-	AccountCurrencyISK string = "ISK"
+	AccountCurrencyISK AccountCurrencyEnum = "ISK"
 
 	// AccountCurrencyJEP captures enum value "JEP"
-	AccountCurrencyJEP string = "JEP"
+	AccountCurrencyJEP AccountCurrencyEnum = "JEP"
 
 	// AccountCurrencyJMD captures enum value "JMD"
-	AccountCurrencyJMD string = "JMD"
+	AccountCurrencyJMD AccountCurrencyEnum = "JMD"
 
 	// AccountCurrencyJOD captures enum value "JOD"
-	AccountCurrencyJOD string = "JOD"
+	AccountCurrencyJOD AccountCurrencyEnum = "JOD"
 
 	// AccountCurrencyJPY captures enum value "JPY"
-	AccountCurrencyJPY string = "JPY"
+	AccountCurrencyJPY AccountCurrencyEnum = "JPY"
 
 	// AccountCurrencyKES captures enum value "KES"
-	AccountCurrencyKES string = "KES"
+	AccountCurrencyKES AccountCurrencyEnum = "KES"
 
 	// AccountCurrencyKGS captures enum value "KGS"
-	AccountCurrencyKGS string = "KGS"
+	AccountCurrencyKGS AccountCurrencyEnum = "KGS"
 
 	// AccountCurrencyKHR captures enum value "KHR"
-	AccountCurrencyKHR string = "KHR"
+	AccountCurrencyKHR AccountCurrencyEnum = "KHR"
 
 	// AccountCurrencyKMF captures enum value "KMF"
-	AccountCurrencyKMF string = "KMF"
+	AccountCurrencyKMF AccountCurrencyEnum = "KMF"
 
 	// AccountCurrencyKPW captures enum value "KPW"
-	AccountCurrencyKPW string = "KPW"
+	AccountCurrencyKPW AccountCurrencyEnum = "KPW"
 
 	// AccountCurrencyKRW captures enum value "KRW"
-	AccountCurrencyKRW string = "KRW"
+	AccountCurrencyKRW AccountCurrencyEnum = "KRW"
 
 	// AccountCurrencyKWD captures enum value "KWD"
-	AccountCurrencyKWD string = "KWD"
+	AccountCurrencyKWD AccountCurrencyEnum = "KWD"
 
 	// AccountCurrencyKYD captures enum value "KYD"
-	AccountCurrencyKYD string = "KYD"
+	AccountCurrencyKYD AccountCurrencyEnum = "KYD"
 
 	// AccountCurrencyKZT captures enum value "KZT"
-	AccountCurrencyKZT string = "KZT"
+	AccountCurrencyKZT AccountCurrencyEnum = "KZT"
 
 	// AccountCurrencyLAK captures enum value "LAK"
-	AccountCurrencyLAK string = "LAK"
+	AccountCurrencyLAK AccountCurrencyEnum = "LAK"
 
 	// AccountCurrencyLBP captures enum value "LBP"
-	AccountCurrencyLBP string = "LBP"
+	AccountCurrencyLBP AccountCurrencyEnum = "LBP"
 
 	// AccountCurrencyLKR captures enum value "LKR"
-	AccountCurrencyLKR string = "LKR"
+	AccountCurrencyLKR AccountCurrencyEnum = "LKR"
 
 	// AccountCurrencyLRD captures enum value "LRD"
-	AccountCurrencyLRD string = "LRD"
+	AccountCurrencyLRD AccountCurrencyEnum = "LRD"
 
 	// AccountCurrencyLSL captures enum value "LSL"
-	AccountCurrencyLSL string = "LSL"
+	AccountCurrencyLSL AccountCurrencyEnum = "LSL"
 
 	// AccountCurrencyLTL captures enum value "LTL"
-	AccountCurrencyLTL string = "LTL"
+	AccountCurrencyLTL AccountCurrencyEnum = "LTL"
 
 	// AccountCurrencyLVL captures enum value "LVL"
-	AccountCurrencyLVL string = "LVL"
+	AccountCurrencyLVL AccountCurrencyEnum = "LVL"
 
 	// AccountCurrencyLYD captures enum value "LYD"
-	AccountCurrencyLYD string = "LYD"
+	AccountCurrencyLYD AccountCurrencyEnum = "LYD"
 
 	// AccountCurrencyMAD captures enum value "MAD"
-	AccountCurrencyMAD string = "MAD"
+	AccountCurrencyMAD AccountCurrencyEnum = "MAD"
 
 	// AccountCurrencyMDL captures enum value "MDL"
-	AccountCurrencyMDL string = "MDL"
+	AccountCurrencyMDL AccountCurrencyEnum = "MDL"
 
 	// AccountCurrencyMGA captures enum value "MGA"
-	AccountCurrencyMGA string = "MGA"
+	AccountCurrencyMGA AccountCurrencyEnum = "MGA"
 
 	// AccountCurrencyMKD captures enum value "MKD"
-	AccountCurrencyMKD string = "MKD"
+	AccountCurrencyMKD AccountCurrencyEnum = "MKD"
 
 	// AccountCurrencyMMK captures enum value "MMK"
-	AccountCurrencyMMK string = "MMK"
+	AccountCurrencyMMK AccountCurrencyEnum = "MMK"
 
 	// AccountCurrencyMNT captures enum value "MNT"
-	AccountCurrencyMNT string = "MNT"
+	AccountCurrencyMNT AccountCurrencyEnum = "MNT"
 
 	// AccountCurrencyMOP captures enum value "MOP"
-	AccountCurrencyMOP string = "MOP"
+	AccountCurrencyMOP AccountCurrencyEnum = "MOP"
 
 	// AccountCurrencyMRO captures enum value "MRO"
-	AccountCurrencyMRO string = "MRO"
+	AccountCurrencyMRO AccountCurrencyEnum = "MRO"
 
 	// AccountCurrencyMUR captures enum value "MUR"
-	AccountCurrencyMUR string = "MUR"
+	AccountCurrencyMUR AccountCurrencyEnum = "MUR"
 
 	// AccountCurrencyMVR captures enum value "MVR"
-	AccountCurrencyMVR string = "MVR"
+	AccountCurrencyMVR AccountCurrencyEnum = "MVR"
 
 	// AccountCurrencyMWK captures enum value "MWK"
-	AccountCurrencyMWK string = "MWK"
+	AccountCurrencyMWK AccountCurrencyEnum = "MWK"
 
 	// AccountCurrencyMXN captures enum value "MXN"
-	AccountCurrencyMXN string = "MXN"
+	AccountCurrencyMXN AccountCurrencyEnum = "MXN"
 
 	// AccountCurrencyMYR captures enum value "MYR"
-	AccountCurrencyMYR string = "MYR"
+	AccountCurrencyMYR AccountCurrencyEnum = "MYR"
 
 	// AccountCurrencyMZN captures enum value "MZN"
-	AccountCurrencyMZN string = "MZN"
+	AccountCurrencyMZN AccountCurrencyEnum = "MZN"
 
 	// AccountCurrencyNAD captures enum value "NAD"
-	AccountCurrencyNAD string = "NAD"
+	AccountCurrencyNAD AccountCurrencyEnum = "NAD"
 
 	// AccountCurrencyNGN captures enum value "NGN"
-	AccountCurrencyNGN string = "NGN"
+	AccountCurrencyNGN AccountCurrencyEnum = "NGN"
 
 	// AccountCurrencyNIO captures enum value "NIO"
-	AccountCurrencyNIO string = "NIO"
+	AccountCurrencyNIO AccountCurrencyEnum = "NIO"
 
 	// AccountCurrencyNOK captures enum value "NOK"
-	AccountCurrencyNOK string = "NOK"
+	AccountCurrencyNOK AccountCurrencyEnum = "NOK"
 
 	// AccountCurrencyNPR captures enum value "NPR"
-	AccountCurrencyNPR string = "NPR"
+	AccountCurrencyNPR AccountCurrencyEnum = "NPR"
 
 	// AccountCurrencyNZD captures enum value "NZD"
-	AccountCurrencyNZD string = "NZD"
+	AccountCurrencyNZD AccountCurrencyEnum = "NZD"
 
 	// AccountCurrencyOMR captures enum value "OMR"
-	AccountCurrencyOMR string = "OMR"
+	AccountCurrencyOMR AccountCurrencyEnum = "OMR"
 
 	// AccountCurrencyPAB captures enum value "PAB"
-	AccountCurrencyPAB string = "PAB"
+	AccountCurrencyPAB AccountCurrencyEnum = "PAB"
 
 	// AccountCurrencyPEN captures enum value "PEN"
-	AccountCurrencyPEN string = "PEN"
+	AccountCurrencyPEN AccountCurrencyEnum = "PEN"
 
 	// AccountCurrencyPGK captures enum value "PGK"
-	AccountCurrencyPGK string = "PGK"
+	AccountCurrencyPGK AccountCurrencyEnum = "PGK"
 
 	// AccountCurrencyPHP captures enum value "PHP"
-	AccountCurrencyPHP string = "PHP"
+	AccountCurrencyPHP AccountCurrencyEnum = "PHP"
 
 	// AccountCurrencyPKR captures enum value "PKR"
-	AccountCurrencyPKR string = "PKR"
+	AccountCurrencyPKR AccountCurrencyEnum = "PKR"
 
 	// AccountCurrencyPLN captures enum value "PLN"
-	AccountCurrencyPLN string = "PLN"
+	AccountCurrencyPLN AccountCurrencyEnum = "PLN"
 
 	// AccountCurrencyPYG captures enum value "PYG"
-	AccountCurrencyPYG string = "PYG"
+	AccountCurrencyPYG AccountCurrencyEnum = "PYG"
 
 	// AccountCurrencyQAR captures enum value "QAR"
-	AccountCurrencyQAR string = "QAR"
+	AccountCurrencyQAR AccountCurrencyEnum = "QAR"
 
 	// AccountCurrencyRON captures enum value "RON"
-	AccountCurrencyRON string = "RON"
+	AccountCurrencyRON AccountCurrencyEnum = "RON"
 
 	// AccountCurrencyRSD captures enum value "RSD"
-	AccountCurrencyRSD string = "RSD"
+	AccountCurrencyRSD AccountCurrencyEnum = "RSD"
 
 	// AccountCurrencyRUB captures enum value "RUB"
-	AccountCurrencyRUB string = "RUB"
+	AccountCurrencyRUB AccountCurrencyEnum = "RUB"
 
 	// AccountCurrencyRWF captures enum value "RWF"
-	AccountCurrencyRWF string = "RWF"
+	AccountCurrencyRWF AccountCurrencyEnum = "RWF"
 
 	// AccountCurrencySAR captures enum value "SAR"
-	AccountCurrencySAR string = "SAR"
+	AccountCurrencySAR AccountCurrencyEnum = "SAR"
 
 	// AccountCurrencySBD captures enum value "SBD"
-	AccountCurrencySBD string = "SBD"
+	AccountCurrencySBD AccountCurrencyEnum = "SBD"
 
 	// AccountCurrencySCR captures enum value "SCR"
-	AccountCurrencySCR string = "SCR"
+	AccountCurrencySCR AccountCurrencyEnum = "SCR"
 
 	// AccountCurrencySDG captures enum value "SDG"
-	AccountCurrencySDG string = "SDG"
+	AccountCurrencySDG AccountCurrencyEnum = "SDG"
 
 	// AccountCurrencySEK captures enum value "SEK"
-	AccountCurrencySEK string = "SEK"
+	AccountCurrencySEK AccountCurrencyEnum = "SEK"
 
 	// AccountCurrencySGD captures enum value "SGD"
-	AccountCurrencySGD string = "SGD"
+	AccountCurrencySGD AccountCurrencyEnum = "SGD"
 
 	// AccountCurrencySHP captures enum value "SHP"
-	AccountCurrencySHP string = "SHP"
+	AccountCurrencySHP AccountCurrencyEnum = "SHP"
 
 	// AccountCurrencySLL captures enum value "SLL"
-	AccountCurrencySLL string = "SLL"
+	AccountCurrencySLL AccountCurrencyEnum = "SLL"
 
 	// AccountCurrencySOS captures enum value "SOS"
-	AccountCurrencySOS string = "SOS"
+	AccountCurrencySOS AccountCurrencyEnum = "SOS"
 
 	// AccountCurrencySPL captures enum value "SPL"
-	AccountCurrencySPL string = "SPL"
+	AccountCurrencySPL AccountCurrencyEnum = "SPL"
 
 	// AccountCurrencySRD captures enum value "SRD"
-	AccountCurrencySRD string = "SRD"
+	AccountCurrencySRD AccountCurrencyEnum = "SRD"
 
 	// AccountCurrencySTD captures enum value "STD"
-	AccountCurrencySTD string = "STD"
+	AccountCurrencySTD AccountCurrencyEnum = "STD"
 
 	// AccountCurrencySVC captures enum value "SVC"
-	AccountCurrencySVC string = "SVC"
+	AccountCurrencySVC AccountCurrencyEnum = "SVC"
 
 	// AccountCurrencySYP captures enum value "SYP"
-	AccountCurrencySYP string = "SYP"
+	AccountCurrencySYP AccountCurrencyEnum = "SYP"
 
 	// AccountCurrencySZL captures enum value "SZL"
-	AccountCurrencySZL string = "SZL"
+	AccountCurrencySZL AccountCurrencyEnum = "SZL"
 
 	// AccountCurrencyTHB captures enum value "THB"
-	AccountCurrencyTHB string = "THB"
+	AccountCurrencyTHB AccountCurrencyEnum = "THB"
 
 	// AccountCurrencyTJS captures enum value "TJS"
-	AccountCurrencyTJS string = "TJS"
+	AccountCurrencyTJS AccountCurrencyEnum = "TJS"
 
 	// AccountCurrencyTMT captures enum value "TMT"
-	AccountCurrencyTMT string = "TMT"
+	AccountCurrencyTMT AccountCurrencyEnum = "TMT"
 
 	// AccountCurrencyTND captures enum value "TND"
-	AccountCurrencyTND string = "TND"
+	AccountCurrencyTND AccountCurrencyEnum = "TND"
 
 	// AccountCurrencyTOP captures enum value "TOP"
-	AccountCurrencyTOP string = "TOP"
+	AccountCurrencyTOP AccountCurrencyEnum = "TOP"
 
 	// AccountCurrencyTRY captures enum value "TRY"
-	AccountCurrencyTRY string = "TRY"
+	AccountCurrencyTRY AccountCurrencyEnum = "TRY"
 
 	// AccountCurrencyTTD captures enum value "TTD"
-	AccountCurrencyTTD string = "TTD"
+	AccountCurrencyTTD AccountCurrencyEnum = "TTD"
 
 	// AccountCurrencyTVD captures enum value "TVD"
-	AccountCurrencyTVD string = "TVD"
+	AccountCurrencyTVD AccountCurrencyEnum = "TVD"
 
 	// AccountCurrencyTWD captures enum value "TWD"
-	AccountCurrencyTWD string = "TWD"
+	AccountCurrencyTWD AccountCurrencyEnum = "TWD"
 
 	// AccountCurrencyTZS captures enum value "TZS"
-	AccountCurrencyTZS string = "TZS"
+	AccountCurrencyTZS AccountCurrencyEnum = "TZS"
 
 	// AccountCurrencyUAH captures enum value "UAH"
-	AccountCurrencyUAH string = "UAH"
+	AccountCurrencyUAH AccountCurrencyEnum = "UAH"
 
 	// AccountCurrencyUGX captures enum value "UGX"
-	AccountCurrencyUGX string = "UGX"
+	AccountCurrencyUGX AccountCurrencyEnum = "UGX"
 
 	// AccountCurrencyUSD captures enum value "USD"
-	AccountCurrencyUSD string = "USD"
+	AccountCurrencyUSD AccountCurrencyEnum = "USD"
 
 	// AccountCurrencyUYU captures enum value "UYU"
-	AccountCurrencyUYU string = "UYU"
+	AccountCurrencyUYU AccountCurrencyEnum = "UYU"
 
 	// AccountCurrencyUZS captures enum value "UZS"
-	AccountCurrencyUZS string = "UZS"
+	AccountCurrencyUZS AccountCurrencyEnum = "UZS"
 
 	// AccountCurrencyVEF captures enum value "VEF"
-	AccountCurrencyVEF string = "VEF"
+	AccountCurrencyVEF AccountCurrencyEnum = "VEF"
 
 	// AccountCurrencyVND captures enum value "VND"
-	AccountCurrencyVND string = "VND"
+	AccountCurrencyVND AccountCurrencyEnum = "VND"
 
 	// AccountCurrencyVUV captures enum value "VUV"
-	AccountCurrencyVUV string = "VUV"
+	AccountCurrencyVUV AccountCurrencyEnum = "VUV"
 
 	// AccountCurrencyWST captures enum value "WST"
-	AccountCurrencyWST string = "WST"
+	AccountCurrencyWST AccountCurrencyEnum = "WST"
 
 	// AccountCurrencyXAF captures enum value "XAF"
-	AccountCurrencyXAF string = "XAF"
+	AccountCurrencyXAF AccountCurrencyEnum = "XAF"
 
 	// AccountCurrencyXCD captures enum value "XCD"
-	AccountCurrencyXCD string = "XCD"
+	AccountCurrencyXCD AccountCurrencyEnum = "XCD"
 
 	// AccountCurrencyXDR captures enum value "XDR"
-	AccountCurrencyXDR string = "XDR"
+	AccountCurrencyXDR AccountCurrencyEnum = "XDR"
 
 	// AccountCurrencyXOF captures enum value "XOF"
-	AccountCurrencyXOF string = "XOF"
+	AccountCurrencyXOF AccountCurrencyEnum = "XOF"
 
 	// AccountCurrencyXPF captures enum value "XPF"
-	AccountCurrencyXPF string = "XPF"
+	AccountCurrencyXPF AccountCurrencyEnum = "XPF"
 
 	// AccountCurrencyYER captures enum value "YER"
-	AccountCurrencyYER string = "YER"
+	AccountCurrencyYER AccountCurrencyEnum = "YER"
 
 	// AccountCurrencyZAR captures enum value "ZAR"
-	AccountCurrencyZAR string = "ZAR"
+	AccountCurrencyZAR AccountCurrencyEnum = "ZAR"
 
 	// AccountCurrencyZMW captures enum value "ZMW"
-	AccountCurrencyZMW string = "ZMW"
+	AccountCurrencyZMW AccountCurrencyEnum = "ZMW"
 
 	// AccountCurrencyZWD captures enum value "ZWD"
-	AccountCurrencyZWD string = "ZWD"
+	AccountCurrencyZWD AccountCurrencyEnum = "ZWD"
 
 	// AccountCurrencyBTC captures enum value "BTC"
-	AccountCurrencyBTC string = "BTC"
+	AccountCurrencyBTC AccountCurrencyEnum = "BTC"
 )
 
+var AccountCurrencyEnumValues = []string{
+	"AED",
+	"AFN",
+	"ALL",
+	"AMD",
+	"ANG",
+	"AOA",
+	"ARS",
+	"AUD",
+	"AWG",
+	"AZN",
+	"BAM",
+	"BBD",
+	"BDT",
+	"BGN",
+	"BHD",
+	"BIF",
+	"BMD",
+	"BND",
+	"BOB",
+	"BRL",
+	"BSD",
+	"BTN",
+	"BWP",
+	"BYR",
+	"BZD",
+	"CAD",
+	"CDF",
+	"CHF",
+	"CLP",
+	"CNY",
+	"COP",
+	"CRC",
+	"CUC",
+	"CUP",
+	"CVE",
+	"CZK",
+	"DJF",
+	"DKK",
+	"DOP",
+	"DZD",
+	"EGP",
+	"ERN",
+	"ETB",
+	"EUR",
+	"FJD",
+	"FKP",
+	"GBP",
+	"GEL",
+	"GGP",
+	"GHS",
+	"GIP",
+	"GMD",
+	"GNF",
+	"GTQ",
+	"GYD",
+	"HKD",
+	"HNL",
+	"HRK",
+	"HTG",
+	"HUF",
+	"IDR",
+	"ILS",
+	"IMP",
+	"INR",
+	"IQD",
+	"IRR",
+	"ISK",
+	"JEP",
+	"JMD",
+	"JOD",
+	"JPY",
+	"KES",
+	"KGS",
+	"KHR",
+	"KMF",
+	"KPW",
+	"KRW",
+	"KWD",
+	"KYD",
+	"KZT",
+	"LAK",
+	"LBP",
+	"LKR",
+	"LRD",
+	"LSL",
+	"LTL",
+	"LVL",
+	"LYD",
+	"MAD",
+	"MDL",
+	"MGA",
+	"MKD",
+	"MMK",
+	"MNT",
+	"MOP",
+	"MRO",
+	"MUR",
+	"MVR",
+	"MWK",
+	"MXN",
+	"MYR",
+	"MZN",
+	"NAD",
+	"NGN",
+	"NIO",
+	"NOK",
+	"NPR",
+	"NZD",
+	"OMR",
+	"PAB",
+	"PEN",
+	"PGK",
+	"PHP",
+	"PKR",
+	"PLN",
+	"PYG",
+	"QAR",
+	"RON",
+	"RSD",
+	"RUB",
+	"RWF",
+	"SAR",
+	"SBD",
+	"SCR",
+	"SDG",
+	"SEK",
+	"SGD",
+	"SHP",
+	"SLL",
+	"SOS",
+	"SPL",
+	"SRD",
+	"STD",
+	"SVC",
+	"SYP",
+	"SZL",
+	"THB",
+	"TJS",
+	"TMT",
+	"TND",
+	"TOP",
+	"TRY",
+	"TTD",
+	"TVD",
+	"TWD",
+	"TZS",
+	"UAH",
+	"UGX",
+	"USD",
+	"UYU",
+	"UZS",
+	"VEF",
+	"VND",
+	"VUV",
+	"WST",
+	"XAF",
+	"XCD",
+	"XDR",
+	"XOF",
+	"XPF",
+	"YER",
+	"ZAR",
+	"ZMW",
+	"ZWD",
+	"BTC",
+}
+
+func (e AccountCurrencyEnum) IsValid() bool {
+	for _, v := range AccountCurrencyEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
 // prop value enum
-func (m *Account) validateCurrencyEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, accountTypeCurrencyPropEnum, true); err != nil {
+func (m *Account) validateCurrencyEnum(path, location string, value AccountCurrencyEnum) error {
+	if err := validate.Enum(path, location, value, accountTypeCurrencyPropEnum); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Account) validateCurrency(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Currency) { // not required
 		return nil
 	}
@@ -709,6 +888,7 @@ func (m *Account) validateCurrency(formats strfmt.Registry) error {
 }
 
 func (m *Account) validateParentAccountID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ParentAccountID) { // not required
 		return nil
 	}
@@ -721,6 +901,7 @@ func (m *Account) validateParentAccountID(formats strfmt.Registry) error {
 }
 
 func (m *Account) validatePaymentMethodID(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.PaymentMethodID) { // not required
 		return nil
 	}
@@ -733,46 +914,13 @@ func (m *Account) validatePaymentMethodID(formats strfmt.Registry) error {
 }
 
 func (m *Account) validateReferenceTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ReferenceTime) { // not required
 		return nil
 	}
 
 	if err := validate.FormatOf("referenceTime", "body", "date-time", m.ReferenceTime.String(), formats); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this account based on the context it is used
-func (m *Account) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *Account) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AuditLogs); i++ {
-
-		if m.AuditLogs[i] != nil {
-			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
 	}
 
 	return nil

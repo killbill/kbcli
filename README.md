@@ -8,6 +8,7 @@ and killbill command line tool (kbcmd)
 | ----------- | ------------- |
 | 0.20.x      | 1.x.y         |
 | 0.22.x      | 2.x.y         |
+| 0.24.x      | 3.x.y         |
 
 
 
@@ -85,7 +86,7 @@ git clone git@github.com:killbill/go-swagger.git
 go1.13 generate ./generator
 
 #2. build the binary
-go1.13 build cmd/swagger/swagger.go && cp swagger cp ./swagger $GOPATH/bin/swagger
+go1.13 build cmd/swagger/swagger.go && cp ./swagger $GOPATH/bin/swagger
 ```
 
 Finally, in order to generate the killbill client (using the custom `swagger` generator):

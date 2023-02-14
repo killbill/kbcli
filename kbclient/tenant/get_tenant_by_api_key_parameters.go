@@ -13,75 +13,63 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetTenantByAPIKeyParams creates a new GetTenantByAPIKeyParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetTenantByAPIKeyParams creates a new GetTenantByAPIKeyParams object
+// with the default values initialized.
 func NewGetTenantByAPIKeyParams() *GetTenantByAPIKeyParams {
+	var ()
 	return &GetTenantByAPIKeyParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetTenantByAPIKeyParamsWithTimeout creates a new GetTenantByAPIKeyParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetTenantByAPIKeyParamsWithTimeout(timeout time.Duration) *GetTenantByAPIKeyParams {
+	var ()
 	return &GetTenantByAPIKeyParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewGetTenantByAPIKeyParamsWithContext creates a new GetTenantByAPIKeyParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetTenantByAPIKeyParamsWithContext(ctx context.Context) *GetTenantByAPIKeyParams {
+	var ()
 	return &GetTenantByAPIKeyParams{
+
 		Context: ctx,
 	}
 }
 
 // NewGetTenantByAPIKeyParamsWithHTTPClient creates a new GetTenantByAPIKeyParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetTenantByAPIKeyParamsWithHTTPClient(client *http.Client) *GetTenantByAPIKeyParams {
+	var ()
 	return &GetTenantByAPIKeyParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-GetTenantByAPIKeyParams contains all the parameters to send to the API endpoint
-
-	for the get tenant by Api key operation.
-
-	Typically these are written to a http.Request.
+/*GetTenantByAPIKeyParams contains all the parameters to send to the API endpoint
+for the get tenant by Api key operation typically these are written to a http.Request
 */
 type GetTenantByAPIKeyParams struct {
 
-	// APIKey.
+	/*APIKey*/
 	APIKey *string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get tenant by Api key params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetTenantByAPIKeyParams) WithDefaults() *GetTenantByAPIKeyParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get tenant by Api key params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetTenantByAPIKeyParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get tenant by Api key params
@@ -140,16 +128,29 @@ func (o *GetTenantByAPIKeyParams) WriteToRequest(r runtime.ClientRequest, reg st
 
 		// query param apiKey
 		var qrAPIKey string
-
 		if o.APIKey != nil {
 			qrAPIKey = *o.APIKey
 		}
 		qAPIKey := qrAPIKey
 		if qAPIKey != "" {
-
 			if err := r.SetQueryParam("apiKey", qAPIKey); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 

@@ -7,9 +7,12 @@ package invoice
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // DeleteCBAReader is a Reader for the DeleteCBA structure.
@@ -20,26 +23,21 @@ type DeleteCBAReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteCBAReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewDeleteCBANoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewDeleteCBABadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewDeleteCBANotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -48,49 +46,15 @@ func NewDeleteCBANoContent() *DeleteCBANoContent {
 	return &DeleteCBANoContent{}
 }
 
-/*
-DeleteCBANoContent describes a response with status code 204, with default header values.
+/*DeleteCBANoContent handles this case with default header values.
 
 Successful operation
 */
 type DeleteCBANoContent struct {
-}
-
-// IsSuccess returns true when this delete c b a no content response has a 2xx status code
-func (o *DeleteCBANoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this delete c b a no content response has a 3xx status code
-func (o *DeleteCBANoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete c b a no content response has a 4xx status code
-func (o *DeleteCBANoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this delete c b a no content response has a 5xx status code
-func (o *DeleteCBANoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete c b a no content response a status code equal to that given
-func (o *DeleteCBANoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the delete c b a no content response
-func (o *DeleteCBANoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteCBANoContent) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/{invoiceItemId}/cba][%d] deleteCBANoContent ", 204)
-}
-
-func (o *DeleteCBANoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/{invoiceItemId}/cba][%d] deleteCBANoContent ", 204)
 }
 
@@ -104,49 +68,15 @@ func NewDeleteCBABadRequest() *DeleteCBABadRequest {
 	return &DeleteCBABadRequest{}
 }
 
-/*
-DeleteCBABadRequest describes a response with status code 400, with default header values.
+/*DeleteCBABadRequest handles this case with default header values.
 
 Invalid account id, invoice id or invoice item id supplied
 */
 type DeleteCBABadRequest struct {
-}
-
-// IsSuccess returns true when this delete c b a bad request response has a 2xx status code
-func (o *DeleteCBABadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this delete c b a bad request response has a 3xx status code
-func (o *DeleteCBABadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete c b a bad request response has a 4xx status code
-func (o *DeleteCBABadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this delete c b a bad request response has a 5xx status code
-func (o *DeleteCBABadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete c b a bad request response a status code equal to that given
-func (o *DeleteCBABadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the delete c b a bad request response
-func (o *DeleteCBABadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteCBABadRequest) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/{invoiceItemId}/cba][%d] deleteCBABadRequest ", 400)
-}
-
-func (o *DeleteCBABadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/{invoiceItemId}/cba][%d] deleteCBABadRequest ", 400)
 }
 
@@ -160,49 +90,15 @@ func NewDeleteCBANotFound() *DeleteCBANotFound {
 	return &DeleteCBANotFound{}
 }
 
-/*
-DeleteCBANotFound describes a response with status code 404, with default header values.
+/*DeleteCBANotFound handles this case with default header values.
 
 Account or invoice not found
 */
 type DeleteCBANotFound struct {
-}
-
-// IsSuccess returns true when this delete c b a not found response has a 2xx status code
-func (o *DeleteCBANotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this delete c b a not found response has a 3xx status code
-func (o *DeleteCBANotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete c b a not found response has a 4xx status code
-func (o *DeleteCBANotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this delete c b a not found response has a 5xx status code
-func (o *DeleteCBANotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete c b a not found response a status code equal to that given
-func (o *DeleteCBANotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the delete c b a not found response
-func (o *DeleteCBANotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteCBANotFound) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/{invoiceItemId}/cba][%d] deleteCBANotFound ", 404)
-}
-
-func (o *DeleteCBANotFound) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/{invoiceItemId}/cba][%d] deleteCBANotFound ", 404)
 }
 

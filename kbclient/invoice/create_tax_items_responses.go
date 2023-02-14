@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateTaxItemsReader is a Reader for the CreateTaxItems structure.
@@ -23,26 +25,21 @@ type CreateTaxItemsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CreateTaxItemsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-	case 201:
+
+	case 201, 200:
 		result := NewCreateTaxItemsCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewCreateTaxItemsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewCreateTaxItemsNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -51,50 +48,17 @@ func NewCreateTaxItemsCreated() *CreateTaxItemsCreated {
 	return &CreateTaxItemsCreated{}
 }
 
-/*
-CreateTaxItemsCreated describes a response with status code 201, with default header values.
+/*CreateTaxItemsCreated handles this case with default header values.
 
 Create tax items successfully
 */
 type CreateTaxItemsCreated struct {
 	Payload []*kbmodel.InvoiceItem
-}
 
-// IsSuccess returns true when this create tax items created response has a 2xx status code
-func (o *CreateTaxItemsCreated) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this create tax items created response has a 3xx status code
-func (o *CreateTaxItemsCreated) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this create tax items created response has a 4xx status code
-func (o *CreateTaxItemsCreated) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this create tax items created response has a 5xx status code
-func (o *CreateTaxItemsCreated) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this create tax items created response a status code equal to that given
-func (o *CreateTaxItemsCreated) IsCode(code int) bool {
-	return code == 201
-}
-
-// Code gets the status code for the create tax items created response
-func (o *CreateTaxItemsCreated) Code() int {
-	return 201
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateTaxItemsCreated) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/invoices/taxes/{accountId}][%d] createTaxItemsCreated  %+v", 201, o.Payload)
-}
-
-func (o *CreateTaxItemsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/taxes/{accountId}][%d] createTaxItemsCreated  %+v", 201, o.Payload)
 }
 
@@ -117,49 +81,15 @@ func NewCreateTaxItemsBadRequest() *CreateTaxItemsBadRequest {
 	return &CreateTaxItemsBadRequest{}
 }
 
-/*
-CreateTaxItemsBadRequest describes a response with status code 400, with default header values.
+/*CreateTaxItemsBadRequest handles this case with default header values.
 
 Invalid account id supplied
 */
 type CreateTaxItemsBadRequest struct {
-}
-
-// IsSuccess returns true when this create tax items bad request response has a 2xx status code
-func (o *CreateTaxItemsBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this create tax items bad request response has a 3xx status code
-func (o *CreateTaxItemsBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this create tax items bad request response has a 4xx status code
-func (o *CreateTaxItemsBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this create tax items bad request response has a 5xx status code
-func (o *CreateTaxItemsBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this create tax items bad request response a status code equal to that given
-func (o *CreateTaxItemsBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the create tax items bad request response
-func (o *CreateTaxItemsBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateTaxItemsBadRequest) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/invoices/taxes/{accountId}][%d] createTaxItemsBadRequest ", 400)
-}
-
-func (o *CreateTaxItemsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/taxes/{accountId}][%d] createTaxItemsBadRequest ", 400)
 }
 
@@ -173,49 +103,15 @@ func NewCreateTaxItemsNotFound() *CreateTaxItemsNotFound {
 	return &CreateTaxItemsNotFound{}
 }
 
-/*
-CreateTaxItemsNotFound describes a response with status code 404, with default header values.
+/*CreateTaxItemsNotFound handles this case with default header values.
 
 Account not found
 */
 type CreateTaxItemsNotFound struct {
-}
-
-// IsSuccess returns true when this create tax items not found response has a 2xx status code
-func (o *CreateTaxItemsNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this create tax items not found response has a 3xx status code
-func (o *CreateTaxItemsNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this create tax items not found response has a 4xx status code
-func (o *CreateTaxItemsNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this create tax items not found response has a 5xx status code
-func (o *CreateTaxItemsNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this create tax items not found response a status code equal to that given
-func (o *CreateTaxItemsNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the create tax items not found response
-func (o *CreateTaxItemsNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CreateTaxItemsNotFound) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/invoices/taxes/{accountId}][%d] createTaxItemsNotFound ", 404)
-}
-
-func (o *CreateTaxItemsNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/taxes/{accountId}][%d] createTaxItemsNotFound ", 404)
 }
 

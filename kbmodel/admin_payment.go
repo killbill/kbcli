@@ -6,14 +6,12 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
+	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // AdminPayment admin payment
-//
 // swagger:model AdminPayment
 type AdminPayment struct {
 
@@ -29,11 +27,6 @@ type AdminPayment struct {
 
 // Validate validates this admin payment
 func (m *AdminPayment) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this admin payment based on context it is used
-func (m *AdminPayment) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

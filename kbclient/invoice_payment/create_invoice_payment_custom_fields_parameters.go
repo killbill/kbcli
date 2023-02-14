@@ -13,91 +13,73 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreateInvoicePaymentCustomFieldsParams creates a new CreateInvoicePaymentCustomFieldsParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewCreateInvoicePaymentCustomFieldsParams creates a new CreateInvoicePaymentCustomFieldsParams object
+// with the default values initialized.
 func NewCreateInvoicePaymentCustomFieldsParams() *CreateInvoicePaymentCustomFieldsParams {
+	var ()
 	return &CreateInvoicePaymentCustomFieldsParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateInvoicePaymentCustomFieldsParamsWithTimeout creates a new CreateInvoicePaymentCustomFieldsParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewCreateInvoicePaymentCustomFieldsParamsWithTimeout(timeout time.Duration) *CreateInvoicePaymentCustomFieldsParams {
+	var ()
 	return &CreateInvoicePaymentCustomFieldsParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewCreateInvoicePaymentCustomFieldsParamsWithContext creates a new CreateInvoicePaymentCustomFieldsParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewCreateInvoicePaymentCustomFieldsParamsWithContext(ctx context.Context) *CreateInvoicePaymentCustomFieldsParams {
+	var ()
 	return &CreateInvoicePaymentCustomFieldsParams{
+
 		Context: ctx,
 	}
 }
 
 // NewCreateInvoicePaymentCustomFieldsParamsWithHTTPClient creates a new CreateInvoicePaymentCustomFieldsParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewCreateInvoicePaymentCustomFieldsParamsWithHTTPClient(client *http.Client) *CreateInvoicePaymentCustomFieldsParams {
+	var ()
 	return &CreateInvoicePaymentCustomFieldsParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-CreateInvoicePaymentCustomFieldsParams contains all the parameters to send to the API endpoint
-
-	for the create invoice payment custom fields operation.
-
-	Typically these are written to a http.Request.
+/*CreateInvoicePaymentCustomFieldsParams contains all the parameters to send to the API endpoint
+for the create invoice payment custom fields operation typically these are written to a http.Request
 */
 type CreateInvoicePaymentCustomFieldsParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// Body.
+	/*Body*/
 	Body []*kbmodel.CustomField
-
-	// PaymentID.
-	//
-	// Format: uuid
+	/*PaymentID*/
 	PaymentID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the create invoice payment custom fields params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateInvoicePaymentCustomFieldsParams) WithDefaults() *CreateInvoicePaymentCustomFieldsParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the create invoice payment custom fields params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *CreateInvoicePaymentCustomFieldsParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the create invoice payment custom fields params
@@ -202,6 +184,7 @@ func (o *CreateInvoicePaymentCustomFieldsParams) WriteToRequest(r runtime.Client
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -215,7 +198,9 @@ func (o *CreateInvoicePaymentCustomFieldsParams) WriteToRequest(r runtime.Client
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
+
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -225,6 +210,20 @@ func (o *CreateInvoicePaymentCustomFieldsParams) WriteToRequest(r runtime.Client
 	// path param paymentId
 	if err := r.SetPathParam("paymentId", o.PaymentID.String()); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

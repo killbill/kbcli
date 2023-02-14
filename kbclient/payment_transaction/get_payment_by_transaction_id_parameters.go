@@ -13,109 +13,100 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetPaymentByTransactionIDParams creates a new GetPaymentByTransactionIDParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetPaymentByTransactionIDParams creates a new GetPaymentByTransactionIDParams object
+// with the default values initialized.
 func NewGetPaymentByTransactionIDParams() *GetPaymentByTransactionIDParams {
+	var (
+		auditDefault          = string("NONE")
+		withAttemptsDefault   = bool(false)
+		withPluginInfoDefault = bool(false)
+	)
 	return &GetPaymentByTransactionIDParams{
+		Audit:          &auditDefault,
+		WithAttempts:   &withAttemptsDefault,
+		WithPluginInfo: &withPluginInfoDefault,
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPaymentByTransactionIDParamsWithTimeout creates a new GetPaymentByTransactionIDParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetPaymentByTransactionIDParamsWithTimeout(timeout time.Duration) *GetPaymentByTransactionIDParams {
+	var (
+		auditDefault          = string("NONE")
+		withAttemptsDefault   = bool(false)
+		withPluginInfoDefault = bool(false)
+	)
 	return &GetPaymentByTransactionIDParams{
+		Audit:          &auditDefault,
+		WithAttempts:   &withAttemptsDefault,
+		WithPluginInfo: &withPluginInfoDefault,
+
 		timeout: timeout,
 	}
 }
 
 // NewGetPaymentByTransactionIDParamsWithContext creates a new GetPaymentByTransactionIDParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetPaymentByTransactionIDParamsWithContext(ctx context.Context) *GetPaymentByTransactionIDParams {
+	var (
+		auditDefault          = string("NONE")
+		withAttemptsDefault   = bool(false)
+		withPluginInfoDefault = bool(false)
+	)
 	return &GetPaymentByTransactionIDParams{
+		Audit:          &auditDefault,
+		WithAttempts:   &withAttemptsDefault,
+		WithPluginInfo: &withPluginInfoDefault,
+
 		Context: ctx,
 	}
 }
 
 // NewGetPaymentByTransactionIDParamsWithHTTPClient creates a new GetPaymentByTransactionIDParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetPaymentByTransactionIDParamsWithHTTPClient(client *http.Client) *GetPaymentByTransactionIDParams {
-	return &GetPaymentByTransactionIDParams{
-		HTTPClient: client,
-	}
-}
-
-/*
-GetPaymentByTransactionIDParams contains all the parameters to send to the API endpoint
-
-	for the get payment by transaction Id operation.
-
-	Typically these are written to a http.Request.
-*/
-type GetPaymentByTransactionIDParams struct {
-
-	// Audit.
-	//
-	// Default: "NONE"
-	Audit *string
-
-	// PluginProperty.
-	PluginProperty []string
-
-	// TransactionID.
-	//
-	// Format: uuid
-	TransactionID strfmt.UUID
-
-	// WithAttempts.
-	WithAttempts *bool
-
-	// WithPluginInfo.
-	WithPluginInfo *bool
-
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get payment by transaction Id params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPaymentByTransactionIDParams) WithDefaults() *GetPaymentByTransactionIDParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get payment by transaction Id params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetPaymentByTransactionIDParams) SetDefaults() {
 	var (
-		auditDefault = string("NONE")
-
-		withAttemptsDefault = bool(false)
-
+		auditDefault          = string("NONE")
+		withAttemptsDefault   = bool(false)
 		withPluginInfoDefault = bool(false)
 	)
-
-	val := GetPaymentByTransactionIDParams{
+	return &GetPaymentByTransactionIDParams{
 		Audit:          &auditDefault,
 		WithAttempts:   &withAttemptsDefault,
 		WithPluginInfo: &withPluginInfoDefault,
+		HTTPClient:     client,
 	}
+}
 
-	val.timeout = o.timeout
-	val.Context = o.Context
-	val.HTTPClient = o.HTTPClient
-	*o = val
+/*GetPaymentByTransactionIDParams contains all the parameters to send to the API endpoint
+for the get payment by transaction Id operation typically these are written to a http.Request
+*/
+type GetPaymentByTransactionIDParams struct {
+
+	/*Audit*/
+	Audit *string
+	/*PluginProperty*/
+	PluginProperty []string
+	/*TransactionID*/
+	TransactionID strfmt.UUID
+	/*WithAttempts*/
+	WithAttempts *bool
+	/*WithPluginInfo*/
+	WithPluginInfo *bool
+
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get payment by transaction Id params
@@ -218,28 +209,24 @@ func (o *GetPaymentByTransactionIDParams) WriteToRequest(r runtime.ClientRequest
 
 		// query param audit
 		var qrAudit string
-
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
-
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
+
 	}
 
-	if o.PluginProperty != nil {
+	valuesPluginProperty := o.PluginProperty
 
-		// binding items for pluginProperty
-		joinedPluginProperty := o.bindParamPluginProperty(reg)
-
-		// query array param pluginProperty
-		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-			return err
-		}
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	// path param transactionId
@@ -251,33 +238,45 @@ func (o *GetPaymentByTransactionIDParams) WriteToRequest(r runtime.ClientRequest
 
 		// query param withAttempts
 		var qrWithAttempts bool
-
 		if o.WithAttempts != nil {
 			qrWithAttempts = *o.WithAttempts
 		}
 		qWithAttempts := swag.FormatBool(qrWithAttempts)
 		if qWithAttempts != "" {
-
 			if err := r.SetQueryParam("withAttempts", qWithAttempts); err != nil {
 				return err
 			}
 		}
+
 	}
 
 	if o.WithPluginInfo != nil {
 
 		// query param withPluginInfo
 		var qrWithPluginInfo bool
-
 		if o.WithPluginInfo != nil {
 			qrWithPluginInfo = *o.WithPluginInfo
 		}
 		qWithPluginInfo := swag.FormatBool(qrWithPluginInfo)
 		if qWithPluginInfo != "" {
-
 			if err := r.SetQueryParam("withPluginInfo", qWithPluginInfo); err != nil {
 				return err
 			}
+		}
+
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
 		}
 	}
 
@@ -285,21 +284,4 @@ func (o *GetPaymentByTransactionIDParams) WriteToRequest(r runtime.ClientRequest
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
-}
-
-// bindParamGetPaymentByTransactionID binds the parameter pluginProperty
-func (o *GetPaymentByTransactionIDParams) bindParamPluginProperty(formats strfmt.Registry) []string {
-	pluginPropertyIR := o.PluginProperty
-
-	var pluginPropertyIC []string
-	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
-
-		pluginPropertyIIV := pluginPropertyIIR // string as string
-		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
-	}
-
-	// items.CollectionFormat: "multi"
-	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
-
-	return pluginPropertyIS
 }

@@ -6,16 +6,14 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
+	strfmt "github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Session session
-//
 // swagger:model Session
 type Session struct {
 
@@ -56,6 +54,7 @@ func (m *Session) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Session) validateLastAccessDate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.LastAccessDate) { // not required
 		return nil
 	}
@@ -68,6 +67,7 @@ func (m *Session) validateLastAccessDate(formats strfmt.Registry) error {
 }
 
 func (m *Session) validateStartDate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.StartDate) { // not required
 		return nil
 	}
@@ -76,11 +76,6 @@ func (m *Session) validateStartDate(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this session based on context it is used
-func (m *Session) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -7,9 +7,12 @@ package subscription
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // UncancelSubscriptionPlanReader is a Reader for the UncancelSubscriptionPlan structure.
@@ -20,26 +23,21 @@ type UncancelSubscriptionPlanReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *UncancelSubscriptionPlanReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewUncancelSubscriptionPlanNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewUncancelSubscriptionPlanBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewUncancelSubscriptionPlanNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -48,49 +46,15 @@ func NewUncancelSubscriptionPlanNoContent() *UncancelSubscriptionPlanNoContent {
 	return &UncancelSubscriptionPlanNoContent{}
 }
 
-/*
-UncancelSubscriptionPlanNoContent describes a response with status code 204, with default header values.
+/*UncancelSubscriptionPlanNoContent handles this case with default header values.
 
 Successful operation
 */
 type UncancelSubscriptionPlanNoContent struct {
-}
-
-// IsSuccess returns true when this uncancel subscription plan no content response has a 2xx status code
-func (o *UncancelSubscriptionPlanNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this uncancel subscription plan no content response has a 3xx status code
-func (o *UncancelSubscriptionPlanNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this uncancel subscription plan no content response has a 4xx status code
-func (o *UncancelSubscriptionPlanNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this uncancel subscription plan no content response has a 5xx status code
-func (o *UncancelSubscriptionPlanNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this uncancel subscription plan no content response a status code equal to that given
-func (o *UncancelSubscriptionPlanNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the uncancel subscription plan no content response
-func (o *UncancelSubscriptionPlanNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UncancelSubscriptionPlanNoContent) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/uncancel][%d] uncancelSubscriptionPlanNoContent ", 204)
-}
-
-func (o *UncancelSubscriptionPlanNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/uncancel][%d] uncancelSubscriptionPlanNoContent ", 204)
 }
 
@@ -104,49 +68,15 @@ func NewUncancelSubscriptionPlanBadRequest() *UncancelSubscriptionPlanBadRequest
 	return &UncancelSubscriptionPlanBadRequest{}
 }
 
-/*
-UncancelSubscriptionPlanBadRequest describes a response with status code 400, with default header values.
+/*UncancelSubscriptionPlanBadRequest handles this case with default header values.
 
 Invalid subscription id supplied
 */
 type UncancelSubscriptionPlanBadRequest struct {
-}
-
-// IsSuccess returns true when this uncancel subscription plan bad request response has a 2xx status code
-func (o *UncancelSubscriptionPlanBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this uncancel subscription plan bad request response has a 3xx status code
-func (o *UncancelSubscriptionPlanBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this uncancel subscription plan bad request response has a 4xx status code
-func (o *UncancelSubscriptionPlanBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this uncancel subscription plan bad request response has a 5xx status code
-func (o *UncancelSubscriptionPlanBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this uncancel subscription plan bad request response a status code equal to that given
-func (o *UncancelSubscriptionPlanBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the uncancel subscription plan bad request response
-func (o *UncancelSubscriptionPlanBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UncancelSubscriptionPlanBadRequest) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/uncancel][%d] uncancelSubscriptionPlanBadRequest ", 400)
-}
-
-func (o *UncancelSubscriptionPlanBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/uncancel][%d] uncancelSubscriptionPlanBadRequest ", 400)
 }
 
@@ -160,49 +90,15 @@ func NewUncancelSubscriptionPlanNotFound() *UncancelSubscriptionPlanNotFound {
 	return &UncancelSubscriptionPlanNotFound{}
 }
 
-/*
-UncancelSubscriptionPlanNotFound describes a response with status code 404, with default header values.
+/*UncancelSubscriptionPlanNotFound handles this case with default header values.
 
 Entitlement not found
 */
 type UncancelSubscriptionPlanNotFound struct {
-}
-
-// IsSuccess returns true when this uncancel subscription plan not found response has a 2xx status code
-func (o *UncancelSubscriptionPlanNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this uncancel subscription plan not found response has a 3xx status code
-func (o *UncancelSubscriptionPlanNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this uncancel subscription plan not found response has a 4xx status code
-func (o *UncancelSubscriptionPlanNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this uncancel subscription plan not found response has a 5xx status code
-func (o *UncancelSubscriptionPlanNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this uncancel subscription plan not found response a status code equal to that given
-func (o *UncancelSubscriptionPlanNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the uncancel subscription plan not found response
-func (o *UncancelSubscriptionPlanNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *UncancelSubscriptionPlanNotFound) Error() string {
-	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/uncancel][%d] uncancelSubscriptionPlanNotFound ", 404)
-}
-
-func (o *UncancelSubscriptionPlanNotFound) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/uncancel][%d] uncancelSubscriptionPlanNotFound ", 404)
 }
 

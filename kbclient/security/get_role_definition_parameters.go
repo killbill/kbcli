@@ -13,75 +13,63 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetRoleDefinitionParams creates a new GetRoleDefinitionParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewGetRoleDefinitionParams creates a new GetRoleDefinitionParams object
+// with the default values initialized.
 func NewGetRoleDefinitionParams() *GetRoleDefinitionParams {
+	var ()
 	return &GetRoleDefinitionParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetRoleDefinitionParamsWithTimeout creates a new GetRoleDefinitionParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewGetRoleDefinitionParamsWithTimeout(timeout time.Duration) *GetRoleDefinitionParams {
+	var ()
 	return &GetRoleDefinitionParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewGetRoleDefinitionParamsWithContext creates a new GetRoleDefinitionParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewGetRoleDefinitionParamsWithContext(ctx context.Context) *GetRoleDefinitionParams {
+	var ()
 	return &GetRoleDefinitionParams{
+
 		Context: ctx,
 	}
 }
 
 // NewGetRoleDefinitionParamsWithHTTPClient creates a new GetRoleDefinitionParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetRoleDefinitionParamsWithHTTPClient(client *http.Client) *GetRoleDefinitionParams {
+	var ()
 	return &GetRoleDefinitionParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-GetRoleDefinitionParams contains all the parameters to send to the API endpoint
-
-	for the get role definition operation.
-
-	Typically these are written to a http.Request.
+/*GetRoleDefinitionParams contains all the parameters to send to the API endpoint
+for the get role definition operation typically these are written to a http.Request
 */
 type GetRoleDefinitionParams struct {
 
-	// Role.
+	/*Role*/
 	Role string
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the get role definition params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetRoleDefinitionParams) WithDefaults() *GetRoleDefinitionParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the get role definition params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *GetRoleDefinitionParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the get role definition params
@@ -139,6 +127,20 @@ func (o *GetRoleDefinitionParams) WriteToRequest(r runtime.ClientRequest, reg st
 	// path param role
 	if err := r.SetPathParam("role", o.Role); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

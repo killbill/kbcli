@@ -13,86 +13,69 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-	"github.com/go-openapi/strfmt"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewVoidInvoiceParams creates a new VoidInvoiceParams object,
-// with the default timeout for this client.
-//
-// Default values are not hydrated, since defaults are normally applied by the API server side.
-//
-// To enforce default values in parameter, use SetDefaults or WithDefaults.
+// NewVoidInvoiceParams creates a new VoidInvoiceParams object
+// with the default values initialized.
 func NewVoidInvoiceParams() *VoidInvoiceParams {
+	var ()
 	return &VoidInvoiceParams{
+
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewVoidInvoiceParamsWithTimeout creates a new VoidInvoiceParams object
-// with the ability to set a timeout on a request.
+// with the default values initialized, and the ability to set a timeout on a request
 func NewVoidInvoiceParamsWithTimeout(timeout time.Duration) *VoidInvoiceParams {
+	var ()
 	return &VoidInvoiceParams{
+
 		timeout: timeout,
 	}
 }
 
 // NewVoidInvoiceParamsWithContext creates a new VoidInvoiceParams object
-// with the ability to set a context for a request.
+// with the default values initialized, and the ability to set a context for a request
 func NewVoidInvoiceParamsWithContext(ctx context.Context) *VoidInvoiceParams {
+	var ()
 	return &VoidInvoiceParams{
+
 		Context: ctx,
 	}
 }
 
 // NewVoidInvoiceParamsWithHTTPClient creates a new VoidInvoiceParams object
-// with the ability to set a custom HTTPClient for a request.
+// with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewVoidInvoiceParamsWithHTTPClient(client *http.Client) *VoidInvoiceParams {
+	var ()
 	return &VoidInvoiceParams{
 		HTTPClient: client,
 	}
 }
 
-/*
-VoidInvoiceParams contains all the parameters to send to the API endpoint
-
-	for the void invoice operation.
-
-	Typically these are written to a http.Request.
+/*VoidInvoiceParams contains all the parameters to send to the API endpoint
+for the void invoice operation typically these are written to a http.Request
 */
 type VoidInvoiceParams struct {
 
-	// XKillbillComment.
+	/*XKillbillComment*/
 	XKillbillComment *string
-
-	// XKillbillCreatedBy.
+	/*XKillbillCreatedBy*/
 	XKillbillCreatedBy string
-
-	// XKillbillReason.
+	/*XKillbillReason*/
 	XKillbillReason *string
-
-	// InvoiceID.
-	//
-	// Format: uuid
+	/*InvoiceID*/
 	InvoiceID strfmt.UUID
 
-	timeout    time.Duration
-	Context    context.Context
-	HTTPClient *http.Client
-}
-
-// WithDefaults hydrates default values in the void invoice params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *VoidInvoiceParams) WithDefaults() *VoidInvoiceParams {
-	o.SetDefaults()
-	return o
-}
-
-// SetDefaults hydrates default values in the void invoice params (not the query body).
-//
-// All values with no default are reset to their zero value.
-func (o *VoidInvoiceParams) SetDefaults() {
-	// no default values defined for this parameter
+	WithProfilingInfo     *string // If set, return KB hprof headers
+	WithStackTrace        *bool   // If set, returns full stack trace with error message
+	timeout               time.Duration
+	Context               context.Context
+	HTTPClient            *http.Client
+	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
 }
 
 // WithTimeout adds the timeout to the void invoice params
@@ -186,6 +169,7 @@ func (o *VoidInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
+
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -199,11 +183,26 @@ func (o *VoidInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
+
 	}
 
 	// path param invoiceId
 	if err := r.SetPathParam("invoiceId", o.InvoiceID.String()); err != nil {
 		return err
+	}
+
+	// header param WithProfilingInfo
+	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
+		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
+			return err
+		}
+	}
+
+	// header param withStackTrace
+	if o.WithStackTrace != nil && *o.WithStackTrace {
+		if err := r.SetQueryParam("withStackTrace", "true"); err != nil {
+			return err
+		}
 	}
 
 	if len(res) > 0 {

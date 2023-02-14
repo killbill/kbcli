@@ -10,9 +10,11 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	strfmt "github.com/go-openapi/strfmt"
+
+	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CaptureAuthorizationReader is a Reader for the CaptureAuthorization structure.
@@ -23,56 +25,21 @@ type CaptureAuthorizationReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CaptureAuthorizationReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-	case 201:
+
+	case 201, 200:
 		result := NewCaptureAuthorizationCreated()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewCaptureAuthorizationBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 402:
-		result := NewCaptureAuthorizationPaymentRequired()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewCaptureAuthorizationNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 422:
-		result := NewCaptureAuthorizationUnprocessableEntity()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 502:
-		result := NewCaptureAuthorizationBadGateway()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 503:
-		result := NewCaptureAuthorizationServiceUnavailable()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 504:
-		result := NewCaptureAuthorizationGatewayTimeout()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
+
 	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
+			return nil, err
+		}
+		return nil, errorResult
 	}
 }
 
@@ -81,50 +48,17 @@ func NewCaptureAuthorizationCreated() *CaptureAuthorizationCreated {
 	return &CaptureAuthorizationCreated{}
 }
 
-/*
-CaptureAuthorizationCreated describes a response with status code 201, with default header values.
+/*CaptureAuthorizationCreated handles this case with default header values.
 
 Payment transaction created successfully
 */
 type CaptureAuthorizationCreated struct {
 	Payload *kbmodel.Payment
-}
 
-// IsSuccess returns true when this capture authorization created response has a 2xx status code
-func (o *CaptureAuthorizationCreated) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this capture authorization created response has a 3xx status code
-func (o *CaptureAuthorizationCreated) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization created response has a 4xx status code
-func (o *CaptureAuthorizationCreated) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this capture authorization created response has a 5xx status code
-func (o *CaptureAuthorizationCreated) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this capture authorization created response a status code equal to that given
-func (o *CaptureAuthorizationCreated) IsCode(code int) bool {
-	return code == 201
-}
-
-// Code gets the status code for the capture authorization created response
-func (o *CaptureAuthorizationCreated) Code() int {
-	return 201
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationCreated) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationCreated  %+v", 201, o.Payload)
-}
-
-func (o *CaptureAuthorizationCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationCreated  %+v", 201, o.Payload)
 }
 
@@ -149,49 +83,15 @@ func NewCaptureAuthorizationBadRequest() *CaptureAuthorizationBadRequest {
 	return &CaptureAuthorizationBadRequest{}
 }
 
-/*
-CaptureAuthorizationBadRequest describes a response with status code 400, with default header values.
+/*CaptureAuthorizationBadRequest handles this case with default header values.
 
 Invalid paymentId supplied
 */
 type CaptureAuthorizationBadRequest struct {
-}
-
-// IsSuccess returns true when this capture authorization bad request response has a 2xx status code
-func (o *CaptureAuthorizationBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization bad request response has a 3xx status code
-func (o *CaptureAuthorizationBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization bad request response has a 4xx status code
-func (o *CaptureAuthorizationBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this capture authorization bad request response has a 5xx status code
-func (o *CaptureAuthorizationBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this capture authorization bad request response a status code equal to that given
-func (o *CaptureAuthorizationBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the capture authorization bad request response
-func (o *CaptureAuthorizationBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationBadRequest) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationBadRequest ", 400)
-}
-
-func (o *CaptureAuthorizationBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationBadRequest ", 400)
 }
 
@@ -205,49 +105,15 @@ func NewCaptureAuthorizationPaymentRequired() *CaptureAuthorizationPaymentRequir
 	return &CaptureAuthorizationPaymentRequired{}
 }
 
-/*
-CaptureAuthorizationPaymentRequired describes a response with status code 402, with default header values.
+/*CaptureAuthorizationPaymentRequired handles this case with default header values.
 
 Transaction declined by gateway
 */
 type CaptureAuthorizationPaymentRequired struct {
-}
-
-// IsSuccess returns true when this capture authorization payment required response has a 2xx status code
-func (o *CaptureAuthorizationPaymentRequired) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization payment required response has a 3xx status code
-func (o *CaptureAuthorizationPaymentRequired) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization payment required response has a 4xx status code
-func (o *CaptureAuthorizationPaymentRequired) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this capture authorization payment required response has a 5xx status code
-func (o *CaptureAuthorizationPaymentRequired) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this capture authorization payment required response a status code equal to that given
-func (o *CaptureAuthorizationPaymentRequired) IsCode(code int) bool {
-	return code == 402
-}
-
-// Code gets the status code for the capture authorization payment required response
-func (o *CaptureAuthorizationPaymentRequired) Code() int {
-	return 402
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationPaymentRequired) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationPaymentRequired ", 402)
-}
-
-func (o *CaptureAuthorizationPaymentRequired) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationPaymentRequired ", 402)
 }
 
@@ -261,49 +127,15 @@ func NewCaptureAuthorizationNotFound() *CaptureAuthorizationNotFound {
 	return &CaptureAuthorizationNotFound{}
 }
 
-/*
-CaptureAuthorizationNotFound describes a response with status code 404, with default header values.
+/*CaptureAuthorizationNotFound handles this case with default header values.
 
 Account or payment not found
 */
 type CaptureAuthorizationNotFound struct {
-}
-
-// IsSuccess returns true when this capture authorization not found response has a 2xx status code
-func (o *CaptureAuthorizationNotFound) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization not found response has a 3xx status code
-func (o *CaptureAuthorizationNotFound) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization not found response has a 4xx status code
-func (o *CaptureAuthorizationNotFound) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this capture authorization not found response has a 5xx status code
-func (o *CaptureAuthorizationNotFound) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this capture authorization not found response a status code equal to that given
-func (o *CaptureAuthorizationNotFound) IsCode(code int) bool {
-	return code == 404
-}
-
-// Code gets the status code for the capture authorization not found response
-func (o *CaptureAuthorizationNotFound) Code() int {
-	return 404
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationNotFound) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationNotFound ", 404)
-}
-
-func (o *CaptureAuthorizationNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationNotFound ", 404)
 }
 
@@ -317,49 +149,15 @@ func NewCaptureAuthorizationUnprocessableEntity() *CaptureAuthorizationUnprocess
 	return &CaptureAuthorizationUnprocessableEntity{}
 }
 
-/*
-CaptureAuthorizationUnprocessableEntity describes a response with status code 422, with default header values.
+/*CaptureAuthorizationUnprocessableEntity handles this case with default header values.
 
 Payment is aborted by a control plugin
 */
 type CaptureAuthorizationUnprocessableEntity struct {
-}
-
-// IsSuccess returns true when this capture authorization unprocessable entity response has a 2xx status code
-func (o *CaptureAuthorizationUnprocessableEntity) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization unprocessable entity response has a 3xx status code
-func (o *CaptureAuthorizationUnprocessableEntity) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization unprocessable entity response has a 4xx status code
-func (o *CaptureAuthorizationUnprocessableEntity) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this capture authorization unprocessable entity response has a 5xx status code
-func (o *CaptureAuthorizationUnprocessableEntity) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this capture authorization unprocessable entity response a status code equal to that given
-func (o *CaptureAuthorizationUnprocessableEntity) IsCode(code int) bool {
-	return code == 422
-}
-
-// Code gets the status code for the capture authorization unprocessable entity response
-func (o *CaptureAuthorizationUnprocessableEntity) Code() int {
-	return 422
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationUnprocessableEntity) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationUnprocessableEntity ", 422)
-}
-
-func (o *CaptureAuthorizationUnprocessableEntity) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationUnprocessableEntity ", 422)
 }
 
@@ -373,49 +171,15 @@ func NewCaptureAuthorizationBadGateway() *CaptureAuthorizationBadGateway {
 	return &CaptureAuthorizationBadGateway{}
 }
 
-/*
-CaptureAuthorizationBadGateway describes a response with status code 502, with default header values.
+/*CaptureAuthorizationBadGateway handles this case with default header values.
 
 Failed to submit payment transaction
 */
 type CaptureAuthorizationBadGateway struct {
-}
-
-// IsSuccess returns true when this capture authorization bad gateway response has a 2xx status code
-func (o *CaptureAuthorizationBadGateway) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization bad gateway response has a 3xx status code
-func (o *CaptureAuthorizationBadGateway) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization bad gateway response has a 4xx status code
-func (o *CaptureAuthorizationBadGateway) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this capture authorization bad gateway response has a 5xx status code
-func (o *CaptureAuthorizationBadGateway) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this capture authorization bad gateway response a status code equal to that given
-func (o *CaptureAuthorizationBadGateway) IsCode(code int) bool {
-	return code == 502
-}
-
-// Code gets the status code for the capture authorization bad gateway response
-func (o *CaptureAuthorizationBadGateway) Code() int {
-	return 502
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationBadGateway) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationBadGateway ", 502)
-}
-
-func (o *CaptureAuthorizationBadGateway) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationBadGateway ", 502)
 }
 
@@ -429,49 +193,15 @@ func NewCaptureAuthorizationServiceUnavailable() *CaptureAuthorizationServiceUna
 	return &CaptureAuthorizationServiceUnavailable{}
 }
 
-/*
-CaptureAuthorizationServiceUnavailable describes a response with status code 503, with default header values.
+/*CaptureAuthorizationServiceUnavailable handles this case with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
 type CaptureAuthorizationServiceUnavailable struct {
-}
-
-// IsSuccess returns true when this capture authorization service unavailable response has a 2xx status code
-func (o *CaptureAuthorizationServiceUnavailable) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization service unavailable response has a 3xx status code
-func (o *CaptureAuthorizationServiceUnavailable) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization service unavailable response has a 4xx status code
-func (o *CaptureAuthorizationServiceUnavailable) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this capture authorization service unavailable response has a 5xx status code
-func (o *CaptureAuthorizationServiceUnavailable) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this capture authorization service unavailable response a status code equal to that given
-func (o *CaptureAuthorizationServiceUnavailable) IsCode(code int) bool {
-	return code == 503
-}
-
-// Code gets the status code for the capture authorization service unavailable response
-func (o *CaptureAuthorizationServiceUnavailable) Code() int {
-	return 503
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationServiceUnavailable) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationServiceUnavailable ", 503)
-}
-
-func (o *CaptureAuthorizationServiceUnavailable) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationServiceUnavailable ", 503)
 }
 
@@ -485,49 +215,15 @@ func NewCaptureAuthorizationGatewayTimeout() *CaptureAuthorizationGatewayTimeout
 	return &CaptureAuthorizationGatewayTimeout{}
 }
 
-/*
-CaptureAuthorizationGatewayTimeout describes a response with status code 504, with default header values.
+/*CaptureAuthorizationGatewayTimeout handles this case with default header values.
 
 Payment operation timeout
 */
 type CaptureAuthorizationGatewayTimeout struct {
-}
-
-// IsSuccess returns true when this capture authorization gateway timeout response has a 2xx status code
-func (o *CaptureAuthorizationGatewayTimeout) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this capture authorization gateway timeout response has a 3xx status code
-func (o *CaptureAuthorizationGatewayTimeout) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this capture authorization gateway timeout response has a 4xx status code
-func (o *CaptureAuthorizationGatewayTimeout) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this capture authorization gateway timeout response has a 5xx status code
-func (o *CaptureAuthorizationGatewayTimeout) IsServerError() bool {
-	return true
-}
-
-// IsCode returns true when this capture authorization gateway timeout response a status code equal to that given
-func (o *CaptureAuthorizationGatewayTimeout) IsCode(code int) bool {
-	return code == 504
-}
-
-// Code gets the status code for the capture authorization gateway timeout response
-func (o *CaptureAuthorizationGatewayTimeout) Code() int {
-	return 504
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *CaptureAuthorizationGatewayTimeout) Error() string {
-	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationGatewayTimeout ", 504)
-}
-
-func (o *CaptureAuthorizationGatewayTimeout) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}][%d] captureAuthorizationGatewayTimeout ", 504)
 }
 

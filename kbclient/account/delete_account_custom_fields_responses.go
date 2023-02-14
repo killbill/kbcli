@@ -7,9 +7,12 @@ package account
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v2/kbcommon"
+
+	strfmt "github.com/go-openapi/strfmt"
 )
 
 // DeleteAccountCustomFieldsReader is a Reader for the DeleteAccountCustomFields structure.
@@ -20,20 +23,21 @@ type DeleteAccountCustomFieldsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteAccountCustomFieldsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+
 	case 204:
 		result := NewDeleteAccountCustomFieldsNoContent()
+		result.HttpResponse = response
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewDeleteAccountCustomFieldsBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
+
+	default:
+		errorResult := kbcommon.NewKillbillError(response.Code())
+		if err := consumer.Consume(response.Body(), &errorResult); err != nil && err != io.EOF {
 			return nil, err
 		}
-		return nil, result
-	default:
-		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
+		return nil, errorResult
 	}
 }
 
@@ -42,49 +46,15 @@ func NewDeleteAccountCustomFieldsNoContent() *DeleteAccountCustomFieldsNoContent
 	return &DeleteAccountCustomFieldsNoContent{}
 }
 
-/*
-DeleteAccountCustomFieldsNoContent describes a response with status code 204, with default header values.
+/*DeleteAccountCustomFieldsNoContent handles this case with default header values.
 
 Successful operation
 */
 type DeleteAccountCustomFieldsNoContent struct {
-}
-
-// IsSuccess returns true when this delete account custom fields no content response has a 2xx status code
-func (o *DeleteAccountCustomFieldsNoContent) IsSuccess() bool {
-	return true
-}
-
-// IsRedirect returns true when this delete account custom fields no content response has a 3xx status code
-func (o *DeleteAccountCustomFieldsNoContent) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete account custom fields no content response has a 4xx status code
-func (o *DeleteAccountCustomFieldsNoContent) IsClientError() bool {
-	return false
-}
-
-// IsServerError returns true when this delete account custom fields no content response has a 5xx status code
-func (o *DeleteAccountCustomFieldsNoContent) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete account custom fields no content response a status code equal to that given
-func (o *DeleteAccountCustomFieldsNoContent) IsCode(code int) bool {
-	return code == 204
-}
-
-// Code gets the status code for the delete account custom fields no content response
-func (o *DeleteAccountCustomFieldsNoContent) Code() int {
-	return 204
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteAccountCustomFieldsNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/accounts/{accountId}/customFields][%d] deleteAccountCustomFieldsNoContent ", 204)
-}
-
-func (o *DeleteAccountCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/accounts/{accountId}/customFields][%d] deleteAccountCustomFieldsNoContent ", 204)
 }
 
@@ -98,49 +68,15 @@ func NewDeleteAccountCustomFieldsBadRequest() *DeleteAccountCustomFieldsBadReque
 	return &DeleteAccountCustomFieldsBadRequest{}
 }
 
-/*
-DeleteAccountCustomFieldsBadRequest describes a response with status code 400, with default header values.
+/*DeleteAccountCustomFieldsBadRequest handles this case with default header values.
 
 Invalid account id supplied
 */
 type DeleteAccountCustomFieldsBadRequest struct {
-}
-
-// IsSuccess returns true when this delete account custom fields bad request response has a 2xx status code
-func (o *DeleteAccountCustomFieldsBadRequest) IsSuccess() bool {
-	return false
-}
-
-// IsRedirect returns true when this delete account custom fields bad request response has a 3xx status code
-func (o *DeleteAccountCustomFieldsBadRequest) IsRedirect() bool {
-	return false
-}
-
-// IsClientError returns true when this delete account custom fields bad request response has a 4xx status code
-func (o *DeleteAccountCustomFieldsBadRequest) IsClientError() bool {
-	return true
-}
-
-// IsServerError returns true when this delete account custom fields bad request response has a 5xx status code
-func (o *DeleteAccountCustomFieldsBadRequest) IsServerError() bool {
-	return false
-}
-
-// IsCode returns true when this delete account custom fields bad request response a status code equal to that given
-func (o *DeleteAccountCustomFieldsBadRequest) IsCode(code int) bool {
-	return code == 400
-}
-
-// Code gets the status code for the delete account custom fields bad request response
-func (o *DeleteAccountCustomFieldsBadRequest) Code() int {
-	return 400
+	HttpResponse runtime.ClientResponse
 }
 
 func (o *DeleteAccountCustomFieldsBadRequest) Error() string {
-	return fmt.Sprintf("[DELETE /1.0/kb/accounts/{accountId}/customFields][%d] deleteAccountCustomFieldsBadRequest ", 400)
-}
-
-func (o *DeleteAccountCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/accounts/{accountId}/customFields][%d] deleteAccountCustomFieldsBadRequest ", 400)
 }
 
