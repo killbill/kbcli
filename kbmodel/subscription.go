@@ -31,17 +31,17 @@ type Subscription struct {
 	BillCycleDayLocal int32 `json:"billCycleDayLocal,omitempty"`
 
 	// billing end date
-	// Format: date
-	BillingEndDate strfmt.Date `json:"billingEndDate,omitempty"`
+	// Format: date-time
+	BillingEndDate strfmt.DateTime `json:"billingEndDate,omitempty"`
 
 	// billing period
 	// Required: true
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod *SubscriptionBillingPeriodEnum `json:"billingPeriod"`
 
 	// billing start date
-	// Format: date
-	BillingStartDate strfmt.Date `json:"billingStartDate,omitempty"`
+	// Format: date-time
+	BillingStartDate strfmt.DateTime `json:"billingStartDate,omitempty"`
 
 	// bundle external key
 	BundleExternalKey string `json:"bundleExternalKey,omitempty"`
@@ -51,8 +51,8 @@ type Subscription struct {
 	BundleID strfmt.UUID `json:"bundleId,omitempty"`
 
 	// cancelled date
-	// Format: date
-	CancelledDate strfmt.Date `json:"cancelledDate,omitempty"`
+	// Format: date-time
+	CancelledDate strfmt.DateTime `json:"cancelledDate,omitempty"`
 
 	// charged through date
 	// Format: date
@@ -90,13 +90,16 @@ type Subscription struct {
 	// Required: true
 	ProductName *string `json:"productName"`
 
+	// quantity
+	Quantity int32 `json:"quantity,omitempty"`
+
 	// source type
 	// Enum: [NATIVE MIGRATED TRANSFERRED]
 	SourceType SubscriptionSourceTypeEnum `json:"sourceType,omitempty"`
 
 	// start date
-	// Format: date
-	StartDate strfmt.Date `json:"startDate,omitempty"`
+	// Format: date-time
+	StartDate strfmt.DateTime `json:"startDate,omitempty"`
 
 	// state
 	// Enum: [PENDING ACTIVE BLOCKED CANCELLED EXPIRED]
@@ -241,7 +244,7 @@ func (m *Subscription) validateBillingEndDate(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("billingEndDate", "body", "date", m.BillingEndDate.String(), formats); err != nil {
+	if err := validate.FormatOf("billingEndDate", "body", "date-time", m.BillingEndDate.String(), formats); err != nil {
 		return err
 	}
 
@@ -252,7 +255,7 @@ var subscriptionTypeBillingPeriodPropEnum []interface{}
 
 func init() {
 	var res []SubscriptionBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -275,6 +278,9 @@ const (
 
 	// SubscriptionBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
 	SubscriptionBillingPeriodTHIRTYDAYS SubscriptionBillingPeriodEnum = "THIRTY_DAYS"
+
+	// SubscriptionBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	SubscriptionBillingPeriodTHIRTYONEDAYS SubscriptionBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// SubscriptionBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
 	SubscriptionBillingPeriodSIXTYDAYS SubscriptionBillingPeriodEnum = "SIXTY_DAYS"
@@ -300,8 +306,14 @@ const (
 	// SubscriptionBillingPeriodANNUAL captures enum value "ANNUAL"
 	SubscriptionBillingPeriodANNUAL SubscriptionBillingPeriodEnum = "ANNUAL"
 
+	// SubscriptionBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	SubscriptionBillingPeriodSESQUIENNIAL SubscriptionBillingPeriodEnum = "SESQUIENNIAL"
+
 	// SubscriptionBillingPeriodBIENNIAL captures enum value "BIENNIAL"
 	SubscriptionBillingPeriodBIENNIAL SubscriptionBillingPeriodEnum = "BIENNIAL"
+
+	// SubscriptionBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	SubscriptionBillingPeriodTRIENNIAL SubscriptionBillingPeriodEnum = "TRIENNIAL"
 
 	// SubscriptionBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
 	SubscriptionBillingPeriodNOBILLINGPERIOD SubscriptionBillingPeriodEnum = "NO_BILLING_PERIOD"
@@ -312,6 +324,7 @@ var SubscriptionBillingPeriodEnumValues = []string{
 	"WEEKLY",
 	"BIWEEKLY",
 	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
 	"SIXTY_DAYS",
 	"NINETY_DAYS",
 	"MONTHLY",
@@ -320,7 +333,9 @@ var SubscriptionBillingPeriodEnumValues = []string{
 	"TRIANNUAL",
 	"BIANNUAL",
 	"ANNUAL",
+	"SESQUIENNIAL",
 	"BIENNIAL",
+	"TRIENNIAL",
 	"NO_BILLING_PERIOD",
 }
 
@@ -361,7 +376,7 @@ func (m *Subscription) validateBillingStartDate(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("billingStartDate", "body", "date", m.BillingStartDate.String(), formats); err != nil {
+	if err := validate.FormatOf("billingStartDate", "body", "date-time", m.BillingStartDate.String(), formats); err != nil {
 		return err
 	}
 
@@ -387,7 +402,7 @@ func (m *Subscription) validateCancelledDate(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("cancelledDate", "body", "date", m.CancelledDate.String(), formats); err != nil {
+	if err := validate.FormatOf("cancelledDate", "body", "date-time", m.CancelledDate.String(), formats); err != nil {
 		return err
 	}
 
@@ -708,7 +723,7 @@ func (m *Subscription) validateStartDate(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("startDate", "body", "date", m.StartDate.String(), formats); err != nil {
+	if err := validate.FormatOf("startDate", "body", "date-time", m.StartDate.String(), formats); err != nil {
 		return err
 	}
 

@@ -52,7 +52,7 @@ func NewGetNodesInfoOK() *GetNodesInfoOK {
 successful operation
 */
 type GetNodesInfoOK struct {
-	Payload []*kbmodel.PluginInfo
+	Payload []*kbmodel.NodeInfo
 
 	HttpResponse runtime.ClientResponse
 }
@@ -61,7 +61,7 @@ func (o *GetNodesInfoOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/nodesInfo][%d] getNodesInfoOK  %+v", 200, o.Payload)
 }
 
-func (o *GetNodesInfoOK) GetPayload() []*kbmodel.PluginInfo {
+func (o *GetNodesInfoOK) GetPayload() []*kbmodel.NodeInfo {
 	return o.Payload
 }
 

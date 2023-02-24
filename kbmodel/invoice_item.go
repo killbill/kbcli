@@ -99,7 +99,7 @@ type InvoiceItem struct {
 	ProductName string `json:"productName,omitempty"`
 
 	// quantity
-	Quantity int32 `json:"quantity,omitempty"`
+	Quantity float64 `json:"quantity,omitempty"`
 
 	// rate
 	Rate float64 `json:"rate,omitempty"`

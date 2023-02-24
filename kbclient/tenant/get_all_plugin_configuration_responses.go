@@ -53,7 +53,7 @@ func NewGetAllPluginConfigurationOK() *GetAllPluginConfigurationOK {
 successful operation
 */
 type GetAllPluginConfigurationOK struct {
-	Payload *kbmodel.TenantKeyValue
+	Payload []*kbmodel.TenantKeyValue
 
 	HttpResponse runtime.ClientResponse
 }
@@ -62,16 +62,14 @@ func (o *GetAllPluginConfigurationOK) Error() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants/uploadPerTenantConfig/{keyPrefix}/search][%d] getAllPluginConfigurationOK  %+v", 200, o.Payload)
 }
 
-func (o *GetAllPluginConfigurationOK) GetPayload() *kbmodel.TenantKeyValue {
+func (o *GetAllPluginConfigurationOK) GetPayload() []*kbmodel.TenantKeyValue {
 	return o.Payload
 }
 
 func (o *GetAllPluginConfigurationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(kbmodel.TenantKeyValue)
-
 	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

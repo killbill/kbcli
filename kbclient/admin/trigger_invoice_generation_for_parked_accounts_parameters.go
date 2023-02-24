@@ -92,6 +92,8 @@ type TriggerInvoiceGenerationForParkedAccountsParams struct {
 	Limit *int64
 	/*Offset*/
 	Offset *int64
+	/*PluginProperty*/
+	PluginProperty []string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
 	WithStackTrace        *bool   // If set, returns full stack trace with error message
@@ -189,6 +191,17 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) SetOffset(offset *int6
 	o.Offset = offset
 }
 
+// WithPluginProperty adds the pluginProperty to the trigger invoice generation for parked accounts params
+func (o *TriggerInvoiceGenerationForParkedAccountsParams) WithPluginProperty(pluginProperty []string) *TriggerInvoiceGenerationForParkedAccountsParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the trigger invoice generation for parked accounts params
+func (o *TriggerInvoiceGenerationForParkedAccountsParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *TriggerInvoiceGenerationForParkedAccountsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -250,6 +263,14 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) WriteToRequest(r runti
 			}
 		}
 
+	}
+
+	valuesPluginProperty := o.PluginProperty
+
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	// header param WithProfilingInfo

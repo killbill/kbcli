@@ -13,6 +13,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
 )
@@ -63,6 +64,8 @@ type GetUsageParams struct {
 
 	/*EndDate*/
 	EndDate *strfmt.Date
+	/*PluginProperty*/
+	PluginProperty []string
 	/*StartDate*/
 	StartDate *strfmt.Date
 	/*SubscriptionID*/
@@ -122,6 +125,17 @@ func (o *GetUsageParams) SetEndDate(endDate *strfmt.Date) {
 	o.EndDate = endDate
 }
 
+// WithPluginProperty adds the pluginProperty to the get usage params
+func (o *GetUsageParams) WithPluginProperty(pluginProperty []string) *GetUsageParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the get usage params
+func (o *GetUsageParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WithStartDate adds the startDate to the get usage params
 func (o *GetUsageParams) WithStartDate(startDate *strfmt.Date) *GetUsageParams {
 	o.SetStartDate(startDate)
@@ -177,6 +191,14 @@ func (o *GetUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regi
 			}
 		}
 
+	}
+
+	valuesPluginProperty := o.PluginProperty
+
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	if o.StartDate != nil {

@@ -24,9 +24,11 @@ import (
 // with the default values initialized.
 func NewTransferBundleParams() *TransferBundleParams {
 	var (
+		bcdTransferDefault   = string("USE_EXISTING")
 		billingPolicyDefault = string("END_OF_TERM")
 	)
 	return &TransferBundleParams{
+		BcdTransfer:   &bcdTransferDefault,
 		BillingPolicy: &billingPolicyDefault,
 
 		timeout: cr.DefaultTimeout,
@@ -37,9 +39,11 @@ func NewTransferBundleParams() *TransferBundleParams {
 // with the default values initialized, and the ability to set a timeout on a request
 func NewTransferBundleParamsWithTimeout(timeout time.Duration) *TransferBundleParams {
 	var (
+		bcdTransferDefault   = string("USE_EXISTING")
 		billingPolicyDefault = string("END_OF_TERM")
 	)
 	return &TransferBundleParams{
+		BcdTransfer:   &bcdTransferDefault,
 		BillingPolicy: &billingPolicyDefault,
 
 		timeout: timeout,
@@ -50,9 +54,11 @@ func NewTransferBundleParamsWithTimeout(timeout time.Duration) *TransferBundlePa
 // with the default values initialized, and the ability to set a context for a request
 func NewTransferBundleParamsWithContext(ctx context.Context) *TransferBundleParams {
 	var (
+		bcdTransferDefault   = string("USE_EXISTING")
 		billingPolicyDefault = string("END_OF_TERM")
 	)
 	return &TransferBundleParams{
+		BcdTransfer:   &bcdTransferDefault,
 		BillingPolicy: &billingPolicyDefault,
 
 		Context: ctx,
@@ -63,9 +69,11 @@ func NewTransferBundleParamsWithContext(ctx context.Context) *TransferBundlePara
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewTransferBundleParamsWithHTTPClient(client *http.Client) *TransferBundleParams {
 	var (
+		bcdTransferDefault   = string("USE_EXISTING")
 		billingPolicyDefault = string("END_OF_TERM")
 	)
 	return &TransferBundleParams{
+		BcdTransfer:   &bcdTransferDefault,
 		BillingPolicy: &billingPolicyDefault,
 		HTTPClient:    client,
 	}
@@ -82,6 +90,8 @@ type TransferBundleParams struct {
 	XKillbillCreatedBy string
 	/*XKillbillReason*/
 	XKillbillReason *string
+	/*BcdTransfer*/
+	BcdTransfer *string
 	/*BillingPolicy*/
 	BillingPolicy *string
 	/*Body*/
@@ -167,6 +177,17 @@ func (o *TransferBundleParams) SetXKillbillReason(xKillbillReason *string) {
 	o.XKillbillReason = xKillbillReason
 }
 
+// WithBcdTransfer adds the bcdTransfer to the transfer bundle params
+func (o *TransferBundleParams) WithBcdTransfer(bcdTransfer *string) *TransferBundleParams {
+	o.SetBcdTransfer(bcdTransfer)
+	return o
+}
+
+// SetBcdTransfer adds the bcdTransfer to the transfer bundle params
+func (o *TransferBundleParams) SetBcdTransfer(bcdTransfer *string) {
+	o.BcdTransfer = bcdTransfer
+}
+
 // WithBillingPolicy adds the billingPolicy to the transfer bundle params
 func (o *TransferBundleParams) WithBillingPolicy(billingPolicy *string) *TransferBundleParams {
 	o.SetBillingPolicy(billingPolicy)
@@ -249,6 +270,22 @@ func (o *TransferBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		// header param X-Killbill-Reason
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
+		}
+
+	}
+
+	if o.BcdTransfer != nil {
+
+		// query param bcdTransfer
+		var qrBcdTransfer string
+		if o.BcdTransfer != nil {
+			qrBcdTransfer = *o.BcdTransfer
+		}
+		qBcdTransfer := qrBcdTransfer
+		if qBcdTransfer != "" {
+			if err := r.SetQueryParam("bcdTransfer", qBcdTransfer); err != nil {
+				return err
+			}
 		}
 
 	}

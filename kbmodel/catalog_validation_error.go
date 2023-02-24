@@ -11,24 +11,21 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// RolledUpUnit rolled up unit
-// swagger:model RolledUpUnit
-type RolledUpUnit struct {
+// CatalogValidationError catalog validation error
+// swagger:model CatalogValidationError
+type CatalogValidationError struct {
 
-	// amount
-	Amount float64 `json:"amount,omitempty"`
-
-	// unit type
-	UnitType string `json:"unitType,omitempty"`
+	// error description
+	ErrorDescription string `json:"errorDescription,omitempty"`
 }
 
-// Validate validates this rolled up unit
-func (m *RolledUpUnit) Validate(formats strfmt.Registry) error {
+// Validate validates this catalog validation error
+func (m *CatalogValidationError) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *RolledUpUnit) MarshalBinary() ([]byte, error) {
+func (m *CatalogValidationError) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -36,8 +33,8 @@ func (m *RolledUpUnit) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *RolledUpUnit) UnmarshalBinary(b []byte) error {
-	var res RolledUpUnit
+func (m *CatalogValidationError) UnmarshalBinary(b []byte) error {
+	var res CatalogValidationError
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

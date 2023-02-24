@@ -22,16 +22,18 @@ import (
 // with the default values initialized.
 func NewGetInvoicesForAccountParams() *GetInvoicesForAccountParams {
 	var (
-		auditDefault                 = string("NONE")
-		includeVoidedInvoicesDefault = bool(false)
-		unpaidInvoicesOnlyDefault    = bool(false)
-		withMigrationInvoicesDefault = bool(false)
+		auditDefault                    = string("NONE")
+		includeInvoiceComponentsDefault = bool(false)
+		includeVoidedInvoicesDefault    = bool(false)
+		unpaidInvoicesOnlyDefault       = bool(false)
+		withMigrationInvoicesDefault    = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit:                 &auditDefault,
-		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
-		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithMigrationInvoices: &withMigrationInvoicesDefault,
+		Audit:                    &auditDefault,
+		IncludeInvoiceComponents: &includeInvoiceComponentsDefault,
+		IncludeVoidedInvoices:    &includeVoidedInvoicesDefault,
+		UnpaidInvoicesOnly:       &unpaidInvoicesOnlyDefault,
+		WithMigrationInvoices:    &withMigrationInvoicesDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -41,16 +43,18 @@ func NewGetInvoicesForAccountParams() *GetInvoicesForAccountParams {
 // with the default values initialized, and the ability to set a timeout on a request
 func NewGetInvoicesForAccountParamsWithTimeout(timeout time.Duration) *GetInvoicesForAccountParams {
 	var (
-		auditDefault                 = string("NONE")
-		includeVoidedInvoicesDefault = bool(false)
-		unpaidInvoicesOnlyDefault    = bool(false)
-		withMigrationInvoicesDefault = bool(false)
+		auditDefault                    = string("NONE")
+		includeInvoiceComponentsDefault = bool(false)
+		includeVoidedInvoicesDefault    = bool(false)
+		unpaidInvoicesOnlyDefault       = bool(false)
+		withMigrationInvoicesDefault    = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit:                 &auditDefault,
-		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
-		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithMigrationInvoices: &withMigrationInvoicesDefault,
+		Audit:                    &auditDefault,
+		IncludeInvoiceComponents: &includeInvoiceComponentsDefault,
+		IncludeVoidedInvoices:    &includeVoidedInvoicesDefault,
+		UnpaidInvoicesOnly:       &unpaidInvoicesOnlyDefault,
+		WithMigrationInvoices:    &withMigrationInvoicesDefault,
 
 		timeout: timeout,
 	}
@@ -60,16 +64,18 @@ func NewGetInvoicesForAccountParamsWithTimeout(timeout time.Duration) *GetInvoic
 // with the default values initialized, and the ability to set a context for a request
 func NewGetInvoicesForAccountParamsWithContext(ctx context.Context) *GetInvoicesForAccountParams {
 	var (
-		auditDefault                 = string("NONE")
-		includeVoidedInvoicesDefault = bool(false)
-		unpaidInvoicesOnlyDefault    = bool(false)
-		withMigrationInvoicesDefault = bool(false)
+		auditDefault                    = string("NONE")
+		includeInvoiceComponentsDefault = bool(false)
+		includeVoidedInvoicesDefault    = bool(false)
+		unpaidInvoicesOnlyDefault       = bool(false)
+		withMigrationInvoicesDefault    = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit:                 &auditDefault,
-		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
-		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithMigrationInvoices: &withMigrationInvoicesDefault,
+		Audit:                    &auditDefault,
+		IncludeInvoiceComponents: &includeInvoiceComponentsDefault,
+		IncludeVoidedInvoices:    &includeVoidedInvoicesDefault,
+		UnpaidInvoicesOnly:       &unpaidInvoicesOnlyDefault,
+		WithMigrationInvoices:    &withMigrationInvoicesDefault,
 
 		Context: ctx,
 	}
@@ -79,17 +85,19 @@ func NewGetInvoicesForAccountParamsWithContext(ctx context.Context) *GetInvoices
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewGetInvoicesForAccountParamsWithHTTPClient(client *http.Client) *GetInvoicesForAccountParams {
 	var (
-		auditDefault                 = string("NONE")
-		includeVoidedInvoicesDefault = bool(false)
-		unpaidInvoicesOnlyDefault    = bool(false)
-		withMigrationInvoicesDefault = bool(false)
+		auditDefault                    = string("NONE")
+		includeInvoiceComponentsDefault = bool(false)
+		includeVoidedInvoicesDefault    = bool(false)
+		unpaidInvoicesOnlyDefault       = bool(false)
+		withMigrationInvoicesDefault    = bool(false)
 	)
 	return &GetInvoicesForAccountParams{
-		Audit:                 &auditDefault,
-		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
-		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithMigrationInvoices: &withMigrationInvoicesDefault,
-		HTTPClient:            client,
+		Audit:                    &auditDefault,
+		IncludeInvoiceComponents: &includeInvoiceComponentsDefault,
+		IncludeVoidedInvoices:    &includeVoidedInvoicesDefault,
+		UnpaidInvoicesOnly:       &unpaidInvoicesOnlyDefault,
+		WithMigrationInvoices:    &withMigrationInvoicesDefault,
+		HTTPClient:               client,
 	}
 }
 
@@ -104,8 +112,12 @@ type GetInvoicesForAccountParams struct {
 	Audit *string
 	/*EndDate*/
 	EndDate *strfmt.Date
+	/*IncludeInvoiceComponents*/
+	IncludeInvoiceComponents *bool
 	/*IncludeVoidedInvoices*/
 	IncludeVoidedInvoices *bool
+	/*InvoicesFilter*/
+	InvoicesFilter *string
 	/*StartDate*/
 	StartDate *strfmt.Date
 	/*UnpaidInvoicesOnly*/
@@ -187,6 +199,17 @@ func (o *GetInvoicesForAccountParams) SetEndDate(endDate *strfmt.Date) {
 	o.EndDate = endDate
 }
 
+// WithIncludeInvoiceComponents adds the includeInvoiceComponents to the get invoices for account params
+func (o *GetInvoicesForAccountParams) WithIncludeInvoiceComponents(includeInvoiceComponents *bool) *GetInvoicesForAccountParams {
+	o.SetIncludeInvoiceComponents(includeInvoiceComponents)
+	return o
+}
+
+// SetIncludeInvoiceComponents adds the includeInvoiceComponents to the get invoices for account params
+func (o *GetInvoicesForAccountParams) SetIncludeInvoiceComponents(includeInvoiceComponents *bool) {
+	o.IncludeInvoiceComponents = includeInvoiceComponents
+}
+
 // WithIncludeVoidedInvoices adds the includeVoidedInvoices to the get invoices for account params
 func (o *GetInvoicesForAccountParams) WithIncludeVoidedInvoices(includeVoidedInvoices *bool) *GetInvoicesForAccountParams {
 	o.SetIncludeVoidedInvoices(includeVoidedInvoices)
@@ -196,6 +219,17 @@ func (o *GetInvoicesForAccountParams) WithIncludeVoidedInvoices(includeVoidedInv
 // SetIncludeVoidedInvoices adds the includeVoidedInvoices to the get invoices for account params
 func (o *GetInvoicesForAccountParams) SetIncludeVoidedInvoices(includeVoidedInvoices *bool) {
 	o.IncludeVoidedInvoices = includeVoidedInvoices
+}
+
+// WithInvoicesFilter adds the invoicesFilter to the get invoices for account params
+func (o *GetInvoicesForAccountParams) WithInvoicesFilter(invoicesFilter *string) *GetInvoicesForAccountParams {
+	o.SetInvoicesFilter(invoicesFilter)
+	return o
+}
+
+// SetInvoicesFilter adds the invoicesFilter to the get invoices for account params
+func (o *GetInvoicesForAccountParams) SetInvoicesFilter(invoicesFilter *string) {
+	o.InvoicesFilter = invoicesFilter
 }
 
 // WithStartDate adds the startDate to the get invoices for account params
@@ -276,6 +310,22 @@ func (o *GetInvoicesForAccountParams) WriteToRequest(r runtime.ClientRequest, re
 
 	}
 
+	if o.IncludeInvoiceComponents != nil {
+
+		// query param includeInvoiceComponents
+		var qrIncludeInvoiceComponents bool
+		if o.IncludeInvoiceComponents != nil {
+			qrIncludeInvoiceComponents = *o.IncludeInvoiceComponents
+		}
+		qIncludeInvoiceComponents := swag.FormatBool(qrIncludeInvoiceComponents)
+		if qIncludeInvoiceComponents != "" {
+			if err := r.SetQueryParam("includeInvoiceComponents", qIncludeInvoiceComponents); err != nil {
+				return err
+			}
+		}
+
+	}
+
 	if o.IncludeVoidedInvoices != nil {
 
 		// query param includeVoidedInvoices
@@ -286,6 +336,22 @@ func (o *GetInvoicesForAccountParams) WriteToRequest(r runtime.ClientRequest, re
 		qIncludeVoidedInvoices := swag.FormatBool(qrIncludeVoidedInvoices)
 		if qIncludeVoidedInvoices != "" {
 			if err := r.SetQueryParam("includeVoidedInvoices", qIncludeVoidedInvoices); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.InvoicesFilter != nil {
+
+		// query param invoicesFilter
+		var qrInvoicesFilter string
+		if o.InvoicesFilter != nil {
+			qrInvoicesFilter = *o.InvoicesFilter
+		}
+		qInvoicesFilter := qrInvoicesFilter
+		if qInvoicesFilter != "" {
+			if err := r.SetQueryParam("invoicesFilter", qInvoicesFilter); err != nil {
 				return err
 			}
 		}

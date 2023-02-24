@@ -26,7 +26,7 @@ type SimplePlan struct {
 	AvailableBaseProducts []string `json:"availableBaseProducts"`
 
 	// billing period
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod SimplePlanBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
 	// currency
@@ -81,7 +81,7 @@ var simplePlanTypeBillingPeriodPropEnum []interface{}
 
 func init() {
 	var res []SimplePlanBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -104,6 +104,9 @@ const (
 
 	// SimplePlanBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
 	SimplePlanBillingPeriodTHIRTYDAYS SimplePlanBillingPeriodEnum = "THIRTY_DAYS"
+
+	// SimplePlanBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	SimplePlanBillingPeriodTHIRTYONEDAYS SimplePlanBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// SimplePlanBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
 	SimplePlanBillingPeriodSIXTYDAYS SimplePlanBillingPeriodEnum = "SIXTY_DAYS"
@@ -129,8 +132,14 @@ const (
 	// SimplePlanBillingPeriodANNUAL captures enum value "ANNUAL"
 	SimplePlanBillingPeriodANNUAL SimplePlanBillingPeriodEnum = "ANNUAL"
 
+	// SimplePlanBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	SimplePlanBillingPeriodSESQUIENNIAL SimplePlanBillingPeriodEnum = "SESQUIENNIAL"
+
 	// SimplePlanBillingPeriodBIENNIAL captures enum value "BIENNIAL"
 	SimplePlanBillingPeriodBIENNIAL SimplePlanBillingPeriodEnum = "BIENNIAL"
+
+	// SimplePlanBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	SimplePlanBillingPeriodTRIENNIAL SimplePlanBillingPeriodEnum = "TRIENNIAL"
 
 	// SimplePlanBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
 	SimplePlanBillingPeriodNOBILLINGPERIOD SimplePlanBillingPeriodEnum = "NO_BILLING_PERIOD"
@@ -141,6 +150,7 @@ var SimplePlanBillingPeriodEnumValues = []string{
 	"WEEKLY",
 	"BIWEEKLY",
 	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
 	"SIXTY_DAYS",
 	"NINETY_DAYS",
 	"MONTHLY",
@@ -149,7 +159,9 @@ var SimplePlanBillingPeriodEnumValues = []string{
 	"TRIANNUAL",
 	"BIANNUAL",
 	"ANNUAL",
+	"SESQUIENNIAL",
 	"BIENNIAL",
+	"TRIENNIAL",
 	"NO_BILLING_PERIOD",
 }
 

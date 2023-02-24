@@ -13,6 +13,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
 
@@ -73,6 +74,8 @@ type GenerateDryRunInvoiceParams struct {
 	AccountID strfmt.UUID
 	/*Body*/
 	Body *kbmodel.InvoiceDryRun
+	/*PluginProperty*/
+	PluginProperty []string
 	/*TargetDate*/
 	TargetDate *strfmt.Date
 
@@ -172,6 +175,17 @@ func (o *GenerateDryRunInvoiceParams) SetBody(body *kbmodel.InvoiceDryRun) {
 	o.Body = body
 }
 
+// WithPluginProperty adds the pluginProperty to the generate dry run invoice params
+func (o *GenerateDryRunInvoiceParams) WithPluginProperty(pluginProperty []string) *GenerateDryRunInvoiceParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the generate dry run invoice params
+func (o *GenerateDryRunInvoiceParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WithTargetDate adds the targetDate to the generate dry run invoice params
 func (o *GenerateDryRunInvoiceParams) WithTargetDate(targetDate *strfmt.Date) *GenerateDryRunInvoiceParams {
 	o.SetTargetDate(targetDate)
@@ -227,6 +241,14 @@ func (o *GenerateDryRunInvoiceParams) WriteToRequest(r runtime.ClientRequest, re
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
+	}
+
+	valuesPluginProperty := o.PluginProperty
+
+	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
+	// query array param pluginProperty
+	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+		return err
 	}
 
 	if o.TargetDate != nil {

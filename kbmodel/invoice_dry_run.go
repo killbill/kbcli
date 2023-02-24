@@ -21,7 +21,7 @@ import (
 type InvoiceDryRun struct {
 
 	// billing period
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod InvoiceDryRunBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
 	// billing policy
@@ -47,6 +47,9 @@ type InvoiceDryRun struct {
 	// phase type
 	// Enum: [TRIAL DISCOUNT FIXEDTERM EVERGREEN]
 	PhaseType InvoiceDryRunPhaseTypeEnum `json:"phaseType,omitempty"`
+
+	// plan name
+	PlanName string `json:"planName,omitempty"`
 
 	// price list name
 	PriceListName string `json:"priceListName,omitempty"`
@@ -120,7 +123,7 @@ var invoiceDryRunTypeBillingPeriodPropEnum []interface{}
 
 func init() {
 	var res []InvoiceDryRunBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -143,6 +146,9 @@ const (
 
 	// InvoiceDryRunBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
 	InvoiceDryRunBillingPeriodTHIRTYDAYS InvoiceDryRunBillingPeriodEnum = "THIRTY_DAYS"
+
+	// InvoiceDryRunBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	InvoiceDryRunBillingPeriodTHIRTYONEDAYS InvoiceDryRunBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// InvoiceDryRunBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
 	InvoiceDryRunBillingPeriodSIXTYDAYS InvoiceDryRunBillingPeriodEnum = "SIXTY_DAYS"
@@ -168,8 +174,14 @@ const (
 	// InvoiceDryRunBillingPeriodANNUAL captures enum value "ANNUAL"
 	InvoiceDryRunBillingPeriodANNUAL InvoiceDryRunBillingPeriodEnum = "ANNUAL"
 
+	// InvoiceDryRunBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	InvoiceDryRunBillingPeriodSESQUIENNIAL InvoiceDryRunBillingPeriodEnum = "SESQUIENNIAL"
+
 	// InvoiceDryRunBillingPeriodBIENNIAL captures enum value "BIENNIAL"
 	InvoiceDryRunBillingPeriodBIENNIAL InvoiceDryRunBillingPeriodEnum = "BIENNIAL"
+
+	// InvoiceDryRunBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	InvoiceDryRunBillingPeriodTRIENNIAL InvoiceDryRunBillingPeriodEnum = "TRIENNIAL"
 
 	// InvoiceDryRunBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
 	InvoiceDryRunBillingPeriodNOBILLINGPERIOD InvoiceDryRunBillingPeriodEnum = "NO_BILLING_PERIOD"
@@ -180,6 +192,7 @@ var InvoiceDryRunBillingPeriodEnumValues = []string{
 	"WEEKLY",
 	"BIWEEKLY",
 	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
 	"SIXTY_DAYS",
 	"NINETY_DAYS",
 	"MONTHLY",
@@ -188,7 +201,9 @@ var InvoiceDryRunBillingPeriodEnumValues = []string{
 	"TRIANNUAL",
 	"BIANNUAL",
 	"ANNUAL",
+	"SESQUIENNIAL",
 	"BIENNIAL",
+	"TRIENNIAL",
 	"NO_BILLING_PERIOD",
 }
 

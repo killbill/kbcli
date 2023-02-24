@@ -6,14 +6,20 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"strconv"
+
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 )
 
 // TenantKeyValue tenant key value
 // swagger:model TenantKeyValue
 type TenantKeyValue struct {
+
+	// audit logs
+	AuditLogs []*AuditLog `json:"auditLogs"`
 
 	// key
 	Key string `json:"key,omitempty"`
@@ -24,6 +30,40 @@ type TenantKeyValue struct {
 
 // Validate validates this tenant key value
 func (m *TenantKeyValue) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateAuditLogs(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *TenantKeyValue) validateAuditLogs(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.AuditLogs) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.AuditLogs); i++ {
+		if swag.IsZero(m.AuditLogs[i]) { // not required
+			continue
+		}
+
+		if m.AuditLogs[i] != nil {
+			if err := m.AuditLogs[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

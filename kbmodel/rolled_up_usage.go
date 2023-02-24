@@ -20,15 +20,15 @@ import (
 type RolledUpUsage struct {
 
 	// end date
-	// Format: date
-	EndDate strfmt.Date `json:"endDate,omitempty"`
+	// Format: date-time
+	EndDate strfmt.DateTime `json:"endDate,omitempty"`
 
 	// rolled up units
 	RolledUpUnits []*RolledUpUnit `json:"rolledUpUnits"`
 
 	// start date
-	// Format: date
-	StartDate strfmt.Date `json:"startDate,omitempty"`
+	// Format: date-time
+	StartDate strfmt.DateTime `json:"startDate,omitempty"`
 
 	// subscription Id
 	// Format: uuid
@@ -67,7 +67,7 @@ func (m *RolledUpUsage) validateEndDate(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("endDate", "body", "date", m.EndDate.String(), formats); err != nil {
+	if err := validate.FormatOf("endDate", "body", "date-time", m.EndDate.String(), formats); err != nil {
 		return err
 	}
 
@@ -105,7 +105,7 @@ func (m *RolledUpUsage) validateStartDate(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("startDate", "body", "date", m.StartDate.String(), formats); err != nil {
+	if err := validate.FormatOf("startDate", "body", "date-time", m.StartDate.String(), formats); err != nil {
 		return err
 	}
 

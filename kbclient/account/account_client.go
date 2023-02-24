@@ -117,6 +117,11 @@ type IAccount interface {
 	GetAccountBundles(ctx context.Context, params *GetAccountBundlesParams) (*GetAccountBundlesOK, error)
 
 	/*
+		GetAccountBundlesPaginated retrieves paginated bundles for account
+	*/
+	GetAccountBundlesPaginated(ctx context.Context, params *GetAccountBundlesPaginatedParams) (*GetAccountBundlesPaginatedOK, error)
+
+	/*
 		GetAccountByKey retrieves an account by external key
 	*/
 	GetAccountByKey(ctx context.Context, params *GetAccountByKeyParams) (*GetAccountByKeyOK, error)
@@ -187,6 +192,11 @@ type IAccount interface {
 	GetInvoicesForAccount(ctx context.Context, params *GetInvoicesForAccountParams) (*GetInvoicesForAccountOK, error)
 
 	/*
+		GetInvoicesForAccountPaginated retrieves paginated invoices for account
+	*/
+	GetInvoicesForAccountPaginated(ctx context.Context, params *GetInvoicesForAccountPaginatedParams) (*GetInvoicesForAccountPaginatedOK, error)
+
+	/*
 		GetOverdueAccount retrieves overdue state for account
 	*/
 	GetOverdueAccount(ctx context.Context, params *GetOverdueAccountParams) (*GetOverdueAccountOK, error)
@@ -209,7 +219,7 @@ type IAccount interface {
 	/*
 		PayAllInvoices triggers a payment for all unpaid invoices
 	*/
-	PayAllInvoices(ctx context.Context, params *PayAllInvoicesParams) (*PayAllInvoicesNoContent, error)
+	PayAllInvoices(ctx context.Context, params *PayAllInvoicesParams) (*PayAllInvoicesCreated, *PayAllInvoicesNoContent, error)
 
 	/*
 		ProcessPayment triggers a payment authorization purchase or credit
@@ -1046,6 +1056,50 @@ func (a *Client) GetAccountBundles(ctx context.Context, params *GetAccountBundle
 }
 
 /*
+GetAccountBundlesPaginated retrieves paginated bundles for account
+*/
+func (a *Client) GetAccountBundlesPaginated(ctx context.Context, params *GetAccountBundlesPaginatedParams) (*GetAccountBundlesPaginatedOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetAccountBundlesPaginatedParams()
+	}
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getAccountBundlesPaginated",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/accounts/{accountId}/bundles/pagination",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetAccountBundlesPaginatedReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetAccountBundlesPaginatedOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getAccountBundlesPaginated: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+
+}
+
+/*
 GetAccountByKey retrieves an account by external key
 */
 func (a *Client) GetAccountByKey(ctx context.Context, params *GetAccountByKeyParams) (*GetAccountByKeyOK, error) {
@@ -1662,6 +1716,50 @@ func (a *Client) GetInvoicesForAccount(ctx context.Context, params *GetInvoicesF
 }
 
 /*
+GetInvoicesForAccountPaginated retrieves paginated invoices for account
+*/
+func (a *Client) GetInvoicesForAccountPaginated(ctx context.Context, params *GetInvoicesForAccountPaginatedParams) (*GetInvoicesForAccountPaginatedOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetInvoicesForAccountPaginatedParams()
+	}
+	params.Context = ctx
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getInvoicesForAccountPaginated",
+		Method:             "GET",
+		PathPattern:        "/1.0/kb/accounts/{accountId}/invoices/pagination",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{""},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetInvoicesForAccountPaginatedReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*GetInvoicesForAccountPaginatedOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for getInvoicesForAccountPaginated: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+
+}
+
+/*
 GetOverdueAccount retrieves overdue state for account
 */
 func (a *Client) GetOverdueAccount(ctx context.Context, params *GetOverdueAccountParams) (*GetOverdueAccountOK, error) {
@@ -1852,7 +1950,7 @@ func (a *Client) ModifyAccountCustomFields(ctx context.Context, params *ModifyAc
 /*
 PayAllInvoices triggers a payment for all unpaid invoices
 */
-func (a *Client) PayAllInvoices(ctx context.Context, params *PayAllInvoicesParams) (*PayAllInvoicesNoContent, error) {
+func (a *Client) PayAllInvoices(ctx context.Context, params *PayAllInvoicesParams) (*PayAllInvoicesCreated, *PayAllInvoicesNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewPayAllInvoicesParams()
@@ -1892,15 +1990,16 @@ func (a *Client) PayAllInvoices(ctx context.Context, params *PayAllInvoicesParam
 		Client:             params.HTTPClient,
 	})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	success, ok := result.(*PayAllInvoicesNoContent)
-	if ok {
-		return success, nil
+	switch value := result.(type) {
+	case *PayAllInvoicesCreated:
+		return value, nil, nil
+	case *PayAllInvoicesNoContent:
+		return nil, value, nil
 	}
-	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for payAllInvoices: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for account: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 
 }

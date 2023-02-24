@@ -18,11 +18,11 @@ import (
 type UsageRecord struct {
 
 	// amount
-	Amount int64 `json:"amount,omitempty"`
+	Amount float64 `json:"amount,omitempty"`
 
 	// record date
-	// Format: date
-	RecordDate strfmt.Date `json:"recordDate,omitempty"`
+	// Format: date-time
+	RecordDate strfmt.DateTime `json:"recordDate,omitempty"`
 }
 
 // Validate validates this usage record
@@ -45,7 +45,7 @@ func (m *UsageRecord) validateRecordDate(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("recordDate", "body", "date", m.RecordDate.String(), formats); err != nil {
+	if err := validate.FormatOf("recordDate", "body", "date-time", m.RecordDate.String(), formats); err != nil {
 		return err
 	}
 
