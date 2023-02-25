@@ -16,7 +16,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	kbmodel "github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // NewModifyTransactionCustomFieldsParams creates a new ModifyTransactionCustomFieldsParams object

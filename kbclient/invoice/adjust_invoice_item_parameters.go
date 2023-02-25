@@ -17,7 +17,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	kbmodel "github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // NewAdjustInvoiceItemParams creates a new AdjustInvoiceItemParams object

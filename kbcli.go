@@ -4,5 +4,5 @@ package kbcli
 
 import (
 	_ "github.com/go-openapi/runtime"
-	_ "github.com/killbill/kbcli/v2/kbclient"
+	_ "github.com/killbill/kbcli/v3/kbclient"
 )
