@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/v2/kbcmd/commands"
+	"github.com/killbill/kbcli/v3/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v3/kbcmd/commands"
 )
 
 func main() {

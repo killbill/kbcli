@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/killbill/kbcli/v2/kbclient/catalog"
-	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v3/kbclient/catalog"
+	"github.com/killbill/kbcli/v3/kbcmd/cmdlib"
 	"github.com/urfave/cli"
 )
 

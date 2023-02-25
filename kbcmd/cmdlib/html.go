@@ -5,7 +5,7 @@ import (
 	"encoding"
 	"errors"
 	"fmt"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/killbill/kbcli/v3/kbcommon"
 	"io"
 	"reflect"
 
