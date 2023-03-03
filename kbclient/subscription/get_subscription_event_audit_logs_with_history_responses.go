@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetSubscriptionEventAuditLogsWithHistoryReader is a Reader for the GetSubscriptionEventAuditLogsWithHistory structure.
@@ -48,17 +47,51 @@ func NewGetSubscriptionEventAuditLogsWithHistoryOK() *GetSubscriptionEventAuditL
 	return &GetSubscriptionEventAuditLogsWithHistoryOK{}
 }
 
-/*GetSubscriptionEventAuditLogsWithHistoryOK handles this case with default header values.
+/*
+GetSubscriptionEventAuditLogsWithHistoryOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetSubscriptionEventAuditLogsWithHistoryOK struct {
-	Payload []*kbmodel.AuditLog
-
+	Payload      []*kbmodel.AuditLog
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get subscription event audit logs with history o k response
+func (o *GetSubscriptionEventAuditLogsWithHistoryOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get subscription event audit logs with history o k response has a 2xx status code
+func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get subscription event audit logs with history o k response has a 3xx status code
+func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get subscription event audit logs with history o k response has a 4xx status code
+func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get subscription event audit logs with history o k response has a 5xx status code
+func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get subscription event audit logs with history o k response a status code equal to that given
+func (o *GetSubscriptionEventAuditLogsWithHistoryOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetSubscriptionEventAuditLogsWithHistoryOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory][%d] getSubscriptionEventAuditLogsWithHistoryOK  %+v", 200, o.Payload)
+}
+
+func (o *GetSubscriptionEventAuditLogsWithHistoryOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory][%d] getSubscriptionEventAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetSubscriptionEventAuditLogsWithHistoryNotFound() *GetSubscriptionEvent
 	return &GetSubscriptionEventAuditLogsWithHistoryNotFound{}
 }
 
-/*GetSubscriptionEventAuditLogsWithHistoryNotFound handles this case with default header values.
+/*
+GetSubscriptionEventAuditLogsWithHistoryNotFound describes a response with status code 404, with default header values.
 
 Subscription event not found
 */
@@ -89,7 +123,41 @@ type GetSubscriptionEventAuditLogsWithHistoryNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get subscription event audit logs with history not found response
+func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get subscription event audit logs with history not found response has a 2xx status code
+func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get subscription event audit logs with history not found response has a 3xx status code
+func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get subscription event audit logs with history not found response has a 4xx status code
+func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get subscription event audit logs with history not found response has a 5xx status code
+func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get subscription event audit logs with history not found response a status code equal to that given
+func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory][%d] getSubscriptionEventAuditLogsWithHistoryNotFound ", 404)
+}
+
+func (o *GetSubscriptionEventAuditLogsWithHistoryNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory][%d] getSubscriptionEventAuditLogsWithHistoryNotFound ", 404)
 }
 

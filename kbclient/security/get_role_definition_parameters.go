@@ -13,55 +13,55 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetRoleDefinitionParams creates a new GetRoleDefinitionParams object
-// with the default values initialized.
+// NewGetRoleDefinitionParams creates a new GetRoleDefinitionParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetRoleDefinitionParams() *GetRoleDefinitionParams {
-	var ()
 	return &GetRoleDefinitionParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetRoleDefinitionParamsWithTimeout creates a new GetRoleDefinitionParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetRoleDefinitionParamsWithTimeout(timeout time.Duration) *GetRoleDefinitionParams {
-	var ()
 	return &GetRoleDefinitionParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetRoleDefinitionParamsWithContext creates a new GetRoleDefinitionParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetRoleDefinitionParamsWithContext(ctx context.Context) *GetRoleDefinitionParams {
-	var ()
 	return &GetRoleDefinitionParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetRoleDefinitionParamsWithHTTPClient creates a new GetRoleDefinitionParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetRoleDefinitionParamsWithHTTPClient(client *http.Client) *GetRoleDefinitionParams {
-	var ()
 	return &GetRoleDefinitionParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetRoleDefinitionParams contains all the parameters to send to the API endpoint
-for the get role definition operation typically these are written to a http.Request
+/*
+GetRoleDefinitionParams contains all the parameters to send to the API endpoint
+
+	for the get role definition operation.
+
+	Typically these are written to a http.Request.
 */
 type GetRoleDefinitionParams struct {
 
-	/*Role*/
+	// Role.
 	Role string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +70,21 @@ type GetRoleDefinitionParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get role definition params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetRoleDefinitionParams) WithDefaults() *GetRoleDefinitionParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get role definition params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetRoleDefinitionParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get role definition params

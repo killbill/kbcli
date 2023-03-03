@@ -6,15 +6,16 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // TieredBlock tiered block
+//
 // swagger:model TieredBlock
 type TieredBlock struct {
 
@@ -46,7 +47,6 @@ func (m *TieredBlock) Validate(formats strfmt.Registry) error {
 }
 
 func (m *TieredBlock) validatePrices(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Prices) { // not required
 		return nil
 	}
@@ -60,6 +60,42 @@ func (m *TieredBlock) validatePrices(formats strfmt.Registry) error {
 			if err := m.Prices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("prices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this tiered block based on the context it is used
+func (m *TieredBlock) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePrices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *TieredBlock) contextValidatePrices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Prices); i++ {
+
+		if m.Prices[i] != nil {
+			if err := m.Prices[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("prices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("prices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

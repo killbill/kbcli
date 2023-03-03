@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GenerateDryRunInvoiceReader is a Reader for the GenerateDryRunInvoice structure.
@@ -56,17 +55,51 @@ func NewGenerateDryRunInvoiceOK() *GenerateDryRunInvoiceOK {
 	return &GenerateDryRunInvoiceOK{}
 }
 
-/*GenerateDryRunInvoiceOK handles this case with default header values.
+/*
+GenerateDryRunInvoiceOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GenerateDryRunInvoiceOK struct {
-	Payload *kbmodel.Invoice
-
+	Payload      *kbmodel.Invoice
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the generate dry run invoice o k response
+func (o *GenerateDryRunInvoiceOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this generate dry run invoice o k response has a 2xx status code
+func (o *GenerateDryRunInvoiceOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this generate dry run invoice o k response has a 3xx status code
+func (o *GenerateDryRunInvoiceOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this generate dry run invoice o k response has a 4xx status code
+func (o *GenerateDryRunInvoiceOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this generate dry run invoice o k response has a 5xx status code
+func (o *GenerateDryRunInvoiceOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this generate dry run invoice o k response a status code equal to that given
+func (o *GenerateDryRunInvoiceOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GenerateDryRunInvoiceOK) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/dryRun][%d] generateDryRunInvoiceOK  %+v", 200, o.Payload)
+}
+
+func (o *GenerateDryRunInvoiceOK) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/dryRun][%d] generateDryRunInvoiceOK  %+v", 200, o.Payload)
 }
 
@@ -91,7 +124,8 @@ func NewGenerateDryRunInvoiceNoContent() *GenerateDryRunInvoiceNoContent {
 	return &GenerateDryRunInvoiceNoContent{}
 }
 
-/*GenerateDryRunInvoiceNoContent handles this case with default header values.
+/*
+GenerateDryRunInvoiceNoContent describes a response with status code 204, with default header values.
 
 Nothing to generate
 */
@@ -99,7 +133,41 @@ type GenerateDryRunInvoiceNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the generate dry run invoice no content response
+func (o *GenerateDryRunInvoiceNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this generate dry run invoice no content response has a 2xx status code
+func (o *GenerateDryRunInvoiceNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this generate dry run invoice no content response has a 3xx status code
+func (o *GenerateDryRunInvoiceNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this generate dry run invoice no content response has a 4xx status code
+func (o *GenerateDryRunInvoiceNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this generate dry run invoice no content response has a 5xx status code
+func (o *GenerateDryRunInvoiceNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this generate dry run invoice no content response a status code equal to that given
+func (o *GenerateDryRunInvoiceNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *GenerateDryRunInvoiceNoContent) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/dryRun][%d] generateDryRunInvoiceNoContent ", 204)
+}
+
+func (o *GenerateDryRunInvoiceNoContent) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/dryRun][%d] generateDryRunInvoiceNoContent ", 204)
 }
 
@@ -113,7 +181,8 @@ func NewGenerateDryRunInvoiceBadRequest() *GenerateDryRunInvoiceBadRequest {
 	return &GenerateDryRunInvoiceBadRequest{}
 }
 
-/*GenerateDryRunInvoiceBadRequest handles this case with default header values.
+/*
+GenerateDryRunInvoiceBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id or target datetime supplied
 */
@@ -121,7 +190,41 @@ type GenerateDryRunInvoiceBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the generate dry run invoice bad request response
+func (o *GenerateDryRunInvoiceBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this generate dry run invoice bad request response has a 2xx status code
+func (o *GenerateDryRunInvoiceBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this generate dry run invoice bad request response has a 3xx status code
+func (o *GenerateDryRunInvoiceBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this generate dry run invoice bad request response has a 4xx status code
+func (o *GenerateDryRunInvoiceBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this generate dry run invoice bad request response has a 5xx status code
+func (o *GenerateDryRunInvoiceBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this generate dry run invoice bad request response a status code equal to that given
+func (o *GenerateDryRunInvoiceBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GenerateDryRunInvoiceBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/dryRun][%d] generateDryRunInvoiceBadRequest ", 400)
+}
+
+func (o *GenerateDryRunInvoiceBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/dryRun][%d] generateDryRunInvoiceBadRequest ", 400)
 }
 

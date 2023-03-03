@@ -10,8 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new export API client.
@@ -48,12 +47,14 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IExport - interface for Export client.
-type IExport interface {
-	/*
-		ExportDataForAccount exports account data
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	ExportDataForAccount(ctx context.Context, params *ExportDataForAccountParams) (*ExportDataForAccountOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -85,19 +86,21 @@ func (a *Client) ExportDataForAccount(ctx context.Context, params *ExportDataFor
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "exportDataForAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/export/{accountId}",
 		ProducesMediaTypes: []string{"application/octet-stream"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &ExportDataForAccountReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

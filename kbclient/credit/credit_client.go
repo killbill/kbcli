@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new credit API client.
@@ -49,17 +48,16 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// ICredit - interface for Credit client.
-type ICredit interface {
-	/*
-		CreateCredits creates a credit
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	CreateCredits(ctx context.Context, params *CreateCreditsParams) (*CreateCreditsCreated, error)
 
-	/*
-		GetCredit retrieves a credit by id
-	*/
 	GetCredit(ctx context.Context, params *GetCreditParams) (*GetCreditOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -94,7 +92,7 @@ func (a *Client) CreateCredits(ctx context.Context, params *CreateCreditsParams)
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createCredits",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/credits",
@@ -106,7 +104,9 @@ func (a *Client) CreateCredits(ctx context.Context, params *CreateCreditsParams)
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -153,19 +153,21 @@ func (a *Client) GetCredit(ctx context.Context, params *GetCreditParams) (*GetCr
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCredit",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/credits/{creditId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCreditReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // CreateSubscriptionCustomFieldsReader is a Reader for the CreateSubscriptionCustomFields structure.
@@ -46,7 +45,8 @@ func NewCreateSubscriptionCustomFieldsCreated() *CreateSubscriptionCustomFieldsC
 	return &CreateSubscriptionCustomFieldsCreated{}
 }
 
-/*CreateSubscriptionCustomFieldsCreated handles this case with default header values.
+/*
+CreateSubscriptionCustomFieldsCreated describes a response with status code 201, with default header values.
 
 Custom field created successfully
 */
@@ -54,7 +54,41 @@ type CreateSubscriptionCustomFieldsCreated struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create subscription custom fields created response
+func (o *CreateSubscriptionCustomFieldsCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create subscription custom fields created response has a 2xx status code
+func (o *CreateSubscriptionCustomFieldsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create subscription custom fields created response has a 3xx status code
+func (o *CreateSubscriptionCustomFieldsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create subscription custom fields created response has a 4xx status code
+func (o *CreateSubscriptionCustomFieldsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create subscription custom fields created response has a 5xx status code
+func (o *CreateSubscriptionCustomFieldsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create subscription custom fields created response a status code equal to that given
+func (o *CreateSubscriptionCustomFieldsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateSubscriptionCustomFieldsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] createSubscriptionCustomFieldsCreated ", 201)
+}
+
+func (o *CreateSubscriptionCustomFieldsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] createSubscriptionCustomFieldsCreated ", 201)
 }
 
@@ -68,7 +102,8 @@ func NewCreateSubscriptionCustomFieldsBadRequest() *CreateSubscriptionCustomFiel
 	return &CreateSubscriptionCustomFieldsBadRequest{}
 }
 
-/*CreateSubscriptionCustomFieldsBadRequest handles this case with default header values.
+/*
+CreateSubscriptionCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid subscription id supplied
 */
@@ -76,7 +111,41 @@ type CreateSubscriptionCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create subscription custom fields bad request response
+func (o *CreateSubscriptionCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create subscription custom fields bad request response has a 2xx status code
+func (o *CreateSubscriptionCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create subscription custom fields bad request response has a 3xx status code
+func (o *CreateSubscriptionCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create subscription custom fields bad request response has a 4xx status code
+func (o *CreateSubscriptionCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create subscription custom fields bad request response has a 5xx status code
+func (o *CreateSubscriptionCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create subscription custom fields bad request response a status code equal to that given
+func (o *CreateSubscriptionCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateSubscriptionCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] createSubscriptionCustomFieldsBadRequest ", 400)
+}
+
+func (o *CreateSubscriptionCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] createSubscriptionCustomFieldsBadRequest ", 400)
 }
 

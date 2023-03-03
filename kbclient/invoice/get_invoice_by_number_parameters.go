@@ -13,80 +13,66 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetInvoiceByNumberParams creates a new GetInvoiceByNumberParams object
-// with the default values initialized.
+// NewGetInvoiceByNumberParams creates a new GetInvoiceByNumberParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetInvoiceByNumberParams() *GetInvoiceByNumberParams {
-	var (
-		auditDefault             = string("NONE")
-		withChildrenItemsDefault = bool(false)
-	)
 	return &GetInvoiceByNumberParams{
-		Audit:             &auditDefault,
-		WithChildrenItems: &withChildrenItemsDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetInvoiceByNumberParamsWithTimeout creates a new GetInvoiceByNumberParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetInvoiceByNumberParamsWithTimeout(timeout time.Duration) *GetInvoiceByNumberParams {
-	var (
-		auditDefault             = string("NONE")
-		withChildrenItemsDefault = bool(false)
-	)
 	return &GetInvoiceByNumberParams{
-		Audit:             &auditDefault,
-		WithChildrenItems: &withChildrenItemsDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetInvoiceByNumberParamsWithContext creates a new GetInvoiceByNumberParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetInvoiceByNumberParamsWithContext(ctx context.Context) *GetInvoiceByNumberParams {
-	var (
-		auditDefault             = string("NONE")
-		withChildrenItemsDefault = bool(false)
-	)
 	return &GetInvoiceByNumberParams{
-		Audit:             &auditDefault,
-		WithChildrenItems: &withChildrenItemsDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetInvoiceByNumberParamsWithHTTPClient creates a new GetInvoiceByNumberParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetInvoiceByNumberParamsWithHTTPClient(client *http.Client) *GetInvoiceByNumberParams {
-	var (
-		auditDefault             = string("NONE")
-		withChildrenItemsDefault = bool(false)
-	)
 	return &GetInvoiceByNumberParams{
-		Audit:             &auditDefault,
-		WithChildrenItems: &withChildrenItemsDefault,
-		HTTPClient:        client,
+		HTTPClient: client,
 	}
 }
 
-/*GetInvoiceByNumberParams contains all the parameters to send to the API endpoint
-for the get invoice by number operation typically these are written to a http.Request
+/*
+GetInvoiceByNumberParams contains all the parameters to send to the API endpoint
+
+	for the get invoice by number operation.
+
+	Typically these are written to a http.Request.
 */
 type GetInvoiceByNumberParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*InvoiceNumber*/
+
+	// InvoiceNumber.
+	//
+	// Format: int32
 	InvoiceNumber int32
-	/*WithChildrenItems*/
+
+	// WithChildrenItems.
 	WithChildrenItems *bool
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -95,6 +81,35 @@ type GetInvoiceByNumberParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get invoice by number params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoiceByNumberParams) WithDefaults() *GetInvoiceByNumberParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get invoice by number params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoiceByNumberParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		withChildrenItemsDefault = bool(false)
+	)
+
+	val := GetInvoiceByNumberParams{
+		Audit:             &auditDefault,
+		WithChildrenItems: &withChildrenItemsDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get invoice by number params
@@ -175,16 +190,17 @@ func (o *GetInvoiceByNumberParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param invoiceNumber
@@ -196,16 +212,17 @@ func (o *GetInvoiceByNumberParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param withChildrenItems
 		var qrWithChildrenItems bool
+
 		if o.WithChildrenItems != nil {
 			qrWithChildrenItems = *o.WithChildrenItems
 		}
 		qWithChildrenItems := swag.FormatBool(qrWithChildrenItems)
 		if qWithChildrenItems != "" {
+
 			if err := r.SetQueryParam("withChildrenItems", qWithChildrenItems); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // BuildComboFormDescriptorReader is a Reader for the BuildComboFormDescriptor structure.
@@ -48,17 +47,51 @@ func NewBuildComboFormDescriptorOK() *BuildComboFormDescriptorOK {
 	return &BuildComboFormDescriptorOK{}
 }
 
-/*BuildComboFormDescriptorOK handles this case with default header values.
+/*
+BuildComboFormDescriptorOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type BuildComboFormDescriptorOK struct {
-	Payload *kbmodel.HostedPaymentPageFormDescriptor
-
+	Payload      *kbmodel.HostedPaymentPageFormDescriptor
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the build combo form descriptor o k response
+func (o *BuildComboFormDescriptorOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this build combo form descriptor o k response has a 2xx status code
+func (o *BuildComboFormDescriptorOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this build combo form descriptor o k response has a 3xx status code
+func (o *BuildComboFormDescriptorOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this build combo form descriptor o k response has a 4xx status code
+func (o *BuildComboFormDescriptorOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this build combo form descriptor o k response has a 5xx status code
+func (o *BuildComboFormDescriptorOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this build combo form descriptor o k response a status code equal to that given
+func (o *BuildComboFormDescriptorOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *BuildComboFormDescriptorOK) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/paymentGateways/hosted/form][%d] buildComboFormDescriptorOK  %+v", 200, o.Payload)
+}
+
+func (o *BuildComboFormDescriptorOK) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentGateways/hosted/form][%d] buildComboFormDescriptorOK  %+v", 200, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewBuildComboFormDescriptorBadRequest() *BuildComboFormDescriptorBadRequest
 	return &BuildComboFormDescriptorBadRequest{}
 }
 
-/*BuildComboFormDescriptorBadRequest handles this case with default header values.
+/*
+BuildComboFormDescriptorBadRequest describes a response with status code 400, with default header values.
 
 Invalid data for Account or PaymentMethod
 */
@@ -91,7 +125,41 @@ type BuildComboFormDescriptorBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the build combo form descriptor bad request response
+func (o *BuildComboFormDescriptorBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this build combo form descriptor bad request response has a 2xx status code
+func (o *BuildComboFormDescriptorBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this build combo form descriptor bad request response has a 3xx status code
+func (o *BuildComboFormDescriptorBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this build combo form descriptor bad request response has a 4xx status code
+func (o *BuildComboFormDescriptorBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this build combo form descriptor bad request response has a 5xx status code
+func (o *BuildComboFormDescriptorBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this build combo form descriptor bad request response a status code equal to that given
+func (o *BuildComboFormDescriptorBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *BuildComboFormDescriptorBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/paymentGateways/hosted/form][%d] buildComboFormDescriptorBadRequest ", 400)
+}
+
+func (o *BuildComboFormDescriptorBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentGateways/hosted/form][%d] buildComboFormDescriptorBadRequest ", 400)
 }
 

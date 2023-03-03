@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetAccountEmailAuditLogsWithHistoryReader is a Reader for the GetAccountEmailAuditLogsWithHistory structure.
@@ -48,17 +47,51 @@ func NewGetAccountEmailAuditLogsWithHistoryOK() *GetAccountEmailAuditLogsWithHis
 	return &GetAccountEmailAuditLogsWithHistoryOK{}
 }
 
-/*GetAccountEmailAuditLogsWithHistoryOK handles this case with default header values.
+/*
+GetAccountEmailAuditLogsWithHistoryOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetAccountEmailAuditLogsWithHistoryOK struct {
-	Payload []*kbmodel.AuditLog
-
+	Payload      []*kbmodel.AuditLog
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account email audit logs with history o k response
+func (o *GetAccountEmailAuditLogsWithHistoryOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get account email audit logs with history o k response has a 2xx status code
+func (o *GetAccountEmailAuditLogsWithHistoryOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get account email audit logs with history o k response has a 3xx status code
+func (o *GetAccountEmailAuditLogsWithHistoryOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account email audit logs with history o k response has a 4xx status code
+func (o *GetAccountEmailAuditLogsWithHistoryOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get account email audit logs with history o k response has a 5xx status code
+func (o *GetAccountEmailAuditLogsWithHistoryOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account email audit logs with history o k response a status code equal to that given
+func (o *GetAccountEmailAuditLogsWithHistoryOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetAccountEmailAuditLogsWithHistoryOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/emails/{accountEmailId}/auditLogsWithHistory][%d] getAccountEmailAuditLogsWithHistoryOK  %+v", 200, o.Payload)
+}
+
+func (o *GetAccountEmailAuditLogsWithHistoryOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/emails/{accountEmailId}/auditLogsWithHistory][%d] getAccountEmailAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetAccountEmailAuditLogsWithHistoryNotFound() *GetAccountEmailAuditLogsW
 	return &GetAccountEmailAuditLogsWithHistoryNotFound{}
 }
 
-/*GetAccountEmailAuditLogsWithHistoryNotFound handles this case with default header values.
+/*
+GetAccountEmailAuditLogsWithHistoryNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
@@ -89,7 +123,41 @@ type GetAccountEmailAuditLogsWithHistoryNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account email audit logs with history not found response
+func (o *GetAccountEmailAuditLogsWithHistoryNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get account email audit logs with history not found response has a 2xx status code
+func (o *GetAccountEmailAuditLogsWithHistoryNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get account email audit logs with history not found response has a 3xx status code
+func (o *GetAccountEmailAuditLogsWithHistoryNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account email audit logs with history not found response has a 4xx status code
+func (o *GetAccountEmailAuditLogsWithHistoryNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get account email audit logs with history not found response has a 5xx status code
+func (o *GetAccountEmailAuditLogsWithHistoryNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account email audit logs with history not found response a status code equal to that given
+func (o *GetAccountEmailAuditLogsWithHistoryNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetAccountEmailAuditLogsWithHistoryNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/emails/{accountEmailId}/auditLogsWithHistory][%d] getAccountEmailAuditLogsWithHistoryNotFound ", 404)
+}
+
+func (o *GetAccountEmailAuditLogsWithHistoryNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/emails/{accountEmailId}/auditLogsWithHistory][%d] getAccountEmailAuditLogsWithHistoryNotFound ", 404)
 }
 

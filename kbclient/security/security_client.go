@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new security API client.
@@ -49,57 +48,32 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// ISecurity - interface for Security client.
-type ISecurity interface {
-	/*
-		AddRoleDefinition adds a new role definition
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	AddRoleDefinition(ctx context.Context, params *AddRoleDefinitionParams) (*AddRoleDefinitionCreated, error)
 
-	/*
-		AddUserRoles adds a new user with roles to make api requests
-	*/
 	AddUserRoles(ctx context.Context, params *AddUserRolesParams) (*AddUserRolesCreated, error)
 
-	/*
-		GetCurrentUserPermissions lists user permissions
-	*/
 	GetCurrentUserPermissions(ctx context.Context, params *GetCurrentUserPermissionsParams) (*GetCurrentUserPermissionsOK, error)
 
-	/*
-		GetCurrentUserSubject gets user information
-	*/
 	GetCurrentUserSubject(ctx context.Context, params *GetCurrentUserSubjectParams) (*GetCurrentUserSubjectOK, error)
 
-	/*
-		GetRoleDefinition gets role definition
-	*/
 	GetRoleDefinition(ctx context.Context, params *GetRoleDefinitionParams) (*GetRoleDefinitionOK, error)
 
-	/*
-		GetUserRoles gets roles associated to a user
-	*/
 	GetUserRoles(ctx context.Context, params *GetUserRolesParams) (*GetUserRolesOK, error)
 
-	/*
-		InvalidateUser invalidates an existing user
-	*/
 	InvalidateUser(ctx context.Context, params *InvalidateUserParams) (*InvalidateUserNoContent, error)
 
-	/*
-		UpdateRoleDefinition updates a new role definition
-	*/
 	UpdateRoleDefinition(ctx context.Context, params *UpdateRoleDefinitionParams) (*UpdateRoleDefinitionNoContent, error)
 
-	/*
-		UpdateUserPassword updates a user password
-	*/
 	UpdateUserPassword(ctx context.Context, params *UpdateUserPasswordParams) (*UpdateUserPasswordNoContent, error)
 
-	/*
-		UpdateUserRoles updates roles associated to a user
-	*/
 	UpdateUserRoles(ctx context.Context, params *UpdateUserRolesParams) (*UpdateUserRolesNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -134,7 +108,7 @@ func (a *Client) AddRoleDefinition(ctx context.Context, params *AddRoleDefinitio
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addRoleDefinition",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/security/roles",
@@ -146,7 +120,9 @@ func (a *Client) AddRoleDefinition(ctx context.Context, params *AddRoleDefinitio
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -208,7 +184,7 @@ func (a *Client) AddUserRoles(ctx context.Context, params *AddUserRolesParams) (
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addUserRoles",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/security/users",
@@ -220,7 +196,9 @@ func (a *Client) AddUserRoles(ctx context.Context, params *AddUserRolesParams) (
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -267,19 +245,21 @@ func (a *Client) GetCurrentUserPermissions(ctx context.Context, params *GetCurre
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCurrentUserPermissions",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/security/permissions",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCurrentUserPermissionsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -311,19 +291,21 @@ func (a *Client) GetCurrentUserSubject(ctx context.Context, params *GetCurrentUs
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCurrentUserSubject",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/security/subject",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCurrentUserSubjectReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -355,19 +337,21 @@ func (a *Client) GetRoleDefinition(ctx context.Context, params *GetRoleDefinitio
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getRoleDefinition",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/security/roles/{role}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetRoleDefinitionReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -399,19 +383,21 @@ func (a *Client) GetUserRoles(ctx context.Context, params *GetUserRolesParams) (
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getUserRoles",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/security/users/{username}/roles",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetUserRolesReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -455,7 +441,7 @@ func (a *Client) InvalidateUser(ctx context.Context, params *InvalidateUserParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "invalidateUser",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/security/users/{username}",
@@ -467,7 +453,9 @@ func (a *Client) InvalidateUser(ctx context.Context, params *InvalidateUserParam
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -511,7 +499,7 @@ func (a *Client) UpdateRoleDefinition(ctx context.Context, params *UpdateRoleDef
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateRoleDefinition",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/security/roles",
@@ -523,7 +511,9 @@ func (a *Client) UpdateRoleDefinition(ctx context.Context, params *UpdateRoleDef
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -567,7 +557,7 @@ func (a *Client) UpdateUserPassword(ctx context.Context, params *UpdateUserPassw
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateUserPassword",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/security/users/{username}/password",
@@ -579,7 +569,9 @@ func (a *Client) UpdateUserPassword(ctx context.Context, params *UpdateUserPassw
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -623,7 +615,7 @@ func (a *Client) UpdateUserRoles(ctx context.Context, params *UpdateUserRolesPar
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateUserRoles",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/security/users/{username}/roles",
@@ -635,7 +627,9 @@ func (a *Client) UpdateUserRoles(ctx context.Context, params *UpdateUserRolesPar
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

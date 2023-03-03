@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new account API client.
@@ -49,212 +48,94 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IAccount - interface for Account client.
-type IAccount interface {
-	/*
-		AddAccountBlockingState blocks an account
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	AddAccountBlockingState(ctx context.Context, params *AddAccountBlockingStateParams) (*AddAccountBlockingStateCreated, error)
 
-	/*
-		AddEmail adds account email
-	*/
 	AddEmail(ctx context.Context, params *AddEmailParams) (*AddEmailCreated, error)
 
-	/*
-		CloseAccount closes account
-	*/
 	CloseAccount(ctx context.Context, params *CloseAccountParams) (*CloseAccountNoContent, error)
 
-	/*
-		CreateAccount creates account
-	*/
 	CreateAccount(ctx context.Context, params *CreateAccountParams) (*CreateAccountCreated, error)
 
-	/*
-		CreateAccountCustomFields adds custom fields to account
-	*/
 	CreateAccountCustomFields(ctx context.Context, params *CreateAccountCustomFieldsParams) (*CreateAccountCustomFieldsCreated, error)
 
-	/*
-		CreateAccountTags adds tags to account
-	*/
 	CreateAccountTags(ctx context.Context, params *CreateAccountTagsParams) (*CreateAccountTagsCreated, error)
 
-	/*
-		CreatePaymentMethod adds a payment method
-	*/
 	CreatePaymentMethod(ctx context.Context, params *CreatePaymentMethodParams) (*CreatePaymentMethodCreated, error)
 
-	/*
-		DeleteAccountCustomFields removes custom fields from account
-	*/
 	DeleteAccountCustomFields(ctx context.Context, params *DeleteAccountCustomFieldsParams) (*DeleteAccountCustomFieldsNoContent, error)
 
-	/*
-		DeleteAccountTags removes tags from account
-	*/
 	DeleteAccountTags(ctx context.Context, params *DeleteAccountTagsParams) (*DeleteAccountTagsNoContent, error)
 
-	/*
-		GetAccount retrieves an account by id
-	*/
 	GetAccount(ctx context.Context, params *GetAccountParams) (*GetAccountOK, error)
 
-	/*
-		GetAccountAuditLogs retrieves audit logs by account id
-	*/
 	GetAccountAuditLogs(ctx context.Context, params *GetAccountAuditLogsParams) (*GetAccountAuditLogsOK, error)
 
-	/*
-		GetAccountAuditLogsWithHistory retrieves account audit logs with history by account id
-	*/
 	GetAccountAuditLogsWithHistory(ctx context.Context, params *GetAccountAuditLogsWithHistoryParams) (*GetAccountAuditLogsWithHistoryOK, error)
 
-	/*
-		GetAccountBundles retrieves bundles for account
-	*/
 	GetAccountBundles(ctx context.Context, params *GetAccountBundlesParams) (*GetAccountBundlesOK, error)
 
-	/*
-		GetAccountByKey retrieves an account by external key
-	*/
 	GetAccountByKey(ctx context.Context, params *GetAccountByKeyParams) (*GetAccountByKeyOK, error)
 
-	/*
-		GetAccountCustomFields retrieves account custom fields
-	*/
 	GetAccountCustomFields(ctx context.Context, params *GetAccountCustomFieldsParams) (*GetAccountCustomFieldsOK, error)
 
-	/*
-		GetAccountEmailAuditLogsWithHistory retrieves account email audit logs with history by id
-	*/
 	GetAccountEmailAuditLogsWithHistory(ctx context.Context, params *GetAccountEmailAuditLogsWithHistoryParams) (*GetAccountEmailAuditLogsWithHistoryOK, error)
 
-	/*
-		GetAccountTags retrieves account tags
-	*/
 	GetAccountTags(ctx context.Context, params *GetAccountTagsParams) (*GetAccountTagsOK, error)
 
-	/*
-		GetAccountTimeline retrieves account timeline
-	*/
 	GetAccountTimeline(ctx context.Context, params *GetAccountTimelineParams) (*GetAccountTimelineOK, error)
 
-	/*
-		GetAccounts lists accounts
-	*/
 	GetAccounts(ctx context.Context, params *GetAccountsParams) (*GetAccountsOK, error)
 
-	/*
-		GetAllCustomFields retrieves account custom fields
-	*/
 	GetAllCustomFields(ctx context.Context, params *GetAllCustomFieldsParams) (*GetAllCustomFieldsOK, error)
 
-	/*
-		GetAllTags retrieves account tags
-	*/
 	GetAllTags(ctx context.Context, params *GetAllTagsParams) (*GetAllTagsOK, error)
 
-	/*
-		GetBlockingStateAuditLogsWithHistory retrieves blocking state audit logs with history by id
-	*/
 	GetBlockingStateAuditLogsWithHistory(ctx context.Context, params *GetBlockingStateAuditLogsWithHistoryParams) (*GetBlockingStateAuditLogsWithHistoryOK, error)
 
-	/*
-		GetBlockingStates retrieves blocking states for account
-	*/
 	GetBlockingStates(ctx context.Context, params *GetBlockingStatesParams) (*GetBlockingStatesOK, error)
 
-	/*
-		GetChildrenAccounts lists children accounts
-	*/
 	GetChildrenAccounts(ctx context.Context, params *GetChildrenAccountsParams) (*GetChildrenAccountsOK, error)
 
-	/*
-		GetEmails retrieves an account emails
-	*/
 	GetEmails(ctx context.Context, params *GetEmailsParams) (*GetEmailsOK, error)
 
-	/*
-		GetInvoicePayments retrieves account invoice payments
-	*/
 	GetInvoicePayments(ctx context.Context, params *GetInvoicePaymentsParams) (*GetInvoicePaymentsOK, error)
 
-	/*
-		GetInvoicesForAccount retrieves account invoices
-	*/
 	GetInvoicesForAccount(ctx context.Context, params *GetInvoicesForAccountParams) (*GetInvoicesForAccountOK, error)
 
-	/*
-		GetOverdueAccount retrieves overdue state for account
-	*/
 	GetOverdueAccount(ctx context.Context, params *GetOverdueAccountParams) (*GetOverdueAccountOK, error)
 
-	/*
-		GetPaymentMethodsForAccount retrieves account payment methods
-	*/
 	GetPaymentMethodsForAccount(ctx context.Context, params *GetPaymentMethodsForAccountParams) (*GetPaymentMethodsForAccountOK, error)
 
-	/*
-		GetPaymentsForAccount retrieves account payments
-	*/
 	GetPaymentsForAccount(ctx context.Context, params *GetPaymentsForAccountParams) (*GetPaymentsForAccountOK, error)
 
-	/*
-		ModifyAccountCustomFields modifies custom fields to account
-	*/
 	ModifyAccountCustomFields(ctx context.Context, params *ModifyAccountCustomFieldsParams) (*ModifyAccountCustomFieldsNoContent, error)
 
-	/*
-		PayAllInvoices triggers a payment for all unpaid invoices
-	*/
 	PayAllInvoices(ctx context.Context, params *PayAllInvoicesParams) (*PayAllInvoicesNoContent, error)
 
-	/*
-		ProcessPayment triggers a payment authorization purchase or credit
-	*/
 	ProcessPayment(ctx context.Context, params *ProcessPaymentParams) (*ProcessPaymentCreated, error)
 
-	/*
-		ProcessPaymentByExternalKey triggers a payment using the account external key authorization purchase or credit
-	*/
 	ProcessPaymentByExternalKey(ctx context.Context, params *ProcessPaymentByExternalKeyParams) (*ProcessPaymentByExternalKeyCreated, error)
 
-	/*
-		RebalanceExistingCBAOnAccount rebalances account c b a
-	*/
 	RebalanceExistingCBAOnAccount(ctx context.Context, params *RebalanceExistingCBAOnAccountParams) (*RebalanceExistingCBAOnAccountNoContent, error)
 
-	/*
-		RefreshPaymentMethods refreshes account payment methods
-	*/
 	RefreshPaymentMethods(ctx context.Context, params *RefreshPaymentMethodsParams) (*RefreshPaymentMethodsNoContent, error)
 
-	/*
-		RemoveEmail deletes email from account
-	*/
 	RemoveEmail(ctx context.Context, params *RemoveEmailParams) (*RemoveEmailNoContent, error)
 
-	/*
-		SearchAccounts searches accounts
-	*/
 	SearchAccounts(ctx context.Context, params *SearchAccountsParams) (*SearchAccountsOK, error)
 
-	/*
-		SetDefaultPaymentMethod sets the default payment method
-	*/
 	SetDefaultPaymentMethod(ctx context.Context, params *SetDefaultPaymentMethodParams) (*SetDefaultPaymentMethodNoContent, error)
 
-	/*
-		TransferChildCreditToParent moves a given child credit to the parent level
-	*/
 	TransferChildCreditToParent(ctx context.Context, params *TransferChildCreditToParentParams) (*TransferChildCreditToParentNoContent, error)
 
-	/*
-		UpdateAccount updates account
-	*/
 	UpdateAccount(ctx context.Context, params *UpdateAccountParams) (*UpdateAccountNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -289,11 +170,11 @@ func (a *Client) AddAccountBlockingState(ctx context.Context, params *AddAccount
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addAccountBlockingState",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/block",
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
@@ -301,7 +182,9 @@ func (a *Client) AddAccountBlockingState(ctx context.Context, params *AddAccount
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -315,7 +198,7 @@ func (a *Client) AddAccountBlockingState(ctx context.Context, params *AddAccount
 		ID:                 "addAccountBlockingState",
 		Method:             "GET",
 		PathPattern:        location,
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             getParams,
@@ -363,7 +246,7 @@ func (a *Client) AddEmail(ctx context.Context, params *AddEmailParams) (*AddEmai
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addEmail",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/emails",
@@ -375,7 +258,9 @@ func (a *Client) AddEmail(ctx context.Context, params *AddEmailParams) (*AddEmai
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -434,19 +319,21 @@ func (a *Client) CloseAccount(ctx context.Context, params *CloseAccountParams) (
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "closeAccount",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/accounts/{accountId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CloseAccountReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -493,7 +380,7 @@ func (a *Client) CreateAccount(ctx context.Context, params *CreateAccountParams)
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAccount",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts",
@@ -505,7 +392,9 @@ func (a *Client) CreateAccount(ctx context.Context, params *CreateAccountParams)
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -567,7 +456,7 @@ func (a *Client) CreateAccountCustomFields(ctx context.Context, params *CreateAc
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAccountCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/customFields",
@@ -579,7 +468,9 @@ func (a *Client) CreateAccountCustomFields(ctx context.Context, params *CreateAc
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -641,7 +532,7 @@ func (a *Client) CreateAccountTags(ctx context.Context, params *CreateAccountTag
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createAccountTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/tags",
@@ -653,7 +544,9 @@ func (a *Client) CreateAccountTags(ctx context.Context, params *CreateAccountTag
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -715,7 +608,7 @@ func (a *Client) CreatePaymentMethod(ctx context.Context, params *CreatePaymentM
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createPaymentMethod",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/paymentMethods",
@@ -727,7 +620,9 @@ func (a *Client) CreatePaymentMethod(ctx context.Context, params *CreatePaymentM
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -786,7 +681,7 @@ func (a *Client) DeleteAccountCustomFields(ctx context.Context, params *DeleteAc
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteAccountCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/customFields",
@@ -798,7 +693,9 @@ func (a *Client) DeleteAccountCustomFields(ctx context.Context, params *DeleteAc
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -842,7 +739,7 @@ func (a *Client) DeleteAccountTags(ctx context.Context, params *DeleteAccountTag
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteAccountTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/tags",
@@ -854,7 +751,9 @@ func (a *Client) DeleteAccountTags(ctx context.Context, params *DeleteAccountTag
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -886,19 +785,21 @@ func (a *Client) GetAccount(ctx context.Context, params *GetAccountParams) (*Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -930,19 +831,21 @@ func (a *Client) GetAccountAuditLogs(ctx context.Context, params *GetAccountAudi
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountAuditLogs",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/auditLogs",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountAuditLogsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -974,19 +877,21 @@ func (a *Client) GetAccountAuditLogsWithHistory(ctx context.Context, params *Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1018,19 +923,21 @@ func (a *Client) GetAccountBundles(ctx context.Context, params *GetAccountBundle
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountBundles",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/bundles",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountBundlesReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1062,19 +969,21 @@ func (a *Client) GetAccountByKey(ctx context.Context, params *GetAccountByKeyPar
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountByKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountByKeyReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1106,19 +1015,21 @@ func (a *Client) GetAccountCustomFields(ctx context.Context, params *GetAccountC
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1150,19 +1061,21 @@ func (a *Client) GetAccountEmailAuditLogsWithHistory(ctx context.Context, params
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountEmailAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/emails/{accountEmailId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountEmailAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1194,19 +1107,21 @@ func (a *Client) GetAccountTags(ctx context.Context, params *GetAccountTagsParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1238,19 +1153,21 @@ func (a *Client) GetAccountTimeline(ctx context.Context, params *GetAccountTimel
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccountTimeline",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/timeline",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountTimelineReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1282,19 +1199,21 @@ func (a *Client) GetAccounts(ctx context.Context, params *GetAccountsParams) (*G
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAccounts",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAccountsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1326,19 +1245,21 @@ func (a *Client) GetAllCustomFields(ctx context.Context, params *GetAllCustomFie
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAllCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/allCustomFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAllCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1370,19 +1291,21 @@ func (a *Client) GetAllTags(ctx context.Context, params *GetAllTagsParams) (*Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAllTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/allTags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAllTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1414,19 +1337,21 @@ func (a *Client) GetBlockingStateAuditLogsWithHistory(ctx context.Context, param
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBlockingStateAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/block/{blockingId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBlockingStateAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1458,19 +1383,21 @@ func (a *Client) GetBlockingStates(ctx context.Context, params *GetBlockingState
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBlockingStates",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/block",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBlockingStatesReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1502,19 +1429,21 @@ func (a *Client) GetChildrenAccounts(ctx context.Context, params *GetChildrenAcc
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getChildrenAccounts",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/children",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetChildrenAccountsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1546,19 +1475,21 @@ func (a *Client) GetEmails(ctx context.Context, params *GetEmailsParams) (*GetEm
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getEmails",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/emails",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetEmailsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1590,19 +1521,21 @@ func (a *Client) GetInvoicePayments(ctx context.Context, params *GetInvoicePayme
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoicePayments",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/invoicePayments",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoicePaymentsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1634,19 +1567,21 @@ func (a *Client) GetInvoicesForAccount(ctx context.Context, params *GetInvoicesF
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoicesForAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/invoices",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoicesForAccountReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1678,19 +1613,21 @@ func (a *Client) GetOverdueAccount(ctx context.Context, params *GetOverdueAccoun
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getOverdueAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/overdue",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetOverdueAccountReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1722,19 +1659,21 @@ func (a *Client) GetPaymentMethodsForAccount(ctx context.Context, params *GetPay
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentMethodsForAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/paymentMethods",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentMethodsForAccountReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1766,19 +1705,21 @@ func (a *Client) GetPaymentsForAccount(ctx context.Context, params *GetPaymentsF
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentsForAccount",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/payments",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentsForAccountReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1822,7 +1763,7 @@ func (a *Client) ModifyAccountCustomFields(ctx context.Context, params *ModifyAc
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifyAccountCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/customFields",
@@ -1834,7 +1775,9 @@ func (a *Client) ModifyAccountCustomFields(ctx context.Context, params *ModifyAc
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1878,7 +1821,7 @@ func (a *Client) PayAllInvoices(ctx context.Context, params *PayAllInvoicesParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "payAllInvoices",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/invoicePayments",
@@ -1890,7 +1833,9 @@ func (a *Client) PayAllInvoices(ctx context.Context, params *PayAllInvoicesParam
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1937,7 +1882,7 @@ func (a *Client) ProcessPayment(ctx context.Context, params *ProcessPaymentParam
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "processPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/payments",
@@ -1949,7 +1894,9 @@ func (a *Client) ProcessPayment(ctx context.Context, params *ProcessPaymentParam
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2011,7 +1958,7 @@ func (a *Client) ProcessPaymentByExternalKey(ctx context.Context, params *Proces
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "processPaymentByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/accounts/payments",
@@ -2023,7 +1970,9 @@ func (a *Client) ProcessPaymentByExternalKey(ctx context.Context, params *Proces
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2082,7 +2031,7 @@ func (a *Client) RebalanceExistingCBAOnAccount(ctx context.Context, params *Reba
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "rebalanceExistingCBAOnAccount",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/cbaRebalancing",
@@ -2094,7 +2043,9 @@ func (a *Client) RebalanceExistingCBAOnAccount(ctx context.Context, params *Reba
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2138,19 +2089,21 @@ func (a *Client) RefreshPaymentMethods(ctx context.Context, params *RefreshPayme
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "refreshPaymentMethods",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/paymentMethods/refresh",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &RefreshPaymentMethodsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2194,19 +2147,21 @@ func (a *Client) RemoveEmail(ctx context.Context, params *RemoveEmailParams) (*R
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "removeEmail",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/emails/{email}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &RemoveEmailReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2238,19 +2193,21 @@ func (a *Client) SearchAccounts(ctx context.Context, params *SearchAccountsParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchAccounts",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/accounts/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchAccountsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2294,7 +2251,7 @@ func (a *Client) SetDefaultPaymentMethod(ctx context.Context, params *SetDefault
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "setDefaultPaymentMethod",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}/paymentMethods/{paymentMethodId}/setDefault",
@@ -2306,7 +2263,9 @@ func (a *Client) SetDefaultPaymentMethod(ctx context.Context, params *SetDefault
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2350,7 +2309,7 @@ func (a *Client) TransferChildCreditToParent(ctx context.Context, params *Transf
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "transferChildCreditToParent",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{childAccountId}/transferCredit",
@@ -2362,7 +2321,9 @@ func (a *Client) TransferChildCreditToParent(ctx context.Context, params *Transf
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2406,7 +2367,7 @@ func (a *Client) UpdateAccount(ctx context.Context, params *UpdateAccountParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateAccount",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/accounts/{accountId}",
@@ -2418,7 +2379,9 @@ func (a *Client) UpdateAccount(ctx context.Context, params *UpdateAccountParams)
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

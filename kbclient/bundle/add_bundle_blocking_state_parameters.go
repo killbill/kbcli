@@ -13,70 +13,80 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewAddBundleBlockingStateParams creates a new AddBundleBlockingStateParams object
-// with the default values initialized.
+// NewAddBundleBlockingStateParams creates a new AddBundleBlockingStateParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddBundleBlockingStateParams() *AddBundleBlockingStateParams {
-	var ()
 	return &AddBundleBlockingStateParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAddBundleBlockingStateParamsWithTimeout creates a new AddBundleBlockingStateParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAddBundleBlockingStateParamsWithTimeout(timeout time.Duration) *AddBundleBlockingStateParams {
-	var ()
 	return &AddBundleBlockingStateParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAddBundleBlockingStateParamsWithContext creates a new AddBundleBlockingStateParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAddBundleBlockingStateParamsWithContext(ctx context.Context) *AddBundleBlockingStateParams {
-	var ()
 	return &AddBundleBlockingStateParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAddBundleBlockingStateParamsWithHTTPClient creates a new AddBundleBlockingStateParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAddBundleBlockingStateParamsWithHTTPClient(client *http.Client) *AddBundleBlockingStateParams {
-	var ()
 	return &AddBundleBlockingStateParams{
 		HTTPClient: client,
 	}
 }
 
-/*AddBundleBlockingStateParams contains all the parameters to send to the API endpoint
-for the add bundle blocking state operation typically these are written to a http.Request
+/*
+AddBundleBlockingStateParams contains all the parameters to send to the API endpoint
+
+	for the add bundle blocking state operation.
+
+	Typically these are written to a http.Request.
 */
 type AddBundleBlockingStateParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.BlockingState
-	/*BundleID*/
+
+	// BundleID.
+	//
+	// Format: uuid
 	BundleID strfmt.UUID
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*RequestedDate*/
+
+	// RequestedDate.
+	//
+	// Format: date
 	RequestedDate *strfmt.Date
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -85,6 +95,21 @@ type AddBundleBlockingStateParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the add bundle blocking state params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddBundleBlockingStateParams) WithDefaults() *AddBundleBlockingStateParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the add bundle blocking state params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddBundleBlockingStateParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the add bundle blocking state params
@@ -211,7 +236,6 @@ func (o *AddBundleBlockingStateParams) WriteToRequest(r runtime.ClientRequest, r
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -225,9 +249,7 @@ func (o *AddBundleBlockingStateParams) WriteToRequest(r runtime.ClientRequest, r
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -239,28 +261,32 @@ func (o *AddBundleBlockingStateParams) WriteToRequest(r runtime.ClientRequest, r
 		return err
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
+
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
+
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo
@@ -281,4 +307,21 @@ func (o *AddBundleBlockingStateParams) WriteToRequest(r runtime.ClientRequest, r
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamAddBundleBlockingState binds the parameter pluginProperty
+func (o *AddBundleBlockingStateParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

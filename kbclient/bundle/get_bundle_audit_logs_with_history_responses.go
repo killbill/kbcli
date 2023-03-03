@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetBundleAuditLogsWithHistoryReader is a Reader for the GetBundleAuditLogsWithHistory structure.
@@ -48,17 +47,51 @@ func NewGetBundleAuditLogsWithHistoryOK() *GetBundleAuditLogsWithHistoryOK {
 	return &GetBundleAuditLogsWithHistoryOK{}
 }
 
-/*GetBundleAuditLogsWithHistoryOK handles this case with default header values.
+/*
+GetBundleAuditLogsWithHistoryOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetBundleAuditLogsWithHistoryOK struct {
-	Payload []*kbmodel.AuditLog
-
+	Payload      []*kbmodel.AuditLog
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get bundle audit logs with history o k response
+func (o *GetBundleAuditLogsWithHistoryOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get bundle audit logs with history o k response has a 2xx status code
+func (o *GetBundleAuditLogsWithHistoryOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get bundle audit logs with history o k response has a 3xx status code
+func (o *GetBundleAuditLogsWithHistoryOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle audit logs with history o k response has a 4xx status code
+func (o *GetBundleAuditLogsWithHistoryOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get bundle audit logs with history o k response has a 5xx status code
+func (o *GetBundleAuditLogsWithHistoryOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle audit logs with history o k response a status code equal to that given
+func (o *GetBundleAuditLogsWithHistoryOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetBundleAuditLogsWithHistoryOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/auditLogsWithHistory][%d] getBundleAuditLogsWithHistoryOK  %+v", 200, o.Payload)
+}
+
+func (o *GetBundleAuditLogsWithHistoryOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/auditLogsWithHistory][%d] getBundleAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetBundleAuditLogsWithHistoryNotFound() *GetBundleAuditLogsWithHistoryNo
 	return &GetBundleAuditLogsWithHistoryNotFound{}
 }
 
-/*GetBundleAuditLogsWithHistoryNotFound handles this case with default header values.
+/*
+GetBundleAuditLogsWithHistoryNotFound describes a response with status code 404, with default header values.
 
 Subscription bundle not found
 */
@@ -89,7 +123,41 @@ type GetBundleAuditLogsWithHistoryNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get bundle audit logs with history not found response
+func (o *GetBundleAuditLogsWithHistoryNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get bundle audit logs with history not found response has a 2xx status code
+func (o *GetBundleAuditLogsWithHistoryNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get bundle audit logs with history not found response has a 3xx status code
+func (o *GetBundleAuditLogsWithHistoryNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle audit logs with history not found response has a 4xx status code
+func (o *GetBundleAuditLogsWithHistoryNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get bundle audit logs with history not found response has a 5xx status code
+func (o *GetBundleAuditLogsWithHistoryNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle audit logs with history not found response a status code equal to that given
+func (o *GetBundleAuditLogsWithHistoryNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetBundleAuditLogsWithHistoryNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/auditLogsWithHistory][%d] getBundleAuditLogsWithHistoryNotFound ", 404)
+}
+
+func (o *GetBundleAuditLogsWithHistoryNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/auditLogsWithHistory][%d] getBundleAuditLogsWithHistoryNotFound ", 404)
 }
 

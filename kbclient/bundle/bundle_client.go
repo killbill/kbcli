@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new bundle API client.
@@ -49,92 +48,46 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IBundle - interface for Bundle client.
-type IBundle interface {
-	/*
-		AddBundleBlockingState blocks a bundle
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	AddBundleBlockingState(ctx context.Context, params *AddBundleBlockingStateParams) (*AddBundleBlockingStateCreated, error)
 
-	/*
-		CreateBundleCustomFields adds custom fields to bundle
-	*/
 	CreateBundleCustomFields(ctx context.Context, params *CreateBundleCustomFieldsParams) (*CreateBundleCustomFieldsCreated, error)
 
-	/*
-		CreateBundleTags adds tags to bundle
-	*/
 	CreateBundleTags(ctx context.Context, params *CreateBundleTagsParams) (*CreateBundleTagsCreated, error)
 
-	/*
-		DeleteBundleCustomFields removes custom fields from bundle
-	*/
 	DeleteBundleCustomFields(ctx context.Context, params *DeleteBundleCustomFieldsParams) (*DeleteBundleCustomFieldsNoContent, error)
 
-	/*
-		DeleteBundleTags removes tags from bundle
-	*/
 	DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsParams) (*DeleteBundleTagsNoContent, error)
 
-	/*
-		GetBundle retrieves a bundle by id
-	*/
 	GetBundle(ctx context.Context, params *GetBundleParams) (*GetBundleOK, error)
 
-	/*
-		GetBundleAuditLogsWithHistory retrieves bundle audit logs with history by id
-	*/
 	GetBundleAuditLogsWithHistory(ctx context.Context, params *GetBundleAuditLogsWithHistoryParams) (*GetBundleAuditLogsWithHistoryOK, error)
 
-	/*
-		GetBundleByKey retrieves a bundle by external key
-	*/
 	GetBundleByKey(ctx context.Context, params *GetBundleByKeyParams) (*GetBundleByKeyOK, error)
 
-	/*
-		GetBundleCustomFields retrieves bundle custom fields
-	*/
 	GetBundleCustomFields(ctx context.Context, params *GetBundleCustomFieldsParams) (*GetBundleCustomFieldsOK, error)
 
-	/*
-		GetBundleTags retrieves bundle tags
-	*/
 	GetBundleTags(ctx context.Context, params *GetBundleTagsParams) (*GetBundleTagsOK, error)
 
-	/*
-		GetBundles lists bundles
-	*/
 	GetBundles(ctx context.Context, params *GetBundlesParams) (*GetBundlesOK, error)
 
-	/*
-		ModifyBundleCustomFields modifies custom fields to bundle
-	*/
 	ModifyBundleCustomFields(ctx context.Context, params *ModifyBundleCustomFieldsParams) (*ModifyBundleCustomFieldsNoContent, error)
 
-	/*
-		PauseBundle pauses a bundle
-	*/
 	PauseBundle(ctx context.Context, params *PauseBundleParams) (*PauseBundleNoContent, error)
 
-	/*
-		RenameExternalKey updates a bundle external key
-	*/
 	RenameExternalKey(ctx context.Context, params *RenameExternalKeyParams) (*RenameExternalKeyNoContent, error)
 
-	/*
-		ResumeBundle resumes a bundle
-	*/
 	ResumeBundle(ctx context.Context, params *ResumeBundleParams) (*ResumeBundleNoContent, error)
 
-	/*
-		SearchBundles searches bundles
-	*/
 	SearchBundles(ctx context.Context, params *SearchBundlesParams) (*SearchBundlesOK, error)
 
-	/*
-		TransferBundle transfers a bundle to another account
-	*/
 	TransferBundle(ctx context.Context, params *TransferBundleParams) (*TransferBundleCreated, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -169,11 +122,11 @@ func (a *Client) AddBundleBlockingState(ctx context.Context, params *AddBundleBl
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addBundleBlockingState",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/block",
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
@@ -181,7 +134,9 @@ func (a *Client) AddBundleBlockingState(ctx context.Context, params *AddBundleBl
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -195,7 +150,7 @@ func (a *Client) AddBundleBlockingState(ctx context.Context, params *AddBundleBl
 		ID:                 "addBundleBlockingState",
 		Method:             "GET",
 		PathPattern:        location,
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             getParams,
@@ -243,7 +198,7 @@ func (a *Client) CreateBundleCustomFields(ctx context.Context, params *CreateBun
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createBundleCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/customFields",
@@ -255,7 +210,9 @@ func (a *Client) CreateBundleCustomFields(ctx context.Context, params *CreateBun
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -317,7 +274,7 @@ func (a *Client) CreateBundleTags(ctx context.Context, params *CreateBundleTagsP
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createBundleTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/tags",
@@ -329,7 +286,9 @@ func (a *Client) CreateBundleTags(ctx context.Context, params *CreateBundleTagsP
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -388,7 +347,7 @@ func (a *Client) DeleteBundleCustomFields(ctx context.Context, params *DeleteBun
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteBundleCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/customFields",
@@ -400,7 +359,9 @@ func (a *Client) DeleteBundleCustomFields(ctx context.Context, params *DeleteBun
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -444,7 +405,7 @@ func (a *Client) DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsP
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteBundleTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/tags",
@@ -456,7 +417,9 @@ func (a *Client) DeleteBundleTags(ctx context.Context, params *DeleteBundleTagsP
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -488,19 +451,21 @@ func (a *Client) GetBundle(ctx context.Context, params *GetBundleParams) (*GetBu
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundle",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -532,19 +497,21 @@ func (a *Client) GetBundleAuditLogsWithHistory(ctx context.Context, params *GetB
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundleAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -576,19 +543,21 @@ func (a *Client) GetBundleByKey(ctx context.Context, params *GetBundleByKeyParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundleByKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleByKeyReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -620,19 +589,21 @@ func (a *Client) GetBundleCustomFields(ctx context.Context, params *GetBundleCus
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundleCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -664,19 +635,21 @@ func (a *Client) GetBundleTags(ctx context.Context, params *GetBundleTagsParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundleTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundleTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -708,19 +681,21 @@ func (a *Client) GetBundles(ctx context.Context, params *GetBundlesParams) (*Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getBundles",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetBundlesReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -764,7 +739,7 @@ func (a *Client) ModifyBundleCustomFields(ctx context.Context, params *ModifyBun
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifyBundleCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/customFields",
@@ -776,7 +751,9 @@ func (a *Client) ModifyBundleCustomFields(ctx context.Context, params *ModifyBun
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -820,7 +797,7 @@ func (a *Client) PauseBundle(ctx context.Context, params *PauseBundleParams) (*P
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "pauseBundle",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/pause",
@@ -832,7 +809,9 @@ func (a *Client) PauseBundle(ctx context.Context, params *PauseBundleParams) (*P
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -876,11 +855,11 @@ func (a *Client) RenameExternalKey(ctx context.Context, params *RenameExternalKe
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "renameExternalKey",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/renameKey",
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
@@ -888,7 +867,9 @@ func (a *Client) RenameExternalKey(ctx context.Context, params *RenameExternalKe
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -932,7 +913,7 @@ func (a *Client) ResumeBundle(ctx context.Context, params *ResumeBundleParams) (
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "resumeBundle",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}/resume",
@@ -944,7 +925,9 @@ func (a *Client) ResumeBundle(ctx context.Context, params *ResumeBundleParams) (
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -976,19 +959,21 @@ func (a *Client) SearchBundles(ctx context.Context, params *SearchBundlesParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchBundles",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/bundles/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchBundlesReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1035,7 +1020,7 @@ func (a *Client) TransferBundle(ctx context.Context, params *TransferBundleParam
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "transferBundle",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/bundles/{bundleId}",
@@ -1047,7 +1032,9 @@ func (a *Client) TransferBundle(ctx context.Context, params *TransferBundleParam
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

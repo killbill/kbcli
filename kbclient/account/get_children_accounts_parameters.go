@@ -13,90 +13,69 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetChildrenAccountsParams creates a new GetChildrenAccountsParams object
-// with the default values initialized.
+// NewGetChildrenAccountsParams creates a new GetChildrenAccountsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetChildrenAccountsParams() *GetChildrenAccountsParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-	)
 	return &GetChildrenAccountsParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetChildrenAccountsParamsWithTimeout creates a new GetChildrenAccountsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetChildrenAccountsParamsWithTimeout(timeout time.Duration) *GetChildrenAccountsParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-	)
 	return &GetChildrenAccountsParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetChildrenAccountsParamsWithContext creates a new GetChildrenAccountsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetChildrenAccountsParamsWithContext(ctx context.Context) *GetChildrenAccountsParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-	)
 	return &GetChildrenAccountsParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetChildrenAccountsParamsWithHTTPClient creates a new GetChildrenAccountsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetChildrenAccountsParamsWithHTTPClient(client *http.Client) *GetChildrenAccountsParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-	)
 	return &GetChildrenAccountsParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-		HTTPClient:               client,
+		HTTPClient: client,
 	}
 }
 
-/*GetChildrenAccountsParams contains all the parameters to send to the API endpoint
-for the get children accounts operation typically these are written to a http.Request
+/*
+GetChildrenAccountsParams contains all the parameters to send to the API endpoint
+
+	for the get children accounts operation.
+
+	Typically these are written to a http.Request.
 */
 type GetChildrenAccountsParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*AccountWithBalance*/
+
+	// AccountWithBalance.
 	AccountWithBalance *bool
-	/*AccountWithBalanceAndCBA*/
+
+	// AccountWithBalanceAndCBA.
 	AccountWithBalanceAndCBA *bool
-	/*Audit*/
+
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -105,6 +84,38 @@ type GetChildrenAccountsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get children accounts params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetChildrenAccountsParams) WithDefaults() *GetChildrenAccountsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get children accounts params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetChildrenAccountsParams) SetDefaults() {
+	var (
+		accountWithBalanceDefault = bool(false)
+
+		accountWithBalanceAndCBADefault = bool(false)
+
+		auditDefault = string("NONE")
+	)
+
+	val := GetChildrenAccountsParams{
+		AccountWithBalance:       &accountWithBalanceDefault,
+		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
+		Audit:                    &auditDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get children accounts params
@@ -201,48 +212,51 @@ func (o *GetChildrenAccountsParams) WriteToRequest(r runtime.ClientRequest, reg 
 
 		// query param accountWithBalance
 		var qrAccountWithBalance bool
+
 		if o.AccountWithBalance != nil {
 			qrAccountWithBalance = *o.AccountWithBalance
 		}
 		qAccountWithBalance := swag.FormatBool(qrAccountWithBalance)
 		if qAccountWithBalance != "" {
+
 			if err := r.SetQueryParam("accountWithBalance", qAccountWithBalance); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.AccountWithBalanceAndCBA != nil {
 
 		// query param accountWithBalanceAndCBA
 		var qrAccountWithBalanceAndCBA bool
+
 		if o.AccountWithBalanceAndCBA != nil {
 			qrAccountWithBalanceAndCBA = *o.AccountWithBalanceAndCBA
 		}
 		qAccountWithBalanceAndCBA := swag.FormatBool(qrAccountWithBalanceAndCBA)
 		if qAccountWithBalanceAndCBA != "" {
+
 			if err := r.SetQueryParam("accountWithBalanceAndCBA", qAccountWithBalanceAndCBA); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Audit != nil {
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

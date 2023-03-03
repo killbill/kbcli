@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetInvoiceReader is a Reader for the GetInvoice structure.
@@ -48,17 +47,51 @@ func NewGetInvoiceOK() *GetInvoiceOK {
 	return &GetInvoiceOK{}
 }
 
-/*GetInvoiceOK handles this case with default header values.
+/*
+GetInvoiceOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetInvoiceOK struct {
-	Payload *kbmodel.Invoice
-
+	Payload      *kbmodel.Invoice
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice o k response
+func (o *GetInvoiceOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get invoice o k response has a 2xx status code
+func (o *GetInvoiceOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get invoice o k response has a 3xx status code
+func (o *GetInvoiceOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice o k response has a 4xx status code
+func (o *GetInvoiceOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get invoice o k response has a 5xx status code
+func (o *GetInvoiceOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice o k response a status code equal to that given
+func (o *GetInvoiceOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetInvoiceOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}][%d] getInvoiceOK  %+v", 200, o.Payload)
+}
+
+func (o *GetInvoiceOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}][%d] getInvoiceOK  %+v", 200, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewGetInvoiceBadRequest() *GetInvoiceBadRequest {
 	return &GetInvoiceBadRequest{}
 }
 
-/*GetInvoiceBadRequest handles this case with default header values.
+/*
+GetInvoiceBadRequest describes a response with status code 400, with default header values.
 
 Invalid invoice id supplied
 */
@@ -91,7 +125,41 @@ type GetInvoiceBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice bad request response
+func (o *GetInvoiceBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get invoice bad request response has a 2xx status code
+func (o *GetInvoiceBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice bad request response has a 3xx status code
+func (o *GetInvoiceBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice bad request response has a 4xx status code
+func (o *GetInvoiceBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice bad request response has a 5xx status code
+func (o *GetInvoiceBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice bad request response a status code equal to that given
+func (o *GetInvoiceBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetInvoiceBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}][%d] getInvoiceBadRequest ", 400)
+}
+
+func (o *GetInvoiceBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}][%d] getInvoiceBadRequest ", 400)
 }
 
@@ -105,7 +173,8 @@ func NewGetInvoiceNotFound() *GetInvoiceNotFound {
 	return &GetInvoiceNotFound{}
 }
 
-/*GetInvoiceNotFound handles this case with default header values.
+/*
+GetInvoiceNotFound describes a response with status code 404, with default header values.
 
 Invoice not found
 */
@@ -113,7 +182,41 @@ type GetInvoiceNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice not found response
+func (o *GetInvoiceNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get invoice not found response has a 2xx status code
+func (o *GetInvoiceNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice not found response has a 3xx status code
+func (o *GetInvoiceNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice not found response has a 4xx status code
+func (o *GetInvoiceNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice not found response has a 5xx status code
+func (o *GetInvoiceNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice not found response a status code equal to that given
+func (o *GetInvoiceNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetInvoiceNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}][%d] getInvoiceNotFound ", 404)
+}
+
+func (o *GetInvoiceNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}][%d] getInvoiceNotFound ", 404)
 }
 

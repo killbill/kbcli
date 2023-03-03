@@ -13,61 +13,64 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewUploadPerTenantConfigurationParams creates a new UploadPerTenantConfigurationParams object
-// with the default values initialized.
+// NewUploadPerTenantConfigurationParams creates a new UploadPerTenantConfigurationParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUploadPerTenantConfigurationParams() *UploadPerTenantConfigurationParams {
-	var ()
 	return &UploadPerTenantConfigurationParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUploadPerTenantConfigurationParamsWithTimeout creates a new UploadPerTenantConfigurationParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewUploadPerTenantConfigurationParamsWithTimeout(timeout time.Duration) *UploadPerTenantConfigurationParams {
-	var ()
 	return &UploadPerTenantConfigurationParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewUploadPerTenantConfigurationParamsWithContext creates a new UploadPerTenantConfigurationParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewUploadPerTenantConfigurationParamsWithContext(ctx context.Context) *UploadPerTenantConfigurationParams {
-	var ()
 	return &UploadPerTenantConfigurationParams{
-
 		Context: ctx,
 	}
 }
 
 // NewUploadPerTenantConfigurationParamsWithHTTPClient creates a new UploadPerTenantConfigurationParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewUploadPerTenantConfigurationParamsWithHTTPClient(client *http.Client) *UploadPerTenantConfigurationParams {
-	var ()
 	return &UploadPerTenantConfigurationParams{
 		HTTPClient: client,
 	}
 }
 
-/*UploadPerTenantConfigurationParams contains all the parameters to send to the API endpoint
-for the upload per tenant configuration operation typically these are written to a http.Request
+/*
+UploadPerTenantConfigurationParams contains all the parameters to send to the API endpoint
+
+	for the upload per tenant configuration operation.
+
+	Typically these are written to a http.Request.
 */
 type UploadPerTenantConfigurationParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -76,6 +79,21 @@ type UploadPerTenantConfigurationParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the upload per tenant configuration params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UploadPerTenantConfigurationParams) WithDefaults() *UploadPerTenantConfigurationParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the upload per tenant configuration params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UploadPerTenantConfigurationParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the upload per tenant configuration params
@@ -169,7 +187,6 @@ func (o *UploadPerTenantConfigurationParams) WriteToRequest(r runtime.ClientRequ
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -183,9 +200,7 @@ func (o *UploadPerTenantConfigurationParams) WriteToRequest(r runtime.ClientRequ
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if err := r.SetBodyParam(o.Body); err != nil {
 		return err
 	}

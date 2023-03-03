@@ -13,84 +13,73 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewTriggerInvoiceGenerationForParkedAccountsParams creates a new TriggerInvoiceGenerationForParkedAccountsParams object
-// with the default values initialized.
+// NewTriggerInvoiceGenerationForParkedAccountsParams creates a new TriggerInvoiceGenerationForParkedAccountsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewTriggerInvoiceGenerationForParkedAccountsParams() *TriggerInvoiceGenerationForParkedAccountsParams {
-	var (
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &TriggerInvoiceGenerationForParkedAccountsParams{
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewTriggerInvoiceGenerationForParkedAccountsParamsWithTimeout creates a new TriggerInvoiceGenerationForParkedAccountsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewTriggerInvoiceGenerationForParkedAccountsParamsWithTimeout(timeout time.Duration) *TriggerInvoiceGenerationForParkedAccountsParams {
-	var (
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &TriggerInvoiceGenerationForParkedAccountsParams{
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewTriggerInvoiceGenerationForParkedAccountsParamsWithContext creates a new TriggerInvoiceGenerationForParkedAccountsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewTriggerInvoiceGenerationForParkedAccountsParamsWithContext(ctx context.Context) *TriggerInvoiceGenerationForParkedAccountsParams {
-	var (
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &TriggerInvoiceGenerationForParkedAccountsParams{
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewTriggerInvoiceGenerationForParkedAccountsParamsWithHTTPClient creates a new TriggerInvoiceGenerationForParkedAccountsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewTriggerInvoiceGenerationForParkedAccountsParamsWithHTTPClient(client *http.Client) *TriggerInvoiceGenerationForParkedAccountsParams {
-	var (
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &TriggerInvoiceGenerationForParkedAccountsParams{
-		Limit:      &limitDefault,
-		Offset:     &offsetDefault,
 		HTTPClient: client,
 	}
 }
 
-/*TriggerInvoiceGenerationForParkedAccountsParams contains all the parameters to send to the API endpoint
-for the trigger invoice generation for parked accounts operation typically these are written to a http.Request
+/*
+TriggerInvoiceGenerationForParkedAccountsParams contains all the parameters to send to the API endpoint
+
+	for the trigger invoice generation for parked accounts operation.
+
+	Typically these are written to a http.Request.
 */
 type TriggerInvoiceGenerationForParkedAccountsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Limit*/
+
+	// Limit.
+	//
+	// Format: int64
+	// Default: 100
 	Limit *int64
-	/*Offset*/
+
+	// Offset.
+	//
+	// Format: int64
 	Offset *int64
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -99,6 +88,35 @@ type TriggerInvoiceGenerationForParkedAccountsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the trigger invoice generation for parked accounts params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *TriggerInvoiceGenerationForParkedAccountsParams) WithDefaults() *TriggerInvoiceGenerationForParkedAccountsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the trigger invoice generation for parked accounts params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *TriggerInvoiceGenerationForParkedAccountsParams) SetDefaults() {
+	var (
+		limitDefault = int64(100)
+
+		offsetDefault = int64(0)
+	)
+
+	val := TriggerInvoiceGenerationForParkedAccountsParams{
+		Limit:  &limitDefault,
+		Offset: &offsetDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the trigger invoice generation for parked accounts params
@@ -203,7 +221,6 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) WriteToRequest(r runti
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -217,39 +234,40 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) WriteToRequest(r runti
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	if o.Limit != nil {
 
 		// query param limit
 		var qrLimit int64
+
 		if o.Limit != nil {
 			qrLimit = *o.Limit
 		}
 		qLimit := swag.FormatInt64(qrLimit)
 		if qLimit != "" {
+
 			if err := r.SetQueryParam("limit", qLimit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Offset != nil {
 
 		// query param offset
 		var qrOffset int64
+
 		if o.Offset != nil {
 			qrOffset = *o.Offset
 		}
 		qOffset := swag.FormatInt64(qrOffset)
 		if qOffset != "" {
+
 			if err := r.SetQueryParam("offset", qOffset); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

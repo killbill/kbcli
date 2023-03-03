@@ -10,8 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new usage API client.
@@ -48,22 +47,18 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IUsage - interface for Usage client.
-type IUsage interface {
-	/*
-		GetAllUsage retrieves usage for a subscription
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	GetAllUsage(ctx context.Context, params *GetAllUsageParams) (*GetAllUsageOK, error)
 
-	/*
-		GetUsage retrieves usage for a subscription and unit type
-	*/
 	GetUsage(ctx context.Context, params *GetUsageParams) (*GetUsageOK, error)
 
-	/*
-		RecordUsage records usage for a subscription
-	*/
 	RecordUsage(ctx context.Context, params *RecordUsageParams) (*RecordUsageOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -83,19 +78,21 @@ func (a *Client) GetAllUsage(ctx context.Context, params *GetAllUsageParams) (*G
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAllUsage",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/usages/{subscriptionId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAllUsageReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -127,19 +124,21 @@ func (a *Client) GetUsage(ctx context.Context, params *GetUsageParams) (*GetUsag
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getUsage",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/usages/{subscriptionId}/{unitType}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetUsageReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -183,7 +182,7 @@ func (a *Client) RecordUsage(ctx context.Context, params *RecordUsageParams) (*R
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "recordUsage",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/usages",
@@ -195,7 +194,9 @@ func (a *Client) RecordUsage(ctx context.Context, params *RecordUsageParams) (*R
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

@@ -13,69 +13,62 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetBundleParams creates a new GetBundleParams object
-// with the default values initialized.
+// NewGetBundleParams creates a new GetBundleParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetBundleParams() *GetBundleParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetBundleParams{
-		Audit: &auditDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetBundleParamsWithTimeout creates a new GetBundleParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetBundleParamsWithTimeout(timeout time.Duration) *GetBundleParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetBundleParams{
-		Audit: &auditDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetBundleParamsWithContext creates a new GetBundleParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetBundleParamsWithContext(ctx context.Context) *GetBundleParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetBundleParams{
-		Audit: &auditDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetBundleParamsWithHTTPClient creates a new GetBundleParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetBundleParamsWithHTTPClient(client *http.Client) *GetBundleParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetBundleParams{
-		Audit:      &auditDefault,
 		HTTPClient: client,
 	}
 }
 
-/*GetBundleParams contains all the parameters to send to the API endpoint
-for the get bundle operation typically these are written to a http.Request
+/*
+GetBundleParams contains all the parameters to send to the API endpoint
+
+	for the get bundle operation.
+
+	Typically these are written to a http.Request.
 */
 type GetBundleParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*BundleID*/
+
+	// BundleID.
+	//
+	// Format: uuid
 	BundleID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -84,6 +77,32 @@ type GetBundleParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get bundle params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetBundleParams) WithDefaults() *GetBundleParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get bundle params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetBundleParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+	)
+
+	val := GetBundleParams{
+		Audit: &auditDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get bundle params
@@ -153,16 +172,17 @@ func (o *GetBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param bundleId

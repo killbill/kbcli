@@ -13,63 +13,66 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreateTagDefinitionParams creates a new CreateTagDefinitionParams object
-// with the default values initialized.
+// NewCreateTagDefinitionParams creates a new CreateTagDefinitionParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateTagDefinitionParams() *CreateTagDefinitionParams {
-	var ()
 	return &CreateTagDefinitionParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateTagDefinitionParamsWithTimeout creates a new CreateTagDefinitionParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateTagDefinitionParamsWithTimeout(timeout time.Duration) *CreateTagDefinitionParams {
-	var ()
 	return &CreateTagDefinitionParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateTagDefinitionParamsWithContext creates a new CreateTagDefinitionParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateTagDefinitionParamsWithContext(ctx context.Context) *CreateTagDefinitionParams {
-	var ()
 	return &CreateTagDefinitionParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateTagDefinitionParamsWithHTTPClient creates a new CreateTagDefinitionParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateTagDefinitionParamsWithHTTPClient(client *http.Client) *CreateTagDefinitionParams {
-	var ()
 	return &CreateTagDefinitionParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateTagDefinitionParams contains all the parameters to send to the API endpoint
-for the create tag definition operation typically these are written to a http.Request
+/*
+CreateTagDefinitionParams contains all the parameters to send to the API endpoint
+
+	for the create tag definition operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateTagDefinitionParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.TagDefinition
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -78,6 +81,21 @@ type CreateTagDefinitionParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the create tag definition params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTagDefinitionParams) WithDefaults() *CreateTagDefinitionParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create tag definition params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTagDefinitionParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create tag definition params
@@ -171,7 +189,6 @@ func (o *CreateTagDefinitionParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -185,9 +202,7 @@ func (o *CreateTagDefinitionParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err

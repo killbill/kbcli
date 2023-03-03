@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // PutOutOfRotationReader is a Reader for the PutOutOfRotation structure.
@@ -45,7 +44,8 @@ func NewPutOutOfRotationNoContent() *PutOutOfRotationNoContent {
 	return &PutOutOfRotationNoContent{}
 }
 
-/*PutOutOfRotationNoContent handles this case with default header values.
+/*
+PutOutOfRotationNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -53,7 +53,41 @@ type PutOutOfRotationNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the put out of rotation no content response
+func (o *PutOutOfRotationNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this put out of rotation no content response has a 2xx status code
+func (o *PutOutOfRotationNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this put out of rotation no content response has a 3xx status code
+func (o *PutOutOfRotationNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this put out of rotation no content response has a 4xx status code
+func (o *PutOutOfRotationNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this put out of rotation no content response has a 5xx status code
+func (o *PutOutOfRotationNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this put out of rotation no content response a status code equal to that given
+func (o *PutOutOfRotationNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *PutOutOfRotationNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/admin/healthcheck][%d] putOutOfRotationNoContent ", 204)
+}
+
+func (o *PutOutOfRotationNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/admin/healthcheck][%d] putOutOfRotationNoContent ", 204)
 }
 

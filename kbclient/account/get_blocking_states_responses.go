@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetBlockingStatesReader is a Reader for the GetBlockingStates structure.
@@ -48,17 +47,51 @@ func NewGetBlockingStatesOK() *GetBlockingStatesOK {
 	return &GetBlockingStatesOK{}
 }
 
-/*GetBlockingStatesOK handles this case with default header values.
+/*
+GetBlockingStatesOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetBlockingStatesOK struct {
-	Payload []*kbmodel.BlockingState
-
+	Payload      []*kbmodel.BlockingState
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get blocking states o k response
+func (o *GetBlockingStatesOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get blocking states o k response has a 2xx status code
+func (o *GetBlockingStatesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get blocking states o k response has a 3xx status code
+func (o *GetBlockingStatesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get blocking states o k response has a 4xx status code
+func (o *GetBlockingStatesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get blocking states o k response has a 5xx status code
+func (o *GetBlockingStatesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get blocking states o k response a status code equal to that given
+func (o *GetBlockingStatesOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetBlockingStatesOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/block][%d] getBlockingStatesOK  %+v", 200, o.Payload)
+}
+
+func (o *GetBlockingStatesOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/block][%d] getBlockingStatesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetBlockingStatesBadRequest() *GetBlockingStatesBadRequest {
 	return &GetBlockingStatesBadRequest{}
 }
 
-/*GetBlockingStatesBadRequest handles this case with default header values.
+/*
+GetBlockingStatesBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -89,7 +123,41 @@ type GetBlockingStatesBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get blocking states bad request response
+func (o *GetBlockingStatesBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get blocking states bad request response has a 2xx status code
+func (o *GetBlockingStatesBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get blocking states bad request response has a 3xx status code
+func (o *GetBlockingStatesBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get blocking states bad request response has a 4xx status code
+func (o *GetBlockingStatesBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get blocking states bad request response has a 5xx status code
+func (o *GetBlockingStatesBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get blocking states bad request response a status code equal to that given
+func (o *GetBlockingStatesBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetBlockingStatesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/block][%d] getBlockingStatesBadRequest ", 400)
+}
+
+func (o *GetBlockingStatesBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/block][%d] getBlockingStatesBadRequest ", 400)
 }
 

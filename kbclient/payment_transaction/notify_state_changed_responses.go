@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // NotifyStateChangedReader is a Reader for the NotifyStateChanged structure.
@@ -48,17 +47,51 @@ func NewNotifyStateChangedCreated() *NotifyStateChangedCreated {
 	return &NotifyStateChangedCreated{}
 }
 
-/*NotifyStateChangedCreated handles this case with default header values.
+/*
+NotifyStateChangedCreated describes a response with status code 201, with default header values.
 
 Successfully notifiy state change
 */
 type NotifyStateChangedCreated struct {
-	Payload *kbmodel.Payment
-
+	Payload      *kbmodel.Payment
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the notify state changed created response
+func (o *NotifyStateChangedCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this notify state changed created response has a 2xx status code
+func (o *NotifyStateChangedCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this notify state changed created response has a 3xx status code
+func (o *NotifyStateChangedCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this notify state changed created response has a 4xx status code
+func (o *NotifyStateChangedCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this notify state changed created response has a 5xx status code
+func (o *NotifyStateChangedCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this notify state changed created response a status code equal to that given
+func (o *NotifyStateChangedCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *NotifyStateChangedCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/paymentTransactions/{transactionId}][%d] notifyStateChangedCreated  %+v", 201, o.Payload)
+}
+
+func (o *NotifyStateChangedCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentTransactions/{transactionId}][%d] notifyStateChangedCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewNotifyStateChangedBadRequest() *NotifyStateChangedBadRequest {
 	return &NotifyStateChangedBadRequest{}
 }
 
-/*NotifyStateChangedBadRequest handles this case with default header values.
+/*
+NotifyStateChangedBadRequest describes a response with status code 400, with default header values.
 
 Invalid paymentId supplied
 */
@@ -91,7 +125,41 @@ type NotifyStateChangedBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the notify state changed bad request response
+func (o *NotifyStateChangedBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this notify state changed bad request response has a 2xx status code
+func (o *NotifyStateChangedBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this notify state changed bad request response has a 3xx status code
+func (o *NotifyStateChangedBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this notify state changed bad request response has a 4xx status code
+func (o *NotifyStateChangedBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this notify state changed bad request response has a 5xx status code
+func (o *NotifyStateChangedBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this notify state changed bad request response a status code equal to that given
+func (o *NotifyStateChangedBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *NotifyStateChangedBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/paymentTransactions/{transactionId}][%d] notifyStateChangedBadRequest ", 400)
+}
+
+func (o *NotifyStateChangedBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentTransactions/{transactionId}][%d] notifyStateChangedBadRequest ", 400)
 }
 
@@ -105,7 +173,8 @@ func NewNotifyStateChangedNotFound() *NotifyStateChangedNotFound {
 	return &NotifyStateChangedNotFound{}
 }
 
-/*NotifyStateChangedNotFound handles this case with default header values.
+/*
+NotifyStateChangedNotFound describes a response with status code 404, with default header values.
 
 Account or Payment not found
 */
@@ -113,7 +182,41 @@ type NotifyStateChangedNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the notify state changed not found response
+func (o *NotifyStateChangedNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this notify state changed not found response has a 2xx status code
+func (o *NotifyStateChangedNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this notify state changed not found response has a 3xx status code
+func (o *NotifyStateChangedNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this notify state changed not found response has a 4xx status code
+func (o *NotifyStateChangedNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this notify state changed not found response has a 5xx status code
+func (o *NotifyStateChangedNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this notify state changed not found response a status code equal to that given
+func (o *NotifyStateChangedNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *NotifyStateChangedNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/paymentTransactions/{transactionId}][%d] notifyStateChangedNotFound ", 404)
+}
+
+func (o *NotifyStateChangedNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/paymentTransactions/{transactionId}][%d] notifyStateChangedNotFound ", 404)
 }
 

@@ -10,8 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new tag API client.
@@ -48,22 +47,18 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// ITag - interface for Tag client.
-type ITag interface {
-	/*
-		GetTagAuditLogsWithHistory retrieves tag audit logs with history by id
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	GetTagAuditLogsWithHistory(ctx context.Context, params *GetTagAuditLogsWithHistoryParams) (*GetTagAuditLogsWithHistoryOK, error)
 
-	/*
-		GetTags lists tags
-	*/
 	GetTags(ctx context.Context, params *GetTagsParams) (*GetTagsOK, error)
 
-	/*
-		SearchTags searches tags
-	*/
 	SearchTags(ctx context.Context, params *SearchTagsParams) (*SearchTagsOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -83,19 +78,21 @@ func (a *Client) GetTagAuditLogsWithHistory(ctx context.Context, params *GetTagA
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTagAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tags/{tagId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTagAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -127,19 +124,21 @@ func (a *Client) GetTags(ctx context.Context, params *GetTagsParams) (*GetTagsOK
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tags/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -171,19 +170,21 @@ func (a *Client) SearchTags(ctx context.Context, params *SearchTagsParams) (*Sea
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tags/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

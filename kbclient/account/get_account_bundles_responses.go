@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetAccountBundlesReader is a Reader for the GetAccountBundles structure.
@@ -48,17 +47,51 @@ func NewGetAccountBundlesOK() *GetAccountBundlesOK {
 	return &GetAccountBundlesOK{}
 }
 
-/*GetAccountBundlesOK handles this case with default header values.
+/*
+GetAccountBundlesOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetAccountBundlesOK struct {
-	Payload []*kbmodel.Bundle
-
+	Payload      []*kbmodel.Bundle
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account bundles o k response
+func (o *GetAccountBundlesOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get account bundles o k response has a 2xx status code
+func (o *GetAccountBundlesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get account bundles o k response has a 3xx status code
+func (o *GetAccountBundlesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account bundles o k response has a 4xx status code
+func (o *GetAccountBundlesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get account bundles o k response has a 5xx status code
+func (o *GetAccountBundlesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account bundles o k response a status code equal to that given
+func (o *GetAccountBundlesOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetAccountBundlesOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/bundles][%d] getAccountBundlesOK  %+v", 200, o.Payload)
+}
+
+func (o *GetAccountBundlesOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/bundles][%d] getAccountBundlesOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetAccountBundlesBadRequest() *GetAccountBundlesBadRequest {
 	return &GetAccountBundlesBadRequest{}
 }
 
-/*GetAccountBundlesBadRequest handles this case with default header values.
+/*
+GetAccountBundlesBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -89,7 +123,41 @@ type GetAccountBundlesBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account bundles bad request response
+func (o *GetAccountBundlesBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get account bundles bad request response has a 2xx status code
+func (o *GetAccountBundlesBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get account bundles bad request response has a 3xx status code
+func (o *GetAccountBundlesBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account bundles bad request response has a 4xx status code
+func (o *GetAccountBundlesBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get account bundles bad request response has a 5xx status code
+func (o *GetAccountBundlesBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account bundles bad request response a status code equal to that given
+func (o *GetAccountBundlesBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetAccountBundlesBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/bundles][%d] getAccountBundlesBadRequest ", 400)
+}
+
+func (o *GetAccountBundlesBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/bundles][%d] getAccountBundlesBadRequest ", 400)
 }
 
@@ -103,7 +171,8 @@ func NewGetAccountBundlesNotFound() *GetAccountBundlesNotFound {
 	return &GetAccountBundlesNotFound{}
 }
 
-/*GetAccountBundlesNotFound handles this case with default header values.
+/*
+GetAccountBundlesNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
@@ -111,7 +180,41 @@ type GetAccountBundlesNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account bundles not found response
+func (o *GetAccountBundlesNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get account bundles not found response has a 2xx status code
+func (o *GetAccountBundlesNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get account bundles not found response has a 3xx status code
+func (o *GetAccountBundlesNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account bundles not found response has a 4xx status code
+func (o *GetAccountBundlesNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get account bundles not found response has a 5xx status code
+func (o *GetAccountBundlesNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account bundles not found response a status code equal to that given
+func (o *GetAccountBundlesNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetAccountBundlesNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/bundles][%d] getAccountBundlesNotFound ", 404)
+}
+
+func (o *GetAccountBundlesNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/bundles][%d] getAccountBundlesNotFound ", 404)
 }
 

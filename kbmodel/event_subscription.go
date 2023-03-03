@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // EventSubscription event subscription
+//
 // swagger:model EventSubscription
 type EventSubscription struct {
 
@@ -95,7 +96,6 @@ func (m *EventSubscription) Validate(formats strfmt.Registry) error {
 }
 
 func (m *EventSubscription) validateAuditLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -109,6 +109,8 @@ func (m *EventSubscription) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -206,14 +208,13 @@ func (e EventSubscriptionBillingPeriodEnum) IsValid() bool {
 
 // prop value enum
 func (m *EventSubscription) validateBillingPeriodEnum(path, location string, value EventSubscriptionBillingPeriodEnum) error {
-	if err := validate.Enum(path, location, value, eventSubscriptionTypeBillingPeriodPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, eventSubscriptionTypeBillingPeriodPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *EventSubscription) validateBillingPeriod(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingPeriod) { // not required
 		return nil
 	}
@@ -227,7 +228,6 @@ func (m *EventSubscription) validateBillingPeriod(formats strfmt.Registry) error
 }
 
 func (m *EventSubscription) validateEffectiveDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EffectiveDate) { // not required
 		return nil
 	}
@@ -240,7 +240,6 @@ func (m *EventSubscription) validateEffectiveDate(formats strfmt.Registry) error
 }
 
 func (m *EventSubscription) validateEventID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EventID) { // not required
 		return nil
 	}
@@ -327,14 +326,13 @@ func (e EventSubscriptionEventTypeEnum) IsValid() bool {
 
 // prop value enum
 func (m *EventSubscription) validateEventTypeEnum(path, location string, value EventSubscriptionEventTypeEnum) error {
-	if err := validate.Enum(path, location, value, eventSubscriptionTypeEventTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, eventSubscriptionTypeEventTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *EventSubscription) validateEventType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EventType) { // not required
 		return nil
 	}
@@ -342,6 +340,40 @@ func (m *EventSubscription) validateEventType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateEventTypeEnum("eventType", "body", m.EventType); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this event subscription based on the context it is used
+func (m *EventSubscription) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *EventSubscription) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AuditLogs); i++ {
+
+		if m.AuditLogs[i] != nil {
+			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

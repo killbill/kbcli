@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // UploadPluginPaymentStateMachineConfigReader is a Reader for the UploadPluginPaymentStateMachineConfig structure.
@@ -48,17 +47,51 @@ func NewUploadPluginPaymentStateMachineConfigCreated() *UploadPluginPaymentState
 	return &UploadPluginPaymentStateMachineConfigCreated{}
 }
 
-/*UploadPluginPaymentStateMachineConfigCreated handles this case with default header values.
+/*
+UploadPluginPaymentStateMachineConfigCreated describes a response with status code 201, with default header values.
 
 Per tenant state machine uploaded successfully
 */
 type UploadPluginPaymentStateMachineConfigCreated struct {
-	Payload *kbmodel.TenantKeyValue
-
+	Payload      *kbmodel.TenantKeyValue
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the upload plugin payment state machine config created response
+func (o *UploadPluginPaymentStateMachineConfigCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this upload plugin payment state machine config created response has a 2xx status code
+func (o *UploadPluginPaymentStateMachineConfigCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this upload plugin payment state machine config created response has a 3xx status code
+func (o *UploadPluginPaymentStateMachineConfigCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this upload plugin payment state machine config created response has a 4xx status code
+func (o *UploadPluginPaymentStateMachineConfigCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this upload plugin payment state machine config created response has a 5xx status code
+func (o *UploadPluginPaymentStateMachineConfigCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this upload plugin payment state machine config created response a status code equal to that given
+func (o *UploadPluginPaymentStateMachineConfigCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *UploadPluginPaymentStateMachineConfigCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}][%d] uploadPluginPaymentStateMachineConfigCreated  %+v", 201, o.Payload)
+}
+
+func (o *UploadPluginPaymentStateMachineConfigCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}][%d] uploadPluginPaymentStateMachineConfigCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewUploadPluginPaymentStateMachineConfigBadRequest() *UploadPluginPaymentSt
 	return &UploadPluginPaymentStateMachineConfigBadRequest{}
 }
 
-/*UploadPluginPaymentStateMachineConfigBadRequest handles this case with default header values.
+/*
+UploadPluginPaymentStateMachineConfigBadRequest describes a response with status code 400, with default header values.
 
 Invalid tenantId supplied
 */
@@ -91,7 +125,41 @@ type UploadPluginPaymentStateMachineConfigBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the upload plugin payment state machine config bad request response
+func (o *UploadPluginPaymentStateMachineConfigBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this upload plugin payment state machine config bad request response has a 2xx status code
+func (o *UploadPluginPaymentStateMachineConfigBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this upload plugin payment state machine config bad request response has a 3xx status code
+func (o *UploadPluginPaymentStateMachineConfigBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this upload plugin payment state machine config bad request response has a 4xx status code
+func (o *UploadPluginPaymentStateMachineConfigBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this upload plugin payment state machine config bad request response has a 5xx status code
+func (o *UploadPluginPaymentStateMachineConfigBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this upload plugin payment state machine config bad request response a status code equal to that given
+func (o *UploadPluginPaymentStateMachineConfigBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *UploadPluginPaymentStateMachineConfigBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}][%d] uploadPluginPaymentStateMachineConfigBadRequest ", 400)
+}
+
+func (o *UploadPluginPaymentStateMachineConfigBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}][%d] uploadPluginPaymentStateMachineConfigBadRequest ", 400)
 }
 

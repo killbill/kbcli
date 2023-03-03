@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateExternalChargesReader is a Reader for the CreateExternalCharges structure.
@@ -48,17 +47,51 @@ func NewCreateExternalChargesCreated() *CreateExternalChargesCreated {
 	return &CreateExternalChargesCreated{}
 }
 
-/*CreateExternalChargesCreated handles this case with default header values.
+/*
+CreateExternalChargesCreated describes a response with status code 201, with default header values.
 
 Created external charge Successfully
 */
 type CreateExternalChargesCreated struct {
-	Payload []*kbmodel.InvoiceItem
-
+	Payload      []*kbmodel.InvoiceItem
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create external charges created response
+func (o *CreateExternalChargesCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create external charges created response has a 2xx status code
+func (o *CreateExternalChargesCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create external charges created response has a 3xx status code
+func (o *CreateExternalChargesCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create external charges created response has a 4xx status code
+func (o *CreateExternalChargesCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create external charges created response has a 5xx status code
+func (o *CreateExternalChargesCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create external charges created response a status code equal to that given
+func (o *CreateExternalChargesCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateExternalChargesCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/charges/{accountId}][%d] createExternalChargesCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateExternalChargesCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/charges/{accountId}][%d] createExternalChargesCreated  %+v", 201, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewCreateExternalChargesBadRequest() *CreateExternalChargesBadRequest {
 	return &CreateExternalChargesBadRequest{}
 }
 
-/*CreateExternalChargesBadRequest handles this case with default header values.
+/*
+CreateExternalChargesBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -89,7 +123,41 @@ type CreateExternalChargesBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create external charges bad request response
+func (o *CreateExternalChargesBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create external charges bad request response has a 2xx status code
+func (o *CreateExternalChargesBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create external charges bad request response has a 3xx status code
+func (o *CreateExternalChargesBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create external charges bad request response has a 4xx status code
+func (o *CreateExternalChargesBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create external charges bad request response has a 5xx status code
+func (o *CreateExternalChargesBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create external charges bad request response a status code equal to that given
+func (o *CreateExternalChargesBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateExternalChargesBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/charges/{accountId}][%d] createExternalChargesBadRequest ", 400)
+}
+
+func (o *CreateExternalChargesBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/charges/{accountId}][%d] createExternalChargesBadRequest ", 400)
 }
 
@@ -103,7 +171,8 @@ func NewCreateExternalChargesNotFound() *CreateExternalChargesNotFound {
 	return &CreateExternalChargesNotFound{}
 }
 
-/*CreateExternalChargesNotFound handles this case with default header values.
+/*
+CreateExternalChargesNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
@@ -111,7 +180,41 @@ type CreateExternalChargesNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create external charges not found response
+func (o *CreateExternalChargesNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this create external charges not found response has a 2xx status code
+func (o *CreateExternalChargesNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create external charges not found response has a 3xx status code
+func (o *CreateExternalChargesNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create external charges not found response has a 4xx status code
+func (o *CreateExternalChargesNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create external charges not found response has a 5xx status code
+func (o *CreateExternalChargesNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create external charges not found response a status code equal to that given
+func (o *CreateExternalChargesNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *CreateExternalChargesNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/charges/{accountId}][%d] createExternalChargesNotFound ", 404)
+}
+
+func (o *CreateExternalChargesNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/charges/{accountId}][%d] createExternalChargesNotFound ", 404)
 }
 

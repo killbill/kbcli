@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // CompleteTransactionReader is a Reader for the CompleteTransaction structure.
@@ -46,7 +45,8 @@ func NewCompleteTransactionNoContent() *CompleteTransactionNoContent {
 	return &CompleteTransactionNoContent{}
 }
 
-/*CompleteTransactionNoContent handles this case with default header values.
+/*
+CompleteTransactionNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type CompleteTransactionNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the complete transaction no content response
+func (o *CompleteTransactionNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this complete transaction no content response has a 2xx status code
+func (o *CompleteTransactionNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this complete transaction no content response has a 3xx status code
+func (o *CompleteTransactionNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction no content response has a 4xx status code
+func (o *CompleteTransactionNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this complete transaction no content response has a 5xx status code
+func (o *CompleteTransactionNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this complete transaction no content response a status code equal to that given
+func (o *CompleteTransactionNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *CompleteTransactionNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionNoContent ", 204)
+}
+
+func (o *CompleteTransactionNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewCompleteTransactionBadRequest() *CompleteTransactionBadRequest {
 	return &CompleteTransactionBadRequest{}
 }
 
-/*CompleteTransactionBadRequest handles this case with default header values.
+/*
+CompleteTransactionBadRequest describes a response with status code 400, with default header values.
 
 Invalid paymentId supplied
 */
@@ -76,7 +111,41 @@ type CompleteTransactionBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the complete transaction bad request response
+func (o *CompleteTransactionBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this complete transaction bad request response has a 2xx status code
+func (o *CompleteTransactionBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction bad request response has a 3xx status code
+func (o *CompleteTransactionBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction bad request response has a 4xx status code
+func (o *CompleteTransactionBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this complete transaction bad request response has a 5xx status code
+func (o *CompleteTransactionBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this complete transaction bad request response a status code equal to that given
+func (o *CompleteTransactionBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CompleteTransactionBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionBadRequest ", 400)
+}
+
+func (o *CompleteTransactionBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionBadRequest ", 400)
 }
 
@@ -90,7 +159,8 @@ func NewCompleteTransactionPaymentRequired() *CompleteTransactionPaymentRequired
 	return &CompleteTransactionPaymentRequired{}
 }
 
-/*CompleteTransactionPaymentRequired handles this case with default header values.
+/*
+CompleteTransactionPaymentRequired describes a response with status code 402, with default header values.
 
 Transaction declined by gateway
 */
@@ -98,7 +168,41 @@ type CompleteTransactionPaymentRequired struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the complete transaction payment required response
+func (o *CompleteTransactionPaymentRequired) Code() int {
+	return 402
+}
+
+// IsSuccess returns true when this complete transaction payment required response has a 2xx status code
+func (o *CompleteTransactionPaymentRequired) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction payment required response has a 3xx status code
+func (o *CompleteTransactionPaymentRequired) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction payment required response has a 4xx status code
+func (o *CompleteTransactionPaymentRequired) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this complete transaction payment required response has a 5xx status code
+func (o *CompleteTransactionPaymentRequired) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this complete transaction payment required response a status code equal to that given
+func (o *CompleteTransactionPaymentRequired) IsCode(code int) bool {
+	return code == 402
+}
+
 func (o *CompleteTransactionPaymentRequired) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionPaymentRequired ", 402)
+}
+
+func (o *CompleteTransactionPaymentRequired) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionPaymentRequired ", 402)
 }
 
@@ -112,7 +216,8 @@ func NewCompleteTransactionNotFound() *CompleteTransactionNotFound {
 	return &CompleteTransactionNotFound{}
 }
 
-/*CompleteTransactionNotFound handles this case with default header values.
+/*
+CompleteTransactionNotFound describes a response with status code 404, with default header values.
 
 Account or payment not found
 */
@@ -120,7 +225,41 @@ type CompleteTransactionNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the complete transaction not found response
+func (o *CompleteTransactionNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this complete transaction not found response has a 2xx status code
+func (o *CompleteTransactionNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction not found response has a 3xx status code
+func (o *CompleteTransactionNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction not found response has a 4xx status code
+func (o *CompleteTransactionNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this complete transaction not found response has a 5xx status code
+func (o *CompleteTransactionNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this complete transaction not found response a status code equal to that given
+func (o *CompleteTransactionNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *CompleteTransactionNotFound) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionNotFound ", 404)
+}
+
+func (o *CompleteTransactionNotFound) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionNotFound ", 404)
 }
 
@@ -134,7 +273,8 @@ func NewCompleteTransactionUnprocessableEntity() *CompleteTransactionUnprocessab
 	return &CompleteTransactionUnprocessableEntity{}
 }
 
-/*CompleteTransactionUnprocessableEntity handles this case with default header values.
+/*
+CompleteTransactionUnprocessableEntity describes a response with status code 422, with default header values.
 
 Payment is aborted by a control plugin
 */
@@ -142,7 +282,41 @@ type CompleteTransactionUnprocessableEntity struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the complete transaction unprocessable entity response
+func (o *CompleteTransactionUnprocessableEntity) Code() int {
+	return 422
+}
+
+// IsSuccess returns true when this complete transaction unprocessable entity response has a 2xx status code
+func (o *CompleteTransactionUnprocessableEntity) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction unprocessable entity response has a 3xx status code
+func (o *CompleteTransactionUnprocessableEntity) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction unprocessable entity response has a 4xx status code
+func (o *CompleteTransactionUnprocessableEntity) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this complete transaction unprocessable entity response has a 5xx status code
+func (o *CompleteTransactionUnprocessableEntity) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this complete transaction unprocessable entity response a status code equal to that given
+func (o *CompleteTransactionUnprocessableEntity) IsCode(code int) bool {
+	return code == 422
+}
+
 func (o *CompleteTransactionUnprocessableEntity) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionUnprocessableEntity ", 422)
+}
+
+func (o *CompleteTransactionUnprocessableEntity) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionUnprocessableEntity ", 422)
 }
 
@@ -156,7 +330,8 @@ func NewCompleteTransactionBadGateway() *CompleteTransactionBadGateway {
 	return &CompleteTransactionBadGateway{}
 }
 
-/*CompleteTransactionBadGateway handles this case with default header values.
+/*
+CompleteTransactionBadGateway describes a response with status code 502, with default header values.
 
 Failed to submit payment transaction
 */
@@ -164,7 +339,41 @@ type CompleteTransactionBadGateway struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the complete transaction bad gateway response
+func (o *CompleteTransactionBadGateway) Code() int {
+	return 502
+}
+
+// IsSuccess returns true when this complete transaction bad gateway response has a 2xx status code
+func (o *CompleteTransactionBadGateway) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction bad gateway response has a 3xx status code
+func (o *CompleteTransactionBadGateway) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction bad gateway response has a 4xx status code
+func (o *CompleteTransactionBadGateway) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this complete transaction bad gateway response has a 5xx status code
+func (o *CompleteTransactionBadGateway) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this complete transaction bad gateway response a status code equal to that given
+func (o *CompleteTransactionBadGateway) IsCode(code int) bool {
+	return code == 502
+}
+
 func (o *CompleteTransactionBadGateway) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionBadGateway ", 502)
+}
+
+func (o *CompleteTransactionBadGateway) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionBadGateway ", 502)
 }
 
@@ -178,7 +387,8 @@ func NewCompleteTransactionServiceUnavailable() *CompleteTransactionServiceUnava
 	return &CompleteTransactionServiceUnavailable{}
 }
 
-/*CompleteTransactionServiceUnavailable handles this case with default header values.
+/*
+CompleteTransactionServiceUnavailable describes a response with status code 503, with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
@@ -186,7 +396,41 @@ type CompleteTransactionServiceUnavailable struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the complete transaction service unavailable response
+func (o *CompleteTransactionServiceUnavailable) Code() int {
+	return 503
+}
+
+// IsSuccess returns true when this complete transaction service unavailable response has a 2xx status code
+func (o *CompleteTransactionServiceUnavailable) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction service unavailable response has a 3xx status code
+func (o *CompleteTransactionServiceUnavailable) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction service unavailable response has a 4xx status code
+func (o *CompleteTransactionServiceUnavailable) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this complete transaction service unavailable response has a 5xx status code
+func (o *CompleteTransactionServiceUnavailable) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this complete transaction service unavailable response a status code equal to that given
+func (o *CompleteTransactionServiceUnavailable) IsCode(code int) bool {
+	return code == 503
+}
+
 func (o *CompleteTransactionServiceUnavailable) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionServiceUnavailable ", 503)
+}
+
+func (o *CompleteTransactionServiceUnavailable) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionServiceUnavailable ", 503)
 }
 
@@ -200,7 +444,8 @@ func NewCompleteTransactionGatewayTimeout() *CompleteTransactionGatewayTimeout {
 	return &CompleteTransactionGatewayTimeout{}
 }
 
-/*CompleteTransactionGatewayTimeout handles this case with default header values.
+/*
+CompleteTransactionGatewayTimeout describes a response with status code 504, with default header values.
 
 Payment operation timeout
 */
@@ -208,7 +453,41 @@ type CompleteTransactionGatewayTimeout struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the complete transaction gateway timeout response
+func (o *CompleteTransactionGatewayTimeout) Code() int {
+	return 504
+}
+
+// IsSuccess returns true when this complete transaction gateway timeout response has a 2xx status code
+func (o *CompleteTransactionGatewayTimeout) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this complete transaction gateway timeout response has a 3xx status code
+func (o *CompleteTransactionGatewayTimeout) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this complete transaction gateway timeout response has a 4xx status code
+func (o *CompleteTransactionGatewayTimeout) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this complete transaction gateway timeout response has a 5xx status code
+func (o *CompleteTransactionGatewayTimeout) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this complete transaction gateway timeout response a status code equal to that given
+func (o *CompleteTransactionGatewayTimeout) IsCode(code int) bool {
+	return code == 504
+}
+
 func (o *CompleteTransactionGatewayTimeout) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionGatewayTimeout ", 504)
+}
+
+func (o *CompleteTransactionGatewayTimeout) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/payments/{paymentId}][%d] completeTransactionGatewayTimeout ", 504)
 }
 

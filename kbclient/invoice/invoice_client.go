@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new invoice API client.
@@ -49,172 +48,78 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IInvoice - interface for Invoice client.
-type IInvoice interface {
-	/*
-		AdjustInvoiceItem adjusts an invoice item
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	AdjustInvoiceItem(ctx context.Context, params *AdjustInvoiceItemParams) (*AdjustInvoiceItemCreated, error)
 
-	/*
-		CommitInvoice performs the invoice status transition from d r a f t to c o m m i t t e d
-	*/
 	CommitInvoice(ctx context.Context, params *CommitInvoiceParams) (*CommitInvoiceNoContent, error)
 
-	/*
-		CreateExternalCharges creates external charge s
-	*/
 	CreateExternalCharges(ctx context.Context, params *CreateExternalChargesParams) (*CreateExternalChargesCreated, error)
 
-	/*
-		CreateFutureInvoice triggers an invoice generation
-	*/
 	CreateFutureInvoice(ctx context.Context, params *CreateFutureInvoiceParams) (*CreateFutureInvoiceCreated, error)
 
-	/*
-		CreateInstantPayment triggers a payment for invoice
-	*/
 	CreateInstantPayment(ctx context.Context, params *CreateInstantPaymentParams) (*CreateInstantPaymentCreated, *CreateInstantPaymentNoContent, error)
 
-	/*
-		CreateInvoiceCustomFields adds custom fields to invoice
-	*/
 	CreateInvoiceCustomFields(ctx context.Context, params *CreateInvoiceCustomFieldsParams) (*CreateInvoiceCustomFieldsCreated, error)
 
-	/*
-		CreateInvoiceTags adds tags to invoice
-	*/
 	CreateInvoiceTags(ctx context.Context, params *CreateInvoiceTagsParams) (*CreateInvoiceTagsCreated, error)
 
-	/*
-		CreateMigrationInvoice creates a migration invoice
-	*/
 	CreateMigrationInvoice(ctx context.Context, params *CreateMigrationInvoiceParams) (*CreateMigrationInvoiceCreated, error)
 
-	/*
-		CreateTaxItems creates tax items
-	*/
 	CreateTaxItems(ctx context.Context, params *CreateTaxItemsParams) (*CreateTaxItemsCreated, error)
 
-	/*
-		DeleteCBA deletes a c b a item
-	*/
 	DeleteCBA(ctx context.Context, params *DeleteCBAParams) (*DeleteCBANoContent, error)
 
-	/*
-		DeleteInvoiceCustomFields removes custom fields from invoice
-	*/
 	DeleteInvoiceCustomFields(ctx context.Context, params *DeleteInvoiceCustomFieldsParams) (*DeleteInvoiceCustomFieldsNoContent, error)
 
-	/*
-		DeleteInvoiceTags removes tags from invoice
-	*/
 	DeleteInvoiceTags(ctx context.Context, params *DeleteInvoiceTagsParams) (*DeleteInvoiceTagsNoContent, error)
 
-	/*
-		GenerateDryRunInvoice generates a dry run invoice
-	*/
 	GenerateDryRunInvoice(ctx context.Context, params *GenerateDryRunInvoiceParams) (*GenerateDryRunInvoiceOK, *GenerateDryRunInvoiceNoContent, error)
 
-	/*
-		GetCatalogTranslation retrieves the catalog translation for the tenant
-	*/
 	GetCatalogTranslation(ctx context.Context, params *GetCatalogTranslationParams) (*GetCatalogTranslationOK, error)
 
-	/*
-		GetInvoice retrieves an invoice by id
-	*/
 	GetInvoice(ctx context.Context, params *GetInvoiceParams) (*GetInvoiceOK, error)
 
-	/*
-		GetInvoiceAsHTML renders an invoice as HTML
-	*/
 	GetInvoiceAsHTML(ctx context.Context, params *GetInvoiceAsHTMLParams) (*GetInvoiceAsHTMLOK, error)
 
-	/*
-		GetInvoiceAuditLogsWithHistory retrieves invoice audit logs with history by id
-	*/
 	GetInvoiceAuditLogsWithHistory(ctx context.Context, params *GetInvoiceAuditLogsWithHistoryParams) (*GetInvoiceAuditLogsWithHistoryOK, error)
 
-	/*
-		GetInvoiceByItemID retrieves an invoice by invoice item id
-	*/
 	GetInvoiceByItemID(ctx context.Context, params *GetInvoiceByItemIDParams) (*GetInvoiceByItemIDOK, error)
 
-	/*
-		GetInvoiceByNumber retrieves an invoice by number
-	*/
 	GetInvoiceByNumber(ctx context.Context, params *GetInvoiceByNumberParams) (*GetInvoiceByNumberOK, error)
 
-	/*
-		GetInvoiceCustomFields retrieves invoice custom fields
-	*/
 	GetInvoiceCustomFields(ctx context.Context, params *GetInvoiceCustomFieldsParams) (*GetInvoiceCustomFieldsOK, error)
 
-	/*
-		GetInvoiceMPTemplate retrieves the manual pay invoice template for the tenant
-	*/
 	GetInvoiceMPTemplate(ctx context.Context, params *GetInvoiceMPTemplateParams) (*GetInvoiceMPTemplateOK, error)
 
-	/*
-		GetInvoiceTags retrieves invoice tags
-	*/
 	GetInvoiceTags(ctx context.Context, params *GetInvoiceTagsParams) (*GetInvoiceTagsOK, error)
 
-	/*
-		GetInvoiceTemplate retrieves the invoice template for the tenant
-	*/
 	GetInvoiceTemplate(ctx context.Context, params *GetInvoiceTemplateParams) (*GetInvoiceTemplateOK, error)
 
-	/*
-		GetInvoiceTranslation retrieves the invoice translation for the tenant
-	*/
 	GetInvoiceTranslation(ctx context.Context, params *GetInvoiceTranslationParams) (*GetInvoiceTranslationOK, error)
 
-	/*
-		GetInvoices lists invoices
-	*/
 	GetInvoices(ctx context.Context, params *GetInvoicesParams) (*GetInvoicesOK, error)
 
-	/*
-		GetPaymentsForInvoice retrieves payments associated with an invoice
-	*/
 	GetPaymentsForInvoice(ctx context.Context, params *GetPaymentsForInvoiceParams) (*GetPaymentsForInvoiceOK, error)
 
-	/*
-		ModifyInvoiceCustomFields modifies custom fields to invoice
-	*/
 	ModifyInvoiceCustomFields(ctx context.Context, params *ModifyInvoiceCustomFieldsParams) (*ModifyInvoiceCustomFieldsNoContent, error)
 
-	/*
-		SearchInvoices searches invoices
-	*/
 	SearchInvoices(ctx context.Context, params *SearchInvoicesParams) (*SearchInvoicesOK, error)
 
-	/*
-		UploadCatalogTranslation uploads the catalog translation for the tenant
-	*/
 	UploadCatalogTranslation(ctx context.Context, params *UploadCatalogTranslationParams) (*UploadCatalogTranslationCreated, error)
 
-	/*
-		UploadInvoiceMPTemplate uploads the manual pay invoice template for the tenant
-	*/
 	UploadInvoiceMPTemplate(ctx context.Context, params *UploadInvoiceMPTemplateParams) (*UploadInvoiceMPTemplateOK, error)
 
-	/*
-		UploadInvoiceTemplate uploads the invoice template for the tenant
-	*/
 	UploadInvoiceTemplate(ctx context.Context, params *UploadInvoiceTemplateParams) (*UploadInvoiceTemplateCreated, error)
 
-	/*
-		UploadInvoiceTranslation uploads the invoice translation for the tenant
-	*/
 	UploadInvoiceTranslation(ctx context.Context, params *UploadInvoiceTranslationParams) (*UploadInvoiceTranslationCreated, error)
 
-	/*
-		VoidInvoice performs the action of voiding an invoice
-	*/
 	VoidInvoice(ctx context.Context, params *VoidInvoiceParams) (*VoidInvoiceNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -249,7 +154,7 @@ func (a *Client) AdjustInvoiceItem(ctx context.Context, params *AdjustInvoiceIte
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "adjustInvoiceItem",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}",
@@ -261,7 +166,9 @@ func (a *Client) AdjustInvoiceItem(ctx context.Context, params *AdjustInvoiceIte
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -320,7 +227,7 @@ func (a *Client) CommitInvoice(ctx context.Context, params *CommitInvoiceParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "commitInvoice",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/commitInvoice",
@@ -332,7 +239,9 @@ func (a *Client) CommitInvoice(ctx context.Context, params *CommitInvoiceParams)
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -379,7 +288,7 @@ func (a *Client) CreateExternalCharges(ctx context.Context, params *CreateExtern
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createExternalCharges",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/charges/{accountId}",
@@ -391,7 +300,9 @@ func (a *Client) CreateExternalCharges(ctx context.Context, params *CreateExtern
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -453,7 +364,7 @@ func (a *Client) CreateFutureInvoice(ctx context.Context, params *CreateFutureIn
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createFutureInvoice",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices",
@@ -465,7 +376,9 @@ func (a *Client) CreateFutureInvoice(ctx context.Context, params *CreateFutureIn
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -524,7 +437,7 @@ func (a *Client) CreateInstantPayment(ctx context.Context, params *CreateInstant
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createInstantPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/payments",
@@ -536,7 +449,9 @@ func (a *Client) CreateInstantPayment(ctx context.Context, params *CreateInstant
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -584,7 +499,7 @@ func (a *Client) CreateInvoiceCustomFields(ctx context.Context, params *CreateIn
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createInvoiceCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/customFields",
@@ -596,7 +511,9 @@ func (a *Client) CreateInvoiceCustomFields(ctx context.Context, params *CreateIn
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -658,7 +575,7 @@ func (a *Client) CreateInvoiceTags(ctx context.Context, params *CreateInvoiceTag
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createInvoiceTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/tags",
@@ -670,7 +587,9 @@ func (a *Client) CreateInvoiceTags(ctx context.Context, params *CreateInvoiceTag
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -732,7 +651,7 @@ func (a *Client) CreateMigrationInvoice(ctx context.Context, params *CreateMigra
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createMigrationInvoice",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/migration/{accountId}",
@@ -744,7 +663,9 @@ func (a *Client) CreateMigrationInvoice(ctx context.Context, params *CreateMigra
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -806,7 +727,7 @@ func (a *Client) CreateTaxItems(ctx context.Context, params *CreateTaxItemsParam
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createTaxItems",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/taxes/{accountId}",
@@ -818,7 +739,9 @@ func (a *Client) CreateTaxItems(ctx context.Context, params *CreateTaxItemsParam
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -877,7 +800,7 @@ func (a *Client) DeleteCBA(ctx context.Context, params *DeleteCBAParams) (*Delet
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteCBA",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/{invoiceItemId}/cba",
@@ -889,7 +812,9 @@ func (a *Client) DeleteCBA(ctx context.Context, params *DeleteCBAParams) (*Delet
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -933,7 +858,7 @@ func (a *Client) DeleteInvoiceCustomFields(ctx context.Context, params *DeleteIn
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteInvoiceCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/customFields",
@@ -945,7 +870,9 @@ func (a *Client) DeleteInvoiceCustomFields(ctx context.Context, params *DeleteIn
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -989,7 +916,7 @@ func (a *Client) DeleteInvoiceTags(ctx context.Context, params *DeleteInvoiceTag
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteInvoiceTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/tags",
@@ -1001,7 +928,9 @@ func (a *Client) DeleteInvoiceTags(ctx context.Context, params *DeleteInvoiceTag
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1045,7 +974,7 @@ func (a *Client) GenerateDryRunInvoice(ctx context.Context, params *GenerateDryR
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "generateDryRunInvoice",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/dryRun",
@@ -1057,7 +986,9 @@ func (a *Client) GenerateDryRunInvoice(ctx context.Context, params *GenerateDryR
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1090,19 +1021,21 @@ func (a *Client) GetCatalogTranslation(ctx context.Context, params *GetCatalogTr
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCatalogTranslation",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/catalogTranslation/{locale}",
 		ProducesMediaTypes: []string{"text/plain"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCatalogTranslationReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1134,19 +1067,21 @@ func (a *Client) GetInvoice(ctx context.Context, params *GetInvoiceParams) (*Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoice",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1178,19 +1113,21 @@ func (a *Client) GetInvoiceAsHTML(ctx context.Context, params *GetInvoiceAsHTMLP
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceAsHTML",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/html",
 		ProducesMediaTypes: []string{"text/html"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceAsHTMLReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1222,19 +1159,21 @@ func (a *Client) GetInvoiceAuditLogsWithHistory(ctx context.Context, params *Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1266,19 +1205,21 @@ func (a *Client) GetInvoiceByItemID(ctx context.Context, params *GetInvoiceByIte
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceByItemId",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/byItemId/{itemId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceByItemIDReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1310,19 +1251,21 @@ func (a *Client) GetInvoiceByNumber(ctx context.Context, params *GetInvoiceByNum
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceByNumber",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/byNumber/{invoiceNumber}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceByNumberReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1354,19 +1297,21 @@ func (a *Client) GetInvoiceCustomFields(ctx context.Context, params *GetInvoiceC
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1398,19 +1343,21 @@ func (a *Client) GetInvoiceMPTemplate(ctx context.Context, params *GetInvoiceMPT
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceMPTemplate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/manualPayTemplate/{locale}",
 		ProducesMediaTypes: []string{"text/html"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceMPTemplateReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1442,19 +1389,21 @@ func (a *Client) GetInvoiceTags(ctx context.Context, params *GetInvoiceTagsParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1486,19 +1435,21 @@ func (a *Client) GetInvoiceTemplate(ctx context.Context, params *GetInvoiceTempl
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceTemplate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/template",
 		ProducesMediaTypes: []string{"text/html"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceTemplateReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1530,19 +1481,21 @@ func (a *Client) GetInvoiceTranslation(ctx context.Context, params *GetInvoiceTr
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceTranslation",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/translation/{locale}",
 		ProducesMediaTypes: []string{"text/plain"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceTranslationReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1574,19 +1527,21 @@ func (a *Client) GetInvoices(ctx context.Context, params *GetInvoicesParams) (*G
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoices",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoicesReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1618,19 +1573,21 @@ func (a *Client) GetPaymentsForInvoice(ctx context.Context, params *GetPaymentsF
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentsForInvoice",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/payments",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentsForInvoiceReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1674,7 +1631,7 @@ func (a *Client) ModifyInvoiceCustomFields(ctx context.Context, params *ModifyIn
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifyInvoiceCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/customFields",
@@ -1686,7 +1643,9 @@ func (a *Client) ModifyInvoiceCustomFields(ctx context.Context, params *ModifyIn
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1718,19 +1677,21 @@ func (a *Client) SearchInvoices(ctx context.Context, params *SearchInvoicesParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchInvoices",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoices/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchInvoicesReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1777,7 +1738,7 @@ func (a *Client) UploadCatalogTranslation(ctx context.Context, params *UploadCat
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadCatalogTranslation",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/catalogTranslation/{locale}",
@@ -1789,7 +1750,9 @@ func (a *Client) UploadCatalogTranslation(ctx context.Context, params *UploadCat
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1848,7 +1811,7 @@ func (a *Client) UploadInvoiceMPTemplate(ctx context.Context, params *UploadInvo
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadInvoiceMPTemplate",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/manualPayTemplate",
@@ -1860,7 +1823,9 @@ func (a *Client) UploadInvoiceMPTemplate(ctx context.Context, params *UploadInvo
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1907,7 +1872,7 @@ func (a *Client) UploadInvoiceTemplate(ctx context.Context, params *UploadInvoic
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadInvoiceTemplate",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/template",
@@ -1919,7 +1884,9 @@ func (a *Client) UploadInvoiceTemplate(ctx context.Context, params *UploadInvoic
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1981,7 +1948,7 @@ func (a *Client) UploadInvoiceTranslation(ctx context.Context, params *UploadInv
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadInvoiceTranslation",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoices/translation/{locale}",
@@ -1993,7 +1960,9 @@ func (a *Client) UploadInvoiceTranslation(ctx context.Context, params *UploadInv
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -2052,7 +2021,7 @@ func (a *Client) VoidInvoice(ctx context.Context, params *VoidInvoiceParams) (*V
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "voidInvoice",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/invoices/{invoiceId}/voidInvoice",
@@ -2064,7 +2033,9 @@ func (a *Client) VoidInvoice(ctx context.Context, params *VoidInvoiceParams) (*V
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

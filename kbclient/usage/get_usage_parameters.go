@@ -13,61 +13,70 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetUsageParams creates a new GetUsageParams object
-// with the default values initialized.
+// NewGetUsageParams creates a new GetUsageParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetUsageParams() *GetUsageParams {
-	var ()
 	return &GetUsageParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetUsageParamsWithTimeout creates a new GetUsageParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetUsageParamsWithTimeout(timeout time.Duration) *GetUsageParams {
-	var ()
 	return &GetUsageParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetUsageParamsWithContext creates a new GetUsageParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetUsageParamsWithContext(ctx context.Context) *GetUsageParams {
-	var ()
 	return &GetUsageParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetUsageParamsWithHTTPClient creates a new GetUsageParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetUsageParamsWithHTTPClient(client *http.Client) *GetUsageParams {
-	var ()
 	return &GetUsageParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetUsageParams contains all the parameters to send to the API endpoint
-for the get usage operation typically these are written to a http.Request
+/*
+GetUsageParams contains all the parameters to send to the API endpoint
+
+	for the get usage operation.
+
+	Typically these are written to a http.Request.
 */
 type GetUsageParams struct {
 
-	/*EndDate*/
+	// EndDate.
+	//
+	// Format: date
 	EndDate *strfmt.Date
-	/*StartDate*/
+
+	// StartDate.
+	//
+	// Format: date
 	StartDate *strfmt.Date
-	/*SubscriptionID*/
+
+	// SubscriptionID.
+	//
+	// Format: uuid
 	SubscriptionID strfmt.UUID
-	/*UnitType*/
+
+	// UnitType.
 	UnitType string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -76,6 +85,21 @@ type GetUsageParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get usage params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetUsageParams) WithDefaults() *GetUsageParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get usage params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetUsageParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get usage params
@@ -167,32 +191,34 @@ func (o *GetUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regi
 
 		// query param endDate
 		var qrEndDate strfmt.Date
+
 		if o.EndDate != nil {
 			qrEndDate = *o.EndDate
 		}
 		qEndDate := qrEndDate.String()
 		if qEndDate != "" {
+
 			if err := r.SetQueryParam("endDate", qEndDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.StartDate != nil {
 
 		// query param startDate
 		var qrStartDate strfmt.Date
+
 		if o.StartDate != nil {
 			qrStartDate = *o.StartDate
 		}
 		qStartDate := qrStartDate.String()
 		if qStartDate != "" {
+
 			if err := r.SetQueryParam("startDate", qStartDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param subscriptionId

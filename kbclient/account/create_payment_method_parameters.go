@@ -13,94 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreatePaymentMethodParams creates a new CreatePaymentMethodParams object
-// with the default values initialized.
+// NewCreatePaymentMethodParams creates a new CreatePaymentMethodParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreatePaymentMethodParams() *CreatePaymentMethodParams {
-	var (
-		isDefaultDefault            = bool(false)
-		payAllUnpaidInvoicesDefault = bool(false)
-	)
 	return &CreatePaymentMethodParams{
-		IsDefault:            &isDefaultDefault,
-		PayAllUnpaidInvoices: &payAllUnpaidInvoicesDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreatePaymentMethodParamsWithTimeout creates a new CreatePaymentMethodParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreatePaymentMethodParamsWithTimeout(timeout time.Duration) *CreatePaymentMethodParams {
-	var (
-		isDefaultDefault            = bool(false)
-		payAllUnpaidInvoicesDefault = bool(false)
-	)
 	return &CreatePaymentMethodParams{
-		IsDefault:            &isDefaultDefault,
-		PayAllUnpaidInvoices: &payAllUnpaidInvoicesDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewCreatePaymentMethodParamsWithContext creates a new CreatePaymentMethodParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreatePaymentMethodParamsWithContext(ctx context.Context) *CreatePaymentMethodParams {
-	var (
-		isDefaultDefault            = bool(false)
-		payAllUnpaidInvoicesDefault = bool(false)
-	)
 	return &CreatePaymentMethodParams{
-		IsDefault:            &isDefaultDefault,
-		PayAllUnpaidInvoices: &payAllUnpaidInvoicesDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewCreatePaymentMethodParamsWithHTTPClient creates a new CreatePaymentMethodParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreatePaymentMethodParamsWithHTTPClient(client *http.Client) *CreatePaymentMethodParams {
-	var (
-		isDefaultDefault            = bool(false)
-		payAllUnpaidInvoicesDefault = bool(false)
-	)
 	return &CreatePaymentMethodParams{
-		IsDefault:            &isDefaultDefault,
-		PayAllUnpaidInvoices: &payAllUnpaidInvoicesDefault,
-		HTTPClient:           client,
+		HTTPClient: client,
 	}
 }
 
-/*CreatePaymentMethodParams contains all the parameters to send to the API endpoint
-for the create payment method operation typically these are written to a http.Request
+/*
+CreatePaymentMethodParams contains all the parameters to send to the API endpoint
+
+	for the create payment method operation.
+
+	Typically these are written to a http.Request.
 */
 type CreatePaymentMethodParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.PaymentMethod
-	/*ControlPluginName*/
+
+	// ControlPluginName.
 	ControlPluginName []string
-	/*IsDefault*/
+
+	// IsDefault.
 	IsDefault *bool
-	/*PayAllUnpaidInvoices*/
+
+	// PayAllUnpaidInvoices.
 	PayAllUnpaidInvoices *bool
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -109,6 +99,35 @@ type CreatePaymentMethodParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the create payment method params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreatePaymentMethodParams) WithDefaults() *CreatePaymentMethodParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create payment method params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreatePaymentMethodParams) SetDefaults() {
+	var (
+		isDefaultDefault = bool(false)
+
+		payAllUnpaidInvoicesDefault = bool(false)
+	)
+
+	val := CreatePaymentMethodParams{
+		IsDefault:            &isDefaultDefault,
+		PayAllUnpaidInvoices: &payAllUnpaidInvoicesDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the create payment method params
@@ -257,7 +276,6 @@ func (o *CreatePaymentMethodParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -271,66 +289,72 @@ func (o *CreatePaymentMethodParams) WriteToRequest(r runtime.ClientRequest, reg 
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {
 		return err
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	valuesControlPluginName := o.ControlPluginName
+	if o.ControlPluginName != nil {
 
-	joinedControlPluginName := swag.JoinByFormat(valuesControlPluginName, "multi")
-	// query array param controlPluginName
-	if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
-		return err
+		// binding items for controlPluginName
+		joinedControlPluginName := o.bindParamControlPluginName(reg)
+
+		// query array param controlPluginName
+		if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+			return err
+		}
 	}
 
 	if o.IsDefault != nil {
 
 		// query param isDefault
 		var qrIsDefault bool
+
 		if o.IsDefault != nil {
 			qrIsDefault = *o.IsDefault
 		}
 		qIsDefault := swag.FormatBool(qrIsDefault)
 		if qIsDefault != "" {
+
 			if err := r.SetQueryParam("isDefault", qIsDefault); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.PayAllUnpaidInvoices != nil {
 
 		// query param payAllUnpaidInvoices
 		var qrPayAllUnpaidInvoices bool
+
 		if o.PayAllUnpaidInvoices != nil {
 			qrPayAllUnpaidInvoices = *o.PayAllUnpaidInvoices
 		}
 		qPayAllUnpaidInvoices := swag.FormatBool(qrPayAllUnpaidInvoices)
 		if qPayAllUnpaidInvoices != "" {
+
 			if err := r.SetQueryParam("payAllUnpaidInvoices", qPayAllUnpaidInvoices); err != nil {
 				return err
 			}
 		}
-
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	// header param WithProfilingInfo
@@ -351,4 +375,38 @@ func (o *CreatePaymentMethodParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCreatePaymentMethod binds the parameter controlPluginName
+func (o *CreatePaymentMethodParams) bindParamControlPluginName(formats strfmt.Registry) []string {
+	controlPluginNameIR := o.ControlPluginName
+
+	var controlPluginNameIC []string
+	for _, controlPluginNameIIR := range controlPluginNameIR { // explode []string
+
+		controlPluginNameIIV := controlPluginNameIIR // string as string
+		controlPluginNameIC = append(controlPluginNameIC, controlPluginNameIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	controlPluginNameIS := swag.JoinByFormat(controlPluginNameIC, "multi")
+
+	return controlPluginNameIS
+}
+
+// bindParamCreatePaymentMethod binds the parameter pluginProperty
+func (o *CreatePaymentMethodParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

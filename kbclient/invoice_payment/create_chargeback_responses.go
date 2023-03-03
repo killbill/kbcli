@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateChargebackReader is a Reader for the CreateChargeback structure.
@@ -48,17 +47,51 @@ func NewCreateChargebackCreated() *CreateChargebackCreated {
 	return &CreateChargebackCreated{}
 }
 
-/*CreateChargebackCreated handles this case with default header values.
+/*
+CreateChargebackCreated describes a response with status code 201, with default header values.
 
 Created chargeback successfully
 */
 type CreateChargebackCreated struct {
-	Payload *kbmodel.InvoicePayment
-
+	Payload      *kbmodel.InvoicePayment
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create chargeback created response
+func (o *CreateChargebackCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create chargeback created response has a 2xx status code
+func (o *CreateChargebackCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create chargeback created response has a 3xx status code
+func (o *CreateChargebackCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create chargeback created response has a 4xx status code
+func (o *CreateChargebackCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create chargeback created response has a 5xx status code
+func (o *CreateChargebackCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create chargeback created response a status code equal to that given
+func (o *CreateChargebackCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateChargebackCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/chargebacks][%d] createChargebackCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateChargebackCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/chargebacks][%d] createChargebackCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewCreateChargebackBadRequest() *CreateChargebackBadRequest {
 	return &CreateChargebackBadRequest{}
 }
 
-/*CreateChargebackBadRequest handles this case with default header values.
+/*
+CreateChargebackBadRequest describes a response with status code 400, with default header values.
 
 Invalid payment id supplied
 */
@@ -91,7 +125,41 @@ type CreateChargebackBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create chargeback bad request response
+func (o *CreateChargebackBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create chargeback bad request response has a 2xx status code
+func (o *CreateChargebackBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create chargeback bad request response has a 3xx status code
+func (o *CreateChargebackBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create chargeback bad request response has a 4xx status code
+func (o *CreateChargebackBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create chargeback bad request response has a 5xx status code
+func (o *CreateChargebackBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create chargeback bad request response a status code equal to that given
+func (o *CreateChargebackBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateChargebackBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/chargebacks][%d] createChargebackBadRequest ", 400)
+}
+
+func (o *CreateChargebackBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/chargebacks][%d] createChargebackBadRequest ", 400)
 }
 
@@ -105,7 +173,8 @@ func NewCreateChargebackNotFound() *CreateChargebackNotFound {
 	return &CreateChargebackNotFound{}
 }
 
-/*CreateChargebackNotFound handles this case with default header values.
+/*
+CreateChargebackNotFound describes a response with status code 404, with default header values.
 
 Account or payment not found
 */
@@ -113,7 +182,41 @@ type CreateChargebackNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create chargeback not found response
+func (o *CreateChargebackNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this create chargeback not found response has a 2xx status code
+func (o *CreateChargebackNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create chargeback not found response has a 3xx status code
+func (o *CreateChargebackNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create chargeback not found response has a 4xx status code
+func (o *CreateChargebackNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create chargeback not found response has a 5xx status code
+func (o *CreateChargebackNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create chargeback not found response a status code equal to that given
+func (o *CreateChargebackNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *CreateChargebackNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/chargebacks][%d] createChargebackNotFound ", 404)
+}
+
+func (o *CreateChargebackNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/chargebacks][%d] createChargebackNotFound ", 404)
 }
 

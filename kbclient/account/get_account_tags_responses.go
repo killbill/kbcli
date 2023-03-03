@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetAccountTagsReader is a Reader for the GetAccountTags structure.
@@ -48,17 +47,51 @@ func NewGetAccountTagsOK() *GetAccountTagsOK {
 	return &GetAccountTagsOK{}
 }
 
-/*GetAccountTagsOK handles this case with default header values.
+/*
+GetAccountTagsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetAccountTagsOK struct {
-	Payload []*kbmodel.Tag
-
+	Payload      []*kbmodel.Tag
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account tags o k response
+func (o *GetAccountTagsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get account tags o k response has a 2xx status code
+func (o *GetAccountTagsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get account tags o k response has a 3xx status code
+func (o *GetAccountTagsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account tags o k response has a 4xx status code
+func (o *GetAccountTagsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get account tags o k response has a 5xx status code
+func (o *GetAccountTagsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account tags o k response a status code equal to that given
+func (o *GetAccountTagsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetAccountTagsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/tags][%d] getAccountTagsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetAccountTagsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/tags][%d] getAccountTagsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetAccountTagsBadRequest() *GetAccountTagsBadRequest {
 	return &GetAccountTagsBadRequest{}
 }
 
-/*GetAccountTagsBadRequest handles this case with default header values.
+/*
+GetAccountTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -89,7 +123,41 @@ type GetAccountTagsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account tags bad request response
+func (o *GetAccountTagsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get account tags bad request response has a 2xx status code
+func (o *GetAccountTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get account tags bad request response has a 3xx status code
+func (o *GetAccountTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account tags bad request response has a 4xx status code
+func (o *GetAccountTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get account tags bad request response has a 5xx status code
+func (o *GetAccountTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account tags bad request response a status code equal to that given
+func (o *GetAccountTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetAccountTagsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/tags][%d] getAccountTagsBadRequest ", 400)
+}
+
+func (o *GetAccountTagsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/tags][%d] getAccountTagsBadRequest ", 400)
 }
 
@@ -103,7 +171,8 @@ func NewGetAccountTagsNotFound() *GetAccountTagsNotFound {
 	return &GetAccountTagsNotFound{}
 }
 
-/*GetAccountTagsNotFound handles this case with default header values.
+/*
+GetAccountTagsNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
@@ -111,7 +180,41 @@ type GetAccountTagsNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account tags not found response
+func (o *GetAccountTagsNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get account tags not found response has a 2xx status code
+func (o *GetAccountTagsNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get account tags not found response has a 3xx status code
+func (o *GetAccountTagsNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account tags not found response has a 4xx status code
+func (o *GetAccountTagsNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get account tags not found response has a 5xx status code
+func (o *GetAccountTagsNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account tags not found response a status code equal to that given
+func (o *GetAccountTagsNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetAccountTagsNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/tags][%d] getAccountTagsNotFound ", 404)
+}
+
+func (o *GetAccountTagsNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/tags][%d] getAccountTagsNotFound ", 404)
 }
 

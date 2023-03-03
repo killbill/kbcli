@@ -10,8 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new payment gateway API client.
@@ -48,24 +47,18 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IPaymentGateway - interface for PaymentGateway client.
-type IPaymentGateway interface {
-	/*
-		BuildComboFormDescriptor combos API to generate form data to redirect the customer to the gateway
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	BuildComboFormDescriptor(ctx context.Context, params *BuildComboFormDescriptorParams) (*BuildComboFormDescriptorOK, error)
 
-	/*
-		BuildFormDescriptor generates form data to redirect the customer to the gateway
-	*/
 	BuildFormDescriptor(ctx context.Context, params *BuildFormDescriptorParams) (*BuildFormDescriptorOK, error)
 
-	/*
-		ProcessNotification processes a gateway notification
-
-		The response is built by the appropriate plugin
-	*/
 	ProcessNotification(ctx context.Context, params *ProcessNotificationParams) (*ProcessNotificationOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -97,7 +90,7 @@ func (a *Client) BuildComboFormDescriptor(ctx context.Context, params *BuildComb
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "buildComboFormDescriptor",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/paymentGateways/hosted/form",
@@ -109,7 +102,9 @@ func (a *Client) BuildComboFormDescriptor(ctx context.Context, params *BuildComb
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -153,7 +148,7 @@ func (a *Client) BuildFormDescriptor(ctx context.Context, params *BuildFormDescr
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "buildFormDescriptor",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/paymentGateways/hosted/form/{accountId}",
@@ -165,7 +160,9 @@ func (a *Client) BuildFormDescriptor(ctx context.Context, params *BuildFormDescr
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -211,7 +208,7 @@ func (a *Client) ProcessNotification(ctx context.Context, params *ProcessNotific
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "processNotification",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/paymentGateways/notification/{pluginName}",
@@ -223,7 +220,9 @@ func (a *Client) ProcessNotification(ctx context.Context, params *ProcessNotific
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

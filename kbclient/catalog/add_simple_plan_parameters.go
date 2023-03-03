@@ -13,63 +13,66 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewAddSimplePlanParams creates a new AddSimplePlanParams object
-// with the default values initialized.
+// NewAddSimplePlanParams creates a new AddSimplePlanParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddSimplePlanParams() *AddSimplePlanParams {
-	var ()
 	return &AddSimplePlanParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAddSimplePlanParamsWithTimeout creates a new AddSimplePlanParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAddSimplePlanParamsWithTimeout(timeout time.Duration) *AddSimplePlanParams {
-	var ()
 	return &AddSimplePlanParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAddSimplePlanParamsWithContext creates a new AddSimplePlanParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAddSimplePlanParamsWithContext(ctx context.Context) *AddSimplePlanParams {
-	var ()
 	return &AddSimplePlanParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAddSimplePlanParamsWithHTTPClient creates a new AddSimplePlanParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAddSimplePlanParamsWithHTTPClient(client *http.Client) *AddSimplePlanParams {
-	var ()
 	return &AddSimplePlanParams{
 		HTTPClient: client,
 	}
 }
 
-/*AddSimplePlanParams contains all the parameters to send to the API endpoint
-for the add simple plan operation typically these are written to a http.Request
+/*
+AddSimplePlanParams contains all the parameters to send to the API endpoint
+
+	for the add simple plan operation.
+
+	Typically these are written to a http.Request.
 */
 type AddSimplePlanParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.SimplePlan
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -78,6 +81,21 @@ type AddSimplePlanParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the add simple plan params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddSimplePlanParams) WithDefaults() *AddSimplePlanParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the add simple plan params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddSimplePlanParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the add simple plan params
@@ -171,7 +189,6 @@ func (o *AddSimplePlanParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -185,9 +202,7 @@ func (o *AddSimplePlanParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err

@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetBlockingStateAuditLogsWithHistoryParams creates a new GetBlockingStateAuditLogsWithHistoryParams object
-// with the default values initialized.
+// NewGetBlockingStateAuditLogsWithHistoryParams creates a new GetBlockingStateAuditLogsWithHistoryParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetBlockingStateAuditLogsWithHistoryParams() *GetBlockingStateAuditLogsWithHistoryParams {
-	var ()
 	return &GetBlockingStateAuditLogsWithHistoryParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetBlockingStateAuditLogsWithHistoryParamsWithTimeout creates a new GetBlockingStateAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetBlockingStateAuditLogsWithHistoryParamsWithTimeout(timeout time.Duration) *GetBlockingStateAuditLogsWithHistoryParams {
-	var ()
 	return &GetBlockingStateAuditLogsWithHistoryParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetBlockingStateAuditLogsWithHistoryParamsWithContext creates a new GetBlockingStateAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetBlockingStateAuditLogsWithHistoryParamsWithContext(ctx context.Context) *GetBlockingStateAuditLogsWithHistoryParams {
-	var ()
 	return &GetBlockingStateAuditLogsWithHistoryParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetBlockingStateAuditLogsWithHistoryParamsWithHTTPClient creates a new GetBlockingStateAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetBlockingStateAuditLogsWithHistoryParamsWithHTTPClient(client *http.Client) *GetBlockingStateAuditLogsWithHistoryParams {
-	var ()
 	return &GetBlockingStateAuditLogsWithHistoryParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetBlockingStateAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
-for the get blocking state audit logs with history operation typically these are written to a http.Request
+/*
+GetBlockingStateAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
+
+	for the get blocking state audit logs with history operation.
+
+	Typically these are written to a http.Request.
 */
 type GetBlockingStateAuditLogsWithHistoryParams struct {
 
-	/*BlockingID*/
+	// BlockingID.
+	//
+	// Format: uuid
 	BlockingID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type GetBlockingStateAuditLogsWithHistoryParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get blocking state audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetBlockingStateAuditLogsWithHistoryParams) WithDefaults() *GetBlockingStateAuditLogsWithHistoryParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get blocking state audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetBlockingStateAuditLogsWithHistoryParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get blocking state audit logs with history params

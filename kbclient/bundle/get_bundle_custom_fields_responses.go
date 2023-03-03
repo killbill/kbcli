@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetBundleCustomFieldsReader is a Reader for the GetBundleCustomFields structure.
@@ -48,17 +47,51 @@ func NewGetBundleCustomFieldsOK() *GetBundleCustomFieldsOK {
 	return &GetBundleCustomFieldsOK{}
 }
 
-/*GetBundleCustomFieldsOK handles this case with default header values.
+/*
+GetBundleCustomFieldsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetBundleCustomFieldsOK struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get bundle custom fields o k response
+func (o *GetBundleCustomFieldsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get bundle custom fields o k response has a 2xx status code
+func (o *GetBundleCustomFieldsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get bundle custom fields o k response has a 3xx status code
+func (o *GetBundleCustomFieldsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle custom fields o k response has a 4xx status code
+func (o *GetBundleCustomFieldsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get bundle custom fields o k response has a 5xx status code
+func (o *GetBundleCustomFieldsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle custom fields o k response a status code equal to that given
+func (o *GetBundleCustomFieldsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetBundleCustomFieldsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/customFields][%d] getBundleCustomFieldsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetBundleCustomFieldsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/customFields][%d] getBundleCustomFieldsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetBundleCustomFieldsBadRequest() *GetBundleCustomFieldsBadRequest {
 	return &GetBundleCustomFieldsBadRequest{}
 }
 
-/*GetBundleCustomFieldsBadRequest handles this case with default header values.
+/*
+GetBundleCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid bundle id supplied
 */
@@ -89,7 +123,41 @@ type GetBundleCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get bundle custom fields bad request response
+func (o *GetBundleCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get bundle custom fields bad request response has a 2xx status code
+func (o *GetBundleCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get bundle custom fields bad request response has a 3xx status code
+func (o *GetBundleCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle custom fields bad request response has a 4xx status code
+func (o *GetBundleCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get bundle custom fields bad request response has a 5xx status code
+func (o *GetBundleCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle custom fields bad request response a status code equal to that given
+func (o *GetBundleCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetBundleCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/customFields][%d] getBundleCustomFieldsBadRequest ", 400)
+}
+
+func (o *GetBundleCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}/customFields][%d] getBundleCustomFieldsBadRequest ", 400)
 }
 

@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetTransactionAuditLogsWithHistoryParams creates a new GetTransactionAuditLogsWithHistoryParams object
-// with the default values initialized.
+// NewGetTransactionAuditLogsWithHistoryParams creates a new GetTransactionAuditLogsWithHistoryParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetTransactionAuditLogsWithHistoryParams() *GetTransactionAuditLogsWithHistoryParams {
-	var ()
 	return &GetTransactionAuditLogsWithHistoryParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetTransactionAuditLogsWithHistoryParamsWithTimeout creates a new GetTransactionAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetTransactionAuditLogsWithHistoryParamsWithTimeout(timeout time.Duration) *GetTransactionAuditLogsWithHistoryParams {
-	var ()
 	return &GetTransactionAuditLogsWithHistoryParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetTransactionAuditLogsWithHistoryParamsWithContext creates a new GetTransactionAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetTransactionAuditLogsWithHistoryParamsWithContext(ctx context.Context) *GetTransactionAuditLogsWithHistoryParams {
-	var ()
 	return &GetTransactionAuditLogsWithHistoryParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetTransactionAuditLogsWithHistoryParamsWithHTTPClient creates a new GetTransactionAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetTransactionAuditLogsWithHistoryParamsWithHTTPClient(client *http.Client) *GetTransactionAuditLogsWithHistoryParams {
-	var ()
 	return &GetTransactionAuditLogsWithHistoryParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetTransactionAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
-for the get transaction audit logs with history operation typically these are written to a http.Request
+/*
+GetTransactionAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
+
+	for the get transaction audit logs with history operation.
+
+	Typically these are written to a http.Request.
 */
 type GetTransactionAuditLogsWithHistoryParams struct {
 
-	/*TransactionID*/
+	// TransactionID.
+	//
+	// Format: uuid
 	TransactionID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type GetTransactionAuditLogsWithHistoryParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get transaction audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTransactionAuditLogsWithHistoryParams) WithDefaults() *GetTransactionAuditLogsWithHistoryParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get transaction audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTransactionAuditLogsWithHistoryParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get transaction audit logs with history params

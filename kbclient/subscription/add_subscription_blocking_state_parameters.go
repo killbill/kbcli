@@ -13,70 +13,80 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewAddSubscriptionBlockingStateParams creates a new AddSubscriptionBlockingStateParams object
-// with the default values initialized.
+// NewAddSubscriptionBlockingStateParams creates a new AddSubscriptionBlockingStateParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddSubscriptionBlockingStateParams() *AddSubscriptionBlockingStateParams {
-	var ()
 	return &AddSubscriptionBlockingStateParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAddSubscriptionBlockingStateParamsWithTimeout creates a new AddSubscriptionBlockingStateParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAddSubscriptionBlockingStateParamsWithTimeout(timeout time.Duration) *AddSubscriptionBlockingStateParams {
-	var ()
 	return &AddSubscriptionBlockingStateParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAddSubscriptionBlockingStateParamsWithContext creates a new AddSubscriptionBlockingStateParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAddSubscriptionBlockingStateParamsWithContext(ctx context.Context) *AddSubscriptionBlockingStateParams {
-	var ()
 	return &AddSubscriptionBlockingStateParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAddSubscriptionBlockingStateParamsWithHTTPClient creates a new AddSubscriptionBlockingStateParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAddSubscriptionBlockingStateParamsWithHTTPClient(client *http.Client) *AddSubscriptionBlockingStateParams {
-	var ()
 	return &AddSubscriptionBlockingStateParams{
 		HTTPClient: client,
 	}
 }
 
-/*AddSubscriptionBlockingStateParams contains all the parameters to send to the API endpoint
-for the add subscription blocking state operation typically these are written to a http.Request
+/*
+AddSubscriptionBlockingStateParams contains all the parameters to send to the API endpoint
+
+	for the add subscription blocking state operation.
+
+	Typically these are written to a http.Request.
 */
 type AddSubscriptionBlockingStateParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.BlockingState
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*RequestedDate*/
+
+	// RequestedDate.
+	//
+	// Format: date
 	RequestedDate *strfmt.Date
-	/*SubscriptionID*/
+
+	// SubscriptionID.
+	//
+	// Format: uuid
 	SubscriptionID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -85,6 +95,21 @@ type AddSubscriptionBlockingStateParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the add subscription blocking state params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddSubscriptionBlockingStateParams) WithDefaults() *AddSubscriptionBlockingStateParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the add subscription blocking state params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AddSubscriptionBlockingStateParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the add subscription blocking state params
@@ -211,7 +236,6 @@ func (o *AddSubscriptionBlockingStateParams) WriteToRequest(r runtime.ClientRequ
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -225,37 +249,39 @@ func (o *AddSubscriptionBlockingStateParams) WriteToRequest(r runtime.ClientRequ
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
+
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
+
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param subscriptionId
@@ -281,4 +307,21 @@ func (o *AddSubscriptionBlockingStateParams) WriteToRequest(r runtime.ClientRequ
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamAddSubscriptionBlockingState binds the parameter pluginProperty
+func (o *AddSubscriptionBlockingStateParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

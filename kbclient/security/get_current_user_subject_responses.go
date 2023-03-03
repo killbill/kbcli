@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetCurrentUserSubjectReader is a Reader for the GetCurrentUserSubject structure.
@@ -47,17 +46,51 @@ func NewGetCurrentUserSubjectOK() *GetCurrentUserSubjectOK {
 	return &GetCurrentUserSubjectOK{}
 }
 
-/*GetCurrentUserSubjectOK handles this case with default header values.
+/*
+GetCurrentUserSubjectOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetCurrentUserSubjectOK struct {
-	Payload *kbmodel.Subject
-
+	Payload      *kbmodel.Subject
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get current user subject o k response
+func (o *GetCurrentUserSubjectOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get current user subject o k response has a 2xx status code
+func (o *GetCurrentUserSubjectOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get current user subject o k response has a 3xx status code
+func (o *GetCurrentUserSubjectOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get current user subject o k response has a 4xx status code
+func (o *GetCurrentUserSubjectOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get current user subject o k response has a 5xx status code
+func (o *GetCurrentUserSubjectOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get current user subject o k response a status code equal to that given
+func (o *GetCurrentUserSubjectOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetCurrentUserSubjectOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/security/subject][%d] getCurrentUserSubjectOK  %+v", 200, o.Payload)
+}
+
+func (o *GetCurrentUserSubjectOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/security/subject][%d] getCurrentUserSubjectOK  %+v", 200, o.Payload)
 }
 

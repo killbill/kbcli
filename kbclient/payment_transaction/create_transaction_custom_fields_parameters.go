@@ -13,65 +13,71 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreateTransactionCustomFieldsParams creates a new CreateTransactionCustomFieldsParams object
-// with the default values initialized.
+// NewCreateTransactionCustomFieldsParams creates a new CreateTransactionCustomFieldsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateTransactionCustomFieldsParams() *CreateTransactionCustomFieldsParams {
-	var ()
 	return &CreateTransactionCustomFieldsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateTransactionCustomFieldsParamsWithTimeout creates a new CreateTransactionCustomFieldsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateTransactionCustomFieldsParamsWithTimeout(timeout time.Duration) *CreateTransactionCustomFieldsParams {
-	var ()
 	return &CreateTransactionCustomFieldsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateTransactionCustomFieldsParamsWithContext creates a new CreateTransactionCustomFieldsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateTransactionCustomFieldsParamsWithContext(ctx context.Context) *CreateTransactionCustomFieldsParams {
-	var ()
 	return &CreateTransactionCustomFieldsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateTransactionCustomFieldsParamsWithHTTPClient creates a new CreateTransactionCustomFieldsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateTransactionCustomFieldsParamsWithHTTPClient(client *http.Client) *CreateTransactionCustomFieldsParams {
-	var ()
 	return &CreateTransactionCustomFieldsParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateTransactionCustomFieldsParams contains all the parameters to send to the API endpoint
-for the create transaction custom fields operation typically these are written to a http.Request
+/*
+CreateTransactionCustomFieldsParams contains all the parameters to send to the API endpoint
+
+	for the create transaction custom fields operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateTransactionCustomFieldsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body []*kbmodel.CustomField
-	/*TransactionID*/
+
+	// TransactionID.
+	//
+	// Format: uuid
 	TransactionID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -80,6 +86,21 @@ type CreateTransactionCustomFieldsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the create transaction custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTransactionCustomFieldsParams) WithDefaults() *CreateTransactionCustomFieldsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create transaction custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTransactionCustomFieldsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create transaction custom fields params
@@ -184,7 +205,6 @@ func (o *CreateTransactionCustomFieldsParams) WriteToRequest(r runtime.ClientReq
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -198,9 +218,7 @@ func (o *CreateTransactionCustomFieldsParams) WriteToRequest(r runtime.ClientReq
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err

@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // TriggerNodeCommandReader is a Reader for the TriggerNodeCommand structure.
@@ -46,7 +45,8 @@ func NewTriggerNodeCommandAccepted() *TriggerNodeCommandAccepted {
 	return &TriggerNodeCommandAccepted{}
 }
 
-/*TriggerNodeCommandAccepted handles this case with default header values.
+/*
+TriggerNodeCommandAccepted describes a response with status code 202, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type TriggerNodeCommandAccepted struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the trigger node command accepted response
+func (o *TriggerNodeCommandAccepted) Code() int {
+	return 202
+}
+
+// IsSuccess returns true when this trigger node command accepted response has a 2xx status code
+func (o *TriggerNodeCommandAccepted) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this trigger node command accepted response has a 3xx status code
+func (o *TriggerNodeCommandAccepted) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this trigger node command accepted response has a 4xx status code
+func (o *TriggerNodeCommandAccepted) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this trigger node command accepted response has a 5xx status code
+func (o *TriggerNodeCommandAccepted) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this trigger node command accepted response a status code equal to that given
+func (o *TriggerNodeCommandAccepted) IsCode(code int) bool {
+	return code == 202
+}
+
 func (o *TriggerNodeCommandAccepted) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/nodesInfo][%d] triggerNodeCommandAccepted ", 202)
+}
+
+func (o *TriggerNodeCommandAccepted) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/nodesInfo][%d] triggerNodeCommandAccepted ", 202)
 }
 
@@ -68,7 +102,8 @@ func NewTriggerNodeCommandBadRequest() *TriggerNodeCommandBadRequest {
 	return &TriggerNodeCommandBadRequest{}
 }
 
-/*TriggerNodeCommandBadRequest handles this case with default header values.
+/*
+TriggerNodeCommandBadRequest describes a response with status code 400, with default header values.
 
 Invalid node command supplied
 */
@@ -76,7 +111,41 @@ type TriggerNodeCommandBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the trigger node command bad request response
+func (o *TriggerNodeCommandBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this trigger node command bad request response has a 2xx status code
+func (o *TriggerNodeCommandBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this trigger node command bad request response has a 3xx status code
+func (o *TriggerNodeCommandBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this trigger node command bad request response has a 4xx status code
+func (o *TriggerNodeCommandBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this trigger node command bad request response has a 5xx status code
+func (o *TriggerNodeCommandBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this trigger node command bad request response a status code equal to that given
+func (o *TriggerNodeCommandBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *TriggerNodeCommandBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/nodesInfo][%d] triggerNodeCommandBadRequest ", 400)
+}
+
+func (o *TriggerNodeCommandBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/nodesInfo][%d] triggerNodeCommandBadRequest ", 400)
 }
 

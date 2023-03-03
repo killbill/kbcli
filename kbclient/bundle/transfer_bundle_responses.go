@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // TransferBundleReader is a Reader for the TransferBundle structure.
@@ -48,17 +47,51 @@ func NewTransferBundleCreated() *TransferBundleCreated {
 	return &TransferBundleCreated{}
 }
 
-/*TransferBundleCreated handles this case with default header values.
+/*
+TransferBundleCreated describes a response with status code 201, with default header values.
 
 Bundle transferred successfully
 */
 type TransferBundleCreated struct {
-	Payload *kbmodel.Bundle
-
+	Payload      *kbmodel.Bundle
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the transfer bundle created response
+func (o *TransferBundleCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this transfer bundle created response has a 2xx status code
+func (o *TransferBundleCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this transfer bundle created response has a 3xx status code
+func (o *TransferBundleCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this transfer bundle created response has a 4xx status code
+func (o *TransferBundleCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this transfer bundle created response has a 5xx status code
+func (o *TransferBundleCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this transfer bundle created response a status code equal to that given
+func (o *TransferBundleCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *TransferBundleCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}][%d] transferBundleCreated  %+v", 201, o.Payload)
+}
+
+func (o *TransferBundleCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}][%d] transferBundleCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewTransferBundleBadRequest() *TransferBundleBadRequest {
 	return &TransferBundleBadRequest{}
 }
 
-/*TransferBundleBadRequest handles this case with default header values.
+/*
+TransferBundleBadRequest describes a response with status code 400, with default header values.
 
 Invalid bundle id, requested date or policy supplied
 */
@@ -91,7 +125,41 @@ type TransferBundleBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the transfer bundle bad request response
+func (o *TransferBundleBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this transfer bundle bad request response has a 2xx status code
+func (o *TransferBundleBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this transfer bundle bad request response has a 3xx status code
+func (o *TransferBundleBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this transfer bundle bad request response has a 4xx status code
+func (o *TransferBundleBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this transfer bundle bad request response has a 5xx status code
+func (o *TransferBundleBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this transfer bundle bad request response a status code equal to that given
+func (o *TransferBundleBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *TransferBundleBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}][%d] transferBundleBadRequest ", 400)
+}
+
+func (o *TransferBundleBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}][%d] transferBundleBadRequest ", 400)
 }
 
@@ -105,7 +173,8 @@ func NewTransferBundleNotFound() *TransferBundleNotFound {
 	return &TransferBundleNotFound{}
 }
 
-/*TransferBundleNotFound handles this case with default header values.
+/*
+TransferBundleNotFound describes a response with status code 404, with default header values.
 
 Bundle not found
 */
@@ -113,7 +182,41 @@ type TransferBundleNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the transfer bundle not found response
+func (o *TransferBundleNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this transfer bundle not found response has a 2xx status code
+func (o *TransferBundleNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this transfer bundle not found response has a 3xx status code
+func (o *TransferBundleNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this transfer bundle not found response has a 4xx status code
+func (o *TransferBundleNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this transfer bundle not found response has a 5xx status code
+func (o *TransferBundleNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this transfer bundle not found response a status code equal to that given
+func (o *TransferBundleNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *TransferBundleNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}][%d] transferBundleNotFound ", 404)
+}
+
+func (o *TransferBundleNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}][%d] transferBundleNotFound ", 404)
 }
 

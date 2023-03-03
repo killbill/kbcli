@@ -13,80 +13,66 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetPaymentTagsParams creates a new GetPaymentTagsParams object
-// with the default values initialized.
+// NewGetPaymentTagsParams creates a new GetPaymentTagsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetPaymentTagsParams() *GetPaymentTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetPaymentTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPaymentTagsParamsWithTimeout creates a new GetPaymentTagsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetPaymentTagsParamsWithTimeout(timeout time.Duration) *GetPaymentTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetPaymentTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetPaymentTagsParamsWithContext creates a new GetPaymentTagsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetPaymentTagsParamsWithContext(ctx context.Context) *GetPaymentTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetPaymentTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetPaymentTagsParamsWithHTTPClient creates a new GetPaymentTagsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetPaymentTagsParamsWithHTTPClient(client *http.Client) *GetPaymentTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetPaymentTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-		HTTPClient:      client,
+		HTTPClient: client,
 	}
 }
 
-/*GetPaymentTagsParams contains all the parameters to send to the API endpoint
-for the get payment tags operation typically these are written to a http.Request
+/*
+GetPaymentTagsParams contains all the parameters to send to the API endpoint
+
+	for the get payment tags operation.
+
+	Typically these are written to a http.Request.
 */
 type GetPaymentTagsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*IncludedDeleted*/
+
+	// IncludedDeleted.
 	IncludedDeleted *bool
-	/*PaymentID*/
+
+	// PaymentID.
+	//
+	// Format: uuid
 	PaymentID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -95,6 +81,35 @@ type GetPaymentTagsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get payment tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentTagsParams) WithDefaults() *GetPaymentTagsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get payment tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentTagsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		includedDeletedDefault = bool(false)
+	)
+
+	val := GetPaymentTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get payment tags params
@@ -175,32 +190,34 @@ func (o *GetPaymentTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.IncludedDeleted != nil {
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
+
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
+
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param paymentId

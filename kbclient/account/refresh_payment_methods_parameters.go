@@ -13,66 +13,73 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewRefreshPaymentMethodsParams creates a new RefreshPaymentMethodsParams object
-// with the default values initialized.
+// NewRefreshPaymentMethodsParams creates a new RefreshPaymentMethodsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRefreshPaymentMethodsParams() *RefreshPaymentMethodsParams {
-	var ()
 	return &RefreshPaymentMethodsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRefreshPaymentMethodsParamsWithTimeout creates a new RefreshPaymentMethodsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRefreshPaymentMethodsParamsWithTimeout(timeout time.Duration) *RefreshPaymentMethodsParams {
-	var ()
 	return &RefreshPaymentMethodsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRefreshPaymentMethodsParamsWithContext creates a new RefreshPaymentMethodsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRefreshPaymentMethodsParamsWithContext(ctx context.Context) *RefreshPaymentMethodsParams {
-	var ()
 	return &RefreshPaymentMethodsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRefreshPaymentMethodsParamsWithHTTPClient creates a new RefreshPaymentMethodsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRefreshPaymentMethodsParamsWithHTTPClient(client *http.Client) *RefreshPaymentMethodsParams {
-	var ()
 	return &RefreshPaymentMethodsParams{
 		HTTPClient: client,
 	}
 }
 
-/*RefreshPaymentMethodsParams contains all the parameters to send to the API endpoint
-for the refresh payment methods operation typically these are written to a http.Request
+/*
+RefreshPaymentMethodsParams contains all the parameters to send to the API endpoint
+
+	for the refresh payment methods operation.
+
+	Typically these are written to a http.Request.
 */
 type RefreshPaymentMethodsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*PluginName*/
+
+	// PluginName.
 	PluginName *string
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -81,6 +88,21 @@ type RefreshPaymentMethodsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the refresh payment methods params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RefreshPaymentMethodsParams) WithDefaults() *RefreshPaymentMethodsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the refresh payment methods params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RefreshPaymentMethodsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the refresh payment methods params
@@ -196,7 +218,6 @@ func (o *RefreshPaymentMethodsParams) WriteToRequest(r runtime.ClientRequest, re
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -210,7 +231,6 @@ func (o *RefreshPaymentMethodsParams) WriteToRequest(r runtime.ClientRequest, re
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId
@@ -222,24 +242,28 @@ func (o *RefreshPaymentMethodsParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param pluginName
 		var qrPluginName string
+
 		if o.PluginName != nil {
 			qrPluginName = *o.PluginName
 		}
 		qPluginName := qrPluginName
 		if qPluginName != "" {
+
 			if err := r.SetQueryParam("pluginName", qPluginName); err != nil {
 				return err
 			}
 		}
-
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	// header param WithProfilingInfo
@@ -260,4 +284,21 @@ func (o *RefreshPaymentMethodsParams) WriteToRequest(r runtime.ClientRequest, re
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamRefreshPaymentMethods binds the parameter pluginProperty
+func (o *RefreshPaymentMethodsParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

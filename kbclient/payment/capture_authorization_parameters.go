@@ -13,70 +13,78 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCaptureAuthorizationParams creates a new CaptureAuthorizationParams object
-// with the default values initialized.
+// NewCaptureAuthorizationParams creates a new CaptureAuthorizationParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCaptureAuthorizationParams() *CaptureAuthorizationParams {
-	var ()
 	return &CaptureAuthorizationParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCaptureAuthorizationParamsWithTimeout creates a new CaptureAuthorizationParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCaptureAuthorizationParamsWithTimeout(timeout time.Duration) *CaptureAuthorizationParams {
-	var ()
 	return &CaptureAuthorizationParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCaptureAuthorizationParamsWithContext creates a new CaptureAuthorizationParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCaptureAuthorizationParamsWithContext(ctx context.Context) *CaptureAuthorizationParams {
-	var ()
 	return &CaptureAuthorizationParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCaptureAuthorizationParamsWithHTTPClient creates a new CaptureAuthorizationParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCaptureAuthorizationParamsWithHTTPClient(client *http.Client) *CaptureAuthorizationParams {
-	var ()
 	return &CaptureAuthorizationParams{
 		HTTPClient: client,
 	}
 }
 
-/*CaptureAuthorizationParams contains all the parameters to send to the API endpoint
-for the capture authorization operation typically these are written to a http.Request
+/*
+CaptureAuthorizationParams contains all the parameters to send to the API endpoint
+
+	for the capture authorization operation.
+
+	Typically these are written to a http.Request.
 */
 type CaptureAuthorizationParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.PaymentTransaction
-	/*ControlPluginName*/
+
+	// ControlPluginName.
 	ControlPluginName []string
-	/*PaymentID*/
+
+	// PaymentID.
+	//
+	// Format: uuid
 	PaymentID strfmt.UUID
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -85,6 +93,21 @@ type CaptureAuthorizationParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the capture authorization params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CaptureAuthorizationParams) WithDefaults() *CaptureAuthorizationParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the capture authorization params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CaptureAuthorizationParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the capture authorization params
@@ -211,7 +234,6 @@ func (o *CaptureAuthorizationParams) WriteToRequest(r runtime.ClientRequest, reg
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -225,21 +247,22 @@ func (o *CaptureAuthorizationParams) WriteToRequest(r runtime.ClientRequest, reg
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	valuesControlPluginName := o.ControlPluginName
+	if o.ControlPluginName != nil {
 
-	joinedControlPluginName := swag.JoinByFormat(valuesControlPluginName, "multi")
-	// query array param controlPluginName
-	if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
-		return err
+		// binding items for controlPluginName
+		joinedControlPluginName := o.bindParamControlPluginName(reg)
+
+		// query array param controlPluginName
+		if err := r.SetQueryParam("controlPluginName", joinedControlPluginName...); err != nil {
+			return err
+		}
 	}
 
 	// path param paymentId
@@ -247,12 +270,15 @@ func (o *CaptureAuthorizationParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	// header param WithProfilingInfo
@@ -273,4 +299,38 @@ func (o *CaptureAuthorizationParams) WriteToRequest(r runtime.ClientRequest, reg
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCaptureAuthorization binds the parameter controlPluginName
+func (o *CaptureAuthorizationParams) bindParamControlPluginName(formats strfmt.Registry) []string {
+	controlPluginNameIR := o.ControlPluginName
+
+	var controlPluginNameIC []string
+	for _, controlPluginNameIIR := range controlPluginNameIR { // explode []string
+
+		controlPluginNameIIV := controlPluginNameIIR // string as string
+		controlPluginNameIC = append(controlPluginNameIC, controlPluginNameIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	controlPluginNameIS := swag.JoinByFormat(controlPluginNameIC, "multi")
+
+	return controlPluginNameIS
+}
+
+// bindParamCaptureAuthorization binds the parameter pluginProperty
+func (o *CaptureAuthorizationParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

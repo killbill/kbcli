@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // CancelSubscriptionPlanReader is a Reader for the CancelSubscriptionPlan structure.
@@ -46,7 +45,8 @@ func NewCancelSubscriptionPlanNoContent() *CancelSubscriptionPlanNoContent {
 	return &CancelSubscriptionPlanNoContent{}
 }
 
-/*CancelSubscriptionPlanNoContent handles this case with default header values.
+/*
+CancelSubscriptionPlanNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type CancelSubscriptionPlanNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the cancel subscription plan no content response
+func (o *CancelSubscriptionPlanNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this cancel subscription plan no content response has a 2xx status code
+func (o *CancelSubscriptionPlanNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this cancel subscription plan no content response has a 3xx status code
+func (o *CancelSubscriptionPlanNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this cancel subscription plan no content response has a 4xx status code
+func (o *CancelSubscriptionPlanNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this cancel subscription plan no content response has a 5xx status code
+func (o *CancelSubscriptionPlanNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this cancel subscription plan no content response a status code equal to that given
+func (o *CancelSubscriptionPlanNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *CancelSubscriptionPlanNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}][%d] cancelSubscriptionPlanNoContent ", 204)
+}
+
+func (o *CancelSubscriptionPlanNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}][%d] cancelSubscriptionPlanNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewCancelSubscriptionPlanBadRequest() *CancelSubscriptionPlanBadRequest {
 	return &CancelSubscriptionPlanBadRequest{}
 }
 
-/*CancelSubscriptionPlanBadRequest handles this case with default header values.
+/*
+CancelSubscriptionPlanBadRequest describes a response with status code 400, with default header values.
 
 Invalid subscription id supplied
 */
@@ -76,7 +111,41 @@ type CancelSubscriptionPlanBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the cancel subscription plan bad request response
+func (o *CancelSubscriptionPlanBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this cancel subscription plan bad request response has a 2xx status code
+func (o *CancelSubscriptionPlanBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this cancel subscription plan bad request response has a 3xx status code
+func (o *CancelSubscriptionPlanBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this cancel subscription plan bad request response has a 4xx status code
+func (o *CancelSubscriptionPlanBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this cancel subscription plan bad request response has a 5xx status code
+func (o *CancelSubscriptionPlanBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this cancel subscription plan bad request response a status code equal to that given
+func (o *CancelSubscriptionPlanBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CancelSubscriptionPlanBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}][%d] cancelSubscriptionPlanBadRequest ", 400)
+}
+
+func (o *CancelSubscriptionPlanBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}][%d] cancelSubscriptionPlanBadRequest ", 400)
 }
 
@@ -90,7 +159,8 @@ func NewCancelSubscriptionPlanNotFound() *CancelSubscriptionPlanNotFound {
 	return &CancelSubscriptionPlanNotFound{}
 }
 
-/*CancelSubscriptionPlanNotFound handles this case with default header values.
+/*
+CancelSubscriptionPlanNotFound describes a response with status code 404, with default header values.
 
 Entitlement not found
 */
@@ -98,7 +168,41 @@ type CancelSubscriptionPlanNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the cancel subscription plan not found response
+func (o *CancelSubscriptionPlanNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this cancel subscription plan not found response has a 2xx status code
+func (o *CancelSubscriptionPlanNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this cancel subscription plan not found response has a 3xx status code
+func (o *CancelSubscriptionPlanNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this cancel subscription plan not found response has a 4xx status code
+func (o *CancelSubscriptionPlanNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this cancel subscription plan not found response has a 5xx status code
+func (o *CancelSubscriptionPlanNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this cancel subscription plan not found response a status code equal to that given
+func (o *CancelSubscriptionPlanNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *CancelSubscriptionPlanNotFound) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}][%d] cancelSubscriptionPlanNotFound ", 404)
+}
+
+func (o *CancelSubscriptionPlanNotFound) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/subscriptions/{subscriptionId}][%d] cancelSubscriptionPlanNotFound ", 404)
 }
 

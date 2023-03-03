@@ -6,12 +6,14 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"context"
 
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // PriceList price list
+//
 // swagger:model PriceList
 type PriceList struct {
 
@@ -24,6 +26,11 @@ type PriceList struct {
 
 // Validate validates this price list
 func (m *PriceList) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this price list based on context it is used
+func (m *PriceList) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

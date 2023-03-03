@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // DeletePaymentCustomFieldsReader is a Reader for the DeletePaymentCustomFields structure.
@@ -46,7 +45,8 @@ func NewDeletePaymentCustomFieldsNoContent() *DeletePaymentCustomFieldsNoContent
 	return &DeletePaymentCustomFieldsNoContent{}
 }
 
-/*DeletePaymentCustomFieldsNoContent handles this case with default header values.
+/*
+DeletePaymentCustomFieldsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type DeletePaymentCustomFieldsNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the delete payment custom fields no content response
+func (o *DeletePaymentCustomFieldsNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this delete payment custom fields no content response has a 2xx status code
+func (o *DeletePaymentCustomFieldsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete payment custom fields no content response has a 3xx status code
+func (o *DeletePaymentCustomFieldsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete payment custom fields no content response has a 4xx status code
+func (o *DeletePaymentCustomFieldsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete payment custom fields no content response has a 5xx status code
+func (o *DeletePaymentCustomFieldsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete payment custom fields no content response a status code equal to that given
+func (o *DeletePaymentCustomFieldsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *DeletePaymentCustomFieldsNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}/customFields][%d] deletePaymentCustomFieldsNoContent ", 204)
+}
+
+func (o *DeletePaymentCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}/customFields][%d] deletePaymentCustomFieldsNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewDeletePaymentCustomFieldsBadRequest() *DeletePaymentCustomFieldsBadReque
 	return &DeletePaymentCustomFieldsBadRequest{}
 }
 
-/*DeletePaymentCustomFieldsBadRequest handles this case with default header values.
+/*
+DeletePaymentCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid payment id supplied
 */
@@ -76,7 +111,41 @@ type DeletePaymentCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the delete payment custom fields bad request response
+func (o *DeletePaymentCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this delete payment custom fields bad request response has a 2xx status code
+func (o *DeletePaymentCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this delete payment custom fields bad request response has a 3xx status code
+func (o *DeletePaymentCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete payment custom fields bad request response has a 4xx status code
+func (o *DeletePaymentCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this delete payment custom fields bad request response has a 5xx status code
+func (o *DeletePaymentCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete payment custom fields bad request response a status code equal to that given
+func (o *DeletePaymentCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *DeletePaymentCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}/customFields][%d] deletePaymentCustomFieldsBadRequest ", 400)
+}
+
+func (o *DeletePaymentCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/payments/{paymentId}/customFields][%d] deletePaymentCustomFieldsBadRequest ", 400)
 }
 

@@ -13,61 +13,64 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewCancelScheduledPaymentTransactionByExternalKeyParams creates a new CancelScheduledPaymentTransactionByExternalKeyParams object
-// with the default values initialized.
+// NewCancelScheduledPaymentTransactionByExternalKeyParams creates a new CancelScheduledPaymentTransactionByExternalKeyParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCancelScheduledPaymentTransactionByExternalKeyParams() *CancelScheduledPaymentTransactionByExternalKeyParams {
-	var ()
 	return &CancelScheduledPaymentTransactionByExternalKeyParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCancelScheduledPaymentTransactionByExternalKeyParamsWithTimeout creates a new CancelScheduledPaymentTransactionByExternalKeyParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCancelScheduledPaymentTransactionByExternalKeyParamsWithTimeout(timeout time.Duration) *CancelScheduledPaymentTransactionByExternalKeyParams {
-	var ()
 	return &CancelScheduledPaymentTransactionByExternalKeyParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCancelScheduledPaymentTransactionByExternalKeyParamsWithContext creates a new CancelScheduledPaymentTransactionByExternalKeyParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCancelScheduledPaymentTransactionByExternalKeyParamsWithContext(ctx context.Context) *CancelScheduledPaymentTransactionByExternalKeyParams {
-	var ()
 	return &CancelScheduledPaymentTransactionByExternalKeyParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCancelScheduledPaymentTransactionByExternalKeyParamsWithHTTPClient creates a new CancelScheduledPaymentTransactionByExternalKeyParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCancelScheduledPaymentTransactionByExternalKeyParamsWithHTTPClient(client *http.Client) *CancelScheduledPaymentTransactionByExternalKeyParams {
-	var ()
 	return &CancelScheduledPaymentTransactionByExternalKeyParams{
 		HTTPClient: client,
 	}
 }
 
-/*CancelScheduledPaymentTransactionByExternalKeyParams contains all the parameters to send to the API endpoint
-for the cancel scheduled payment transaction by external key operation typically these are written to a http.Request
+/*
+CancelScheduledPaymentTransactionByExternalKeyParams contains all the parameters to send to the API endpoint
+
+	for the cancel scheduled payment transaction by external key operation.
+
+	Typically these are written to a http.Request.
 */
 type CancelScheduledPaymentTransactionByExternalKeyParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*TransactionExternalKey*/
+
+	// TransactionExternalKey.
 	TransactionExternalKey string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -76,6 +79,21 @@ type CancelScheduledPaymentTransactionByExternalKeyParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the cancel scheduled payment transaction by external key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CancelScheduledPaymentTransactionByExternalKeyParams) WithDefaults() *CancelScheduledPaymentTransactionByExternalKeyParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the cancel scheduled payment transaction by external key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CancelScheduledPaymentTransactionByExternalKeyParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the cancel scheduled payment transaction by external key params
@@ -169,7 +187,6 @@ func (o *CancelScheduledPaymentTransactionByExternalKeyParams) WriteToRequest(r 
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -183,13 +200,13 @@ func (o *CancelScheduledPaymentTransactionByExternalKeyParams) WriteToRequest(r 
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// query param transactionExternalKey
 	qrTransactionExternalKey := o.TransactionExternalKey
 	qTransactionExternalKey := qrTransactionExternalKey
 	if qTransactionExternalKey != "" {
+
 		if err := r.SetQueryParam("transactionExternalKey", qTransactionExternalKey); err != nil {
 			return err
 		}

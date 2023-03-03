@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateSubscriptionsWithAddOnsReader is a Reader for the CreateSubscriptionsWithAddOns structure.
@@ -47,17 +46,51 @@ func NewCreateSubscriptionsWithAddOnsCreated() *CreateSubscriptionsWithAddOnsCre
 	return &CreateSubscriptionsWithAddOnsCreated{}
 }
 
-/*CreateSubscriptionsWithAddOnsCreated handles this case with default header values.
+/*
+CreateSubscriptionsWithAddOnsCreated describes a response with status code 201, with default header values.
 
 Subscriptions created successfully
 */
 type CreateSubscriptionsWithAddOnsCreated struct {
-	Payload []*kbmodel.Bundle
-
+	Payload      []*kbmodel.Bundle
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create subscriptions with add ons created response
+func (o *CreateSubscriptionsWithAddOnsCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create subscriptions with add ons created response has a 2xx status code
+func (o *CreateSubscriptionsWithAddOnsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create subscriptions with add ons created response has a 3xx status code
+func (o *CreateSubscriptionsWithAddOnsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create subscriptions with add ons created response has a 4xx status code
+func (o *CreateSubscriptionsWithAddOnsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create subscriptions with add ons created response has a 5xx status code
+func (o *CreateSubscriptionsWithAddOnsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create subscriptions with add ons created response a status code equal to that given
+func (o *CreateSubscriptionsWithAddOnsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateSubscriptionsWithAddOnsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/subscriptions/createSubscriptionsWithAddOns][%d] createSubscriptionsWithAddOnsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateSubscriptionsWithAddOnsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/subscriptions/createSubscriptionsWithAddOns][%d] createSubscriptionsWithAddOnsCreated  %+v", 201, o.Payload)
 }
 

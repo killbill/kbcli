@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewInvalidatesCacheByAccountParams creates a new InvalidatesCacheByAccountParams object
-// with the default values initialized.
+// NewInvalidatesCacheByAccountParams creates a new InvalidatesCacheByAccountParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewInvalidatesCacheByAccountParams() *InvalidatesCacheByAccountParams {
-	var ()
 	return &InvalidatesCacheByAccountParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewInvalidatesCacheByAccountParamsWithTimeout creates a new InvalidatesCacheByAccountParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewInvalidatesCacheByAccountParamsWithTimeout(timeout time.Duration) *InvalidatesCacheByAccountParams {
-	var ()
 	return &InvalidatesCacheByAccountParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewInvalidatesCacheByAccountParamsWithContext creates a new InvalidatesCacheByAccountParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewInvalidatesCacheByAccountParamsWithContext(ctx context.Context) *InvalidatesCacheByAccountParams {
-	var ()
 	return &InvalidatesCacheByAccountParams{
-
 		Context: ctx,
 	}
 }
 
 // NewInvalidatesCacheByAccountParamsWithHTTPClient creates a new InvalidatesCacheByAccountParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewInvalidatesCacheByAccountParamsWithHTTPClient(client *http.Client) *InvalidatesCacheByAccountParams {
-	var ()
 	return &InvalidatesCacheByAccountParams{
 		HTTPClient: client,
 	}
 }
 
-/*InvalidatesCacheByAccountParams contains all the parameters to send to the API endpoint
-for the invalidates cache by account operation typically these are written to a http.Request
+/*
+InvalidatesCacheByAccountParams contains all the parameters to send to the API endpoint
+
+	for the invalidates cache by account operation.
+
+	Typically these are written to a http.Request.
 */
 type InvalidatesCacheByAccountParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type InvalidatesCacheByAccountParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the invalidates cache by account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *InvalidatesCacheByAccountParams) WithDefaults() *InvalidatesCacheByAccountParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the invalidates cache by account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *InvalidatesCacheByAccountParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the invalidates cache by account params

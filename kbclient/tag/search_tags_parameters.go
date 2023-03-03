@@ -13,90 +13,72 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewSearchTagsParams creates a new SearchTagsParams object
-// with the default values initialized.
+// NewSearchTagsParams creates a new SearchTagsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSearchTagsParams() *SearchTagsParams {
-	var (
-		auditDefault  = string("NONE")
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &SearchTagsParams{
-		Audit:  &auditDefault,
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSearchTagsParamsWithTimeout creates a new SearchTagsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSearchTagsParamsWithTimeout(timeout time.Duration) *SearchTagsParams {
-	var (
-		auditDefault  = string("NONE")
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &SearchTagsParams{
-		Audit:  &auditDefault,
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewSearchTagsParamsWithContext creates a new SearchTagsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSearchTagsParamsWithContext(ctx context.Context) *SearchTagsParams {
-	var (
-		auditDefault  = string("NONE")
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &SearchTagsParams{
-		Audit:  &auditDefault,
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewSearchTagsParamsWithHTTPClient creates a new SearchTagsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSearchTagsParamsWithHTTPClient(client *http.Client) *SearchTagsParams {
-	var (
-		auditDefault  = string("NONE")
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &SearchTagsParams{
-		Audit:      &auditDefault,
-		Limit:      &limitDefault,
-		Offset:     &offsetDefault,
 		HTTPClient: client,
 	}
 }
 
-/*SearchTagsParams contains all the parameters to send to the API endpoint
-for the search tags operation typically these are written to a http.Request
+/*
+SearchTagsParams contains all the parameters to send to the API endpoint
+
+	for the search tags operation.
+
+	Typically these are written to a http.Request.
 */
 type SearchTagsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*Limit*/
+
+	// Limit.
+	//
+	// Format: int64
+	// Default: 100
 	Limit *int64
-	/*Offset*/
+
+	// Offset.
+	//
+	// Format: int64
 	Offset *int64
-	/*SearchKey*/
+
+	// SearchKey.
 	SearchKey string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -105,6 +87,38 @@ type SearchTagsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the search tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SearchTagsParams) WithDefaults() *SearchTagsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the search tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SearchTagsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		limitDefault = int64(100)
+
+		offsetDefault = int64(0)
+	)
+
+	val := SearchTagsParams{
+		Audit:  &auditDefault,
+		Limit:  &limitDefault,
+		Offset: &offsetDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the search tags params
@@ -196,48 +210,51 @@ func (o *SearchTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Limit != nil {
 
 		// query param limit
 		var qrLimit int64
+
 		if o.Limit != nil {
 			qrLimit = *o.Limit
 		}
 		qLimit := swag.FormatInt64(qrLimit)
 		if qLimit != "" {
+
 			if err := r.SetQueryParam("limit", qLimit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Offset != nil {
 
 		// query param offset
 		var qrOffset int64
+
 		if o.Offset != nil {
 			qrOffset = *o.Offset
 		}
 		qOffset := swag.FormatInt64(qrOffset)
 		if qOffset != "" {
+
 			if err := r.SetQueryParam("offset", qOffset); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param searchKey

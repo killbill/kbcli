@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // InvalidatesCacheByTenantReader is a Reader for the InvalidatesCacheByTenant structure.
@@ -45,7 +44,8 @@ func NewInvalidatesCacheByTenantNoContent() *InvalidatesCacheByTenantNoContent {
 	return &InvalidatesCacheByTenantNoContent{}
 }
 
-/*InvalidatesCacheByTenantNoContent handles this case with default header values.
+/*
+InvalidatesCacheByTenantNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -53,7 +53,41 @@ type InvalidatesCacheByTenantNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the invalidates cache by tenant no content response
+func (o *InvalidatesCacheByTenantNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this invalidates cache by tenant no content response has a 2xx status code
+func (o *InvalidatesCacheByTenantNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this invalidates cache by tenant no content response has a 3xx status code
+func (o *InvalidatesCacheByTenantNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this invalidates cache by tenant no content response has a 4xx status code
+func (o *InvalidatesCacheByTenantNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this invalidates cache by tenant no content response has a 5xx status code
+func (o *InvalidatesCacheByTenantNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this invalidates cache by tenant no content response a status code equal to that given
+func (o *InvalidatesCacheByTenantNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *InvalidatesCacheByTenantNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/tenants][%d] invalidatesCacheByTenantNoContent ", 204)
+}
+
+func (o *InvalidatesCacheByTenantNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/tenants][%d] invalidatesCacheByTenantNoContent ", 204)
 }
 

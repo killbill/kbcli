@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetPaymentsForAccountReader is a Reader for the GetPaymentsForAccount structure.
@@ -48,17 +47,51 @@ func NewGetPaymentsForAccountOK() *GetPaymentsForAccountOK {
 	return &GetPaymentsForAccountOK{}
 }
 
-/*GetPaymentsForAccountOK handles this case with default header values.
+/*
+GetPaymentsForAccountOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetPaymentsForAccountOK struct {
-	Payload []*kbmodel.Payment
-
+	Payload      []*kbmodel.Payment
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get payments for account o k response
+func (o *GetPaymentsForAccountOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get payments for account o k response has a 2xx status code
+func (o *GetPaymentsForAccountOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get payments for account o k response has a 3xx status code
+func (o *GetPaymentsForAccountOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payments for account o k response has a 4xx status code
+func (o *GetPaymentsForAccountOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get payments for account o k response has a 5xx status code
+func (o *GetPaymentsForAccountOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payments for account o k response a status code equal to that given
+func (o *GetPaymentsForAccountOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetPaymentsForAccountOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/payments][%d] getPaymentsForAccountOK  %+v", 200, o.Payload)
+}
+
+func (o *GetPaymentsForAccountOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/payments][%d] getPaymentsForAccountOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetPaymentsForAccountBadRequest() *GetPaymentsForAccountBadRequest {
 	return &GetPaymentsForAccountBadRequest{}
 }
 
-/*GetPaymentsForAccountBadRequest handles this case with default header values.
+/*
+GetPaymentsForAccountBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -89,7 +123,41 @@ type GetPaymentsForAccountBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get payments for account bad request response
+func (o *GetPaymentsForAccountBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get payments for account bad request response has a 2xx status code
+func (o *GetPaymentsForAccountBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get payments for account bad request response has a 3xx status code
+func (o *GetPaymentsForAccountBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payments for account bad request response has a 4xx status code
+func (o *GetPaymentsForAccountBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get payments for account bad request response has a 5xx status code
+func (o *GetPaymentsForAccountBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payments for account bad request response a status code equal to that given
+func (o *GetPaymentsForAccountBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetPaymentsForAccountBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/payments][%d] getPaymentsForAccountBadRequest ", 400)
+}
+
+func (o *GetPaymentsForAccountBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/{accountId}/payments][%d] getPaymentsForAccountBadRequest ", 400)
 }
 

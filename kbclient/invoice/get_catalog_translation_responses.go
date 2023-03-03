@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // GetCatalogTranslationReader is a Reader for the GetCatalogTranslation structure.
@@ -46,17 +45,51 @@ func NewGetCatalogTranslationOK() *GetCatalogTranslationOK {
 	return &GetCatalogTranslationOK{}
 }
 
-/*GetCatalogTranslationOK handles this case with default header values.
+/*
+GetCatalogTranslationOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetCatalogTranslationOK struct {
-	Payload string
-
+	Payload      string
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get catalog translation o k response
+func (o *GetCatalogTranslationOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get catalog translation o k response has a 2xx status code
+func (o *GetCatalogTranslationOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get catalog translation o k response has a 3xx status code
+func (o *GetCatalogTranslationOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get catalog translation o k response has a 4xx status code
+func (o *GetCatalogTranslationOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get catalog translation o k response has a 5xx status code
+func (o *GetCatalogTranslationOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get catalog translation o k response a status code equal to that given
+func (o *GetCatalogTranslationOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetCatalogTranslationOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/catalogTranslation/{locale}][%d] getCatalogTranslationOK  %+v", 200, o.Payload)
+}
+
+func (o *GetCatalogTranslationOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/catalogTranslation/{locale}][%d] getCatalogTranslationOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +112,8 @@ func NewGetCatalogTranslationBadRequest() *GetCatalogTranslationBadRequest {
 	return &GetCatalogTranslationBadRequest{}
 }
 
-/*GetCatalogTranslationBadRequest handles this case with default header values.
+/*
+GetCatalogTranslationBadRequest describes a response with status code 400, with default header values.
 
 Invalid locale supplied
 */
@@ -87,7 +121,41 @@ type GetCatalogTranslationBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get catalog translation bad request response
+func (o *GetCatalogTranslationBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get catalog translation bad request response has a 2xx status code
+func (o *GetCatalogTranslationBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get catalog translation bad request response has a 3xx status code
+func (o *GetCatalogTranslationBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get catalog translation bad request response has a 4xx status code
+func (o *GetCatalogTranslationBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get catalog translation bad request response has a 5xx status code
+func (o *GetCatalogTranslationBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get catalog translation bad request response a status code equal to that given
+func (o *GetCatalogTranslationBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetCatalogTranslationBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/catalogTranslation/{locale}][%d] getCatalogTranslationBadRequest ", 400)
+}
+
+func (o *GetCatalogTranslationBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/catalogTranslation/{locale}][%d] getCatalogTranslationBadRequest ", 400)
 }
 
@@ -101,7 +169,8 @@ func NewGetCatalogTranslationNotFound() *GetCatalogTranslationNotFound {
 	return &GetCatalogTranslationNotFound{}
 }
 
-/*GetCatalogTranslationNotFound handles this case with default header values.
+/*
+GetCatalogTranslationNotFound describes a response with status code 404, with default header values.
 
 Template not found
 */
@@ -109,7 +178,41 @@ type GetCatalogTranslationNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get catalog translation not found response
+func (o *GetCatalogTranslationNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get catalog translation not found response has a 2xx status code
+func (o *GetCatalogTranslationNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get catalog translation not found response has a 3xx status code
+func (o *GetCatalogTranslationNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get catalog translation not found response has a 4xx status code
+func (o *GetCatalogTranslationNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get catalog translation not found response has a 5xx status code
+func (o *GetCatalogTranslationNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get catalog translation not found response a status code equal to that given
+func (o *GetCatalogTranslationNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetCatalogTranslationNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/catalogTranslation/{locale}][%d] getCatalogTranslationNotFound ", 404)
+}
+
+func (o *GetCatalogTranslationNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/catalogTranslation/{locale}][%d] getCatalogTranslationNotFound ", 404)
 }
 

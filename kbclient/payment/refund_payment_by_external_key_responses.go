@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // RefundPaymentByExternalKeyReader is a Reader for the RefundPaymentByExternalKey structure.
@@ -48,17 +47,51 @@ func NewRefundPaymentByExternalKeyCreated() *RefundPaymentByExternalKeyCreated {
 	return &RefundPaymentByExternalKeyCreated{}
 }
 
-/*RefundPaymentByExternalKeyCreated handles this case with default header values.
+/*
+RefundPaymentByExternalKeyCreated describes a response with status code 201, with default header values.
 
 Payment transaction created successfully
 */
 type RefundPaymentByExternalKeyCreated struct {
-	Payload *kbmodel.Payment
-
+	Payload      *kbmodel.Payment
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment by external key created response
+func (o *RefundPaymentByExternalKeyCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this refund payment by external key created response has a 2xx status code
+func (o *RefundPaymentByExternalKeyCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this refund payment by external key created response has a 3xx status code
+func (o *RefundPaymentByExternalKeyCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment by external key created response has a 4xx status code
+func (o *RefundPaymentByExternalKeyCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this refund payment by external key created response has a 5xx status code
+func (o *RefundPaymentByExternalKeyCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this refund payment by external key created response a status code equal to that given
+func (o *RefundPaymentByExternalKeyCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *RefundPaymentByExternalKeyCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyCreated  %+v", 201, o.Payload)
+}
+
+func (o *RefundPaymentByExternalKeyCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewRefundPaymentByExternalKeyPaymentRequired() *RefundPaymentByExternalKeyP
 	return &RefundPaymentByExternalKeyPaymentRequired{}
 }
 
-/*RefundPaymentByExternalKeyPaymentRequired handles this case with default header values.
+/*
+RefundPaymentByExternalKeyPaymentRequired describes a response with status code 402, with default header values.
 
 Transaction declined by gateway
 */
@@ -91,7 +125,41 @@ type RefundPaymentByExternalKeyPaymentRequired struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment by external key payment required response
+func (o *RefundPaymentByExternalKeyPaymentRequired) Code() int {
+	return 402
+}
+
+// IsSuccess returns true when this refund payment by external key payment required response has a 2xx status code
+func (o *RefundPaymentByExternalKeyPaymentRequired) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment by external key payment required response has a 3xx status code
+func (o *RefundPaymentByExternalKeyPaymentRequired) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment by external key payment required response has a 4xx status code
+func (o *RefundPaymentByExternalKeyPaymentRequired) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this refund payment by external key payment required response has a 5xx status code
+func (o *RefundPaymentByExternalKeyPaymentRequired) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this refund payment by external key payment required response a status code equal to that given
+func (o *RefundPaymentByExternalKeyPaymentRequired) IsCode(code int) bool {
+	return code == 402
+}
+
 func (o *RefundPaymentByExternalKeyPaymentRequired) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyPaymentRequired ", 402)
+}
+
+func (o *RefundPaymentByExternalKeyPaymentRequired) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyPaymentRequired ", 402)
 }
 
@@ -105,7 +173,8 @@ func NewRefundPaymentByExternalKeyNotFound() *RefundPaymentByExternalKeyNotFound
 	return &RefundPaymentByExternalKeyNotFound{}
 }
 
-/*RefundPaymentByExternalKeyNotFound handles this case with default header values.
+/*
+RefundPaymentByExternalKeyNotFound describes a response with status code 404, with default header values.
 
 Account or payment not found
 */
@@ -113,7 +182,41 @@ type RefundPaymentByExternalKeyNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment by external key not found response
+func (o *RefundPaymentByExternalKeyNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this refund payment by external key not found response has a 2xx status code
+func (o *RefundPaymentByExternalKeyNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment by external key not found response has a 3xx status code
+func (o *RefundPaymentByExternalKeyNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment by external key not found response has a 4xx status code
+func (o *RefundPaymentByExternalKeyNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this refund payment by external key not found response has a 5xx status code
+func (o *RefundPaymentByExternalKeyNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this refund payment by external key not found response a status code equal to that given
+func (o *RefundPaymentByExternalKeyNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *RefundPaymentByExternalKeyNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyNotFound ", 404)
+}
+
+func (o *RefundPaymentByExternalKeyNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyNotFound ", 404)
 }
 
@@ -127,7 +230,8 @@ func NewRefundPaymentByExternalKeyUnprocessableEntity() *RefundPaymentByExternal
 	return &RefundPaymentByExternalKeyUnprocessableEntity{}
 }
 
-/*RefundPaymentByExternalKeyUnprocessableEntity handles this case with default header values.
+/*
+RefundPaymentByExternalKeyUnprocessableEntity describes a response with status code 422, with default header values.
 
 Payment is aborted by a control plugin
 */
@@ -135,7 +239,41 @@ type RefundPaymentByExternalKeyUnprocessableEntity struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment by external key unprocessable entity response
+func (o *RefundPaymentByExternalKeyUnprocessableEntity) Code() int {
+	return 422
+}
+
+// IsSuccess returns true when this refund payment by external key unprocessable entity response has a 2xx status code
+func (o *RefundPaymentByExternalKeyUnprocessableEntity) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment by external key unprocessable entity response has a 3xx status code
+func (o *RefundPaymentByExternalKeyUnprocessableEntity) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment by external key unprocessable entity response has a 4xx status code
+func (o *RefundPaymentByExternalKeyUnprocessableEntity) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this refund payment by external key unprocessable entity response has a 5xx status code
+func (o *RefundPaymentByExternalKeyUnprocessableEntity) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this refund payment by external key unprocessable entity response a status code equal to that given
+func (o *RefundPaymentByExternalKeyUnprocessableEntity) IsCode(code int) bool {
+	return code == 422
+}
+
 func (o *RefundPaymentByExternalKeyUnprocessableEntity) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyUnprocessableEntity ", 422)
+}
+
+func (o *RefundPaymentByExternalKeyUnprocessableEntity) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyUnprocessableEntity ", 422)
 }
 
@@ -149,7 +287,8 @@ func NewRefundPaymentByExternalKeyBadGateway() *RefundPaymentByExternalKeyBadGat
 	return &RefundPaymentByExternalKeyBadGateway{}
 }
 
-/*RefundPaymentByExternalKeyBadGateway handles this case with default header values.
+/*
+RefundPaymentByExternalKeyBadGateway describes a response with status code 502, with default header values.
 
 Failed to submit payment transaction
 */
@@ -157,7 +296,41 @@ type RefundPaymentByExternalKeyBadGateway struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment by external key bad gateway response
+func (o *RefundPaymentByExternalKeyBadGateway) Code() int {
+	return 502
+}
+
+// IsSuccess returns true when this refund payment by external key bad gateway response has a 2xx status code
+func (o *RefundPaymentByExternalKeyBadGateway) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment by external key bad gateway response has a 3xx status code
+func (o *RefundPaymentByExternalKeyBadGateway) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment by external key bad gateway response has a 4xx status code
+func (o *RefundPaymentByExternalKeyBadGateway) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this refund payment by external key bad gateway response has a 5xx status code
+func (o *RefundPaymentByExternalKeyBadGateway) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this refund payment by external key bad gateway response a status code equal to that given
+func (o *RefundPaymentByExternalKeyBadGateway) IsCode(code int) bool {
+	return code == 502
+}
+
 func (o *RefundPaymentByExternalKeyBadGateway) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyBadGateway ", 502)
+}
+
+func (o *RefundPaymentByExternalKeyBadGateway) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyBadGateway ", 502)
 }
 
@@ -171,7 +344,8 @@ func NewRefundPaymentByExternalKeyServiceUnavailable() *RefundPaymentByExternalK
 	return &RefundPaymentByExternalKeyServiceUnavailable{}
 }
 
-/*RefundPaymentByExternalKeyServiceUnavailable handles this case with default header values.
+/*
+RefundPaymentByExternalKeyServiceUnavailable describes a response with status code 503, with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
@@ -179,7 +353,41 @@ type RefundPaymentByExternalKeyServiceUnavailable struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment by external key service unavailable response
+func (o *RefundPaymentByExternalKeyServiceUnavailable) Code() int {
+	return 503
+}
+
+// IsSuccess returns true when this refund payment by external key service unavailable response has a 2xx status code
+func (o *RefundPaymentByExternalKeyServiceUnavailable) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment by external key service unavailable response has a 3xx status code
+func (o *RefundPaymentByExternalKeyServiceUnavailable) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment by external key service unavailable response has a 4xx status code
+func (o *RefundPaymentByExternalKeyServiceUnavailable) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this refund payment by external key service unavailable response has a 5xx status code
+func (o *RefundPaymentByExternalKeyServiceUnavailable) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this refund payment by external key service unavailable response a status code equal to that given
+func (o *RefundPaymentByExternalKeyServiceUnavailable) IsCode(code int) bool {
+	return code == 503
+}
+
 func (o *RefundPaymentByExternalKeyServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyServiceUnavailable ", 503)
+}
+
+func (o *RefundPaymentByExternalKeyServiceUnavailable) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyServiceUnavailable ", 503)
 }
 
@@ -193,7 +401,8 @@ func NewRefundPaymentByExternalKeyGatewayTimeout() *RefundPaymentByExternalKeyGa
 	return &RefundPaymentByExternalKeyGatewayTimeout{}
 }
 
-/*RefundPaymentByExternalKeyGatewayTimeout handles this case with default header values.
+/*
+RefundPaymentByExternalKeyGatewayTimeout describes a response with status code 504, with default header values.
 
 Payment operation timeout
 */
@@ -201,7 +410,41 @@ type RefundPaymentByExternalKeyGatewayTimeout struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment by external key gateway timeout response
+func (o *RefundPaymentByExternalKeyGatewayTimeout) Code() int {
+	return 504
+}
+
+// IsSuccess returns true when this refund payment by external key gateway timeout response has a 2xx status code
+func (o *RefundPaymentByExternalKeyGatewayTimeout) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment by external key gateway timeout response has a 3xx status code
+func (o *RefundPaymentByExternalKeyGatewayTimeout) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment by external key gateway timeout response has a 4xx status code
+func (o *RefundPaymentByExternalKeyGatewayTimeout) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this refund payment by external key gateway timeout response has a 5xx status code
+func (o *RefundPaymentByExternalKeyGatewayTimeout) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this refund payment by external key gateway timeout response a status code equal to that given
+func (o *RefundPaymentByExternalKeyGatewayTimeout) IsCode(code int) bool {
+	return code == 504
+}
+
 func (o *RefundPaymentByExternalKeyGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyGatewayTimeout ", 504)
+}
+
+func (o *RefundPaymentByExternalKeyGatewayTimeout) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/refunds][%d] refundPaymentByExternalKeyGatewayTimeout ", 504)
 }
 

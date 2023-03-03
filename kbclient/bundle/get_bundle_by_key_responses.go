@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetBundleByKeyReader is a Reader for the GetBundleByKey structure.
@@ -48,17 +47,51 @@ func NewGetBundleByKeyOK() *GetBundleByKeyOK {
 	return &GetBundleByKeyOK{}
 }
 
-/*GetBundleByKeyOK handles this case with default header values.
+/*
+GetBundleByKeyOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetBundleByKeyOK struct {
-	Payload []*kbmodel.Bundle
-
+	Payload      []*kbmodel.Bundle
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get bundle by key o k response
+func (o *GetBundleByKeyOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get bundle by key o k response has a 2xx status code
+func (o *GetBundleByKeyOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get bundle by key o k response has a 3xx status code
+func (o *GetBundleByKeyOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle by key o k response has a 4xx status code
+func (o *GetBundleByKeyOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get bundle by key o k response has a 5xx status code
+func (o *GetBundleByKeyOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle by key o k response a status code equal to that given
+func (o *GetBundleByKeyOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetBundleByKeyOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles][%d] getBundleByKeyOK  %+v", 200, o.Payload)
+}
+
+func (o *GetBundleByKeyOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles][%d] getBundleByKeyOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetBundleByKeyNotFound() *GetBundleByKeyNotFound {
 	return &GetBundleByKeyNotFound{}
 }
 
-/*GetBundleByKeyNotFound handles this case with default header values.
+/*
+GetBundleByKeyNotFound describes a response with status code 404, with default header values.
 
 Bundle not found
 */
@@ -89,7 +123,41 @@ type GetBundleByKeyNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get bundle by key not found response
+func (o *GetBundleByKeyNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get bundle by key not found response has a 2xx status code
+func (o *GetBundleByKeyNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get bundle by key not found response has a 3xx status code
+func (o *GetBundleByKeyNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle by key not found response has a 4xx status code
+func (o *GetBundleByKeyNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get bundle by key not found response has a 5xx status code
+func (o *GetBundleByKeyNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle by key not found response a status code equal to that given
+func (o *GetBundleByKeyNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetBundleByKeyNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles][%d] getBundleByKeyNotFound ", 404)
+}
+
+func (o *GetBundleByKeyNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles][%d] getBundleByKeyNotFound ", 404)
 }
 

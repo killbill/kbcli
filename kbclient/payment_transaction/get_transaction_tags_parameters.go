@@ -13,80 +13,66 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetTransactionTagsParams creates a new GetTransactionTagsParams object
-// with the default values initialized.
+// NewGetTransactionTagsParams creates a new GetTransactionTagsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetTransactionTagsParams() *GetTransactionTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetTransactionTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetTransactionTagsParamsWithTimeout creates a new GetTransactionTagsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetTransactionTagsParamsWithTimeout(timeout time.Duration) *GetTransactionTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetTransactionTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetTransactionTagsParamsWithContext creates a new GetTransactionTagsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetTransactionTagsParamsWithContext(ctx context.Context) *GetTransactionTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetTransactionTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetTransactionTagsParamsWithHTTPClient creates a new GetTransactionTagsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetTransactionTagsParamsWithHTTPClient(client *http.Client) *GetTransactionTagsParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetTransactionTagsParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-		HTTPClient:      client,
+		HTTPClient: client,
 	}
 }
 
-/*GetTransactionTagsParams contains all the parameters to send to the API endpoint
-for the get transaction tags operation typically these are written to a http.Request
+/*
+GetTransactionTagsParams contains all the parameters to send to the API endpoint
+
+	for the get transaction tags operation.
+
+	Typically these are written to a http.Request.
 */
 type GetTransactionTagsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*IncludedDeleted*/
+
+	// IncludedDeleted.
 	IncludedDeleted *bool
-	/*TransactionID*/
+
+	// TransactionID.
+	//
+	// Format: uuid
 	TransactionID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -95,6 +81,35 @@ type GetTransactionTagsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get transaction tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTransactionTagsParams) WithDefaults() *GetTransactionTagsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get transaction tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTransactionTagsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		includedDeletedDefault = bool(false)
+	)
+
+	val := GetTransactionTagsParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get transaction tags params
@@ -175,32 +190,34 @@ func (o *GetTransactionTagsParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.IncludedDeleted != nil {
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
+
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
+
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param transactionId

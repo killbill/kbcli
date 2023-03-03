@@ -13,78 +13,70 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewTriggerNodeCommandParams creates a new TriggerNodeCommandParams object
-// with the default values initialized.
+// NewTriggerNodeCommandParams creates a new TriggerNodeCommandParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewTriggerNodeCommandParams() *TriggerNodeCommandParams {
-	var (
-		localNodeOnlyDefault = bool(false)
-	)
 	return &TriggerNodeCommandParams{
-		LocalNodeOnly: &localNodeOnlyDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewTriggerNodeCommandParamsWithTimeout creates a new TriggerNodeCommandParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewTriggerNodeCommandParamsWithTimeout(timeout time.Duration) *TriggerNodeCommandParams {
-	var (
-		localNodeOnlyDefault = bool(false)
-	)
 	return &TriggerNodeCommandParams{
-		LocalNodeOnly: &localNodeOnlyDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewTriggerNodeCommandParamsWithContext creates a new TriggerNodeCommandParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewTriggerNodeCommandParamsWithContext(ctx context.Context) *TriggerNodeCommandParams {
-	var (
-		localNodeOnlyDefault = bool(false)
-	)
 	return &TriggerNodeCommandParams{
-		LocalNodeOnly: &localNodeOnlyDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewTriggerNodeCommandParamsWithHTTPClient creates a new TriggerNodeCommandParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewTriggerNodeCommandParamsWithHTTPClient(client *http.Client) *TriggerNodeCommandParams {
-	var (
-		localNodeOnlyDefault = bool(false)
-	)
 	return &TriggerNodeCommandParams{
-		LocalNodeOnly: &localNodeOnlyDefault,
-		HTTPClient:    client,
+		HTTPClient: client,
 	}
 }
 
-/*TriggerNodeCommandParams contains all the parameters to send to the API endpoint
-for the trigger node command operation typically these are written to a http.Request
+/*
+TriggerNodeCommandParams contains all the parameters to send to the API endpoint
+
+	for the trigger node command operation.
+
+	Typically these are written to a http.Request.
 */
 type TriggerNodeCommandParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.NodeCommand
-	/*LocalNodeOnly*/
+
+	// LocalNodeOnly.
 	LocalNodeOnly *bool
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -93,6 +85,32 @@ type TriggerNodeCommandParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the trigger node command params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *TriggerNodeCommandParams) WithDefaults() *TriggerNodeCommandParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the trigger node command params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *TriggerNodeCommandParams) SetDefaults() {
+	var (
+		localNodeOnlyDefault = bool(false)
+	)
+
+	val := TriggerNodeCommandParams{
+		LocalNodeOnly: &localNodeOnlyDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the trigger node command params
@@ -197,7 +215,6 @@ func (o *TriggerNodeCommandParams) WriteToRequest(r runtime.ClientRequest, reg s
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -211,9 +228,7 @@ func (o *TriggerNodeCommandParams) WriteToRequest(r runtime.ClientRequest, reg s
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -224,16 +239,17 @@ func (o *TriggerNodeCommandParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param localNodeOnly
 		var qrLocalNodeOnly bool
+
 		if o.LocalNodeOnly != nil {
 			qrLocalNodeOnly = *o.LocalNodeOnly
 		}
 		qLocalNodeOnly := swag.FormatBool(qrLocalNodeOnly)
 		if qLocalNodeOnly != "" {
+
 			if err := r.SetQueryParam("localNodeOnly", qLocalNodeOnly); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetAccountAuditLogsWithHistoryParams creates a new GetAccountAuditLogsWithHistoryParams object
-// with the default values initialized.
+// NewGetAccountAuditLogsWithHistoryParams creates a new GetAccountAuditLogsWithHistoryParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAccountAuditLogsWithHistoryParams() *GetAccountAuditLogsWithHistoryParams {
-	var ()
 	return &GetAccountAuditLogsWithHistoryParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAccountAuditLogsWithHistoryParamsWithTimeout creates a new GetAccountAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetAccountAuditLogsWithHistoryParamsWithTimeout(timeout time.Duration) *GetAccountAuditLogsWithHistoryParams {
-	var ()
 	return &GetAccountAuditLogsWithHistoryParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetAccountAuditLogsWithHistoryParamsWithContext creates a new GetAccountAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetAccountAuditLogsWithHistoryParamsWithContext(ctx context.Context) *GetAccountAuditLogsWithHistoryParams {
-	var ()
 	return &GetAccountAuditLogsWithHistoryParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetAccountAuditLogsWithHistoryParamsWithHTTPClient creates a new GetAccountAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetAccountAuditLogsWithHistoryParamsWithHTTPClient(client *http.Client) *GetAccountAuditLogsWithHistoryParams {
-	var ()
 	return &GetAccountAuditLogsWithHistoryParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetAccountAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
-for the get account audit logs with history operation typically these are written to a http.Request
+/*
+GetAccountAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
+
+	for the get account audit logs with history operation.
+
+	Typically these are written to a http.Request.
 */
 type GetAccountAuditLogsWithHistoryParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type GetAccountAuditLogsWithHistoryParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get account audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAccountAuditLogsWithHistoryParams) WithDefaults() *GetAccountAuditLogsWithHistoryParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get account audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAccountAuditLogsWithHistoryParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get account audit logs with history params

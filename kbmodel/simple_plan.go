@@ -6,16 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // SimplePlan simple plan
+//
 // swagger:model SimplePlan
 type SimplePlan struct {
 
@@ -164,14 +165,13 @@ func (e SimplePlanBillingPeriodEnum) IsValid() bool {
 
 // prop value enum
 func (m *SimplePlan) validateBillingPeriodEnum(path, location string, value SimplePlanBillingPeriodEnum) error {
-	if err := validate.Enum(path, location, value, simplePlanTypeBillingPeriodPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, simplePlanTypeBillingPeriodPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *SimplePlan) validateBillingPeriod(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingPeriod) { // not required
 		return nil
 	}
@@ -875,14 +875,13 @@ func (e SimplePlanCurrencyEnum) IsValid() bool {
 
 // prop value enum
 func (m *SimplePlan) validateCurrencyEnum(path, location string, value SimplePlanCurrencyEnum) error {
-	if err := validate.Enum(path, location, value, simplePlanTypeCurrencyPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, simplePlanTypeCurrencyPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *SimplePlan) validateCurrency(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Currency) { // not required
 		return nil
 	}
@@ -938,14 +937,13 @@ func (e SimplePlanProductCategoryEnum) IsValid() bool {
 
 // prop value enum
 func (m *SimplePlan) validateProductCategoryEnum(path, location string, value SimplePlanProductCategoryEnum) error {
-	if err := validate.Enum(path, location, value, simplePlanTypeProductCategoryPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, simplePlanTypeProductCategoryPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *SimplePlan) validateProductCategory(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProductCategory) { // not required
 		return nil
 	}
@@ -1009,14 +1007,13 @@ func (e SimplePlanTrialTimeUnitEnum) IsValid() bool {
 
 // prop value enum
 func (m *SimplePlan) validateTrialTimeUnitEnum(path, location string, value SimplePlanTrialTimeUnitEnum) error {
-	if err := validate.Enum(path, location, value, simplePlanTypeTrialTimeUnitPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, simplePlanTypeTrialTimeUnitPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *SimplePlan) validateTrialTimeUnit(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TrialTimeUnit) { // not required
 		return nil
 	}
@@ -1026,6 +1023,11 @@ func (m *SimplePlan) validateTrialTimeUnit(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this simple plan based on context it is used
+func (m *SimplePlan) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

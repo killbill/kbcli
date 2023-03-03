@@ -13,84 +13,83 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
-// NewCreateTaxItemsParams creates a new CreateTaxItemsParams object
-// with the default values initialized.
+// NewCreateTaxItemsParams creates a new CreateTaxItemsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateTaxItemsParams() *CreateTaxItemsParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateTaxItemsParams{
-		AutoCommit: &autoCommitDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateTaxItemsParamsWithTimeout creates a new CreateTaxItemsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateTaxItemsParamsWithTimeout(timeout time.Duration) *CreateTaxItemsParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateTaxItemsParams{
-		AutoCommit: &autoCommitDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateTaxItemsParamsWithContext creates a new CreateTaxItemsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateTaxItemsParamsWithContext(ctx context.Context) *CreateTaxItemsParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateTaxItemsParams{
-		AutoCommit: &autoCommitDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewCreateTaxItemsParamsWithHTTPClient creates a new CreateTaxItemsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateTaxItemsParamsWithHTTPClient(client *http.Client) *CreateTaxItemsParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateTaxItemsParams{
-		AutoCommit: &autoCommitDefault,
 		HTTPClient: client,
 	}
 }
 
-/*CreateTaxItemsParams contains all the parameters to send to the API endpoint
-for the create tax items operation typically these are written to a http.Request
+/*
+CreateTaxItemsParams contains all the parameters to send to the API endpoint
+
+	for the create tax items operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateTaxItemsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*AutoCommit*/
+
+	// AutoCommit.
 	AutoCommit *bool
-	/*Body*/
+
+	// Body.
 	Body []*kbmodel.InvoiceItem
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*RequestedDate*/
+
+	// RequestedDate.
+	//
+	// Format: date
 	RequestedDate *strfmt.Date
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -99,6 +98,32 @@ type CreateTaxItemsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the create tax items params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTaxItemsParams) WithDefaults() *CreateTaxItemsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create tax items params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTaxItemsParams) SetDefaults() {
+	var (
+		autoCommitDefault = bool(false)
+	)
+
+	val := CreateTaxItemsParams{
+		AutoCommit: &autoCommitDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the create tax items params
@@ -236,7 +261,6 @@ func (o *CreateTaxItemsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -250,7 +274,6 @@ func (o *CreateTaxItemsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId
@@ -262,46 +285,50 @@ func (o *CreateTaxItemsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param autoCommit
 		var qrAutoCommit bool
+
 		if o.AutoCommit != nil {
 			qrAutoCommit = *o.AutoCommit
 		}
 		qAutoCommit := swag.FormatBool(qrAutoCommit)
 		if qAutoCommit != "" {
+
 			if err := r.SetQueryParam("autoCommit", qAutoCommit); err != nil {
 				return err
 			}
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
+
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
+
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo
@@ -322,4 +349,21 @@ func (o *CreateTaxItemsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCreateTaxItems binds the parameter pluginProperty
+func (o *CreateTaxItemsParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

@@ -13,80 +13,64 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetBundleByKeyParams creates a new GetBundleByKeyParams object
-// with the default values initialized.
+// NewGetBundleByKeyParams creates a new GetBundleByKeyParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetBundleByKeyParams() *GetBundleByKeyParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetBundleByKeyParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetBundleByKeyParamsWithTimeout creates a new GetBundleByKeyParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetBundleByKeyParamsWithTimeout(timeout time.Duration) *GetBundleByKeyParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetBundleByKeyParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetBundleByKeyParamsWithContext creates a new GetBundleByKeyParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetBundleByKeyParamsWithContext(ctx context.Context) *GetBundleByKeyParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetBundleByKeyParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetBundleByKeyParamsWithHTTPClient creates a new GetBundleByKeyParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetBundleByKeyParamsWithHTTPClient(client *http.Client) *GetBundleByKeyParams {
-	var (
-		auditDefault           = string("NONE")
-		includedDeletedDefault = bool(false)
-	)
 	return &GetBundleByKeyParams{
-		Audit:           &auditDefault,
-		IncludedDeleted: &includedDeletedDefault,
-		HTTPClient:      client,
+		HTTPClient: client,
 	}
 }
 
-/*GetBundleByKeyParams contains all the parameters to send to the API endpoint
-for the get bundle by key operation typically these are written to a http.Request
+/*
+GetBundleByKeyParams contains all the parameters to send to the API endpoint
+
+	for the get bundle by key operation.
+
+	Typically these are written to a http.Request.
 */
 type GetBundleByKeyParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*ExternalKey*/
+
+	// ExternalKey.
 	ExternalKey string
-	/*IncludedDeleted*/
+
+	// IncludedDeleted.
 	IncludedDeleted *bool
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -95,6 +79,35 @@ type GetBundleByKeyParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get bundle by key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetBundleByKeyParams) WithDefaults() *GetBundleByKeyParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get bundle by key params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetBundleByKeyParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		includedDeletedDefault = bool(false)
+	)
+
+	val := GetBundleByKeyParams{
+		Audit:           &auditDefault,
+		IncludedDeleted: &includedDeletedDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get bundle by key params
@@ -175,22 +188,24 @@ func (o *GetBundleByKeyParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// query param externalKey
 	qrExternalKey := o.ExternalKey
 	qExternalKey := qrExternalKey
 	if qExternalKey != "" {
+
 		if err := r.SetQueryParam("externalKey", qExternalKey); err != nil {
 			return err
 		}
@@ -200,16 +215,17 @@ func (o *GetBundleByKeyParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param includedDeleted
 		var qrIncludedDeleted bool
+
 		if o.IncludedDeleted != nil {
 			qrIncludedDeleted = *o.IncludedDeleted
 		}
 		qIncludedDeleted := swag.FormatBool(qrIncludedDeleted)
 		if qIncludedDeleted != "" {
+
 			if err := r.SetQueryParam("includedDeleted", qIncludedDeleted); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

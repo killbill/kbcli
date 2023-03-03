@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateInvoiceItemCustomFieldsReader is a Reader for the CreateInvoiceItemCustomFields structure.
@@ -48,17 +47,51 @@ func NewCreateInvoiceItemCustomFieldsCreated() *CreateInvoiceItemCustomFieldsCre
 	return &CreateInvoiceItemCustomFieldsCreated{}
 }
 
-/*CreateInvoiceItemCustomFieldsCreated handles this case with default header values.
+/*
+CreateInvoiceItemCustomFieldsCreated describes a response with status code 201, with default header values.
 
 Custom field created successfully
 */
 type CreateInvoiceItemCustomFieldsCreated struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create invoice item custom fields created response
+func (o *CreateInvoiceItemCustomFieldsCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create invoice item custom fields created response has a 2xx status code
+func (o *CreateInvoiceItemCustomFieldsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create invoice item custom fields created response has a 3xx status code
+func (o *CreateInvoiceItemCustomFieldsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create invoice item custom fields created response has a 4xx status code
+func (o *CreateInvoiceItemCustomFieldsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create invoice item custom fields created response has a 5xx status code
+func (o *CreateInvoiceItemCustomFieldsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create invoice item custom fields created response a status code equal to that given
+func (o *CreateInvoiceItemCustomFieldsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateInvoiceItemCustomFieldsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoiceItems/{invoiceItemId}/customFields][%d] createInvoiceItemCustomFieldsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateInvoiceItemCustomFieldsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoiceItems/{invoiceItemId}/customFields][%d] createInvoiceItemCustomFieldsCreated  %+v", 201, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewCreateInvoiceItemCustomFieldsBadRequest() *CreateInvoiceItemCustomFields
 	return &CreateInvoiceItemCustomFieldsBadRequest{}
 }
 
-/*CreateInvoiceItemCustomFieldsBadRequest handles this case with default header values.
+/*
+CreateInvoiceItemCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid invoice item id supplied
 */
@@ -89,7 +123,41 @@ type CreateInvoiceItemCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create invoice item custom fields bad request response
+func (o *CreateInvoiceItemCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create invoice item custom fields bad request response has a 2xx status code
+func (o *CreateInvoiceItemCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create invoice item custom fields bad request response has a 3xx status code
+func (o *CreateInvoiceItemCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create invoice item custom fields bad request response has a 4xx status code
+func (o *CreateInvoiceItemCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create invoice item custom fields bad request response has a 5xx status code
+func (o *CreateInvoiceItemCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create invoice item custom fields bad request response a status code equal to that given
+func (o *CreateInvoiceItemCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateInvoiceItemCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoiceItems/{invoiceItemId}/customFields][%d] createInvoiceItemCustomFieldsBadRequest ", 400)
+}
+
+func (o *CreateInvoiceItemCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoiceItems/{invoiceItemId}/customFields][%d] createInvoiceItemCustomFieldsBadRequest ", 400)
 }
 

@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetAccountByKeyReader is a Reader for the GetAccountByKey structure.
@@ -48,17 +47,51 @@ func NewGetAccountByKeyOK() *GetAccountByKeyOK {
 	return &GetAccountByKeyOK{}
 }
 
-/*GetAccountByKeyOK handles this case with default header values.
+/*
+GetAccountByKeyOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetAccountByKeyOK struct {
-	Payload *kbmodel.Account
-
+	Payload      *kbmodel.Account
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account by key o k response
+func (o *GetAccountByKeyOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get account by key o k response has a 2xx status code
+func (o *GetAccountByKeyOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get account by key o k response has a 3xx status code
+func (o *GetAccountByKeyOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account by key o k response has a 4xx status code
+func (o *GetAccountByKeyOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get account by key o k response has a 5xx status code
+func (o *GetAccountByKeyOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account by key o k response a status code equal to that given
+func (o *GetAccountByKeyOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetAccountByKeyOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts][%d] getAccountByKeyOK  %+v", 200, o.Payload)
+}
+
+func (o *GetAccountByKeyOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts][%d] getAccountByKeyOK  %+v", 200, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewGetAccountByKeyNotFound() *GetAccountByKeyNotFound {
 	return &GetAccountByKeyNotFound{}
 }
 
-/*GetAccountByKeyNotFound handles this case with default header values.
+/*
+GetAccountByKeyNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
@@ -91,7 +125,41 @@ type GetAccountByKeyNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get account by key not found response
+func (o *GetAccountByKeyNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get account by key not found response has a 2xx status code
+func (o *GetAccountByKeyNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get account by key not found response has a 3xx status code
+func (o *GetAccountByKeyNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get account by key not found response has a 4xx status code
+func (o *GetAccountByKeyNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get account by key not found response has a 5xx status code
+func (o *GetAccountByKeyNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get account by key not found response a status code equal to that given
+func (o *GetAccountByKeyNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetAccountByKeyNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts][%d] getAccountByKeyNotFound ", 404)
+}
+
+func (o *GetAccountByKeyNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts][%d] getAccountByKeyNotFound ", 404)
 }
 

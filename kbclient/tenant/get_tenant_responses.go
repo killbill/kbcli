@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetTenantReader is a Reader for the GetTenant structure.
@@ -48,17 +47,51 @@ func NewGetTenantOK() *GetTenantOK {
 	return &GetTenantOK{}
 }
 
-/*GetTenantOK handles this case with default header values.
+/*
+GetTenantOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetTenantOK struct {
-	Payload *kbmodel.Tenant
-
+	Payload      *kbmodel.Tenant
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get tenant o k response
+func (o *GetTenantOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get tenant o k response has a 2xx status code
+func (o *GetTenantOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get tenant o k response has a 3xx status code
+func (o *GetTenantOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get tenant o k response has a 4xx status code
+func (o *GetTenantOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get tenant o k response has a 5xx status code
+func (o *GetTenantOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get tenant o k response a status code equal to that given
+func (o *GetTenantOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetTenantOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/tenants/{tenantId}][%d] getTenantOK  %+v", 200, o.Payload)
+}
+
+func (o *GetTenantOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants/{tenantId}][%d] getTenantOK  %+v", 200, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewGetTenantBadRequest() *GetTenantBadRequest {
 	return &GetTenantBadRequest{}
 }
 
-/*GetTenantBadRequest handles this case with default header values.
+/*
+GetTenantBadRequest describes a response with status code 400, with default header values.
 
 Invalid tenantId supplied
 */
@@ -91,7 +125,41 @@ type GetTenantBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get tenant bad request response
+func (o *GetTenantBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get tenant bad request response has a 2xx status code
+func (o *GetTenantBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get tenant bad request response has a 3xx status code
+func (o *GetTenantBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get tenant bad request response has a 4xx status code
+func (o *GetTenantBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get tenant bad request response has a 5xx status code
+func (o *GetTenantBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get tenant bad request response a status code equal to that given
+func (o *GetTenantBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetTenantBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/tenants/{tenantId}][%d] getTenantBadRequest ", 400)
+}
+
+func (o *GetTenantBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants/{tenantId}][%d] getTenantBadRequest ", 400)
 }
 
@@ -105,7 +173,8 @@ func NewGetTenantNotFound() *GetTenantNotFound {
 	return &GetTenantNotFound{}
 }
 
-/*GetTenantNotFound handles this case with default header values.
+/*
+GetTenantNotFound describes a response with status code 404, with default header values.
 
 Tenant not found
 */
@@ -113,7 +182,41 @@ type GetTenantNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get tenant not found response
+func (o *GetTenantNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get tenant not found response has a 2xx status code
+func (o *GetTenantNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get tenant not found response has a 3xx status code
+func (o *GetTenantNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get tenant not found response has a 4xx status code
+func (o *GetTenantNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get tenant not found response has a 5xx status code
+func (o *GetTenantNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get tenant not found response a status code equal to that given
+func (o *GetTenantNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetTenantNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/tenants/{tenantId}][%d] getTenantNotFound ", 404)
+}
+
+func (o *GetTenantNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants/{tenantId}][%d] getTenantNotFound ", 404)
 }
 

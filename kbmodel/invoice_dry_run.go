@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // InvoiceDryRun invoice dry run
+//
 // swagger:model InvoiceDryRun
 type InvoiceDryRun struct {
 
@@ -203,14 +204,13 @@ func (e InvoiceDryRunBillingPeriodEnum) IsValid() bool {
 
 // prop value enum
 func (m *InvoiceDryRun) validateBillingPeriodEnum(path, location string, value InvoiceDryRunBillingPeriodEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeBillingPeriodPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeBillingPeriodPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateBillingPeriod(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingPeriod) { // not required
 		return nil
 	}
@@ -270,14 +270,13 @@ func (e InvoiceDryRunBillingPolicyEnum) IsValid() bool {
 
 // prop value enum
 func (m *InvoiceDryRun) validateBillingPolicyEnum(path, location string, value InvoiceDryRunBillingPolicyEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeBillingPolicyPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeBillingPolicyPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateBillingPolicy(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingPolicy) { // not required
 		return nil
 	}
@@ -291,7 +290,6 @@ func (m *InvoiceDryRun) validateBillingPolicy(formats strfmt.Registry) error {
 }
 
 func (m *InvoiceDryRun) validateBundleID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BundleID) { // not required
 		return nil
 	}
@@ -378,14 +376,13 @@ func (e InvoiceDryRunDryRunActionEnum) IsValid() bool {
 
 // prop value enum
 func (m *InvoiceDryRun) validateDryRunActionEnum(path, location string, value InvoiceDryRunDryRunActionEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeDryRunActionPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeDryRunActionPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateDryRunAction(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DryRunAction) { // not required
 		return nil
 	}
@@ -441,14 +438,13 @@ func (e InvoiceDryRunDryRunTypeEnum) IsValid() bool {
 
 // prop value enum
 func (m *InvoiceDryRun) validateDryRunTypeEnum(path, location string, value InvoiceDryRunDryRunTypeEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeDryRunTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeDryRunTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateDryRunType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DryRunType) { // not required
 		return nil
 	}
@@ -462,7 +458,6 @@ func (m *InvoiceDryRun) validateDryRunType(formats strfmt.Registry) error {
 }
 
 func (m *InvoiceDryRun) validateEffectiveDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EffectiveDate) { // not required
 		return nil
 	}
@@ -521,14 +516,13 @@ func (e InvoiceDryRunPhaseTypeEnum) IsValid() bool {
 
 // prop value enum
 func (m *InvoiceDryRun) validatePhaseTypeEnum(path, location string, value InvoiceDryRunPhaseTypeEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypePhaseTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypePhaseTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validatePhaseType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PhaseType) { // not required
 		return nil
 	}
@@ -542,7 +536,6 @@ func (m *InvoiceDryRun) validatePhaseType(formats strfmt.Registry) error {
 }
 
 func (m *InvoiceDryRun) validatePriceOverrides(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PriceOverrides) { // not required
 		return nil
 	}
@@ -556,6 +549,8 @@ func (m *InvoiceDryRun) validatePriceOverrides(formats strfmt.Registry) error {
 			if err := m.PriceOverrides[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -609,14 +604,13 @@ func (e InvoiceDryRunProductCategoryEnum) IsValid() bool {
 
 // prop value enum
 func (m *InvoiceDryRun) validateProductCategoryEnum(path, location string, value InvoiceDryRunProductCategoryEnum) error {
-	if err := validate.Enum(path, location, value, invoiceDryRunTypeProductCategoryPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, invoiceDryRunTypeProductCategoryPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoiceDryRun) validateProductCategory(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProductCategory) { // not required
 		return nil
 	}
@@ -630,13 +624,46 @@ func (m *InvoiceDryRun) validateProductCategory(formats strfmt.Registry) error {
 }
 
 func (m *InvoiceDryRun) validateSubscriptionID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SubscriptionID) { // not required
 		return nil
 	}
 
 	if err := validate.FormatOf("subscriptionId", "body", "uuid", m.SubscriptionID.String(), formats); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this invoice dry run based on the context it is used
+func (m *InvoiceDryRun) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePriceOverrides(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *InvoiceDryRun) contextValidatePriceOverrides(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PriceOverrides); i++ {
+
+		if m.PriceOverrides[i] != nil {
+			if err := m.PriceOverrides[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("priceOverrides" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

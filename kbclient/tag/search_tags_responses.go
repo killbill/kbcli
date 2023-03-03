@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // SearchTagsReader is a Reader for the SearchTags structure.
@@ -47,17 +46,51 @@ func NewSearchTagsOK() *SearchTagsOK {
 	return &SearchTagsOK{}
 }
 
-/*SearchTagsOK handles this case with default header values.
+/*
+SearchTagsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type SearchTagsOK struct {
-	Payload []*kbmodel.Tag
-
+	Payload      []*kbmodel.Tag
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the search tags o k response
+func (o *SearchTagsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this search tags o k response has a 2xx status code
+func (o *SearchTagsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this search tags o k response has a 3xx status code
+func (o *SearchTagsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this search tags o k response has a 4xx status code
+func (o *SearchTagsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this search tags o k response has a 5xx status code
+func (o *SearchTagsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this search tags o k response a status code equal to that given
+func (o *SearchTagsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *SearchTagsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/tags/search/{searchKey}][%d] searchTagsOK  %+v", 200, o.Payload)
+}
+
+func (o *SearchTagsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tags/search/{searchKey}][%d] searchTagsOK  %+v", 200, o.Payload)
 }
 

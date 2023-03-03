@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetPaymentMethodCustomFieldsReader is a Reader for the GetPaymentMethodCustomFields structure.
@@ -48,17 +47,51 @@ func NewGetPaymentMethodCustomFieldsOK() *GetPaymentMethodCustomFieldsOK {
 	return &GetPaymentMethodCustomFieldsOK{}
 }
 
-/*GetPaymentMethodCustomFieldsOK handles this case with default header values.
+/*
+GetPaymentMethodCustomFieldsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetPaymentMethodCustomFieldsOK struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get payment method custom fields o k response
+func (o *GetPaymentMethodCustomFieldsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get payment method custom fields o k response has a 2xx status code
+func (o *GetPaymentMethodCustomFieldsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get payment method custom fields o k response has a 3xx status code
+func (o *GetPaymentMethodCustomFieldsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payment method custom fields o k response has a 4xx status code
+func (o *GetPaymentMethodCustomFieldsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get payment method custom fields o k response has a 5xx status code
+func (o *GetPaymentMethodCustomFieldsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payment method custom fields o k response a status code equal to that given
+func (o *GetPaymentMethodCustomFieldsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetPaymentMethodCustomFieldsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}/customFields][%d] getPaymentMethodCustomFieldsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetPaymentMethodCustomFieldsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}/customFields][%d] getPaymentMethodCustomFieldsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetPaymentMethodCustomFieldsBadRequest() *GetPaymentMethodCustomFieldsBa
 	return &GetPaymentMethodCustomFieldsBadRequest{}
 }
 
-/*GetPaymentMethodCustomFieldsBadRequest handles this case with default header values.
+/*
+GetPaymentMethodCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid payment method id supplied
 */
@@ -89,7 +123,41 @@ type GetPaymentMethodCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get payment method custom fields bad request response
+func (o *GetPaymentMethodCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get payment method custom fields bad request response has a 2xx status code
+func (o *GetPaymentMethodCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get payment method custom fields bad request response has a 3xx status code
+func (o *GetPaymentMethodCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payment method custom fields bad request response has a 4xx status code
+func (o *GetPaymentMethodCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get payment method custom fields bad request response has a 5xx status code
+func (o *GetPaymentMethodCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payment method custom fields bad request response a status code equal to that given
+func (o *GetPaymentMethodCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetPaymentMethodCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}/customFields][%d] getPaymentMethodCustomFieldsBadRequest ", 400)
+}
+
+func (o *GetPaymentMethodCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/{paymentMethodId}/customFields][%d] getPaymentMethodCustomFieldsBadRequest ", 400)
 }
 

@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // InvalidatesCacheByAccountReader is a Reader for the InvalidatesCacheByAccount structure.
@@ -46,7 +45,8 @@ func NewInvalidatesCacheByAccountNoContent() *InvalidatesCacheByAccountNoContent
 	return &InvalidatesCacheByAccountNoContent{}
 }
 
-/*InvalidatesCacheByAccountNoContent handles this case with default header values.
+/*
+InvalidatesCacheByAccountNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type InvalidatesCacheByAccountNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the invalidates cache by account no content response
+func (o *InvalidatesCacheByAccountNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this invalidates cache by account no content response has a 2xx status code
+func (o *InvalidatesCacheByAccountNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this invalidates cache by account no content response has a 3xx status code
+func (o *InvalidatesCacheByAccountNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this invalidates cache by account no content response has a 4xx status code
+func (o *InvalidatesCacheByAccountNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this invalidates cache by account no content response has a 5xx status code
+func (o *InvalidatesCacheByAccountNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this invalidates cache by account no content response a status code equal to that given
+func (o *InvalidatesCacheByAccountNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *InvalidatesCacheByAccountNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/accounts/{accountId}][%d] invalidatesCacheByAccountNoContent ", 204)
+}
+
+func (o *InvalidatesCacheByAccountNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/accounts/{accountId}][%d] invalidatesCacheByAccountNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewInvalidatesCacheByAccountBadRequest() *InvalidatesCacheByAccountBadReque
 	return &InvalidatesCacheByAccountBadRequest{}
 }
 
-/*InvalidatesCacheByAccountBadRequest handles this case with default header values.
+/*
+InvalidatesCacheByAccountBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -76,7 +111,41 @@ type InvalidatesCacheByAccountBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the invalidates cache by account bad request response
+func (o *InvalidatesCacheByAccountBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this invalidates cache by account bad request response has a 2xx status code
+func (o *InvalidatesCacheByAccountBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this invalidates cache by account bad request response has a 3xx status code
+func (o *InvalidatesCacheByAccountBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this invalidates cache by account bad request response has a 4xx status code
+func (o *InvalidatesCacheByAccountBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this invalidates cache by account bad request response has a 5xx status code
+func (o *InvalidatesCacheByAccountBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this invalidates cache by account bad request response a status code equal to that given
+func (o *InvalidatesCacheByAccountBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *InvalidatesCacheByAccountBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/accounts/{accountId}][%d] invalidatesCacheByAccountBadRequest ", 400)
+}
+
+func (o *InvalidatesCacheByAccountBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/admin/cache/accounts/{accountId}][%d] invalidatesCacheByAccountBadRequest ", 400)
 }
 

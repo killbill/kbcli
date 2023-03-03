@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // InsertUserKeyValueReader is a Reader for the InsertUserKeyValue structure.
@@ -48,17 +47,51 @@ func NewInsertUserKeyValueCreated() *InsertUserKeyValueCreated {
 	return &InsertUserKeyValueCreated{}
 }
 
-/*InsertUserKeyValueCreated handles this case with default header values.
+/*
+InsertUserKeyValueCreated describes a response with status code 201, with default header values.
 
 Per tenant config uploaded successfully
 */
 type InsertUserKeyValueCreated struct {
-	Payload *kbmodel.TenantKeyValue
-
+	Payload      *kbmodel.TenantKeyValue
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the insert user key value created response
+func (o *InsertUserKeyValueCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this insert user key value created response has a 2xx status code
+func (o *InsertUserKeyValueCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this insert user key value created response has a 3xx status code
+func (o *InsertUserKeyValueCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this insert user key value created response has a 4xx status code
+func (o *InsertUserKeyValueCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this insert user key value created response has a 5xx status code
+func (o *InsertUserKeyValueCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this insert user key value created response a status code equal to that given
+func (o *InsertUserKeyValueCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *InsertUserKeyValueCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/tenants/userKeyValue/{keyName}][%d] insertUserKeyValueCreated  %+v", 201, o.Payload)
+}
+
+func (o *InsertUserKeyValueCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/userKeyValue/{keyName}][%d] insertUserKeyValueCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewInsertUserKeyValueBadRequest() *InsertUserKeyValueBadRequest {
 	return &InsertUserKeyValueBadRequest{}
 }
 
-/*InsertUserKeyValueBadRequest handles this case with default header values.
+/*
+InsertUserKeyValueBadRequest describes a response with status code 400, with default header values.
 
 Invalid tenantId supplied
 */
@@ -91,7 +125,41 @@ type InsertUserKeyValueBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the insert user key value bad request response
+func (o *InsertUserKeyValueBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this insert user key value bad request response has a 2xx status code
+func (o *InsertUserKeyValueBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this insert user key value bad request response has a 3xx status code
+func (o *InsertUserKeyValueBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this insert user key value bad request response has a 4xx status code
+func (o *InsertUserKeyValueBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this insert user key value bad request response has a 5xx status code
+func (o *InsertUserKeyValueBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this insert user key value bad request response a status code equal to that given
+func (o *InsertUserKeyValueBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *InsertUserKeyValueBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/tenants/userKeyValue/{keyName}][%d] insertUserKeyValueBadRequest ", 400)
+}
+
+func (o *InsertUserKeyValueBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/tenants/userKeyValue/{keyName}][%d] insertUserKeyValueBadRequest ", 400)
 }
 

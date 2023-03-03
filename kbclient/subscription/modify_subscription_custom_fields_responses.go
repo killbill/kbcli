@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // ModifySubscriptionCustomFieldsReader is a Reader for the ModifySubscriptionCustomFields structure.
@@ -46,7 +45,8 @@ func NewModifySubscriptionCustomFieldsNoContent() *ModifySubscriptionCustomField
 	return &ModifySubscriptionCustomFieldsNoContent{}
 }
 
-/*ModifySubscriptionCustomFieldsNoContent handles this case with default header values.
+/*
+ModifySubscriptionCustomFieldsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type ModifySubscriptionCustomFieldsNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify subscription custom fields no content response
+func (o *ModifySubscriptionCustomFieldsNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this modify subscription custom fields no content response has a 2xx status code
+func (o *ModifySubscriptionCustomFieldsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this modify subscription custom fields no content response has a 3xx status code
+func (o *ModifySubscriptionCustomFieldsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify subscription custom fields no content response has a 4xx status code
+func (o *ModifySubscriptionCustomFieldsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this modify subscription custom fields no content response has a 5xx status code
+func (o *ModifySubscriptionCustomFieldsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify subscription custom fields no content response a status code equal to that given
+func (o *ModifySubscriptionCustomFieldsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *ModifySubscriptionCustomFieldsNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] modifySubscriptionCustomFieldsNoContent ", 204)
+}
+
+func (o *ModifySubscriptionCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] modifySubscriptionCustomFieldsNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewModifySubscriptionCustomFieldsBadRequest() *ModifySubscriptionCustomFiel
 	return &ModifySubscriptionCustomFieldsBadRequest{}
 }
 
-/*ModifySubscriptionCustomFieldsBadRequest handles this case with default header values.
+/*
+ModifySubscriptionCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid subscription id supplied
 */
@@ -76,7 +111,41 @@ type ModifySubscriptionCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify subscription custom fields bad request response
+func (o *ModifySubscriptionCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this modify subscription custom fields bad request response has a 2xx status code
+func (o *ModifySubscriptionCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this modify subscription custom fields bad request response has a 3xx status code
+func (o *ModifySubscriptionCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify subscription custom fields bad request response has a 4xx status code
+func (o *ModifySubscriptionCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this modify subscription custom fields bad request response has a 5xx status code
+func (o *ModifySubscriptionCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify subscription custom fields bad request response a status code equal to that given
+func (o *ModifySubscriptionCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *ModifySubscriptionCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] modifySubscriptionCustomFieldsBadRequest ", 400)
+}
+
+func (o *ModifySubscriptionCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] modifySubscriptionCustomFieldsBadRequest ", 400)
 }
 

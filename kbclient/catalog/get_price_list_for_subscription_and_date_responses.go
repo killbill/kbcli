@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetPriceListForSubscriptionAndDateReader is a Reader for the GetPriceListForSubscriptionAndDate structure.
@@ -47,17 +46,51 @@ func NewGetPriceListForSubscriptionAndDateOK() *GetPriceListForSubscriptionAndDa
 	return &GetPriceListForSubscriptionAndDateOK{}
 }
 
-/*GetPriceListForSubscriptionAndDateOK handles this case with default header values.
+/*
+GetPriceListForSubscriptionAndDateOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetPriceListForSubscriptionAndDateOK struct {
-	Payload *kbmodel.PriceList
-
+	Payload      *kbmodel.PriceList
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get price list for subscription and date o k response
+func (o *GetPriceListForSubscriptionAndDateOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get price list for subscription and date o k response has a 2xx status code
+func (o *GetPriceListForSubscriptionAndDateOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get price list for subscription and date o k response has a 3xx status code
+func (o *GetPriceListForSubscriptionAndDateOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get price list for subscription and date o k response has a 4xx status code
+func (o *GetPriceListForSubscriptionAndDateOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get price list for subscription and date o k response has a 5xx status code
+func (o *GetPriceListForSubscriptionAndDateOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get price list for subscription and date o k response a status code equal to that given
+func (o *GetPriceListForSubscriptionAndDateOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetPriceListForSubscriptionAndDateOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/catalog/priceList][%d] getPriceListForSubscriptionAndDateOK  %+v", 200, o.Payload)
+}
+
+func (o *GetPriceListForSubscriptionAndDateOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog/priceList][%d] getPriceListForSubscriptionAndDateOK  %+v", 200, o.Payload)
 }
 

@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // PlanDetail plan detail
+//
 // swagger:model PlanDetail
 type PlanDetail struct {
 
@@ -142,14 +143,13 @@ func (e PlanDetailFinalPhaseBillingPeriodEnum) IsValid() bool {
 
 // prop value enum
 func (m *PlanDetail) validateFinalPhaseBillingPeriodEnum(path, location string, value PlanDetailFinalPhaseBillingPeriodEnum) error {
-	if err := validate.Enum(path, location, value, planDetailTypeFinalPhaseBillingPeriodPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, planDetailTypeFinalPhaseBillingPeriodPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *PlanDetail) validateFinalPhaseBillingPeriod(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.FinalPhaseBillingPeriod) { // not required
 		return nil
 	}
@@ -163,7 +163,6 @@ func (m *PlanDetail) validateFinalPhaseBillingPeriod(formats strfmt.Registry) er
 }
 
 func (m *PlanDetail) validateFinalPhaseRecurringPrice(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.FinalPhaseRecurringPrice) { // not required
 		return nil
 	}
@@ -177,6 +176,42 @@ func (m *PlanDetail) validateFinalPhaseRecurringPrice(formats strfmt.Registry) e
 			if err := m.FinalPhaseRecurringPrice[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("finalPhaseRecurringPrice" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("finalPhaseRecurringPrice" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this plan detail based on the context it is used
+func (m *PlanDetail) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateFinalPhaseRecurringPrice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *PlanDetail) contextValidateFinalPhaseRecurringPrice(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.FinalPhaseRecurringPrice); i++ {
+
+		if m.FinalPhaseRecurringPrice[i] != nil {
+			if err := m.FinalPhaseRecurringPrice[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("finalPhaseRecurringPrice" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("finalPhaseRecurringPrice" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

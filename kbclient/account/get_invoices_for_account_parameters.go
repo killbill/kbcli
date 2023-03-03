@@ -13,104 +13,82 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetInvoicesForAccountParams creates a new GetInvoicesForAccountParams object
-// with the default values initialized.
+// NewGetInvoicesForAccountParams creates a new GetInvoicesForAccountParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetInvoicesForAccountParams() *GetInvoicesForAccountParams {
-	var (
-		auditDefault                 = string("NONE")
-		includeVoidedInvoicesDefault = bool(false)
-		unpaidInvoicesOnlyDefault    = bool(false)
-		withMigrationInvoicesDefault = bool(false)
-	)
 	return &GetInvoicesForAccountParams{
-		Audit:                 &auditDefault,
-		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
-		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithMigrationInvoices: &withMigrationInvoicesDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetInvoicesForAccountParamsWithTimeout creates a new GetInvoicesForAccountParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetInvoicesForAccountParamsWithTimeout(timeout time.Duration) *GetInvoicesForAccountParams {
-	var (
-		auditDefault                 = string("NONE")
-		includeVoidedInvoicesDefault = bool(false)
-		unpaidInvoicesOnlyDefault    = bool(false)
-		withMigrationInvoicesDefault = bool(false)
-	)
 	return &GetInvoicesForAccountParams{
-		Audit:                 &auditDefault,
-		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
-		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithMigrationInvoices: &withMigrationInvoicesDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetInvoicesForAccountParamsWithContext creates a new GetInvoicesForAccountParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetInvoicesForAccountParamsWithContext(ctx context.Context) *GetInvoicesForAccountParams {
-	var (
-		auditDefault                 = string("NONE")
-		includeVoidedInvoicesDefault = bool(false)
-		unpaidInvoicesOnlyDefault    = bool(false)
-		withMigrationInvoicesDefault = bool(false)
-	)
 	return &GetInvoicesForAccountParams{
-		Audit:                 &auditDefault,
-		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
-		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithMigrationInvoices: &withMigrationInvoicesDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetInvoicesForAccountParamsWithHTTPClient creates a new GetInvoicesForAccountParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetInvoicesForAccountParamsWithHTTPClient(client *http.Client) *GetInvoicesForAccountParams {
-	var (
-		auditDefault                 = string("NONE")
-		includeVoidedInvoicesDefault = bool(false)
-		unpaidInvoicesOnlyDefault    = bool(false)
-		withMigrationInvoicesDefault = bool(false)
-	)
 	return &GetInvoicesForAccountParams{
-		Audit:                 &auditDefault,
-		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
-		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
-		WithMigrationInvoices: &withMigrationInvoicesDefault,
-		HTTPClient:            client,
+		HTTPClient: client,
 	}
 }
 
-/*GetInvoicesForAccountParams contains all the parameters to send to the API endpoint
-for the get invoices for account operation typically these are written to a http.Request
+/*
+GetInvoicesForAccountParams contains all the parameters to send to the API endpoint
+
+	for the get invoices for account operation.
+
+	Typically these are written to a http.Request.
 */
 type GetInvoicesForAccountParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*Audit*/
+
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*EndDate*/
+
+	// EndDate.
+	//
+	// Format: date
 	EndDate *strfmt.Date
-	/*IncludeVoidedInvoices*/
+
+	// IncludeVoidedInvoices.
 	IncludeVoidedInvoices *bool
-	/*StartDate*/
+
+	// StartDate.
+	//
+	// Format: date
 	StartDate *strfmt.Date
-	/*UnpaidInvoicesOnly*/
+
+	// UnpaidInvoicesOnly.
 	UnpaidInvoicesOnly *bool
-	/*WithMigrationInvoices*/
+
+	// WithMigrationInvoices.
 	WithMigrationInvoices *bool
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -119,6 +97,41 @@ type GetInvoicesForAccountParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get invoices for account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoicesForAccountParams) WithDefaults() *GetInvoicesForAccountParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get invoices for account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoicesForAccountParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		includeVoidedInvoicesDefault = bool(false)
+
+		unpaidInvoicesOnlyDefault = bool(false)
+
+		withMigrationInvoicesDefault = bool(false)
+	)
+
+	val := GetInvoicesForAccountParams{
+		Audit:                 &auditDefault,
+		IncludeVoidedInvoices: &includeVoidedInvoicesDefault,
+		UnpaidInvoicesOnly:    &unpaidInvoicesOnlyDefault,
+		WithMigrationInvoices: &withMigrationInvoicesDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get invoices for account params
@@ -248,96 +261,102 @@ func (o *GetInvoicesForAccountParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.EndDate != nil {
 
 		// query param endDate
 		var qrEndDate strfmt.Date
+
 		if o.EndDate != nil {
 			qrEndDate = *o.EndDate
 		}
 		qEndDate := qrEndDate.String()
 		if qEndDate != "" {
+
 			if err := r.SetQueryParam("endDate", qEndDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.IncludeVoidedInvoices != nil {
 
 		// query param includeVoidedInvoices
 		var qrIncludeVoidedInvoices bool
+
 		if o.IncludeVoidedInvoices != nil {
 			qrIncludeVoidedInvoices = *o.IncludeVoidedInvoices
 		}
 		qIncludeVoidedInvoices := swag.FormatBool(qrIncludeVoidedInvoices)
 		if qIncludeVoidedInvoices != "" {
+
 			if err := r.SetQueryParam("includeVoidedInvoices", qIncludeVoidedInvoices); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.StartDate != nil {
 
 		// query param startDate
 		var qrStartDate strfmt.Date
+
 		if o.StartDate != nil {
 			qrStartDate = *o.StartDate
 		}
 		qStartDate := qrStartDate.String()
 		if qStartDate != "" {
+
 			if err := r.SetQueryParam("startDate", qStartDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.UnpaidInvoicesOnly != nil {
 
 		// query param unpaidInvoicesOnly
 		var qrUnpaidInvoicesOnly bool
+
 		if o.UnpaidInvoicesOnly != nil {
 			qrUnpaidInvoicesOnly = *o.UnpaidInvoicesOnly
 		}
 		qUnpaidInvoicesOnly := swag.FormatBool(qrUnpaidInvoicesOnly)
 		if qUnpaidInvoicesOnly != "" {
+
 			if err := r.SetQueryParam("unpaidInvoicesOnly", qUnpaidInvoicesOnly); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.WithMigrationInvoices != nil {
 
 		// query param withMigrationInvoices
 		var qrWithMigrationInvoices bool
+
 		if o.WithMigrationInvoices != nil {
 			qrWithMigrationInvoices = *o.WithMigrationInvoices
 		}
 		qWithMigrationInvoices := swag.FormatBool(qrWithMigrationInvoices)
 		if qWithMigrationInvoices != "" {
+
 			if err := r.SetQueryParam("withMigrationInvoices", qWithMigrationInvoices); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

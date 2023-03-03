@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // GetTagDefinitionReader is a Reader for the GetTagDefinition structure.
@@ -48,17 +47,51 @@ func NewGetTagDefinitionOK() *GetTagDefinitionOK {
 	return &GetTagDefinitionOK{}
 }
 
-/*GetTagDefinitionOK handles this case with default header values.
+/*
+GetTagDefinitionOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetTagDefinitionOK struct {
-	Payload *kbmodel.TagDefinition
-
+	Payload      *kbmodel.TagDefinition
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get tag definition o k response
+func (o *GetTagDefinitionOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get tag definition o k response has a 2xx status code
+func (o *GetTagDefinitionOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get tag definition o k response has a 3xx status code
+func (o *GetTagDefinitionOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get tag definition o k response has a 4xx status code
+func (o *GetTagDefinitionOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get tag definition o k response has a 5xx status code
+func (o *GetTagDefinitionOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get tag definition o k response a status code equal to that given
+func (o *GetTagDefinitionOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetTagDefinitionOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/tagDefinitions/{tagDefinitionId}][%d] getTagDefinitionOK  %+v", 200, o.Payload)
+}
+
+func (o *GetTagDefinitionOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tagDefinitions/{tagDefinitionId}][%d] getTagDefinitionOK  %+v", 200, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewGetTagDefinitionBadRequest() *GetTagDefinitionBadRequest {
 	return &GetTagDefinitionBadRequest{}
 }
 
-/*GetTagDefinitionBadRequest handles this case with default header values.
+/*
+GetTagDefinitionBadRequest describes a response with status code 400, with default header values.
 
 Invalid tagDefinitionId supplied
 */
@@ -91,7 +125,41 @@ type GetTagDefinitionBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get tag definition bad request response
+func (o *GetTagDefinitionBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get tag definition bad request response has a 2xx status code
+func (o *GetTagDefinitionBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get tag definition bad request response has a 3xx status code
+func (o *GetTagDefinitionBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get tag definition bad request response has a 4xx status code
+func (o *GetTagDefinitionBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get tag definition bad request response has a 5xx status code
+func (o *GetTagDefinitionBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get tag definition bad request response a status code equal to that given
+func (o *GetTagDefinitionBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetTagDefinitionBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/tagDefinitions/{tagDefinitionId}][%d] getTagDefinitionBadRequest ", 400)
+}
+
+func (o *GetTagDefinitionBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tagDefinitions/{tagDefinitionId}][%d] getTagDefinitionBadRequest ", 400)
 }
 

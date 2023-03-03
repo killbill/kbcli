@@ -13,61 +13,64 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewUploadOverdueConfigXMLParams creates a new UploadOverdueConfigXMLParams object
-// with the default values initialized.
+// NewUploadOverdueConfigXMLParams creates a new UploadOverdueConfigXMLParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUploadOverdueConfigXMLParams() *UploadOverdueConfigXMLParams {
-	var ()
 	return &UploadOverdueConfigXMLParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUploadOverdueConfigXMLParamsWithTimeout creates a new UploadOverdueConfigXMLParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewUploadOverdueConfigXMLParamsWithTimeout(timeout time.Duration) *UploadOverdueConfigXMLParams {
-	var ()
 	return &UploadOverdueConfigXMLParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewUploadOverdueConfigXMLParamsWithContext creates a new UploadOverdueConfigXMLParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewUploadOverdueConfigXMLParamsWithContext(ctx context.Context) *UploadOverdueConfigXMLParams {
-	var ()
 	return &UploadOverdueConfigXMLParams{
-
 		Context: ctx,
 	}
 }
 
 // NewUploadOverdueConfigXMLParamsWithHTTPClient creates a new UploadOverdueConfigXMLParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewUploadOverdueConfigXMLParamsWithHTTPClient(client *http.Client) *UploadOverdueConfigXMLParams {
-	var ()
 	return &UploadOverdueConfigXMLParams{
 		HTTPClient: client,
 	}
 }
 
-/*UploadOverdueConfigXMLParams contains all the parameters to send to the API endpoint
-for the upload overdue config Xml operation typically these are written to a http.Request
+/*
+UploadOverdueConfigXMLParams contains all the parameters to send to the API endpoint
+
+	for the upload overdue config Xml operation.
+
+	Typically these are written to a http.Request.
 */
 type UploadOverdueConfigXMLParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -76,6 +79,21 @@ type UploadOverdueConfigXMLParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the upload overdue config Xml params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UploadOverdueConfigXMLParams) WithDefaults() *UploadOverdueConfigXMLParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the upload overdue config Xml params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UploadOverdueConfigXMLParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the upload overdue config Xml params
@@ -169,7 +187,6 @@ func (o *UploadOverdueConfigXMLParams) WriteToRequest(r runtime.ClientRequest, r
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -183,9 +200,7 @@ func (o *UploadOverdueConfigXMLParams) WriteToRequest(r runtime.ClientRequest, r
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if err := r.SetBodyParam(o.Body); err != nil {
 		return err
 	}

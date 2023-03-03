@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new catalog API client.
@@ -49,67 +48,36 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// ICatalog - interface for Catalog client.
-type ICatalog interface {
-	/*
-		AddSimplePlan adds a simple plan entry in the current version of the catalog
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	AddSimplePlan(ctx context.Context, params *AddSimplePlanParams) (*AddSimplePlanCreated, error)
 
-	/*
-		DeleteCatalog deletes all versions for a per tenant catalog
-	*/
 	DeleteCatalog(ctx context.Context, params *DeleteCatalogParams) (*DeleteCatalogNoContent, error)
 
-	/*
-		GetAvailableAddons retrieves available add ons for a given product
-	*/
 	GetAvailableAddons(ctx context.Context, params *GetAvailableAddonsParams) (*GetAvailableAddonsOK, error)
 
-	/*
-		GetAvailableBasePlans retrieves available base plans
-	*/
 	GetAvailableBasePlans(ctx context.Context, params *GetAvailableBasePlansParams) (*GetAvailableBasePlansOK, error)
 
-	/*
-		GetCatalogJSON retrieves the catalog as JSON
-	*/
 	GetCatalogJSON(ctx context.Context, params *GetCatalogJSONParams) (*GetCatalogJSONOK, error)
 
-	/*
-		GetCatalogVersions retrieves a list of catalog versions
-	*/
 	GetCatalogVersions(ctx context.Context, params *GetCatalogVersionsParams) (*GetCatalogVersionsOK, error)
 
-	/*
-		GetCatalogXML retrieves the full catalog as XML
-	*/
 	GetCatalogXML(ctx context.Context, params *GetCatalogXMLParams) (*GetCatalogXMLOK, error)
 
-	/*
-		GetPhaseForSubscriptionAndDate retrieves phase for a given subscription and date
-	*/
 	GetPhaseForSubscriptionAndDate(ctx context.Context, params *GetPhaseForSubscriptionAndDateParams) (*GetPhaseForSubscriptionAndDateOK, error)
 
-	/*
-		GetPlanForSubscriptionAndDate retrieves plan for a given subscription and date
-	*/
 	GetPlanForSubscriptionAndDate(ctx context.Context, params *GetPlanForSubscriptionAndDateParams) (*GetPlanForSubscriptionAndDateOK, error)
 
-	/*
-		GetPriceListForSubscriptionAndDate retrieves price list for a given subscription and date
-	*/
 	GetPriceListForSubscriptionAndDate(ctx context.Context, params *GetPriceListForSubscriptionAndDateParams) (*GetPriceListForSubscriptionAndDateOK, error)
 
-	/*
-		GetProductForSubscriptionAndDate retrieves product for a given subscription and date
-	*/
 	GetProductForSubscriptionAndDate(ctx context.Context, params *GetProductForSubscriptionAndDateParams) (*GetProductForSubscriptionAndDateOK, error)
 
-	/*
-		UploadCatalogXML uploads the full catalog as XML
-	*/
 	UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLParams) (*UploadCatalogXMLCreated, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -144,7 +112,7 @@ func (a *Client) AddSimplePlan(ctx context.Context, params *AddSimplePlanParams)
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addSimplePlan",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/catalog/simplePlan",
@@ -156,7 +124,9 @@ func (a *Client) AddSimplePlan(ctx context.Context, params *AddSimplePlanParams)
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -215,19 +185,21 @@ func (a *Client) DeleteCatalog(ctx context.Context, params *DeleteCatalogParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteCatalog",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/catalog",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteCatalogReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -259,19 +231,21 @@ func (a *Client) GetAvailableAddons(ctx context.Context, params *GetAvailableAdd
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAvailableAddons",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/availableAddons",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAvailableAddonsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -303,19 +277,21 @@ func (a *Client) GetAvailableBasePlans(ctx context.Context, params *GetAvailable
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAvailableBasePlans",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/availableBasePlans",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAvailableBasePlansReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -347,19 +323,21 @@ func (a *Client) GetCatalogJSON(ctx context.Context, params *GetCatalogJSONParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCatalogJson",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCatalogJSONReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -391,19 +369,21 @@ func (a *Client) GetCatalogVersions(ctx context.Context, params *GetCatalogVersi
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCatalogVersions",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/versions",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCatalogVersionsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -435,19 +415,21 @@ func (a *Client) GetCatalogXML(ctx context.Context, params *GetCatalogXMLParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCatalogXml",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/xml",
 		ProducesMediaTypes: []string{"text/xml"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCatalogXMLReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -479,19 +461,21 @@ func (a *Client) GetPhaseForSubscriptionAndDate(ctx context.Context, params *Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPhaseForSubscriptionAndDate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/phase",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPhaseForSubscriptionAndDateReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -523,19 +507,21 @@ func (a *Client) GetPlanForSubscriptionAndDate(ctx context.Context, params *GetP
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPlanForSubscriptionAndDate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/plan",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPlanForSubscriptionAndDateReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -567,19 +553,21 @@ func (a *Client) GetPriceListForSubscriptionAndDate(ctx context.Context, params 
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPriceListForSubscriptionAndDate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/priceList",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPriceListForSubscriptionAndDateReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -611,19 +599,21 @@ func (a *Client) GetProductForSubscriptionAndDate(ctx context.Context, params *G
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getProductForSubscriptionAndDate",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/catalog/product",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetProductForSubscriptionAndDateReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -670,11 +660,11 @@ func (a *Client) UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLP
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadCatalogXml",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/catalog/xml",
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"text/xml"},
 		Schemes:            []string{"http"},
 		Params:             params,
@@ -682,7 +672,9 @@ func (a *Client) UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLP
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -696,7 +688,7 @@ func (a *Client) UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLP
 		ID:                 "uploadCatalogXml",
 		Method:             "GET",
 		PathPattern:        location,
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"text/xml"},
 		Schemes:            []string{"http"},
 		Params:             getParams,

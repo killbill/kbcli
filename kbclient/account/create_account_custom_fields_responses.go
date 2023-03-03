@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v2/kbmodel"
 )
 
 // CreateAccountCustomFieldsReader is a Reader for the CreateAccountCustomFields structure.
@@ -48,17 +47,51 @@ func NewCreateAccountCustomFieldsCreated() *CreateAccountCustomFieldsCreated {
 	return &CreateAccountCustomFieldsCreated{}
 }
 
-/*CreateAccountCustomFieldsCreated handles this case with default header values.
+/*
+CreateAccountCustomFieldsCreated describes a response with status code 201, with default header values.
 
 Custom field created successfully
 */
 type CreateAccountCustomFieldsCreated struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create account custom fields created response
+func (o *CreateAccountCustomFieldsCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create account custom fields created response has a 2xx status code
+func (o *CreateAccountCustomFieldsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create account custom fields created response has a 3xx status code
+func (o *CreateAccountCustomFieldsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create account custom fields created response has a 4xx status code
+func (o *CreateAccountCustomFieldsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create account custom fields created response has a 5xx status code
+func (o *CreateAccountCustomFieldsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create account custom fields created response a status code equal to that given
+func (o *CreateAccountCustomFieldsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateAccountCustomFieldsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/customFields][%d] createAccountCustomFieldsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateAccountCustomFieldsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/customFields][%d] createAccountCustomFieldsCreated  %+v", 201, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewCreateAccountCustomFieldsBadRequest() *CreateAccountCustomFieldsBadReque
 	return &CreateAccountCustomFieldsBadRequest{}
 }
 
-/*CreateAccountCustomFieldsBadRequest handles this case with default header values.
+/*
+CreateAccountCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -89,7 +123,41 @@ type CreateAccountCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create account custom fields bad request response
+func (o *CreateAccountCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create account custom fields bad request response has a 2xx status code
+func (o *CreateAccountCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create account custom fields bad request response has a 3xx status code
+func (o *CreateAccountCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create account custom fields bad request response has a 4xx status code
+func (o *CreateAccountCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create account custom fields bad request response has a 5xx status code
+func (o *CreateAccountCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create account custom fields bad request response a status code equal to that given
+func (o *CreateAccountCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateAccountCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/customFields][%d] createAccountCustomFieldsBadRequest ", 400)
+}
+
+func (o *CreateAccountCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/customFields][%d] createAccountCustomFieldsBadRequest ", 400)
 }
 

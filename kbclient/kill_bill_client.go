@@ -7,8 +7,7 @@ package kbclient
 
 import (
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 
 	"github.com/killbill/kbcli/v2/kbclient/account"
 	"github.com/killbill/kbcli/v2/kbclient/admin"
@@ -28,6 +27,7 @@ import (
 	"github.com/killbill/kbcli/v2/kbclient/payment_transaction"
 	"github.com/killbill/kbcli/v2/kbclient/plugin_info"
 	"github.com/killbill/kbcli/v2/kbclient/security"
+	securityops "github.com/killbill/kbcli/v2/kbclient/security"
 	"github.com/killbill/kbcli/v2/kbclient/subscription"
 	"github.com/killbill/kbcli/v2/kbclient/tag"
 	"github.com/killbill/kbcli/v2/kbclient/tag_definition"
@@ -38,18 +38,16 @@ import (
 // New creates a new kill bill client
 // The following snippet provides creating killbill client with basic auth.
 //
-//
-// 	   trp := httptransport.New("127.0.0.1:8080" /*host*/, "" /*basePath*/, nil /*schemes*/)
-// 	   // Add missing handler. OpenAPI runtime doesn't have this by default
-// 	   trp.Producers["text/xml"] = runtime.TextProducer()
-// 	   // Set tro true to print http/debug logs
-// 	   trp.Debug = enableDebug
-// 	   // Setup basic auth
-// 	   authWriter := httptransport.BasicAuth("admin", "password")
-// 	   client := kbclient.New(trp, strfmt.Default)
-//     // Use client
-//     client.Accounts.GetAccount(...)
-//
+//		   trp := httptransport.New("127.0.0.1:8080" /*host*/, "" /*basePath*/, nil /*schemes*/)
+//		   // Add missing handler. OpenAPI runtime doesn't have this by default
+//		   trp.Producers["text/xml"] = runtime.TextProducer()
+//		   // Set tro true to print http/debug logs
+//		   trp.Debug = enableDebug
+//		   // Setup basic auth
+//		   authWriter := httptransport.BasicAuth("admin", "password")
+//		   client := kbclient.New(trp, strfmt.Default)
+//	    // Use client
+//	    client.Accounts.GetAccount(...)
 func New(transport runtime.ClientTransport,
 	formats strfmt.Registry,
 	authInfo runtime.ClientAuthInfoWriter,
@@ -145,51 +143,51 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 
 // KillBill is a client for kill bill
 type KillBill struct {
-	Account *account.Client
+	Account account.ClientService
 
-	Admin *admin.Client
+	Admin admin.ClientService
 
-	Bundle *bundle.Client
+	Bundle bundle.ClientService
 
-	Catalog *catalog.Client
+	Catalog catalog.ClientService
 
-	Credit *credit.Client
+	Credit credit.ClientService
 
-	CustomField *custom_field.Client
+	CustomField custom_field.ClientService
 
-	Export *export.Client
+	Export export.ClientService
 
-	Invoice *invoice.Client
+	Invoice invoice.ClientService
 
-	InvoiceItem *invoice_item.Client
+	InvoiceItem invoice_item.ClientService
 
-	InvoicePayment *invoice_payment.Client
+	InvoicePayment invoice_payment.ClientService
 
-	NodesInfo *nodes_info.Client
+	NodesInfo nodes_info.ClientService
 
-	Overdue *overdue.Client
+	Overdue overdue.ClientService
 
-	Payment *payment.Client
+	Payment payment.ClientService
 
-	PaymentGateway *payment_gateway.Client
+	PaymentGateway payment_gateway.ClientService
 
-	PaymentMethod *payment_method.Client
+	PaymentMethod payment_method.ClientService
 
-	PaymentTransaction *payment_transaction.Client
+	PaymentTransaction payment_transaction.ClientService
 
-	PluginInfo *plugin_info.Client
+	PluginInfo plugin_info.ClientService
 
-	Security *security.Client
+	Security securityops.ClientService
 
-	Subscription *subscription.Client
+	Subscription subscription.ClientService
 
-	Tag *tag.Client
+	Tag tag.ClientService
 
-	TagDefinition *tag_definition.Client
+	TagDefinition tag_definition.ClientService
 
-	Tenant *tenant.Client
+	Tenant tenant.ClientService
 
-	Usage *usage.Client
+	Usage usage.ClientService
 
 	Transport runtime.ClientTransport
 	defaults  KillbillDefaults
@@ -198,53 +196,29 @@ type KillBill struct {
 // SetTransport changes the transport on the client and all its subresources
 func (c *KillBill) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
-
 	c.Account.SetTransport(transport)
-
 	c.Admin.SetTransport(transport)
-
 	c.Bundle.SetTransport(transport)
-
 	c.Catalog.SetTransport(transport)
-
 	c.Credit.SetTransport(transport)
-
 	c.CustomField.SetTransport(transport)
-
 	c.Export.SetTransport(transport)
-
 	c.Invoice.SetTransport(transport)
-
 	c.InvoiceItem.SetTransport(transport)
-
 	c.InvoicePayment.SetTransport(transport)
-
 	c.NodesInfo.SetTransport(transport)
-
 	c.Overdue.SetTransport(transport)
-
 	c.Payment.SetTransport(transport)
-
 	c.PaymentGateway.SetTransport(transport)
-
 	c.PaymentMethod.SetTransport(transport)
-
 	c.PaymentTransaction.SetTransport(transport)
-
 	c.PluginInfo.SetTransport(transport)
-
 	c.Security.SetTransport(transport)
-
 	c.Subscription.SetTransport(transport)
-
 	c.Tag.SetTransport(transport)
-
 	c.TagDefinition.SetTransport(transport)
-
 	c.Tenant.SetTransport(transport)
-
 	c.Usage.SetTransport(transport)
-
 }
 
 // Defaults returns killbill defaults

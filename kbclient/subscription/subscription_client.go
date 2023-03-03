@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // New creates a new subscription API client.
@@ -49,107 +48,52 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// ISubscription - interface for Subscription client.
-type ISubscription interface {
-	/*
-		AddSubscriptionBlockingState blocks a subscription
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	AddSubscriptionBlockingState(ctx context.Context, params *AddSubscriptionBlockingStateParams) (*AddSubscriptionBlockingStateCreated, error)
 
-	/*
-		CancelSubscriptionPlan cancels an entitlement plan
-	*/
 	CancelSubscriptionPlan(ctx context.Context, params *CancelSubscriptionPlanParams) (*CancelSubscriptionPlanNoContent, error)
 
-	/*
-		ChangeSubscriptionPlan changes entitlement plan
-	*/
 	ChangeSubscriptionPlan(ctx context.Context, params *ChangeSubscriptionPlanParams) (*ChangeSubscriptionPlanNoContent, error)
 
-	/*
-		CreateSubscription creates an subscription
-	*/
 	CreateSubscription(ctx context.Context, params *CreateSubscriptionParams) (*CreateSubscriptionCreated, error)
 
-	/*
-		CreateSubscriptionCustomFields adds custom fields to subscription
-	*/
 	CreateSubscriptionCustomFields(ctx context.Context, params *CreateSubscriptionCustomFieldsParams) (*CreateSubscriptionCustomFieldsCreated, error)
 
-	/*
-		CreateSubscriptionTags create subscription tags API
-	*/
 	CreateSubscriptionTags(ctx context.Context, params *CreateSubscriptionTagsParams) (*CreateSubscriptionTagsCreated, error)
 
-	/*
-		CreateSubscriptionWithAddOns creates an entitlement with add on products
-	*/
 	CreateSubscriptionWithAddOns(ctx context.Context, params *CreateSubscriptionWithAddOnsParams) (*CreateSubscriptionWithAddOnsCreated, error)
 
-	/*
-		CreateSubscriptionsWithAddOns creates multiple entitlements with add on products
-	*/
 	CreateSubscriptionsWithAddOns(ctx context.Context, params *CreateSubscriptionsWithAddOnsParams) (*CreateSubscriptionsWithAddOnsCreated, error)
 
-	/*
-		DeleteSubscriptionCustomFields removes custom fields from subscription
-	*/
 	DeleteSubscriptionCustomFields(ctx context.Context, params *DeleteSubscriptionCustomFieldsParams) (*DeleteSubscriptionCustomFieldsNoContent, error)
 
-	/*
-		DeleteSubscriptionTags removes tags from subscription
-	*/
 	DeleteSubscriptionTags(ctx context.Context, params *DeleteSubscriptionTagsParams) (*DeleteSubscriptionTagsNoContent, error)
 
-	/*
-		GetSubscription retrieves a subscription by id
-	*/
 	GetSubscription(ctx context.Context, params *GetSubscriptionParams) (*GetSubscriptionOK, error)
 
-	/*
-		GetSubscriptionAuditLogsWithHistory retrieves subscription audit logs with history by id
-	*/
 	GetSubscriptionAuditLogsWithHistory(ctx context.Context, params *GetSubscriptionAuditLogsWithHistoryParams) (*GetSubscriptionAuditLogsWithHistoryOK, error)
 
-	/*
-		GetSubscriptionByKey retrieves a subscription by external key
-	*/
 	GetSubscriptionByKey(ctx context.Context, params *GetSubscriptionByKeyParams) (*GetSubscriptionByKeyOK, error)
 
-	/*
-		GetSubscriptionCustomFields retrieves subscription custom fields
-	*/
 	GetSubscriptionCustomFields(ctx context.Context, params *GetSubscriptionCustomFieldsParams) (*GetSubscriptionCustomFieldsOK, error)
 
-	/*
-		GetSubscriptionEventAuditLogsWithHistory retrieves subscription event audit logs with history by id
-	*/
 	GetSubscriptionEventAuditLogsWithHistory(ctx context.Context, params *GetSubscriptionEventAuditLogsWithHistoryParams) (*GetSubscriptionEventAuditLogsWithHistoryOK, error)
 
-	/*
-		GetSubscriptionTags retrieves subscription tags
-	*/
 	GetSubscriptionTags(ctx context.Context, params *GetSubscriptionTagsParams) (*GetSubscriptionTagsOK, error)
 
-	/*
-		ModifySubscriptionCustomFields modifies custom fields to subscription
-	*/
 	ModifySubscriptionCustomFields(ctx context.Context, params *ModifySubscriptionCustomFieldsParams) (*ModifySubscriptionCustomFieldsNoContent, error)
 
-	/*
-		UncancelSubscriptionPlan uns cancel an entitlement
-	*/
 	UncancelSubscriptionPlan(ctx context.Context, params *UncancelSubscriptionPlanParams) (*UncancelSubscriptionPlanNoContent, error)
 
-	/*
-		UndoChangeSubscriptionPlan undos a pending change plan on an entitlement
-	*/
 	UndoChangeSubscriptionPlan(ctx context.Context, params *UndoChangeSubscriptionPlanParams) (*UndoChangeSubscriptionPlanNoContent, error)
 
-	/*
-		UpdateSubscriptionBCD updates the b c d associated to a subscription
-	*/
 	UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscriptionBCDParams) (*UpdateSubscriptionBCDNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -184,11 +128,11 @@ func (a *Client) AddSubscriptionBlockingState(ctx context.Context, params *AddSu
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "addSubscriptionBlockingState",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/block",
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
@@ -196,7 +140,9 @@ func (a *Client) AddSubscriptionBlockingState(ctx context.Context, params *AddSu
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -210,7 +156,7 @@ func (a *Client) AddSubscriptionBlockingState(ctx context.Context, params *AddSu
 		ID:                 "addSubscriptionBlockingState",
 		Method:             "GET",
 		PathPattern:        location,
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             getParams,
@@ -255,19 +201,21 @@ func (a *Client) CancelSubscriptionPlan(ctx context.Context, params *CancelSubsc
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "cancelSubscriptionPlan",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &CancelSubscriptionPlanReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -311,7 +259,7 @@ func (a *Client) ChangeSubscriptionPlan(ctx context.Context, params *ChangeSubsc
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "changeSubscriptionPlan",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}",
@@ -323,7 +271,9 @@ func (a *Client) ChangeSubscriptionPlan(ctx context.Context, params *ChangeSubsc
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -370,7 +320,7 @@ func (a *Client) CreateSubscription(ctx context.Context, params *CreateSubscript
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscription",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions",
@@ -382,7 +332,9 @@ func (a *Client) CreateSubscription(ctx context.Context, params *CreateSubscript
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -444,7 +396,7 @@ func (a *Client) CreateSubscriptionCustomFields(ctx context.Context, params *Cre
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscriptionCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/customFields",
@@ -456,7 +408,9 @@ func (a *Client) CreateSubscriptionCustomFields(ctx context.Context, params *Cre
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -518,7 +472,7 @@ func (a *Client) CreateSubscriptionTags(ctx context.Context, params *CreateSubsc
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscriptionTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/tags",
@@ -530,7 +484,9 @@ func (a *Client) CreateSubscriptionTags(ctx context.Context, params *CreateSubsc
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -592,7 +548,7 @@ func (a *Client) CreateSubscriptionWithAddOns(ctx context.Context, params *Creat
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscriptionWithAddOns",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/createSubscriptionWithAddOns",
@@ -604,7 +560,9 @@ func (a *Client) CreateSubscriptionWithAddOns(ctx context.Context, params *Creat
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -666,7 +624,7 @@ func (a *Client) CreateSubscriptionsWithAddOns(ctx context.Context, params *Crea
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createSubscriptionsWithAddOns",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/subscriptions/createSubscriptionsWithAddOns",
@@ -678,7 +636,9 @@ func (a *Client) CreateSubscriptionsWithAddOns(ctx context.Context, params *Crea
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -737,7 +697,7 @@ func (a *Client) DeleteSubscriptionCustomFields(ctx context.Context, params *Del
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteSubscriptionCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/customFields",
@@ -749,7 +709,9 @@ func (a *Client) DeleteSubscriptionCustomFields(ctx context.Context, params *Del
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -793,7 +755,7 @@ func (a *Client) DeleteSubscriptionTags(ctx context.Context, params *DeleteSubsc
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteSubscriptionTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/tags",
@@ -805,7 +767,9 @@ func (a *Client) DeleteSubscriptionTags(ctx context.Context, params *DeleteSubsc
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -837,19 +801,21 @@ func (a *Client) GetSubscription(ctx context.Context, params *GetSubscriptionPar
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscription",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -881,19 +847,21 @@ func (a *Client) GetSubscriptionAuditLogsWithHistory(ctx context.Context, params
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -925,19 +893,21 @@ func (a *Client) GetSubscriptionByKey(ctx context.Context, params *GetSubscripti
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionByKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionByKeyReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -969,19 +939,21 @@ func (a *Client) GetSubscriptionCustomFields(ctx context.Context, params *GetSub
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1013,19 +985,21 @@ func (a *Client) GetSubscriptionEventAuditLogsWithHistory(ctx context.Context, p
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionEventAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/events/{eventId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionEventAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1057,19 +1031,21 @@ func (a *Client) GetSubscriptionTags(ctx context.Context, params *GetSubscriptio
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getSubscriptionTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetSubscriptionTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1113,7 +1089,7 @@ func (a *Client) ModifySubscriptionCustomFields(ctx context.Context, params *Mod
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifySubscriptionCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/customFields",
@@ -1125,7 +1101,9 @@ func (a *Client) ModifySubscriptionCustomFields(ctx context.Context, params *Mod
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1169,19 +1147,21 @@ func (a *Client) UncancelSubscriptionPlan(ctx context.Context, params *UncancelS
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uncancelSubscriptionPlan",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/uncancel",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UncancelSubscriptionPlanReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1225,19 +1205,21 @@ func (a *Client) UndoChangeSubscriptionPlan(ctx context.Context, params *UndoCha
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "undoChangeSubscriptionPlan",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/undoChangePlan",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &UndoChangeSubscriptionPlanReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1281,7 +1263,7 @@ func (a *Client) UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscr
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updateSubscriptionBCD",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/bcd",
@@ -1293,7 +1275,9 @@ func (a *Client) UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscr
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

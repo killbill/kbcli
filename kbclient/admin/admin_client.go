@@ -10,8 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new admin API client.
@@ -48,47 +47,28 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IAdmin - interface for Admin client.
-type IAdmin interface {
-	/*
-		GetQueueEntries gets queues entries
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	GetQueueEntries(ctx context.Context, params *GetQueueEntriesParams) (*GetQueueEntriesOK, error)
 
-	/*
-		InvalidatesCache invalidates the given cache if specified otherwise invalidates all caches
-	*/
 	InvalidatesCache(ctx context.Context, params *InvalidatesCacheParams) (*InvalidatesCacheNoContent, error)
 
-	/*
-		InvalidatesCacheByAccount invalidates caches per account level
-	*/
 	InvalidatesCacheByAccount(ctx context.Context, params *InvalidatesCacheByAccountParams) (*InvalidatesCacheByAccountNoContent, error)
 
-	/*
-		InvalidatesCacheByTenant invalidates caches per tenant level
-	*/
 	InvalidatesCacheByTenant(ctx context.Context, params *InvalidatesCacheByTenantParams) (*InvalidatesCacheByTenantNoContent, error)
 
-	/*
-		PutInRotation puts the host back into rotation
-	*/
 	PutInRotation(ctx context.Context, params *PutInRotationParams) (*PutInRotationNoContent, error)
 
-	/*
-		PutOutOfRotation puts the host out of rotation
-	*/
 	PutOutOfRotation(ctx context.Context, params *PutOutOfRotationParams) (*PutOutOfRotationNoContent, error)
 
-	/*
-		TriggerInvoiceGenerationForParkedAccounts triggers an invoice generation for all parked accounts
-	*/
 	TriggerInvoiceGenerationForParkedAccounts(ctx context.Context, params *TriggerInvoiceGenerationForParkedAccountsParams) (*TriggerInvoiceGenerationForParkedAccountsOK, error)
 
-	/*
-		UpdatePaymentTransactionState updates existing payment transaction and associated payment state
-	*/
 	UpdatePaymentTransactionState(ctx context.Context, params *UpdatePaymentTransactionStateParams) (*UpdatePaymentTransactionStateNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -108,19 +88,21 @@ func (a *Client) GetQueueEntries(ctx context.Context, params *GetQueueEntriesPar
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getQueueEntries",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/admin/queues",
 		ProducesMediaTypes: []string{"application/octet-stream"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetQueueEntriesReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -152,19 +134,21 @@ func (a *Client) InvalidatesCache(ctx context.Context, params *InvalidatesCacheP
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "invalidatesCache",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/admin/cache",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &InvalidatesCacheReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -196,19 +180,21 @@ func (a *Client) InvalidatesCacheByAccount(ctx context.Context, params *Invalida
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "invalidatesCacheByAccount",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/admin/cache/accounts/{accountId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &InvalidatesCacheByAccountReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -240,19 +226,21 @@ func (a *Client) InvalidatesCacheByTenant(ctx context.Context, params *Invalidat
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "invalidatesCacheByTenant",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/admin/cache/tenants",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &InvalidatesCacheByTenantReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -284,19 +272,21 @@ func (a *Client) PutInRotation(ctx context.Context, params *PutInRotationParams)
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "putInRotation",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/admin/healthcheck",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &PutInRotationReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -328,19 +318,21 @@ func (a *Client) PutOutOfRotation(ctx context.Context, params *PutOutOfRotationP
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "putOutOfRotation",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/admin/healthcheck",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &PutOutOfRotationReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -384,7 +376,7 @@ func (a *Client) TriggerInvoiceGenerationForParkedAccounts(ctx context.Context, 
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "triggerInvoiceGenerationForParkedAccounts",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/admin/invoices",
@@ -396,7 +388,9 @@ func (a *Client) TriggerInvoiceGenerationForParkedAccounts(ctx context.Context, 
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -440,7 +434,7 @@ func (a *Client) UpdatePaymentTransactionState(ctx context.Context, params *Upda
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "updatePaymentTransactionState",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/admin/payments/{paymentId}/transactions/{paymentTransactionId}",
@@ -452,7 +446,9 @@ func (a *Client) UpdatePaymentTransactionState(ctx context.Context, params *Upda
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
