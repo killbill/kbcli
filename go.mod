@@ -3,6 +3,7 @@ module github.com/killbill/kbcli/v2
 go 1.13
 
 require (
+	github.com/google/uuid v1.3.0
 	github.com/go-openapi/errors v0.19.3
 	github.com/go-openapi/runtime v0.19.9
 	github.com/go-openapi/strfmt v0.19.4
