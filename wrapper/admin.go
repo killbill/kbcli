@@ -2,7 +2,7 @@ package killbill
 
 import (
 	"context"
-	"github.com/killbill/kbcli/v2/kbclient/admin"
+	"github.com/killbill/kbcli/v3/kbclient/admin"
 )
 
 func (cli *RawClient) InvalidateTenantCache(ctx context.Context) error {

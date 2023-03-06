@@ -22,7 +22,7 @@ import (
 type Plan struct {
 
 	// billing period
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod PlanBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
 	// name
@@ -33,6 +33,10 @@ type Plan struct {
 
 	// pretty name
 	PrettyName string `json:"prettyName,omitempty"`
+
+	// recurring billing mode
+	// Enum: [IN_ADVANCE IN_ARREAR]
+	RecurringBillingMode PlanRecurringBillingModeEnum `json:"recurringBillingMode,omitempty"`
 }
 
 // Validate validates this plan
@@ -47,6 +51,10 @@ func (m *Plan) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateRecurringBillingMode(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -57,7 +65,7 @@ var planTypeBillingPeriodPropEnum []interface{}
 
 func init() {
 	var res []PlanBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -80,6 +88,9 @@ const (
 
 	// PlanBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
 	PlanBillingPeriodTHIRTYDAYS PlanBillingPeriodEnum = "THIRTY_DAYS"
+
+	// PlanBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	PlanBillingPeriodTHIRTYONEDAYS PlanBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// PlanBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
 	PlanBillingPeriodSIXTYDAYS PlanBillingPeriodEnum = "SIXTY_DAYS"
@@ -105,8 +116,14 @@ const (
 	// PlanBillingPeriodANNUAL captures enum value "ANNUAL"
 	PlanBillingPeriodANNUAL PlanBillingPeriodEnum = "ANNUAL"
 
+	// PlanBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	PlanBillingPeriodSESQUIENNIAL PlanBillingPeriodEnum = "SESQUIENNIAL"
+
 	// PlanBillingPeriodBIENNIAL captures enum value "BIENNIAL"
 	PlanBillingPeriodBIENNIAL PlanBillingPeriodEnum = "BIENNIAL"
+
+	// PlanBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	PlanBillingPeriodTRIENNIAL PlanBillingPeriodEnum = "TRIENNIAL"
 
 	// PlanBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
 	PlanBillingPeriodNOBILLINGPERIOD PlanBillingPeriodEnum = "NO_BILLING_PERIOD"
@@ -117,6 +134,7 @@ var PlanBillingPeriodEnumValues = []string{
 	"WEEKLY",
 	"BIWEEKLY",
 	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
 	"SIXTY_DAYS",
 	"NINETY_DAYS",
 	"MONTHLY",
@@ -125,7 +143,9 @@ var PlanBillingPeriodEnumValues = []string{
 	"TRIANNUAL",
 	"BIANNUAL",
 	"ANNUAL",
+	"SESQUIENNIAL",
 	"BIENNIAL",
+	"TRIENNIAL",
 	"NO_BILLING_PERIOD",
 }
 
@@ -180,6 +200,64 @@ func (m *Plan) validatePhases(formats strfmt.Registry) error {
 			}
 		}
 
+	}
+
+	return nil
+}
+
+var planTypeRecurringBillingModePropEnum []interface{}
+
+func init() {
+	var res []PlanRecurringBillingModeEnum
+	if err := json.Unmarshal([]byte(`["IN_ADVANCE","IN_ARREAR"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		planTypeRecurringBillingModePropEnum = append(planTypeRecurringBillingModePropEnum, v)
+	}
+}
+
+type PlanRecurringBillingModeEnum string
+
+const (
+
+	// PlanRecurringBillingModeINADVANCE captures enum value "IN_ADVANCE"
+	PlanRecurringBillingModeINADVANCE PlanRecurringBillingModeEnum = "IN_ADVANCE"
+
+	// PlanRecurringBillingModeINARREAR captures enum value "IN_ARREAR"
+	PlanRecurringBillingModeINARREAR PlanRecurringBillingModeEnum = "IN_ARREAR"
+)
+
+var PlanRecurringBillingModeEnumValues = []string{
+	"IN_ADVANCE",
+	"IN_ARREAR",
+}
+
+func (e PlanRecurringBillingModeEnum) IsValid() bool {
+	for _, v := range PlanRecurringBillingModeEnumValues {
+		if v == string(e) {
+			return true
+		}
+	}
+	return false
+}
+
+// prop value enum
+func (m *Plan) validateRecurringBillingModeEnum(path, location string, value PlanRecurringBillingModeEnum) error {
+	if err := validate.EnumCase(path, location, value, planTypeRecurringBillingModePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *Plan) validateRecurringBillingMode(formats strfmt.Registry) error {
+	if swag.IsZero(m.RecurringBillingMode) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateRecurringBillingModeEnum("recurringBillingMode", "body", m.RecurringBillingMode); err != nil {
+		return err
 	}
 
 	return nil

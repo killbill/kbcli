@@ -3,8 +3,8 @@ package killbill
 import (
 	"context"
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/v2/kbclient/invoice"
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbclient/invoice"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 func (cli *RawClient) triggerDryRunAction(ctx context.Context, accountId strfmt.UUID, dryRunAction kbmodel.InvoiceDryRunDryRunActionEnum, bundleId strfmt.UUID, subscriptionId strfmt.UUID, product string, priceList string, effDt strfmt.Date, targetDt strfmt.Date) (*kbmodel.Invoice, error) {

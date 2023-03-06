@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/killbill/kbcli/v2/kbclient/tenant"
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbclient/tenant"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 func (cli *RawClient) CreateTenant(ctx context.Context, apiKey string, apiSecret string, extKey string) (*strfmt.UUID, error) {

@@ -16,7 +16,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // NewTransferBundleParams creates a new TransferBundleParams object,
@@ -73,6 +73,11 @@ type TransferBundleParams struct {
 	// XKillbillReason.
 	XKillbillReason *string
 
+	// BcdTransfer.
+	//
+	// Default: "USE_EXISTING"
+	BcdTransfer *string
+
 	// BillingPolicy.
 	//
 	// Default: "END_OF_TERM"
@@ -115,10 +120,13 @@ func (o *TransferBundleParams) WithDefaults() *TransferBundleParams {
 // All values with no default are reset to their zero value.
 func (o *TransferBundleParams) SetDefaults() {
 	var (
+		bcdTransferDefault = string("USE_EXISTING")
+
 		billingPolicyDefault = string("END_OF_TERM")
 	)
 
 	val := TransferBundleParams{
+		BcdTransfer:   &bcdTransferDefault,
 		BillingPolicy: &billingPolicyDefault,
 	}
 
@@ -192,6 +200,17 @@ func (o *TransferBundleParams) WithXKillbillReason(xKillbillReason *string) *Tra
 // SetXKillbillReason adds the xKillbillReason to the transfer bundle params
 func (o *TransferBundleParams) SetXKillbillReason(xKillbillReason *string) {
 	o.XKillbillReason = xKillbillReason
+}
+
+// WithBcdTransfer adds the bcdTransfer to the transfer bundle params
+func (o *TransferBundleParams) WithBcdTransfer(bcdTransfer *string) *TransferBundleParams {
+	o.SetBcdTransfer(bcdTransfer)
+	return o
+}
+
+// SetBcdTransfer adds the bcdTransfer to the transfer bundle params
+func (o *TransferBundleParams) SetBcdTransfer(bcdTransfer *string) {
+	o.BcdTransfer = bcdTransfer
 }
 
 // WithBillingPolicy adds the billingPolicy to the transfer bundle params
@@ -275,6 +294,23 @@ func (o *TransferBundleParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 		// header param X-Killbill-Reason
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
+		}
+	}
+
+	if o.BcdTransfer != nil {
+
+		// query param bcdTransfer
+		var qrBcdTransfer string
+
+		if o.BcdTransfer != nil {
+			qrBcdTransfer = *o.BcdTransfer
+		}
+		qBcdTransfer := qrBcdTransfer
+		if qBcdTransfer != "" {
+
+			if err := r.SetQueryParam("bcdTransfer", qBcdTransfer); err != nil {
+				return err
+			}
 		}
 	}
 

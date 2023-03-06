@@ -11,7 +11,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // New creates a new catalog API client.
@@ -76,6 +76,8 @@ type ClientService interface {
 	GetProductForSubscriptionAndDate(ctx context.Context, params *GetProductForSubscriptionAndDateParams) (*GetProductForSubscriptionAndDateOK, error)
 
 	UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLParams) (*UploadCatalogXMLCreated, error)
+
+	ValidateCatalogXML(ctx context.Context, params *ValidateCatalogXMLParams) (*ValidateCatalogXMLOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -701,6 +703,64 @@ func (a *Client) UploadCatalogXML(ctx context.Context, params *UploadCatalogXMLP
 		return nil, err
 	}
 	return getResult.(*UploadCatalogXMLCreated), nil
+
+}
+
+/*
+ValidateCatalogXML validates a XML catalog
+*/
+func (a *Client) ValidateCatalogXML(ctx context.Context, params *ValidateCatalogXMLParams) (*ValidateCatalogXMLOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewValidateCatalogXMLParams()
+	}
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "validateCatalogXml",
+		Method:             "POST",
+		PathPattern:        "/1.0/kb/catalog/xml/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"text/xml"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &ValidateCatalogXMLReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ValidateCatalogXMLOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for validateCatalogXml: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 
 }
 

@@ -2,7 +2,7 @@ package killbill
 
 import (
 	"context"
-	"github.com/killbill/kbcli/v2/kbclient/catalog"
+	"github.com/killbill/kbcli/v3/kbclient/catalog"
 	"os"
 )
 

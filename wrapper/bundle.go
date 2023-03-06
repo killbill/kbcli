@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/v2/kbclient/bundle"
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbclient/bundle"
+	"github.com/killbill/kbcli/v3/kbmodel"
 	"strings"
 )
 

@@ -11,7 +11,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // New creates a new subscription API client.
@@ -92,6 +92,8 @@ type ClientService interface {
 	UndoChangeSubscriptionPlan(ctx context.Context, params *UndoChangeSubscriptionPlanParams) (*UndoChangeSubscriptionPlanNoContent, error)
 
 	UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscriptionBCDParams) (*UpdateSubscriptionBCDNoContent, error)
+
+	UpdateSubscriptionQuantity(ctx context.Context, params *UpdateSubscriptionQuantityParams) (*UpdateSubscriptionQuantityNoContent, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -1288,6 +1290,64 @@ func (a *Client) UpdateSubscriptionBCD(ctx context.Context, params *UpdateSubscr
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for updateSubscriptionBCD: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+
+}
+
+/*
+UpdateSubscriptionQuantity updates the quantity associated to a subscription
+*/
+func (a *Client) UpdateSubscriptionQuantity(ctx context.Context, params *UpdateSubscriptionQuantityParams) (*UpdateSubscriptionQuantityNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewUpdateSubscriptionQuantityParams()
+	}
+	params.Context = ctx
+	if params.XKillbillComment == nil && a.defaults.XKillbillComment() != nil {
+		params.XKillbillComment = a.defaults.XKillbillComment()
+	}
+
+	if params.XKillbillCreatedBy == "" && a.defaults.XKillbillCreatedBy() != nil {
+		params.XKillbillCreatedBy = *a.defaults.XKillbillCreatedBy()
+	}
+
+	if params.XKillbillReason == nil && a.defaults.XKillbillReason() != nil {
+		params.XKillbillReason = a.defaults.XKillbillReason()
+	}
+
+	if params.WithProfilingInfo == nil && a.defaults.KillbillWithProfilingInfo() != nil {
+		params.WithProfilingInfo = a.defaults.KillbillWithProfilingInfo()
+	}
+
+	if params.WithStackTrace == nil && a.defaults.KillbillWithStackTrace() != nil {
+		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "updateSubscriptionQuantity",
+		Method:             "PUT",
+		PathPattern:        "/1.0/kb/subscriptions/{subscriptionId}/quantity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &UpdateSubscriptionQuantityReader{formats: a.formats},
+		AuthInfo:           a.authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*UpdateSubscriptionQuantityNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for updateSubscriptionQuantity: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 
 }

@@ -11,9 +11,9 @@ import (
 
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetAllPluginConfigurationReader is a Reader for the GetAllPluginConfiguration structure.
@@ -53,7 +53,7 @@ GetAllPluginConfigurationOK describes a response with status code 200, with defa
 successful operation
 */
 type GetAllPluginConfigurationOK struct {
-	Payload      *kbmodel.TenantKeyValue
+	Payload      []*kbmodel.TenantKeyValue
 	HttpResponse runtime.ClientResponse
 }
 
@@ -95,16 +95,14 @@ func (o *GetAllPluginConfigurationOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tenants/uploadPerTenantConfig/{keyPrefix}/search][%d] getAllPluginConfigurationOK  %+v", 200, o.Payload)
 }
 
-func (o *GetAllPluginConfigurationOK) GetPayload() *kbmodel.TenantKeyValue {
+func (o *GetAllPluginConfigurationOK) GetPayload() []*kbmodel.TenantKeyValue {
 	return o.Payload
 }
 
 func (o *GetAllPluginConfigurationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(kbmodel.TenantKeyValue)
-
 	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

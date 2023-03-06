@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
 // NewGetAllUsageParams creates a new GetAllUsageParams object,
@@ -65,6 +66,9 @@ type GetAllUsageParams struct {
 	//
 	// Format: date
 	EndDate *strfmt.Date
+
+	// PluginProperty.
+	PluginProperty []string
 
 	// StartDate.
 	//
@@ -143,6 +147,17 @@ func (o *GetAllUsageParams) SetEndDate(endDate *strfmt.Date) {
 	o.EndDate = endDate
 }
 
+// WithPluginProperty adds the pluginProperty to the get all usage params
+func (o *GetAllUsageParams) WithPluginProperty(pluginProperty []string) *GetAllUsageParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the get all usage params
+func (o *GetAllUsageParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WithStartDate adds the startDate to the get all usage params
 func (o *GetAllUsageParams) WithStartDate(startDate *strfmt.Date) *GetAllUsageParams {
 	o.SetStartDate(startDate)
@@ -190,6 +205,17 @@ func (o *GetAllUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		}
 	}
 
+	if o.PluginProperty != nil {
+
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
+	}
+
 	if o.StartDate != nil {
 
 		// query param startDate
@@ -230,4 +256,21 @@ func (o *GetAllUsageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamGetAllUsage binds the parameter pluginProperty
+func (o *GetAllUsageParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

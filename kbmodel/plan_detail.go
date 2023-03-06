@@ -22,7 +22,7 @@ import (
 type PlanDetail struct {
 
 	// final phase billing period
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
 	FinalPhaseBillingPeriod PlanDetailFinalPhaseBillingPeriodEnum `json:"finalPhaseBillingPeriod,omitempty"`
 
 	// final phase recurring price
@@ -60,7 +60,7 @@ var planDetailTypeFinalPhaseBillingPeriodPropEnum []interface{}
 
 func init() {
 	var res []PlanDetailFinalPhaseBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -83,6 +83,9 @@ const (
 
 	// PlanDetailFinalPhaseBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
 	PlanDetailFinalPhaseBillingPeriodTHIRTYDAYS PlanDetailFinalPhaseBillingPeriodEnum = "THIRTY_DAYS"
+
+	// PlanDetailFinalPhaseBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	PlanDetailFinalPhaseBillingPeriodTHIRTYONEDAYS PlanDetailFinalPhaseBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// PlanDetailFinalPhaseBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
 	PlanDetailFinalPhaseBillingPeriodSIXTYDAYS PlanDetailFinalPhaseBillingPeriodEnum = "SIXTY_DAYS"
@@ -108,8 +111,14 @@ const (
 	// PlanDetailFinalPhaseBillingPeriodANNUAL captures enum value "ANNUAL"
 	PlanDetailFinalPhaseBillingPeriodANNUAL PlanDetailFinalPhaseBillingPeriodEnum = "ANNUAL"
 
+	// PlanDetailFinalPhaseBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	PlanDetailFinalPhaseBillingPeriodSESQUIENNIAL PlanDetailFinalPhaseBillingPeriodEnum = "SESQUIENNIAL"
+
 	// PlanDetailFinalPhaseBillingPeriodBIENNIAL captures enum value "BIENNIAL"
 	PlanDetailFinalPhaseBillingPeriodBIENNIAL PlanDetailFinalPhaseBillingPeriodEnum = "BIENNIAL"
+
+	// PlanDetailFinalPhaseBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	PlanDetailFinalPhaseBillingPeriodTRIENNIAL PlanDetailFinalPhaseBillingPeriodEnum = "TRIENNIAL"
 
 	// PlanDetailFinalPhaseBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
 	PlanDetailFinalPhaseBillingPeriodNOBILLINGPERIOD PlanDetailFinalPhaseBillingPeriodEnum = "NO_BILLING_PERIOD"
@@ -120,6 +129,7 @@ var PlanDetailFinalPhaseBillingPeriodEnumValues = []string{
 	"WEEKLY",
 	"BIWEEKLY",
 	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
 	"SIXTY_DAYS",
 	"NINETY_DAYS",
 	"MONTHLY",
@@ -128,7 +138,9 @@ var PlanDetailFinalPhaseBillingPeriodEnumValues = []string{
 	"TRIANNUAL",
 	"BIANNUAL",
 	"ANNUAL",
+	"SESQUIENNIAL",
 	"BIENNIAL",
+	"TRIENNIAL",
 	"NO_BILLING_PERIOD",
 }
 

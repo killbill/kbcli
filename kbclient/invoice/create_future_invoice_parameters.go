@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
 // NewCreateFutureInvoiceParams creates a new CreateFutureInvoiceParams object,
@@ -74,6 +75,9 @@ type CreateFutureInvoiceParams struct {
 	//
 	// Format: uuid
 	AccountID strfmt.UUID
+
+	// PluginProperty.
+	PluginProperty []string
 
 	// TargetDate.
 	//
@@ -180,6 +184,17 @@ func (o *CreateFutureInvoiceParams) SetAccountID(accountID strfmt.UUID) {
 	o.AccountID = accountID
 }
 
+// WithPluginProperty adds the pluginProperty to the create future invoice params
+func (o *CreateFutureInvoiceParams) WithPluginProperty(pluginProperty []string) *CreateFutureInvoiceParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the create future invoice params
+func (o *CreateFutureInvoiceParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WithTargetDate adds the targetDate to the create future invoice params
 func (o *CreateFutureInvoiceParams) WithTargetDate(targetDate *strfmt.Date) *CreateFutureInvoiceParams {
 	o.SetTargetDate(targetDate)
@@ -230,6 +245,17 @@ func (o *CreateFutureInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg 
 		}
 	}
 
+	if o.PluginProperty != nil {
+
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
+	}
+
 	if o.TargetDate != nil {
 
 		// query param targetDate
@@ -265,4 +291,21 @@ func (o *CreateFutureInvoiceParams) WriteToRequest(r runtime.ClientRequest, reg 
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCreateFutureInvoice binds the parameter pluginProperty
+func (o *CreateFutureInvoiceParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

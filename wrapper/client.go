@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/killbill/kbcli/v2/kbclient"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/killbill/kbcli/v3/kbclient"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 const CreatedBy = "go-client"

@@ -11,9 +11,9 @@ import (
 
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // RegisterPushNotificationCallbackReader is a Reader for the RegisterPushNotificationCallback structure.

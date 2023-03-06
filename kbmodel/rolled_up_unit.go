@@ -18,7 +18,7 @@ import (
 type RolledUpUnit struct {
 
 	// amount
-	Amount int64 `json:"amount,omitempty"`
+	Amount float64 `json:"amount,omitempty"`
 
 	// unit type
 	UnitType string `json:"unitType,omitempty"`

@@ -14,8 +14,9 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // NewGenerateDryRunInvoiceParams creates a new GenerateDryRunInvoiceParams object,
@@ -79,6 +80,9 @@ type GenerateDryRunInvoiceParams struct {
 
 	// Body.
 	Body *kbmodel.InvoiceDryRun
+
+	// PluginProperty.
+	PluginProperty []string
 
 	// TargetDate.
 	//
@@ -196,6 +200,17 @@ func (o *GenerateDryRunInvoiceParams) SetBody(body *kbmodel.InvoiceDryRun) {
 	o.Body = body
 }
 
+// WithPluginProperty adds the pluginProperty to the generate dry run invoice params
+func (o *GenerateDryRunInvoiceParams) WithPluginProperty(pluginProperty []string) *GenerateDryRunInvoiceParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the generate dry run invoice params
+func (o *GenerateDryRunInvoiceParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WithTargetDate adds the targetDate to the generate dry run invoice params
 func (o *GenerateDryRunInvoiceParams) WithTargetDate(targetDate *strfmt.Date) *GenerateDryRunInvoiceParams {
 	o.SetTargetDate(targetDate)
@@ -251,6 +266,17 @@ func (o *GenerateDryRunInvoiceParams) WriteToRequest(r runtime.ClientRequest, re
 		}
 	}
 
+	if o.PluginProperty != nil {
+
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
+	}
+
 	if o.TargetDate != nil {
 
 		// query param targetDate
@@ -286,4 +312,21 @@ func (o *GenerateDryRunInvoiceParams) WriteToRequest(r runtime.ClientRequest, re
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamGenerateDryRunInvoice binds the parameter pluginProperty
+func (o *GenerateDryRunInvoiceParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

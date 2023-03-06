@@ -3,8 +3,8 @@ package killbill
 import (
 	"context"
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/v2/kbclient/account"
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbclient/account"
+	"github.com/killbill/kbcli/v3/kbmodel"
 	"time"
 )
 

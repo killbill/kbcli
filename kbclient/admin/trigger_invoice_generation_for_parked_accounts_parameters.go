@@ -82,6 +82,9 @@ type TriggerInvoiceGenerationForParkedAccountsParams struct {
 	// Format: int64
 	Offset *int64
 
+	// PluginProperty.
+	PluginProperty []string
+
 	WithProfilingInfo     *string // If set, return KB hprof headers
 	WithStackTrace        *bool   // If set, returns full stack trace with error message
 	timeout               time.Duration
@@ -207,6 +210,17 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) SetOffset(offset *int6
 	o.Offset = offset
 }
 
+// WithPluginProperty adds the pluginProperty to the trigger invoice generation for parked accounts params
+func (o *TriggerInvoiceGenerationForParkedAccountsParams) WithPluginProperty(pluginProperty []string) *TriggerInvoiceGenerationForParkedAccountsParams {
+	o.SetPluginProperty(pluginProperty)
+	return o
+}
+
+// SetPluginProperty adds the pluginProperty to the trigger invoice generation for parked accounts params
+func (o *TriggerInvoiceGenerationForParkedAccountsParams) SetPluginProperty(pluginProperty []string) {
+	o.PluginProperty = pluginProperty
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *TriggerInvoiceGenerationForParkedAccountsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -270,6 +284,17 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) WriteToRequest(r runti
 		}
 	}
 
+	if o.PluginProperty != nil {
+
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
+	}
+
 	// header param WithProfilingInfo
 	if o.WithProfilingInfo != nil && len(*o.WithProfilingInfo) > 0 {
 		if err := r.SetHeaderParam("X-Killbill-Profiling-Req", *o.WithProfilingInfo); err != nil {
@@ -288,4 +313,21 @@ func (o *TriggerInvoiceGenerationForParkedAccountsParams) WriteToRequest(r runti
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamTriggerInvoiceGenerationForParkedAccounts binds the parameter pluginProperty
+func (o *TriggerInvoiceGenerationForParkedAccountsParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

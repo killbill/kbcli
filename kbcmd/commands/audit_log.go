@@ -3,8 +3,8 @@ package commands
 import (
 	"reflect"
 
-	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 var auditLogFormatter = cmdlib.Formatter{

@@ -11,9 +11,9 @@ import (
 
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetNodesInfoReader is a Reader for the GetNodesInfo structure.
@@ -52,7 +52,7 @@ GetNodesInfoOK describes a response with status code 200, with default header va
 successful operation
 */
 type GetNodesInfoOK struct {
-	Payload      []*kbmodel.PluginInfo
+	Payload      []*kbmodel.NodeInfo
 	HttpResponse runtime.ClientResponse
 }
 
@@ -94,7 +94,7 @@ func (o *GetNodesInfoOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/nodesInfo][%d] getNodesInfoOK  %+v", 200, o.Payload)
 }
 
-func (o *GetNodesInfoOK) GetPayload() []*kbmodel.PluginInfo {
+func (o *GetNodesInfoOK) GetPayload() []*kbmodel.NodeInfo {
 	return o.Payload
 }
 

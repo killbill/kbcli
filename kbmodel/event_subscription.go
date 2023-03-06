@@ -25,12 +25,16 @@ type EventSubscription struct {
 	AuditLogs []*AuditLog `json:"auditLogs"`
 
 	// billing period
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod EventSubscriptionBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
+	// catalog effective date
+	// Format: date-time
+	CatalogEffectiveDate strfmt.DateTime `json:"catalogEffectiveDate,omitempty"`
+
 	// effective date
-	// Format: date
-	EffectiveDate strfmt.Date `json:"effectiveDate,omitempty"`
+	// Format: date-time
+	EffectiveDate strfmt.DateTime `json:"effectiveDate,omitempty"`
 
 	// event Id
 	// Format: uuid
@@ -74,6 +78,10 @@ func (m *EventSubscription) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateBillingPeriod(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCatalogEffectiveDate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -125,7 +133,7 @@ var eventSubscriptionTypeBillingPeriodPropEnum []interface{}
 
 func init() {
 	var res []EventSubscriptionBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -148,6 +156,9 @@ const (
 
 	// EventSubscriptionBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
 	EventSubscriptionBillingPeriodTHIRTYDAYS EventSubscriptionBillingPeriodEnum = "THIRTY_DAYS"
+
+	// EventSubscriptionBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	EventSubscriptionBillingPeriodTHIRTYONEDAYS EventSubscriptionBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// EventSubscriptionBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
 	EventSubscriptionBillingPeriodSIXTYDAYS EventSubscriptionBillingPeriodEnum = "SIXTY_DAYS"
@@ -173,8 +184,14 @@ const (
 	// EventSubscriptionBillingPeriodANNUAL captures enum value "ANNUAL"
 	EventSubscriptionBillingPeriodANNUAL EventSubscriptionBillingPeriodEnum = "ANNUAL"
 
+	// EventSubscriptionBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	EventSubscriptionBillingPeriodSESQUIENNIAL EventSubscriptionBillingPeriodEnum = "SESQUIENNIAL"
+
 	// EventSubscriptionBillingPeriodBIENNIAL captures enum value "BIENNIAL"
 	EventSubscriptionBillingPeriodBIENNIAL EventSubscriptionBillingPeriodEnum = "BIENNIAL"
+
+	// EventSubscriptionBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	EventSubscriptionBillingPeriodTRIENNIAL EventSubscriptionBillingPeriodEnum = "TRIENNIAL"
 
 	// EventSubscriptionBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
 	EventSubscriptionBillingPeriodNOBILLINGPERIOD EventSubscriptionBillingPeriodEnum = "NO_BILLING_PERIOD"
@@ -185,6 +202,7 @@ var EventSubscriptionBillingPeriodEnumValues = []string{
 	"WEEKLY",
 	"BIWEEKLY",
 	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
 	"SIXTY_DAYS",
 	"NINETY_DAYS",
 	"MONTHLY",
@@ -193,7 +211,9 @@ var EventSubscriptionBillingPeriodEnumValues = []string{
 	"TRIANNUAL",
 	"BIANNUAL",
 	"ANNUAL",
+	"SESQUIENNIAL",
 	"BIENNIAL",
+	"TRIENNIAL",
 	"NO_BILLING_PERIOD",
 }
 
@@ -227,12 +247,24 @@ func (m *EventSubscription) validateBillingPeriod(formats strfmt.Registry) error
 	return nil
 }
 
+func (m *EventSubscription) validateCatalogEffectiveDate(formats strfmt.Registry) error {
+	if swag.IsZero(m.CatalogEffectiveDate) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("catalogEffectiveDate", "body", "date-time", m.CatalogEffectiveDate.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *EventSubscription) validateEffectiveDate(formats strfmt.Registry) error {
 	if swag.IsZero(m.EffectiveDate) { // not required
 		return nil
 	}
 
-	if err := validate.FormatOf("effectiveDate", "body", "date", m.EffectiveDate.String(), formats); err != nil {
+	if err := validate.FormatOf("effectiveDate", "body", "date-time", m.EffectiveDate.String(), formats); err != nil {
 		return err
 	}
 

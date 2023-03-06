@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/go-openapi/strfmt"
 	"github.com/google/uuid"
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 	"os"
 	"testing"
 	"time"
