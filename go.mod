@@ -9,6 +9,7 @@ require (
 	github.com/go-openapi/swag v0.22.3
 	github.com/go-openapi/validate v0.22.0
 	github.com/google/go-cmp v0.5.9
+	github.com/google/uuid v1.1.1
 	github.com/oliveagle/jsonpath v0.0.0-20180606110733-2e52cf6e6852
 	github.com/stripe/stripe-go v68.5.0+incompatible
 	github.com/urfave/cli v1.22.2
