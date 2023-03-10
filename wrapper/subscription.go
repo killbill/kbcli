@@ -110,7 +110,7 @@ func (cli *RawClient) CreateSubscriptions(pctx context.Context, accountId strfmt
 	return res.Payload, nil
 }
 
-func (cli *RawClient) PauseSubscription(ctx context.Context, subscriptionId strfmt.UUID, date *strfmt.Date) error {
+func (cli *RawClient) PauseSubscription(ctx context.Context, subscriptionId strfmt.UUID, service string, state string, date *strfmt.Date) error {
 	ctx, cancel := context.WithTimeout(ctx, cli.Timeout)
 	defer cancel()
 
@@ -121,8 +121,8 @@ func (cli *RawClient) PauseSubscription(ctx context.Context, subscriptionId strf
 			IsBlockChange:      false,
 			IsBlockEntitlement: true,
 			// TODO Abstract those ?
-			Service:   "EMBS",
-			StateName: "EMBS-PAUSE",
+			Service:   service,
+			StateName: state,
 			Type:      kbmodel.BlockingStateTypeSUBSCRIPTION,
 		},
 		RequestedDate:  date,
@@ -131,7 +131,7 @@ func (cli *RawClient) PauseSubscription(ctx context.Context, subscriptionId strf
 	return err
 }
 
-func (cli *RawClient) ResumeSubscription(ctx context.Context, subscriptionId strfmt.UUID, date *strfmt.Date) error {
+func (cli *RawClient) ResumeSubscription(ctx context.Context, subscriptionId strfmt.UUID, service string, state string, date *strfmt.Date) error {
 	ctx, cancel := context.WithTimeout(ctx, cli.Timeout)
 	defer cancel()
 
@@ -141,8 +141,8 @@ func (cli *RawClient) ResumeSubscription(ctx context.Context, subscriptionId str
 			IsBlockBilling:     false,
 			IsBlockChange:      false,
 			IsBlockEntitlement: false,
-			Service:            "EMBS",
-			StateName:          "EMBS-RESUME",
+			Service:            service,
+			StateName:          state,
 			Type:               kbmodel.BlockingStateTypeSUBSCRIPTION,
 		},
 		RequestedDate:  date,
