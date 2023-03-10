@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // UpdateSubscriptionBCDReader is a Reader for the UpdateSubscriptionBCD structure.
@@ -46,7 +45,8 @@ func NewUpdateSubscriptionBCDNoContent() *UpdateSubscriptionBCDNoContent {
 	return &UpdateSubscriptionBCDNoContent{}
 }
 
-/*UpdateSubscriptionBCDNoContent handles this case with default header values.
+/*
+UpdateSubscriptionBCDNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type UpdateSubscriptionBCDNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the update subscription b c d no content response
+func (o *UpdateSubscriptionBCDNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this update subscription b c d no content response has a 2xx status code
+func (o *UpdateSubscriptionBCDNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this update subscription b c d no content response has a 3xx status code
+func (o *UpdateSubscriptionBCDNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this update subscription b c d no content response has a 4xx status code
+func (o *UpdateSubscriptionBCDNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this update subscription b c d no content response has a 5xx status code
+func (o *UpdateSubscriptionBCDNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this update subscription b c d no content response a status code equal to that given
+func (o *UpdateSubscriptionBCDNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *UpdateSubscriptionBCDNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/bcd][%d] updateSubscriptionBCDNoContent ", 204)
+}
+
+func (o *UpdateSubscriptionBCDNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/bcd][%d] updateSubscriptionBCDNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewUpdateSubscriptionBCDBadRequest() *UpdateSubscriptionBCDBadRequest {
 	return &UpdateSubscriptionBCDBadRequest{}
 }
 
-/*UpdateSubscriptionBCDBadRequest handles this case with default header values.
+/*
+UpdateSubscriptionBCDBadRequest describes a response with status code 400, with default header values.
 
 Invalid entitlement supplied
 */
@@ -76,7 +111,41 @@ type UpdateSubscriptionBCDBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the update subscription b c d bad request response
+func (o *UpdateSubscriptionBCDBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this update subscription b c d bad request response has a 2xx status code
+func (o *UpdateSubscriptionBCDBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this update subscription b c d bad request response has a 3xx status code
+func (o *UpdateSubscriptionBCDBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this update subscription b c d bad request response has a 4xx status code
+func (o *UpdateSubscriptionBCDBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this update subscription b c d bad request response has a 5xx status code
+func (o *UpdateSubscriptionBCDBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this update subscription b c d bad request response a status code equal to that given
+func (o *UpdateSubscriptionBCDBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *UpdateSubscriptionBCDBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/bcd][%d] updateSubscriptionBCDBadRequest ", 400)
+}
+
+func (o *UpdateSubscriptionBCDBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}/bcd][%d] updateSubscriptionBCDBadRequest ", 400)
 }
 

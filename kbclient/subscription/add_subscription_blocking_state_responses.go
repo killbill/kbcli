@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // AddSubscriptionBlockingStateReader is a Reader for the AddSubscriptionBlockingState structure.
@@ -48,17 +47,51 @@ func NewAddSubscriptionBlockingStateCreated() *AddSubscriptionBlockingStateCreat
 	return &AddSubscriptionBlockingStateCreated{}
 }
 
-/*AddSubscriptionBlockingStateCreated handles this case with default header values.
+/*
+AddSubscriptionBlockingStateCreated describes a response with status code 201, with default header values.
 
 Blocking state created successfully
 */
 type AddSubscriptionBlockingStateCreated struct {
-	Payload []*kbmodel.BlockingState
-
+	Payload      []*kbmodel.BlockingState
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add subscription blocking state created response
+func (o *AddSubscriptionBlockingStateCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this add subscription blocking state created response has a 2xx status code
+func (o *AddSubscriptionBlockingStateCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add subscription blocking state created response has a 3xx status code
+func (o *AddSubscriptionBlockingStateCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add subscription blocking state created response has a 4xx status code
+func (o *AddSubscriptionBlockingStateCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add subscription blocking state created response has a 5xx status code
+func (o *AddSubscriptionBlockingStateCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add subscription blocking state created response a status code equal to that given
+func (o *AddSubscriptionBlockingStateCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *AddSubscriptionBlockingStateCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/block][%d] addSubscriptionBlockingStateCreated  %+v", 201, o.Payload)
+}
+
+func (o *AddSubscriptionBlockingStateCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/block][%d] addSubscriptionBlockingStateCreated  %+v", 201, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewAddSubscriptionBlockingStateBadRequest() *AddSubscriptionBlockingStateBa
 	return &AddSubscriptionBlockingStateBadRequest{}
 }
 
-/*AddSubscriptionBlockingStateBadRequest handles this case with default header values.
+/*
+AddSubscriptionBlockingStateBadRequest describes a response with status code 400, with default header values.
 
 Invalid subscription id supplied
 */
@@ -89,7 +123,41 @@ type AddSubscriptionBlockingStateBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add subscription blocking state bad request response
+func (o *AddSubscriptionBlockingStateBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this add subscription blocking state bad request response has a 2xx status code
+func (o *AddSubscriptionBlockingStateBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this add subscription blocking state bad request response has a 3xx status code
+func (o *AddSubscriptionBlockingStateBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add subscription blocking state bad request response has a 4xx status code
+func (o *AddSubscriptionBlockingStateBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this add subscription blocking state bad request response has a 5xx status code
+func (o *AddSubscriptionBlockingStateBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add subscription blocking state bad request response a status code equal to that given
+func (o *AddSubscriptionBlockingStateBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *AddSubscriptionBlockingStateBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/block][%d] addSubscriptionBlockingStateBadRequest ", 400)
+}
+
+func (o *AddSubscriptionBlockingStateBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/block][%d] addSubscriptionBlockingStateBadRequest ", 400)
 }
 
@@ -103,7 +171,8 @@ func NewAddSubscriptionBlockingStateNotFound() *AddSubscriptionBlockingStateNotF
 	return &AddSubscriptionBlockingStateNotFound{}
 }
 
-/*AddSubscriptionBlockingStateNotFound handles this case with default header values.
+/*
+AddSubscriptionBlockingStateNotFound describes a response with status code 404, with default header values.
 
 Subscription not found
 */
@@ -111,7 +180,41 @@ type AddSubscriptionBlockingStateNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add subscription blocking state not found response
+func (o *AddSubscriptionBlockingStateNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this add subscription blocking state not found response has a 2xx status code
+func (o *AddSubscriptionBlockingStateNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this add subscription blocking state not found response has a 3xx status code
+func (o *AddSubscriptionBlockingStateNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add subscription blocking state not found response has a 4xx status code
+func (o *AddSubscriptionBlockingStateNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this add subscription blocking state not found response has a 5xx status code
+func (o *AddSubscriptionBlockingStateNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add subscription blocking state not found response a status code equal to that given
+func (o *AddSubscriptionBlockingStateNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *AddSubscriptionBlockingStateNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/block][%d] addSubscriptionBlockingStateNotFound ", 404)
+}
+
+func (o *AddSubscriptionBlockingStateNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/subscriptions/{subscriptionId}/block][%d] addSubscriptionBlockingStateNotFound ", 404)
 }
 

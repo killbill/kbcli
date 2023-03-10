@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // New creates a new overdue API client.
@@ -49,27 +48,20 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IOverdue - interface for Overdue client.
-type IOverdue interface {
-	/*
-		GetOverdueConfigJSON retrieves the overdue config as JSON
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	GetOverdueConfigJSON(ctx context.Context, params *GetOverdueConfigJSONParams) (*GetOverdueConfigJSONOK, error)
 
-	/*
-		GetOverdueConfigXML retrieves the overdue config as XML
-	*/
 	GetOverdueConfigXML(ctx context.Context, params *GetOverdueConfigXMLParams) (*GetOverdueConfigXMLOK, error)
 
-	/*
-		UploadOverdueConfigJSON uploads the full overdue config as JSON
-	*/
 	UploadOverdueConfigJSON(ctx context.Context, params *UploadOverdueConfigJSONParams) (*UploadOverdueConfigJSONCreated, error)
 
-	/*
-		UploadOverdueConfigXML uploads the full overdue config as XML
-	*/
 	UploadOverdueConfigXML(ctx context.Context, params *UploadOverdueConfigXMLParams) (*UploadOverdueConfigXMLCreated, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -89,19 +81,21 @@ func (a *Client) GetOverdueConfigJSON(ctx context.Context, params *GetOverdueCon
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getOverdueConfigJson",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/overdue",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetOverdueConfigJSONReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -133,19 +127,21 @@ func (a *Client) GetOverdueConfigXML(ctx context.Context, params *GetOverdueConf
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getOverdueConfigXml",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/overdue/xml",
 		ProducesMediaTypes: []string{"text/xml"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetOverdueConfigXMLReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -192,7 +188,7 @@ func (a *Client) UploadOverdueConfigJSON(ctx context.Context, params *UploadOver
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadOverdueConfigJson",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/overdue",
@@ -204,7 +200,9 @@ func (a *Client) UploadOverdueConfigJSON(ctx context.Context, params *UploadOver
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -266,11 +264,11 @@ func (a *Client) UploadOverdueConfigXML(ctx context.Context, params *UploadOverd
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadOverdueConfigXml",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/overdue/xml",
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"text/xml"},
 		Schemes:            []string{"http"},
 		Params:             params,
@@ -278,7 +276,9 @@ func (a *Client) UploadOverdueConfigXML(ctx context.Context, params *UploadOverd
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -292,7 +292,7 @@ func (a *Client) UploadOverdueConfigXML(ctx context.Context, params *UploadOverd
 		ID:                 "uploadOverdueConfigXml",
 		Method:             "GET",
 		PathPattern:        location,
-		ProducesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"text/xml"},
 		Schemes:            []string{"http"},
 		Params:             getParams,

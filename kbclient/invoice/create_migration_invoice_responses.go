@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // CreateMigrationInvoiceReader is a Reader for the CreateMigrationInvoice structure.
@@ -48,17 +47,51 @@ func NewCreateMigrationInvoiceCreated() *CreateMigrationInvoiceCreated {
 	return &CreateMigrationInvoiceCreated{}
 }
 
-/*CreateMigrationInvoiceCreated handles this case with default header values.
+/*
+CreateMigrationInvoiceCreated describes a response with status code 201, with default header values.
 
 Created migration invoice successfully
 */
 type CreateMigrationInvoiceCreated struct {
-	Payload *kbmodel.Invoice
-
+	Payload      *kbmodel.Invoice
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create migration invoice created response
+func (o *CreateMigrationInvoiceCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create migration invoice created response has a 2xx status code
+func (o *CreateMigrationInvoiceCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create migration invoice created response has a 3xx status code
+func (o *CreateMigrationInvoiceCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create migration invoice created response has a 4xx status code
+func (o *CreateMigrationInvoiceCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create migration invoice created response has a 5xx status code
+func (o *CreateMigrationInvoiceCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create migration invoice created response a status code equal to that given
+func (o *CreateMigrationInvoiceCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateMigrationInvoiceCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/migration/{accountId}][%d] createMigrationInvoiceCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateMigrationInvoiceCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/migration/{accountId}][%d] createMigrationInvoiceCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewCreateMigrationInvoiceBadRequest() *CreateMigrationInvoiceBadRequest {
 	return &CreateMigrationInvoiceBadRequest{}
 }
 
-/*CreateMigrationInvoiceBadRequest handles this case with default header values.
+/*
+CreateMigrationInvoiceBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id or target datetime supplied
 */
@@ -91,7 +125,41 @@ type CreateMigrationInvoiceBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create migration invoice bad request response
+func (o *CreateMigrationInvoiceBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create migration invoice bad request response has a 2xx status code
+func (o *CreateMigrationInvoiceBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create migration invoice bad request response has a 3xx status code
+func (o *CreateMigrationInvoiceBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create migration invoice bad request response has a 4xx status code
+func (o *CreateMigrationInvoiceBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create migration invoice bad request response has a 5xx status code
+func (o *CreateMigrationInvoiceBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create migration invoice bad request response a status code equal to that given
+func (o *CreateMigrationInvoiceBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateMigrationInvoiceBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/migration/{accountId}][%d] createMigrationInvoiceBadRequest ", 400)
+}
+
+func (o *CreateMigrationInvoiceBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/migration/{accountId}][%d] createMigrationInvoiceBadRequest ", 400)
 }
 

@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetTagDefinitionAuditLogsWithHistoryParams creates a new GetTagDefinitionAuditLogsWithHistoryParams object
-// with the default values initialized.
+// NewGetTagDefinitionAuditLogsWithHistoryParams creates a new GetTagDefinitionAuditLogsWithHistoryParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetTagDefinitionAuditLogsWithHistoryParams() *GetTagDefinitionAuditLogsWithHistoryParams {
-	var ()
 	return &GetTagDefinitionAuditLogsWithHistoryParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetTagDefinitionAuditLogsWithHistoryParamsWithTimeout creates a new GetTagDefinitionAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetTagDefinitionAuditLogsWithHistoryParamsWithTimeout(timeout time.Duration) *GetTagDefinitionAuditLogsWithHistoryParams {
-	var ()
 	return &GetTagDefinitionAuditLogsWithHistoryParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetTagDefinitionAuditLogsWithHistoryParamsWithContext creates a new GetTagDefinitionAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetTagDefinitionAuditLogsWithHistoryParamsWithContext(ctx context.Context) *GetTagDefinitionAuditLogsWithHistoryParams {
-	var ()
 	return &GetTagDefinitionAuditLogsWithHistoryParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetTagDefinitionAuditLogsWithHistoryParamsWithHTTPClient creates a new GetTagDefinitionAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetTagDefinitionAuditLogsWithHistoryParamsWithHTTPClient(client *http.Client) *GetTagDefinitionAuditLogsWithHistoryParams {
-	var ()
 	return &GetTagDefinitionAuditLogsWithHistoryParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetTagDefinitionAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
-for the get tag definition audit logs with history operation typically these are written to a http.Request
+/*
+GetTagDefinitionAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
+
+	for the get tag definition audit logs with history operation.
+
+	Typically these are written to a http.Request.
 */
 type GetTagDefinitionAuditLogsWithHistoryParams struct {
 
-	/*TagDefinitionID*/
+	// TagDefinitionID.
+	//
+	// Format: uuid
 	TagDefinitionID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type GetTagDefinitionAuditLogsWithHistoryParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get tag definition audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTagDefinitionAuditLogsWithHistoryParams) WithDefaults() *GetTagDefinitionAuditLogsWithHistoryParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get tag definition audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTagDefinitionAuditLogsWithHistoryParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get tag definition audit logs with history params

@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // UploadInvoiceTemplateReader is a Reader for the UploadInvoiceTemplate structure.
@@ -45,17 +44,51 @@ func NewUploadInvoiceTemplateCreated() *UploadInvoiceTemplateCreated {
 	return &UploadInvoiceTemplateCreated{}
 }
 
-/*UploadInvoiceTemplateCreated handles this case with default header values.
+/*
+UploadInvoiceTemplateCreated describes a response with status code 201, with default header values.
 
 Uploaded invoice template Successfully
 */
 type UploadInvoiceTemplateCreated struct {
-	Payload string
-
+	Payload      string
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the upload invoice template created response
+func (o *UploadInvoiceTemplateCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this upload invoice template created response has a 2xx status code
+func (o *UploadInvoiceTemplateCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this upload invoice template created response has a 3xx status code
+func (o *UploadInvoiceTemplateCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this upload invoice template created response has a 4xx status code
+func (o *UploadInvoiceTemplateCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this upload invoice template created response has a 5xx status code
+func (o *UploadInvoiceTemplateCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this upload invoice template created response a status code equal to that given
+func (o *UploadInvoiceTemplateCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *UploadInvoiceTemplateCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/template][%d] uploadInvoiceTemplateCreated  %+v", 201, o.Payload)
+}
+
+func (o *UploadInvoiceTemplateCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/template][%d] uploadInvoiceTemplateCreated  %+v", 201, o.Payload)
 }
 

@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // DeleteAccountTagsReader is a Reader for the DeleteAccountTags structure.
@@ -46,7 +45,8 @@ func NewDeleteAccountTagsNoContent() *DeleteAccountTagsNoContent {
 	return &DeleteAccountTagsNoContent{}
 }
 
-/*DeleteAccountTagsNoContent handles this case with default header values.
+/*
+DeleteAccountTagsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type DeleteAccountTagsNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the delete account tags no content response
+func (o *DeleteAccountTagsNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this delete account tags no content response has a 2xx status code
+func (o *DeleteAccountTagsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete account tags no content response has a 3xx status code
+func (o *DeleteAccountTagsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete account tags no content response has a 4xx status code
+func (o *DeleteAccountTagsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete account tags no content response has a 5xx status code
+func (o *DeleteAccountTagsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete account tags no content response a status code equal to that given
+func (o *DeleteAccountTagsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *DeleteAccountTagsNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/accounts/{accountId}/tags][%d] deleteAccountTagsNoContent ", 204)
+}
+
+func (o *DeleteAccountTagsNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/accounts/{accountId}/tags][%d] deleteAccountTagsNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewDeleteAccountTagsBadRequest() *DeleteAccountTagsBadRequest {
 	return &DeleteAccountTagsBadRequest{}
 }
 
-/*DeleteAccountTagsBadRequest handles this case with default header values.
+/*
+DeleteAccountTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied or account does not have a default payment method (AUTO_PAY_OFF tag only)
 */
@@ -76,7 +111,41 @@ type DeleteAccountTagsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the delete account tags bad request response
+func (o *DeleteAccountTagsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this delete account tags bad request response has a 2xx status code
+func (o *DeleteAccountTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this delete account tags bad request response has a 3xx status code
+func (o *DeleteAccountTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete account tags bad request response has a 4xx status code
+func (o *DeleteAccountTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this delete account tags bad request response has a 5xx status code
+func (o *DeleteAccountTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete account tags bad request response a status code equal to that given
+func (o *DeleteAccountTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *DeleteAccountTagsBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/accounts/{accountId}/tags][%d] deleteAccountTagsBadRequest ", 400)
+}
+
+func (o *DeleteAccountTagsBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/accounts/{accountId}/tags][%d] deleteAccountTagsBadRequest ", 400)
 }
 

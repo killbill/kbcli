@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetAccountAuditLogsParams creates a new GetAccountAuditLogsParams object
-// with the default values initialized.
+// NewGetAccountAuditLogsParams creates a new GetAccountAuditLogsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAccountAuditLogsParams() *GetAccountAuditLogsParams {
-	var ()
 	return &GetAccountAuditLogsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAccountAuditLogsParamsWithTimeout creates a new GetAccountAuditLogsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetAccountAuditLogsParamsWithTimeout(timeout time.Duration) *GetAccountAuditLogsParams {
-	var ()
 	return &GetAccountAuditLogsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetAccountAuditLogsParamsWithContext creates a new GetAccountAuditLogsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetAccountAuditLogsParamsWithContext(ctx context.Context) *GetAccountAuditLogsParams {
-	var ()
 	return &GetAccountAuditLogsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetAccountAuditLogsParamsWithHTTPClient creates a new GetAccountAuditLogsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetAccountAuditLogsParamsWithHTTPClient(client *http.Client) *GetAccountAuditLogsParams {
-	var ()
 	return &GetAccountAuditLogsParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetAccountAuditLogsParams contains all the parameters to send to the API endpoint
-for the get account audit logs operation typically these are written to a http.Request
+/*
+GetAccountAuditLogsParams contains all the parameters to send to the API endpoint
+
+	for the get account audit logs operation.
+
+	Typically these are written to a http.Request.
 */
 type GetAccountAuditLogsParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type GetAccountAuditLogsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get account audit logs params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAccountAuditLogsParams) WithDefaults() *GetAccountAuditLogsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get account audit logs params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAccountAuditLogsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get account audit logs params

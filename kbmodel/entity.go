@@ -6,14 +6,16 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"context"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Entity entity
+//
 // swagger:model Entity
 type Entity struct {
 
@@ -53,7 +55,6 @@ func (m *Entity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Entity) validateCreatedDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CreatedDate) { // not required
 		return nil
 	}
@@ -66,7 +67,6 @@ func (m *Entity) validateCreatedDate(formats strfmt.Registry) error {
 }
 
 func (m *Entity) validateID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ID) { // not required
 		return nil
 	}
@@ -79,7 +79,6 @@ func (m *Entity) validateID(formats strfmt.Registry) error {
 }
 
 func (m *Entity) validateUpdatedDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.UpdatedDate) { // not required
 		return nil
 	}
@@ -88,6 +87,11 @@ func (m *Entity) validateUpdatedDate(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this entity based on context it is used
+func (m *Entity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

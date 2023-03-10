@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // UploadOverdueConfigXMLReader is a Reader for the UploadOverdueConfigXML structure.
@@ -46,17 +45,51 @@ func NewUploadOverdueConfigXMLCreated() *UploadOverdueConfigXMLCreated {
 	return &UploadOverdueConfigXMLCreated{}
 }
 
-/*UploadOverdueConfigXMLCreated handles this case with default header values.
+/*
+UploadOverdueConfigXMLCreated describes a response with status code 201, with default header values.
 
 Successfully uploaded overdue config
 */
 type UploadOverdueConfigXMLCreated struct {
-	Payload string
-
+	Payload      string
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the upload overdue config Xml created response
+func (o *UploadOverdueConfigXMLCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this upload overdue config Xml created response has a 2xx status code
+func (o *UploadOverdueConfigXMLCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this upload overdue config Xml created response has a 3xx status code
+func (o *UploadOverdueConfigXMLCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this upload overdue config Xml created response has a 4xx status code
+func (o *UploadOverdueConfigXMLCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this upload overdue config Xml created response has a 5xx status code
+func (o *UploadOverdueConfigXMLCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this upload overdue config Xml created response a status code equal to that given
+func (o *UploadOverdueConfigXMLCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *UploadOverdueConfigXMLCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/overdue/xml][%d] uploadOverdueConfigXmlCreated  %+v", 201, o.Payload)
+}
+
+func (o *UploadOverdueConfigXMLCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/overdue/xml][%d] uploadOverdueConfigXmlCreated  %+v", 201, o.Payload)
 }
 
@@ -79,7 +112,8 @@ func NewUploadOverdueConfigXMLBadRequest() *UploadOverdueConfigXMLBadRequest {
 	return &UploadOverdueConfigXMLBadRequest{}
 }
 
-/*UploadOverdueConfigXMLBadRequest handles this case with default header values.
+/*
+UploadOverdueConfigXMLBadRequest describes a response with status code 400, with default header values.
 
 Invalid node command supplied
 */
@@ -87,7 +121,41 @@ type UploadOverdueConfigXMLBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the upload overdue config Xml bad request response
+func (o *UploadOverdueConfigXMLBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this upload overdue config Xml bad request response has a 2xx status code
+func (o *UploadOverdueConfigXMLBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this upload overdue config Xml bad request response has a 3xx status code
+func (o *UploadOverdueConfigXMLBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this upload overdue config Xml bad request response has a 4xx status code
+func (o *UploadOverdueConfigXMLBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this upload overdue config Xml bad request response has a 5xx status code
+func (o *UploadOverdueConfigXMLBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this upload overdue config Xml bad request response a status code equal to that given
+func (o *UploadOverdueConfigXMLBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *UploadOverdueConfigXMLBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/overdue/xml][%d] uploadOverdueConfigXmlBadRequest ", 400)
+}
+
+func (o *UploadOverdueConfigXMLBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/overdue/xml][%d] uploadOverdueConfigXmlBadRequest ", 400)
 }
 

@@ -13,88 +13,69 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetBundlesParams creates a new GetBundlesParams object
-// with the default values initialized.
+// NewGetBundlesParams creates a new GetBundlesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetBundlesParams() *GetBundlesParams {
-	var (
-		auditDefault  = string("NONE")
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &GetBundlesParams{
-		Audit:  &auditDefault,
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetBundlesParamsWithTimeout creates a new GetBundlesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetBundlesParamsWithTimeout(timeout time.Duration) *GetBundlesParams {
-	var (
-		auditDefault  = string("NONE")
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &GetBundlesParams{
-		Audit:  &auditDefault,
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetBundlesParamsWithContext creates a new GetBundlesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetBundlesParamsWithContext(ctx context.Context) *GetBundlesParams {
-	var (
-		auditDefault  = string("NONE")
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &GetBundlesParams{
-		Audit:  &auditDefault,
-		Limit:  &limitDefault,
-		Offset: &offsetDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetBundlesParamsWithHTTPClient creates a new GetBundlesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetBundlesParamsWithHTTPClient(client *http.Client) *GetBundlesParams {
-	var (
-		auditDefault  = string("NONE")
-		limitDefault  = int64(100)
-		offsetDefault = int64(0)
-	)
 	return &GetBundlesParams{
-		Audit:      &auditDefault,
-		Limit:      &limitDefault,
-		Offset:     &offsetDefault,
 		HTTPClient: client,
 	}
 }
 
-/*GetBundlesParams contains all the parameters to send to the API endpoint
-for the get bundles operation typically these are written to a http.Request
+/*
+GetBundlesParams contains all the parameters to send to the API endpoint
+
+	for the get bundles operation.
+
+	Typically these are written to a http.Request.
 */
 type GetBundlesParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*Limit*/
+
+	// Limit.
+	//
+	// Format: int64
+	// Default: 100
 	Limit *int64
-	/*Offset*/
+
+	// Offset.
+	//
+	// Format: int64
 	Offset *int64
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -103,6 +84,38 @@ type GetBundlesParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get bundles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetBundlesParams) WithDefaults() *GetBundlesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get bundles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetBundlesParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		limitDefault = int64(100)
+
+		offsetDefault = int64(0)
+	)
+
+	val := GetBundlesParams{
+		Audit:  &auditDefault,
+		Limit:  &limitDefault,
+		Offset: &offsetDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get bundles params
@@ -183,48 +196,51 @@ func (o *GetBundlesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Limit != nil {
 
 		// query param limit
 		var qrLimit int64
+
 		if o.Limit != nil {
 			qrLimit = *o.Limit
 		}
 		qLimit := swag.FormatInt64(qrLimit)
 		if qLimit != "" {
+
 			if err := r.SetQueryParam("limit", qLimit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Offset != nil {
 
 		// query param offset
 		var qrOffset int64
+
 		if o.Offset != nil {
 			qrOffset = *o.Offset
 		}
 		qOffset := swag.FormatInt64(qrOffset)
 		if qOffset != "" {
+
 			if err := r.SetQueryParam("offset", qOffset); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

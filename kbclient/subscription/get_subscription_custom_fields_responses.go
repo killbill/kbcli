@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetSubscriptionCustomFieldsReader is a Reader for the GetSubscriptionCustomFields structure.
@@ -48,17 +47,51 @@ func NewGetSubscriptionCustomFieldsOK() *GetSubscriptionCustomFieldsOK {
 	return &GetSubscriptionCustomFieldsOK{}
 }
 
-/*GetSubscriptionCustomFieldsOK handles this case with default header values.
+/*
+GetSubscriptionCustomFieldsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetSubscriptionCustomFieldsOK struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get subscription custom fields o k response
+func (o *GetSubscriptionCustomFieldsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get subscription custom fields o k response has a 2xx status code
+func (o *GetSubscriptionCustomFieldsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get subscription custom fields o k response has a 3xx status code
+func (o *GetSubscriptionCustomFieldsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get subscription custom fields o k response has a 4xx status code
+func (o *GetSubscriptionCustomFieldsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get subscription custom fields o k response has a 5xx status code
+func (o *GetSubscriptionCustomFieldsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get subscription custom fields o k response a status code equal to that given
+func (o *GetSubscriptionCustomFieldsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetSubscriptionCustomFieldsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] getSubscriptionCustomFieldsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetSubscriptionCustomFieldsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] getSubscriptionCustomFieldsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetSubscriptionCustomFieldsBadRequest() *GetSubscriptionCustomFieldsBadR
 	return &GetSubscriptionCustomFieldsBadRequest{}
 }
 
-/*GetSubscriptionCustomFieldsBadRequest handles this case with default header values.
+/*
+GetSubscriptionCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid subscription id supplied
 */
@@ -89,7 +123,41 @@ type GetSubscriptionCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get subscription custom fields bad request response
+func (o *GetSubscriptionCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get subscription custom fields bad request response has a 2xx status code
+func (o *GetSubscriptionCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get subscription custom fields bad request response has a 3xx status code
+func (o *GetSubscriptionCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get subscription custom fields bad request response has a 4xx status code
+func (o *GetSubscriptionCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get subscription custom fields bad request response has a 5xx status code
+func (o *GetSubscriptionCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get subscription custom fields bad request response a status code equal to that given
+func (o *GetSubscriptionCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetSubscriptionCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] getSubscriptionCustomFieldsBadRequest ", 400)
+}
+
+func (o *GetSubscriptionCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/subscriptions/{subscriptionId}/customFields][%d] getSubscriptionCustomFieldsBadRequest ", 400)
 }
 

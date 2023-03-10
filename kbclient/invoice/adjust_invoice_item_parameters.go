@@ -13,70 +13,80 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
-// NewAdjustInvoiceItemParams creates a new AdjustInvoiceItemParams object
-// with the default values initialized.
+// NewAdjustInvoiceItemParams creates a new AdjustInvoiceItemParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAdjustInvoiceItemParams() *AdjustInvoiceItemParams {
-	var ()
 	return &AdjustInvoiceItemParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAdjustInvoiceItemParamsWithTimeout creates a new AdjustInvoiceItemParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAdjustInvoiceItemParamsWithTimeout(timeout time.Duration) *AdjustInvoiceItemParams {
-	var ()
 	return &AdjustInvoiceItemParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAdjustInvoiceItemParamsWithContext creates a new AdjustInvoiceItemParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAdjustInvoiceItemParamsWithContext(ctx context.Context) *AdjustInvoiceItemParams {
-	var ()
 	return &AdjustInvoiceItemParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAdjustInvoiceItemParamsWithHTTPClient creates a new AdjustInvoiceItemParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAdjustInvoiceItemParamsWithHTTPClient(client *http.Client) *AdjustInvoiceItemParams {
-	var ()
 	return &AdjustInvoiceItemParams{
 		HTTPClient: client,
 	}
 }
 
-/*AdjustInvoiceItemParams contains all the parameters to send to the API endpoint
-for the adjust invoice item operation typically these are written to a http.Request
+/*
+AdjustInvoiceItemParams contains all the parameters to send to the API endpoint
+
+	for the adjust invoice item operation.
+
+	Typically these are written to a http.Request.
 */
 type AdjustInvoiceItemParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.InvoiceItem
-	/*InvoiceID*/
+
+	// InvoiceID.
+	//
+	// Format: uuid
 	InvoiceID strfmt.UUID
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*RequestedDate*/
+
+	// RequestedDate.
+	//
+	// Format: date
 	RequestedDate *strfmt.Date
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -85,6 +95,21 @@ type AdjustInvoiceItemParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the adjust invoice item params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AdjustInvoiceItemParams) WithDefaults() *AdjustInvoiceItemParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the adjust invoice item params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AdjustInvoiceItemParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the adjust invoice item params
@@ -211,7 +236,6 @@ func (o *AdjustInvoiceItemParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -225,9 +249,7 @@ func (o *AdjustInvoiceItemParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -239,28 +261,32 @@ func (o *AdjustInvoiceItemParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
+
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
+
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo
@@ -281,4 +307,21 @@ func (o *AdjustInvoiceItemParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamAdjustInvoiceItem binds the parameter pluginProperty
+func (o *AdjustInvoiceItemParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

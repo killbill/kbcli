@@ -13,65 +13,71 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
-// NewModifyAccountCustomFieldsParams creates a new ModifyAccountCustomFieldsParams object
-// with the default values initialized.
+// NewModifyAccountCustomFieldsParams creates a new ModifyAccountCustomFieldsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewModifyAccountCustomFieldsParams() *ModifyAccountCustomFieldsParams {
-	var ()
 	return &ModifyAccountCustomFieldsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewModifyAccountCustomFieldsParamsWithTimeout creates a new ModifyAccountCustomFieldsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewModifyAccountCustomFieldsParamsWithTimeout(timeout time.Duration) *ModifyAccountCustomFieldsParams {
-	var ()
 	return &ModifyAccountCustomFieldsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewModifyAccountCustomFieldsParamsWithContext creates a new ModifyAccountCustomFieldsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewModifyAccountCustomFieldsParamsWithContext(ctx context.Context) *ModifyAccountCustomFieldsParams {
-	var ()
 	return &ModifyAccountCustomFieldsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewModifyAccountCustomFieldsParamsWithHTTPClient creates a new ModifyAccountCustomFieldsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewModifyAccountCustomFieldsParamsWithHTTPClient(client *http.Client) *ModifyAccountCustomFieldsParams {
-	var ()
 	return &ModifyAccountCustomFieldsParams{
 		HTTPClient: client,
 	}
 }
 
-/*ModifyAccountCustomFieldsParams contains all the parameters to send to the API endpoint
-for the modify account custom fields operation typically these are written to a http.Request
+/*
+ModifyAccountCustomFieldsParams contains all the parameters to send to the API endpoint
+
+	for the modify account custom fields operation.
+
+	Typically these are written to a http.Request.
 */
 type ModifyAccountCustomFieldsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*Body*/
+
+	// Body.
 	Body []*kbmodel.CustomField
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -80,6 +86,21 @@ type ModifyAccountCustomFieldsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the modify account custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ModifyAccountCustomFieldsParams) WithDefaults() *ModifyAccountCustomFieldsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the modify account custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ModifyAccountCustomFieldsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the modify account custom fields params
@@ -184,7 +205,6 @@ func (o *ModifyAccountCustomFieldsParams) WriteToRequest(r runtime.ClientRequest
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -198,14 +218,12 @@ func (o *ModifyAccountCustomFieldsParams) WriteToRequest(r runtime.ClientRequest
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId
 	if err := r.SetPathParam("accountId", o.AccountID.String()); err != nil {
 		return err
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err

@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // ModifyInvoiceCustomFieldsReader is a Reader for the ModifyInvoiceCustomFields structure.
@@ -46,7 +45,8 @@ func NewModifyInvoiceCustomFieldsNoContent() *ModifyInvoiceCustomFieldsNoContent
 	return &ModifyInvoiceCustomFieldsNoContent{}
 }
 
-/*ModifyInvoiceCustomFieldsNoContent handles this case with default header values.
+/*
+ModifyInvoiceCustomFieldsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type ModifyInvoiceCustomFieldsNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify invoice custom fields no content response
+func (o *ModifyInvoiceCustomFieldsNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this modify invoice custom fields no content response has a 2xx status code
+func (o *ModifyInvoiceCustomFieldsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this modify invoice custom fields no content response has a 3xx status code
+func (o *ModifyInvoiceCustomFieldsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify invoice custom fields no content response has a 4xx status code
+func (o *ModifyInvoiceCustomFieldsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this modify invoice custom fields no content response has a 5xx status code
+func (o *ModifyInvoiceCustomFieldsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify invoice custom fields no content response a status code equal to that given
+func (o *ModifyInvoiceCustomFieldsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *ModifyInvoiceCustomFieldsNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/customFields][%d] modifyInvoiceCustomFieldsNoContent ", 204)
+}
+
+func (o *ModifyInvoiceCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/customFields][%d] modifyInvoiceCustomFieldsNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewModifyInvoiceCustomFieldsBadRequest() *ModifyInvoiceCustomFieldsBadReque
 	return &ModifyInvoiceCustomFieldsBadRequest{}
 }
 
-/*ModifyInvoiceCustomFieldsBadRequest handles this case with default header values.
+/*
+ModifyInvoiceCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid invoice id supplied
 */
@@ -76,7 +111,41 @@ type ModifyInvoiceCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify invoice custom fields bad request response
+func (o *ModifyInvoiceCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this modify invoice custom fields bad request response has a 2xx status code
+func (o *ModifyInvoiceCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this modify invoice custom fields bad request response has a 3xx status code
+func (o *ModifyInvoiceCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify invoice custom fields bad request response has a 4xx status code
+func (o *ModifyInvoiceCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this modify invoice custom fields bad request response has a 5xx status code
+func (o *ModifyInvoiceCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify invoice custom fields bad request response a status code equal to that given
+func (o *ModifyInvoiceCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *ModifyInvoiceCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/customFields][%d] modifyInvoiceCustomFieldsBadRequest ", 400)
+}
+
+func (o *ModifyInvoiceCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/invoices/{invoiceId}/customFields][%d] modifyInvoiceCustomFieldsBadRequest ", 400)
 }
 

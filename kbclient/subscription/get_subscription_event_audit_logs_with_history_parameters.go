@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetSubscriptionEventAuditLogsWithHistoryParams creates a new GetSubscriptionEventAuditLogsWithHistoryParams object
-// with the default values initialized.
+// NewGetSubscriptionEventAuditLogsWithHistoryParams creates a new GetSubscriptionEventAuditLogsWithHistoryParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetSubscriptionEventAuditLogsWithHistoryParams() *GetSubscriptionEventAuditLogsWithHistoryParams {
-	var ()
 	return &GetSubscriptionEventAuditLogsWithHistoryParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetSubscriptionEventAuditLogsWithHistoryParamsWithTimeout creates a new GetSubscriptionEventAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetSubscriptionEventAuditLogsWithHistoryParamsWithTimeout(timeout time.Duration) *GetSubscriptionEventAuditLogsWithHistoryParams {
-	var ()
 	return &GetSubscriptionEventAuditLogsWithHistoryParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetSubscriptionEventAuditLogsWithHistoryParamsWithContext creates a new GetSubscriptionEventAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetSubscriptionEventAuditLogsWithHistoryParamsWithContext(ctx context.Context) *GetSubscriptionEventAuditLogsWithHistoryParams {
-	var ()
 	return &GetSubscriptionEventAuditLogsWithHistoryParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetSubscriptionEventAuditLogsWithHistoryParamsWithHTTPClient creates a new GetSubscriptionEventAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetSubscriptionEventAuditLogsWithHistoryParamsWithHTTPClient(client *http.Client) *GetSubscriptionEventAuditLogsWithHistoryParams {
-	var ()
 	return &GetSubscriptionEventAuditLogsWithHistoryParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetSubscriptionEventAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
-for the get subscription event audit logs with history operation typically these are written to a http.Request
+/*
+GetSubscriptionEventAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
+
+	for the get subscription event audit logs with history operation.
+
+	Typically these are written to a http.Request.
 */
 type GetSubscriptionEventAuditLogsWithHistoryParams struct {
 
-	/*EventID*/
+	// EventID.
+	//
+	// Format: uuid
 	EventID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type GetSubscriptionEventAuditLogsWithHistoryParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get subscription event audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetSubscriptionEventAuditLogsWithHistoryParams) WithDefaults() *GetSubscriptionEventAuditLogsWithHistoryParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get subscription event audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetSubscriptionEventAuditLogsWithHistoryParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get subscription event audit logs with history params

@@ -13,110 +13,78 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewSearchAccountsParams creates a new SearchAccountsParams object
-// with the default values initialized.
+// NewSearchAccountsParams creates a new SearchAccountsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSearchAccountsParams() *SearchAccountsParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-		limitDefault                    = int64(100)
-		offsetDefault                   = int64(0)
-	)
 	return &SearchAccountsParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-		Limit:                    &limitDefault,
-		Offset:                   &offsetDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSearchAccountsParamsWithTimeout creates a new SearchAccountsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSearchAccountsParamsWithTimeout(timeout time.Duration) *SearchAccountsParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-		limitDefault                    = int64(100)
-		offsetDefault                   = int64(0)
-	)
 	return &SearchAccountsParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-		Limit:                    &limitDefault,
-		Offset:                   &offsetDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewSearchAccountsParamsWithContext creates a new SearchAccountsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSearchAccountsParamsWithContext(ctx context.Context) *SearchAccountsParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-		limitDefault                    = int64(100)
-		offsetDefault                   = int64(0)
-	)
 	return &SearchAccountsParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-		Limit:                    &limitDefault,
-		Offset:                   &offsetDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewSearchAccountsParamsWithHTTPClient creates a new SearchAccountsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSearchAccountsParamsWithHTTPClient(client *http.Client) *SearchAccountsParams {
-	var (
-		accountWithBalanceDefault       = bool(false)
-		accountWithBalanceAndCBADefault = bool(false)
-		auditDefault                    = string("NONE")
-		limitDefault                    = int64(100)
-		offsetDefault                   = int64(0)
-	)
 	return &SearchAccountsParams{
-		AccountWithBalance:       &accountWithBalanceDefault,
-		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
-		Audit:                    &auditDefault,
-		Limit:                    &limitDefault,
-		Offset:                   &offsetDefault,
-		HTTPClient:               client,
+		HTTPClient: client,
 	}
 }
 
-/*SearchAccountsParams contains all the parameters to send to the API endpoint
-for the search accounts operation typically these are written to a http.Request
+/*
+SearchAccountsParams contains all the parameters to send to the API endpoint
+
+	for the search accounts operation.
+
+	Typically these are written to a http.Request.
 */
 type SearchAccountsParams struct {
 
-	/*AccountWithBalance*/
+	// AccountWithBalance.
 	AccountWithBalance *bool
-	/*AccountWithBalanceAndCBA*/
+
+	// AccountWithBalanceAndCBA.
 	AccountWithBalanceAndCBA *bool
-	/*Audit*/
+
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*Limit*/
+
+	// Limit.
+	//
+	// Format: int64
+	// Default: 100
 	Limit *int64
-	/*Offset*/
+
+	// Offset.
+	//
+	// Format: int64
 	Offset *int64
-	/*SearchKey*/
+
+	// SearchKey.
 	SearchKey string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -125,6 +93,44 @@ type SearchAccountsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the search accounts params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SearchAccountsParams) WithDefaults() *SearchAccountsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the search accounts params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SearchAccountsParams) SetDefaults() {
+	var (
+		accountWithBalanceDefault = bool(false)
+
+		accountWithBalanceAndCBADefault = bool(false)
+
+		auditDefault = string("NONE")
+
+		limitDefault = int64(100)
+
+		offsetDefault = int64(0)
+	)
+
+	val := SearchAccountsParams{
+		AccountWithBalance:       &accountWithBalanceDefault,
+		AccountWithBalanceAndCBA: &accountWithBalanceAndCBADefault,
+		Audit:                    &auditDefault,
+		Limit:                    &limitDefault,
+		Offset:                   &offsetDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the search accounts params
@@ -238,80 +244,85 @@ func (o *SearchAccountsParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param accountWithBalance
 		var qrAccountWithBalance bool
+
 		if o.AccountWithBalance != nil {
 			qrAccountWithBalance = *o.AccountWithBalance
 		}
 		qAccountWithBalance := swag.FormatBool(qrAccountWithBalance)
 		if qAccountWithBalance != "" {
+
 			if err := r.SetQueryParam("accountWithBalance", qAccountWithBalance); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.AccountWithBalanceAndCBA != nil {
 
 		// query param accountWithBalanceAndCBA
 		var qrAccountWithBalanceAndCBA bool
+
 		if o.AccountWithBalanceAndCBA != nil {
 			qrAccountWithBalanceAndCBA = *o.AccountWithBalanceAndCBA
 		}
 		qAccountWithBalanceAndCBA := swag.FormatBool(qrAccountWithBalanceAndCBA)
 		if qAccountWithBalanceAndCBA != "" {
+
 			if err := r.SetQueryParam("accountWithBalanceAndCBA", qAccountWithBalanceAndCBA); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Audit != nil {
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Limit != nil {
 
 		// query param limit
 		var qrLimit int64
+
 		if o.Limit != nil {
 			qrLimit = *o.Limit
 		}
 		qLimit := swag.FormatInt64(qrLimit)
 		if qLimit != "" {
+
 			if err := r.SetQueryParam("limit", qLimit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Offset != nil {
 
 		// query param offset
 		var qrOffset int64
+
 		if o.Offset != nil {
 			qrOffset = *o.Offset
 		}
 		qOffset := swag.FormatInt64(qrOffset)
 		if qOffset != "" {
+
 			if err := r.SetQueryParam("offset", qOffset); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param searchKey

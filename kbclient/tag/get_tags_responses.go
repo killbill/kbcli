@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetTagsReader is a Reader for the GetTags structure.
@@ -47,17 +46,51 @@ func NewGetTagsOK() *GetTagsOK {
 	return &GetTagsOK{}
 }
 
-/*GetTagsOK handles this case with default header values.
+/*
+GetTagsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetTagsOK struct {
-	Payload []*kbmodel.Tag
-
+	Payload      []*kbmodel.Tag
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get tags o k response
+func (o *GetTagsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get tags o k response has a 2xx status code
+func (o *GetTagsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get tags o k response has a 3xx status code
+func (o *GetTagsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get tags o k response has a 4xx status code
+func (o *GetTagsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get tags o k response has a 5xx status code
+func (o *GetTagsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get tags o k response a status code equal to that given
+func (o *GetTagsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetTagsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/tags/pagination][%d] getTagsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetTagsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/tags/pagination][%d] getTagsOK  %+v", 200, o.Payload)
 }
 

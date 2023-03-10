@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // RefundPaymentReader is a Reader for the RefundPayment structure.
@@ -48,17 +47,51 @@ func NewRefundPaymentCreated() *RefundPaymentCreated {
 	return &RefundPaymentCreated{}
 }
 
-/*RefundPaymentCreated handles this case with default header values.
+/*
+RefundPaymentCreated describes a response with status code 201, with default header values.
 
 Payment transaction created successfully
 */
 type RefundPaymentCreated struct {
-	Payload *kbmodel.Payment
-
+	Payload      *kbmodel.Payment
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment created response
+func (o *RefundPaymentCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this refund payment created response has a 2xx status code
+func (o *RefundPaymentCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this refund payment created response has a 3xx status code
+func (o *RefundPaymentCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment created response has a 4xx status code
+func (o *RefundPaymentCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this refund payment created response has a 5xx status code
+func (o *RefundPaymentCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this refund payment created response a status code equal to that given
+func (o *RefundPaymentCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *RefundPaymentCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentCreated  %+v", 201, o.Payload)
+}
+
+func (o *RefundPaymentCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewRefundPaymentBadRequest() *RefundPaymentBadRequest {
 	return &RefundPaymentBadRequest{}
 }
 
-/*RefundPaymentBadRequest handles this case with default header values.
+/*
+RefundPaymentBadRequest describes a response with status code 400, with default header values.
 
 Invalid paymentId supplied
 */
@@ -91,7 +125,41 @@ type RefundPaymentBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment bad request response
+func (o *RefundPaymentBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this refund payment bad request response has a 2xx status code
+func (o *RefundPaymentBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment bad request response has a 3xx status code
+func (o *RefundPaymentBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment bad request response has a 4xx status code
+func (o *RefundPaymentBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this refund payment bad request response has a 5xx status code
+func (o *RefundPaymentBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this refund payment bad request response a status code equal to that given
+func (o *RefundPaymentBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *RefundPaymentBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentBadRequest ", 400)
+}
+
+func (o *RefundPaymentBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentBadRequest ", 400)
 }
 
@@ -105,7 +173,8 @@ func NewRefundPaymentPaymentRequired() *RefundPaymentPaymentRequired {
 	return &RefundPaymentPaymentRequired{}
 }
 
-/*RefundPaymentPaymentRequired handles this case with default header values.
+/*
+RefundPaymentPaymentRequired describes a response with status code 402, with default header values.
 
 Transaction declined by gateway
 */
@@ -113,7 +182,41 @@ type RefundPaymentPaymentRequired struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment payment required response
+func (o *RefundPaymentPaymentRequired) Code() int {
+	return 402
+}
+
+// IsSuccess returns true when this refund payment payment required response has a 2xx status code
+func (o *RefundPaymentPaymentRequired) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment payment required response has a 3xx status code
+func (o *RefundPaymentPaymentRequired) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment payment required response has a 4xx status code
+func (o *RefundPaymentPaymentRequired) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this refund payment payment required response has a 5xx status code
+func (o *RefundPaymentPaymentRequired) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this refund payment payment required response a status code equal to that given
+func (o *RefundPaymentPaymentRequired) IsCode(code int) bool {
+	return code == 402
+}
+
 func (o *RefundPaymentPaymentRequired) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentPaymentRequired ", 402)
+}
+
+func (o *RefundPaymentPaymentRequired) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentPaymentRequired ", 402)
 }
 
@@ -127,7 +230,8 @@ func NewRefundPaymentNotFound() *RefundPaymentNotFound {
 	return &RefundPaymentNotFound{}
 }
 
-/*RefundPaymentNotFound handles this case with default header values.
+/*
+RefundPaymentNotFound describes a response with status code 404, with default header values.
 
 Account or payment not found
 */
@@ -135,7 +239,41 @@ type RefundPaymentNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment not found response
+func (o *RefundPaymentNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this refund payment not found response has a 2xx status code
+func (o *RefundPaymentNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment not found response has a 3xx status code
+func (o *RefundPaymentNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment not found response has a 4xx status code
+func (o *RefundPaymentNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this refund payment not found response has a 5xx status code
+func (o *RefundPaymentNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this refund payment not found response a status code equal to that given
+func (o *RefundPaymentNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *RefundPaymentNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentNotFound ", 404)
+}
+
+func (o *RefundPaymentNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentNotFound ", 404)
 }
 
@@ -149,7 +287,8 @@ func NewRefundPaymentUnprocessableEntity() *RefundPaymentUnprocessableEntity {
 	return &RefundPaymentUnprocessableEntity{}
 }
 
-/*RefundPaymentUnprocessableEntity handles this case with default header values.
+/*
+RefundPaymentUnprocessableEntity describes a response with status code 422, with default header values.
 
 Payment is aborted by a control plugin
 */
@@ -157,7 +296,41 @@ type RefundPaymentUnprocessableEntity struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment unprocessable entity response
+func (o *RefundPaymentUnprocessableEntity) Code() int {
+	return 422
+}
+
+// IsSuccess returns true when this refund payment unprocessable entity response has a 2xx status code
+func (o *RefundPaymentUnprocessableEntity) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment unprocessable entity response has a 3xx status code
+func (o *RefundPaymentUnprocessableEntity) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment unprocessable entity response has a 4xx status code
+func (o *RefundPaymentUnprocessableEntity) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this refund payment unprocessable entity response has a 5xx status code
+func (o *RefundPaymentUnprocessableEntity) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this refund payment unprocessable entity response a status code equal to that given
+func (o *RefundPaymentUnprocessableEntity) IsCode(code int) bool {
+	return code == 422
+}
+
 func (o *RefundPaymentUnprocessableEntity) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentUnprocessableEntity ", 422)
+}
+
+func (o *RefundPaymentUnprocessableEntity) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentUnprocessableEntity ", 422)
 }
 
@@ -171,7 +344,8 @@ func NewRefundPaymentBadGateway() *RefundPaymentBadGateway {
 	return &RefundPaymentBadGateway{}
 }
 
-/*RefundPaymentBadGateway handles this case with default header values.
+/*
+RefundPaymentBadGateway describes a response with status code 502, with default header values.
 
 Failed to submit payment transaction
 */
@@ -179,7 +353,41 @@ type RefundPaymentBadGateway struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment bad gateway response
+func (o *RefundPaymentBadGateway) Code() int {
+	return 502
+}
+
+// IsSuccess returns true when this refund payment bad gateway response has a 2xx status code
+func (o *RefundPaymentBadGateway) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment bad gateway response has a 3xx status code
+func (o *RefundPaymentBadGateway) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment bad gateway response has a 4xx status code
+func (o *RefundPaymentBadGateway) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this refund payment bad gateway response has a 5xx status code
+func (o *RefundPaymentBadGateway) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this refund payment bad gateway response a status code equal to that given
+func (o *RefundPaymentBadGateway) IsCode(code int) bool {
+	return code == 502
+}
+
 func (o *RefundPaymentBadGateway) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentBadGateway ", 502)
+}
+
+func (o *RefundPaymentBadGateway) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentBadGateway ", 502)
 }
 
@@ -193,7 +401,8 @@ func NewRefundPaymentServiceUnavailable() *RefundPaymentServiceUnavailable {
 	return &RefundPaymentServiceUnavailable{}
 }
 
-/*RefundPaymentServiceUnavailable handles this case with default header values.
+/*
+RefundPaymentServiceUnavailable describes a response with status code 503, with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
@@ -201,7 +410,41 @@ type RefundPaymentServiceUnavailable struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment service unavailable response
+func (o *RefundPaymentServiceUnavailable) Code() int {
+	return 503
+}
+
+// IsSuccess returns true when this refund payment service unavailable response has a 2xx status code
+func (o *RefundPaymentServiceUnavailable) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment service unavailable response has a 3xx status code
+func (o *RefundPaymentServiceUnavailable) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment service unavailable response has a 4xx status code
+func (o *RefundPaymentServiceUnavailable) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this refund payment service unavailable response has a 5xx status code
+func (o *RefundPaymentServiceUnavailable) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this refund payment service unavailable response a status code equal to that given
+func (o *RefundPaymentServiceUnavailable) IsCode(code int) bool {
+	return code == 503
+}
+
 func (o *RefundPaymentServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentServiceUnavailable ", 503)
+}
+
+func (o *RefundPaymentServiceUnavailable) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentServiceUnavailable ", 503)
 }
 
@@ -215,7 +458,8 @@ func NewRefundPaymentGatewayTimeout() *RefundPaymentGatewayTimeout {
 	return &RefundPaymentGatewayTimeout{}
 }
 
-/*RefundPaymentGatewayTimeout handles this case with default header values.
+/*
+RefundPaymentGatewayTimeout describes a response with status code 504, with default header values.
 
 Payment operation timeout
 */
@@ -223,7 +467,41 @@ type RefundPaymentGatewayTimeout struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the refund payment gateway timeout response
+func (o *RefundPaymentGatewayTimeout) Code() int {
+	return 504
+}
+
+// IsSuccess returns true when this refund payment gateway timeout response has a 2xx status code
+func (o *RefundPaymentGatewayTimeout) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this refund payment gateway timeout response has a 3xx status code
+func (o *RefundPaymentGatewayTimeout) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this refund payment gateway timeout response has a 4xx status code
+func (o *RefundPaymentGatewayTimeout) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this refund payment gateway timeout response has a 5xx status code
+func (o *RefundPaymentGatewayTimeout) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this refund payment gateway timeout response a status code equal to that given
+func (o *RefundPaymentGatewayTimeout) IsCode(code int) bool {
+	return code == 504
+}
+
 func (o *RefundPaymentGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentGatewayTimeout ", 504)
+}
+
+func (o *RefundPaymentGatewayTimeout) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/{paymentId}/refunds][%d] refundPaymentGatewayTimeout ", 504)
 }
 

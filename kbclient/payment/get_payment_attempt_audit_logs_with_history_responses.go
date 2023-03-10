@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetPaymentAttemptAuditLogsWithHistoryReader is a Reader for the GetPaymentAttemptAuditLogsWithHistory structure.
@@ -48,17 +47,51 @@ func NewGetPaymentAttemptAuditLogsWithHistoryOK() *GetPaymentAttemptAuditLogsWit
 	return &GetPaymentAttemptAuditLogsWithHistoryOK{}
 }
 
-/*GetPaymentAttemptAuditLogsWithHistoryOK handles this case with default header values.
+/*
+GetPaymentAttemptAuditLogsWithHistoryOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetPaymentAttemptAuditLogsWithHistoryOK struct {
-	Payload []*kbmodel.AuditLog
-
+	Payload      []*kbmodel.AuditLog
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get payment attempt audit logs with history o k response
+func (o *GetPaymentAttemptAuditLogsWithHistoryOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get payment attempt audit logs with history o k response has a 2xx status code
+func (o *GetPaymentAttemptAuditLogsWithHistoryOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get payment attempt audit logs with history o k response has a 3xx status code
+func (o *GetPaymentAttemptAuditLogsWithHistoryOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payment attempt audit logs with history o k response has a 4xx status code
+func (o *GetPaymentAttemptAuditLogsWithHistoryOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get payment attempt audit logs with history o k response has a 5xx status code
+func (o *GetPaymentAttemptAuditLogsWithHistoryOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payment attempt audit logs with history o k response a status code equal to that given
+func (o *GetPaymentAttemptAuditLogsWithHistoryOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetPaymentAttemptAuditLogsWithHistoryOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/payments/attempts/{paymentAttemptId}/auditLogsWithHistory][%d] getPaymentAttemptAuditLogsWithHistoryOK  %+v", 200, o.Payload)
+}
+
+func (o *GetPaymentAttemptAuditLogsWithHistoryOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/payments/attempts/{paymentAttemptId}/auditLogsWithHistory][%d] getPaymentAttemptAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetPaymentAttemptAuditLogsWithHistoryNotFound() *GetPaymentAttemptAuditL
 	return &GetPaymentAttemptAuditLogsWithHistoryNotFound{}
 }
 
-/*GetPaymentAttemptAuditLogsWithHistoryNotFound handles this case with default header values.
+/*
+GetPaymentAttemptAuditLogsWithHistoryNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
@@ -89,7 +123,41 @@ type GetPaymentAttemptAuditLogsWithHistoryNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get payment attempt audit logs with history not found response
+func (o *GetPaymentAttemptAuditLogsWithHistoryNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get payment attempt audit logs with history not found response has a 2xx status code
+func (o *GetPaymentAttemptAuditLogsWithHistoryNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get payment attempt audit logs with history not found response has a 3xx status code
+func (o *GetPaymentAttemptAuditLogsWithHistoryNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payment attempt audit logs with history not found response has a 4xx status code
+func (o *GetPaymentAttemptAuditLogsWithHistoryNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get payment attempt audit logs with history not found response has a 5xx status code
+func (o *GetPaymentAttemptAuditLogsWithHistoryNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payment attempt audit logs with history not found response a status code equal to that given
+func (o *GetPaymentAttemptAuditLogsWithHistoryNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetPaymentAttemptAuditLogsWithHistoryNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/payments/attempts/{paymentAttemptId}/auditLogsWithHistory][%d] getPaymentAttemptAuditLogsWithHistoryNotFound ", 404)
+}
+
+func (o *GetPaymentAttemptAuditLogsWithHistoryNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/payments/attempts/{paymentAttemptId}/auditLogsWithHistory][%d] getPaymentAttemptAuditLogsWithHistoryNotFound ", 404)
 }
 

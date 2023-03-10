@@ -10,8 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new plugin info API client.
@@ -48,12 +47,14 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IPluginInfo - interface for PluginInfo client.
-type IPluginInfo interface {
-	/*
-		GetPluginsInfo retrieves the list of registered plugins
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	GetPluginsInfo(ctx context.Context, params *GetPluginsInfoParams) (*GetPluginsInfoOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -73,19 +74,21 @@ func (a *Client) GetPluginsInfo(ctx context.Context, params *GetPluginsInfoParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPluginsInfo",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/pluginsInfo",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPluginsInfoReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

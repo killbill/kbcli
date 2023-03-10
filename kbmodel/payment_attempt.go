@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // PaymentAttempt payment attempt
+//
 // swagger:model PaymentAttempt
 type PaymentAttempt struct {
 
@@ -109,7 +110,6 @@ func (m *PaymentAttempt) Validate(formats strfmt.Registry) error {
 }
 
 func (m *PaymentAttempt) validateAccountID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AccountID) { // not required
 		return nil
 	}
@@ -122,7 +122,6 @@ func (m *PaymentAttempt) validateAccountID(formats strfmt.Registry) error {
 }
 
 func (m *PaymentAttempt) validateAuditLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -136,6 +135,8 @@ func (m *PaymentAttempt) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -837,14 +838,13 @@ func (e PaymentAttemptCurrencyEnum) IsValid() bool {
 
 // prop value enum
 func (m *PaymentAttempt) validateCurrencyEnum(path, location string, value PaymentAttemptCurrencyEnum) error {
-	if err := validate.Enum(path, location, value, paymentAttemptTypeCurrencyPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, paymentAttemptTypeCurrencyPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *PaymentAttempt) validateCurrency(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Currency) { // not required
 		return nil
 	}
@@ -858,7 +858,6 @@ func (m *PaymentAttempt) validateCurrency(formats strfmt.Registry) error {
 }
 
 func (m *PaymentAttempt) validateEffectiveDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EffectiveDate) { // not required
 		return nil
 	}
@@ -871,7 +870,6 @@ func (m *PaymentAttempt) validateEffectiveDate(formats strfmt.Registry) error {
 }
 
 func (m *PaymentAttempt) validatePaymentMethodID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PaymentMethodID) { // not required
 		return nil
 	}
@@ -884,7 +882,6 @@ func (m *PaymentAttempt) validatePaymentMethodID(formats strfmt.Registry) error 
 }
 
 func (m *PaymentAttempt) validatePluginProperties(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PluginProperties) { // not required
 		return nil
 	}
@@ -898,6 +895,8 @@ func (m *PaymentAttempt) validatePluginProperties(formats strfmt.Registry) error
 			if err := m.PluginProperties[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("pluginProperties" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("pluginProperties" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -909,7 +908,6 @@ func (m *PaymentAttempt) validatePluginProperties(formats strfmt.Registry) error
 }
 
 func (m *PaymentAttempt) validateTransactionID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TransactionID) { // not required
 		return nil
 	}
@@ -980,14 +978,13 @@ func (e PaymentAttemptTransactionTypeEnum) IsValid() bool {
 
 // prop value enum
 func (m *PaymentAttempt) validateTransactionTypeEnum(path, location string, value PaymentAttemptTransactionTypeEnum) error {
-	if err := validate.Enum(path, location, value, paymentAttemptTypeTransactionTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, paymentAttemptTypeTransactionTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *PaymentAttempt) validateTransactionType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TransactionType) { // not required
 		return nil
 	}
@@ -995,6 +992,64 @@ func (m *PaymentAttempt) validateTransactionType(formats strfmt.Registry) error 
 	// value enum
 	if err := m.validateTransactionTypeEnum("transactionType", "body", m.TransactionType); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this payment attempt based on the context it is used
+func (m *PaymentAttempt) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePluginProperties(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *PaymentAttempt) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AuditLogs); i++ {
+
+		if m.AuditLogs[i] != nil {
+			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *PaymentAttempt) contextValidatePluginProperties(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PluginProperties); i++ {
+
+		if m.PluginProperties[i] != nil {
+			if err := m.PluginProperties[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("pluginProperties" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("pluginProperties" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

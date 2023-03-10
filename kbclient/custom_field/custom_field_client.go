@@ -10,8 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new custom field API client.
@@ -48,27 +47,20 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// ICustomField - interface for CustomField client.
-type ICustomField interface {
-	/*
-		GetCustomFieldAuditLogsWithHistory retrieves custom field audit logs with history by id
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	GetCustomFieldAuditLogsWithHistory(ctx context.Context, params *GetCustomFieldAuditLogsWithHistoryParams) (*GetCustomFieldAuditLogsWithHistoryOK, error)
 
-	/*
-		GetCustomFields lists custom fields
-	*/
 	GetCustomFields(ctx context.Context, params *GetCustomFieldsParams) (*GetCustomFieldsOK, error)
 
-	/*
-		SearchCustomFields searches custom fields
-	*/
 	SearchCustomFields(ctx context.Context, params *SearchCustomFieldsParams) (*SearchCustomFieldsOK, error)
 
-	/*
-		SearchCustomFieldsByTypeName searches custom fields by type name and optional value
-	*/
 	SearchCustomFieldsByTypeName(ctx context.Context, params *SearchCustomFieldsByTypeNameParams) (*SearchCustomFieldsByTypeNameOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -88,19 +80,21 @@ func (a *Client) GetCustomFieldAuditLogsWithHistory(ctx context.Context, params 
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCustomFieldAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/customFields/{customFieldId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCustomFieldAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -132,19 +126,21 @@ func (a *Client) GetCustomFields(ctx context.Context, params *GetCustomFieldsPar
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/customFields/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -176,19 +172,21 @@ func (a *Client) SearchCustomFields(ctx context.Context, params *SearchCustomFie
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/customFields/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -220,19 +218,21 @@ func (a *Client) SearchCustomFieldsByTypeName(ctx context.Context, params *Searc
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchCustomFieldsByTypeName",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/customFields/search",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchCustomFieldsByTypeNameReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

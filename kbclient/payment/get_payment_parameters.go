@@ -13,92 +13,72 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetPaymentParams creates a new GetPaymentParams object
-// with the default values initialized.
+// NewGetPaymentParams creates a new GetPaymentParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetPaymentParams() *GetPaymentParams {
-	var (
-		auditDefault          = string("NONE")
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetPaymentParams{
-		Audit:          &auditDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPaymentParamsWithTimeout creates a new GetPaymentParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetPaymentParamsWithTimeout(timeout time.Duration) *GetPaymentParams {
-	var (
-		auditDefault          = string("NONE")
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetPaymentParams{
-		Audit:          &auditDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetPaymentParamsWithContext creates a new GetPaymentParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetPaymentParamsWithContext(ctx context.Context) *GetPaymentParams {
-	var (
-		auditDefault          = string("NONE")
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetPaymentParams{
-		Audit:          &auditDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetPaymentParamsWithHTTPClient creates a new GetPaymentParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetPaymentParamsWithHTTPClient(client *http.Client) *GetPaymentParams {
-	var (
-		auditDefault          = string("NONE")
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetPaymentParams{
-		Audit:          &auditDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-		HTTPClient:     client,
+		HTTPClient: client,
 	}
 }
 
-/*GetPaymentParams contains all the parameters to send to the API endpoint
-for the get payment operation typically these are written to a http.Request
+/*
+GetPaymentParams contains all the parameters to send to the API endpoint
+
+	for the get payment operation.
+
+	Typically these are written to a http.Request.
 */
 type GetPaymentParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*PaymentID*/
+
+	// PaymentID.
+	//
+	// Format: uuid
 	PaymentID strfmt.UUID
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*WithAttempts*/
+
+	// WithAttempts.
 	WithAttempts *bool
-	/*WithPluginInfo*/
+
+	// WithPluginInfo.
 	WithPluginInfo *bool
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -107,6 +87,38 @@ type GetPaymentParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get payment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentParams) WithDefaults() *GetPaymentParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get payment params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		withAttemptsDefault = bool(false)
+
+		withPluginInfoDefault = bool(false)
+	)
+
+	val := GetPaymentParams{
+		Audit:          &auditDefault,
+		WithAttempts:   &withAttemptsDefault,
+		WithPluginInfo: &withPluginInfoDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get payment params
@@ -209,16 +221,17 @@ func (o *GetPaymentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param paymentId
@@ -226,44 +239,49 @@ func (o *GetPaymentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 		return err
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.WithAttempts != nil {
 
 		// query param withAttempts
 		var qrWithAttempts bool
+
 		if o.WithAttempts != nil {
 			qrWithAttempts = *o.WithAttempts
 		}
 		qWithAttempts := swag.FormatBool(qrWithAttempts)
 		if qWithAttempts != "" {
+
 			if err := r.SetQueryParam("withAttempts", qWithAttempts); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.WithPluginInfo != nil {
 
 		// query param withPluginInfo
 		var qrWithPluginInfo bool
+
 		if o.WithPluginInfo != nil {
 			qrWithPluginInfo = *o.WithPluginInfo
 		}
 		qWithPluginInfo := swag.FormatBool(qrWithPluginInfo)
 		if qWithPluginInfo != "" {
+
 			if err := r.SetQueryParam("withPluginInfo", qWithPluginInfo); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo
@@ -284,4 +302,21 @@ func (o *GetPaymentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamGetPayment binds the parameter pluginProperty
+func (o *GetPaymentParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

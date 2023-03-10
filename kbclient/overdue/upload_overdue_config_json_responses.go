@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // UploadOverdueConfigJSONReader is a Reader for the UploadOverdueConfigJSON structure.
@@ -48,17 +47,51 @@ func NewUploadOverdueConfigJSONCreated() *UploadOverdueConfigJSONCreated {
 	return &UploadOverdueConfigJSONCreated{}
 }
 
-/*UploadOverdueConfigJSONCreated handles this case with default header values.
+/*
+UploadOverdueConfigJSONCreated describes a response with status code 201, with default header values.
 
 Successfully uploaded overdue config
 */
 type UploadOverdueConfigJSONCreated struct {
-	Payload *kbmodel.Overdue
-
+	Payload      *kbmodel.Overdue
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the upload overdue config Json created response
+func (o *UploadOverdueConfigJSONCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this upload overdue config Json created response has a 2xx status code
+func (o *UploadOverdueConfigJSONCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this upload overdue config Json created response has a 3xx status code
+func (o *UploadOverdueConfigJSONCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this upload overdue config Json created response has a 4xx status code
+func (o *UploadOverdueConfigJSONCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this upload overdue config Json created response has a 5xx status code
+func (o *UploadOverdueConfigJSONCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this upload overdue config Json created response a status code equal to that given
+func (o *UploadOverdueConfigJSONCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *UploadOverdueConfigJSONCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/overdue][%d] uploadOverdueConfigJsonCreated  %+v", 201, o.Payload)
+}
+
+func (o *UploadOverdueConfigJSONCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/overdue][%d] uploadOverdueConfigJsonCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewUploadOverdueConfigJSONBadRequest() *UploadOverdueConfigJSONBadRequest {
 	return &UploadOverdueConfigJSONBadRequest{}
 }
 
-/*UploadOverdueConfigJSONBadRequest handles this case with default header values.
+/*
+UploadOverdueConfigJSONBadRequest describes a response with status code 400, with default header values.
 
 Invalid node command supplied
 */
@@ -91,7 +125,41 @@ type UploadOverdueConfigJSONBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the upload overdue config Json bad request response
+func (o *UploadOverdueConfigJSONBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this upload overdue config Json bad request response has a 2xx status code
+func (o *UploadOverdueConfigJSONBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this upload overdue config Json bad request response has a 3xx status code
+func (o *UploadOverdueConfigJSONBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this upload overdue config Json bad request response has a 4xx status code
+func (o *UploadOverdueConfigJSONBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this upload overdue config Json bad request response has a 5xx status code
+func (o *UploadOverdueConfigJSONBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this upload overdue config Json bad request response a status code equal to that given
+func (o *UploadOverdueConfigJSONBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *UploadOverdueConfigJSONBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/overdue][%d] uploadOverdueConfigJsonBadRequest ", 400)
+}
+
+func (o *UploadOverdueConfigJSONBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/overdue][%d] uploadOverdueConfigJsonBadRequest ", 400)
 }
 

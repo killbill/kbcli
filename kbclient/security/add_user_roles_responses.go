@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // AddUserRolesReader is a Reader for the AddUserRoles structure.
@@ -47,17 +46,51 @@ func NewAddUserRolesCreated() *AddUserRolesCreated {
 	return &AddUserRolesCreated{}
 }
 
-/*AddUserRolesCreated handles this case with default header values.
+/*
+AddUserRolesCreated describes a response with status code 201, with default header values.
 
 User role created successfully
 */
 type AddUserRolesCreated struct {
-	Payload *kbmodel.UserRoles
-
+	Payload      *kbmodel.UserRoles
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add user roles created response
+func (o *AddUserRolesCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this add user roles created response has a 2xx status code
+func (o *AddUserRolesCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add user roles created response has a 3xx status code
+func (o *AddUserRolesCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add user roles created response has a 4xx status code
+func (o *AddUserRolesCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add user roles created response has a 5xx status code
+func (o *AddUserRolesCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add user roles created response a status code equal to that given
+func (o *AddUserRolesCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *AddUserRolesCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/security/users][%d] addUserRolesCreated  %+v", 201, o.Payload)
+}
+
+func (o *AddUserRolesCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/security/users][%d] addUserRolesCreated  %+v", 201, o.Payload)
 }
 

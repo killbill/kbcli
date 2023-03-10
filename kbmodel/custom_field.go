@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // CustomField custom field
+//
 // swagger:model CustomField
 type CustomField struct {
 
@@ -79,7 +80,6 @@ func (m *CustomField) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CustomField) validateAuditLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -93,6 +93,8 @@ func (m *CustomField) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -104,7 +106,6 @@ func (m *CustomField) validateAuditLogs(formats strfmt.Registry) error {
 }
 
 func (m *CustomField) validateCustomFieldID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CustomFieldID) { // not required
 		return nil
 	}
@@ -126,7 +127,6 @@ func (m *CustomField) validateName(formats strfmt.Registry) error {
 }
 
 func (m *CustomField) validateObjectID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ObjectID) { // not required
 		return nil
 	}
@@ -245,14 +245,13 @@ func (e CustomFieldObjectTypeEnum) IsValid() bool {
 
 // prop value enum
 func (m *CustomField) validateObjectTypeEnum(path, location string, value CustomFieldObjectTypeEnum) error {
-	if err := validate.Enum(path, location, value, customFieldTypeObjectTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, customFieldTypeObjectTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *CustomField) validateObjectType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ObjectType) { // not required
 		return nil
 	}
@@ -269,6 +268,40 @@ func (m *CustomField) validateValue(formats strfmt.Registry) error {
 
 	if err := validate.Required("value", "body", m.Value); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this custom field based on the context it is used
+func (m *CustomField) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *CustomField) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AuditLogs); i++ {
+
+		if m.AuditLogs[i] != nil {
+			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

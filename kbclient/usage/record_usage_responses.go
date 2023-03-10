@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // RecordUsageReader is a Reader for the RecordUsage structure.
@@ -46,7 +45,8 @@ func NewRecordUsageOK() *RecordUsageOK {
 	return &RecordUsageOK{}
 }
 
-/*RecordUsageOK handles this case with default header values.
+/*
+RecordUsageOK describes a response with status code 200, with default header values.
 
 Successfully recorded usage data change
 */
@@ -54,7 +54,41 @@ type RecordUsageOK struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the record usage o k response
+func (o *RecordUsageOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this record usage o k response has a 2xx status code
+func (o *RecordUsageOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this record usage o k response has a 3xx status code
+func (o *RecordUsageOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this record usage o k response has a 4xx status code
+func (o *RecordUsageOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this record usage o k response has a 5xx status code
+func (o *RecordUsageOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this record usage o k response a status code equal to that given
+func (o *RecordUsageOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *RecordUsageOK) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/usages][%d] recordUsageOK ", 200)
+}
+
+func (o *RecordUsageOK) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/usages][%d] recordUsageOK ", 200)
 }
 
@@ -68,7 +102,8 @@ func NewRecordUsageBadRequest() *RecordUsageBadRequest {
 	return &RecordUsageBadRequest{}
 }
 
-/*RecordUsageBadRequest handles this case with default header values.
+/*
+RecordUsageBadRequest describes a response with status code 400, with default header values.
 
 Invalid subscription (e.g. inactive)
 */
@@ -76,7 +111,41 @@ type RecordUsageBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the record usage bad request response
+func (o *RecordUsageBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this record usage bad request response has a 2xx status code
+func (o *RecordUsageBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this record usage bad request response has a 3xx status code
+func (o *RecordUsageBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this record usage bad request response has a 4xx status code
+func (o *RecordUsageBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this record usage bad request response has a 5xx status code
+func (o *RecordUsageBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this record usage bad request response a status code equal to that given
+func (o *RecordUsageBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *RecordUsageBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/usages][%d] recordUsageBadRequest ", 400)
+}
+
+func (o *RecordUsageBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/usages][%d] recordUsageBadRequest ", 400)
 }
 

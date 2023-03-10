@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetBundleReader is a Reader for the GetBundle structure.
@@ -48,17 +47,51 @@ func NewGetBundleOK() *GetBundleOK {
 	return &GetBundleOK{}
 }
 
-/*GetBundleOK handles this case with default header values.
+/*
+GetBundleOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetBundleOK struct {
-	Payload *kbmodel.Bundle
-
+	Payload      *kbmodel.Bundle
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get bundle o k response
+func (o *GetBundleOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get bundle o k response has a 2xx status code
+func (o *GetBundleOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get bundle o k response has a 3xx status code
+func (o *GetBundleOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle o k response has a 4xx status code
+func (o *GetBundleOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get bundle o k response has a 5xx status code
+func (o *GetBundleOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle o k response a status code equal to that given
+func (o *GetBundleOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetBundleOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}][%d] getBundleOK  %+v", 200, o.Payload)
+}
+
+func (o *GetBundleOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}][%d] getBundleOK  %+v", 200, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewGetBundleBadRequest() *GetBundleBadRequest {
 	return &GetBundleBadRequest{}
 }
 
-/*GetBundleBadRequest handles this case with default header values.
+/*
+GetBundleBadRequest describes a response with status code 400, with default header values.
 
 Invalid bundle id supplied
 */
@@ -91,7 +125,41 @@ type GetBundleBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get bundle bad request response
+func (o *GetBundleBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get bundle bad request response has a 2xx status code
+func (o *GetBundleBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get bundle bad request response has a 3xx status code
+func (o *GetBundleBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle bad request response has a 4xx status code
+func (o *GetBundleBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get bundle bad request response has a 5xx status code
+func (o *GetBundleBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle bad request response a status code equal to that given
+func (o *GetBundleBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetBundleBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}][%d] getBundleBadRequest ", 400)
+}
+
+func (o *GetBundleBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}][%d] getBundleBadRequest ", 400)
 }
 
@@ -105,7 +173,8 @@ func NewGetBundleNotFound() *GetBundleNotFound {
 	return &GetBundleNotFound{}
 }
 
-/*GetBundleNotFound handles this case with default header values.
+/*
+GetBundleNotFound describes a response with status code 404, with default header values.
 
 Bundle not found
 */
@@ -113,7 +182,41 @@ type GetBundleNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get bundle not found response
+func (o *GetBundleNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get bundle not found response has a 2xx status code
+func (o *GetBundleNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get bundle not found response has a 3xx status code
+func (o *GetBundleNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get bundle not found response has a 4xx status code
+func (o *GetBundleNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get bundle not found response has a 5xx status code
+func (o *GetBundleNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get bundle not found response a status code equal to that given
+func (o *GetBundleNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetBundleNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}][%d] getBundleNotFound ", 404)
+}
+
+func (o *GetBundleNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/bundles/{bundleId}][%d] getBundleNotFound ", 404)
 }
 

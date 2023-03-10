@@ -13,64 +13,70 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewDeletePaymentMethodCustomFieldsParams creates a new DeletePaymentMethodCustomFieldsParams object
-// with the default values initialized.
+// NewDeletePaymentMethodCustomFieldsParams creates a new DeletePaymentMethodCustomFieldsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeletePaymentMethodCustomFieldsParams() *DeletePaymentMethodCustomFieldsParams {
-	var ()
 	return &DeletePaymentMethodCustomFieldsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeletePaymentMethodCustomFieldsParamsWithTimeout creates a new DeletePaymentMethodCustomFieldsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeletePaymentMethodCustomFieldsParamsWithTimeout(timeout time.Duration) *DeletePaymentMethodCustomFieldsParams {
-	var ()
 	return &DeletePaymentMethodCustomFieldsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeletePaymentMethodCustomFieldsParamsWithContext creates a new DeletePaymentMethodCustomFieldsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeletePaymentMethodCustomFieldsParamsWithContext(ctx context.Context) *DeletePaymentMethodCustomFieldsParams {
-	var ()
 	return &DeletePaymentMethodCustomFieldsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeletePaymentMethodCustomFieldsParamsWithHTTPClient creates a new DeletePaymentMethodCustomFieldsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeletePaymentMethodCustomFieldsParamsWithHTTPClient(client *http.Client) *DeletePaymentMethodCustomFieldsParams {
-	var ()
 	return &DeletePaymentMethodCustomFieldsParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeletePaymentMethodCustomFieldsParams contains all the parameters to send to the API endpoint
-for the delete payment method custom fields operation typically these are written to a http.Request
+/*
+DeletePaymentMethodCustomFieldsParams contains all the parameters to send to the API endpoint
+
+	for the delete payment method custom fields operation.
+
+	Typically these are written to a http.Request.
 */
 type DeletePaymentMethodCustomFieldsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*CustomField*/
+
+	// CustomField.
 	CustomField []strfmt.UUID
-	/*PaymentMethodID*/
+
+	// PaymentMethodID.
+	//
+	// Format: uuid
 	PaymentMethodID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -79,6 +85,21 @@ type DeletePaymentMethodCustomFieldsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the delete payment method custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeletePaymentMethodCustomFieldsParams) WithDefaults() *DeletePaymentMethodCustomFieldsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete payment method custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeletePaymentMethodCustomFieldsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete payment method custom fields params
@@ -183,7 +204,6 @@ func (o *DeletePaymentMethodCustomFieldsParams) WriteToRequest(r runtime.ClientR
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -197,18 +217,17 @@ func (o *DeletePaymentMethodCustomFieldsParams) WriteToRequest(r runtime.ClientR
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
-	var valuesCustomField []string
-	for _, v := range o.CustomField {
-		valuesCustomField = append(valuesCustomField, v.String())
-	}
+	if o.CustomField != nil {
 
-	joinedCustomField := swag.JoinByFormat(valuesCustomField, "multi")
-	// query array param customField
-	if err := r.SetQueryParam("customField", joinedCustomField...); err != nil {
-		return err
+		// binding items for customField
+		joinedCustomField := o.bindParamCustomField(reg)
+
+		// query array param customField
+		if err := r.SetQueryParam("customField", joinedCustomField...); err != nil {
+			return err
+		}
 	}
 
 	// path param paymentMethodId
@@ -234,4 +253,21 @@ func (o *DeletePaymentMethodCustomFieldsParams) WriteToRequest(r runtime.ClientR
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamDeletePaymentMethodCustomFields binds the parameter customField
+func (o *DeletePaymentMethodCustomFieldsParams) bindParamCustomField(formats strfmt.Registry) []string {
+	customFieldIR := o.CustomField
+
+	var customFieldIC []string
+	for _, customFieldIIR := range customFieldIR { // explode []strfmt.UUID
+
+		customFieldIIV := customFieldIIR.String() // strfmt.UUID as string
+		customFieldIC = append(customFieldIC, customFieldIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	customFieldIS := swag.JoinByFormat(customFieldIC, "multi")
+
+	return customFieldIS
 }

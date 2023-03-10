@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/killbill/kbcli/v2/kbclient/subscription"
-	"github.com/killbill/kbcli/v2/kbcmd/cmdlib"
-	"github.com/killbill/kbcli/v2/kbcmd/cmdlib/args"
-	"github.com/killbill/kbcli/v2/kbcmd/kblib"
-	"github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbclient/subscription"
+	"github.com/killbill/kbcli/v3/kbcmd/cmdlib"
+	"github.com/killbill/kbcli/v3/kbcmd/cmdlib/args"
+	"github.com/killbill/kbcli/v3/kbcmd/kblib"
+	"github.com/killbill/kbcli/v3/kbmodel"
 	"github.com/urfave/cli"
 )
 

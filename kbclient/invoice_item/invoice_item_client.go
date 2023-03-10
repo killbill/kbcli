@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // New creates a new invoice item API client.
@@ -49,47 +48,28 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IInvoiceItem - interface for InvoiceItem client.
-type IInvoiceItem interface {
-	/*
-		CreateInvoiceItemCustomFields adds custom fields to invoice item
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	CreateInvoiceItemCustomFields(ctx context.Context, params *CreateInvoiceItemCustomFieldsParams) (*CreateInvoiceItemCustomFieldsCreated, error)
 
-	/*
-		CreateInvoiceItemTags adds tags to invoice item
-	*/
 	CreateInvoiceItemTags(ctx context.Context, params *CreateInvoiceItemTagsParams) (*CreateInvoiceItemTagsCreated, error)
 
-	/*
-		DeleteInvoiceItemCustomFields removes custom fields from invoice item
-	*/
 	DeleteInvoiceItemCustomFields(ctx context.Context, params *DeleteInvoiceItemCustomFieldsParams) (*DeleteInvoiceItemCustomFieldsNoContent, error)
 
-	/*
-		DeleteInvoiceItemTags removes tags from invoice item
-	*/
 	DeleteInvoiceItemTags(ctx context.Context, params *DeleteInvoiceItemTagsParams) (*DeleteInvoiceItemTagsNoContent, error)
 
-	/*
-		GetInvoiceItemAuditLogsWithHistory retrieves invoice item audit logs with history by id
-	*/
 	GetInvoiceItemAuditLogsWithHistory(ctx context.Context, params *GetInvoiceItemAuditLogsWithHistoryParams) (*GetInvoiceItemAuditLogsWithHistoryOK, error)
 
-	/*
-		GetInvoiceItemCustomFields retrieves invoice item custom fields
-	*/
 	GetInvoiceItemCustomFields(ctx context.Context, params *GetInvoiceItemCustomFieldsParams) (*GetInvoiceItemCustomFieldsOK, error)
 
-	/*
-		GetInvoiceItemTags retrieves invoice item tags
-	*/
 	GetInvoiceItemTags(ctx context.Context, params *GetInvoiceItemTagsParams) (*GetInvoiceItemTagsOK, error)
 
-	/*
-		ModifyInvoiceItemCustomFields modifies custom fields to invoice item
-	*/
 	ModifyInvoiceItemCustomFields(ctx context.Context, params *ModifyInvoiceItemCustomFieldsParams) (*ModifyInvoiceItemCustomFieldsNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -124,7 +104,7 @@ func (a *Client) CreateInvoiceItemCustomFields(ctx context.Context, params *Crea
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createInvoiceItemCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoiceItems/{invoiceItemId}/customFields",
@@ -136,7 +116,9 @@ func (a *Client) CreateInvoiceItemCustomFields(ctx context.Context, params *Crea
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -198,7 +180,7 @@ func (a *Client) CreateInvoiceItemTags(ctx context.Context, params *CreateInvoic
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createInvoiceItemTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/invoiceItems/{invoiceItemId}/tags",
@@ -210,7 +192,9 @@ func (a *Client) CreateInvoiceItemTags(ctx context.Context, params *CreateInvoic
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -269,7 +253,7 @@ func (a *Client) DeleteInvoiceItemCustomFields(ctx context.Context, params *Dele
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteInvoiceItemCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/invoiceItems/{invoiceItemId}/customFields",
@@ -281,7 +265,9 @@ func (a *Client) DeleteInvoiceItemCustomFields(ctx context.Context, params *Dele
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -325,7 +311,7 @@ func (a *Client) DeleteInvoiceItemTags(ctx context.Context, params *DeleteInvoic
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteInvoiceItemTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/invoiceItems/{invoiceItemId}/tags",
@@ -337,7 +323,9 @@ func (a *Client) DeleteInvoiceItemTags(ctx context.Context, params *DeleteInvoic
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -369,19 +357,21 @@ func (a *Client) GetInvoiceItemAuditLogsWithHistory(ctx context.Context, params 
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceItemAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoiceItems/{invoiceItemId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceItemAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -413,19 +403,21 @@ func (a *Client) GetInvoiceItemCustomFields(ctx context.Context, params *GetInvo
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceItemCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoiceItems/{invoiceItemId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceItemCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -457,19 +449,21 @@ func (a *Client) GetInvoiceItemTags(ctx context.Context, params *GetInvoiceItemT
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getInvoiceItemTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/invoiceItems/{invoiceItemId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetInvoiceItemTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -513,7 +507,7 @@ func (a *Client) ModifyInvoiceItemCustomFields(ctx context.Context, params *Modi
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifyInvoiceItemCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/invoiceItems/{invoiceItemId}/customFields",
@@ -525,7 +519,9 @@ func (a *Client) ModifyInvoiceItemCustomFields(ctx context.Context, params *Modi
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

@@ -13,57 +13,62 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetPhaseForSubscriptionAndDateParams creates a new GetPhaseForSubscriptionAndDateParams object
-// with the default values initialized.
+// NewGetPhaseForSubscriptionAndDateParams creates a new GetPhaseForSubscriptionAndDateParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetPhaseForSubscriptionAndDateParams() *GetPhaseForSubscriptionAndDateParams {
-	var ()
 	return &GetPhaseForSubscriptionAndDateParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPhaseForSubscriptionAndDateParamsWithTimeout creates a new GetPhaseForSubscriptionAndDateParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetPhaseForSubscriptionAndDateParamsWithTimeout(timeout time.Duration) *GetPhaseForSubscriptionAndDateParams {
-	var ()
 	return &GetPhaseForSubscriptionAndDateParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetPhaseForSubscriptionAndDateParamsWithContext creates a new GetPhaseForSubscriptionAndDateParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetPhaseForSubscriptionAndDateParamsWithContext(ctx context.Context) *GetPhaseForSubscriptionAndDateParams {
-	var ()
 	return &GetPhaseForSubscriptionAndDateParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetPhaseForSubscriptionAndDateParamsWithHTTPClient creates a new GetPhaseForSubscriptionAndDateParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetPhaseForSubscriptionAndDateParamsWithHTTPClient(client *http.Client) *GetPhaseForSubscriptionAndDateParams {
-	var ()
 	return &GetPhaseForSubscriptionAndDateParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetPhaseForSubscriptionAndDateParams contains all the parameters to send to the API endpoint
-for the get phase for subscription and date operation typically these are written to a http.Request
+/*
+GetPhaseForSubscriptionAndDateParams contains all the parameters to send to the API endpoint
+
+	for the get phase for subscription and date operation.
+
+	Typically these are written to a http.Request.
 */
 type GetPhaseForSubscriptionAndDateParams struct {
 
-	/*RequestedDate*/
+	// RequestedDate.
+	//
+	// Format: date
 	RequestedDate *strfmt.Date
-	/*SubscriptionID*/
+
+	// SubscriptionID.
+	//
+	// Format: uuid
 	SubscriptionID *strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -72,6 +77,21 @@ type GetPhaseForSubscriptionAndDateParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get phase for subscription and date params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPhaseForSubscriptionAndDateParams) WithDefaults() *GetPhaseForSubscriptionAndDateParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get phase for subscription and date params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPhaseForSubscriptionAndDateParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get phase for subscription and date params
@@ -141,32 +161,34 @@ func (o *GetPhaseForSubscriptionAndDateParams) WriteToRequest(r runtime.ClientRe
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
+
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
+
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.SubscriptionID != nil {
 
 		// query param subscriptionId
 		var qrSubscriptionID strfmt.UUID
+
 		if o.SubscriptionID != nil {
 			qrSubscriptionID = *o.SubscriptionID
 		}
 		qSubscriptionID := qrSubscriptionID.String()
 		if qSubscriptionID != "" {
+
 			if err := r.SetQueryParam("subscriptionId", qSubscriptionID); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // UpdateUserRolesReader is a Reader for the UpdateUserRoles structure.
@@ -45,7 +44,8 @@ func NewUpdateUserRolesNoContent() *UpdateUserRolesNoContent {
 	return &UpdateUserRolesNoContent{}
 }
 
-/*UpdateUserRolesNoContent handles this case with default header values.
+/*
+UpdateUserRolesNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -53,7 +53,41 @@ type UpdateUserRolesNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the update user roles no content response
+func (o *UpdateUserRolesNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this update user roles no content response has a 2xx status code
+func (o *UpdateUserRolesNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this update user roles no content response has a 3xx status code
+func (o *UpdateUserRolesNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this update user roles no content response has a 4xx status code
+func (o *UpdateUserRolesNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this update user roles no content response has a 5xx status code
+func (o *UpdateUserRolesNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this update user roles no content response a status code equal to that given
+func (o *UpdateUserRolesNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *UpdateUserRolesNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/security/users/{username}/roles][%d] updateUserRolesNoContent ", 204)
+}
+
+func (o *UpdateUserRolesNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/security/users/{username}/roles][%d] updateUserRolesNoContent ", 204)
 }
 

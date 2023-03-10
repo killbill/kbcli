@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // CreateInvoicePaymentCustomFieldsReader is a Reader for the CreateInvoicePaymentCustomFields structure.
@@ -48,17 +47,51 @@ func NewCreateInvoicePaymentCustomFieldsCreated() *CreateInvoicePaymentCustomFie
 	return &CreateInvoicePaymentCustomFieldsCreated{}
 }
 
-/*CreateInvoicePaymentCustomFieldsCreated handles this case with default header values.
+/*
+CreateInvoicePaymentCustomFieldsCreated describes a response with status code 201, with default header values.
 
 Custom field created successfully
 */
 type CreateInvoicePaymentCustomFieldsCreated struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create invoice payment custom fields created response
+func (o *CreateInvoicePaymentCustomFieldsCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create invoice payment custom fields created response has a 2xx status code
+func (o *CreateInvoicePaymentCustomFieldsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create invoice payment custom fields created response has a 3xx status code
+func (o *CreateInvoicePaymentCustomFieldsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create invoice payment custom fields created response has a 4xx status code
+func (o *CreateInvoicePaymentCustomFieldsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create invoice payment custom fields created response has a 5xx status code
+func (o *CreateInvoicePaymentCustomFieldsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create invoice payment custom fields created response a status code equal to that given
+func (o *CreateInvoicePaymentCustomFieldsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateInvoicePaymentCustomFieldsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/customFields][%d] createInvoicePaymentCustomFieldsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateInvoicePaymentCustomFieldsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/customFields][%d] createInvoicePaymentCustomFieldsCreated  %+v", 201, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewCreateInvoicePaymentCustomFieldsBadRequest() *CreateInvoicePaymentCustom
 	return &CreateInvoicePaymentCustomFieldsBadRequest{}
 }
 
-/*CreateInvoicePaymentCustomFieldsBadRequest handles this case with default header values.
+/*
+CreateInvoicePaymentCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid payment id supplied
 */
@@ -89,7 +123,41 @@ type CreateInvoicePaymentCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create invoice payment custom fields bad request response
+func (o *CreateInvoicePaymentCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create invoice payment custom fields bad request response has a 2xx status code
+func (o *CreateInvoicePaymentCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create invoice payment custom fields bad request response has a 3xx status code
+func (o *CreateInvoicePaymentCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create invoice payment custom fields bad request response has a 4xx status code
+func (o *CreateInvoicePaymentCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create invoice payment custom fields bad request response has a 5xx status code
+func (o *CreateInvoicePaymentCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create invoice payment custom fields bad request response a status code equal to that given
+func (o *CreateInvoicePaymentCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateInvoicePaymentCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/customFields][%d] createInvoicePaymentCustomFieldsBadRequest ", 400)
+}
+
+func (o *CreateInvoicePaymentCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoicePayments/{paymentId}/customFields][%d] createInvoicePaymentCustomFieldsBadRequest ", 400)
 }
 

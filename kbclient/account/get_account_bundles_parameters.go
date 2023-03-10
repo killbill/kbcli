@@ -13,73 +13,68 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetAccountBundlesParams creates a new GetAccountBundlesParams object
-// with the default values initialized.
+// NewGetAccountBundlesParams creates a new GetAccountBundlesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAccountBundlesParams() *GetAccountBundlesParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetAccountBundlesParams{
-		Audit: &auditDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAccountBundlesParamsWithTimeout creates a new GetAccountBundlesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetAccountBundlesParamsWithTimeout(timeout time.Duration) *GetAccountBundlesParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetAccountBundlesParams{
-		Audit: &auditDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetAccountBundlesParamsWithContext creates a new GetAccountBundlesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetAccountBundlesParamsWithContext(ctx context.Context) *GetAccountBundlesParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetAccountBundlesParams{
-		Audit: &auditDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetAccountBundlesParamsWithHTTPClient creates a new GetAccountBundlesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetAccountBundlesParamsWithHTTPClient(client *http.Client) *GetAccountBundlesParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetAccountBundlesParams{
-		Audit:      &auditDefault,
 		HTTPClient: client,
 	}
 }
 
-/*GetAccountBundlesParams contains all the parameters to send to the API endpoint
-for the get account bundles operation typically these are written to a http.Request
+/*
+GetAccountBundlesParams contains all the parameters to send to the API endpoint
+
+	for the get account bundles operation.
+
+	Typically these are written to a http.Request.
 */
 type GetAccountBundlesParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*Audit*/
+
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*BundlesFilter*/
+
+	// BundlesFilter.
 	BundlesFilter *string
-	/*ExternalKey*/
+
+	// ExternalKey.
 	ExternalKey *string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -88,6 +83,32 @@ type GetAccountBundlesParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get account bundles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAccountBundlesParams) WithDefaults() *GetAccountBundlesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get account bundles params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAccountBundlesParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+	)
+
+	val := GetAccountBundlesParams{
+		Audit: &auditDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get account bundles params
@@ -184,48 +205,51 @@ func (o *GetAccountBundlesParams) WriteToRequest(r runtime.ClientRequest, reg st
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.BundlesFilter != nil {
 
 		// query param bundlesFilter
 		var qrBundlesFilter string
+
 		if o.BundlesFilter != nil {
 			qrBundlesFilter = *o.BundlesFilter
 		}
 		qBundlesFilter := qrBundlesFilter
 		if qBundlesFilter != "" {
+
 			if err := r.SetQueryParam("bundlesFilter", qBundlesFilter); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.ExternalKey != nil {
 
 		// query param externalKey
 		var qrExternalKey string
+
 		if o.ExternalKey != nil {
 			qrExternalKey = *o.ExternalKey
 		}
 		qExternalKey := qrExternalKey
 		if qExternalKey != "" {
+
 			if err := r.SetQueryParam("externalKey", qExternalKey); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

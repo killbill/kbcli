@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // OverdueCondition overdue condition
+//
 // swagger:model OverdueCondition
 type OverdueCondition struct {
 
@@ -134,14 +135,13 @@ func (e OverdueConditionControlTagExclusionEnum) IsValid() bool {
 
 // prop value enum
 func (m *OverdueCondition) validateControlTagExclusionEnum(path, location string, value OverdueConditionControlTagExclusionEnum) error {
-	if err := validate.Enum(path, location, value, overdueConditionTypeControlTagExclusionPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, overdueConditionTypeControlTagExclusionPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *OverdueCondition) validateControlTagExclusion(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ControlTagExclusion) { // not required
 		return nil
 	}
@@ -221,14 +221,13 @@ func (e OverdueConditionControlTagInclusionEnum) IsValid() bool {
 
 // prop value enum
 func (m *OverdueCondition) validateControlTagInclusionEnum(path, location string, value OverdueConditionControlTagInclusionEnum) error {
-	if err := validate.Enum(path, location, value, overdueConditionTypeControlTagInclusionPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, overdueConditionTypeControlTagInclusionPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *OverdueCondition) validateControlTagInclusion(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ControlTagInclusion) { // not required
 		return nil
 	}
@@ -311,14 +310,13 @@ func init() {
 }
 
 func (m *OverdueCondition) validateResponseForLastFailedPaymentItemsEnum(path, location string, value OverdueConditionResponseForLastFailedPaymentEnum) error {
-	if err := validate.Enum(path, location, value, overdueConditionResponseForLastFailedPaymentItemsEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, overdueConditionResponseForLastFailedPaymentItemsEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *OverdueCondition) validateResponseForLastFailedPayment(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ResponseForLastFailedPayment) { // not required
 		return nil
 	}
@@ -336,7 +334,6 @@ func (m *OverdueCondition) validateResponseForLastFailedPayment(formats strfmt.R
 }
 
 func (m *OverdueCondition) validateTimeSinceEarliestUnpaidInvoiceEqualsOrExceeds(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TimeSinceEarliestUnpaidInvoiceEqualsOrExceeds) { // not required
 		return nil
 	}
@@ -345,6 +342,38 @@ func (m *OverdueCondition) validateTimeSinceEarliestUnpaidInvoiceEqualsOrExceeds
 		if err := m.TimeSinceEarliestUnpaidInvoiceEqualsOrExceeds.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("timeSinceEarliestUnpaidInvoiceEqualsOrExceeds")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("timeSinceEarliestUnpaidInvoiceEqualsOrExceeds")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this overdue condition based on the context it is used
+func (m *OverdueCondition) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTimeSinceEarliestUnpaidInvoiceEqualsOrExceeds(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *OverdueCondition) contextValidateTimeSinceEarliestUnpaidInvoiceEqualsOrExceeds(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.TimeSinceEarliestUnpaidInvoiceEqualsOrExceeds != nil {
+		if err := m.TimeSinceEarliestUnpaidInvoiceEqualsOrExceeds.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("timeSinceEarliestUnpaidInvoiceEqualsOrExceeds")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("timeSinceEarliestUnpaidInvoiceEqualsOrExceeds")
 			}
 			return err
 		}

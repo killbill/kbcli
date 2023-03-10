@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetInvoiceCustomFieldsReader is a Reader for the GetInvoiceCustomFields structure.
@@ -48,17 +47,51 @@ func NewGetInvoiceCustomFieldsOK() *GetInvoiceCustomFieldsOK {
 	return &GetInvoiceCustomFieldsOK{}
 }
 
-/*GetInvoiceCustomFieldsOK handles this case with default header values.
+/*
+GetInvoiceCustomFieldsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetInvoiceCustomFieldsOK struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice custom fields o k response
+func (o *GetInvoiceCustomFieldsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get invoice custom fields o k response has a 2xx status code
+func (o *GetInvoiceCustomFieldsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get invoice custom fields o k response has a 3xx status code
+func (o *GetInvoiceCustomFieldsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice custom fields o k response has a 4xx status code
+func (o *GetInvoiceCustomFieldsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get invoice custom fields o k response has a 5xx status code
+func (o *GetInvoiceCustomFieldsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice custom fields o k response a status code equal to that given
+func (o *GetInvoiceCustomFieldsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetInvoiceCustomFieldsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}/customFields][%d] getInvoiceCustomFieldsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetInvoiceCustomFieldsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}/customFields][%d] getInvoiceCustomFieldsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetInvoiceCustomFieldsBadRequest() *GetInvoiceCustomFieldsBadRequest {
 	return &GetInvoiceCustomFieldsBadRequest{}
 }
 
-/*GetInvoiceCustomFieldsBadRequest handles this case with default header values.
+/*
+GetInvoiceCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid invoice id supplied
 */
@@ -89,7 +123,41 @@ type GetInvoiceCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice custom fields bad request response
+func (o *GetInvoiceCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get invoice custom fields bad request response has a 2xx status code
+func (o *GetInvoiceCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice custom fields bad request response has a 3xx status code
+func (o *GetInvoiceCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice custom fields bad request response has a 4xx status code
+func (o *GetInvoiceCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice custom fields bad request response has a 5xx status code
+func (o *GetInvoiceCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice custom fields bad request response a status code equal to that given
+func (o *GetInvoiceCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetInvoiceCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}/customFields][%d] getInvoiceCustomFieldsBadRequest ", 400)
+}
+
+func (o *GetInvoiceCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}/customFields][%d] getInvoiceCustomFieldsBadRequest ", 400)
 }
 

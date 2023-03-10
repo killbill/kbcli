@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // RebalanceExistingCBAOnAccountReader is a Reader for the RebalanceExistingCBAOnAccount structure.
@@ -46,7 +45,8 @@ func NewRebalanceExistingCBAOnAccountNoContent() *RebalanceExistingCBAOnAccountN
 	return &RebalanceExistingCBAOnAccountNoContent{}
 }
 
-/*RebalanceExistingCBAOnAccountNoContent handles this case with default header values.
+/*
+RebalanceExistingCBAOnAccountNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type RebalanceExistingCBAOnAccountNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the rebalance existing c b a on account no content response
+func (o *RebalanceExistingCBAOnAccountNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this rebalance existing c b a on account no content response has a 2xx status code
+func (o *RebalanceExistingCBAOnAccountNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this rebalance existing c b a on account no content response has a 3xx status code
+func (o *RebalanceExistingCBAOnAccountNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this rebalance existing c b a on account no content response has a 4xx status code
+func (o *RebalanceExistingCBAOnAccountNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this rebalance existing c b a on account no content response has a 5xx status code
+func (o *RebalanceExistingCBAOnAccountNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this rebalance existing c b a on account no content response a status code equal to that given
+func (o *RebalanceExistingCBAOnAccountNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *RebalanceExistingCBAOnAccountNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/cbaRebalancing][%d] rebalanceExistingCBAOnAccountNoContent ", 204)
+}
+
+func (o *RebalanceExistingCBAOnAccountNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/cbaRebalancing][%d] rebalanceExistingCBAOnAccountNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewRebalanceExistingCBAOnAccountBadRequest() *RebalanceExistingCBAOnAccount
 	return &RebalanceExistingCBAOnAccountBadRequest{}
 }
 
-/*RebalanceExistingCBAOnAccountBadRequest handles this case with default header values.
+/*
+RebalanceExistingCBAOnAccountBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -76,7 +111,41 @@ type RebalanceExistingCBAOnAccountBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the rebalance existing c b a on account bad request response
+func (o *RebalanceExistingCBAOnAccountBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this rebalance existing c b a on account bad request response has a 2xx status code
+func (o *RebalanceExistingCBAOnAccountBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this rebalance existing c b a on account bad request response has a 3xx status code
+func (o *RebalanceExistingCBAOnAccountBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this rebalance existing c b a on account bad request response has a 4xx status code
+func (o *RebalanceExistingCBAOnAccountBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this rebalance existing c b a on account bad request response has a 5xx status code
+func (o *RebalanceExistingCBAOnAccountBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this rebalance existing c b a on account bad request response a status code equal to that given
+func (o *RebalanceExistingCBAOnAccountBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *RebalanceExistingCBAOnAccountBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/cbaRebalancing][%d] rebalanceExistingCBAOnAccountBadRequest ", 400)
+}
+
+func (o *RebalanceExistingCBAOnAccountBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/accounts/{accountId}/cbaRebalancing][%d] rebalanceExistingCBAOnAccountBadRequest ", 400)
 }
 

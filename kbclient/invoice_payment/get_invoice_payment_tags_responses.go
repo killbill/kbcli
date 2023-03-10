@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetInvoicePaymentTagsReader is a Reader for the GetInvoicePaymentTags structure.
@@ -48,17 +47,51 @@ func NewGetInvoicePaymentTagsOK() *GetInvoicePaymentTagsOK {
 	return &GetInvoicePaymentTagsOK{}
 }
 
-/*GetInvoicePaymentTagsOK handles this case with default header values.
+/*
+GetInvoicePaymentTagsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetInvoicePaymentTagsOK struct {
-	Payload []*kbmodel.Tag
-
+	Payload      []*kbmodel.Tag
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice payment tags o k response
+func (o *GetInvoicePaymentTagsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get invoice payment tags o k response has a 2xx status code
+func (o *GetInvoicePaymentTagsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get invoice payment tags o k response has a 3xx status code
+func (o *GetInvoicePaymentTagsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice payment tags o k response has a 4xx status code
+func (o *GetInvoicePaymentTagsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get invoice payment tags o k response has a 5xx status code
+func (o *GetInvoicePaymentTagsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice payment tags o k response a status code equal to that given
+func (o *GetInvoicePaymentTagsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetInvoicePaymentTagsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/tags][%d] getInvoicePaymentTagsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetInvoicePaymentTagsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/tags][%d] getInvoicePaymentTagsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetInvoicePaymentTagsBadRequest() *GetInvoicePaymentTagsBadRequest {
 	return &GetInvoicePaymentTagsBadRequest{}
 }
 
-/*GetInvoicePaymentTagsBadRequest handles this case with default header values.
+/*
+GetInvoicePaymentTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid payment id supplied
 */
@@ -89,7 +123,41 @@ type GetInvoicePaymentTagsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice payment tags bad request response
+func (o *GetInvoicePaymentTagsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get invoice payment tags bad request response has a 2xx status code
+func (o *GetInvoicePaymentTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice payment tags bad request response has a 3xx status code
+func (o *GetInvoicePaymentTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice payment tags bad request response has a 4xx status code
+func (o *GetInvoicePaymentTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice payment tags bad request response has a 5xx status code
+func (o *GetInvoicePaymentTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice payment tags bad request response a status code equal to that given
+func (o *GetInvoicePaymentTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetInvoicePaymentTagsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/tags][%d] getInvoicePaymentTagsBadRequest ", 400)
+}
+
+func (o *GetInvoicePaymentTagsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/tags][%d] getInvoicePaymentTagsBadRequest ", 400)
 }
 
@@ -103,7 +171,8 @@ func NewGetInvoicePaymentTagsNotFound() *GetInvoicePaymentTagsNotFound {
 	return &GetInvoicePaymentTagsNotFound{}
 }
 
-/*GetInvoicePaymentTagsNotFound handles this case with default header values.
+/*
+GetInvoicePaymentTagsNotFound describes a response with status code 404, with default header values.
 
 Payment not found
 */
@@ -111,7 +180,41 @@ type GetInvoicePaymentTagsNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice payment tags not found response
+func (o *GetInvoicePaymentTagsNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get invoice payment tags not found response has a 2xx status code
+func (o *GetInvoicePaymentTagsNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice payment tags not found response has a 3xx status code
+func (o *GetInvoicePaymentTagsNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice payment tags not found response has a 4xx status code
+func (o *GetInvoicePaymentTagsNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice payment tags not found response has a 5xx status code
+func (o *GetInvoicePaymentTagsNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice payment tags not found response a status code equal to that given
+func (o *GetInvoicePaymentTagsNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetInvoicePaymentTagsNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/tags][%d] getInvoicePaymentTagsNotFound ", 404)
+}
+
+func (o *GetInvoicePaymentTagsNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/tags][%d] getInvoicePaymentTagsNotFound ", 404)
 }
 

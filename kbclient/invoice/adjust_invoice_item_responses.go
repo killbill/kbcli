@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // AdjustInvoiceItemReader is a Reader for the AdjustInvoiceItem structure.
@@ -48,17 +47,51 @@ func NewAdjustInvoiceItemCreated() *AdjustInvoiceItemCreated {
 	return &AdjustInvoiceItemCreated{}
 }
 
-/*AdjustInvoiceItemCreated handles this case with default header values.
+/*
+AdjustInvoiceItemCreated describes a response with status code 201, with default header values.
 
 Created adjustment Successfully
 */
 type AdjustInvoiceItemCreated struct {
-	Payload *kbmodel.Invoice
-
+	Payload      *kbmodel.Invoice
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the adjust invoice item created response
+func (o *AdjustInvoiceItemCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this adjust invoice item created response has a 2xx status code
+func (o *AdjustInvoiceItemCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this adjust invoice item created response has a 3xx status code
+func (o *AdjustInvoiceItemCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this adjust invoice item created response has a 4xx status code
+func (o *AdjustInvoiceItemCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this adjust invoice item created response has a 5xx status code
+func (o *AdjustInvoiceItemCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this adjust invoice item created response a status code equal to that given
+func (o *AdjustInvoiceItemCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *AdjustInvoiceItemCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}][%d] adjustInvoiceItemCreated  %+v", 201, o.Payload)
+}
+
+func (o *AdjustInvoiceItemCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}][%d] adjustInvoiceItemCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewAdjustInvoiceItemBadRequest() *AdjustInvoiceItemBadRequest {
 	return &AdjustInvoiceItemBadRequest{}
 }
 
-/*AdjustInvoiceItemBadRequest handles this case with default header values.
+/*
+AdjustInvoiceItemBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id, invoice id or invoice item id supplied
 */
@@ -91,7 +125,41 @@ type AdjustInvoiceItemBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the adjust invoice item bad request response
+func (o *AdjustInvoiceItemBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this adjust invoice item bad request response has a 2xx status code
+func (o *AdjustInvoiceItemBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this adjust invoice item bad request response has a 3xx status code
+func (o *AdjustInvoiceItemBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this adjust invoice item bad request response has a 4xx status code
+func (o *AdjustInvoiceItemBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this adjust invoice item bad request response has a 5xx status code
+func (o *AdjustInvoiceItemBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this adjust invoice item bad request response a status code equal to that given
+func (o *AdjustInvoiceItemBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *AdjustInvoiceItemBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}][%d] adjustInvoiceItemBadRequest ", 400)
+}
+
+func (o *AdjustInvoiceItemBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}][%d] adjustInvoiceItemBadRequest ", 400)
 }
 
@@ -105,7 +173,8 @@ func NewAdjustInvoiceItemNotFound() *AdjustInvoiceItemNotFound {
 	return &AdjustInvoiceItemNotFound{}
 }
 
-/*AdjustInvoiceItemNotFound handles this case with default header values.
+/*
+AdjustInvoiceItemNotFound describes a response with status code 404, with default header values.
 
 Invoice not found
 */
@@ -113,7 +182,41 @@ type AdjustInvoiceItemNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the adjust invoice item not found response
+func (o *AdjustInvoiceItemNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this adjust invoice item not found response has a 2xx status code
+func (o *AdjustInvoiceItemNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this adjust invoice item not found response has a 3xx status code
+func (o *AdjustInvoiceItemNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this adjust invoice item not found response has a 4xx status code
+func (o *AdjustInvoiceItemNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this adjust invoice item not found response has a 5xx status code
+func (o *AdjustInvoiceItemNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this adjust invoice item not found response a status code equal to that given
+func (o *AdjustInvoiceItemNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *AdjustInvoiceItemNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}][%d] adjustInvoiceItemNotFound ", 404)
+}
+
+func (o *AdjustInvoiceItemNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/invoices/{invoiceId}][%d] adjustInvoiceItemNotFound ", 404)
 }
 

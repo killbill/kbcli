@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetInvoicePaymentCustomFieldsReader is a Reader for the GetInvoicePaymentCustomFields structure.
@@ -48,17 +47,51 @@ func NewGetInvoicePaymentCustomFieldsOK() *GetInvoicePaymentCustomFieldsOK {
 	return &GetInvoicePaymentCustomFieldsOK{}
 }
 
-/*GetInvoicePaymentCustomFieldsOK handles this case with default header values.
+/*
+GetInvoicePaymentCustomFieldsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetInvoicePaymentCustomFieldsOK struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice payment custom fields o k response
+func (o *GetInvoicePaymentCustomFieldsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get invoice payment custom fields o k response has a 2xx status code
+func (o *GetInvoicePaymentCustomFieldsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get invoice payment custom fields o k response has a 3xx status code
+func (o *GetInvoicePaymentCustomFieldsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice payment custom fields o k response has a 4xx status code
+func (o *GetInvoicePaymentCustomFieldsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get invoice payment custom fields o k response has a 5xx status code
+func (o *GetInvoicePaymentCustomFieldsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice payment custom fields o k response a status code equal to that given
+func (o *GetInvoicePaymentCustomFieldsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetInvoicePaymentCustomFieldsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/customFields][%d] getInvoicePaymentCustomFieldsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetInvoicePaymentCustomFieldsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/customFields][%d] getInvoicePaymentCustomFieldsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetInvoicePaymentCustomFieldsBadRequest() *GetInvoicePaymentCustomFields
 	return &GetInvoicePaymentCustomFieldsBadRequest{}
 }
 
-/*GetInvoicePaymentCustomFieldsBadRequest handles this case with default header values.
+/*
+GetInvoicePaymentCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid payment id supplied
 */
@@ -89,7 +123,41 @@ type GetInvoicePaymentCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice payment custom fields bad request response
+func (o *GetInvoicePaymentCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get invoice payment custom fields bad request response has a 2xx status code
+func (o *GetInvoicePaymentCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice payment custom fields bad request response has a 3xx status code
+func (o *GetInvoicePaymentCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice payment custom fields bad request response has a 4xx status code
+func (o *GetInvoicePaymentCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice payment custom fields bad request response has a 5xx status code
+func (o *GetInvoicePaymentCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice payment custom fields bad request response a status code equal to that given
+func (o *GetInvoicePaymentCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetInvoicePaymentCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/customFields][%d] getInvoicePaymentCustomFieldsBadRequest ", 400)
+}
+
+func (o *GetInvoicePaymentCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoicePayments/{paymentId}/customFields][%d] getInvoicePaymentCustomFieldsBadRequest ", 400)
 }
 

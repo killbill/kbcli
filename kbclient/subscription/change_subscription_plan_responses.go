@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // ChangeSubscriptionPlanReader is a Reader for the ChangeSubscriptionPlan structure.
@@ -46,7 +45,8 @@ func NewChangeSubscriptionPlanNoContent() *ChangeSubscriptionPlanNoContent {
 	return &ChangeSubscriptionPlanNoContent{}
 }
 
-/*ChangeSubscriptionPlanNoContent handles this case with default header values.
+/*
+ChangeSubscriptionPlanNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type ChangeSubscriptionPlanNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the change subscription plan no content response
+func (o *ChangeSubscriptionPlanNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this change subscription plan no content response has a 2xx status code
+func (o *ChangeSubscriptionPlanNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this change subscription plan no content response has a 3xx status code
+func (o *ChangeSubscriptionPlanNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this change subscription plan no content response has a 4xx status code
+func (o *ChangeSubscriptionPlanNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this change subscription plan no content response has a 5xx status code
+func (o *ChangeSubscriptionPlanNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this change subscription plan no content response a status code equal to that given
+func (o *ChangeSubscriptionPlanNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *ChangeSubscriptionPlanNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}][%d] changeSubscriptionPlanNoContent ", 204)
+}
+
+func (o *ChangeSubscriptionPlanNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}][%d] changeSubscriptionPlanNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewChangeSubscriptionPlanBadRequest() *ChangeSubscriptionPlanBadRequest {
 	return &ChangeSubscriptionPlanBadRequest{}
 }
 
-/*ChangeSubscriptionPlanBadRequest handles this case with default header values.
+/*
+ChangeSubscriptionPlanBadRequest describes a response with status code 400, with default header values.
 
 Invalid subscription id supplied
 */
@@ -76,7 +111,41 @@ type ChangeSubscriptionPlanBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the change subscription plan bad request response
+func (o *ChangeSubscriptionPlanBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this change subscription plan bad request response has a 2xx status code
+func (o *ChangeSubscriptionPlanBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this change subscription plan bad request response has a 3xx status code
+func (o *ChangeSubscriptionPlanBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this change subscription plan bad request response has a 4xx status code
+func (o *ChangeSubscriptionPlanBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this change subscription plan bad request response has a 5xx status code
+func (o *ChangeSubscriptionPlanBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this change subscription plan bad request response a status code equal to that given
+func (o *ChangeSubscriptionPlanBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *ChangeSubscriptionPlanBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}][%d] changeSubscriptionPlanBadRequest ", 400)
+}
+
+func (o *ChangeSubscriptionPlanBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}][%d] changeSubscriptionPlanBadRequest ", 400)
 }
 
@@ -90,7 +159,8 @@ func NewChangeSubscriptionPlanNotFound() *ChangeSubscriptionPlanNotFound {
 	return &ChangeSubscriptionPlanNotFound{}
 }
 
-/*ChangeSubscriptionPlanNotFound handles this case with default header values.
+/*
+ChangeSubscriptionPlanNotFound describes a response with status code 404, with default header values.
 
 Entitlement not found
 */
@@ -98,7 +168,41 @@ type ChangeSubscriptionPlanNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the change subscription plan not found response
+func (o *ChangeSubscriptionPlanNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this change subscription plan not found response has a 2xx status code
+func (o *ChangeSubscriptionPlanNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this change subscription plan not found response has a 3xx status code
+func (o *ChangeSubscriptionPlanNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this change subscription plan not found response has a 4xx status code
+func (o *ChangeSubscriptionPlanNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this change subscription plan not found response has a 5xx status code
+func (o *ChangeSubscriptionPlanNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this change subscription plan not found response a status code equal to that given
+func (o *ChangeSubscriptionPlanNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *ChangeSubscriptionPlanNotFound) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}][%d] changeSubscriptionPlanNotFound ", 404)
+}
+
+func (o *ChangeSubscriptionPlanNotFound) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/subscriptions/{subscriptionId}][%d] changeSubscriptionPlanNotFound ", 404)
 }
 

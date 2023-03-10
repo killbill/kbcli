@@ -13,78 +13,70 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
-// NewCreateTenantParams creates a new CreateTenantParams object
-// with the default values initialized.
+// NewCreateTenantParams creates a new CreateTenantParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateTenantParams() *CreateTenantParams {
-	var (
-		useGlobalDefaultDefault = bool(false)
-	)
 	return &CreateTenantParams{
-		UseGlobalDefault: &useGlobalDefaultDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateTenantParamsWithTimeout creates a new CreateTenantParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateTenantParamsWithTimeout(timeout time.Duration) *CreateTenantParams {
-	var (
-		useGlobalDefaultDefault = bool(false)
-	)
 	return &CreateTenantParams{
-		UseGlobalDefault: &useGlobalDefaultDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateTenantParamsWithContext creates a new CreateTenantParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateTenantParamsWithContext(ctx context.Context) *CreateTenantParams {
-	var (
-		useGlobalDefaultDefault = bool(false)
-	)
 	return &CreateTenantParams{
-		UseGlobalDefault: &useGlobalDefaultDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewCreateTenantParamsWithHTTPClient creates a new CreateTenantParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateTenantParamsWithHTTPClient(client *http.Client) *CreateTenantParams {
-	var (
-		useGlobalDefaultDefault = bool(false)
-	)
 	return &CreateTenantParams{
-		UseGlobalDefault: &useGlobalDefaultDefault,
-		HTTPClient:       client,
+		HTTPClient: client,
 	}
 }
 
-/*CreateTenantParams contains all the parameters to send to the API endpoint
-for the create tenant operation typically these are written to a http.Request
+/*
+CreateTenantParams contains all the parameters to send to the API endpoint
+
+	for the create tenant operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateTenantParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.Tenant
-	/*UseGlobalDefault*/
+
+	// UseGlobalDefault.
 	UseGlobalDefault *bool
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -93,6 +85,32 @@ type CreateTenantParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the create tenant params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTenantParams) WithDefaults() *CreateTenantParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create tenant params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTenantParams) SetDefaults() {
+	var (
+		useGlobalDefaultDefault = bool(false)
+	)
+
+	val := CreateTenantParams{
+		UseGlobalDefault: &useGlobalDefaultDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the create tenant params
@@ -197,7 +215,6 @@ func (o *CreateTenantParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -211,9 +228,7 @@ func (o *CreateTenantParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -224,16 +239,17 @@ func (o *CreateTenantParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 
 		// query param useGlobalDefault
 		var qrUseGlobalDefault bool
+
 		if o.UseGlobalDefault != nil {
 			qrUseGlobalDefault = *o.UseGlobalDefault
 		}
 		qUseGlobalDefault := swag.FormatBool(qrUseGlobalDefault)
 		if qUseGlobalDefault != "" {
+
 			if err := r.SetQueryParam("useGlobalDefault", qUseGlobalDefault); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // SearchCustomFieldsByTypeNameReader is a Reader for the SearchCustomFieldsByTypeName structure.
@@ -47,17 +46,51 @@ func NewSearchCustomFieldsByTypeNameOK() *SearchCustomFieldsByTypeNameOK {
 	return &SearchCustomFieldsByTypeNameOK{}
 }
 
-/*SearchCustomFieldsByTypeNameOK handles this case with default header values.
+/*
+SearchCustomFieldsByTypeNameOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type SearchCustomFieldsByTypeNameOK struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the search custom fields by type name o k response
+func (o *SearchCustomFieldsByTypeNameOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this search custom fields by type name o k response has a 2xx status code
+func (o *SearchCustomFieldsByTypeNameOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this search custom fields by type name o k response has a 3xx status code
+func (o *SearchCustomFieldsByTypeNameOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this search custom fields by type name o k response has a 4xx status code
+func (o *SearchCustomFieldsByTypeNameOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this search custom fields by type name o k response has a 5xx status code
+func (o *SearchCustomFieldsByTypeNameOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this search custom fields by type name o k response a status code equal to that given
+func (o *SearchCustomFieldsByTypeNameOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *SearchCustomFieldsByTypeNameOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/customFields/search][%d] searchCustomFieldsByTypeNameOK  %+v", 200, o.Payload)
+}
+
+func (o *SearchCustomFieldsByTypeNameOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/customFields/search][%d] searchCustomFieldsByTypeNameOK  %+v", 200, o.Payload)
 }
 

@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // New creates a new payment method API client.
@@ -49,57 +48,32 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IPaymentMethod - interface for PaymentMethod client.
-type IPaymentMethod interface {
-	/*
-		CreatePaymentMethodCustomFields adds custom fields to payment method
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	CreatePaymentMethodCustomFields(ctx context.Context, params *CreatePaymentMethodCustomFieldsParams) (*CreatePaymentMethodCustomFieldsCreated, error)
 
-	/*
-		DeletePaymentMethod deletes a payment method
-	*/
 	DeletePaymentMethod(ctx context.Context, params *DeletePaymentMethodParams) (*DeletePaymentMethodNoContent, error)
 
-	/*
-		DeletePaymentMethodCustomFields removes custom fields from payment method
-	*/
 	DeletePaymentMethodCustomFields(ctx context.Context, params *DeletePaymentMethodCustomFieldsParams) (*DeletePaymentMethodCustomFieldsNoContent, error)
 
-	/*
-		GetPaymentMethod retrieves a payment method by id
-	*/
 	GetPaymentMethod(ctx context.Context, params *GetPaymentMethodParams) (*GetPaymentMethodOK, error)
 
-	/*
-		GetPaymentMethodAuditLogsWithHistory retrieves payment method audit logs with history by id
-	*/
 	GetPaymentMethodAuditLogsWithHistory(ctx context.Context, params *GetPaymentMethodAuditLogsWithHistoryParams) (*GetPaymentMethodAuditLogsWithHistoryOK, error)
 
-	/*
-		GetPaymentMethodByKey retrieves a payment method by external key
-	*/
 	GetPaymentMethodByKey(ctx context.Context, params *GetPaymentMethodByKeyParams) (*GetPaymentMethodByKeyOK, error)
 
-	/*
-		GetPaymentMethodCustomFields retrieves payment method custom fields
-	*/
 	GetPaymentMethodCustomFields(ctx context.Context, params *GetPaymentMethodCustomFieldsParams) (*GetPaymentMethodCustomFieldsOK, error)
 
-	/*
-		GetPaymentMethods lists payment methods
-	*/
 	GetPaymentMethods(ctx context.Context, params *GetPaymentMethodsParams) (*GetPaymentMethodsOK, error)
 
-	/*
-		ModifyPaymentMethodCustomFields modifies custom fields to payment method
-	*/
 	ModifyPaymentMethodCustomFields(ctx context.Context, params *ModifyPaymentMethodCustomFieldsParams) (*ModifyPaymentMethodCustomFieldsNoContent, error)
 
-	/*
-		SearchPaymentMethods searches payment methods
-	*/
 	SearchPaymentMethods(ctx context.Context, params *SearchPaymentMethodsParams) (*SearchPaymentMethodsOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -134,7 +108,7 @@ func (a *Client) CreatePaymentMethodCustomFields(ctx context.Context, params *Cr
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createPaymentMethodCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/paymentMethods/{paymentMethodId}/customFields",
@@ -146,7 +120,9 @@ func (a *Client) CreatePaymentMethodCustomFields(ctx context.Context, params *Cr
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -205,19 +181,21 @@ func (a *Client) DeletePaymentMethod(ctx context.Context, params *DeletePaymentM
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePaymentMethod",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/paymentMethods/{paymentMethodId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePaymentMethodReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -261,7 +239,7 @@ func (a *Client) DeletePaymentMethodCustomFields(ctx context.Context, params *De
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePaymentMethodCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/paymentMethods/{paymentMethodId}/customFields",
@@ -273,7 +251,9 @@ func (a *Client) DeletePaymentMethodCustomFields(ctx context.Context, params *De
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -305,19 +285,21 @@ func (a *Client) GetPaymentMethod(ctx context.Context, params *GetPaymentMethodP
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentMethod",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentMethods/{paymentMethodId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentMethodReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -349,19 +331,21 @@ func (a *Client) GetPaymentMethodAuditLogsWithHistory(ctx context.Context, param
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentMethodAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentMethods/{paymentMethodId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentMethodAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -393,19 +377,21 @@ func (a *Client) GetPaymentMethodByKey(ctx context.Context, params *GetPaymentMe
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentMethodByKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentMethods",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentMethodByKeyReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -437,19 +423,21 @@ func (a *Client) GetPaymentMethodCustomFields(ctx context.Context, params *GetPa
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentMethodCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentMethods/{paymentMethodId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentMethodCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -481,19 +469,21 @@ func (a *Client) GetPaymentMethods(ctx context.Context, params *GetPaymentMethod
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentMethods",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentMethods/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentMethodsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -537,7 +527,7 @@ func (a *Client) ModifyPaymentMethodCustomFields(ctx context.Context, params *Mo
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifyPaymentMethodCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/paymentMethods/{paymentMethodId}/customFields",
@@ -549,7 +539,9 @@ func (a *Client) ModifyPaymentMethodCustomFields(ctx context.Context, params *Mo
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -581,19 +573,21 @@ func (a *Client) SearchPaymentMethods(ctx context.Context, params *SearchPayment
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchPaymentMethods",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentMethods/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchPaymentMethodsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

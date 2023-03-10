@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // CreateBundleTagsReader is a Reader for the CreateBundleTags structure.
@@ -48,17 +47,51 @@ func NewCreateBundleTagsCreated() *CreateBundleTagsCreated {
 	return &CreateBundleTagsCreated{}
 }
 
-/*CreateBundleTagsCreated handles this case with default header values.
+/*
+CreateBundleTagsCreated describes a response with status code 201, with default header values.
 
 Tag created successfully
 */
 type CreateBundleTagsCreated struct {
-	Payload []*kbmodel.Tag
-
+	Payload      []*kbmodel.Tag
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create bundle tags created response
+func (o *CreateBundleTagsCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create bundle tags created response has a 2xx status code
+func (o *CreateBundleTagsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create bundle tags created response has a 3xx status code
+func (o *CreateBundleTagsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create bundle tags created response has a 4xx status code
+func (o *CreateBundleTagsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create bundle tags created response has a 5xx status code
+func (o *CreateBundleTagsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create bundle tags created response a status code equal to that given
+func (o *CreateBundleTagsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateBundleTagsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/tags][%d] createBundleTagsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateBundleTagsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/tags][%d] createBundleTagsCreated  %+v", 201, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewCreateBundleTagsBadRequest() *CreateBundleTagsBadRequest {
 	return &CreateBundleTagsBadRequest{}
 }
 
-/*CreateBundleTagsBadRequest handles this case with default header values.
+/*
+CreateBundleTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid bundle id supplied
 */
@@ -89,7 +123,41 @@ type CreateBundleTagsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create bundle tags bad request response
+func (o *CreateBundleTagsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create bundle tags bad request response has a 2xx status code
+func (o *CreateBundleTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create bundle tags bad request response has a 3xx status code
+func (o *CreateBundleTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create bundle tags bad request response has a 4xx status code
+func (o *CreateBundleTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create bundle tags bad request response has a 5xx status code
+func (o *CreateBundleTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create bundle tags bad request response a status code equal to that given
+func (o *CreateBundleTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateBundleTagsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/tags][%d] createBundleTagsBadRequest ", 400)
+}
+
+func (o *CreateBundleTagsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/tags][%d] createBundleTagsBadRequest ", 400)
 }
 

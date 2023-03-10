@@ -13,104 +13,81 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewSearchPaymentMethodsParams creates a new SearchPaymentMethodsParams object
-// with the default values initialized.
+// NewSearchPaymentMethodsParams creates a new SearchPaymentMethodsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSearchPaymentMethodsParams() *SearchPaymentMethodsParams {
-	var (
-		auditDefault          = string("NONE")
-		limitDefault          = int64(100)
-		offsetDefault         = int64(0)
-		withPluginInfoDefault = bool(false)
-	)
 	return &SearchPaymentMethodsParams{
-		Audit:          &auditDefault,
-		Limit:          &limitDefault,
-		Offset:         &offsetDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewSearchPaymentMethodsParamsWithTimeout creates a new SearchPaymentMethodsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewSearchPaymentMethodsParamsWithTimeout(timeout time.Duration) *SearchPaymentMethodsParams {
-	var (
-		auditDefault          = string("NONE")
-		limitDefault          = int64(100)
-		offsetDefault         = int64(0)
-		withPluginInfoDefault = bool(false)
-	)
 	return &SearchPaymentMethodsParams{
-		Audit:          &auditDefault,
-		Limit:          &limitDefault,
-		Offset:         &offsetDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewSearchPaymentMethodsParamsWithContext creates a new SearchPaymentMethodsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewSearchPaymentMethodsParamsWithContext(ctx context.Context) *SearchPaymentMethodsParams {
-	var (
-		auditDefault          = string("NONE")
-		limitDefault          = int64(100)
-		offsetDefault         = int64(0)
-		withPluginInfoDefault = bool(false)
-	)
 	return &SearchPaymentMethodsParams{
-		Audit:          &auditDefault,
-		Limit:          &limitDefault,
-		Offset:         &offsetDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewSearchPaymentMethodsParamsWithHTTPClient creates a new SearchPaymentMethodsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewSearchPaymentMethodsParamsWithHTTPClient(client *http.Client) *SearchPaymentMethodsParams {
-	var (
-		auditDefault          = string("NONE")
-		limitDefault          = int64(100)
-		offsetDefault         = int64(0)
-		withPluginInfoDefault = bool(false)
-	)
 	return &SearchPaymentMethodsParams{
-		Audit:          &auditDefault,
-		Limit:          &limitDefault,
-		Offset:         &offsetDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-		HTTPClient:     client,
+		HTTPClient: client,
 	}
 }
 
-/*SearchPaymentMethodsParams contains all the parameters to send to the API endpoint
-for the search payment methods operation typically these are written to a http.Request
+/*
+SearchPaymentMethodsParams contains all the parameters to send to the API endpoint
+
+	for the search payment methods operation.
+
+	Typically these are written to a http.Request.
 */
 type SearchPaymentMethodsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*Limit*/
+
+	// Limit.
+	//
+	// Format: int64
+	// Default: 100
 	Limit *int64
-	/*Offset*/
+
+	// Offset.
+	//
+	// Format: int64
 	Offset *int64
-	/*PluginName*/
+
+	// PluginName.
 	PluginName *string
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*SearchKey*/
+
+	// SearchKey.
 	SearchKey string
-	/*WithPluginInfo*/
+
+	// WithPluginInfo.
 	WithPluginInfo *bool
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -119,6 +96,41 @@ type SearchPaymentMethodsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the search payment methods params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SearchPaymentMethodsParams) WithDefaults() *SearchPaymentMethodsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the search payment methods params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *SearchPaymentMethodsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		limitDefault = int64(100)
+
+		offsetDefault = int64(0)
+
+		withPluginInfoDefault = bool(false)
+	)
+
+	val := SearchPaymentMethodsParams{
+		Audit:          &auditDefault,
+		Limit:          &limitDefault,
+		Offset:         &offsetDefault,
+		WithPluginInfo: &withPluginInfoDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the search payment methods params
@@ -243,72 +255,79 @@ func (o *SearchPaymentMethodsParams) WriteToRequest(r runtime.ClientRequest, reg
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Limit != nil {
 
 		// query param limit
 		var qrLimit int64
+
 		if o.Limit != nil {
 			qrLimit = *o.Limit
 		}
 		qLimit := swag.FormatInt64(qrLimit)
 		if qLimit != "" {
+
 			if err := r.SetQueryParam("limit", qLimit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Offset != nil {
 
 		// query param offset
 		var qrOffset int64
+
 		if o.Offset != nil {
 			qrOffset = *o.Offset
 		}
 		qOffset := swag.FormatInt64(qrOffset)
 		if qOffset != "" {
+
 			if err := r.SetQueryParam("offset", qOffset); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.PluginName != nil {
 
 		// query param pluginName
 		var qrPluginName string
+
 		if o.PluginName != nil {
 			qrPluginName = *o.PluginName
 		}
 		qPluginName := qrPluginName
 		if qPluginName != "" {
+
 			if err := r.SetQueryParam("pluginName", qPluginName); err != nil {
 				return err
 			}
 		}
-
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	// path param searchKey
@@ -320,16 +339,17 @@ func (o *SearchPaymentMethodsParams) WriteToRequest(r runtime.ClientRequest, reg
 
 		// query param withPluginInfo
 		var qrWithPluginInfo bool
+
 		if o.WithPluginInfo != nil {
 			qrWithPluginInfo = *o.WithPluginInfo
 		}
 		qWithPluginInfo := swag.FormatBool(qrWithPluginInfo)
 		if qWithPluginInfo != "" {
+
 			if err := r.SetQueryParam("withPluginInfo", qWithPluginInfo); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo
@@ -350,4 +370,21 @@ func (o *SearchPaymentMethodsParams) WriteToRequest(r runtime.ClientRequest, reg
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamSearchPaymentMethods binds the parameter pluginProperty
+func (o *SearchPaymentMethodsParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

@@ -13,61 +13,66 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewRebalanceExistingCBAOnAccountParams creates a new RebalanceExistingCBAOnAccountParams object
-// with the default values initialized.
+// NewRebalanceExistingCBAOnAccountParams creates a new RebalanceExistingCBAOnAccountParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRebalanceExistingCBAOnAccountParams() *RebalanceExistingCBAOnAccountParams {
-	var ()
 	return &RebalanceExistingCBAOnAccountParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRebalanceExistingCBAOnAccountParamsWithTimeout creates a new RebalanceExistingCBAOnAccountParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRebalanceExistingCBAOnAccountParamsWithTimeout(timeout time.Duration) *RebalanceExistingCBAOnAccountParams {
-	var ()
 	return &RebalanceExistingCBAOnAccountParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRebalanceExistingCBAOnAccountParamsWithContext creates a new RebalanceExistingCBAOnAccountParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRebalanceExistingCBAOnAccountParamsWithContext(ctx context.Context) *RebalanceExistingCBAOnAccountParams {
-	var ()
 	return &RebalanceExistingCBAOnAccountParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRebalanceExistingCBAOnAccountParamsWithHTTPClient creates a new RebalanceExistingCBAOnAccountParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRebalanceExistingCBAOnAccountParamsWithHTTPClient(client *http.Client) *RebalanceExistingCBAOnAccountParams {
-	var ()
 	return &RebalanceExistingCBAOnAccountParams{
 		HTTPClient: client,
 	}
 }
 
-/*RebalanceExistingCBAOnAccountParams contains all the parameters to send to the API endpoint
-for the rebalance existing c b a on account operation typically these are written to a http.Request
+/*
+RebalanceExistingCBAOnAccountParams contains all the parameters to send to the API endpoint
+
+	for the rebalance existing c b a on account operation.
+
+	Typically these are written to a http.Request.
 */
 type RebalanceExistingCBAOnAccountParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -76,6 +81,21 @@ type RebalanceExistingCBAOnAccountParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the rebalance existing c b a on account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RebalanceExistingCBAOnAccountParams) WithDefaults() *RebalanceExistingCBAOnAccountParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the rebalance existing c b a on account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RebalanceExistingCBAOnAccountParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the rebalance existing c b a on account params
@@ -169,7 +189,6 @@ func (o *RebalanceExistingCBAOnAccountParams) WriteToRequest(r runtime.ClientReq
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -183,7 +202,6 @@ func (o *RebalanceExistingCBAOnAccountParams) WriteToRequest(r runtime.ClientReq
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId

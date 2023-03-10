@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // ModifyTransactionCustomFieldsReader is a Reader for the ModifyTransactionCustomFields structure.
@@ -46,7 +45,8 @@ func NewModifyTransactionCustomFieldsNoContent() *ModifyTransactionCustomFieldsN
 	return &ModifyTransactionCustomFieldsNoContent{}
 }
 
-/*ModifyTransactionCustomFieldsNoContent handles this case with default header values.
+/*
+ModifyTransactionCustomFieldsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type ModifyTransactionCustomFieldsNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify transaction custom fields no content response
+func (o *ModifyTransactionCustomFieldsNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this modify transaction custom fields no content response has a 2xx status code
+func (o *ModifyTransactionCustomFieldsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this modify transaction custom fields no content response has a 3xx status code
+func (o *ModifyTransactionCustomFieldsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify transaction custom fields no content response has a 4xx status code
+func (o *ModifyTransactionCustomFieldsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this modify transaction custom fields no content response has a 5xx status code
+func (o *ModifyTransactionCustomFieldsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify transaction custom fields no content response a status code equal to that given
+func (o *ModifyTransactionCustomFieldsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *ModifyTransactionCustomFieldsNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/paymentTransactions/{transactionId}/customFields][%d] modifyTransactionCustomFieldsNoContent ", 204)
+}
+
+func (o *ModifyTransactionCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/paymentTransactions/{transactionId}/customFields][%d] modifyTransactionCustomFieldsNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewModifyTransactionCustomFieldsBadRequest() *ModifyTransactionCustomFields
 	return &ModifyTransactionCustomFieldsBadRequest{}
 }
 
-/*ModifyTransactionCustomFieldsBadRequest handles this case with default header values.
+/*
+ModifyTransactionCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid transaction id supplied
 */
@@ -76,7 +111,41 @@ type ModifyTransactionCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify transaction custom fields bad request response
+func (o *ModifyTransactionCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this modify transaction custom fields bad request response has a 2xx status code
+func (o *ModifyTransactionCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this modify transaction custom fields bad request response has a 3xx status code
+func (o *ModifyTransactionCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify transaction custom fields bad request response has a 4xx status code
+func (o *ModifyTransactionCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this modify transaction custom fields bad request response has a 5xx status code
+func (o *ModifyTransactionCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify transaction custom fields bad request response a status code equal to that given
+func (o *ModifyTransactionCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *ModifyTransactionCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/paymentTransactions/{transactionId}/customFields][%d] modifyTransactionCustomFieldsBadRequest ", 400)
+}
+
+func (o *ModifyTransactionCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/paymentTransactions/{transactionId}/customFields][%d] modifyTransactionCustomFieldsBadRequest ", 400)
 }
 

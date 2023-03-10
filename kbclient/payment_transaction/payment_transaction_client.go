@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // New creates a new payment transaction API client.
@@ -49,62 +48,34 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IPaymentTransaction - interface for PaymentTransaction client.
-type IPaymentTransaction interface {
-	/*
-		CreateTransactionCustomFields adds custom fields to payment transaction
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	CreateTransactionCustomFields(ctx context.Context, params *CreateTransactionCustomFieldsParams) (*CreateTransactionCustomFieldsCreated, error)
 
-	/*
-		CreateTransactionTags adds tags to payment transaction
-	*/
 	CreateTransactionTags(ctx context.Context, params *CreateTransactionTagsParams) (*CreateTransactionTagsCreated, error)
 
-	/*
-		DeleteTransactionCustomFields removes custom fields from payment transaction
-	*/
 	DeleteTransactionCustomFields(ctx context.Context, params *DeleteTransactionCustomFieldsParams) (*DeleteTransactionCustomFieldsNoContent, error)
 
-	/*
-		DeleteTransactionTags removes tags from payment transaction
-	*/
 	DeleteTransactionTags(ctx context.Context, params *DeleteTransactionTagsParams) (*DeleteTransactionTagsNoContent, error)
 
-	/*
-		GetPaymentByTransactionExternalKey retrieves a payment by transaction external key
-	*/
 	GetPaymentByTransactionExternalKey(ctx context.Context, params *GetPaymentByTransactionExternalKeyParams) (*GetPaymentByTransactionExternalKeyOK, error)
 
-	/*
-		GetPaymentByTransactionID retrieves a payment by transaction id
-	*/
 	GetPaymentByTransactionID(ctx context.Context, params *GetPaymentByTransactionIDParams) (*GetPaymentByTransactionIDOK, error)
 
-	/*
-		GetTransactionAuditLogsWithHistory retrieves payment transaction audit logs with history by id
-	*/
 	GetTransactionAuditLogsWithHistory(ctx context.Context, params *GetTransactionAuditLogsWithHistoryParams) (*GetTransactionAuditLogsWithHistoryOK, error)
 
-	/*
-		GetTransactionCustomFields retrieves payment transaction custom fields
-	*/
 	GetTransactionCustomFields(ctx context.Context, params *GetTransactionCustomFieldsParams) (*GetTransactionCustomFieldsOK, error)
 
-	/*
-		GetTransactionTags retrieves payment transaction tags
-	*/
 	GetTransactionTags(ctx context.Context, params *GetTransactionTagsParams) (*GetTransactionTagsOK, error)
 
-	/*
-		ModifyTransactionCustomFields modifies custom fields to payment transaction
-	*/
 	ModifyTransactionCustomFields(ctx context.Context, params *ModifyTransactionCustomFieldsParams) (*ModifyTransactionCustomFieldsNoContent, error)
 
-	/*
-		NotifyStateChanged marks a pending payment transaction as succeeded or failed
-	*/
 	NotifyStateChanged(ctx context.Context, params *NotifyStateChangedParams) (*NotifyStateChangedCreated, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -139,7 +110,7 @@ func (a *Client) CreateTransactionCustomFields(ctx context.Context, params *Crea
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createTransactionCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}/customFields",
@@ -151,7 +122,9 @@ func (a *Client) CreateTransactionCustomFields(ctx context.Context, params *Crea
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -213,7 +186,7 @@ func (a *Client) CreateTransactionTags(ctx context.Context, params *CreateTransa
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createTransactionTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}/tags",
@@ -225,7 +198,9 @@ func (a *Client) CreateTransactionTags(ctx context.Context, params *CreateTransa
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -284,7 +259,7 @@ func (a *Client) DeleteTransactionCustomFields(ctx context.Context, params *Dele
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteTransactionCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}/customFields",
@@ -296,7 +271,9 @@ func (a *Client) DeleteTransactionCustomFields(ctx context.Context, params *Dele
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -340,7 +317,7 @@ func (a *Client) DeleteTransactionTags(ctx context.Context, params *DeleteTransa
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteTransactionTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}/tags",
@@ -352,7 +329,9 @@ func (a *Client) DeleteTransactionTags(ctx context.Context, params *DeleteTransa
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -384,19 +363,21 @@ func (a *Client) GetPaymentByTransactionExternalKey(ctx context.Context, params 
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentByTransactionExternalKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentTransactions",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentByTransactionExternalKeyReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -428,19 +409,21 @@ func (a *Client) GetPaymentByTransactionID(ctx context.Context, params *GetPayme
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentByTransactionId",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentByTransactionIDReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -472,19 +455,21 @@ func (a *Client) GetTransactionAuditLogsWithHistory(ctx context.Context, params 
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTransactionAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTransactionAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -516,19 +501,21 @@ func (a *Client) GetTransactionCustomFields(ctx context.Context, params *GetTran
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTransactionCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTransactionCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -560,19 +547,21 @@ func (a *Client) GetTransactionTags(ctx context.Context, params *GetTransactionT
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTransactionTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTransactionTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -616,7 +605,7 @@ func (a *Client) ModifyTransactionCustomFields(ctx context.Context, params *Modi
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifyTransactionCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}/customFields",
@@ -628,7 +617,9 @@ func (a *Client) ModifyTransactionCustomFields(ctx context.Context, params *Modi
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -675,7 +666,7 @@ func (a *Client) NotifyStateChanged(ctx context.Context, params *NotifyStateChan
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "notifyStateChanged",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/paymentTransactions/{transactionId}",
@@ -687,7 +678,9 @@ func (a *Client) NotifyStateChanged(ctx context.Context, params *NotifyStateChan
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

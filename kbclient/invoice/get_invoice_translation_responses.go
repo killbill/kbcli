@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // GetInvoiceTranslationReader is a Reader for the GetInvoiceTranslation structure.
@@ -46,17 +45,51 @@ func NewGetInvoiceTranslationOK() *GetInvoiceTranslationOK {
 	return &GetInvoiceTranslationOK{}
 }
 
-/*GetInvoiceTranslationOK handles this case with default header values.
+/*
+GetInvoiceTranslationOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetInvoiceTranslationOK struct {
-	Payload string
-
+	Payload      string
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice translation o k response
+func (o *GetInvoiceTranslationOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get invoice translation o k response has a 2xx status code
+func (o *GetInvoiceTranslationOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get invoice translation o k response has a 3xx status code
+func (o *GetInvoiceTranslationOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice translation o k response has a 4xx status code
+func (o *GetInvoiceTranslationOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get invoice translation o k response has a 5xx status code
+func (o *GetInvoiceTranslationOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice translation o k response a status code equal to that given
+func (o *GetInvoiceTranslationOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetInvoiceTranslationOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/translation/{locale}][%d] getInvoiceTranslationOK  %+v", 200, o.Payload)
+}
+
+func (o *GetInvoiceTranslationOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/translation/{locale}][%d] getInvoiceTranslationOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +112,8 @@ func NewGetInvoiceTranslationBadRequest() *GetInvoiceTranslationBadRequest {
 	return &GetInvoiceTranslationBadRequest{}
 }
 
-/*GetInvoiceTranslationBadRequest handles this case with default header values.
+/*
+GetInvoiceTranslationBadRequest describes a response with status code 400, with default header values.
 
 Invalid locale supplied
 */
@@ -87,7 +121,41 @@ type GetInvoiceTranslationBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice translation bad request response
+func (o *GetInvoiceTranslationBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get invoice translation bad request response has a 2xx status code
+func (o *GetInvoiceTranslationBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice translation bad request response has a 3xx status code
+func (o *GetInvoiceTranslationBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice translation bad request response has a 4xx status code
+func (o *GetInvoiceTranslationBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice translation bad request response has a 5xx status code
+func (o *GetInvoiceTranslationBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice translation bad request response a status code equal to that given
+func (o *GetInvoiceTranslationBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetInvoiceTranslationBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/translation/{locale}][%d] getInvoiceTranslationBadRequest ", 400)
+}
+
+func (o *GetInvoiceTranslationBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/translation/{locale}][%d] getInvoiceTranslationBadRequest ", 400)
 }
 
@@ -101,7 +169,8 @@ func NewGetInvoiceTranslationNotFound() *GetInvoiceTranslationNotFound {
 	return &GetInvoiceTranslationNotFound{}
 }
 
-/*GetInvoiceTranslationNotFound handles this case with default header values.
+/*
+GetInvoiceTranslationNotFound describes a response with status code 404, with default header values.
 
 Translation not found
 */
@@ -109,7 +178,41 @@ type GetInvoiceTranslationNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice translation not found response
+func (o *GetInvoiceTranslationNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get invoice translation not found response has a 2xx status code
+func (o *GetInvoiceTranslationNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice translation not found response has a 3xx status code
+func (o *GetInvoiceTranslationNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice translation not found response has a 4xx status code
+func (o *GetInvoiceTranslationNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice translation not found response has a 5xx status code
+func (o *GetInvoiceTranslationNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice translation not found response a status code equal to that given
+func (o *GetInvoiceTranslationNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetInvoiceTranslationNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/translation/{locale}][%d] getInvoiceTranslationNotFound ", 404)
+}
+
+func (o *GetInvoiceTranslationNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/translation/{locale}][%d] getInvoiceTranslationNotFound ", 404)
 }
 

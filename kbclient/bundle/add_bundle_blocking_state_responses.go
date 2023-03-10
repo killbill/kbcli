@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // AddBundleBlockingStateReader is a Reader for the AddBundleBlockingState structure.
@@ -48,17 +47,51 @@ func NewAddBundleBlockingStateCreated() *AddBundleBlockingStateCreated {
 	return &AddBundleBlockingStateCreated{}
 }
 
-/*AddBundleBlockingStateCreated handles this case with default header values.
+/*
+AddBundleBlockingStateCreated describes a response with status code 201, with default header values.
 
 Blocking state created successfully
 */
 type AddBundleBlockingStateCreated struct {
-	Payload []*kbmodel.BlockingState
-
+	Payload      []*kbmodel.BlockingState
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add bundle blocking state created response
+func (o *AddBundleBlockingStateCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this add bundle blocking state created response has a 2xx status code
+func (o *AddBundleBlockingStateCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add bundle blocking state created response has a 3xx status code
+func (o *AddBundleBlockingStateCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add bundle blocking state created response has a 4xx status code
+func (o *AddBundleBlockingStateCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add bundle blocking state created response has a 5xx status code
+func (o *AddBundleBlockingStateCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add bundle blocking state created response a status code equal to that given
+func (o *AddBundleBlockingStateCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *AddBundleBlockingStateCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/block][%d] addBundleBlockingStateCreated  %+v", 201, o.Payload)
+}
+
+func (o *AddBundleBlockingStateCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/block][%d] addBundleBlockingStateCreated  %+v", 201, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewAddBundleBlockingStateBadRequest() *AddBundleBlockingStateBadRequest {
 	return &AddBundleBlockingStateBadRequest{}
 }
 
-/*AddBundleBlockingStateBadRequest handles this case with default header values.
+/*
+AddBundleBlockingStateBadRequest describes a response with status code 400, with default header values.
 
 Invalid bundle id supplied
 */
@@ -89,7 +123,41 @@ type AddBundleBlockingStateBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add bundle blocking state bad request response
+func (o *AddBundleBlockingStateBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this add bundle blocking state bad request response has a 2xx status code
+func (o *AddBundleBlockingStateBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this add bundle blocking state bad request response has a 3xx status code
+func (o *AddBundleBlockingStateBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add bundle blocking state bad request response has a 4xx status code
+func (o *AddBundleBlockingStateBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this add bundle blocking state bad request response has a 5xx status code
+func (o *AddBundleBlockingStateBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add bundle blocking state bad request response a status code equal to that given
+func (o *AddBundleBlockingStateBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *AddBundleBlockingStateBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/block][%d] addBundleBlockingStateBadRequest ", 400)
+}
+
+func (o *AddBundleBlockingStateBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/block][%d] addBundleBlockingStateBadRequest ", 400)
 }
 
@@ -103,7 +171,8 @@ func NewAddBundleBlockingStateNotFound() *AddBundleBlockingStateNotFound {
 	return &AddBundleBlockingStateNotFound{}
 }
 
-/*AddBundleBlockingStateNotFound handles this case with default header values.
+/*
+AddBundleBlockingStateNotFound describes a response with status code 404, with default header values.
 
 Bundle not found
 */
@@ -111,7 +180,41 @@ type AddBundleBlockingStateNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add bundle blocking state not found response
+func (o *AddBundleBlockingStateNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this add bundle blocking state not found response has a 2xx status code
+func (o *AddBundleBlockingStateNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this add bundle blocking state not found response has a 3xx status code
+func (o *AddBundleBlockingStateNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add bundle blocking state not found response has a 4xx status code
+func (o *AddBundleBlockingStateNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this add bundle blocking state not found response has a 5xx status code
+func (o *AddBundleBlockingStateNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add bundle blocking state not found response a status code equal to that given
+func (o *AddBundleBlockingStateNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *AddBundleBlockingStateNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/block][%d] addBundleBlockingStateNotFound ", 404)
+}
+
+func (o *AddBundleBlockingStateNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/bundles/{bundleId}/block][%d] addBundleBlockingStateNotFound ", 404)
 }
 

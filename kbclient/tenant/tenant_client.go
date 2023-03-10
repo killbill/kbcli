@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // New creates a new tenant API client.
@@ -49,102 +48,50 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// ITenant - interface for Tenant client.
-type ITenant interface {
-	/*
-		CreateTenant creates a tenant
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	CreateTenant(ctx context.Context, params *CreateTenantParams) (*CreateTenantCreated, error)
 
-	/*
-		DeletePerTenantConfiguration deletes a per tenant configuration system properties
-	*/
 	DeletePerTenantConfiguration(ctx context.Context, params *DeletePerTenantConfigurationParams) (*DeletePerTenantConfigurationNoContent, error)
 
-	/*
-		DeletePluginConfiguration deletes a per tenant configuration for a plugin
-	*/
 	DeletePluginConfiguration(ctx context.Context, params *DeletePluginConfigurationParams) (*DeletePluginConfigurationNoContent, error)
 
-	/*
-		DeletePluginPaymentStateMachineConfig deletes a per tenant payment state machine for a plugin
-	*/
 	DeletePluginPaymentStateMachineConfig(ctx context.Context, params *DeletePluginPaymentStateMachineConfigParams) (*DeletePluginPaymentStateMachineConfigNoContent, error)
 
-	/*
-		DeletePushNotificationCallbacks deletes a push notification
-	*/
 	DeletePushNotificationCallbacks(ctx context.Context, params *DeletePushNotificationCallbacksParams) (*DeletePushNotificationCallbacksNoContent, error)
 
-	/*
-		DeleteUserKeyValue deletes a per tenant user key value
-	*/
 	DeleteUserKeyValue(ctx context.Context, params *DeleteUserKeyValueParams) (*DeleteUserKeyValueNoContent, error)
 
-	/*
-		GetAllPluginConfiguration retrieves a per tenant key value based on key prefix
-	*/
 	GetAllPluginConfiguration(ctx context.Context, params *GetAllPluginConfigurationParams) (*GetAllPluginConfigurationOK, error)
 
-	/*
-		GetPerTenantConfiguration retrieves a per tenant configuration system properties
-	*/
 	GetPerTenantConfiguration(ctx context.Context, params *GetPerTenantConfigurationParams) (*GetPerTenantConfigurationOK, error)
 
-	/*
-		GetPluginConfiguration retrieves a per tenant configuration for a plugin
-	*/
 	GetPluginConfiguration(ctx context.Context, params *GetPluginConfigurationParams) (*GetPluginConfigurationOK, error)
 
-	/*
-		GetPluginPaymentStateMachineConfig retrieves a per tenant payment state machine for a plugin
-	*/
 	GetPluginPaymentStateMachineConfig(ctx context.Context, params *GetPluginPaymentStateMachineConfigParams) (*GetPluginPaymentStateMachineConfigOK, error)
 
-	/*
-		GetPushNotificationCallbacks retrieves a push notification
-	*/
 	GetPushNotificationCallbacks(ctx context.Context, params *GetPushNotificationCallbacksParams) (*GetPushNotificationCallbacksOK, error)
 
-	/*
-		GetTenant retrieves a tenant by id
-	*/
 	GetTenant(ctx context.Context, params *GetTenantParams) (*GetTenantOK, error)
 
-	/*
-		GetTenantByAPIKey retrieves a tenant by its API key
-	*/
 	GetTenantByAPIKey(ctx context.Context, params *GetTenantByAPIKeyParams) (*GetTenantByAPIKeyOK, error)
 
-	/*
-		GetUserKeyValue retrieves a per tenant user key value
-	*/
 	GetUserKeyValue(ctx context.Context, params *GetUserKeyValueParams) (*GetUserKeyValueOK, error)
 
-	/*
-		InsertUserKeyValue adds a per tenant user key value
-	*/
 	InsertUserKeyValue(ctx context.Context, params *InsertUserKeyValueParams) (*InsertUserKeyValueCreated, error)
 
-	/*
-		RegisterPushNotificationCallback creates a push notification
-	*/
 	RegisterPushNotificationCallback(ctx context.Context, params *RegisterPushNotificationCallbackParams) (*RegisterPushNotificationCallbackCreated, error)
 
-	/*
-		UploadPerTenantConfiguration adds a per tenant configuration system properties
-	*/
 	UploadPerTenantConfiguration(ctx context.Context, params *UploadPerTenantConfigurationParams) (*UploadPerTenantConfigurationCreated, error)
 
-	/*
-		UploadPluginConfiguration adds a per tenant configuration for a plugin
-	*/
 	UploadPluginConfiguration(ctx context.Context, params *UploadPluginConfigurationParams) (*UploadPluginConfigurationCreated, error)
 
-	/*
-		UploadPluginPaymentStateMachineConfig adds a per tenant payment state machine for a plugin
-	*/
 	UploadPluginPaymentStateMachineConfig(ctx context.Context, params *UploadPluginPaymentStateMachineConfigParams) (*UploadPluginPaymentStateMachineConfigCreated, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -179,7 +126,7 @@ func (a *Client) CreateTenant(ctx context.Context, params *CreateTenantParams) (
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createTenant",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants",
@@ -191,7 +138,9 @@ func (a *Client) CreateTenant(ctx context.Context, params *CreateTenantParams) (
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -250,19 +199,21 @@ func (a *Client) DeletePerTenantConfiguration(ctx context.Context, params *Delet
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePerTenantConfiguration",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/uploadPerTenantConfig",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePerTenantConfigurationReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -306,19 +257,21 @@ func (a *Client) DeletePluginConfiguration(ctx context.Context, params *DeletePl
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePluginConfiguration",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginConfig/{pluginName}",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePluginConfigurationReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -362,19 +315,21 @@ func (a *Client) DeletePluginPaymentStateMachineConfig(ctx context.Context, para
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePluginPaymentStateMachineConfig",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePluginPaymentStateMachineConfigReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -418,19 +373,21 @@ func (a *Client) DeletePushNotificationCallbacks(ctx context.Context, params *De
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePushNotificationCallbacks",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/registerNotificationCallback",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeletePushNotificationCallbacksReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -474,19 +431,21 @@ func (a *Client) DeleteUserKeyValue(ctx context.Context, params *DeleteUserKeyVa
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteUserKeyValue",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tenants/userKeyValue/{keyName}",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteUserKeyValueReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -518,19 +477,21 @@ func (a *Client) GetAllPluginConfiguration(ctx context.Context, params *GetAllPl
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getAllPluginConfiguration",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/uploadPerTenantConfig/{keyPrefix}/search",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetAllPluginConfigurationReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -562,19 +523,21 @@ func (a *Client) GetPerTenantConfiguration(ctx context.Context, params *GetPerTe
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPerTenantConfiguration",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/uploadPerTenantConfig",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPerTenantConfigurationReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -606,19 +569,21 @@ func (a *Client) GetPluginConfiguration(ctx context.Context, params *GetPluginCo
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPluginConfiguration",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginConfig/{pluginName}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPluginConfigurationReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -650,19 +615,21 @@ func (a *Client) GetPluginPaymentStateMachineConfig(ctx context.Context, params 
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPluginPaymentStateMachineConfig",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPluginPaymentStateMachineConfigReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -694,19 +661,21 @@ func (a *Client) GetPushNotificationCallbacks(ctx context.Context, params *GetPu
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPushNotificationCallbacks",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/registerNotificationCallback",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPushNotificationCallbacksReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -738,19 +707,21 @@ func (a *Client) GetTenant(ctx context.Context, params *GetTenantParams) (*GetTe
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTenant",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/{tenantId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTenantReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -782,19 +753,21 @@ func (a *Client) GetTenantByAPIKey(ctx context.Context, params *GetTenantByAPIKe
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTenantByApiKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTenantByAPIKeyReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -826,19 +799,21 @@ func (a *Client) GetUserKeyValue(ctx context.Context, params *GetUserKeyValuePar
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getUserKeyValue",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tenants/userKeyValue/{keyName}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetUserKeyValueReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -885,7 +860,7 @@ func (a *Client) InsertUserKeyValue(ctx context.Context, params *InsertUserKeyVa
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "insertUserKeyValue",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/userKeyValue/{keyName}",
@@ -897,7 +872,9 @@ func (a *Client) InsertUserKeyValue(ctx context.Context, params *InsertUserKeyVa
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -959,7 +936,7 @@ func (a *Client) RegisterPushNotificationCallback(ctx context.Context, params *R
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "registerPushNotificationCallback",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/registerNotificationCallback",
@@ -971,7 +948,9 @@ func (a *Client) RegisterPushNotificationCallback(ctx context.Context, params *R
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1033,7 +1012,7 @@ func (a *Client) UploadPerTenantConfiguration(ctx context.Context, params *Uploa
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadPerTenantConfiguration",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/uploadPerTenantConfig",
@@ -1045,7 +1024,9 @@ func (a *Client) UploadPerTenantConfiguration(ctx context.Context, params *Uploa
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1107,7 +1088,7 @@ func (a *Client) UploadPluginConfiguration(ctx context.Context, params *UploadPl
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadPluginConfiguration",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginConfig/{pluginName}",
@@ -1119,7 +1100,9 @@ func (a *Client) UploadPluginConfiguration(ctx context.Context, params *UploadPl
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1181,7 +1164,7 @@ func (a *Client) UploadPluginPaymentStateMachineConfig(ctx context.Context, para
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "uploadPluginPaymentStateMachineConfig",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tenants/uploadPluginPaymentStateMachineConfig/{pluginName}",
@@ -1193,7 +1176,9 @@ func (a *Client) UploadPluginPaymentStateMachineConfig(ctx context.Context, para
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

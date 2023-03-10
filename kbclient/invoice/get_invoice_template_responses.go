@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // GetInvoiceTemplateReader is a Reader for the GetInvoiceTemplate structure.
@@ -46,17 +45,51 @@ func NewGetInvoiceTemplateOK() *GetInvoiceTemplateOK {
 	return &GetInvoiceTemplateOK{}
 }
 
-/*GetInvoiceTemplateOK handles this case with default header values.
+/*
+GetInvoiceTemplateOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetInvoiceTemplateOK struct {
-	Payload string
-
+	Payload      string
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice template o k response
+func (o *GetInvoiceTemplateOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get invoice template o k response has a 2xx status code
+func (o *GetInvoiceTemplateOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get invoice template o k response has a 3xx status code
+func (o *GetInvoiceTemplateOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice template o k response has a 4xx status code
+func (o *GetInvoiceTemplateOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get invoice template o k response has a 5xx status code
+func (o *GetInvoiceTemplateOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice template o k response a status code equal to that given
+func (o *GetInvoiceTemplateOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetInvoiceTemplateOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/template][%d] getInvoiceTemplateOK  %+v", 200, o.Payload)
+}
+
+func (o *GetInvoiceTemplateOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/template][%d] getInvoiceTemplateOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +112,8 @@ func NewGetInvoiceTemplateNotFound() *GetInvoiceTemplateNotFound {
 	return &GetInvoiceTemplateNotFound{}
 }
 
-/*GetInvoiceTemplateNotFound handles this case with default header values.
+/*
+GetInvoiceTemplateNotFound describes a response with status code 404, with default header values.
 
 Template not found
 */
@@ -87,7 +121,41 @@ type GetInvoiceTemplateNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice template not found response
+func (o *GetInvoiceTemplateNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get invoice template not found response has a 2xx status code
+func (o *GetInvoiceTemplateNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice template not found response has a 3xx status code
+func (o *GetInvoiceTemplateNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice template not found response has a 4xx status code
+func (o *GetInvoiceTemplateNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice template not found response has a 5xx status code
+func (o *GetInvoiceTemplateNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice template not found response a status code equal to that given
+func (o *GetInvoiceTemplateNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetInvoiceTemplateNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/template][%d] getInvoiceTemplateNotFound ", 404)
+}
+
+func (o *GetInvoiceTemplateNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/template][%d] getInvoiceTemplateNotFound ", 404)
 }
 

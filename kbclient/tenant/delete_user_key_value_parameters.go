@@ -13,61 +13,64 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewDeleteUserKeyValueParams creates a new DeleteUserKeyValueParams object
-// with the default values initialized.
+// NewDeleteUserKeyValueParams creates a new DeleteUserKeyValueParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteUserKeyValueParams() *DeleteUserKeyValueParams {
-	var ()
 	return &DeleteUserKeyValueParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteUserKeyValueParamsWithTimeout creates a new DeleteUserKeyValueParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteUserKeyValueParamsWithTimeout(timeout time.Duration) *DeleteUserKeyValueParams {
-	var ()
 	return &DeleteUserKeyValueParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteUserKeyValueParamsWithContext creates a new DeleteUserKeyValueParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteUserKeyValueParamsWithContext(ctx context.Context) *DeleteUserKeyValueParams {
-	var ()
 	return &DeleteUserKeyValueParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteUserKeyValueParamsWithHTTPClient creates a new DeleteUserKeyValueParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteUserKeyValueParamsWithHTTPClient(client *http.Client) *DeleteUserKeyValueParams {
-	var ()
 	return &DeleteUserKeyValueParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteUserKeyValueParams contains all the parameters to send to the API endpoint
-for the delete user key value operation typically these are written to a http.Request
+/*
+DeleteUserKeyValueParams contains all the parameters to send to the API endpoint
+
+	for the delete user key value operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteUserKeyValueParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*KeyName*/
+
+	// KeyName.
 	KeyName string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -76,6 +79,21 @@ type DeleteUserKeyValueParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the delete user key value params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteUserKeyValueParams) WithDefaults() *DeleteUserKeyValueParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete user key value params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteUserKeyValueParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete user key value params
@@ -169,7 +187,6 @@ func (o *DeleteUserKeyValueParams) WriteToRequest(r runtime.ClientRequest, reg s
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -183,7 +200,6 @@ func (o *DeleteUserKeyValueParams) WriteToRequest(r runtime.ClientRequest, reg s
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param keyName

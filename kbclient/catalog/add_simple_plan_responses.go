@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // AddSimplePlanReader is a Reader for the AddSimplePlan structure.
@@ -45,17 +44,51 @@ func NewAddSimplePlanCreated() *AddSimplePlanCreated {
 	return &AddSimplePlanCreated{}
 }
 
-/*AddSimplePlanCreated handles this case with default header values.
+/*
+AddSimplePlanCreated describes a response with status code 201, with default header values.
 
 Created new plan successfully
 */
 type AddSimplePlanCreated struct {
-	Payload string
-
+	Payload      string
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add simple plan created response
+func (o *AddSimplePlanCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this add simple plan created response has a 2xx status code
+func (o *AddSimplePlanCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add simple plan created response has a 3xx status code
+func (o *AddSimplePlanCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add simple plan created response has a 4xx status code
+func (o *AddSimplePlanCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add simple plan created response has a 5xx status code
+func (o *AddSimplePlanCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add simple plan created response a status code equal to that given
+func (o *AddSimplePlanCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *AddSimplePlanCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/catalog/simplePlan][%d] addSimplePlanCreated  %+v", 201, o.Payload)
+}
+
+func (o *AddSimplePlanCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/catalog/simplePlan][%d] addSimplePlanCreated  %+v", 201, o.Payload)
 }
 

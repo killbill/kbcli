@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // GetCatalogXMLReader is a Reader for the GetCatalogXML structure.
@@ -45,17 +44,51 @@ func NewGetCatalogXMLOK() *GetCatalogXMLOK {
 	return &GetCatalogXMLOK{}
 }
 
-/*GetCatalogXMLOK handles this case with default header values.
+/*
+GetCatalogXMLOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetCatalogXMLOK struct {
-	Payload string
-
+	Payload      string
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get catalog Xml o k response
+func (o *GetCatalogXMLOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get catalog Xml o k response has a 2xx status code
+func (o *GetCatalogXMLOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get catalog Xml o k response has a 3xx status code
+func (o *GetCatalogXMLOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get catalog Xml o k response has a 4xx status code
+func (o *GetCatalogXMLOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get catalog Xml o k response has a 5xx status code
+func (o *GetCatalogXMLOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get catalog Xml o k response a status code equal to that given
+func (o *GetCatalogXMLOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetCatalogXMLOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/catalog/xml][%d] getCatalogXmlOK  %+v", 200, o.Payload)
+}
+
+func (o *GetCatalogXMLOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog/xml][%d] getCatalogXmlOK  %+v", 200, o.Payload)
 }
 

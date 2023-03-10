@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // AddRoleDefinitionReader is a Reader for the AddRoleDefinition structure.
@@ -47,17 +46,51 @@ func NewAddRoleDefinitionCreated() *AddRoleDefinitionCreated {
 	return &AddRoleDefinitionCreated{}
 }
 
-/*AddRoleDefinitionCreated handles this case with default header values.
+/*
+AddRoleDefinitionCreated describes a response with status code 201, with default header values.
 
 Role definition created successfully
 */
 type AddRoleDefinitionCreated struct {
-	Payload *kbmodel.RoleDefinition
-
+	Payload      *kbmodel.RoleDefinition
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add role definition created response
+func (o *AddRoleDefinitionCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this add role definition created response has a 2xx status code
+func (o *AddRoleDefinitionCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add role definition created response has a 3xx status code
+func (o *AddRoleDefinitionCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add role definition created response has a 4xx status code
+func (o *AddRoleDefinitionCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add role definition created response has a 5xx status code
+func (o *AddRoleDefinitionCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add role definition created response a status code equal to that given
+func (o *AddRoleDefinitionCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *AddRoleDefinitionCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/security/roles][%d] addRoleDefinitionCreated  %+v", 201, o.Payload)
+}
+
+func (o *AddRoleDefinitionCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/security/roles][%d] addRoleDefinitionCreated  %+v", 201, o.Payload)
 }
 

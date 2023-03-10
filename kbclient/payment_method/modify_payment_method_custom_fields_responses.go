@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // ModifyPaymentMethodCustomFieldsReader is a Reader for the ModifyPaymentMethodCustomFields structure.
@@ -46,7 +45,8 @@ func NewModifyPaymentMethodCustomFieldsNoContent() *ModifyPaymentMethodCustomFie
 	return &ModifyPaymentMethodCustomFieldsNoContent{}
 }
 
-/*ModifyPaymentMethodCustomFieldsNoContent handles this case with default header values.
+/*
+ModifyPaymentMethodCustomFieldsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type ModifyPaymentMethodCustomFieldsNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify payment method custom fields no content response
+func (o *ModifyPaymentMethodCustomFieldsNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this modify payment method custom fields no content response has a 2xx status code
+func (o *ModifyPaymentMethodCustomFieldsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this modify payment method custom fields no content response has a 3xx status code
+func (o *ModifyPaymentMethodCustomFieldsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify payment method custom fields no content response has a 4xx status code
+func (o *ModifyPaymentMethodCustomFieldsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this modify payment method custom fields no content response has a 5xx status code
+func (o *ModifyPaymentMethodCustomFieldsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify payment method custom fields no content response a status code equal to that given
+func (o *ModifyPaymentMethodCustomFieldsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *ModifyPaymentMethodCustomFieldsNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/paymentMethods/{paymentMethodId}/customFields][%d] modifyPaymentMethodCustomFieldsNoContent ", 204)
+}
+
+func (o *ModifyPaymentMethodCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/paymentMethods/{paymentMethodId}/customFields][%d] modifyPaymentMethodCustomFieldsNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewModifyPaymentMethodCustomFieldsBadRequest() *ModifyPaymentMethodCustomFi
 	return &ModifyPaymentMethodCustomFieldsBadRequest{}
 }
 
-/*ModifyPaymentMethodCustomFieldsBadRequest handles this case with default header values.
+/*
+ModifyPaymentMethodCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid payment method id supplied
 */
@@ -76,7 +111,41 @@ type ModifyPaymentMethodCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify payment method custom fields bad request response
+func (o *ModifyPaymentMethodCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this modify payment method custom fields bad request response has a 2xx status code
+func (o *ModifyPaymentMethodCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this modify payment method custom fields bad request response has a 3xx status code
+func (o *ModifyPaymentMethodCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify payment method custom fields bad request response has a 4xx status code
+func (o *ModifyPaymentMethodCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this modify payment method custom fields bad request response has a 5xx status code
+func (o *ModifyPaymentMethodCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify payment method custom fields bad request response a status code equal to that given
+func (o *ModifyPaymentMethodCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *ModifyPaymentMethodCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/paymentMethods/{paymentMethodId}/customFields][%d] modifyPaymentMethodCustomFieldsBadRequest ", 400)
+}
+
+func (o *ModifyPaymentMethodCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/paymentMethods/{paymentMethodId}/customFields][%d] modifyPaymentMethodCustomFieldsBadRequest ", 400)
 }
 

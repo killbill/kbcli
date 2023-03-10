@@ -6,16 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // AuditLog audit log
+//
 // swagger:model AuditLog
 type AuditLog struct {
 
@@ -77,7 +78,6 @@ func (m *AuditLog) Validate(formats strfmt.Registry) error {
 }
 
 func (m *AuditLog) validateChangeDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ChangeDate) { // not required
 		return nil
 	}
@@ -90,7 +90,6 @@ func (m *AuditLog) validateChangeDate(formats strfmt.Registry) error {
 }
 
 func (m *AuditLog) validateHistory(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.History) { // not required
 		return nil
 	}
@@ -99,6 +98,8 @@ func (m *AuditLog) validateHistory(formats strfmt.Registry) error {
 		if err := m.History.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("history")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("history")
 			}
 			return err
 		}
@@ -108,7 +109,6 @@ func (m *AuditLog) validateHistory(formats strfmt.Registry) error {
 }
 
 func (m *AuditLog) validateObjectID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ObjectID) { // not required
 		return nil
 	}
@@ -227,14 +227,13 @@ func (e AuditLogObjectTypeEnum) IsValid() bool {
 
 // prop value enum
 func (m *AuditLog) validateObjectTypeEnum(path, location string, value AuditLogObjectTypeEnum) error {
-	if err := validate.Enum(path, location, value, auditLogTypeObjectTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, auditLogTypeObjectTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *AuditLog) validateObjectType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ObjectType) { // not required
 		return nil
 	}
@@ -242,6 +241,36 @@ func (m *AuditLog) validateObjectType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateObjectTypeEnum("objectType", "body", m.ObjectType); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this audit log based on the context it is used
+func (m *AuditLog) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateHistory(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *AuditLog) contextValidateHistory(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.History != nil {
+		if err := m.History.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("history")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("history")
+			}
+			return err
+		}
 	}
 
 	return nil

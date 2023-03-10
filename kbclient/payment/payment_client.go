@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // New creates a new payment API client.
@@ -49,147 +48,68 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// IPayment - interface for Payment client.
-type IPayment interface {
-	/*
-		CancelScheduledPaymentTransactionByExternalKey cancels a scheduled payment attempt retry
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	CancelScheduledPaymentTransactionByExternalKey(ctx context.Context, params *CancelScheduledPaymentTransactionByExternalKeyParams) (*CancelScheduledPaymentTransactionByExternalKeyNoContent, error)
 
-	/*
-		CancelScheduledPaymentTransactionByID cancels a scheduled payment attempt retry
-	*/
 	CancelScheduledPaymentTransactionByID(ctx context.Context, params *CancelScheduledPaymentTransactionByIDParams) (*CancelScheduledPaymentTransactionByIDNoContent, error)
 
-	/*
-		CaptureAuthorization captures an existing authorization
-	*/
 	CaptureAuthorization(ctx context.Context, params *CaptureAuthorizationParams) (*CaptureAuthorizationCreated, error)
 
-	/*
-		CaptureAuthorizationByExternalKey captures an existing authorization
-	*/
 	CaptureAuthorizationByExternalKey(ctx context.Context, params *CaptureAuthorizationByExternalKeyParams) (*CaptureAuthorizationByExternalKeyCreated, error)
 
-	/*
-		ChargebackPayment records a chargeback
-	*/
 	ChargebackPayment(ctx context.Context, params *ChargebackPaymentParams) (*ChargebackPaymentCreated, error)
 
-	/*
-		ChargebackPaymentByExternalKey records a chargeback
-	*/
 	ChargebackPaymentByExternalKey(ctx context.Context, params *ChargebackPaymentByExternalKeyParams) (*ChargebackPaymentByExternalKeyCreated, error)
 
-	/*
-		ChargebackReversalPayment records a chargeback reversal
-	*/
 	ChargebackReversalPayment(ctx context.Context, params *ChargebackReversalPaymentParams) (*ChargebackReversalPaymentCreated, error)
 
-	/*
-		ChargebackReversalPaymentByExternalKey records a chargeback reversal
-	*/
 	ChargebackReversalPaymentByExternalKey(ctx context.Context, params *ChargebackReversalPaymentByExternalKeyParams) (*ChargebackReversalPaymentByExternalKeyCreated, error)
 
-	/*
-		CompleteTransaction completes an existing transaction
-	*/
 	CompleteTransaction(ctx context.Context, params *CompleteTransactionParams) (*CompleteTransactionNoContent, error)
 
-	/*
-		CompleteTransactionByExternalKey completes an existing transaction
-	*/
 	CompleteTransactionByExternalKey(ctx context.Context, params *CompleteTransactionByExternalKeyParams) (*CompleteTransactionByExternalKeyNoContent, error)
 
-	/*
-		CreateComboPayment combos api to create a new payment transaction on a existing or not account
-	*/
 	CreateComboPayment(ctx context.Context, params *CreateComboPaymentParams) (*CreateComboPaymentCreated, error)
 
-	/*
-		CreatePaymentCustomFields adds custom fields to payment
-	*/
 	CreatePaymentCustomFields(ctx context.Context, params *CreatePaymentCustomFieldsParams) (*CreatePaymentCustomFieldsCreated, error)
 
-	/*
-		CreatePaymentTags adds tags to payment payment
-	*/
 	CreatePaymentTags(ctx context.Context, params *CreatePaymentTagsParams) (*CreatePaymentTagsCreated, error)
 
-	/*
-		DeletePaymentCustomFields removes custom fields from payment payment
-	*/
 	DeletePaymentCustomFields(ctx context.Context, params *DeletePaymentCustomFieldsParams) (*DeletePaymentCustomFieldsNoContent, error)
 
-	/*
-		DeletePaymentTags removes tags from payment payment
-	*/
 	DeletePaymentTags(ctx context.Context, params *DeletePaymentTagsParams) (*DeletePaymentTagsNoContent, error)
 
-	/*
-		GetPayment retrieves a payment by id
-	*/
 	GetPayment(ctx context.Context, params *GetPaymentParams) (*GetPaymentOK, error)
 
-	/*
-		GetPaymentAttemptAuditLogsWithHistory retrieves payment attempt audit logs with history by id
-	*/
 	GetPaymentAttemptAuditLogsWithHistory(ctx context.Context, params *GetPaymentAttemptAuditLogsWithHistoryParams) (*GetPaymentAttemptAuditLogsWithHistoryOK, error)
 
-	/*
-		GetPaymentAuditLogsWithHistory retrieves payment audit logs with history by id
-	*/
 	GetPaymentAuditLogsWithHistory(ctx context.Context, params *GetPaymentAuditLogsWithHistoryParams) (*GetPaymentAuditLogsWithHistoryOK, error)
 
-	/*
-		GetPaymentByExternalKey retrieves a payment by external key
-	*/
 	GetPaymentByExternalKey(ctx context.Context, params *GetPaymentByExternalKeyParams) (*GetPaymentByExternalKeyOK, error)
 
-	/*
-		GetPaymentCustomFields retrieves payment custom fields
-	*/
 	GetPaymentCustomFields(ctx context.Context, params *GetPaymentCustomFieldsParams) (*GetPaymentCustomFieldsOK, error)
 
-	/*
-		GetPaymentTags retrieves payment payment tags
-	*/
 	GetPaymentTags(ctx context.Context, params *GetPaymentTagsParams) (*GetPaymentTagsOK, error)
 
-	/*
-		GetPayments gets payments
-	*/
 	GetPayments(ctx context.Context, params *GetPaymentsParams) (*GetPaymentsOK, error)
 
-	/*
-		ModifyPaymentCustomFields modifies custom fields to payment
-	*/
 	ModifyPaymentCustomFields(ctx context.Context, params *ModifyPaymentCustomFieldsParams) (*ModifyPaymentCustomFieldsNoContent, error)
 
-	/*
-		RefundPayment refunds an existing payment
-	*/
 	RefundPayment(ctx context.Context, params *RefundPaymentParams) (*RefundPaymentCreated, error)
 
-	/*
-		RefundPaymentByExternalKey refunds an existing payment
-	*/
 	RefundPaymentByExternalKey(ctx context.Context, params *RefundPaymentByExternalKeyParams) (*RefundPaymentByExternalKeyCreated, error)
 
-	/*
-		SearchPayments searches payments
-	*/
 	SearchPayments(ctx context.Context, params *SearchPaymentsParams) (*SearchPaymentsOK, error)
 
-	/*
-		VoidPayment voids an existing payment
-	*/
 	VoidPayment(ctx context.Context, params *VoidPaymentParams) (*VoidPaymentNoContent, error)
 
-	/*
-		VoidPaymentByExternalKey voids an existing payment
-	*/
 	VoidPaymentByExternalKey(ctx context.Context, params *VoidPaymentByExternalKeyParams) (*VoidPaymentByExternalKeyNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -221,7 +141,7 @@ func (a *Client) CancelScheduledPaymentTransactionByExternalKey(ctx context.Cont
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "cancelScheduledPaymentTransactionByExternalKey",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/cancelScheduledPaymentTransaction",
@@ -233,7 +153,9 @@ func (a *Client) CancelScheduledPaymentTransactionByExternalKey(ctx context.Cont
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -277,7 +199,7 @@ func (a *Client) CancelScheduledPaymentTransactionByID(ctx context.Context, para
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "cancelScheduledPaymentTransactionById",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/{paymentTransactionId}/cancelScheduledPaymentTransaction",
@@ -289,7 +211,9 @@ func (a *Client) CancelScheduledPaymentTransactionByID(ctx context.Context, para
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -336,7 +260,7 @@ func (a *Client) CaptureAuthorization(ctx context.Context, params *CaptureAuthor
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "captureAuthorization",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}",
@@ -348,7 +272,9 @@ func (a *Client) CaptureAuthorization(ctx context.Context, params *CaptureAuthor
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -410,7 +336,7 @@ func (a *Client) CaptureAuthorizationByExternalKey(ctx context.Context, params *
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "captureAuthorizationByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments",
@@ -422,7 +348,9 @@ func (a *Client) CaptureAuthorizationByExternalKey(ctx context.Context, params *
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -484,7 +412,7 @@ func (a *Client) ChargebackPayment(ctx context.Context, params *ChargebackPaymen
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "chargebackPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/chargebacks",
@@ -496,7 +424,9 @@ func (a *Client) ChargebackPayment(ctx context.Context, params *ChargebackPaymen
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -558,7 +488,7 @@ func (a *Client) ChargebackPaymentByExternalKey(ctx context.Context, params *Cha
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "chargebackPaymentByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/chargebacks",
@@ -570,7 +500,9 @@ func (a *Client) ChargebackPaymentByExternalKey(ctx context.Context, params *Cha
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -632,7 +564,7 @@ func (a *Client) ChargebackReversalPayment(ctx context.Context, params *Chargeba
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "chargebackReversalPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/chargebackReversals",
@@ -644,7 +576,9 @@ func (a *Client) ChargebackReversalPayment(ctx context.Context, params *Chargeba
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -706,7 +640,7 @@ func (a *Client) ChargebackReversalPaymentByExternalKey(ctx context.Context, par
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "chargebackReversalPaymentByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/chargebackReversals",
@@ -718,7 +652,9 @@ func (a *Client) ChargebackReversalPaymentByExternalKey(ctx context.Context, par
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -777,7 +713,7 @@ func (a *Client) CompleteTransaction(ctx context.Context, params *CompleteTransa
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "completeTransaction",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/payments/{paymentId}",
@@ -789,7 +725,9 @@ func (a *Client) CompleteTransaction(ctx context.Context, params *CompleteTransa
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -833,7 +771,7 @@ func (a *Client) CompleteTransactionByExternalKey(ctx context.Context, params *C
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "completeTransactionByExternalKey",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/payments",
@@ -845,7 +783,9 @@ func (a *Client) CompleteTransactionByExternalKey(ctx context.Context, params *C
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -892,7 +832,7 @@ func (a *Client) CreateComboPayment(ctx context.Context, params *CreateComboPaym
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createComboPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/combo",
@@ -904,7 +844,9 @@ func (a *Client) CreateComboPayment(ctx context.Context, params *CreateComboPaym
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -966,7 +908,7 @@ func (a *Client) CreatePaymentCustomFields(ctx context.Context, params *CreatePa
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createPaymentCustomFields",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/customFields",
@@ -978,7 +920,9 @@ func (a *Client) CreatePaymentCustomFields(ctx context.Context, params *CreatePa
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1040,7 +984,7 @@ func (a *Client) CreatePaymentTags(ctx context.Context, params *CreatePaymentTag
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createPaymentTags",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/tags",
@@ -1052,7 +996,9 @@ func (a *Client) CreatePaymentTags(ctx context.Context, params *CreatePaymentTag
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1111,7 +1057,7 @@ func (a *Client) DeletePaymentCustomFields(ctx context.Context, params *DeletePa
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePaymentCustomFields",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/customFields",
@@ -1123,7 +1069,9 @@ func (a *Client) DeletePaymentCustomFields(ctx context.Context, params *DeletePa
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1167,7 +1115,7 @@ func (a *Client) DeletePaymentTags(ctx context.Context, params *DeletePaymentTag
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deletePaymentTags",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/tags",
@@ -1179,7 +1127,9 @@ func (a *Client) DeletePaymentTags(ctx context.Context, params *DeletePaymentTag
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1211,19 +1161,21 @@ func (a *Client) GetPayment(ctx context.Context, params *GetPaymentParams) (*Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPayment",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/{paymentId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1255,19 +1207,21 @@ func (a *Client) GetPaymentAttemptAuditLogsWithHistory(ctx context.Context, para
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentAttemptAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/attempts/{paymentAttemptId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentAttemptAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1299,19 +1253,21 @@ func (a *Client) GetPaymentAuditLogsWithHistory(ctx context.Context, params *Get
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1343,19 +1299,21 @@ func (a *Client) GetPaymentByExternalKey(ctx context.Context, params *GetPayment
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentByExternalKey",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentByExternalKeyReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1387,19 +1345,21 @@ func (a *Client) GetPaymentCustomFields(ctx context.Context, params *GetPaymentC
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentCustomFields",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/customFields",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentCustomFieldsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1431,19 +1391,21 @@ func (a *Client) GetPaymentTags(ctx context.Context, params *GetPaymentTagsParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPaymentTags",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/tags",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentTagsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1475,19 +1437,21 @@ func (a *Client) GetPayments(ctx context.Context, params *GetPaymentsParams) (*G
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getPayments",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/pagination",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetPaymentsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1531,7 +1495,7 @@ func (a *Client) ModifyPaymentCustomFields(ctx context.Context, params *ModifyPa
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "modifyPaymentCustomFields",
 		Method:             "PUT",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/customFields",
@@ -1543,7 +1507,9 @@ func (a *Client) ModifyPaymentCustomFields(ctx context.Context, params *ModifyPa
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1590,7 +1556,7 @@ func (a *Client) RefundPayment(ctx context.Context, params *RefundPaymentParams)
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "refundPayment",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/{paymentId}/refunds",
@@ -1602,7 +1568,9 @@ func (a *Client) RefundPayment(ctx context.Context, params *RefundPaymentParams)
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1664,7 +1632,7 @@ func (a *Client) RefundPaymentByExternalKey(ctx context.Context, params *RefundP
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "refundPaymentByExternalKey",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/payments/refunds",
@@ -1676,7 +1644,9 @@ func (a *Client) RefundPaymentByExternalKey(ctx context.Context, params *RefundP
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1723,19 +1693,21 @@ func (a *Client) SearchPayments(ctx context.Context, params *SearchPaymentsParam
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "searchPayments",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/payments/search/{searchKey}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &SearchPaymentsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1779,7 +1751,7 @@ func (a *Client) VoidPayment(ctx context.Context, params *VoidPaymentParams) (*V
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "voidPayment",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments/{paymentId}",
@@ -1791,7 +1763,9 @@ func (a *Client) VoidPayment(ctx context.Context, params *VoidPaymentParams) (*V
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1835,7 +1809,7 @@ func (a *Client) VoidPaymentByExternalKey(ctx context.Context, params *VoidPayme
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "voidPaymentByExternalKey",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/payments",
@@ -1847,7 +1821,9 @@ func (a *Client) VoidPaymentByExternalKey(ctx context.Context, params *VoidPayme
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

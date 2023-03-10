@@ -6,23 +6,25 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"context"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // UsageRecord usage record
+//
 // swagger:model UsageRecord
 type UsageRecord struct {
 
 	// amount
-	Amount int64 `json:"amount,omitempty"`
+	Amount float64 `json:"amount,omitempty"`
 
 	// record date
-	// Format: date
-	RecordDate strfmt.Date `json:"recordDate,omitempty"`
+	// Format: date-time
+	RecordDate strfmt.DateTime `json:"recordDate,omitempty"`
 }
 
 // Validate validates this usage record
@@ -40,15 +42,19 @@ func (m *UsageRecord) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UsageRecord) validateRecordDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RecordDate) { // not required
 		return nil
 	}
 
-	if err := validate.FormatOf("recordDate", "body", "date", m.RecordDate.String(), formats); err != nil {
+	if err := validate.FormatOf("recordDate", "body", "date-time", m.RecordDate.String(), formats); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this usage record based on context it is used
+func (m *UsageRecord) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

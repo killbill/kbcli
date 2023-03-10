@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // ResumeBundleReader is a Reader for the ResumeBundle structure.
@@ -46,7 +45,8 @@ func NewResumeBundleNoContent() *ResumeBundleNoContent {
 	return &ResumeBundleNoContent{}
 }
 
-/*ResumeBundleNoContent handles this case with default header values.
+/*
+ResumeBundleNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type ResumeBundleNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the resume bundle no content response
+func (o *ResumeBundleNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this resume bundle no content response has a 2xx status code
+func (o *ResumeBundleNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this resume bundle no content response has a 3xx status code
+func (o *ResumeBundleNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this resume bundle no content response has a 4xx status code
+func (o *ResumeBundleNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this resume bundle no content response has a 5xx status code
+func (o *ResumeBundleNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this resume bundle no content response a status code equal to that given
+func (o *ResumeBundleNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *ResumeBundleNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/resume][%d] resumeBundleNoContent ", 204)
+}
+
+func (o *ResumeBundleNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/resume][%d] resumeBundleNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewResumeBundleBadRequest() *ResumeBundleBadRequest {
 	return &ResumeBundleBadRequest{}
 }
 
-/*ResumeBundleBadRequest handles this case with default header values.
+/*
+ResumeBundleBadRequest describes a response with status code 400, with default header values.
 
 Invalid bundle id supplied
 */
@@ -76,7 +111,41 @@ type ResumeBundleBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the resume bundle bad request response
+func (o *ResumeBundleBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this resume bundle bad request response has a 2xx status code
+func (o *ResumeBundleBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this resume bundle bad request response has a 3xx status code
+func (o *ResumeBundleBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this resume bundle bad request response has a 4xx status code
+func (o *ResumeBundleBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this resume bundle bad request response has a 5xx status code
+func (o *ResumeBundleBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this resume bundle bad request response a status code equal to that given
+func (o *ResumeBundleBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *ResumeBundleBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/resume][%d] resumeBundleBadRequest ", 400)
+}
+
+func (o *ResumeBundleBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/resume][%d] resumeBundleBadRequest ", 400)
 }
 
@@ -90,7 +159,8 @@ func NewResumeBundleNotFound() *ResumeBundleNotFound {
 	return &ResumeBundleNotFound{}
 }
 
-/*ResumeBundleNotFound handles this case with default header values.
+/*
+ResumeBundleNotFound describes a response with status code 404, with default header values.
 
 Bundle not found
 */
@@ -98,7 +168,41 @@ type ResumeBundleNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the resume bundle not found response
+func (o *ResumeBundleNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this resume bundle not found response has a 2xx status code
+func (o *ResumeBundleNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this resume bundle not found response has a 3xx status code
+func (o *ResumeBundleNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this resume bundle not found response has a 4xx status code
+func (o *ResumeBundleNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this resume bundle not found response has a 5xx status code
+func (o *ResumeBundleNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this resume bundle not found response a status code equal to that given
+func (o *ResumeBundleNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *ResumeBundleNotFound) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/resume][%d] resumeBundleNotFound ", 404)
+}
+
+func (o *ResumeBundleNotFound) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/resume][%d] resumeBundleNotFound ", 404)
 }
 

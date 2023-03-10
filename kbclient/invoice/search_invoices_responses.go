@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // SearchInvoicesReader is a Reader for the SearchInvoices structure.
@@ -47,17 +46,51 @@ func NewSearchInvoicesOK() *SearchInvoicesOK {
 	return &SearchInvoicesOK{}
 }
 
-/*SearchInvoicesOK handles this case with default header values.
+/*
+SearchInvoicesOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type SearchInvoicesOK struct {
-	Payload []*kbmodel.Invoice
-
+	Payload      []*kbmodel.Invoice
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the search invoices o k response
+func (o *SearchInvoicesOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this search invoices o k response has a 2xx status code
+func (o *SearchInvoicesOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this search invoices o k response has a 3xx status code
+func (o *SearchInvoicesOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this search invoices o k response has a 4xx status code
+func (o *SearchInvoicesOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this search invoices o k response has a 5xx status code
+func (o *SearchInvoicesOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this search invoices o k response a status code equal to that given
+func (o *SearchInvoicesOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *SearchInvoicesOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/search/{searchKey}][%d] searchInvoicesOK  %+v", 200, o.Payload)
+}
+
+func (o *SearchInvoicesOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/search/{searchKey}][%d] searchInvoicesOK  %+v", 200, o.Payload)
 }
 

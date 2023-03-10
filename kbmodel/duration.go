@@ -6,16 +6,17 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Duration duration
+//
 // swagger:model Duration
 type Duration struct {
 
@@ -92,14 +93,13 @@ func (e DurationUnitEnum) IsValid() bool {
 
 // prop value enum
 func (m *Duration) validateUnitEnum(path, location string, value DurationUnitEnum) error {
-	if err := validate.Enum(path, location, value, durationTypeUnitPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, durationTypeUnitPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *Duration) validateUnit(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Unit) { // not required
 		return nil
 	}
@@ -109,6 +109,11 @@ func (m *Duration) validateUnit(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this duration based on context it is used
+func (m *Duration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetPaymentByTransactionExternalKeyReader is a Reader for the GetPaymentByTransactionExternalKey structure.
@@ -48,17 +47,51 @@ func NewGetPaymentByTransactionExternalKeyOK() *GetPaymentByTransactionExternalK
 	return &GetPaymentByTransactionExternalKeyOK{}
 }
 
-/*GetPaymentByTransactionExternalKeyOK handles this case with default header values.
+/*
+GetPaymentByTransactionExternalKeyOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetPaymentByTransactionExternalKeyOK struct {
-	Payload *kbmodel.Payment
-
+	Payload      *kbmodel.Payment
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get payment by transaction external key o k response
+func (o *GetPaymentByTransactionExternalKeyOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get payment by transaction external key o k response has a 2xx status code
+func (o *GetPaymentByTransactionExternalKeyOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get payment by transaction external key o k response has a 3xx status code
+func (o *GetPaymentByTransactionExternalKeyOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payment by transaction external key o k response has a 4xx status code
+func (o *GetPaymentByTransactionExternalKeyOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get payment by transaction external key o k response has a 5xx status code
+func (o *GetPaymentByTransactionExternalKeyOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payment by transaction external key o k response a status code equal to that given
+func (o *GetPaymentByTransactionExternalKeyOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetPaymentByTransactionExternalKeyOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions][%d] getPaymentByTransactionExternalKeyOK  %+v", 200, o.Payload)
+}
+
+func (o *GetPaymentByTransactionExternalKeyOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions][%d] getPaymentByTransactionExternalKeyOK  %+v", 200, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewGetPaymentByTransactionExternalKeyNotFound() *GetPaymentByTransactionExt
 	return &GetPaymentByTransactionExternalKeyNotFound{}
 }
 
-/*GetPaymentByTransactionExternalKeyNotFound handles this case with default header values.
+/*
+GetPaymentByTransactionExternalKeyNotFound describes a response with status code 404, with default header values.
 
 Payment not found
 */
@@ -91,7 +125,41 @@ type GetPaymentByTransactionExternalKeyNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get payment by transaction external key not found response
+func (o *GetPaymentByTransactionExternalKeyNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get payment by transaction external key not found response has a 2xx status code
+func (o *GetPaymentByTransactionExternalKeyNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get payment by transaction external key not found response has a 3xx status code
+func (o *GetPaymentByTransactionExternalKeyNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get payment by transaction external key not found response has a 4xx status code
+func (o *GetPaymentByTransactionExternalKeyNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get payment by transaction external key not found response has a 5xx status code
+func (o *GetPaymentByTransactionExternalKeyNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get payment by transaction external key not found response a status code equal to that given
+func (o *GetPaymentByTransactionExternalKeyNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetPaymentByTransactionExternalKeyNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions][%d] getPaymentByTransactionExternalKeyNotFound ", 404)
+}
+
+func (o *GetPaymentByTransactionExternalKeyNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions][%d] getPaymentByTransactionExternalKeyNotFound ", 404)
 }
 

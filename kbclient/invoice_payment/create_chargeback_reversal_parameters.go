@@ -13,68 +13,75 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
-// NewCreateChargebackReversalParams creates a new CreateChargebackReversalParams object
-// with the default values initialized.
+// NewCreateChargebackReversalParams creates a new CreateChargebackReversalParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateChargebackReversalParams() *CreateChargebackReversalParams {
-	var ()
 	return &CreateChargebackReversalParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateChargebackReversalParamsWithTimeout creates a new CreateChargebackReversalParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateChargebackReversalParamsWithTimeout(timeout time.Duration) *CreateChargebackReversalParams {
-	var ()
 	return &CreateChargebackReversalParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateChargebackReversalParamsWithContext creates a new CreateChargebackReversalParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateChargebackReversalParamsWithContext(ctx context.Context) *CreateChargebackReversalParams {
-	var ()
 	return &CreateChargebackReversalParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateChargebackReversalParamsWithHTTPClient creates a new CreateChargebackReversalParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateChargebackReversalParamsWithHTTPClient(client *http.Client) *CreateChargebackReversalParams {
-	var ()
 	return &CreateChargebackReversalParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateChargebackReversalParams contains all the parameters to send to the API endpoint
-for the create chargeback reversal operation typically these are written to a http.Request
+/*
+CreateChargebackReversalParams contains all the parameters to send to the API endpoint
+
+	for the create chargeback reversal operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateChargebackReversalParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.InvoicePaymentTransaction
-	/*PaymentID*/
+
+	// PaymentID.
+	//
+	// Format: uuid
 	PaymentID strfmt.UUID
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -83,6 +90,21 @@ type CreateChargebackReversalParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the create chargeback reversal params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateChargebackReversalParams) WithDefaults() *CreateChargebackReversalParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create chargeback reversal params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateChargebackReversalParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create chargeback reversal params
@@ -198,7 +220,6 @@ func (o *CreateChargebackReversalParams) WriteToRequest(r runtime.ClientRequest,
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -212,9 +233,7 @@ func (o *CreateChargebackReversalParams) WriteToRequest(r runtime.ClientRequest,
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -226,12 +245,15 @@ func (o *CreateChargebackReversalParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	// header param WithProfilingInfo
@@ -252,4 +274,21 @@ func (o *CreateChargebackReversalParams) WriteToRequest(r runtime.ClientRequest,
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCreateChargebackReversal binds the parameter pluginProperty
+func (o *CreateChargebackReversalParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

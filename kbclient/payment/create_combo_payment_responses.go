@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // CreateComboPaymentReader is a Reader for the CreateComboPayment structure.
@@ -48,17 +47,51 @@ func NewCreateComboPaymentCreated() *CreateComboPaymentCreated {
 	return &CreateComboPaymentCreated{}
 }
 
-/*CreateComboPaymentCreated handles this case with default header values.
+/*
+CreateComboPaymentCreated describes a response with status code 201, with default header values.
 
 Payment transaction created successfully
 */
 type CreateComboPaymentCreated struct {
-	Payload *kbmodel.Payment
-
+	Payload      *kbmodel.Payment
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create combo payment created response
+func (o *CreateComboPaymentCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create combo payment created response has a 2xx status code
+func (o *CreateComboPaymentCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create combo payment created response has a 3xx status code
+func (o *CreateComboPaymentCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create combo payment created response has a 4xx status code
+func (o *CreateComboPaymentCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create combo payment created response has a 5xx status code
+func (o *CreateComboPaymentCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create combo payment created response a status code equal to that given
+func (o *CreateComboPaymentCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateComboPaymentCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateComboPaymentCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentCreated  %+v", 201, o.Payload)
 }
 
@@ -83,7 +116,8 @@ func NewCreateComboPaymentBadRequest() *CreateComboPaymentBadRequest {
 	return &CreateComboPaymentBadRequest{}
 }
 
-/*CreateComboPaymentBadRequest handles this case with default header values.
+/*
+CreateComboPaymentBadRequest describes a response with status code 400, with default header values.
 
 Invalid data for Account or PaymentMethod
 */
@@ -91,7 +125,41 @@ type CreateComboPaymentBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create combo payment bad request response
+func (o *CreateComboPaymentBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create combo payment bad request response has a 2xx status code
+func (o *CreateComboPaymentBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create combo payment bad request response has a 3xx status code
+func (o *CreateComboPaymentBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create combo payment bad request response has a 4xx status code
+func (o *CreateComboPaymentBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create combo payment bad request response has a 5xx status code
+func (o *CreateComboPaymentBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create combo payment bad request response a status code equal to that given
+func (o *CreateComboPaymentBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateComboPaymentBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentBadRequest ", 400)
+}
+
+func (o *CreateComboPaymentBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentBadRequest ", 400)
 }
 
@@ -105,7 +173,8 @@ func NewCreateComboPaymentPaymentRequired() *CreateComboPaymentPaymentRequired {
 	return &CreateComboPaymentPaymentRequired{}
 }
 
-/*CreateComboPaymentPaymentRequired handles this case with default header values.
+/*
+CreateComboPaymentPaymentRequired describes a response with status code 402, with default header values.
 
 Transaction declined by gateway
 */
@@ -113,7 +182,41 @@ type CreateComboPaymentPaymentRequired struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create combo payment payment required response
+func (o *CreateComboPaymentPaymentRequired) Code() int {
+	return 402
+}
+
+// IsSuccess returns true when this create combo payment payment required response has a 2xx status code
+func (o *CreateComboPaymentPaymentRequired) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create combo payment payment required response has a 3xx status code
+func (o *CreateComboPaymentPaymentRequired) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create combo payment payment required response has a 4xx status code
+func (o *CreateComboPaymentPaymentRequired) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create combo payment payment required response has a 5xx status code
+func (o *CreateComboPaymentPaymentRequired) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create combo payment payment required response a status code equal to that given
+func (o *CreateComboPaymentPaymentRequired) IsCode(code int) bool {
+	return code == 402
+}
+
 func (o *CreateComboPaymentPaymentRequired) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentPaymentRequired ", 402)
+}
+
+func (o *CreateComboPaymentPaymentRequired) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentPaymentRequired ", 402)
 }
 
@@ -127,7 +230,8 @@ func NewCreateComboPaymentUnprocessableEntity() *CreateComboPaymentUnprocessable
 	return &CreateComboPaymentUnprocessableEntity{}
 }
 
-/*CreateComboPaymentUnprocessableEntity handles this case with default header values.
+/*
+CreateComboPaymentUnprocessableEntity describes a response with status code 422, with default header values.
 
 Payment is aborted by a control plugin
 */
@@ -135,7 +239,41 @@ type CreateComboPaymentUnprocessableEntity struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create combo payment unprocessable entity response
+func (o *CreateComboPaymentUnprocessableEntity) Code() int {
+	return 422
+}
+
+// IsSuccess returns true when this create combo payment unprocessable entity response has a 2xx status code
+func (o *CreateComboPaymentUnprocessableEntity) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create combo payment unprocessable entity response has a 3xx status code
+func (o *CreateComboPaymentUnprocessableEntity) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create combo payment unprocessable entity response has a 4xx status code
+func (o *CreateComboPaymentUnprocessableEntity) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create combo payment unprocessable entity response has a 5xx status code
+func (o *CreateComboPaymentUnprocessableEntity) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create combo payment unprocessable entity response a status code equal to that given
+func (o *CreateComboPaymentUnprocessableEntity) IsCode(code int) bool {
+	return code == 422
+}
+
 func (o *CreateComboPaymentUnprocessableEntity) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentUnprocessableEntity ", 422)
+}
+
+func (o *CreateComboPaymentUnprocessableEntity) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentUnprocessableEntity ", 422)
 }
 
@@ -149,7 +287,8 @@ func NewCreateComboPaymentBadGateway() *CreateComboPaymentBadGateway {
 	return &CreateComboPaymentBadGateway{}
 }
 
-/*CreateComboPaymentBadGateway handles this case with default header values.
+/*
+CreateComboPaymentBadGateway describes a response with status code 502, with default header values.
 
 Failed to submit payment transaction
 */
@@ -157,7 +296,41 @@ type CreateComboPaymentBadGateway struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create combo payment bad gateway response
+func (o *CreateComboPaymentBadGateway) Code() int {
+	return 502
+}
+
+// IsSuccess returns true when this create combo payment bad gateway response has a 2xx status code
+func (o *CreateComboPaymentBadGateway) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create combo payment bad gateway response has a 3xx status code
+func (o *CreateComboPaymentBadGateway) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create combo payment bad gateway response has a 4xx status code
+func (o *CreateComboPaymentBadGateway) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create combo payment bad gateway response has a 5xx status code
+func (o *CreateComboPaymentBadGateway) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this create combo payment bad gateway response a status code equal to that given
+func (o *CreateComboPaymentBadGateway) IsCode(code int) bool {
+	return code == 502
+}
+
 func (o *CreateComboPaymentBadGateway) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentBadGateway ", 502)
+}
+
+func (o *CreateComboPaymentBadGateway) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentBadGateway ", 502)
 }
 
@@ -171,7 +344,8 @@ func NewCreateComboPaymentServiceUnavailable() *CreateComboPaymentServiceUnavail
 	return &CreateComboPaymentServiceUnavailable{}
 }
 
-/*CreateComboPaymentServiceUnavailable handles this case with default header values.
+/*
+CreateComboPaymentServiceUnavailable describes a response with status code 503, with default header values.
 
 Payment in unknown status, failed to receive gateway response
 */
@@ -179,7 +353,41 @@ type CreateComboPaymentServiceUnavailable struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create combo payment service unavailable response
+func (o *CreateComboPaymentServiceUnavailable) Code() int {
+	return 503
+}
+
+// IsSuccess returns true when this create combo payment service unavailable response has a 2xx status code
+func (o *CreateComboPaymentServiceUnavailable) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create combo payment service unavailable response has a 3xx status code
+func (o *CreateComboPaymentServiceUnavailable) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create combo payment service unavailable response has a 4xx status code
+func (o *CreateComboPaymentServiceUnavailable) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create combo payment service unavailable response has a 5xx status code
+func (o *CreateComboPaymentServiceUnavailable) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this create combo payment service unavailable response a status code equal to that given
+func (o *CreateComboPaymentServiceUnavailable) IsCode(code int) bool {
+	return code == 503
+}
+
 func (o *CreateComboPaymentServiceUnavailable) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentServiceUnavailable ", 503)
+}
+
+func (o *CreateComboPaymentServiceUnavailable) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentServiceUnavailable ", 503)
 }
 
@@ -193,7 +401,8 @@ func NewCreateComboPaymentGatewayTimeout() *CreateComboPaymentGatewayTimeout {
 	return &CreateComboPaymentGatewayTimeout{}
 }
 
-/*CreateComboPaymentGatewayTimeout handles this case with default header values.
+/*
+CreateComboPaymentGatewayTimeout describes a response with status code 504, with default header values.
 
 Payment operation timeout
 */
@@ -201,7 +410,41 @@ type CreateComboPaymentGatewayTimeout struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create combo payment gateway timeout response
+func (o *CreateComboPaymentGatewayTimeout) Code() int {
+	return 504
+}
+
+// IsSuccess returns true when this create combo payment gateway timeout response has a 2xx status code
+func (o *CreateComboPaymentGatewayTimeout) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create combo payment gateway timeout response has a 3xx status code
+func (o *CreateComboPaymentGatewayTimeout) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create combo payment gateway timeout response has a 4xx status code
+func (o *CreateComboPaymentGatewayTimeout) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create combo payment gateway timeout response has a 5xx status code
+func (o *CreateComboPaymentGatewayTimeout) IsServerError() bool {
+	return true
+}
+
+// IsCode returns true when this create combo payment gateway timeout response a status code equal to that given
+func (o *CreateComboPaymentGatewayTimeout) IsCode(code int) bool {
+	return code == 504
+}
+
 func (o *CreateComboPaymentGatewayTimeout) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentGatewayTimeout ", 504)
+}
+
+func (o *CreateComboPaymentGatewayTimeout) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/payments/combo][%d] createComboPaymentGatewayTimeout ", 504)
 }
 

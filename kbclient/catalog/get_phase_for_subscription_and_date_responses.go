@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetPhaseForSubscriptionAndDateReader is a Reader for the GetPhaseForSubscriptionAndDate structure.
@@ -47,17 +46,51 @@ func NewGetPhaseForSubscriptionAndDateOK() *GetPhaseForSubscriptionAndDateOK {
 	return &GetPhaseForSubscriptionAndDateOK{}
 }
 
-/*GetPhaseForSubscriptionAndDateOK handles this case with default header values.
+/*
+GetPhaseForSubscriptionAndDateOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetPhaseForSubscriptionAndDateOK struct {
-	Payload *kbmodel.Phase
-
+	Payload      *kbmodel.Phase
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get phase for subscription and date o k response
+func (o *GetPhaseForSubscriptionAndDateOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get phase for subscription and date o k response has a 2xx status code
+func (o *GetPhaseForSubscriptionAndDateOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get phase for subscription and date o k response has a 3xx status code
+func (o *GetPhaseForSubscriptionAndDateOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get phase for subscription and date o k response has a 4xx status code
+func (o *GetPhaseForSubscriptionAndDateOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get phase for subscription and date o k response has a 5xx status code
+func (o *GetPhaseForSubscriptionAndDateOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get phase for subscription and date o k response a status code equal to that given
+func (o *GetPhaseForSubscriptionAndDateOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetPhaseForSubscriptionAndDateOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/catalog/phase][%d] getPhaseForSubscriptionAndDateOK  %+v", 200, o.Payload)
+}
+
+func (o *GetPhaseForSubscriptionAndDateOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/catalog/phase][%d] getPhaseForSubscriptionAndDateOK  %+v", 200, o.Payload)
 }
 

@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // SearchPaymentsReader is a Reader for the SearchPayments structure.
@@ -47,17 +46,51 @@ func NewSearchPaymentsOK() *SearchPaymentsOK {
 	return &SearchPaymentsOK{}
 }
 
-/*SearchPaymentsOK handles this case with default header values.
+/*
+SearchPaymentsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type SearchPaymentsOK struct {
-	Payload []*kbmodel.Payment
-
+	Payload      []*kbmodel.Payment
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the search payments o k response
+func (o *SearchPaymentsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this search payments o k response has a 2xx status code
+func (o *SearchPaymentsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this search payments o k response has a 3xx status code
+func (o *SearchPaymentsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this search payments o k response has a 4xx status code
+func (o *SearchPaymentsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this search payments o k response has a 5xx status code
+func (o *SearchPaymentsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this search payments o k response a status code equal to that given
+func (o *SearchPaymentsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *SearchPaymentsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/payments/search/{searchKey}][%d] searchPaymentsOK  %+v", 200, o.Payload)
+}
+
+func (o *SearchPaymentsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/payments/search/{searchKey}][%d] searchPaymentsOK  %+v", 200, o.Payload)
 }
 

@@ -13,65 +13,71 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
-// NewModifyInvoicePaymentCustomFieldsParams creates a new ModifyInvoicePaymentCustomFieldsParams object
-// with the default values initialized.
+// NewModifyInvoicePaymentCustomFieldsParams creates a new ModifyInvoicePaymentCustomFieldsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewModifyInvoicePaymentCustomFieldsParams() *ModifyInvoicePaymentCustomFieldsParams {
-	var ()
 	return &ModifyInvoicePaymentCustomFieldsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewModifyInvoicePaymentCustomFieldsParamsWithTimeout creates a new ModifyInvoicePaymentCustomFieldsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewModifyInvoicePaymentCustomFieldsParamsWithTimeout(timeout time.Duration) *ModifyInvoicePaymentCustomFieldsParams {
-	var ()
 	return &ModifyInvoicePaymentCustomFieldsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewModifyInvoicePaymentCustomFieldsParamsWithContext creates a new ModifyInvoicePaymentCustomFieldsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewModifyInvoicePaymentCustomFieldsParamsWithContext(ctx context.Context) *ModifyInvoicePaymentCustomFieldsParams {
-	var ()
 	return &ModifyInvoicePaymentCustomFieldsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewModifyInvoicePaymentCustomFieldsParamsWithHTTPClient creates a new ModifyInvoicePaymentCustomFieldsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewModifyInvoicePaymentCustomFieldsParamsWithHTTPClient(client *http.Client) *ModifyInvoicePaymentCustomFieldsParams {
-	var ()
 	return &ModifyInvoicePaymentCustomFieldsParams{
 		HTTPClient: client,
 	}
 }
 
-/*ModifyInvoicePaymentCustomFieldsParams contains all the parameters to send to the API endpoint
-for the modify invoice payment custom fields operation typically these are written to a http.Request
+/*
+ModifyInvoicePaymentCustomFieldsParams contains all the parameters to send to the API endpoint
+
+	for the modify invoice payment custom fields operation.
+
+	Typically these are written to a http.Request.
 */
 type ModifyInvoicePaymentCustomFieldsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body []*kbmodel.CustomField
-	/*PaymentID*/
+
+	// PaymentID.
+	//
+	// Format: uuid
 	PaymentID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -80,6 +86,21 @@ type ModifyInvoicePaymentCustomFieldsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the modify invoice payment custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ModifyInvoicePaymentCustomFieldsParams) WithDefaults() *ModifyInvoicePaymentCustomFieldsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the modify invoice payment custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ModifyInvoicePaymentCustomFieldsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the modify invoice payment custom fields params
@@ -184,7 +205,6 @@ func (o *ModifyInvoicePaymentCustomFieldsParams) WriteToRequest(r runtime.Client
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -198,9 +218,7 @@ func (o *ModifyInvoicePaymentCustomFieldsParams) WriteToRequest(r runtime.Client
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err

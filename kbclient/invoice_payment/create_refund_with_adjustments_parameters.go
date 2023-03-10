@@ -13,84 +13,83 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
-// NewCreateRefundWithAdjustmentsParams creates a new CreateRefundWithAdjustmentsParams object
-// with the default values initialized.
+// NewCreateRefundWithAdjustmentsParams creates a new CreateRefundWithAdjustmentsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateRefundWithAdjustmentsParams() *CreateRefundWithAdjustmentsParams {
-	var (
-		externalPaymentDefault = bool(false)
-	)
 	return &CreateRefundWithAdjustmentsParams{
-		ExternalPayment: &externalPaymentDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateRefundWithAdjustmentsParamsWithTimeout creates a new CreateRefundWithAdjustmentsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateRefundWithAdjustmentsParamsWithTimeout(timeout time.Duration) *CreateRefundWithAdjustmentsParams {
-	var (
-		externalPaymentDefault = bool(false)
-	)
 	return &CreateRefundWithAdjustmentsParams{
-		ExternalPayment: &externalPaymentDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateRefundWithAdjustmentsParamsWithContext creates a new CreateRefundWithAdjustmentsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateRefundWithAdjustmentsParamsWithContext(ctx context.Context) *CreateRefundWithAdjustmentsParams {
-	var (
-		externalPaymentDefault = bool(false)
-	)
 	return &CreateRefundWithAdjustmentsParams{
-		ExternalPayment: &externalPaymentDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewCreateRefundWithAdjustmentsParamsWithHTTPClient creates a new CreateRefundWithAdjustmentsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateRefundWithAdjustmentsParamsWithHTTPClient(client *http.Client) *CreateRefundWithAdjustmentsParams {
-	var (
-		externalPaymentDefault = bool(false)
-	)
 	return &CreateRefundWithAdjustmentsParams{
-		ExternalPayment: &externalPaymentDefault,
-		HTTPClient:      client,
+		HTTPClient: client,
 	}
 }
 
-/*CreateRefundWithAdjustmentsParams contains all the parameters to send to the API endpoint
-for the create refund with adjustments operation typically these are written to a http.Request
+/*
+CreateRefundWithAdjustmentsParams contains all the parameters to send to the API endpoint
+
+	for the create refund with adjustments operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateRefundWithAdjustmentsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.InvoicePaymentTransaction
-	/*ExternalPayment*/
+
+	// ExternalPayment.
 	ExternalPayment *bool
-	/*PaymentID*/
+
+	// PaymentID.
+	//
+	// Format: uuid
 	PaymentID strfmt.UUID
-	/*PaymentMethodID*/
+
+	// PaymentMethodID.
+	//
+	// Format: uuid
 	PaymentMethodID *strfmt.UUID
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -99,6 +98,32 @@ type CreateRefundWithAdjustmentsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the create refund with adjustments params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateRefundWithAdjustmentsParams) WithDefaults() *CreateRefundWithAdjustmentsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create refund with adjustments params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateRefundWithAdjustmentsParams) SetDefaults() {
+	var (
+		externalPaymentDefault = bool(false)
+	)
+
+	val := CreateRefundWithAdjustmentsParams{
+		ExternalPayment: &externalPaymentDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the create refund with adjustments params
@@ -236,7 +261,6 @@ func (o *CreateRefundWithAdjustmentsParams) WriteToRequest(r runtime.ClientReque
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -250,9 +274,7 @@ func (o *CreateRefundWithAdjustmentsParams) WriteToRequest(r runtime.ClientReque
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -263,16 +285,17 @@ func (o *CreateRefundWithAdjustmentsParams) WriteToRequest(r runtime.ClientReque
 
 		// query param externalPayment
 		var qrExternalPayment bool
+
 		if o.ExternalPayment != nil {
 			qrExternalPayment = *o.ExternalPayment
 		}
 		qExternalPayment := swag.FormatBool(qrExternalPayment)
 		if qExternalPayment != "" {
+
 			if err := r.SetQueryParam("externalPayment", qExternalPayment); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param paymentId
@@ -284,24 +307,28 @@ func (o *CreateRefundWithAdjustmentsParams) WriteToRequest(r runtime.ClientReque
 
 		// query param paymentMethodId
 		var qrPaymentMethodID strfmt.UUID
+
 		if o.PaymentMethodID != nil {
 			qrPaymentMethodID = *o.PaymentMethodID
 		}
 		qPaymentMethodID := qrPaymentMethodID.String()
 		if qPaymentMethodID != "" {
+
 			if err := r.SetQueryParam("paymentMethodId", qPaymentMethodID); err != nil {
 				return err
 			}
 		}
-
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	// header param WithProfilingInfo
@@ -322,4 +349,21 @@ func (o *CreateRefundWithAdjustmentsParams) WriteToRequest(r runtime.ClientReque
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCreateRefundWithAdjustments binds the parameter pluginProperty
+func (o *CreateRefundWithAdjustmentsParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

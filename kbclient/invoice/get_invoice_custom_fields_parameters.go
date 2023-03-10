@@ -13,69 +13,62 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetInvoiceCustomFieldsParams creates a new GetInvoiceCustomFieldsParams object
-// with the default values initialized.
+// NewGetInvoiceCustomFieldsParams creates a new GetInvoiceCustomFieldsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetInvoiceCustomFieldsParams() *GetInvoiceCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetInvoiceCustomFieldsParams{
-		Audit: &auditDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetInvoiceCustomFieldsParamsWithTimeout creates a new GetInvoiceCustomFieldsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetInvoiceCustomFieldsParamsWithTimeout(timeout time.Duration) *GetInvoiceCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetInvoiceCustomFieldsParams{
-		Audit: &auditDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetInvoiceCustomFieldsParamsWithContext creates a new GetInvoiceCustomFieldsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetInvoiceCustomFieldsParamsWithContext(ctx context.Context) *GetInvoiceCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetInvoiceCustomFieldsParams{
-		Audit: &auditDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetInvoiceCustomFieldsParamsWithHTTPClient creates a new GetInvoiceCustomFieldsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetInvoiceCustomFieldsParamsWithHTTPClient(client *http.Client) *GetInvoiceCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetInvoiceCustomFieldsParams{
-		Audit:      &auditDefault,
 		HTTPClient: client,
 	}
 }
 
-/*GetInvoiceCustomFieldsParams contains all the parameters to send to the API endpoint
-for the get invoice custom fields operation typically these are written to a http.Request
+/*
+GetInvoiceCustomFieldsParams contains all the parameters to send to the API endpoint
+
+	for the get invoice custom fields operation.
+
+	Typically these are written to a http.Request.
 */
 type GetInvoiceCustomFieldsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*InvoiceID*/
+
+	// InvoiceID.
+	//
+	// Format: uuid
 	InvoiceID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -84,6 +77,32 @@ type GetInvoiceCustomFieldsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get invoice custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoiceCustomFieldsParams) WithDefaults() *GetInvoiceCustomFieldsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get invoice custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoiceCustomFieldsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+	)
+
+	val := GetInvoiceCustomFieldsParams{
+		Audit: &auditDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get invoice custom fields params
@@ -153,16 +172,17 @@ func (o *GetInvoiceCustomFieldsParams) WriteToRequest(r runtime.ClientRequest, r
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param invoiceId

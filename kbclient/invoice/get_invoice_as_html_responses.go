@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // GetInvoiceAsHTMLReader is a Reader for the GetInvoiceAsHTML structure.
@@ -46,17 +45,51 @@ func NewGetInvoiceAsHTMLOK() *GetInvoiceAsHTMLOK {
 	return &GetInvoiceAsHTMLOK{}
 }
 
-/*GetInvoiceAsHTMLOK handles this case with default header values.
+/*
+GetInvoiceAsHTMLOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetInvoiceAsHTMLOK struct {
-	Payload string
-
+	Payload      string
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice as Html o k response
+func (o *GetInvoiceAsHTMLOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get invoice as Html o k response has a 2xx status code
+func (o *GetInvoiceAsHTMLOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get invoice as Html o k response has a 3xx status code
+func (o *GetInvoiceAsHTMLOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice as Html o k response has a 4xx status code
+func (o *GetInvoiceAsHTMLOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get invoice as Html o k response has a 5xx status code
+func (o *GetInvoiceAsHTMLOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice as Html o k response a status code equal to that given
+func (o *GetInvoiceAsHTMLOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetInvoiceAsHTMLOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}/html][%d] getInvoiceAsHtmlOK  %+v", 200, o.Payload)
+}
+
+func (o *GetInvoiceAsHTMLOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}/html][%d] getInvoiceAsHtmlOK  %+v", 200, o.Payload)
 }
 
@@ -79,7 +112,8 @@ func NewGetInvoiceAsHTMLNotFound() *GetInvoiceAsHTMLNotFound {
 	return &GetInvoiceAsHTMLNotFound{}
 }
 
-/*GetInvoiceAsHTMLNotFound handles this case with default header values.
+/*
+GetInvoiceAsHTMLNotFound describes a response with status code 404, with default header values.
 
 Invoice not found
 */
@@ -87,7 +121,41 @@ type GetInvoiceAsHTMLNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice as Html not found response
+func (o *GetInvoiceAsHTMLNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get invoice as Html not found response has a 2xx status code
+func (o *GetInvoiceAsHTMLNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice as Html not found response has a 3xx status code
+func (o *GetInvoiceAsHTMLNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice as Html not found response has a 4xx status code
+func (o *GetInvoiceAsHTMLNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice as Html not found response has a 5xx status code
+func (o *GetInvoiceAsHTMLNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice as Html not found response a status code equal to that given
+func (o *GetInvoiceAsHTMLNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetInvoiceAsHTMLNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}/html][%d] getInvoiceAsHtmlNotFound ", 404)
+}
+
+func (o *GetInvoiceAsHTMLNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoices/{invoiceId}/html][%d] getInvoiceAsHtmlNotFound ", 404)
 }
 

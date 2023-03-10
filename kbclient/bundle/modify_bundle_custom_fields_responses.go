@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // ModifyBundleCustomFieldsReader is a Reader for the ModifyBundleCustomFields structure.
@@ -46,7 +45,8 @@ func NewModifyBundleCustomFieldsNoContent() *ModifyBundleCustomFieldsNoContent {
 	return &ModifyBundleCustomFieldsNoContent{}
 }
 
-/*ModifyBundleCustomFieldsNoContent handles this case with default header values.
+/*
+ModifyBundleCustomFieldsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type ModifyBundleCustomFieldsNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify bundle custom fields no content response
+func (o *ModifyBundleCustomFieldsNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this modify bundle custom fields no content response has a 2xx status code
+func (o *ModifyBundleCustomFieldsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this modify bundle custom fields no content response has a 3xx status code
+func (o *ModifyBundleCustomFieldsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify bundle custom fields no content response has a 4xx status code
+func (o *ModifyBundleCustomFieldsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this modify bundle custom fields no content response has a 5xx status code
+func (o *ModifyBundleCustomFieldsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify bundle custom fields no content response a status code equal to that given
+func (o *ModifyBundleCustomFieldsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *ModifyBundleCustomFieldsNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/customFields][%d] modifyBundleCustomFieldsNoContent ", 204)
+}
+
+func (o *ModifyBundleCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/customFields][%d] modifyBundleCustomFieldsNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewModifyBundleCustomFieldsBadRequest() *ModifyBundleCustomFieldsBadRequest
 	return &ModifyBundleCustomFieldsBadRequest{}
 }
 
-/*ModifyBundleCustomFieldsBadRequest handles this case with default header values.
+/*
+ModifyBundleCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid bundle id supplied
 */
@@ -76,7 +111,41 @@ type ModifyBundleCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the modify bundle custom fields bad request response
+func (o *ModifyBundleCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this modify bundle custom fields bad request response has a 2xx status code
+func (o *ModifyBundleCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this modify bundle custom fields bad request response has a 3xx status code
+func (o *ModifyBundleCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this modify bundle custom fields bad request response has a 4xx status code
+func (o *ModifyBundleCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this modify bundle custom fields bad request response has a 5xx status code
+func (o *ModifyBundleCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this modify bundle custom fields bad request response a status code equal to that given
+func (o *ModifyBundleCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *ModifyBundleCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/customFields][%d] modifyBundleCustomFieldsBadRequest ", 400)
+}
+
+func (o *ModifyBundleCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/bundles/{bundleId}/customFields][%d] modifyBundleCustomFieldsBadRequest ", 400)
 }
 

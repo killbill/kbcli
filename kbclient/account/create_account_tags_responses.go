@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // CreateAccountTagsReader is a Reader for the CreateAccountTags structure.
@@ -48,17 +47,51 @@ func NewCreateAccountTagsCreated() *CreateAccountTagsCreated {
 	return &CreateAccountTagsCreated{}
 }
 
-/*CreateAccountTagsCreated handles this case with default header values.
+/*
+CreateAccountTagsCreated describes a response with status code 201, with default header values.
 
 Tag created successfully
 */
 type CreateAccountTagsCreated struct {
-	Payload []*kbmodel.Tag
-
+	Payload      []*kbmodel.Tag
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create account tags created response
+func (o *CreateAccountTagsCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this create account tags created response has a 2xx status code
+func (o *CreateAccountTagsCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this create account tags created response has a 3xx status code
+func (o *CreateAccountTagsCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create account tags created response has a 4xx status code
+func (o *CreateAccountTagsCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this create account tags created response has a 5xx status code
+func (o *CreateAccountTagsCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create account tags created response a status code equal to that given
+func (o *CreateAccountTagsCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *CreateAccountTagsCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/tags][%d] createAccountTagsCreated  %+v", 201, o.Payload)
+}
+
+func (o *CreateAccountTagsCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/tags][%d] createAccountTagsCreated  %+v", 201, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewCreateAccountTagsBadRequest() *CreateAccountTagsBadRequest {
 	return &CreateAccountTagsBadRequest{}
 }
 
-/*CreateAccountTagsBadRequest handles this case with default header values.
+/*
+CreateAccountTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -89,7 +123,41 @@ type CreateAccountTagsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the create account tags bad request response
+func (o *CreateAccountTagsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this create account tags bad request response has a 2xx status code
+func (o *CreateAccountTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this create account tags bad request response has a 3xx status code
+func (o *CreateAccountTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this create account tags bad request response has a 4xx status code
+func (o *CreateAccountTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this create account tags bad request response has a 5xx status code
+func (o *CreateAccountTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this create account tags bad request response a status code equal to that given
+func (o *CreateAccountTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *CreateAccountTagsBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/tags][%d] createAccountTagsBadRequest ", 400)
+}
+
+func (o *CreateAccountTagsBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/tags][%d] createAccountTagsBadRequest ", 400)
 }
 

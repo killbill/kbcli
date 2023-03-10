@@ -13,61 +13,64 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewRegisterPushNotificationCallbackParams creates a new RegisterPushNotificationCallbackParams object
-// with the default values initialized.
+// NewRegisterPushNotificationCallbackParams creates a new RegisterPushNotificationCallbackParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRegisterPushNotificationCallbackParams() *RegisterPushNotificationCallbackParams {
-	var ()
 	return &RegisterPushNotificationCallbackParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRegisterPushNotificationCallbackParamsWithTimeout creates a new RegisterPushNotificationCallbackParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRegisterPushNotificationCallbackParamsWithTimeout(timeout time.Duration) *RegisterPushNotificationCallbackParams {
-	var ()
 	return &RegisterPushNotificationCallbackParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRegisterPushNotificationCallbackParamsWithContext creates a new RegisterPushNotificationCallbackParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRegisterPushNotificationCallbackParamsWithContext(ctx context.Context) *RegisterPushNotificationCallbackParams {
-	var ()
 	return &RegisterPushNotificationCallbackParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRegisterPushNotificationCallbackParamsWithHTTPClient creates a new RegisterPushNotificationCallbackParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRegisterPushNotificationCallbackParamsWithHTTPClient(client *http.Client) *RegisterPushNotificationCallbackParams {
-	var ()
 	return &RegisterPushNotificationCallbackParams{
 		HTTPClient: client,
 	}
 }
 
-/*RegisterPushNotificationCallbackParams contains all the parameters to send to the API endpoint
-for the register push notification callback operation typically these are written to a http.Request
+/*
+RegisterPushNotificationCallbackParams contains all the parameters to send to the API endpoint
+
+	for the register push notification callback operation.
+
+	Typically these are written to a http.Request.
 */
 type RegisterPushNotificationCallbackParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Cb*/
+
+	// Cb.
 	Cb *string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -76,6 +79,21 @@ type RegisterPushNotificationCallbackParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the register push notification callback params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RegisterPushNotificationCallbackParams) WithDefaults() *RegisterPushNotificationCallbackParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the register push notification callback params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RegisterPushNotificationCallbackParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the register push notification callback params
@@ -169,7 +187,6 @@ func (o *RegisterPushNotificationCallbackParams) WriteToRequest(r runtime.Client
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -183,23 +200,23 @@ func (o *RegisterPushNotificationCallbackParams) WriteToRequest(r runtime.Client
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	if o.Cb != nil {
 
 		// query param cb
 		var qrCb string
+
 		if o.Cb != nil {
 			qrCb = *o.Cb
 		}
 		qCb := qrCb
 		if qCb != "" {
+
 			if err := r.SetQueryParam("cb", qCb); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

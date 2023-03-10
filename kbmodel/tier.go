@@ -6,15 +6,16 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // Tier tier
+//
 // swagger:model Tier
 type Tier struct {
 
@@ -58,7 +59,6 @@ func (m *Tier) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Tier) validateBlocks(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Blocks) { // not required
 		return nil
 	}
@@ -72,6 +72,8 @@ func (m *Tier) validateBlocks(formats strfmt.Registry) error {
 			if err := m.Blocks[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("blocks" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("blocks" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -83,7 +85,6 @@ func (m *Tier) validateBlocks(formats strfmt.Registry) error {
 }
 
 func (m *Tier) validateFixedPrice(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.FixedPrice) { // not required
 		return nil
 	}
@@ -97,6 +98,8 @@ func (m *Tier) validateFixedPrice(formats strfmt.Registry) error {
 			if err := m.FixedPrice[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("fixedPrice" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("fixedPrice" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -108,7 +111,6 @@ func (m *Tier) validateFixedPrice(formats strfmt.Registry) error {
 }
 
 func (m *Tier) validateLimits(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Limits) { // not required
 		return nil
 	}
@@ -122,6 +124,8 @@ func (m *Tier) validateLimits(formats strfmt.Registry) error {
 			if err := m.Limits[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("limits" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("limits" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -133,7 +137,6 @@ func (m *Tier) validateLimits(formats strfmt.Registry) error {
 }
 
 func (m *Tier) validateRecurringPrice(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RecurringPrice) { // not required
 		return nil
 	}
@@ -147,6 +150,114 @@ func (m *Tier) validateRecurringPrice(formats strfmt.Registry) error {
 			if err := m.RecurringPrice[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("recurringPrice" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("recurringPrice" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this tier based on the context it is used
+func (m *Tier) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBlocks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateFixedPrice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLimits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRecurringPrice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Tier) contextValidateBlocks(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Blocks); i++ {
+
+		if m.Blocks[i] != nil {
+			if err := m.Blocks[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("blocks" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("blocks" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Tier) contextValidateFixedPrice(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.FixedPrice); i++ {
+
+		if m.FixedPrice[i] != nil {
+			if err := m.FixedPrice[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("fixedPrice" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("fixedPrice" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Tier) contextValidateLimits(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Limits); i++ {
+
+		if m.Limits[i] != nil {
+			if err := m.Limits[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("limits" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("limits" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Tier) contextValidateRecurringPrice(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.RecurringPrice); i++ {
+
+		if m.RecurringPrice[i] != nil {
+			if err := m.RecurringPrice[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("recurringPrice" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("recurringPrice" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

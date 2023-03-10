@@ -13,84 +13,83 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
-// NewCreateExternalChargesParams creates a new CreateExternalChargesParams object
-// with the default values initialized.
+// NewCreateExternalChargesParams creates a new CreateExternalChargesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateExternalChargesParams() *CreateExternalChargesParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateExternalChargesParams{
-		AutoCommit: &autoCommitDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateExternalChargesParamsWithTimeout creates a new CreateExternalChargesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateExternalChargesParamsWithTimeout(timeout time.Duration) *CreateExternalChargesParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateExternalChargesParams{
-		AutoCommit: &autoCommitDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateExternalChargesParamsWithContext creates a new CreateExternalChargesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateExternalChargesParamsWithContext(ctx context.Context) *CreateExternalChargesParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateExternalChargesParams{
-		AutoCommit: &autoCommitDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewCreateExternalChargesParamsWithHTTPClient creates a new CreateExternalChargesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateExternalChargesParamsWithHTTPClient(client *http.Client) *CreateExternalChargesParams {
-	var (
-		autoCommitDefault = bool(false)
-	)
 	return &CreateExternalChargesParams{
-		AutoCommit: &autoCommitDefault,
 		HTTPClient: client,
 	}
 }
 
-/*CreateExternalChargesParams contains all the parameters to send to the API endpoint
-for the create external charges operation typically these are written to a http.Request
+/*
+CreateExternalChargesParams contains all the parameters to send to the API endpoint
+
+	for the create external charges operation.
+
+	Typically these are written to a http.Request.
 */
 type CreateExternalChargesParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
-	/*AutoCommit*/
+
+	// AutoCommit.
 	AutoCommit *bool
-	/*Body*/
+
+	// Body.
 	Body []*kbmodel.InvoiceItem
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*RequestedDate*/
+
+	// RequestedDate.
+	//
+	// Format: date
 	RequestedDate *strfmt.Date
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -99,6 +98,32 @@ type CreateExternalChargesParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the create external charges params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateExternalChargesParams) WithDefaults() *CreateExternalChargesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create external charges params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateExternalChargesParams) SetDefaults() {
+	var (
+		autoCommitDefault = bool(false)
+	)
+
+	val := CreateExternalChargesParams{
+		AutoCommit: &autoCommitDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the create external charges params
@@ -236,7 +261,6 @@ func (o *CreateExternalChargesParams) WriteToRequest(r runtime.ClientRequest, re
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -250,7 +274,6 @@ func (o *CreateExternalChargesParams) WriteToRequest(r runtime.ClientRequest, re
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId
@@ -262,46 +285,50 @@ func (o *CreateExternalChargesParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param autoCommit
 		var qrAutoCommit bool
+
 		if o.AutoCommit != nil {
 			qrAutoCommit = *o.AutoCommit
 		}
 		qAutoCommit := swag.FormatBool(qrAutoCommit)
 		if qAutoCommit != "" {
+
 			if err := r.SetQueryParam("autoCommit", qAutoCommit); err != nil {
 				return err
 			}
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.RequestedDate != nil {
 
 		// query param requestedDate
 		var qrRequestedDate strfmt.Date
+
 		if o.RequestedDate != nil {
 			qrRequestedDate = *o.RequestedDate
 		}
 		qRequestedDate := qrRequestedDate.String()
 		if qRequestedDate != "" {
+
 			if err := r.SetQueryParam("requestedDate", qRequestedDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo
@@ -322,4 +349,21 @@ func (o *CreateExternalChargesParams) WriteToRequest(r runtime.ClientRequest, re
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamCreateExternalCharges binds the parameter pluginProperty
+func (o *CreateExternalChargesParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

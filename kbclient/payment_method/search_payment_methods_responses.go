@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // SearchPaymentMethodsReader is a Reader for the SearchPaymentMethods structure.
@@ -47,17 +46,51 @@ func NewSearchPaymentMethodsOK() *SearchPaymentMethodsOK {
 	return &SearchPaymentMethodsOK{}
 }
 
-/*SearchPaymentMethodsOK handles this case with default header values.
+/*
+SearchPaymentMethodsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type SearchPaymentMethodsOK struct {
-	Payload []*kbmodel.PaymentMethod
-
+	Payload      []*kbmodel.PaymentMethod
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the search payment methods o k response
+func (o *SearchPaymentMethodsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this search payment methods o k response has a 2xx status code
+func (o *SearchPaymentMethodsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this search payment methods o k response has a 3xx status code
+func (o *SearchPaymentMethodsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this search payment methods o k response has a 4xx status code
+func (o *SearchPaymentMethodsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this search payment methods o k response has a 5xx status code
+func (o *SearchPaymentMethodsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this search payment methods o k response a status code equal to that given
+func (o *SearchPaymentMethodsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *SearchPaymentMethodsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/search/{searchKey}][%d] searchPaymentMethodsOK  %+v", 200, o.Payload)
+}
+
+func (o *SearchPaymentMethodsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentMethods/search/{searchKey}][%d] searchPaymentMethodsOK  %+v", 200, o.Payload)
 }
 

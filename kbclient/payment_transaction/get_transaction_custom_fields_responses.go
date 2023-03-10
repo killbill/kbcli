@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetTransactionCustomFieldsReader is a Reader for the GetTransactionCustomFields structure.
@@ -48,17 +47,51 @@ func NewGetTransactionCustomFieldsOK() *GetTransactionCustomFieldsOK {
 	return &GetTransactionCustomFieldsOK{}
 }
 
-/*GetTransactionCustomFieldsOK handles this case with default header values.
+/*
+GetTransactionCustomFieldsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetTransactionCustomFieldsOK struct {
-	Payload []*kbmodel.CustomField
-
+	Payload      []*kbmodel.CustomField
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get transaction custom fields o k response
+func (o *GetTransactionCustomFieldsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get transaction custom fields o k response has a 2xx status code
+func (o *GetTransactionCustomFieldsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get transaction custom fields o k response has a 3xx status code
+func (o *GetTransactionCustomFieldsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get transaction custom fields o k response has a 4xx status code
+func (o *GetTransactionCustomFieldsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get transaction custom fields o k response has a 5xx status code
+func (o *GetTransactionCustomFieldsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get transaction custom fields o k response a status code equal to that given
+func (o *GetTransactionCustomFieldsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetTransactionCustomFieldsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/customFields][%d] getTransactionCustomFieldsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetTransactionCustomFieldsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/customFields][%d] getTransactionCustomFieldsOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetTransactionCustomFieldsBadRequest() *GetTransactionCustomFieldsBadReq
 	return &GetTransactionCustomFieldsBadRequest{}
 }
 
-/*GetTransactionCustomFieldsBadRequest handles this case with default header values.
+/*
+GetTransactionCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid transaction id supplied
 */
@@ -89,7 +123,41 @@ type GetTransactionCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get transaction custom fields bad request response
+func (o *GetTransactionCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this get transaction custom fields bad request response has a 2xx status code
+func (o *GetTransactionCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get transaction custom fields bad request response has a 3xx status code
+func (o *GetTransactionCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get transaction custom fields bad request response has a 4xx status code
+func (o *GetTransactionCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get transaction custom fields bad request response has a 5xx status code
+func (o *GetTransactionCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get transaction custom fields bad request response a status code equal to that given
+func (o *GetTransactionCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *GetTransactionCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/customFields][%d] getTransactionCustomFieldsBadRequest ", 400)
+}
+
+func (o *GetTransactionCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/customFields][%d] getTransactionCustomFieldsBadRequest ", 400)
 }
 

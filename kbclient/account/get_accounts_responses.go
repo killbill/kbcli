@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetAccountsReader is a Reader for the GetAccounts structure.
@@ -47,17 +46,51 @@ func NewGetAccountsOK() *GetAccountsOK {
 	return &GetAccountsOK{}
 }
 
-/*GetAccountsOK handles this case with default header values.
+/*
+GetAccountsOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetAccountsOK struct {
-	Payload []*kbmodel.Account
-
+	Payload      []*kbmodel.Account
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get accounts o k response
+func (o *GetAccountsOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get accounts o k response has a 2xx status code
+func (o *GetAccountsOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get accounts o k response has a 3xx status code
+func (o *GetAccountsOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get accounts o k response has a 4xx status code
+func (o *GetAccountsOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get accounts o k response has a 5xx status code
+func (o *GetAccountsOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get accounts o k response a status code equal to that given
+func (o *GetAccountsOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetAccountsOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/accounts/pagination][%d] getAccountsOK  %+v", 200, o.Payload)
+}
+
+func (o *GetAccountsOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/accounts/pagination][%d] getAccountsOK  %+v", 200, o.Payload)
 }
 

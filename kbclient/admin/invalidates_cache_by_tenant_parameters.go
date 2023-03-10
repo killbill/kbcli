@@ -13,51 +13,51 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewInvalidatesCacheByTenantParams creates a new InvalidatesCacheByTenantParams object
-// with the default values initialized.
+// NewInvalidatesCacheByTenantParams creates a new InvalidatesCacheByTenantParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewInvalidatesCacheByTenantParams() *InvalidatesCacheByTenantParams {
-
 	return &InvalidatesCacheByTenantParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewInvalidatesCacheByTenantParamsWithTimeout creates a new InvalidatesCacheByTenantParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewInvalidatesCacheByTenantParamsWithTimeout(timeout time.Duration) *InvalidatesCacheByTenantParams {
-
 	return &InvalidatesCacheByTenantParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewInvalidatesCacheByTenantParamsWithContext creates a new InvalidatesCacheByTenantParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewInvalidatesCacheByTenantParamsWithContext(ctx context.Context) *InvalidatesCacheByTenantParams {
-
 	return &InvalidatesCacheByTenantParams{
-
 		Context: ctx,
 	}
 }
 
 // NewInvalidatesCacheByTenantParamsWithHTTPClient creates a new InvalidatesCacheByTenantParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewInvalidatesCacheByTenantParamsWithHTTPClient(client *http.Client) *InvalidatesCacheByTenantParams {
-
 	return &InvalidatesCacheByTenantParams{
 		HTTPClient: client,
 	}
 }
 
-/*InvalidatesCacheByTenantParams contains all the parameters to send to the API endpoint
-for the invalidates cache by tenant operation typically these are written to a http.Request
+/*
+InvalidatesCacheByTenantParams contains all the parameters to send to the API endpoint
+
+	for the invalidates cache by tenant operation.
+
+	Typically these are written to a http.Request.
 */
 type InvalidatesCacheByTenantParams struct {
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -66,6 +66,21 @@ type InvalidatesCacheByTenantParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the invalidates cache by tenant params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *InvalidatesCacheByTenantParams) WithDefaults() *InvalidatesCacheByTenantParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the invalidates cache by tenant params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *InvalidatesCacheByTenantParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the invalidates cache by tenant params

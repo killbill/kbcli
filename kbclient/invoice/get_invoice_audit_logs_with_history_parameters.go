@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetInvoiceAuditLogsWithHistoryParams creates a new GetInvoiceAuditLogsWithHistoryParams object
-// with the default values initialized.
+// NewGetInvoiceAuditLogsWithHistoryParams creates a new GetInvoiceAuditLogsWithHistoryParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetInvoiceAuditLogsWithHistoryParams() *GetInvoiceAuditLogsWithHistoryParams {
-	var ()
 	return &GetInvoiceAuditLogsWithHistoryParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetInvoiceAuditLogsWithHistoryParamsWithTimeout creates a new GetInvoiceAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetInvoiceAuditLogsWithHistoryParamsWithTimeout(timeout time.Duration) *GetInvoiceAuditLogsWithHistoryParams {
-	var ()
 	return &GetInvoiceAuditLogsWithHistoryParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetInvoiceAuditLogsWithHistoryParamsWithContext creates a new GetInvoiceAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetInvoiceAuditLogsWithHistoryParamsWithContext(ctx context.Context) *GetInvoiceAuditLogsWithHistoryParams {
-	var ()
 	return &GetInvoiceAuditLogsWithHistoryParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetInvoiceAuditLogsWithHistoryParamsWithHTTPClient creates a new GetInvoiceAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetInvoiceAuditLogsWithHistoryParamsWithHTTPClient(client *http.Client) *GetInvoiceAuditLogsWithHistoryParams {
-	var ()
 	return &GetInvoiceAuditLogsWithHistoryParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetInvoiceAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
-for the get invoice audit logs with history operation typically these are written to a http.Request
+/*
+GetInvoiceAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
+
+	for the get invoice audit logs with history operation.
+
+	Typically these are written to a http.Request.
 */
 type GetInvoiceAuditLogsWithHistoryParams struct {
 
-	/*InvoiceID*/
+	// InvoiceID.
+	//
+	// Format: uuid
 	InvoiceID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type GetInvoiceAuditLogsWithHistoryParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get invoice audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoiceAuditLogsWithHistoryParams) WithDefaults() *GetInvoiceAuditLogsWithHistoryParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get invoice audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetInvoiceAuditLogsWithHistoryParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get invoice audit logs with history params

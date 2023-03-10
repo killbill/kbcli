@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetPaymentAuditLogsWithHistoryParams creates a new GetPaymentAuditLogsWithHistoryParams object
-// with the default values initialized.
+// NewGetPaymentAuditLogsWithHistoryParams creates a new GetPaymentAuditLogsWithHistoryParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetPaymentAuditLogsWithHistoryParams() *GetPaymentAuditLogsWithHistoryParams {
-	var ()
 	return &GetPaymentAuditLogsWithHistoryParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPaymentAuditLogsWithHistoryParamsWithTimeout creates a new GetPaymentAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetPaymentAuditLogsWithHistoryParamsWithTimeout(timeout time.Duration) *GetPaymentAuditLogsWithHistoryParams {
-	var ()
 	return &GetPaymentAuditLogsWithHistoryParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetPaymentAuditLogsWithHistoryParamsWithContext creates a new GetPaymentAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetPaymentAuditLogsWithHistoryParamsWithContext(ctx context.Context) *GetPaymentAuditLogsWithHistoryParams {
-	var ()
 	return &GetPaymentAuditLogsWithHistoryParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetPaymentAuditLogsWithHistoryParamsWithHTTPClient creates a new GetPaymentAuditLogsWithHistoryParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetPaymentAuditLogsWithHistoryParamsWithHTTPClient(client *http.Client) *GetPaymentAuditLogsWithHistoryParams {
-	var ()
 	return &GetPaymentAuditLogsWithHistoryParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetPaymentAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
-for the get payment audit logs with history operation typically these are written to a http.Request
+/*
+GetPaymentAuditLogsWithHistoryParams contains all the parameters to send to the API endpoint
+
+	for the get payment audit logs with history operation.
+
+	Typically these are written to a http.Request.
 */
 type GetPaymentAuditLogsWithHistoryParams struct {
 
-	/*PaymentID*/
+	// PaymentID.
+	//
+	// Format: uuid
 	PaymentID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type GetPaymentAuditLogsWithHistoryParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get payment audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentAuditLogsWithHistoryParams) WithDefaults() *GetPaymentAuditLogsWithHistoryParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get payment audit logs with history params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentAuditLogsWithHistoryParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get payment audit logs with history params

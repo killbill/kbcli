@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetTransactionAuditLogsWithHistoryReader is a Reader for the GetTransactionAuditLogsWithHistory structure.
@@ -48,17 +47,51 @@ func NewGetTransactionAuditLogsWithHistoryOK() *GetTransactionAuditLogsWithHisto
 	return &GetTransactionAuditLogsWithHistoryOK{}
 }
 
-/*GetTransactionAuditLogsWithHistoryOK handles this case with default header values.
+/*
+GetTransactionAuditLogsWithHistoryOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetTransactionAuditLogsWithHistoryOK struct {
-	Payload []*kbmodel.AuditLog
-
+	Payload      []*kbmodel.AuditLog
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get transaction audit logs with history o k response
+func (o *GetTransactionAuditLogsWithHistoryOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get transaction audit logs with history o k response has a 2xx status code
+func (o *GetTransactionAuditLogsWithHistoryOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get transaction audit logs with history o k response has a 3xx status code
+func (o *GetTransactionAuditLogsWithHistoryOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get transaction audit logs with history o k response has a 4xx status code
+func (o *GetTransactionAuditLogsWithHistoryOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get transaction audit logs with history o k response has a 5xx status code
+func (o *GetTransactionAuditLogsWithHistoryOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get transaction audit logs with history o k response a status code equal to that given
+func (o *GetTransactionAuditLogsWithHistoryOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetTransactionAuditLogsWithHistoryOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/auditLogsWithHistory][%d] getTransactionAuditLogsWithHistoryOK  %+v", 200, o.Payload)
+}
+
+func (o *GetTransactionAuditLogsWithHistoryOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/auditLogsWithHistory][%d] getTransactionAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetTransactionAuditLogsWithHistoryNotFound() *GetTransactionAuditLogsWit
 	return &GetTransactionAuditLogsWithHistoryNotFound{}
 }
 
-/*GetTransactionAuditLogsWithHistoryNotFound handles this case with default header values.
+/*
+GetTransactionAuditLogsWithHistoryNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
@@ -89,7 +123,41 @@ type GetTransactionAuditLogsWithHistoryNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get transaction audit logs with history not found response
+func (o *GetTransactionAuditLogsWithHistoryNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get transaction audit logs with history not found response has a 2xx status code
+func (o *GetTransactionAuditLogsWithHistoryNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get transaction audit logs with history not found response has a 3xx status code
+func (o *GetTransactionAuditLogsWithHistoryNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get transaction audit logs with history not found response has a 4xx status code
+func (o *GetTransactionAuditLogsWithHistoryNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get transaction audit logs with history not found response has a 5xx status code
+func (o *GetTransactionAuditLogsWithHistoryNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get transaction audit logs with history not found response a status code equal to that given
+func (o *GetTransactionAuditLogsWithHistoryNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetTransactionAuditLogsWithHistoryNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/auditLogsWithHistory][%d] getTransactionAuditLogsWithHistoryNotFound ", 404)
+}
+
+func (o *GetTransactionAuditLogsWithHistoryNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/paymentTransactions/{transactionId}/auditLogsWithHistory][%d] getTransactionAuditLogsWithHistoryNotFound ", 404)
 }
 

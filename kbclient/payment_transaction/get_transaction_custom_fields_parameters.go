@@ -13,69 +13,62 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetTransactionCustomFieldsParams creates a new GetTransactionCustomFieldsParams object
-// with the default values initialized.
+// NewGetTransactionCustomFieldsParams creates a new GetTransactionCustomFieldsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetTransactionCustomFieldsParams() *GetTransactionCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetTransactionCustomFieldsParams{
-		Audit: &auditDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetTransactionCustomFieldsParamsWithTimeout creates a new GetTransactionCustomFieldsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetTransactionCustomFieldsParamsWithTimeout(timeout time.Duration) *GetTransactionCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetTransactionCustomFieldsParams{
-		Audit: &auditDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetTransactionCustomFieldsParamsWithContext creates a new GetTransactionCustomFieldsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetTransactionCustomFieldsParamsWithContext(ctx context.Context) *GetTransactionCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetTransactionCustomFieldsParams{
-		Audit: &auditDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetTransactionCustomFieldsParamsWithHTTPClient creates a new GetTransactionCustomFieldsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetTransactionCustomFieldsParamsWithHTTPClient(client *http.Client) *GetTransactionCustomFieldsParams {
-	var (
-		auditDefault = string("NONE")
-	)
 	return &GetTransactionCustomFieldsParams{
-		Audit:      &auditDefault,
 		HTTPClient: client,
 	}
 }
 
-/*GetTransactionCustomFieldsParams contains all the parameters to send to the API endpoint
-for the get transaction custom fields operation typically these are written to a http.Request
+/*
+GetTransactionCustomFieldsParams contains all the parameters to send to the API endpoint
+
+	for the get transaction custom fields operation.
+
+	Typically these are written to a http.Request.
 */
 type GetTransactionCustomFieldsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*TransactionID*/
+
+	// TransactionID.
+	//
+	// Format: uuid
 	TransactionID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -84,6 +77,32 @@ type GetTransactionCustomFieldsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get transaction custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTransactionCustomFieldsParams) WithDefaults() *GetTransactionCustomFieldsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get transaction custom fields params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetTransactionCustomFieldsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+	)
+
+	val := GetTransactionCustomFieldsParams{
+		Audit: &auditDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get transaction custom fields params
@@ -153,16 +172,17 @@ func (o *GetTransactionCustomFieldsParams) WriteToRequest(r runtime.ClientReques
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param transactionId

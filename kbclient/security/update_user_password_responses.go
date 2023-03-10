@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // UpdateUserPasswordReader is a Reader for the UpdateUserPassword structure.
@@ -45,7 +44,8 @@ func NewUpdateUserPasswordNoContent() *UpdateUserPasswordNoContent {
 	return &UpdateUserPasswordNoContent{}
 }
 
-/*UpdateUserPasswordNoContent handles this case with default header values.
+/*
+UpdateUserPasswordNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -53,7 +53,41 @@ type UpdateUserPasswordNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the update user password no content response
+func (o *UpdateUserPasswordNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this update user password no content response has a 2xx status code
+func (o *UpdateUserPasswordNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this update user password no content response has a 3xx status code
+func (o *UpdateUserPasswordNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this update user password no content response has a 4xx status code
+func (o *UpdateUserPasswordNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this update user password no content response has a 5xx status code
+func (o *UpdateUserPasswordNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this update user password no content response a status code equal to that given
+func (o *UpdateUserPasswordNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *UpdateUserPasswordNoContent) Error() string {
+	return fmt.Sprintf("[PUT /1.0/kb/security/users/{username}/password][%d] updateUserPasswordNoContent ", 204)
+}
+
+func (o *UpdateUserPasswordNoContent) String() string {
 	return fmt.Sprintf("[PUT /1.0/kb/security/users/{username}/password][%d] updateUserPasswordNoContent ", 204)
 }
 

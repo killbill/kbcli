@@ -13,108 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetQueueEntriesParams creates a new GetQueueEntriesParams object
-// with the default values initialized.
+// NewGetQueueEntriesParams creates a new GetQueueEntriesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetQueueEntriesParams() *GetQueueEntriesParams {
-	var (
-		withBusEventsDefault     = bool(true)
-		withHistoryDefault       = bool(true)
-		withInProcessingDefault  = bool(true)
-		withNotificationsDefault = bool(true)
-	)
 	return &GetQueueEntriesParams{
-		WithBusEvents:     &withBusEventsDefault,
-		WithHistory:       &withHistoryDefault,
-		WithInProcessing:  &withInProcessingDefault,
-		WithNotifications: &withNotificationsDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetQueueEntriesParamsWithTimeout creates a new GetQueueEntriesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetQueueEntriesParamsWithTimeout(timeout time.Duration) *GetQueueEntriesParams {
-	var (
-		withBusEventsDefault     = bool(true)
-		withHistoryDefault       = bool(true)
-		withInProcessingDefault  = bool(true)
-		withNotificationsDefault = bool(true)
-	)
 	return &GetQueueEntriesParams{
-		WithBusEvents:     &withBusEventsDefault,
-		WithHistory:       &withHistoryDefault,
-		WithInProcessing:  &withInProcessingDefault,
-		WithNotifications: &withNotificationsDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetQueueEntriesParamsWithContext creates a new GetQueueEntriesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetQueueEntriesParamsWithContext(ctx context.Context) *GetQueueEntriesParams {
-	var (
-		withBusEventsDefault     = bool(true)
-		withHistoryDefault       = bool(true)
-		withInProcessingDefault  = bool(true)
-		withNotificationsDefault = bool(true)
-	)
 	return &GetQueueEntriesParams{
-		WithBusEvents:     &withBusEventsDefault,
-		WithHistory:       &withHistoryDefault,
-		WithInProcessing:  &withInProcessingDefault,
-		WithNotifications: &withNotificationsDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetQueueEntriesParamsWithHTTPClient creates a new GetQueueEntriesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetQueueEntriesParamsWithHTTPClient(client *http.Client) *GetQueueEntriesParams {
-	var (
-		withBusEventsDefault     = bool(true)
-		withHistoryDefault       = bool(true)
-		withInProcessingDefault  = bool(true)
-		withNotificationsDefault = bool(true)
-	)
 	return &GetQueueEntriesParams{
-		WithBusEvents:     &withBusEventsDefault,
-		WithHistory:       &withHistoryDefault,
-		WithInProcessing:  &withInProcessingDefault,
-		WithNotifications: &withNotificationsDefault,
-		HTTPClient:        client,
+		HTTPClient: client,
 	}
 }
 
-/*GetQueueEntriesParams contains all the parameters to send to the API endpoint
-for the get queue entries operation typically these are written to a http.Request
+/*
+GetQueueEntriesParams contains all the parameters to send to the API endpoint
+
+	for the get queue entries operation.
+
+	Typically these are written to a http.Request.
 */
 type GetQueueEntriesParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID *strfmt.UUID
-	/*MaxDate*/
+
+	// MaxDate.
 	MaxDate *string
-	/*MinDate*/
+
+	// MinDate.
 	MinDate *string
-	/*QueueName*/
+
+	// QueueName.
 	QueueName *string
-	/*ServiceName*/
+
+	// ServiceName.
 	ServiceName *string
-	/*WithBusEvents*/
+
+	// WithBusEvents.
+	//
+	// Default: true
 	WithBusEvents *bool
-	/*WithHistory*/
+
+	// WithHistory.
+	//
+	// Default: true
 	WithHistory *bool
-	/*WithInProcessing*/
+
+	// WithInProcessing.
+	//
+	// Default: true
 	WithInProcessing *bool
-	/*WithNotifications*/
+
+	// WithNotifications.
+	//
+	// Default: true
 	WithNotifications *bool
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -123,6 +105,41 @@ type GetQueueEntriesParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get queue entries params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetQueueEntriesParams) WithDefaults() *GetQueueEntriesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get queue entries params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetQueueEntriesParams) SetDefaults() {
+	var (
+		withBusEventsDefault = bool(true)
+
+		withHistoryDefault = bool(true)
+
+		withInProcessingDefault = bool(true)
+
+		withNotificationsDefault = bool(true)
+	)
+
+	val := GetQueueEntriesParams{
+		WithBusEvents:     &withBusEventsDefault,
+		WithHistory:       &withHistoryDefault,
+		WithInProcessing:  &withInProcessingDefault,
+		WithNotifications: &withNotificationsDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get queue entries params
@@ -269,144 +286,153 @@ func (o *GetQueueEntriesParams) WriteToRequest(r runtime.ClientRequest, reg strf
 
 		// query param accountId
 		var qrAccountID strfmt.UUID
+
 		if o.AccountID != nil {
 			qrAccountID = *o.AccountID
 		}
 		qAccountID := qrAccountID.String()
 		if qAccountID != "" {
+
 			if err := r.SetQueryParam("accountId", qAccountID); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.MaxDate != nil {
 
 		// query param maxDate
 		var qrMaxDate string
+
 		if o.MaxDate != nil {
 			qrMaxDate = *o.MaxDate
 		}
 		qMaxDate := qrMaxDate
 		if qMaxDate != "" {
+
 			if err := r.SetQueryParam("maxDate", qMaxDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.MinDate != nil {
 
 		// query param minDate
 		var qrMinDate string
+
 		if o.MinDate != nil {
 			qrMinDate = *o.MinDate
 		}
 		qMinDate := qrMinDate
 		if qMinDate != "" {
+
 			if err := r.SetQueryParam("minDate", qMinDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.QueueName != nil {
 
 		// query param queueName
 		var qrQueueName string
+
 		if o.QueueName != nil {
 			qrQueueName = *o.QueueName
 		}
 		qQueueName := qrQueueName
 		if qQueueName != "" {
+
 			if err := r.SetQueryParam("queueName", qQueueName); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.ServiceName != nil {
 
 		// query param serviceName
 		var qrServiceName string
+
 		if o.ServiceName != nil {
 			qrServiceName = *o.ServiceName
 		}
 		qServiceName := qrServiceName
 		if qServiceName != "" {
+
 			if err := r.SetQueryParam("serviceName", qServiceName); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.WithBusEvents != nil {
 
 		// query param withBusEvents
 		var qrWithBusEvents bool
+
 		if o.WithBusEvents != nil {
 			qrWithBusEvents = *o.WithBusEvents
 		}
 		qWithBusEvents := swag.FormatBool(qrWithBusEvents)
 		if qWithBusEvents != "" {
+
 			if err := r.SetQueryParam("withBusEvents", qWithBusEvents); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.WithHistory != nil {
 
 		// query param withHistory
 		var qrWithHistory bool
+
 		if o.WithHistory != nil {
 			qrWithHistory = *o.WithHistory
 		}
 		qWithHistory := swag.FormatBool(qrWithHistory)
 		if qWithHistory != "" {
+
 			if err := r.SetQueryParam("withHistory", qWithHistory); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.WithInProcessing != nil {
 
 		// query param withInProcessing
 		var qrWithInProcessing bool
+
 		if o.WithInProcessing != nil {
 			qrWithInProcessing = *o.WithInProcessing
 		}
 		qWithInProcessing := swag.FormatBool(qrWithInProcessing)
 		if qWithInProcessing != "" {
+
 			if err := r.SetQueryParam("withInProcessing", qWithInProcessing); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.WithNotifications != nil {
 
 		// query param withNotifications
 		var qrWithNotifications bool
+
 		if o.WithNotifications != nil {
 			qrWithNotifications = *o.WithNotifications
 		}
 		qWithNotifications := swag.FormatBool(qrWithNotifications)
 		if qWithNotifications != "" {
+
 			if err := r.SetQueryParam("withNotifications", qWithNotifications); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

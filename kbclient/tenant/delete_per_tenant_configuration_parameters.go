@@ -13,59 +13,61 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewDeletePerTenantConfigurationParams creates a new DeletePerTenantConfigurationParams object
-// with the default values initialized.
+// NewDeletePerTenantConfigurationParams creates a new DeletePerTenantConfigurationParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeletePerTenantConfigurationParams() *DeletePerTenantConfigurationParams {
-	var ()
 	return &DeletePerTenantConfigurationParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeletePerTenantConfigurationParamsWithTimeout creates a new DeletePerTenantConfigurationParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeletePerTenantConfigurationParamsWithTimeout(timeout time.Duration) *DeletePerTenantConfigurationParams {
-	var ()
 	return &DeletePerTenantConfigurationParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeletePerTenantConfigurationParamsWithContext creates a new DeletePerTenantConfigurationParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeletePerTenantConfigurationParamsWithContext(ctx context.Context) *DeletePerTenantConfigurationParams {
-	var ()
 	return &DeletePerTenantConfigurationParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeletePerTenantConfigurationParamsWithHTTPClient creates a new DeletePerTenantConfigurationParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeletePerTenantConfigurationParamsWithHTTPClient(client *http.Client) *DeletePerTenantConfigurationParams {
-	var ()
 	return &DeletePerTenantConfigurationParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeletePerTenantConfigurationParams contains all the parameters to send to the API endpoint
-for the delete per tenant configuration operation typically these are written to a http.Request
+/*
+DeletePerTenantConfigurationParams contains all the parameters to send to the API endpoint
+
+	for the delete per tenant configuration operation.
+
+	Typically these are written to a http.Request.
 */
 type DeletePerTenantConfigurationParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -74,6 +76,21 @@ type DeletePerTenantConfigurationParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the delete per tenant configuration params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeletePerTenantConfigurationParams) WithDefaults() *DeletePerTenantConfigurationParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete per tenant configuration params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeletePerTenantConfigurationParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete per tenant configuration params
@@ -156,7 +173,6 @@ func (o *DeletePerTenantConfigurationParams) WriteToRequest(r runtime.ClientRequ
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -170,7 +186,6 @@ func (o *DeletePerTenantConfigurationParams) WriteToRequest(r runtime.ClientRequ
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// header param WithProfilingInfo

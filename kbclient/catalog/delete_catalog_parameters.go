@@ -13,59 +13,61 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewDeleteCatalogParams creates a new DeleteCatalogParams object
-// with the default values initialized.
+// NewDeleteCatalogParams creates a new DeleteCatalogParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteCatalogParams() *DeleteCatalogParams {
-	var ()
 	return &DeleteCatalogParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteCatalogParamsWithTimeout creates a new DeleteCatalogParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteCatalogParamsWithTimeout(timeout time.Duration) *DeleteCatalogParams {
-	var ()
 	return &DeleteCatalogParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteCatalogParamsWithContext creates a new DeleteCatalogParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteCatalogParamsWithContext(ctx context.Context) *DeleteCatalogParams {
-	var ()
 	return &DeleteCatalogParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteCatalogParamsWithHTTPClient creates a new DeleteCatalogParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteCatalogParamsWithHTTPClient(client *http.Client) *DeleteCatalogParams {
-	var ()
 	return &DeleteCatalogParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteCatalogParams contains all the parameters to send to the API endpoint
-for the delete catalog operation typically these are written to a http.Request
+/*
+DeleteCatalogParams contains all the parameters to send to the API endpoint
+
+	for the delete catalog operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteCatalogParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -74,6 +76,21 @@ type DeleteCatalogParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the delete catalog params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteCatalogParams) WithDefaults() *DeleteCatalogParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete catalog params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteCatalogParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete catalog params
@@ -156,7 +173,6 @@ func (o *DeleteCatalogParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -170,7 +186,6 @@ func (o *DeleteCatalogParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// header param WithProfilingInfo

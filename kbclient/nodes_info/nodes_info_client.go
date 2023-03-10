@@ -10,8 +10,7 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new nodes info API client.
@@ -48,17 +47,16 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// INodesInfo - interface for NodesInfo client.
-type INodesInfo interface {
-	/*
-		GetNodesInfo retrieves all the nodes infos
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	GetNodesInfo(ctx context.Context, params *GetNodesInfoParams) (*GetNodesInfoOK, error)
 
-	/*
-		TriggerNodeCommand triggers a node command
-	*/
 	TriggerNodeCommand(ctx context.Context, params *TriggerNodeCommandParams) (*TriggerNodeCommandAccepted, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -78,19 +76,21 @@ func (a *Client) GetNodesInfo(ctx context.Context, params *GetNodesInfoParams) (
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getNodesInfo",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/nodesInfo",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetNodesInfoReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func (a *Client) TriggerNodeCommand(ctx context.Context, params *TriggerNodeComm
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "triggerNodeCommand",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/nodesInfo",
@@ -146,7 +146,9 @@ func (a *Client) TriggerNodeCommand(ctx context.Context, params *TriggerNodeComm
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

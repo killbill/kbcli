@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // GetInvoiceItemAuditLogsWithHistoryReader is a Reader for the GetInvoiceItemAuditLogsWithHistory structure.
@@ -48,17 +47,51 @@ func NewGetInvoiceItemAuditLogsWithHistoryOK() *GetInvoiceItemAuditLogsWithHisto
 	return &GetInvoiceItemAuditLogsWithHistoryOK{}
 }
 
-/*GetInvoiceItemAuditLogsWithHistoryOK handles this case with default header values.
+/*
+GetInvoiceItemAuditLogsWithHistoryOK describes a response with status code 200, with default header values.
 
 successful operation
 */
 type GetInvoiceItemAuditLogsWithHistoryOK struct {
-	Payload []*kbmodel.AuditLog
-
+	Payload      []*kbmodel.AuditLog
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice item audit logs with history o k response
+func (o *GetInvoiceItemAuditLogsWithHistoryOK) Code() int {
+	return 200
+}
+
+// IsSuccess returns true when this get invoice item audit logs with history o k response has a 2xx status code
+func (o *GetInvoiceItemAuditLogsWithHistoryOK) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this get invoice item audit logs with history o k response has a 3xx status code
+func (o *GetInvoiceItemAuditLogsWithHistoryOK) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice item audit logs with history o k response has a 4xx status code
+func (o *GetInvoiceItemAuditLogsWithHistoryOK) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this get invoice item audit logs with history o k response has a 5xx status code
+func (o *GetInvoiceItemAuditLogsWithHistoryOK) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice item audit logs with history o k response a status code equal to that given
+func (o *GetInvoiceItemAuditLogsWithHistoryOK) IsCode(code int) bool {
+	return code == 200
+}
+
 func (o *GetInvoiceItemAuditLogsWithHistoryOK) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoiceItems/{invoiceItemId}/auditLogsWithHistory][%d] getInvoiceItemAuditLogsWithHistoryOK  %+v", 200, o.Payload)
+}
+
+func (o *GetInvoiceItemAuditLogsWithHistoryOK) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoiceItems/{invoiceItemId}/auditLogsWithHistory][%d] getInvoiceItemAuditLogsWithHistoryOK  %+v", 200, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewGetInvoiceItemAuditLogsWithHistoryNotFound() *GetInvoiceItemAuditLogsWit
 	return &GetInvoiceItemAuditLogsWithHistoryNotFound{}
 }
 
-/*GetInvoiceItemAuditLogsWithHistoryNotFound handles this case with default header values.
+/*
+GetInvoiceItemAuditLogsWithHistoryNotFound describes a response with status code 404, with default header values.
 
 Invoice item not found
 */
@@ -89,7 +123,41 @@ type GetInvoiceItemAuditLogsWithHistoryNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the get invoice item audit logs with history not found response
+func (o *GetInvoiceItemAuditLogsWithHistoryNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this get invoice item audit logs with history not found response has a 2xx status code
+func (o *GetInvoiceItemAuditLogsWithHistoryNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this get invoice item audit logs with history not found response has a 3xx status code
+func (o *GetInvoiceItemAuditLogsWithHistoryNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this get invoice item audit logs with history not found response has a 4xx status code
+func (o *GetInvoiceItemAuditLogsWithHistoryNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this get invoice item audit logs with history not found response has a 5xx status code
+func (o *GetInvoiceItemAuditLogsWithHistoryNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this get invoice item audit logs with history not found response a status code equal to that given
+func (o *GetInvoiceItemAuditLogsWithHistoryNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *GetInvoiceItemAuditLogsWithHistoryNotFound) Error() string {
+	return fmt.Sprintf("[GET /1.0/kb/invoiceItems/{invoiceItemId}/auditLogsWithHistory][%d] getInvoiceItemAuditLogsWithHistoryNotFound ", 404)
+}
+
+func (o *GetInvoiceItemAuditLogsWithHistoryNotFound) String() string {
 	return fmt.Sprintf("[GET /1.0/kb/invoiceItems/{invoiceItemId}/auditLogsWithHistory][%d] getInvoiceItemAuditLogsWithHistoryNotFound ", 404)
 }
 

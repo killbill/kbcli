@@ -10,9 +10,8 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // New creates a new tag definition API client.
@@ -49,32 +48,22 @@ type Client struct {
 	defaults  KillbillDefaults
 }
 
-// ITagDefinition - interface for TagDefinition client.
-type ITagDefinition interface {
-	/*
-		CreateTagDefinition creates a tag definition
-	*/
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
 	CreateTagDefinition(ctx context.Context, params *CreateTagDefinitionParams) (*CreateTagDefinitionCreated, error)
 
-	/*
-		DeleteTagDefinition deletes a tag definition
-	*/
 	DeleteTagDefinition(ctx context.Context, params *DeleteTagDefinitionParams) (*DeleteTagDefinitionNoContent, error)
 
-	/*
-		GetTagDefinition retrieves a tag definition
-	*/
 	GetTagDefinition(ctx context.Context, params *GetTagDefinitionParams) (*GetTagDefinitionOK, error)
 
-	/*
-		GetTagDefinitionAuditLogsWithHistory retrieves tag definition audit logs with history by id
-	*/
 	GetTagDefinitionAuditLogsWithHistory(ctx context.Context, params *GetTagDefinitionAuditLogsWithHistoryParams) (*GetTagDefinitionAuditLogsWithHistoryOK, error)
 
-	/*
-		GetTagDefinitions lists tag definitions
-	*/
 	GetTagDefinitions(ctx context.Context, params *GetTagDefinitionsParams) (*GetTagDefinitionsOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
 }
 
 /*
@@ -109,7 +98,7 @@ func (a *Client) CreateTagDefinition(ctx context.Context, params *CreateTagDefin
 	}
 	getParams.WithStackTrace = params.WithStackTrace
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "createTagDefinition",
 		Method:             "POST",
 		PathPattern:        "/1.0/kb/tagDefinitions",
@@ -121,7 +110,9 @@ func (a *Client) CreateTagDefinition(ctx context.Context, params *CreateTagDefin
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -180,19 +171,21 @@ func (a *Client) DeleteTagDefinition(ctx context.Context, params *DeleteTagDefin
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "deleteTagDefinition",
 		Method:             "DELETE",
 		PathPattern:        "/1.0/kb/tagDefinitions/{tagDefinitionId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &DeleteTagDefinitionReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -224,19 +217,21 @@ func (a *Client) GetTagDefinition(ctx context.Context, params *GetTagDefinitionP
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTagDefinition",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tagDefinitions/{tagDefinitionId}",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTagDefinitionReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -268,19 +263,21 @@ func (a *Client) GetTagDefinitionAuditLogsWithHistory(ctx context.Context, param
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTagDefinitionAuditLogsWithHistory",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tagDefinitions/{tagDefinitionId}/auditLogsWithHistory",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTagDefinitionAuditLogsWithHistoryReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -312,19 +309,21 @@ func (a *Client) GetTagDefinitions(ctx context.Context, params *GetTagDefinition
 		params.WithStackTrace = a.defaults.KillbillWithStackTrace()
 	}
 
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "getTagDefinitions",
 		Method:             "GET",
 		PathPattern:        "/1.0/kb/tagDefinitions",
 		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{""},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &GetTagDefinitionsReader{formats: a.formats},
 		AuthInfo:           a.authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

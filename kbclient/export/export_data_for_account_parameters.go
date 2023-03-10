@@ -13,61 +13,66 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewExportDataForAccountParams creates a new ExportDataForAccountParams object
-// with the default values initialized.
+// NewExportDataForAccountParams creates a new ExportDataForAccountParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewExportDataForAccountParams() *ExportDataForAccountParams {
-	var ()
 	return &ExportDataForAccountParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewExportDataForAccountParamsWithTimeout creates a new ExportDataForAccountParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewExportDataForAccountParamsWithTimeout(timeout time.Duration) *ExportDataForAccountParams {
-	var ()
 	return &ExportDataForAccountParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewExportDataForAccountParamsWithContext creates a new ExportDataForAccountParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewExportDataForAccountParamsWithContext(ctx context.Context) *ExportDataForAccountParams {
-	var ()
 	return &ExportDataForAccountParams{
-
 		Context: ctx,
 	}
 }
 
 // NewExportDataForAccountParamsWithHTTPClient creates a new ExportDataForAccountParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewExportDataForAccountParamsWithHTTPClient(client *http.Client) *ExportDataForAccountParams {
-	var ()
 	return &ExportDataForAccountParams{
 		HTTPClient: client,
 	}
 }
 
-/*ExportDataForAccountParams contains all the parameters to send to the API endpoint
-for the export data for account operation typically these are written to a http.Request
+/*
+ExportDataForAccountParams contains all the parameters to send to the API endpoint
+
+	for the export data for account operation.
+
+	Typically these are written to a http.Request.
 */
 type ExportDataForAccountParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*AccountID*/
+
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -76,6 +81,21 @@ type ExportDataForAccountParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the export data for account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ExportDataForAccountParams) WithDefaults() *ExportDataForAccountParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the export data for account params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ExportDataForAccountParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the export data for account params
@@ -169,7 +189,6 @@ func (o *ExportDataForAccountParams) WriteToRequest(r runtime.ClientRequest, reg
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -183,7 +202,6 @@ func (o *ExportDataForAccountParams) WriteToRequest(r runtime.ClientRequest, reg
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param accountId

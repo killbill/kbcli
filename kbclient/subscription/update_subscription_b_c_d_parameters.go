@@ -13,82 +13,80 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
-// NewUpdateSubscriptionBCDParams creates a new UpdateSubscriptionBCDParams object
-// with the default values initialized.
+// NewUpdateSubscriptionBCDParams creates a new UpdateSubscriptionBCDParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateSubscriptionBCDParams() *UpdateSubscriptionBCDParams {
-	var (
-		forceNewBcdWithPastEffectiveDateDefault = bool(false)
-	)
 	return &UpdateSubscriptionBCDParams{
-		ForceNewBcdWithPastEffectiveDate: &forceNewBcdWithPastEffectiveDateDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewUpdateSubscriptionBCDParamsWithTimeout creates a new UpdateSubscriptionBCDParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewUpdateSubscriptionBCDParamsWithTimeout(timeout time.Duration) *UpdateSubscriptionBCDParams {
-	var (
-		forceNewBcdWithPastEffectiveDateDefault = bool(false)
-	)
 	return &UpdateSubscriptionBCDParams{
-		ForceNewBcdWithPastEffectiveDate: &forceNewBcdWithPastEffectiveDateDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewUpdateSubscriptionBCDParamsWithContext creates a new UpdateSubscriptionBCDParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewUpdateSubscriptionBCDParamsWithContext(ctx context.Context) *UpdateSubscriptionBCDParams {
-	var (
-		forceNewBcdWithPastEffectiveDateDefault = bool(false)
-	)
 	return &UpdateSubscriptionBCDParams{
-		ForceNewBcdWithPastEffectiveDate: &forceNewBcdWithPastEffectiveDateDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewUpdateSubscriptionBCDParamsWithHTTPClient creates a new UpdateSubscriptionBCDParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewUpdateSubscriptionBCDParamsWithHTTPClient(client *http.Client) *UpdateSubscriptionBCDParams {
-	var (
-		forceNewBcdWithPastEffectiveDateDefault = bool(false)
-	)
 	return &UpdateSubscriptionBCDParams{
-		ForceNewBcdWithPastEffectiveDate: &forceNewBcdWithPastEffectiveDateDefault,
-		HTTPClient:                       client,
+		HTTPClient: client,
 	}
 }
 
-/*UpdateSubscriptionBCDParams contains all the parameters to send to the API endpoint
-for the update subscription b c d operation typically these are written to a http.Request
+/*
+UpdateSubscriptionBCDParams contains all the parameters to send to the API endpoint
+
+	for the update subscription b c d operation.
+
+	Typically these are written to a http.Request.
 */
 type UpdateSubscriptionBCDParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*Body*/
+
+	// Body.
 	Body *kbmodel.Subscription
-	/*EffectiveFromDate*/
+
+	// EffectiveFromDate.
+	//
+	// Format: date
 	EffectiveFromDate *strfmt.Date
-	/*ForceNewBcdWithPastEffectiveDate*/
+
+	// ForceNewBcdWithPastEffectiveDate.
 	ForceNewBcdWithPastEffectiveDate *bool
-	/*SubscriptionID*/
+
+	// SubscriptionID.
+	//
+	// Format: uuid
 	SubscriptionID strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -97,6 +95,32 @@ type UpdateSubscriptionBCDParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the update subscription b c d params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UpdateSubscriptionBCDParams) WithDefaults() *UpdateSubscriptionBCDParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the update subscription b c d params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *UpdateSubscriptionBCDParams) SetDefaults() {
+	var (
+		forceNewBcdWithPastEffectiveDateDefault = bool(false)
+	)
+
+	val := UpdateSubscriptionBCDParams{
+		ForceNewBcdWithPastEffectiveDate: &forceNewBcdWithPastEffectiveDateDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the update subscription b c d params
@@ -223,7 +247,6 @@ func (o *UpdateSubscriptionBCDParams) WriteToRequest(r runtime.ClientRequest, re
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -237,9 +260,7 @@ func (o *UpdateSubscriptionBCDParams) WriteToRequest(r runtime.ClientRequest, re
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
-
 	if o.Body != nil {
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
@@ -250,32 +271,34 @@ func (o *UpdateSubscriptionBCDParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param effectiveFromDate
 		var qrEffectiveFromDate strfmt.Date
+
 		if o.EffectiveFromDate != nil {
 			qrEffectiveFromDate = *o.EffectiveFromDate
 		}
 		qEffectiveFromDate := qrEffectiveFromDate.String()
 		if qEffectiveFromDate != "" {
+
 			if err := r.SetQueryParam("effectiveFromDate", qEffectiveFromDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.ForceNewBcdWithPastEffectiveDate != nil {
 
 		// query param forceNewBcdWithPastEffectiveDate
 		var qrForceNewBcdWithPastEffectiveDate bool
+
 		if o.ForceNewBcdWithPastEffectiveDate != nil {
 			qrForceNewBcdWithPastEffectiveDate = *o.ForceNewBcdWithPastEffectiveDate
 		}
 		qForceNewBcdWithPastEffectiveDate := swag.FormatBool(qrForceNewBcdWithPastEffectiveDate)
 		if qForceNewBcdWithPastEffectiveDate != "" {
+
 			if err := r.SetQueryParam("forceNewBcdWithPastEffectiveDate", qForceNewBcdWithPastEffectiveDate); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param subscriptionId

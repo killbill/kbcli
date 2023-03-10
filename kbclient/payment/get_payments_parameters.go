@@ -13,112 +13,81 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetPaymentsParams creates a new GetPaymentsParams object
-// with the default values initialized.
+// NewGetPaymentsParams creates a new GetPaymentsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetPaymentsParams() *GetPaymentsParams {
-	var (
-		auditDefault          = string("NONE")
-		limitDefault          = int64(100)
-		offsetDefault         = int64(0)
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetPaymentsParams{
-		Audit:          &auditDefault,
-		Limit:          &limitDefault,
-		Offset:         &offsetDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetPaymentsParamsWithTimeout creates a new GetPaymentsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetPaymentsParamsWithTimeout(timeout time.Duration) *GetPaymentsParams {
-	var (
-		auditDefault          = string("NONE")
-		limitDefault          = int64(100)
-		offsetDefault         = int64(0)
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetPaymentsParams{
-		Audit:          &auditDefault,
-		Limit:          &limitDefault,
-		Offset:         &offsetDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewGetPaymentsParamsWithContext creates a new GetPaymentsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetPaymentsParamsWithContext(ctx context.Context) *GetPaymentsParams {
-	var (
-		auditDefault          = string("NONE")
-		limitDefault          = int64(100)
-		offsetDefault         = int64(0)
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetPaymentsParams{
-		Audit:          &auditDefault,
-		Limit:          &limitDefault,
-		Offset:         &offsetDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewGetPaymentsParamsWithHTTPClient creates a new GetPaymentsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetPaymentsParamsWithHTTPClient(client *http.Client) *GetPaymentsParams {
-	var (
-		auditDefault          = string("NONE")
-		limitDefault          = int64(100)
-		offsetDefault         = int64(0)
-		withAttemptsDefault   = bool(false)
-		withPluginInfoDefault = bool(false)
-	)
 	return &GetPaymentsParams{
-		Audit:          &auditDefault,
-		Limit:          &limitDefault,
-		Offset:         &offsetDefault,
-		WithAttempts:   &withAttemptsDefault,
-		WithPluginInfo: &withPluginInfoDefault,
-		HTTPClient:     client,
+		HTTPClient: client,
 	}
 }
 
-/*GetPaymentsParams contains all the parameters to send to the API endpoint
-for the get payments operation typically these are written to a http.Request
+/*
+GetPaymentsParams contains all the parameters to send to the API endpoint
+
+	for the get payments operation.
+
+	Typically these are written to a http.Request.
 */
 type GetPaymentsParams struct {
 
-	/*Audit*/
+	// Audit.
+	//
+	// Default: "NONE"
 	Audit *string
-	/*Limit*/
+
+	// Limit.
+	//
+	// Format: int64
+	// Default: 100
 	Limit *int64
-	/*Offset*/
+
+	// Offset.
+	//
+	// Format: int64
 	Offset *int64
-	/*PluginName*/
+
+	// PluginName.
 	PluginName *string
-	/*PluginProperty*/
+
+	// PluginProperty.
 	PluginProperty []string
-	/*WithAttempts*/
+
+	// WithAttempts.
 	WithAttempts *bool
-	/*WithPluginInfo*/
+
+	// WithPluginInfo.
 	WithPluginInfo *bool
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -127,6 +96,44 @@ type GetPaymentsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get payments params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentsParams) WithDefaults() *GetPaymentsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get payments params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetPaymentsParams) SetDefaults() {
+	var (
+		auditDefault = string("NONE")
+
+		limitDefault = int64(100)
+
+		offsetDefault = int64(0)
+
+		withAttemptsDefault = bool(false)
+
+		withPluginInfoDefault = bool(false)
+	)
+
+	val := GetPaymentsParams{
+		Audit:          &auditDefault,
+		Limit:          &limitDefault,
+		Offset:         &offsetDefault,
+		WithAttempts:   &withAttemptsDefault,
+		WithPluginInfo: &withPluginInfoDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the get payments params
@@ -251,104 +258,113 @@ func (o *GetPaymentsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 
 		// query param audit
 		var qrAudit string
+
 		if o.Audit != nil {
 			qrAudit = *o.Audit
 		}
 		qAudit := qrAudit
 		if qAudit != "" {
+
 			if err := r.SetQueryParam("audit", qAudit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Limit != nil {
 
 		// query param limit
 		var qrLimit int64
+
 		if o.Limit != nil {
 			qrLimit = *o.Limit
 		}
 		qLimit := swag.FormatInt64(qrLimit)
 		if qLimit != "" {
+
 			if err := r.SetQueryParam("limit", qLimit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Offset != nil {
 
 		// query param offset
 		var qrOffset int64
+
 		if o.Offset != nil {
 			qrOffset = *o.Offset
 		}
 		qOffset := swag.FormatInt64(qrOffset)
 		if qOffset != "" {
+
 			if err := r.SetQueryParam("offset", qOffset); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.PluginName != nil {
 
 		// query param pluginName
 		var qrPluginName string
+
 		if o.PluginName != nil {
 			qrPluginName = *o.PluginName
 		}
 		qPluginName := qrPluginName
 		if qPluginName != "" {
+
 			if err := r.SetQueryParam("pluginName", qPluginName); err != nil {
 				return err
 			}
 		}
-
 	}
 
-	valuesPluginProperty := o.PluginProperty
+	if o.PluginProperty != nil {
 
-	joinedPluginProperty := swag.JoinByFormat(valuesPluginProperty, "multi")
-	// query array param pluginProperty
-	if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
-		return err
+		// binding items for pluginProperty
+		joinedPluginProperty := o.bindParamPluginProperty(reg)
+
+		// query array param pluginProperty
+		if err := r.SetQueryParam("pluginProperty", joinedPluginProperty...); err != nil {
+			return err
+		}
 	}
 
 	if o.WithAttempts != nil {
 
 		// query param withAttempts
 		var qrWithAttempts bool
+
 		if o.WithAttempts != nil {
 			qrWithAttempts = *o.WithAttempts
 		}
 		qWithAttempts := swag.FormatBool(qrWithAttempts)
 		if qWithAttempts != "" {
+
 			if err := r.SetQueryParam("withAttempts", qWithAttempts); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.WithPluginInfo != nil {
 
 		// query param withPluginInfo
 		var qrWithPluginInfo bool
+
 		if o.WithPluginInfo != nil {
 			qrWithPluginInfo = *o.WithPluginInfo
 		}
 		qWithPluginInfo := swag.FormatBool(qrWithPluginInfo)
 		if qWithPluginInfo != "" {
+
 			if err := r.SetQueryParam("withPluginInfo", qWithPluginInfo); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo
@@ -369,4 +385,21 @@ func (o *GetPaymentsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamGetPayments binds the parameter pluginProperty
+func (o *GetPaymentsParams) bindParamPluginProperty(formats strfmt.Registry) []string {
+	pluginPropertyIR := o.PluginProperty
+
+	var pluginPropertyIC []string
+	for _, pluginPropertyIIR := range pluginPropertyIR { // explode []string
+
+		pluginPropertyIIV := pluginPropertyIIR // string as string
+		pluginPropertyIC = append(pluginPropertyIC, pluginPropertyIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	pluginPropertyIS := swag.JoinByFormat(pluginPropertyIC, "multi")
+
+	return pluginPropertyIS
 }

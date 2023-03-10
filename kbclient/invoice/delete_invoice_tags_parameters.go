@@ -13,64 +13,70 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewDeleteInvoiceTagsParams creates a new DeleteInvoiceTagsParams object
-// with the default values initialized.
+// NewDeleteInvoiceTagsParams creates a new DeleteInvoiceTagsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteInvoiceTagsParams() *DeleteInvoiceTagsParams {
-	var ()
 	return &DeleteInvoiceTagsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteInvoiceTagsParamsWithTimeout creates a new DeleteInvoiceTagsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteInvoiceTagsParamsWithTimeout(timeout time.Duration) *DeleteInvoiceTagsParams {
-	var ()
 	return &DeleteInvoiceTagsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteInvoiceTagsParamsWithContext creates a new DeleteInvoiceTagsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteInvoiceTagsParamsWithContext(ctx context.Context) *DeleteInvoiceTagsParams {
-	var ()
 	return &DeleteInvoiceTagsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteInvoiceTagsParamsWithHTTPClient creates a new DeleteInvoiceTagsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteInvoiceTagsParamsWithHTTPClient(client *http.Client) *DeleteInvoiceTagsParams {
-	var ()
 	return &DeleteInvoiceTagsParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteInvoiceTagsParams contains all the parameters to send to the API endpoint
-for the delete invoice tags operation typically these are written to a http.Request
+/*
+DeleteInvoiceTagsParams contains all the parameters to send to the API endpoint
+
+	for the delete invoice tags operation.
+
+	Typically these are written to a http.Request.
 */
 type DeleteInvoiceTagsParams struct {
 
-	/*XKillbillComment*/
+	// XKillbillComment.
 	XKillbillComment *string
-	/*XKillbillCreatedBy*/
+
+	// XKillbillCreatedBy.
 	XKillbillCreatedBy string
-	/*XKillbillReason*/
+
+	// XKillbillReason.
 	XKillbillReason *string
-	/*InvoiceID*/
+
+	// InvoiceID.
+	//
+	// Format: uuid
 	InvoiceID strfmt.UUID
-	/*TagDef*/
+
+	// TagDef.
 	TagDef []strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -79,6 +85,21 @@ type DeleteInvoiceTagsParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the delete invoice tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteInvoiceTagsParams) WithDefaults() *DeleteInvoiceTagsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete invoice tags params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteInvoiceTagsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete invoice tags params
@@ -183,7 +204,6 @@ func (o *DeleteInvoiceTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Comment", *o.XKillbillComment); err != nil {
 			return err
 		}
-
 	}
 
 	// header param X-Killbill-CreatedBy
@@ -197,7 +217,6 @@ func (o *DeleteInvoiceTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		if err := r.SetHeaderParam("X-Killbill-Reason", *o.XKillbillReason); err != nil {
 			return err
 		}
-
 	}
 
 	// path param invoiceId
@@ -205,15 +224,15 @@ func (o *DeleteInvoiceTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 
-	var valuesTagDef []string
-	for _, v := range o.TagDef {
-		valuesTagDef = append(valuesTagDef, v.String())
-	}
+	if o.TagDef != nil {
 
-	joinedTagDef := swag.JoinByFormat(valuesTagDef, "multi")
-	// query array param tagDef
-	if err := r.SetQueryParam("tagDef", joinedTagDef...); err != nil {
-		return err
+		// binding items for tagDef
+		joinedTagDef := o.bindParamTagDef(reg)
+
+		// query array param tagDef
+		if err := r.SetQueryParam("tagDef", joinedTagDef...); err != nil {
+			return err
+		}
 	}
 
 	// header param WithProfilingInfo
@@ -234,4 +253,21 @@ func (o *DeleteInvoiceTagsParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamDeleteInvoiceTags binds the parameter tagDef
+func (o *DeleteInvoiceTagsParams) bindParamTagDef(formats strfmt.Registry) []string {
+	tagDefIR := o.TagDef
+
+	var tagDefIC []string
+	for _, tagDefIIR := range tagDefIR { // explode []strfmt.UUID
+
+		tagDefIIV := tagDefIIR.String() // strfmt.UUID as string
+		tagDefIC = append(tagDefIC, tagDefIIV)
+	}
+
+	// items.CollectionFormat: "multi"
+	tagDefIS := swag.JoinByFormat(tagDefIC, "multi")
+
+	return tagDefIS
 }

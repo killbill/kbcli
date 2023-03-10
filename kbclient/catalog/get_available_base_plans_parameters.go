@@ -13,55 +13,57 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewGetAvailableBasePlansParams creates a new GetAvailableBasePlansParams object
-// with the default values initialized.
+// NewGetAvailableBasePlansParams creates a new GetAvailableBasePlansParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAvailableBasePlansParams() *GetAvailableBasePlansParams {
-	var ()
 	return &GetAvailableBasePlansParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewGetAvailableBasePlansParamsWithTimeout creates a new GetAvailableBasePlansParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewGetAvailableBasePlansParamsWithTimeout(timeout time.Duration) *GetAvailableBasePlansParams {
-	var ()
 	return &GetAvailableBasePlansParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewGetAvailableBasePlansParamsWithContext creates a new GetAvailableBasePlansParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewGetAvailableBasePlansParamsWithContext(ctx context.Context) *GetAvailableBasePlansParams {
-	var ()
 	return &GetAvailableBasePlansParams{
-
 		Context: ctx,
 	}
 }
 
 // NewGetAvailableBasePlansParamsWithHTTPClient creates a new GetAvailableBasePlansParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewGetAvailableBasePlansParamsWithHTTPClient(client *http.Client) *GetAvailableBasePlansParams {
-	var ()
 	return &GetAvailableBasePlansParams{
 		HTTPClient: client,
 	}
 }
 
-/*GetAvailableBasePlansParams contains all the parameters to send to the API endpoint
-for the get available base plans operation typically these are written to a http.Request
+/*
+GetAvailableBasePlansParams contains all the parameters to send to the API endpoint
+
+	for the get available base plans operation.
+
+	Typically these are written to a http.Request.
 */
 type GetAvailableBasePlansParams struct {
 
-	/*AccountID*/
+	// AccountID.
+	//
+	// Format: uuid
 	AccountID *strfmt.UUID
 
 	WithProfilingInfo     *string // If set, return KB hprof headers
@@ -70,6 +72,21 @@ type GetAvailableBasePlansParams struct {
 	Context               context.Context
 	HTTPClient            *http.Client
 	ProcessLocationHeader bool // For create APIs that return 201, send another request and retrieve the resource.
+}
+
+// WithDefaults hydrates default values in the get available base plans params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAvailableBasePlansParams) WithDefaults() *GetAvailableBasePlansParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the get available base plans params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *GetAvailableBasePlansParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the get available base plans params
@@ -128,16 +145,17 @@ func (o *GetAvailableBasePlansParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param accountId
 		var qrAccountID strfmt.UUID
+
 		if o.AccountID != nil {
 			qrAccountID = *o.AccountID
 		}
 		qAccountID := qrAccountID.String()
 		if qAccountID != "" {
+
 			if err := r.SetQueryParam("accountId", qAccountID); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// header param WithProfilingInfo

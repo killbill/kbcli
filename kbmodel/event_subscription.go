@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // EventSubscription event subscription
+//
 // swagger:model EventSubscription
 type EventSubscription struct {
 
@@ -24,12 +25,16 @@ type EventSubscription struct {
 	AuditLogs []*AuditLog `json:"auditLogs"`
 
 	// billing period
-	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL BIENNIAL NO_BILLING_PERIOD]
+	// Enum: [DAILY WEEKLY BIWEEKLY THIRTY_DAYS THIRTY_ONE_DAYS SIXTY_DAYS NINETY_DAYS MONTHLY BIMESTRIAL QUARTERLY TRIANNUAL BIANNUAL ANNUAL SESQUIENNIAL BIENNIAL TRIENNIAL NO_BILLING_PERIOD]
 	BillingPeriod EventSubscriptionBillingPeriodEnum `json:"billingPeriod,omitempty"`
 
+	// catalog effective date
+	// Format: date-time
+	CatalogEffectiveDate strfmt.DateTime `json:"catalogEffectiveDate,omitempty"`
+
 	// effective date
-	// Format: date
-	EffectiveDate strfmt.Date `json:"effectiveDate,omitempty"`
+	// Format: date-time
+	EffectiveDate strfmt.DateTime `json:"effectiveDate,omitempty"`
 
 	// event Id
 	// Format: uuid
@@ -76,6 +81,10 @@ func (m *EventSubscription) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateCatalogEffectiveDate(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateEffectiveDate(formats); err != nil {
 		res = append(res, err)
 	}
@@ -95,7 +104,6 @@ func (m *EventSubscription) Validate(formats strfmt.Registry) error {
 }
 
 func (m *EventSubscription) validateAuditLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -109,6 +117,8 @@ func (m *EventSubscription) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -123,7 +133,7 @@ var eventSubscriptionTypeBillingPeriodPropEnum []interface{}
 
 func init() {
 	var res []EventSubscriptionBillingPeriodEnum
-	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","BIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["DAILY","WEEKLY","BIWEEKLY","THIRTY_DAYS","THIRTY_ONE_DAYS","SIXTY_DAYS","NINETY_DAYS","MONTHLY","BIMESTRIAL","QUARTERLY","TRIANNUAL","BIANNUAL","ANNUAL","SESQUIENNIAL","BIENNIAL","TRIENNIAL","NO_BILLING_PERIOD"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -146,6 +156,9 @@ const (
 
 	// EventSubscriptionBillingPeriodTHIRTYDAYS captures enum value "THIRTY_DAYS"
 	EventSubscriptionBillingPeriodTHIRTYDAYS EventSubscriptionBillingPeriodEnum = "THIRTY_DAYS"
+
+	// EventSubscriptionBillingPeriodTHIRTYONEDAYS captures enum value "THIRTY_ONE_DAYS"
+	EventSubscriptionBillingPeriodTHIRTYONEDAYS EventSubscriptionBillingPeriodEnum = "THIRTY_ONE_DAYS"
 
 	// EventSubscriptionBillingPeriodSIXTYDAYS captures enum value "SIXTY_DAYS"
 	EventSubscriptionBillingPeriodSIXTYDAYS EventSubscriptionBillingPeriodEnum = "SIXTY_DAYS"
@@ -171,8 +184,14 @@ const (
 	// EventSubscriptionBillingPeriodANNUAL captures enum value "ANNUAL"
 	EventSubscriptionBillingPeriodANNUAL EventSubscriptionBillingPeriodEnum = "ANNUAL"
 
+	// EventSubscriptionBillingPeriodSESQUIENNIAL captures enum value "SESQUIENNIAL"
+	EventSubscriptionBillingPeriodSESQUIENNIAL EventSubscriptionBillingPeriodEnum = "SESQUIENNIAL"
+
 	// EventSubscriptionBillingPeriodBIENNIAL captures enum value "BIENNIAL"
 	EventSubscriptionBillingPeriodBIENNIAL EventSubscriptionBillingPeriodEnum = "BIENNIAL"
+
+	// EventSubscriptionBillingPeriodTRIENNIAL captures enum value "TRIENNIAL"
+	EventSubscriptionBillingPeriodTRIENNIAL EventSubscriptionBillingPeriodEnum = "TRIENNIAL"
 
 	// EventSubscriptionBillingPeriodNOBILLINGPERIOD captures enum value "NO_BILLING_PERIOD"
 	EventSubscriptionBillingPeriodNOBILLINGPERIOD EventSubscriptionBillingPeriodEnum = "NO_BILLING_PERIOD"
@@ -183,6 +202,7 @@ var EventSubscriptionBillingPeriodEnumValues = []string{
 	"WEEKLY",
 	"BIWEEKLY",
 	"THIRTY_DAYS",
+	"THIRTY_ONE_DAYS",
 	"SIXTY_DAYS",
 	"NINETY_DAYS",
 	"MONTHLY",
@@ -191,7 +211,9 @@ var EventSubscriptionBillingPeriodEnumValues = []string{
 	"TRIANNUAL",
 	"BIANNUAL",
 	"ANNUAL",
+	"SESQUIENNIAL",
 	"BIENNIAL",
+	"TRIENNIAL",
 	"NO_BILLING_PERIOD",
 }
 
@@ -206,14 +228,13 @@ func (e EventSubscriptionBillingPeriodEnum) IsValid() bool {
 
 // prop value enum
 func (m *EventSubscription) validateBillingPeriodEnum(path, location string, value EventSubscriptionBillingPeriodEnum) error {
-	if err := validate.Enum(path, location, value, eventSubscriptionTypeBillingPeriodPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, eventSubscriptionTypeBillingPeriodPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *EventSubscription) validateBillingPeriod(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingPeriod) { // not required
 		return nil
 	}
@@ -226,13 +247,24 @@ func (m *EventSubscription) validateBillingPeriod(formats strfmt.Registry) error
 	return nil
 }
 
-func (m *EventSubscription) validateEffectiveDate(formats strfmt.Registry) error {
+func (m *EventSubscription) validateCatalogEffectiveDate(formats strfmt.Registry) error {
+	if swag.IsZero(m.CatalogEffectiveDate) { // not required
+		return nil
+	}
 
+	if err := validate.FormatOf("catalogEffectiveDate", "body", "date-time", m.CatalogEffectiveDate.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *EventSubscription) validateEffectiveDate(formats strfmt.Registry) error {
 	if swag.IsZero(m.EffectiveDate) { // not required
 		return nil
 	}
 
-	if err := validate.FormatOf("effectiveDate", "body", "date", m.EffectiveDate.String(), formats); err != nil {
+	if err := validate.FormatOf("effectiveDate", "body", "date-time", m.EffectiveDate.String(), formats); err != nil {
 		return err
 	}
 
@@ -240,7 +272,6 @@ func (m *EventSubscription) validateEffectiveDate(formats strfmt.Registry) error
 }
 
 func (m *EventSubscription) validateEventID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EventID) { // not required
 		return nil
 	}
@@ -327,14 +358,13 @@ func (e EventSubscriptionEventTypeEnum) IsValid() bool {
 
 // prop value enum
 func (m *EventSubscription) validateEventTypeEnum(path, location string, value EventSubscriptionEventTypeEnum) error {
-	if err := validate.Enum(path, location, value, eventSubscriptionTypeEventTypePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, eventSubscriptionTypeEventTypePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *EventSubscription) validateEventType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EventType) { // not required
 		return nil
 	}
@@ -342,6 +372,40 @@ func (m *EventSubscription) validateEventType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateEventTypeEnum("eventType", "body", m.EventType); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this event subscription based on the context it is used
+func (m *EventSubscription) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *EventSubscription) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AuditLogs); i++ {
+
+		if m.AuditLogs[i] != nil {
+			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

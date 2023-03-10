@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // DeleteInvoiceTagsReader is a Reader for the DeleteInvoiceTags structure.
@@ -46,7 +45,8 @@ func NewDeleteInvoiceTagsNoContent() *DeleteInvoiceTagsNoContent {
 	return &DeleteInvoiceTagsNoContent{}
 }
 
-/*DeleteInvoiceTagsNoContent handles this case with default header values.
+/*
+DeleteInvoiceTagsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type DeleteInvoiceTagsNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the delete invoice tags no content response
+func (o *DeleteInvoiceTagsNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this delete invoice tags no content response has a 2xx status code
+func (o *DeleteInvoiceTagsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete invoice tags no content response has a 3xx status code
+func (o *DeleteInvoiceTagsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete invoice tags no content response has a 4xx status code
+func (o *DeleteInvoiceTagsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete invoice tags no content response has a 5xx status code
+func (o *DeleteInvoiceTagsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete invoice tags no content response a status code equal to that given
+func (o *DeleteInvoiceTagsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *DeleteInvoiceTagsNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/tags][%d] deleteInvoiceTagsNoContent ", 204)
+}
+
+func (o *DeleteInvoiceTagsNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/tags][%d] deleteInvoiceTagsNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewDeleteInvoiceTagsBadRequest() *DeleteInvoiceTagsBadRequest {
 	return &DeleteInvoiceTagsBadRequest{}
 }
 
-/*DeleteInvoiceTagsBadRequest handles this case with default header values.
+/*
+DeleteInvoiceTagsBadRequest describes a response with status code 400, with default header values.
 
 Invalid invoice id supplied
 */
@@ -76,7 +111,41 @@ type DeleteInvoiceTagsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the delete invoice tags bad request response
+func (o *DeleteInvoiceTagsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this delete invoice tags bad request response has a 2xx status code
+func (o *DeleteInvoiceTagsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this delete invoice tags bad request response has a 3xx status code
+func (o *DeleteInvoiceTagsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete invoice tags bad request response has a 4xx status code
+func (o *DeleteInvoiceTagsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this delete invoice tags bad request response has a 5xx status code
+func (o *DeleteInvoiceTagsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete invoice tags bad request response a status code equal to that given
+func (o *DeleteInvoiceTagsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *DeleteInvoiceTagsBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/tags][%d] deleteInvoiceTagsBadRequest ", 400)
+}
+
+func (o *DeleteInvoiceTagsBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/invoices/{invoiceId}/tags][%d] deleteInvoiceTagsBadRequest ", 400)
 }
 

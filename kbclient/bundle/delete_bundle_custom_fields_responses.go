@@ -10,9 +10,8 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 )
 
 // DeleteBundleCustomFieldsReader is a Reader for the DeleteBundleCustomFields structure.
@@ -46,7 +45,8 @@ func NewDeleteBundleCustomFieldsNoContent() *DeleteBundleCustomFieldsNoContent {
 	return &DeleteBundleCustomFieldsNoContent{}
 }
 
-/*DeleteBundleCustomFieldsNoContent handles this case with default header values.
+/*
+DeleteBundleCustomFieldsNoContent describes a response with status code 204, with default header values.
 
 Successful operation
 */
@@ -54,7 +54,41 @@ type DeleteBundleCustomFieldsNoContent struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the delete bundle custom fields no content response
+func (o *DeleteBundleCustomFieldsNoContent) Code() int {
+	return 204
+}
+
+// IsSuccess returns true when this delete bundle custom fields no content response has a 2xx status code
+func (o *DeleteBundleCustomFieldsNoContent) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this delete bundle custom fields no content response has a 3xx status code
+func (o *DeleteBundleCustomFieldsNoContent) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete bundle custom fields no content response has a 4xx status code
+func (o *DeleteBundleCustomFieldsNoContent) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this delete bundle custom fields no content response has a 5xx status code
+func (o *DeleteBundleCustomFieldsNoContent) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete bundle custom fields no content response a status code equal to that given
+func (o *DeleteBundleCustomFieldsNoContent) IsCode(code int) bool {
+	return code == 204
+}
+
 func (o *DeleteBundleCustomFieldsNoContent) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/bundles/{bundleId}/customFields][%d] deleteBundleCustomFieldsNoContent ", 204)
+}
+
+func (o *DeleteBundleCustomFieldsNoContent) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/bundles/{bundleId}/customFields][%d] deleteBundleCustomFieldsNoContent ", 204)
 }
 
@@ -68,7 +102,8 @@ func NewDeleteBundleCustomFieldsBadRequest() *DeleteBundleCustomFieldsBadRequest
 	return &DeleteBundleCustomFieldsBadRequest{}
 }
 
-/*DeleteBundleCustomFieldsBadRequest handles this case with default header values.
+/*
+DeleteBundleCustomFieldsBadRequest describes a response with status code 400, with default header values.
 
 Invalid bundle id supplied
 */
@@ -76,7 +111,41 @@ type DeleteBundleCustomFieldsBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the delete bundle custom fields bad request response
+func (o *DeleteBundleCustomFieldsBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this delete bundle custom fields bad request response has a 2xx status code
+func (o *DeleteBundleCustomFieldsBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this delete bundle custom fields bad request response has a 3xx status code
+func (o *DeleteBundleCustomFieldsBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this delete bundle custom fields bad request response has a 4xx status code
+func (o *DeleteBundleCustomFieldsBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this delete bundle custom fields bad request response has a 5xx status code
+func (o *DeleteBundleCustomFieldsBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this delete bundle custom fields bad request response a status code equal to that given
+func (o *DeleteBundleCustomFieldsBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *DeleteBundleCustomFieldsBadRequest) Error() string {
+	return fmt.Sprintf("[DELETE /1.0/kb/bundles/{bundleId}/customFields][%d] deleteBundleCustomFieldsBadRequest ", 400)
+}
+
+func (o *DeleteBundleCustomFieldsBadRequest) String() string {
 	return fmt.Sprintf("[DELETE /1.0/kb/bundles/{bundleId}/customFields][%d] deleteBundleCustomFieldsBadRequest ", 400)
 }
 

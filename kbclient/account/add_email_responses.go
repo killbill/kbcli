@@ -10,11 +10,10 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
-	"github.com/killbill/kbcli/v2/kbcommon"
+	"github.com/go-openapi/strfmt"
+	"github.com/killbill/kbcli/v3/kbcommon"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	kbmodel "github.com/killbill/kbcli/v2/kbmodel"
+	"github.com/killbill/kbcli/v3/kbmodel"
 )
 
 // AddEmailReader is a Reader for the AddEmail structure.
@@ -48,17 +47,51 @@ func NewAddEmailCreated() *AddEmailCreated {
 	return &AddEmailCreated{}
 }
 
-/*AddEmailCreated handles this case with default header values.
+/*
+AddEmailCreated describes a response with status code 201, with default header values.
 
 Email created successfully
 */
 type AddEmailCreated struct {
-	Payload []*kbmodel.AccountEmail
-
+	Payload      []*kbmodel.AccountEmail
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add email created response
+func (o *AddEmailCreated) Code() int {
+	return 201
+}
+
+// IsSuccess returns true when this add email created response has a 2xx status code
+func (o *AddEmailCreated) IsSuccess() bool {
+	return true
+}
+
+// IsRedirect returns true when this add email created response has a 3xx status code
+func (o *AddEmailCreated) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add email created response has a 4xx status code
+func (o *AddEmailCreated) IsClientError() bool {
+	return false
+}
+
+// IsServerError returns true when this add email created response has a 5xx status code
+func (o *AddEmailCreated) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add email created response a status code equal to that given
+func (o *AddEmailCreated) IsCode(code int) bool {
+	return code == 201
+}
+
 func (o *AddEmailCreated) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/emails][%d] addEmailCreated  %+v", 201, o.Payload)
+}
+
+func (o *AddEmailCreated) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/emails][%d] addEmailCreated  %+v", 201, o.Payload)
 }
 
@@ -81,7 +114,8 @@ func NewAddEmailBadRequest() *AddEmailBadRequest {
 	return &AddEmailBadRequest{}
 }
 
-/*AddEmailBadRequest handles this case with default header values.
+/*
+AddEmailBadRequest describes a response with status code 400, with default header values.
 
 Invalid account id supplied
 */
@@ -89,7 +123,41 @@ type AddEmailBadRequest struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add email bad request response
+func (o *AddEmailBadRequest) Code() int {
+	return 400
+}
+
+// IsSuccess returns true when this add email bad request response has a 2xx status code
+func (o *AddEmailBadRequest) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this add email bad request response has a 3xx status code
+func (o *AddEmailBadRequest) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add email bad request response has a 4xx status code
+func (o *AddEmailBadRequest) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this add email bad request response has a 5xx status code
+func (o *AddEmailBadRequest) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add email bad request response a status code equal to that given
+func (o *AddEmailBadRequest) IsCode(code int) bool {
+	return code == 400
+}
+
 func (o *AddEmailBadRequest) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/emails][%d] addEmailBadRequest ", 400)
+}
+
+func (o *AddEmailBadRequest) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/emails][%d] addEmailBadRequest ", 400)
 }
 
@@ -103,7 +171,8 @@ func NewAddEmailNotFound() *AddEmailNotFound {
 	return &AddEmailNotFound{}
 }
 
-/*AddEmailNotFound handles this case with default header values.
+/*
+AddEmailNotFound describes a response with status code 404, with default header values.
 
 Account not found
 */
@@ -111,7 +180,41 @@ type AddEmailNotFound struct {
 	HttpResponse runtime.ClientResponse
 }
 
+// Code gets the status code for the add email not found response
+func (o *AddEmailNotFound) Code() int {
+	return 404
+}
+
+// IsSuccess returns true when this add email not found response has a 2xx status code
+func (o *AddEmailNotFound) IsSuccess() bool {
+	return false
+}
+
+// IsRedirect returns true when this add email not found response has a 3xx status code
+func (o *AddEmailNotFound) IsRedirect() bool {
+	return false
+}
+
+// IsClientError returns true when this add email not found response has a 4xx status code
+func (o *AddEmailNotFound) IsClientError() bool {
+	return true
+}
+
+// IsServerError returns true when this add email not found response has a 5xx status code
+func (o *AddEmailNotFound) IsServerError() bool {
+	return false
+}
+
+// IsCode returns true when this add email not found response a status code equal to that given
+func (o *AddEmailNotFound) IsCode(code int) bool {
+	return code == 404
+}
+
 func (o *AddEmailNotFound) Error() string {
+	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/emails][%d] addEmailNotFound ", 404)
+}
+
+func (o *AddEmailNotFound) String() string {
 	return fmt.Sprintf("[POST /1.0/kb/accounts/{accountId}/emails][%d] addEmailNotFound ", 404)
 }
 

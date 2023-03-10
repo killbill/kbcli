@@ -6,17 +6,18 @@ package kbmodel
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // InvoicePayment invoice payment
+//
 // swagger:model InvoicePayment
 type InvoicePayment struct {
 
@@ -114,7 +115,6 @@ func (m *InvoicePayment) Validate(formats strfmt.Registry) error {
 }
 
 func (m *InvoicePayment) validateAccountID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AccountID) { // not required
 		return nil
 	}
@@ -127,7 +127,6 @@ func (m *InvoicePayment) validateAccountID(formats strfmt.Registry) error {
 }
 
 func (m *InvoicePayment) validateAuditLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuditLogs) { // not required
 		return nil
 	}
@@ -141,6 +140,8 @@ func (m *InvoicePayment) validateAuditLogs(formats strfmt.Registry) error {
 			if err := m.AuditLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -842,14 +843,13 @@ func (e InvoicePaymentCurrencyEnum) IsValid() bool {
 
 // prop value enum
 func (m *InvoicePayment) validateCurrencyEnum(path, location string, value InvoicePaymentCurrencyEnum) error {
-	if err := validate.Enum(path, location, value, invoicePaymentTypeCurrencyPropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, invoicePaymentTypeCurrencyPropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *InvoicePayment) validateCurrency(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Currency) { // not required
 		return nil
 	}
@@ -863,7 +863,6 @@ func (m *InvoicePayment) validateCurrency(formats strfmt.Registry) error {
 }
 
 func (m *InvoicePayment) validatePaymentAttempts(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PaymentAttempts) { // not required
 		return nil
 	}
@@ -877,6 +876,8 @@ func (m *InvoicePayment) validatePaymentAttempts(formats strfmt.Registry) error 
 			if err := m.PaymentAttempts[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("paymentAttempts" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("paymentAttempts" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -888,7 +889,6 @@ func (m *InvoicePayment) validatePaymentAttempts(formats strfmt.Registry) error 
 }
 
 func (m *InvoicePayment) validatePaymentID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PaymentID) { // not required
 		return nil
 	}
@@ -901,7 +901,6 @@ func (m *InvoicePayment) validatePaymentID(formats strfmt.Registry) error {
 }
 
 func (m *InvoicePayment) validatePaymentMethodID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PaymentMethodID) { // not required
 		return nil
 	}
@@ -914,7 +913,6 @@ func (m *InvoicePayment) validatePaymentMethodID(formats strfmt.Registry) error 
 }
 
 func (m *InvoicePayment) validateTargetInvoiceID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TargetInvoiceID) { // not required
 		return nil
 	}
@@ -927,7 +925,6 @@ func (m *InvoicePayment) validateTargetInvoiceID(formats strfmt.Registry) error 
 }
 
 func (m *InvoicePayment) validateTransactions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Transactions) { // not required
 		return nil
 	}
@@ -941,6 +938,90 @@ func (m *InvoicePayment) validateTransactions(formats strfmt.Registry) error {
 			if err := m.Transactions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("transactions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("transactions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this invoice payment based on the context it is used
+func (m *InvoicePayment) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuditLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePaymentAttempts(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTransactions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *InvoicePayment) contextValidateAuditLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AuditLogs); i++ {
+
+		if m.AuditLogs[i] != nil {
+			if err := m.AuditLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("auditLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *InvoicePayment) contextValidatePaymentAttempts(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PaymentAttempts); i++ {
+
+		if m.PaymentAttempts[i] != nil {
+			if err := m.PaymentAttempts[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("paymentAttempts" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("paymentAttempts" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *InvoicePayment) contextValidateTransactions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Transactions); i++ {
+
+		if m.Transactions[i] != nil {
+			if err := m.Transactions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("transactions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("transactions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
