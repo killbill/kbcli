@@ -51,6 +51,7 @@ var propertyList = []Property{
 }
 
 func TestLoadProperties(t *testing.T) {
+
 	uuid1 := strfmt.UUID("12345678-1234-1234-1234-123456789012")
 	uuid2 := strfmt.UUID("23456789-2345-2345-2345-234567890123")
 	inputs := []Input{
@@ -83,6 +84,7 @@ func TestLoadProperties(t *testing.T) {
 		IsDefaultPtr: &isDefault,
 		UniqueID:     strfmt.UUID(uuid1),
 		UniqueIDPtr:  &uuid2,
+		StartTime:    obj.StartTime,
 		EndTime:      obj.EndTime,
 		Enum:         "FOO",
 		EnumPtr:      &enumVal,
@@ -101,6 +103,7 @@ func TestLoadProperties(t *testing.T) {
 }
 
 func TestLoadProperties_InvalidEnum(t *testing.T) {
+
 	inputs := []Input{
 		{Key: "AccountID", Value: "123"},
 		{Key: "ParentId", Value: "333"},

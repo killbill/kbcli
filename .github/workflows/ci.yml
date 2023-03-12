@@ -1,0 +1,68 @@
+name: ci
+
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  GO111MODULE: on
+  COMPOSE_DOCKER_CLI_BUILD: 1
+  DOCKER_BUILDKIT: 1
+  KB_ADDRESS: 127.0.0.1
+  KB_PORT: 8080
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.19'
+      - name: Download dependencies
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
+          go mod download
+      - name: Start stack
+        run: |
+          mkdir -p /var/tmp/tomcat_logs
+          chmod ugo+rwx /var/tmp/tomcat_logs
+          cd docker
+          docker-compose -p it -f docker-compose.ci.mysql.yml up --no-start
+          docker start it_db_1
+      - name: Wait for MySQL
+        run: |
+          set +e
+          count=0
+          until mysqladmin ping -h 127.0.0.1 -u root --password=root --silent; do
+            if [[ "$count" == "25" ]]; then
+              exit 1
+            fi
+            (( count++ ))
+            printf '.'
+            sleep 5
+          done
+          set -e
+      - name: Start Kill Bill
+        # Sometimes it gets stuck (if Kill Bill starts when the DB isn't ready?)
+        timeout-minutes: 4
+        run: |
+          # Start all remaining containers
+          cd docker
+          docker-compose -p it -f docker-compose.ci.mysql.yml up -d
+          count=0
+          until $(curl --connect-timeout 10 --max-time 30 --output /dev/null --silent --fail http://${KB_ADDRESS}:${KB_PORT}/1.0/healthcheck); do
+            if [[ "$count" == "180" ]]; then
+              exit 64
+            fi
+            count=$(( count + 1 ))
+            sleep 1
+          done
+      - name: Build and run tests
+        if: success()
+        run: |
+          export PATH="$HOME/go/bin:$PATH"
+          go test ./...
