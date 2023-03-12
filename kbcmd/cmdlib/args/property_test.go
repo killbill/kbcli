@@ -20,9 +20,6 @@ func (e TestEnum) IsValid() bool {
 	return e == TestEnumFOO
 }
 
-type testObj2 struct {
-	StartTime strfmt.DateTime
-}
 type testObj struct {
 	AccountID          string
 	ParentID           string
